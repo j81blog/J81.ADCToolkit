@@ -1,67 +1,65 @@
 function Invoke-ADCAddSpilloveraction {
-<#
+    <#
     .SYNOPSIS
-        Add Spillover configuration Object
+        Add Spillover configuration Object.
     .DESCRIPTION
-        Add Spillover configuration Object 
-    .PARAMETER name 
+        Configuration for Spillover action resource.
+    .PARAMETER Name 
         Name of the spillover action. 
-    .PARAMETER action 
-        Spillover action. Currently only type SPILLOVER is supported.  
+    .PARAMETER Action 
+        Spillover action. Currently only type SPILLOVER is supported. 
         Possible values = SPILLOVER 
     .PARAMETER PassThru 
         Return details about the created spilloveraction item.
     .EXAMPLE
-        Invoke-ADCAddSpilloveraction -name <string> -action <string>
+        PS C:\>Invoke-ADCAddSpilloveraction -name <string> -action <string>
+        An example how to add spilloveraction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSpilloveraction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloveraction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('SPILLOVER')]
-        [string]$action ,
+        [string]$Action,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSpilloveraction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                action = $action
+            $payload = @{ name = $name
+                action         = $action
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("spilloveraction", "Add Spillover configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type spilloveraction -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("spilloveraction", "Add Spillover configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type spilloveraction -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSpilloveraction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSpilloveraction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -74,46 +72,47 @@ function Invoke-ADCAddSpilloveraction {
 }
 
 function Invoke-ADCDeleteSpilloveraction {
-<#
+    <#
     .SYNOPSIS
-        Delete Spillover configuration Object
+        Delete Spillover configuration Object.
     .DESCRIPTION
-        Delete Spillover configuration Object
-    .PARAMETER name 
-       Name of the spillover action. 
+        Configuration for Spillover action resource.
+    .PARAMETER Name 
+        Name of the spillover action.
     .EXAMPLE
-        Invoke-ADCDeleteSpilloveraction -name <string>
+        PS C:\>Invoke-ADCDeleteSpilloveraction -Name <string>
+        An example how to delete spilloveraction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSpilloveraction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloveraction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSpilloveraction: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Spillover configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type spilloveraction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Spillover configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type spilloveraction -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -129,70 +128,68 @@ function Invoke-ADCDeleteSpilloveraction {
 }
 
 function Invoke-ADCRenameSpilloveraction {
-<#
+    <#
     .SYNOPSIS
-        Rename Spillover configuration Object
+        Rename Spillover configuration Object.
     .DESCRIPTION
-        Rename Spillover configuration Object 
-    .PARAMETER name 
+        Configuration for Spillover action resource.
+    .PARAMETER Name 
         Name of the spillover action. 
-    .PARAMETER newname 
-        New name for the spillover action. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at  
-        (@), equals (=), and hyphen (-) characters.  
+    .PARAMETER Newname 
+        New name for the spillover action. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at 
+        (@), equals (=), and hyphen (-) characters. 
         Choose a name that can be correlated with the function that the action performs. 
     .PARAMETER PassThru 
         Return details about the created spilloveraction item.
     .EXAMPLE
-        Invoke-ADCRenameSpilloveraction -name <string> -newname <string>
+        PS C:\>Invoke-ADCRenameSpilloveraction -name <string> -newname <string>
+        An example how to rename spilloveraction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameSpilloveraction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloveraction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameSpilloveraction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                newname = $newname
+            $payload = @{ name = $name
+                newname        = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("spilloveraction", "Rename Spillover configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type spilloveraction -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("spilloveraction", "Rename Spillover configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type spilloveraction -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSpilloveraction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSpilloveraction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -205,54 +202,60 @@ function Invoke-ADCRenameSpilloveraction {
 }
 
 function Invoke-ADCGetSpilloveraction {
-<#
+    <#
     .SYNOPSIS
-        Get Spillover configuration object(s)
+        Get Spillover configuration object(s).
     .DESCRIPTION
-        Get Spillover configuration object(s)
-    .PARAMETER name 
-       Name of the spillover action. 
+        Configuration for Spillover action resource.
+    .PARAMETER Name 
+        Name of the spillover action. 
     .PARAMETER GetAll 
-        Retreive all spilloveraction object(s)
+        Retrieve all spilloveraction object(s).
     .PARAMETER Count
-        If specified, the count of the spilloveraction object(s) will be returned
+        If specified, the count of the spilloveraction object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSpilloveraction
+        PS C:\>Invoke-ADCGetSpilloveraction
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSpilloveraction -GetAll 
+        PS C:\>Invoke-ADCGetSpilloveraction -GetAll 
+        Get all spilloveraction data. 
     .EXAMPLE 
-        Invoke-ADCGetSpilloveraction -Count
+        PS C:\>Invoke-ADCGetSpilloveraction -Count 
+        Get the number of spilloveraction objects.
     .EXAMPLE
-        Invoke-ADCGetSpilloveraction -name <string>
+        PS C:\>Invoke-ADCGetSpilloveraction -name <string>
+        Get spilloveraction object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSpilloveraction -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSpilloveraction -Filter @{ 'name'='<value>' }
+        Get spilloveraction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSpilloveraction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloveraction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -270,24 +273,24 @@ function Invoke-ADCGetSpilloveraction {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all spilloveraction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloveraction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloveraction -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for spilloveraction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloveraction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloveraction -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving spilloveraction objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloveraction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloveraction -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving spilloveraction configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloveraction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving spilloveraction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloveraction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloveraction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -301,77 +304,75 @@ function Invoke-ADCGetSpilloveraction {
 }
 
 function Invoke-ADCAddSpilloverpolicy {
-<#
+    <#
     .SYNOPSIS
-        Add Spillover configuration Object
+        Add Spillover configuration Object.
     .DESCRIPTION
-        Add Spillover configuration Object 
-    .PARAMETER name 
+        Configuration for Spillover policy resource.
+    .PARAMETER Name 
         Name of the spillover policy. 
-    .PARAMETER rule 
+    .PARAMETER Rule 
         Expression to be used by the spillover policy. 
-    .PARAMETER action 
+    .PARAMETER Action 
         Action for the spillover policy. Action is created using add spillover action command. 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any comments that you might want to associate with the spillover policy. 
     .PARAMETER PassThru 
         Return details about the created spilloverpolicy item.
     .EXAMPLE
-        Invoke-ADCAddSpilloverpolicy -name <string> -rule <string> -action <string>
+        PS C:\>Invoke-ADCAddSpilloverpolicy -name <string> -rule <string> -action <string>
+        An example how to add spilloverpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSpilloverpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
-        [string]$rule ,
+        [Parameter(Mandatory)]
+        [string]$Rule,
 
-        [Parameter(Mandatory = $true)]
-        [string]$action ,
+        [Parameter(Mandatory)]
+        [string]$Action,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSpilloverpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                rule = $rule
-                action = $action
+            $payload = @{ name = $name
+                rule           = $rule
+                action         = $action
             }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("spilloverpolicy", "Add Spillover configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type spilloverpolicy -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("spilloverpolicy", "Add Spillover configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type spilloverpolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSpilloverpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSpilloverpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -384,46 +385,47 @@ function Invoke-ADCAddSpilloverpolicy {
 }
 
 function Invoke-ADCDeleteSpilloverpolicy {
-<#
+    <#
     .SYNOPSIS
-        Delete Spillover configuration Object
+        Delete Spillover configuration Object.
     .DESCRIPTION
-        Delete Spillover configuration Object
-    .PARAMETER name 
-       Name of the spillover policy. 
+        Configuration for Spillover policy resource.
+    .PARAMETER Name 
+        Name of the spillover policy.
     .EXAMPLE
-        Invoke-ADCDeleteSpilloverpolicy -name <string>
+        PS C:\>Invoke-ADCDeleteSpilloverpolicy -Name <string>
+        An example how to delete spilloverpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSpilloverpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSpilloverpolicy: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Spillover configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type spilloverpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Spillover configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type spilloverpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -439,75 +441,72 @@ function Invoke-ADCDeleteSpilloverpolicy {
 }
 
 function Invoke-ADCUpdateSpilloverpolicy {
-<#
+    <#
     .SYNOPSIS
-        Update Spillover configuration Object
+        Update Spillover configuration Object.
     .DESCRIPTION
-        Update Spillover configuration Object 
-    .PARAMETER name 
+        Configuration for Spillover policy resource.
+    .PARAMETER Name 
         Name of the spillover policy. 
-    .PARAMETER rule 
+    .PARAMETER Rule 
         Expression to be used by the spillover policy. 
-    .PARAMETER action 
+    .PARAMETER Action 
         Action for the spillover policy. Action is created using add spillover action command. 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any comments that you might want to associate with the spillover policy. 
     .PARAMETER PassThru 
         Return details about the created spilloverpolicy item.
     .EXAMPLE
-        Invoke-ADCUpdateSpilloverpolicy -name <string>
+        PS C:\>Invoke-ADCUpdateSpilloverpolicy -name <string>
+        An example how to update spilloverpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSpilloverpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [string]$rule ,
+        [string]$Rule,
 
-        [string]$action ,
+        [string]$Action,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSpilloverpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
-            if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("spilloverpolicy", "Update Spillover configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type spilloverpolicy -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('rule') ) { $payload.Add('rule', $rule) }
+            if ( $PSBoundParameters.ContainsKey('action') ) { $payload.Add('action', $action) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("spilloverpolicy", "Update Spillover configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type spilloverpolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSpilloverpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSpilloverpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -520,37 +519,38 @@ function Invoke-ADCUpdateSpilloverpolicy {
 }
 
 function Invoke-ADCUnsetSpilloverpolicy {
-<#
+    <#
     .SYNOPSIS
-        Unset Spillover configuration Object
+        Unset Spillover configuration Object.
     .DESCRIPTION
-        Unset Spillover configuration Object 
-   .PARAMETER name 
-       Name of the spillover policy. 
-   .PARAMETER comment 
-       Any comments that you might want to associate with the spillover policy.
+        Configuration for Spillover policy resource.
+    .PARAMETER Name 
+        Name of the spillover policy. 
+    .PARAMETER Comment 
+        Any comments that you might want to associate with the spillover policy.
     .EXAMPLE
-        Invoke-ADCUnsetSpilloverpolicy -name <string>
+        PS C:\>Invoke-ADCUnsetSpilloverpolicy -name <string>
+        An example how to unset spilloverpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSpilloverpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [string]$Name,
 
         [Boolean]$comment 
     )
@@ -559,12 +559,10 @@ function Invoke-ADCUnsetSpilloverpolicy {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Spillover configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type spilloverpolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Spillover configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type spilloverpolicy -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -580,70 +578,68 @@ function Invoke-ADCUnsetSpilloverpolicy {
 }
 
 function Invoke-ADCRenameSpilloverpolicy {
-<#
+    <#
     .SYNOPSIS
-        Rename Spillover configuration Object
+        Rename Spillover configuration Object.
     .DESCRIPTION
-        Rename Spillover configuration Object 
-    .PARAMETER name 
+        Configuration for Spillover policy resource.
+    .PARAMETER Name 
         Name of the spillover policy. 
-    .PARAMETER newname 
-        New name for the spillover policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.  
+    .PARAMETER Newname 
+        New name for the spillover policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
         Choose a name that reflects the function that the policy performs. 
     .PARAMETER PassThru 
         Return details about the created spilloverpolicy item.
     .EXAMPLE
-        Invoke-ADCRenameSpilloverpolicy -name <string> -newname <string>
+        PS C:\>Invoke-ADCRenameSpilloverpolicy -name <string> -newname <string>
+        An example how to rename spilloverpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameSpilloverpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameSpilloverpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                newname = $newname
+            $payload = @{ name = $name
+                newname        = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("spilloverpolicy", "Rename Spillover configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type spilloverpolicy -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("spilloverpolicy", "Rename Spillover configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type spilloverpolicy -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSpilloverpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSpilloverpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -656,54 +652,60 @@ function Invoke-ADCRenameSpilloverpolicy {
 }
 
 function Invoke-ADCGetSpilloverpolicy {
-<#
+    <#
     .SYNOPSIS
-        Get Spillover configuration object(s)
+        Get Spillover configuration object(s).
     .DESCRIPTION
-        Get Spillover configuration object(s)
-    .PARAMETER name 
-       Name of the spillover policy. 
+        Configuration for Spillover policy resource.
+    .PARAMETER Name 
+        Name of the spillover policy. 
     .PARAMETER GetAll 
-        Retreive all spilloverpolicy object(s)
+        Retrieve all spilloverpolicy object(s).
     .PARAMETER Count
-        If specified, the count of the spilloverpolicy object(s) will be returned
+        If specified, the count of the spilloverpolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSpilloverpolicy
+        PS C:\>Invoke-ADCGetSpilloverpolicy
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSpilloverpolicy -GetAll 
+        PS C:\>Invoke-ADCGetSpilloverpolicy -GetAll 
+        Get all spilloverpolicy data. 
     .EXAMPLE 
-        Invoke-ADCGetSpilloverpolicy -Count
+        PS C:\>Invoke-ADCGetSpilloverpolicy -Count 
+        Get the number of spilloverpolicy objects.
     .EXAMPLE
-        Invoke-ADCGetSpilloverpolicy -name <string>
+        PS C:\>Invoke-ADCGetSpilloverpolicy -name <string>
+        Get spilloverpolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSpilloverpolicy -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSpilloverpolicy -Filter @{ 'name'='<value>' }
+        Get spilloverpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSpilloverpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -721,24 +723,24 @@ function Invoke-ADCGetSpilloverpolicy {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all spilloverpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for spilloverpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving spilloverpolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving spilloverpolicy configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving spilloverpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -752,50 +754,55 @@ function Invoke-ADCGetSpilloverpolicy {
 }
 
 function Invoke-ADCGetSpilloverpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Spillover configuration object(s)
+        Get Spillover configuration object(s).
     .DESCRIPTION
-        Get Spillover configuration object(s)
-    .PARAMETER name 
-       Name of the spillover policy. 
+        Binding object which returns the resources bound to spilloverpolicy.
+    .PARAMETER Name 
+        Name of the spillover policy. 
     .PARAMETER GetAll 
-        Retreive all spilloverpolicy_binding object(s)
+        Retrieve all spilloverpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the spilloverpolicy_binding object(s) will be returned
+        If specified, the count of the spilloverpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSpilloverpolicybinding
+        PS C:\>Invoke-ADCGetSpilloverpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSpilloverpolicybinding -GetAll
+        PS C:\>Invoke-ADCGetSpilloverpolicybinding -GetAll 
+        Get all spilloverpolicy_binding data.
     .EXAMPLE
-        Invoke-ADCGetSpilloverpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetSpilloverpolicybinding -name <string>
+        Get spilloverpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSpilloverpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSpilloverpolicybinding -Filter @{ 'name'='<value>' }
+        Get spilloverpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSpilloverpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -807,26 +814,24 @@ function Invoke-ADCGetSpilloverpolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all spilloverpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for spilloverpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving spilloverpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving spilloverpolicy_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving spilloverpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -840,54 +845,60 @@ function Invoke-ADCGetSpilloverpolicybinding {
 }
 
 function Invoke-ADCGetSpilloverpolicycsvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Spillover configuration object(s)
+        Get Spillover configuration object(s).
     .DESCRIPTION
-        Get Spillover configuration object(s)
-    .PARAMETER name 
-       Name of the spillover policy. 
+        Binding object showing the csvserver that can be bound to spilloverpolicy.
+    .PARAMETER Name 
+        Name of the spillover policy. 
     .PARAMETER GetAll 
-        Retreive all spilloverpolicy_csvserver_binding object(s)
+        Retrieve all spilloverpolicy_csvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the spilloverpolicy_csvserver_binding object(s) will be returned
+        If specified, the count of the spilloverpolicy_csvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSpilloverpolicycsvserverbinding
+        PS C:\>Invoke-ADCGetSpilloverpolicycsvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSpilloverpolicycsvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetSpilloverpolicycsvserverbinding -GetAll 
+        Get all spilloverpolicy_csvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetSpilloverpolicycsvserverbinding -Count
+        PS C:\>Invoke-ADCGetSpilloverpolicycsvserverbinding -Count 
+        Get the number of spilloverpolicy_csvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetSpilloverpolicycsvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetSpilloverpolicycsvserverbinding -name <string>
+        Get spilloverpolicy_csvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSpilloverpolicycsvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSpilloverpolicycsvserverbinding -Filter @{ 'name'='<value>' }
+        Get spilloverpolicy_csvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSpilloverpolicycsvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -900,26 +911,24 @@ function Invoke-ADCGetSpilloverpolicycsvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all spilloverpolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for spilloverpolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving spilloverpolicy_csvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_csvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_csvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving spilloverpolicy_csvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_csvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving spilloverpolicy_csvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_csvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_csvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -933,54 +942,60 @@ function Invoke-ADCGetSpilloverpolicycsvserverbinding {
 }
 
 function Invoke-ADCGetSpilloverpolicygslbvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Spillover configuration object(s)
+        Get Spillover configuration object(s).
     .DESCRIPTION
-        Get Spillover configuration object(s)
-    .PARAMETER name 
-       Name of the spillover policy. 
+        Binding object showing the gslbvserver that can be bound to spilloverpolicy.
+    .PARAMETER Name 
+        Name of the spillover policy. 
     .PARAMETER GetAll 
-        Retreive all spilloverpolicy_gslbvserver_binding object(s)
+        Retrieve all spilloverpolicy_gslbvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the spilloverpolicy_gslbvserver_binding object(s) will be returned
+        If specified, the count of the spilloverpolicy_gslbvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSpilloverpolicygslbvserverbinding
+        PS C:\>Invoke-ADCGetSpilloverpolicygslbvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSpilloverpolicygslbvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetSpilloverpolicygslbvserverbinding -GetAll 
+        Get all spilloverpolicy_gslbvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetSpilloverpolicygslbvserverbinding -Count
+        PS C:\>Invoke-ADCGetSpilloverpolicygslbvserverbinding -Count 
+        Get the number of spilloverpolicy_gslbvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetSpilloverpolicygslbvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetSpilloverpolicygslbvserverbinding -name <string>
+        Get spilloverpolicy_gslbvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSpilloverpolicygslbvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSpilloverpolicygslbvserverbinding -Filter @{ 'name'='<value>' }
+        Get spilloverpolicy_gslbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSpilloverpolicygslbvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy_gslbvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -993,26 +1008,24 @@ function Invoke-ADCGetSpilloverpolicygslbvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all spilloverpolicy_gslbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_gslbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_gslbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for spilloverpolicy_gslbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_gslbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_gslbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving spilloverpolicy_gslbvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_gslbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_gslbvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving spilloverpolicy_gslbvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_gslbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving spilloverpolicy_gslbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_gslbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_gslbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1026,54 +1039,60 @@ function Invoke-ADCGetSpilloverpolicygslbvserverbinding {
 }
 
 function Invoke-ADCGetSpilloverpolicylbvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Spillover configuration object(s)
+        Get Spillover configuration object(s).
     .DESCRIPTION
-        Get Spillover configuration object(s)
-    .PARAMETER name 
-       Name of the spillover policy. 
+        Binding object showing the lbvserver that can be bound to spilloverpolicy.
+    .PARAMETER Name 
+        Name of the spillover policy. 
     .PARAMETER GetAll 
-        Retreive all spilloverpolicy_lbvserver_binding object(s)
+        Retrieve all spilloverpolicy_lbvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the spilloverpolicy_lbvserver_binding object(s) will be returned
+        If specified, the count of the spilloverpolicy_lbvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSpilloverpolicylbvserverbinding
+        PS C:\>Invoke-ADCGetSpilloverpolicylbvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSpilloverpolicylbvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetSpilloverpolicylbvserverbinding -GetAll 
+        Get all spilloverpolicy_lbvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetSpilloverpolicylbvserverbinding -Count
+        PS C:\>Invoke-ADCGetSpilloverpolicylbvserverbinding -Count 
+        Get the number of spilloverpolicy_lbvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetSpilloverpolicylbvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetSpilloverpolicylbvserverbinding -name <string>
+        Get spilloverpolicy_lbvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSpilloverpolicylbvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSpilloverpolicylbvserverbinding -Filter @{ 'name'='<value>' }
+        Get spilloverpolicy_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSpilloverpolicylbvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1086,26 +1105,24 @@ function Invoke-ADCGetSpilloverpolicylbvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all spilloverpolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for spilloverpolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving spilloverpolicy_lbvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving spilloverpolicy_lbvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_lbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving spilloverpolicy_lbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type spilloverpolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

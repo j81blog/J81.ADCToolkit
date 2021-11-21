@@ -1,80 +1,75 @@
 function Invoke-ADCAddPolicydataset {
-<#
+    <#
     .SYNOPSIS
-        Add Policy configuration Object
+        Add Policy configuration Object.
     .DESCRIPTION
-        Add Policy configuration Object 
-    .PARAMETER name 
-        Name of the dataset. Must not exceed 127 characters.  
-        Minimum length = 1 
-    .PARAMETER type 
-        Type of value to bind to the dataset.  
+        Configuration for TYPE set resource.
+    .PARAMETER Name 
+        Name of the dataset. Must not exceed 127 characters. 
+    .PARAMETER Type 
+        Type of value to bind to the dataset. 
         Possible values = ipv4, number, ipv6, ulong, double, mac 
-    .PARAMETER indextype 
-        Index type.  
-        Possible values = Auto-generated, User-defined 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any comments to preserve information about this dataset or a data bound to this dataset. 
+    .PARAMETER Patsetfile 
+        File which contains list of patterns that needs to be bound to the dataset. A patsetfile cannot be associated with multiple datasets. 
     .PARAMETER PassThru 
         Return details about the created policydataset item.
     .EXAMPLE
-        Invoke-ADCAddPolicydataset -name <string> -type <string>
+        PS C:\>Invoke-ADCAddPolicydataset -name <string> -type <string>
+        An example how to add policydataset configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddPolicydataset
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policydataset/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('ipv4', 'number', 'ipv6', 'ulong', 'double', 'mac')]
-        [string]$type ,
+        [string]$Type,
 
-        [ValidateSet('Auto-generated', 'User-defined')]
-        [string]$indextype ,
+        [string]$Comment,
 
-        [string]$comment ,
+        [string]$Patsetfile,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddPolicydataset: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                type = $type
+            $payload = @{ name = $name
+                type           = $type
             }
-            if ($PSBoundParameters.ContainsKey('indextype')) { $Payload.Add('indextype', $indextype) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("policydataset", "Add Policy configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policydataset -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('patsetfile') ) { $payload.Add('patsetfile', $patsetfile) }
+            if ( $PSCmdlet.ShouldProcess("policydataset", "Add Policy configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policydataset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetPolicydataset -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetPolicydataset -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -87,47 +82,47 @@ function Invoke-ADCAddPolicydataset {
 }
 
 function Invoke-ADCDeletePolicydataset {
-<#
+    <#
     .SYNOPSIS
-        Delete Policy configuration Object
+        Delete Policy configuration Object.
     .DESCRIPTION
-        Delete Policy configuration Object
-    .PARAMETER name 
-       Name of the dataset. Must not exceed 127 characters.  
-       Minimum length = 1 
+        Configuration for TYPE set resource.
+    .PARAMETER Name 
+        Name of the dataset. Must not exceed 127 characters.
     .EXAMPLE
-        Invoke-ADCDeletePolicydataset -name <string>
+        PS C:\>Invoke-ADCDeletePolicydataset -Name <string>
+        An example how to delete policydataset configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeletePolicydataset
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policydataset/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeletePolicydataset: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Policy configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policydataset -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Policy configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policydataset -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -143,55 +138,61 @@ function Invoke-ADCDeletePolicydataset {
 }
 
 function Invoke-ADCGetPolicydataset {
-<#
+    <#
     .SYNOPSIS
-        Get Policy configuration object(s)
+        Get Policy configuration object(s).
     .DESCRIPTION
-        Get Policy configuration object(s)
-    .PARAMETER name 
-       Name of the dataset. Must not exceed 127 characters. 
+        Configuration for TYPE set resource.
+    .PARAMETER Name 
+        Name of the dataset. Must not exceed 127 characters. 
     .PARAMETER GetAll 
-        Retreive all policydataset object(s)
+        Retrieve all policydataset object(s).
     .PARAMETER Count
-        If specified, the count of the policydataset object(s) will be returned
+        If specified, the count of the policydataset object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetPolicydataset
+        PS C:\>Invoke-ADCGetPolicydataset
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetPolicydataset -GetAll 
+        PS C:\>Invoke-ADCGetPolicydataset -GetAll 
+        Get all policydataset data. 
     .EXAMPLE 
-        Invoke-ADCGetPolicydataset -Count
+        PS C:\>Invoke-ADCGetPolicydataset -Count 
+        Get the number of policydataset objects.
     .EXAMPLE
-        Invoke-ADCGetPolicydataset -name <string>
+        PS C:\>Invoke-ADCGetPolicydataset -name <string>
+        Get policydataset object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetPolicydataset -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetPolicydataset -Filter @{ 'name'='<value>' }
+        Get policydataset data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPolicydataset
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policydataset/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -209,24 +210,24 @@ function Invoke-ADCGetPolicydataset {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all policydataset objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for policydataset objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving policydataset objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving policydataset configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving policydataset configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -240,51 +241,56 @@ function Invoke-ADCGetPolicydataset {
 }
 
 function Invoke-ADCGetPolicydatasetbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Policy configuration object(s)
+        Get Policy configuration object(s).
     .DESCRIPTION
-        Get Policy configuration object(s)
-    .PARAMETER name 
-       Name of the dataset. Must not exceed 127 characters. 
+        Binding object which returns the resources bound to policydataset.
+    .PARAMETER Name 
+        Name of the dataset. Must not exceed 127 characters. 
     .PARAMETER GetAll 
-        Retreive all policydataset_binding object(s)
+        Retrieve all policydataset_binding object(s).
     .PARAMETER Count
-        If specified, the count of the policydataset_binding object(s) will be returned
+        If specified, the count of the policydataset_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetPolicydatasetbinding
+        PS C:\>Invoke-ADCGetPolicydatasetbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetPolicydatasetbinding -GetAll
+        PS C:\>Invoke-ADCGetPolicydatasetbinding -GetAll 
+        Get all policydataset_binding data.
     .EXAMPLE
-        Invoke-ADCGetPolicydatasetbinding -name <string>
+        PS C:\>Invoke-ADCGetPolicydatasetbinding -name <string>
+        Get policydataset_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetPolicydatasetbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetPolicydatasetbinding -Filter @{ 'name'='<value>' }
+        Get policydataset_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPolicydatasetbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policydataset_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -296,26 +302,24 @@ function Invoke-ADCGetPolicydatasetbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all policydataset_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for policydataset_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving policydataset_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving policydataset_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving policydataset_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -329,83 +333,80 @@ function Invoke-ADCGetPolicydatasetbinding {
 }
 
 function Invoke-ADCAddPolicydatasetvaluebinding {
-<#
+    <#
     .SYNOPSIS
-        Add Policy configuration Object
+        Add Policy configuration Object.
     .DESCRIPTION
-        Add Policy configuration Object 
-    .PARAMETER name 
-        Name of the dataset to which to bind the value.  
-        Minimum length = 1 
-    .PARAMETER value 
+        Binding object showing the value that can be bound to policydataset.
+    .PARAMETER Name 
+        Name of the dataset to which to bind the value. 
+    .PARAMETER Value 
         Value of the specified type that is associated with the dataset. 
-    .PARAMETER index 
+    .PARAMETER Index 
         The index of the value (ipv4, ipv6, number) associated with the set. 
-    .PARAMETER endrange 
+    .PARAMETER Endrange 
         The dataset entry is a range from <value> through <end_range>, inclusive. 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any comments to preserve information about this dataset or a data bound to this dataset. 
     .PARAMETER PassThru 
         Return details about the created policydataset_value_binding item.
     .EXAMPLE
-        Invoke-ADCAddPolicydatasetvaluebinding -name <string> -value <string>
+        PS C:\>Invoke-ADCAddPolicydatasetvaluebinding -name <string> -value <string>
+        An example how to add policydataset_value_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddPolicydatasetvaluebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policydataset_value_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
-        [string]$value ,
+        [Parameter(Mandatory)]
+        [string]$Value,
 
-        [double]$index ,
+        [double]$Index,
 
-        [string]$endrange ,
+        [string]$Endrange,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddPolicydatasetvaluebinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                value = $value
+            $payload = @{ name = $name
+                value          = $value
             }
-            if ($PSBoundParameters.ContainsKey('index')) { $Payload.Add('index', $index) }
-            if ($PSBoundParameters.ContainsKey('endrange')) { $Payload.Add('endrange', $endrange) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("policydataset_value_binding", "Add Policy configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type policydataset_value_binding -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('index') ) { $payload.Add('index', $index) }
+            if ( $PSBoundParameters.ContainsKey('endrange') ) { $payload.Add('endrange', $endrange) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("policydataset_value_binding", "Add Policy configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type policydataset_value_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetPolicydatasetvaluebinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetPolicydatasetvaluebinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -418,54 +419,56 @@ function Invoke-ADCAddPolicydatasetvaluebinding {
 }
 
 function Invoke-ADCDeletePolicydatasetvaluebinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Policy configuration Object
+        Delete Policy configuration Object.
     .DESCRIPTION
-        Delete Policy configuration Object
-    .PARAMETER name 
-       Name of the dataset to which to bind the value.  
-       Minimum length = 1    .PARAMETER value 
-       Value of the specified type that is associated with the dataset.    .PARAMETER endrange 
-       The dataset entry is a range from <value> through <end_range>, inclusive.
+        Binding object showing the value that can be bound to policydataset.
+    .PARAMETER Name 
+        Name of the dataset to which to bind the value. 
+    .PARAMETER Value 
+        Value of the specified type that is associated with the dataset. 
+    .PARAMETER Endrange 
+        The dataset entry is a range from <value> through <end_range>, inclusive.
     .EXAMPLE
-        Invoke-ADCDeletePolicydatasetvaluebinding -name <string>
+        PS C:\>Invoke-ADCDeletePolicydatasetvaluebinding -Name <string>
+        An example how to delete policydataset_value_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeletePolicydatasetvaluebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policydataset_value_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [string]$value ,
+        [string]$Value,
 
-        [string]$endrange 
+        [string]$Endrange 
     )
     begin {
         Write-Verbose "Invoke-ADCDeletePolicydatasetvaluebinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('value')) { $Arguments.Add('value', $value) }
-            if ($PSBoundParameters.ContainsKey('endrange')) { $Arguments.Add('endrange', $endrange) }
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Policy configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policydataset_value_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Value') ) { $arguments.Add('value', $Value) }
+            if ( $PSBoundParameters.ContainsKey('Endrange') ) { $arguments.Add('endrange', $Endrange) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Policy configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policydataset_value_binding -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -481,55 +484,61 @@ function Invoke-ADCDeletePolicydatasetvaluebinding {
 }
 
 function Invoke-ADCGetPolicydatasetvaluebinding {
-<#
+    <#
     .SYNOPSIS
-        Get Policy configuration object(s)
+        Get Policy configuration object(s).
     .DESCRIPTION
-        Get Policy configuration object(s)
-    .PARAMETER name 
-       Name of the dataset to which to bind the value. 
+        Binding object showing the value that can be bound to policydataset.
+    .PARAMETER Name 
+        Name of the dataset to which to bind the value. 
     .PARAMETER GetAll 
-        Retreive all policydataset_value_binding object(s)
+        Retrieve all policydataset_value_binding object(s).
     .PARAMETER Count
-        If specified, the count of the policydataset_value_binding object(s) will be returned
+        If specified, the count of the policydataset_value_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetPolicydatasetvaluebinding
+        PS C:\>Invoke-ADCGetPolicydatasetvaluebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetPolicydatasetvaluebinding -GetAll 
+        PS C:\>Invoke-ADCGetPolicydatasetvaluebinding -GetAll 
+        Get all policydataset_value_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetPolicydatasetvaluebinding -Count
+        PS C:\>Invoke-ADCGetPolicydatasetvaluebinding -Count 
+        Get the number of policydataset_value_binding objects.
     .EXAMPLE
-        Invoke-ADCGetPolicydatasetvaluebinding -name <string>
+        PS C:\>Invoke-ADCGetPolicydatasetvaluebinding -name <string>
+        Get policydataset_value_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetPolicydatasetvaluebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetPolicydatasetvaluebinding -Filter @{ 'name'='<value>' }
+        Get policydataset_value_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPolicydatasetvaluebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policydataset_value_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -542,26 +551,24 @@ function Invoke-ADCGetPolicydatasetvaluebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all policydataset_value_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset_value_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset_value_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for policydataset_value_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset_value_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset_value_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving policydataset_value_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset_value_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset_value_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving policydataset_value_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset_value_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving policydataset_value_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset_value_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policydataset_value_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -575,81 +582,87 @@ function Invoke-ADCGetPolicydatasetvaluebinding {
 }
 
 function Invoke-ADCGetPolicyevaluation {
-<#
+    <#
     .SYNOPSIS
-        Get Policy configuration object(s)
+        Get Policy configuration object(s).
     .DESCRIPTION
-        Get Policy configuration object(s)
-    .PARAMETER expression 
-       Expression string. For example: http.req.body(100).contains("this"). 
-    .PARAMETER action 
-       Rewrite action name. Supported rewrite action types are:  
-       -delete  
-       -delete_all  
-       -delete_http_header  
-       -insert_after  
-       -insert_after_all  
-       -insert_before  
-       -insert_before_all  
-       -insert_http_header  
-       -replace  
-       -replace_all  
-       . 
-    .PARAMETER type 
-       Indicates request or response input packet.  
-       Possible values = HTTP_REQ, HTTP_RES, TEXT 
-    .PARAMETER input 
-       Text representation of input packet. 
+        Configuration for expr evaluation resource.
+    .PARAMETER Expression 
+        Expression string. For example: http.req.body(100).contains("this"). 
+    .PARAMETER Action 
+        Rewrite action name. Supported rewrite action types are: 
+        -delete 
+        -delete_all 
+        -delete_http_header 
+        -insert_after 
+        -insert_after_all 
+        -insert_before 
+        -insert_before_all 
+        -insert_http_header 
+        -replace 
+        -replace_all 
+        . 
+    .PARAMETER Type 
+        Indicates request or response input packet. 
+        Possible values = HTTP_REQ, HTTP_RES, TEXT 
+    .PARAMETER Input 
+        Text representation of input packet. 
     .PARAMETER GetAll 
-        Retreive all policyevaluation object(s)
+        Retrieve all policyevaluation object(s).
     .PARAMETER Count
-        If specified, the count of the policyevaluation object(s) will be returned
+        If specified, the count of the policyevaluation object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetPolicyevaluation
+        PS C:\>Invoke-ADCGetPolicyevaluation
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetPolicyevaluation -GetAll 
+        PS C:\>Invoke-ADCGetPolicyevaluation -GetAll 
+        Get all policyevaluation data. 
     .EXAMPLE 
-        Invoke-ADCGetPolicyevaluation -Count
+        PS C:\>Invoke-ADCGetPolicyevaluation -Count 
+        Get the number of policyevaluation objects.
     .EXAMPLE
-        Invoke-ADCGetPolicyevaluation -name <string>
+        PS C:\>Invoke-ADCGetPolicyevaluation -name <string>
+        Get policyevaluation object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetPolicyevaluation -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetPolicyevaluation -Filter @{ 'name'='<value>' }
+        Get policyevaluation data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPolicyevaluation
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyevaluation/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$expression ,
+        [string]$Expression,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$action ,
+        [string]$Action,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('HTTP_REQ', 'HTTP_RES', 'TEXT')]
-        [string]$type ,
+        [string]$Type,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$input,
+        [string]$Input,
 			
         [hashtable]$Filter = @{ },
 
@@ -665,28 +678,28 @@ function Invoke-ADCGetPolicyevaluation {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all policyevaluation objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyevaluation -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyevaluation -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for policyevaluation objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyevaluation -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyevaluation -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving policyevaluation objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('expression')) { $Arguments.Add('expression', $expression) } 
-                if ($PSBoundParameters.ContainsKey('action')) { $Arguments.Add('action', $action) } 
-                if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) } 
-                if ($PSBoundParameters.ContainsKey('input')) { $Arguments.Add('input', $input) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyevaluation -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('expression') ) { $arguments.Add('expression', $expression) } 
+                if ( $PSBoundParameters.ContainsKey('action') ) { $arguments.Add('action', $action) } 
+                if ( $PSBoundParameters.ContainsKey('type') ) { $arguments.Add('type', $type) } 
+                if ( $PSBoundParameters.ContainsKey('input') ) { $arguments.Add('input', $input) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyevaluation -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving policyevaluation configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving policyevaluation configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyevaluation -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyevaluation -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -700,86 +713,77 @@ function Invoke-ADCGetPolicyevaluation {
 }
 
 function Invoke-ADCAddPolicyexpression {
-<#
+    <#
     .SYNOPSIS
-        Add Policy configuration Object
+        Add Policy configuration Object.
     .DESCRIPTION
-        Add Policy configuration Object 
-    .PARAMETER name 
-        Unique name for the expression. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout.  
-        Minimum length = 1 
-    .PARAMETER value 
+        Configuration for expression resource.
+    .PARAMETER Name 
+        Unique name for the expression. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout. 
+    .PARAMETER Value 
         Expression string. For example: http.req.body(100).contains("this"). 
-    .PARAMETER description 
-        Description for the expression. 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any comments associated with the expression. Displayed upon viewing the policy expression. 
-    .PARAMETER clientsecuritymessage 
-        Message to display if the expression fails. Allowed for classic end-point check expressions only.  
-        Minimum length = 1 
+    .PARAMETER Clientsecuritymessage 
+        Message to display if the expression fails. Allowed for classic end-point check expressions only. 
     .PARAMETER PassThru 
         Return details about the created policyexpression item.
     .EXAMPLE
-        Invoke-ADCAddPolicyexpression -name <string> -value <string>
+        PS C:\>Invoke-ADCAddPolicyexpression -name <string> -value <string>
+        An example how to add policyexpression configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddPolicyexpression
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyexpression/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
-        [string]$value ,
+        [Parameter(Mandatory)]
+        [string]$Value,
 
-        [string]$description ,
-
-        [string]$comment ,
+        [string]$Comment,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$clientsecuritymessage ,
+        [string]$Clientsecuritymessage,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddPolicyexpression: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                value = $value
+            $payload = @{ name = $name
+                value          = $value
             }
-            if ($PSBoundParameters.ContainsKey('description')) { $Payload.Add('description', $description) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('clientsecuritymessage')) { $Payload.Add('clientsecuritymessage', $clientsecuritymessage) }
- 
-            if ($PSCmdlet.ShouldProcess("policyexpression", "Add Policy configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policyexpression -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('clientsecuritymessage') ) { $payload.Add('clientsecuritymessage', $clientsecuritymessage) }
+            if ( $PSCmdlet.ShouldProcess("policyexpression", "Add Policy configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policyexpression -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetPolicyexpression -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetPolicyexpression -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -792,47 +796,47 @@ function Invoke-ADCAddPolicyexpression {
 }
 
 function Invoke-ADCDeletePolicyexpression {
-<#
+    <#
     .SYNOPSIS
-        Delete Policy configuration Object
+        Delete Policy configuration Object.
     .DESCRIPTION
-        Delete Policy configuration Object
-    .PARAMETER name 
-       Unique name for the expression. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout.  
-       Minimum length = 1 
+        Configuration for expression resource.
+    .PARAMETER Name 
+        Unique name for the expression. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout.
     .EXAMPLE
-        Invoke-ADCDeletePolicyexpression -name <string>
+        PS C:\>Invoke-ADCDeletePolicyexpression -Name <string>
+        An example how to delete policyexpression configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeletePolicyexpression
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyexpression/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeletePolicyexpression: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Policy configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policyexpression -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Policy configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policyexpression -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -848,85 +852,75 @@ function Invoke-ADCDeletePolicyexpression {
 }
 
 function Invoke-ADCUpdatePolicyexpression {
-<#
+    <#
     .SYNOPSIS
-        Update Policy configuration Object
+        Update Policy configuration Object.
     .DESCRIPTION
-        Update Policy configuration Object 
-    .PARAMETER name 
-        Unique name for the expression. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout.  
-        Minimum length = 1 
-    .PARAMETER value 
+        Configuration for expression resource.
+    .PARAMETER Name 
+        Unique name for the expression. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout. 
+    .PARAMETER Value 
         Expression string. For example: http.req.body(100).contains("this"). 
-    .PARAMETER description 
-        Description for the expression. 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any comments associated with the expression. Displayed upon viewing the policy expression. 
-    .PARAMETER clientsecuritymessage 
-        Message to display if the expression fails. Allowed for classic end-point check expressions only.  
-        Minimum length = 1 
+    .PARAMETER Clientsecuritymessage 
+        Message to display if the expression fails. Allowed for classic end-point check expressions only. 
     .PARAMETER PassThru 
         Return details about the created policyexpression item.
     .EXAMPLE
-        Invoke-ADCUpdatePolicyexpression -name <string>
+        PS C:\>Invoke-ADCUpdatePolicyexpression -name <string>
+        An example how to update policyexpression configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdatePolicyexpression
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyexpression/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$value ,
+        [string]$Value,
 
-        [string]$description ,
-
-        [string]$comment ,
+        [string]$Comment,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$clientsecuritymessage ,
+        [string]$Clientsecuritymessage,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdatePolicyexpression: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('value')) { $Payload.Add('value', $value) }
-            if ($PSBoundParameters.ContainsKey('description')) { $Payload.Add('description', $description) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('clientsecuritymessage')) { $Payload.Add('clientsecuritymessage', $clientsecuritymessage) }
- 
-            if ($PSCmdlet.ShouldProcess("policyexpression", "Update Policy configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type policyexpression -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('value') ) { $payload.Add('value', $value) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('clientsecuritymessage') ) { $payload.Add('clientsecuritymessage', $clientsecuritymessage) }
+            if ( $PSCmdlet.ShouldProcess("policyexpression", "Update Policy configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type policyexpression -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetPolicyexpression -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetPolicyexpression -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -939,47 +933,44 @@ function Invoke-ADCUpdatePolicyexpression {
 }
 
 function Invoke-ADCUnsetPolicyexpression {
-<#
+    <#
     .SYNOPSIS
-        Unset Policy configuration Object
+        Unset Policy configuration Object.
     .DESCRIPTION
-        Unset Policy configuration Object 
-   .PARAMETER name 
-       Unique name for the expression. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout. 
-   .PARAMETER description 
-       Description for the expression. 
-   .PARAMETER comment 
-       Any comments associated with the expression. Displayed upon viewing the policy expression. 
-   .PARAMETER clientsecuritymessage 
-       Message to display if the expression fails. Allowed for classic end-point check expressions only.
+        Configuration for expression resource.
+    .PARAMETER Name 
+        Unique name for the expression. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout. 
+    .PARAMETER Comment 
+        Any comments associated with the expression. Displayed upon viewing the policy expression. 
+    .PARAMETER Clientsecuritymessage 
+        Message to display if the expression fails. Allowed for classic end-point check expressions only.
     .EXAMPLE
-        Invoke-ADCUnsetPolicyexpression -name <string>
+        PS C:\>Invoke-ADCUnsetPolicyexpression -name <string>
+        An example how to unset policyexpression configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetPolicyexpression
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyexpression
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$description ,
-
-        [Boolean]$comment ,
+        [Boolean]$comment,
 
         [Boolean]$clientsecuritymessage 
     )
@@ -988,14 +979,11 @@ function Invoke-ADCUnsetPolicyexpression {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('description')) { $Payload.Add('description', $description) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('clientsecuritymessage')) { $Payload.Add('clientsecuritymessage', $clientsecuritymessage) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Policy configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type policyexpression -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('clientsecuritymessage') ) { $payload.Add('clientsecuritymessage', $clientsecuritymessage) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Policy configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type policyexpression -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1011,56 +999,62 @@ function Invoke-ADCUnsetPolicyexpression {
 }
 
 function Invoke-ADCGetPolicyexpression {
-<#
+    <#
     .SYNOPSIS
-        Get Policy configuration object(s)
+        Get Policy configuration object(s).
     .DESCRIPTION
-        Get Policy configuration object(s)
-    .PARAMETER name 
-       Unique name for the expression. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout. 
+        Configuration for expression resource.
+    .PARAMETER Name 
+        Unique name for the expression. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout. 
     .PARAMETER GetAll 
-        Retreive all policyexpression object(s)
+        Retrieve all policyexpression object(s).
     .PARAMETER Count
-        If specified, the count of the policyexpression object(s) will be returned
+        If specified, the count of the policyexpression object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetPolicyexpression
+        PS C:\>Invoke-ADCGetPolicyexpression
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetPolicyexpression -GetAll 
+        PS C:\>Invoke-ADCGetPolicyexpression -GetAll 
+        Get all policyexpression data. 
     .EXAMPLE 
-        Invoke-ADCGetPolicyexpression -Count
+        PS C:\>Invoke-ADCGetPolicyexpression -Count 
+        Get the number of policyexpression objects.
     .EXAMPLE
-        Invoke-ADCGetPolicyexpression -name <string>
+        PS C:\>Invoke-ADCGetPolicyexpression -name <string>
+        Get policyexpression object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetPolicyexpression -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetPolicyexpression -Filter @{ 'name'='<value>' }
+        Get policyexpression data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPolicyexpression
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyexpression/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1078,24 +1072,24 @@ function Invoke-ADCGetPolicyexpression {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all policyexpression objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyexpression -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyexpression -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for policyexpression objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyexpression -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyexpression -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving policyexpression objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyexpression -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyexpression -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving policyexpression configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyexpression -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving policyexpression configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyexpression -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyexpression -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1109,169 +1103,156 @@ function Invoke-ADCGetPolicyexpression {
 }
 
 function Invoke-ADCAddPolicyhttpcallout {
-<#
+    <#
     .SYNOPSIS
-        Add Policy configuration Object
+        Add Policy configuration Object.
     .DESCRIPTION
-        Add Policy configuration Object 
-    .PARAMETER name 
-        Name for the HTTP callout. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout.  
-        Minimum length = 1 
-    .PARAMETER ipaddress 
-        IP Address of the server (callout agent) to which the callout is sent. Can be an IPv4 or IPv6 address.  
+        Configuration for HTTP callout resource.
+    .PARAMETER Name 
+        Name for the HTTP callout. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout. 
+    .PARAMETER Ipaddress 
+        IP Address of the server (callout agent) to which the callout is sent. Can be an IPv4 or IPv6 address. 
         Mutually exclusive with the Virtual Server parameter. Therefore, you cannot set the <IP Address, Port> and the Virtual Server in the same HTTP callout. 
-    .PARAMETER port 
-        Server port to which the HTTP callout agent is mapped. Mutually exclusive with the Virtual Server parameter. Therefore, you cannot set the <IP Address, Port> and the Virtual Server in the same HTTP callout.  
-        Minimum value = 1 
-    .PARAMETER vserver 
-        Name of the load balancing, content switching, or cache redirection virtual server (the callout agent) to which the HTTP callout is sent. The service type of the virtual server must be HTTP. Mutually exclusive with the IP address and port parameters. Therefore, you cannot set the <IP Address, Port> and the Virtual Server in the same HTTP callout.  
-        Minimum length = 1 
-    .PARAMETER returntype 
-        Type of data that the target callout agent returns in response to the callout.  
-        Available settings function as follows:  
-        * TEXT - Treat the returned value as a text string.  
-        * NUM - Treat the returned value as a number.  
-        * BOOL - Treat the returned value as a Boolean value.  
-        Note: You cannot change the return type after it is set.  
+    .PARAMETER Port 
+        Server port to which the HTTP callout agent is mapped. Mutually exclusive with the Virtual Server parameter. Therefore, you cannot set the <IP Address, Port> and the Virtual Server in the same HTTP callout. 
+    .PARAMETER Vserver 
+        Name of the load balancing, content switching, or cache redirection virtual server (the callout agent) to which the HTTP callout is sent. The service type of the virtual server must be HTTP. Mutually exclusive with the IP address and port parameters. Therefore, you cannot set the <IP Address, Port> and the Virtual Server in the same HTTP callout. 
+    .PARAMETER Returntype 
+        Type of data that the target callout agent returns in response to the callout. 
+        Available settings function as follows: 
+        * TEXT - Treat the returned value as a text string. 
+        * NUM - Treat the returned value as a number. 
+        * BOOL - Treat the returned value as a Boolean value. 
+        Note: You cannot change the return type after it is set. 
         Possible values = BOOL, NUM, TEXT 
-    .PARAMETER httpmethod 
-        Method used in the HTTP request that this callout sends. Mutually exclusive with the full HTTP request expression.  
+    .PARAMETER Httpmethod 
+        Method used in the HTTP request that this callout sends. Mutually exclusive with the full HTTP request expression. 
         Possible values = GET, POST 
-    .PARAMETER hostexpr 
-        String expression to configure the Host header. Can contain a literal value (for example, 10.101.10.11) or a derived value (for example, http.req.header("Host")). The literal value can be an IP address or a fully qualified domain name. Mutually exclusive with the full HTTP request expression.  
-        Minimum length = 1 
-    .PARAMETER urlstemexpr 
-        String expression for generating the URL stem. Can contain a literal string (for example, "/mysite/index.html") or an expression that derives the value (for example, http.req.url). Mutually exclusive with the full HTTP request expression.  
-        Minimum length = 1 
-    .PARAMETER headers 
+    .PARAMETER Hostexpr 
+        String expression to configure the Host header. Can contain a literal value (for example, 10.101.10.11) or a derived value (for example, http.req.header("Host")). The literal value can be an IP address or a fully qualified domain name. Mutually exclusive with the full HTTP request expression. 
+    .PARAMETER Urlstemexpr 
+        String expression for generating the URL stem. Can contain a literal string (for example, "/mysite/index.html") or an expression that derives the value (for example, http.req.url). Mutually exclusive with the full HTTP request expression. 
+    .PARAMETER Headers 
         One or more headers to insert into the HTTP request. Each header is specified as "name(expr)", where expr is an expression that is evaluated at runtime to provide the value for the named header. You can configure a maximum of eight headers for an HTTP callout. Mutually exclusive with the full HTTP request expression. 
-    .PARAMETER parameters 
+    .PARAMETER Parameters 
         One or more query parameters to insert into the HTTP request URL (for a GET request) or into the request body (for a POST request). Each parameter is specified as "name(expr)", where expr is an expression that is evaluated at run time to provide the value for the named parameter (name=value). The parameter values are URL encoded. Mutually exclusive with the full HTTP request expression. 
-    .PARAMETER bodyexpr 
-        An advanced string expression for generating the body of the request. The expression can contain a literal string or an expression that derives the value (for example, client.ip.src). Mutually exclusive with -fullReqExpr.  
-        Minimum length = 1 
-    .PARAMETER fullreqexpr 
-        Exact HTTP request, in the form of an expression, which the Citrix ADC sends to the callout agent. If you set this parameter, you must not include HTTP method, host expression, URL stem expression, headers, or parameters.  
-        The request expression is constrained by the feature for which the callout is used. For example, an HTTP.RES expression cannot be used in a request-time policy bank or in a TCP content switching policy bank.  
-        The Citrix ADC does not check the validity of this request. You must manually validate the request.  
-        Minimum length = 1 
-    .PARAMETER scheme 
-        Type of scheme for the callout server.  
+    .PARAMETER Bodyexpr 
+        An advanced string expression for generating the body of the request. The expression can contain a literal string or an expression that derives the value (for example, client.ip.src). Mutually exclusive with -fullReqExpr. 
+    .PARAMETER Fullreqexpr 
+        Exact HTTP request, in the form of an expression, which the Citrix ADC sends to the callout agent. If you set this parameter, you must not include HTTP method, host expression, URL stem expression, headers, or parameters. 
+        The request expression is constrained by the feature for which the callout is used. For example, an HTTP.RES expression cannot be used in a request-time policy bank or in a TCP content switching policy bank. 
+        The Citrix ADC does not check the validity of this request. You must manually validate the request. 
+    .PARAMETER Scheme 
+        Type of scheme for the callout server. 
         Possible values = http, https 
-    .PARAMETER resultexpr 
-        Expression that extracts the callout results from the response sent by the HTTP callout agent. Must be a response based expression, that is, it must begin with HTTP.RES. The operations in this expression must match the return type. For example, if you configure a return type of TEXT, the result expression must be a text based expression. If the return type is NUM, the result expression (resultExpr) must return a numeric value, as in the following example: http.res.body(10000).length.  
-        Minimum length = 1 
-    .PARAMETER cacheforsecs 
-        Duration, in seconds, for which the callout response is cached. The cached responses are stored in an integrated caching content group named "calloutContentGroup". If no duration is configured, the callout responses will not be cached unless normal caching configuration is used to cache them. This parameter takes precedence over any normal caching configuration that would otherwise apply to these responses.  
-        Note that the calloutContentGroup definition may not be modified or removed nor may it be used with other cache policies.  
-        Minimum value = 1  
-        Maximum value = 31536000 
-    .PARAMETER comment 
+    .PARAMETER Resultexpr 
+        Expression that extracts the callout results from the response sent by the HTTP callout agent. Must be a response based expression, that is, it must begin with HTTP.RES. The operations in this expression must match the return type. For example, if you configure a return type of TEXT, the result expression must be a text based expression. If the return type is NUM, the result expression (resultExpr) must return a numeric value, as in the following example: http.res.body(10000).length. 
+    .PARAMETER Cacheforsecs 
+        Duration, in seconds, for which the callout response is cached. The cached responses are stored in an integrated caching content group named "calloutContentGroup". If no duration is configured, the callout responses will not be cached unless normal caching configuration is used to cache them. This parameter takes precedence over any normal caching configuration that would otherwise apply to these responses. 
+        Note that the calloutContentGroup definition may not be modified or removed nor may it be used with other cache policies. 
+    .PARAMETER Comment 
         Any comments to preserve information about this HTTP callout. 
     .PARAMETER PassThru 
         Return details about the created policyhttpcallout item.
     .EXAMPLE
-        Invoke-ADCAddPolicyhttpcallout -name <string>
+        PS C:\>Invoke-ADCAddPolicyhttpcallout -name <string>
+        An example how to add policyhttpcallout configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddPolicyhttpcallout
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyhttpcallout/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$ipaddress ,
+        [string]$Ipaddress,
 
-        [int]$port ,
+        [int]$Port,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$vserver ,
+        [string]$Vserver,
 
         [ValidateSet('BOOL', 'NUM', 'TEXT')]
-        [string]$returntype ,
+        [string]$Returntype,
 
         [ValidateSet('GET', 'POST')]
-        [string]$httpmethod ,
+        [string]$Httpmethod,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$hostexpr ,
+        [string]$Hostexpr,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$urlstemexpr ,
+        [string]$Urlstemexpr,
 
-        [string[]]$headers ,
+        [string[]]$Headers,
 
-        [string[]]$parameters ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$bodyexpr ,
+        [string[]]$Parameters,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$fullreqexpr ,
+        [string]$Bodyexpr,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Fullreqexpr,
 
         [ValidateSet('http', 'https')]
-        [string]$scheme ,
+        [string]$Scheme,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$resultexpr ,
+        [string]$Resultexpr,
 
         [ValidateRange(1, 31536000)]
-        [double]$cacheforsecs ,
+        [double]$Cacheforsecs,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddPolicyhttpcallout: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('ipaddress')) { $Payload.Add('ipaddress', $ipaddress) }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('vserver')) { $Payload.Add('vserver', $vserver) }
-            if ($PSBoundParameters.ContainsKey('returntype')) { $Payload.Add('returntype', $returntype) }
-            if ($PSBoundParameters.ContainsKey('httpmethod')) { $Payload.Add('httpmethod', $httpmethod) }
-            if ($PSBoundParameters.ContainsKey('hostexpr')) { $Payload.Add('hostexpr', $hostexpr) }
-            if ($PSBoundParameters.ContainsKey('urlstemexpr')) { $Payload.Add('urlstemexpr', $urlstemexpr) }
-            if ($PSBoundParameters.ContainsKey('headers')) { $Payload.Add('headers', $headers) }
-            if ($PSBoundParameters.ContainsKey('parameters')) { $Payload.Add('parameters', $parameters) }
-            if ($PSBoundParameters.ContainsKey('bodyexpr')) { $Payload.Add('bodyexpr', $bodyexpr) }
-            if ($PSBoundParameters.ContainsKey('fullreqexpr')) { $Payload.Add('fullreqexpr', $fullreqexpr) }
-            if ($PSBoundParameters.ContainsKey('scheme')) { $Payload.Add('scheme', $scheme) }
-            if ($PSBoundParameters.ContainsKey('resultexpr')) { $Payload.Add('resultexpr', $resultexpr) }
-            if ($PSBoundParameters.ContainsKey('cacheforsecs')) { $Payload.Add('cacheforsecs', $cacheforsecs) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("policyhttpcallout", "Add Policy configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policyhttpcallout -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('ipaddress') ) { $payload.Add('ipaddress', $ipaddress) }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('vserver') ) { $payload.Add('vserver', $vserver) }
+            if ( $PSBoundParameters.ContainsKey('returntype') ) { $payload.Add('returntype', $returntype) }
+            if ( $PSBoundParameters.ContainsKey('httpmethod') ) { $payload.Add('httpmethod', $httpmethod) }
+            if ( $PSBoundParameters.ContainsKey('hostexpr') ) { $payload.Add('hostexpr', $hostexpr) }
+            if ( $PSBoundParameters.ContainsKey('urlstemexpr') ) { $payload.Add('urlstemexpr', $urlstemexpr) }
+            if ( $PSBoundParameters.ContainsKey('headers') ) { $payload.Add('headers', $headers) }
+            if ( $PSBoundParameters.ContainsKey('parameters') ) { $payload.Add('parameters', $parameters) }
+            if ( $PSBoundParameters.ContainsKey('bodyexpr') ) { $payload.Add('bodyexpr', $bodyexpr) }
+            if ( $PSBoundParameters.ContainsKey('fullreqexpr') ) { $payload.Add('fullreqexpr', $fullreqexpr) }
+            if ( $PSBoundParameters.ContainsKey('scheme') ) { $payload.Add('scheme', $scheme) }
+            if ( $PSBoundParameters.ContainsKey('resultexpr') ) { $payload.Add('resultexpr', $resultexpr) }
+            if ( $PSBoundParameters.ContainsKey('cacheforsecs') ) { $payload.Add('cacheforsecs', $cacheforsecs) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("policyhttpcallout", "Add Policy configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policyhttpcallout -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetPolicyhttpcallout -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetPolicyhttpcallout -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1284,47 +1265,47 @@ function Invoke-ADCAddPolicyhttpcallout {
 }
 
 function Invoke-ADCDeletePolicyhttpcallout {
-<#
+    <#
     .SYNOPSIS
-        Delete Policy configuration Object
+        Delete Policy configuration Object.
     .DESCRIPTION
-        Delete Policy configuration Object
-    .PARAMETER name 
-       Name for the HTTP callout. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout.  
-       Minimum length = 1 
+        Configuration for HTTP callout resource.
+    .PARAMETER Name 
+        Name for the HTTP callout. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout.
     .EXAMPLE
-        Invoke-ADCDeletePolicyhttpcallout -name <string>
+        PS C:\>Invoke-ADCDeletePolicyhttpcallout -Name <string>
+        An example how to delete policyhttpcallout configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeletePolicyhttpcallout
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyhttpcallout/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeletePolicyhttpcallout: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Policy configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policyhttpcallout -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Policy configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policyhttpcallout -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1340,169 +1321,156 @@ function Invoke-ADCDeletePolicyhttpcallout {
 }
 
 function Invoke-ADCUpdatePolicyhttpcallout {
-<#
+    <#
     .SYNOPSIS
-        Update Policy configuration Object
+        Update Policy configuration Object.
     .DESCRIPTION
-        Update Policy configuration Object 
-    .PARAMETER name 
-        Name for the HTTP callout. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout.  
-        Minimum length = 1 
-    .PARAMETER ipaddress 
-        IP Address of the server (callout agent) to which the callout is sent. Can be an IPv4 or IPv6 address.  
+        Configuration for HTTP callout resource.
+    .PARAMETER Name 
+        Name for the HTTP callout. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout. 
+    .PARAMETER Ipaddress 
+        IP Address of the server (callout agent) to which the callout is sent. Can be an IPv4 or IPv6 address. 
         Mutually exclusive with the Virtual Server parameter. Therefore, you cannot set the <IP Address, Port> and the Virtual Server in the same HTTP callout. 
-    .PARAMETER port 
-        Server port to which the HTTP callout agent is mapped. Mutually exclusive with the Virtual Server parameter. Therefore, you cannot set the <IP Address, Port> and the Virtual Server in the same HTTP callout.  
-        Minimum value = 1 
-    .PARAMETER vserver 
-        Name of the load balancing, content switching, or cache redirection virtual server (the callout agent) to which the HTTP callout is sent. The service type of the virtual server must be HTTP. Mutually exclusive with the IP address and port parameters. Therefore, you cannot set the <IP Address, Port> and the Virtual Server in the same HTTP callout.  
-        Minimum length = 1 
-    .PARAMETER returntype 
-        Type of data that the target callout agent returns in response to the callout.  
-        Available settings function as follows:  
-        * TEXT - Treat the returned value as a text string.  
-        * NUM - Treat the returned value as a number.  
-        * BOOL - Treat the returned value as a Boolean value.  
-        Note: You cannot change the return type after it is set.  
+    .PARAMETER Port 
+        Server port to which the HTTP callout agent is mapped. Mutually exclusive with the Virtual Server parameter. Therefore, you cannot set the <IP Address, Port> and the Virtual Server in the same HTTP callout. 
+    .PARAMETER Vserver 
+        Name of the load balancing, content switching, or cache redirection virtual server (the callout agent) to which the HTTP callout is sent. The service type of the virtual server must be HTTP. Mutually exclusive with the IP address and port parameters. Therefore, you cannot set the <IP Address, Port> and the Virtual Server in the same HTTP callout. 
+    .PARAMETER Returntype 
+        Type of data that the target callout agent returns in response to the callout. 
+        Available settings function as follows: 
+        * TEXT - Treat the returned value as a text string. 
+        * NUM - Treat the returned value as a number. 
+        * BOOL - Treat the returned value as a Boolean value. 
+        Note: You cannot change the return type after it is set. 
         Possible values = BOOL, NUM, TEXT 
-    .PARAMETER httpmethod 
-        Method used in the HTTP request that this callout sends. Mutually exclusive with the full HTTP request expression.  
+    .PARAMETER Httpmethod 
+        Method used in the HTTP request that this callout sends. Mutually exclusive with the full HTTP request expression. 
         Possible values = GET, POST 
-    .PARAMETER hostexpr 
-        String expression to configure the Host header. Can contain a literal value (for example, 10.101.10.11) or a derived value (for example, http.req.header("Host")). The literal value can be an IP address or a fully qualified domain name. Mutually exclusive with the full HTTP request expression.  
-        Minimum length = 1 
-    .PARAMETER urlstemexpr 
-        String expression for generating the URL stem. Can contain a literal string (for example, "/mysite/index.html") or an expression that derives the value (for example, http.req.url). Mutually exclusive with the full HTTP request expression.  
-        Minimum length = 1 
-    .PARAMETER headers 
+    .PARAMETER Hostexpr 
+        String expression to configure the Host header. Can contain a literal value (for example, 10.101.10.11) or a derived value (for example, http.req.header("Host")). The literal value can be an IP address or a fully qualified domain name. Mutually exclusive with the full HTTP request expression. 
+    .PARAMETER Urlstemexpr 
+        String expression for generating the URL stem. Can contain a literal string (for example, "/mysite/index.html") or an expression that derives the value (for example, http.req.url). Mutually exclusive with the full HTTP request expression. 
+    .PARAMETER Headers 
         One or more headers to insert into the HTTP request. Each header is specified as "name(expr)", where expr is an expression that is evaluated at runtime to provide the value for the named header. You can configure a maximum of eight headers for an HTTP callout. Mutually exclusive with the full HTTP request expression. 
-    .PARAMETER parameters 
+    .PARAMETER Parameters 
         One or more query parameters to insert into the HTTP request URL (for a GET request) or into the request body (for a POST request). Each parameter is specified as "name(expr)", where expr is an expression that is evaluated at run time to provide the value for the named parameter (name=value). The parameter values are URL encoded. Mutually exclusive with the full HTTP request expression. 
-    .PARAMETER bodyexpr 
-        An advanced string expression for generating the body of the request. The expression can contain a literal string or an expression that derives the value (for example, client.ip.src). Mutually exclusive with -fullReqExpr.  
-        Minimum length = 1 
-    .PARAMETER fullreqexpr 
-        Exact HTTP request, in the form of an expression, which the Citrix ADC sends to the callout agent. If you set this parameter, you must not include HTTP method, host expression, URL stem expression, headers, or parameters.  
-        The request expression is constrained by the feature for which the callout is used. For example, an HTTP.RES expression cannot be used in a request-time policy bank or in a TCP content switching policy bank.  
-        The Citrix ADC does not check the validity of this request. You must manually validate the request.  
-        Minimum length = 1 
-    .PARAMETER scheme 
-        Type of scheme for the callout server.  
+    .PARAMETER Bodyexpr 
+        An advanced string expression for generating the body of the request. The expression can contain a literal string or an expression that derives the value (for example, client.ip.src). Mutually exclusive with -fullReqExpr. 
+    .PARAMETER Fullreqexpr 
+        Exact HTTP request, in the form of an expression, which the Citrix ADC sends to the callout agent. If you set this parameter, you must not include HTTP method, host expression, URL stem expression, headers, or parameters. 
+        The request expression is constrained by the feature for which the callout is used. For example, an HTTP.RES expression cannot be used in a request-time policy bank or in a TCP content switching policy bank. 
+        The Citrix ADC does not check the validity of this request. You must manually validate the request. 
+    .PARAMETER Scheme 
+        Type of scheme for the callout server. 
         Possible values = http, https 
-    .PARAMETER resultexpr 
-        Expression that extracts the callout results from the response sent by the HTTP callout agent. Must be a response based expression, that is, it must begin with HTTP.RES. The operations in this expression must match the return type. For example, if you configure a return type of TEXT, the result expression must be a text based expression. If the return type is NUM, the result expression (resultExpr) must return a numeric value, as in the following example: http.res.body(10000).length.  
-        Minimum length = 1 
-    .PARAMETER cacheforsecs 
-        Duration, in seconds, for which the callout response is cached. The cached responses are stored in an integrated caching content group named "calloutContentGroup". If no duration is configured, the callout responses will not be cached unless normal caching configuration is used to cache them. This parameter takes precedence over any normal caching configuration that would otherwise apply to these responses.  
-        Note that the calloutContentGroup definition may not be modified or removed nor may it be used with other cache policies.  
-        Minimum value = 1  
-        Maximum value = 31536000 
-    .PARAMETER comment 
+    .PARAMETER Resultexpr 
+        Expression that extracts the callout results from the response sent by the HTTP callout agent. Must be a response based expression, that is, it must begin with HTTP.RES. The operations in this expression must match the return type. For example, if you configure a return type of TEXT, the result expression must be a text based expression. If the return type is NUM, the result expression (resultExpr) must return a numeric value, as in the following example: http.res.body(10000).length. 
+    .PARAMETER Cacheforsecs 
+        Duration, in seconds, for which the callout response is cached. The cached responses are stored in an integrated caching content group named "calloutContentGroup". If no duration is configured, the callout responses will not be cached unless normal caching configuration is used to cache them. This parameter takes precedence over any normal caching configuration that would otherwise apply to these responses. 
+        Note that the calloutContentGroup definition may not be modified or removed nor may it be used with other cache policies. 
+    .PARAMETER Comment 
         Any comments to preserve information about this HTTP callout. 
     .PARAMETER PassThru 
         Return details about the created policyhttpcallout item.
     .EXAMPLE
-        Invoke-ADCUpdatePolicyhttpcallout -name <string>
+        PS C:\>Invoke-ADCUpdatePolicyhttpcallout -name <string>
+        An example how to update policyhttpcallout configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdatePolicyhttpcallout
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyhttpcallout/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$ipaddress ,
+        [string]$Ipaddress,
 
-        [int]$port ,
+        [int]$Port,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$vserver ,
+        [string]$Vserver,
 
         [ValidateSet('BOOL', 'NUM', 'TEXT')]
-        [string]$returntype ,
+        [string]$Returntype,
 
         [ValidateSet('GET', 'POST')]
-        [string]$httpmethod ,
+        [string]$Httpmethod,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$hostexpr ,
+        [string]$Hostexpr,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$urlstemexpr ,
+        [string]$Urlstemexpr,
 
-        [string[]]$headers ,
+        [string[]]$Headers,
 
-        [string[]]$parameters ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$bodyexpr ,
+        [string[]]$Parameters,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$fullreqexpr ,
+        [string]$Bodyexpr,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Fullreqexpr,
 
         [ValidateSet('http', 'https')]
-        [string]$scheme ,
+        [string]$Scheme,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$resultexpr ,
+        [string]$Resultexpr,
 
         [ValidateRange(1, 31536000)]
-        [double]$cacheforsecs ,
+        [double]$Cacheforsecs,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdatePolicyhttpcallout: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('ipaddress')) { $Payload.Add('ipaddress', $ipaddress) }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('vserver')) { $Payload.Add('vserver', $vserver) }
-            if ($PSBoundParameters.ContainsKey('returntype')) { $Payload.Add('returntype', $returntype) }
-            if ($PSBoundParameters.ContainsKey('httpmethod')) { $Payload.Add('httpmethod', $httpmethod) }
-            if ($PSBoundParameters.ContainsKey('hostexpr')) { $Payload.Add('hostexpr', $hostexpr) }
-            if ($PSBoundParameters.ContainsKey('urlstemexpr')) { $Payload.Add('urlstemexpr', $urlstemexpr) }
-            if ($PSBoundParameters.ContainsKey('headers')) { $Payload.Add('headers', $headers) }
-            if ($PSBoundParameters.ContainsKey('parameters')) { $Payload.Add('parameters', $parameters) }
-            if ($PSBoundParameters.ContainsKey('bodyexpr')) { $Payload.Add('bodyexpr', $bodyexpr) }
-            if ($PSBoundParameters.ContainsKey('fullreqexpr')) { $Payload.Add('fullreqexpr', $fullreqexpr) }
-            if ($PSBoundParameters.ContainsKey('scheme')) { $Payload.Add('scheme', $scheme) }
-            if ($PSBoundParameters.ContainsKey('resultexpr')) { $Payload.Add('resultexpr', $resultexpr) }
-            if ($PSBoundParameters.ContainsKey('cacheforsecs')) { $Payload.Add('cacheforsecs', $cacheforsecs) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("policyhttpcallout", "Update Policy configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type policyhttpcallout -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('ipaddress') ) { $payload.Add('ipaddress', $ipaddress) }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('vserver') ) { $payload.Add('vserver', $vserver) }
+            if ( $PSBoundParameters.ContainsKey('returntype') ) { $payload.Add('returntype', $returntype) }
+            if ( $PSBoundParameters.ContainsKey('httpmethod') ) { $payload.Add('httpmethod', $httpmethod) }
+            if ( $PSBoundParameters.ContainsKey('hostexpr') ) { $payload.Add('hostexpr', $hostexpr) }
+            if ( $PSBoundParameters.ContainsKey('urlstemexpr') ) { $payload.Add('urlstemexpr', $urlstemexpr) }
+            if ( $PSBoundParameters.ContainsKey('headers') ) { $payload.Add('headers', $headers) }
+            if ( $PSBoundParameters.ContainsKey('parameters') ) { $payload.Add('parameters', $parameters) }
+            if ( $PSBoundParameters.ContainsKey('bodyexpr') ) { $payload.Add('bodyexpr', $bodyexpr) }
+            if ( $PSBoundParameters.ContainsKey('fullreqexpr') ) { $payload.Add('fullreqexpr', $fullreqexpr) }
+            if ( $PSBoundParameters.ContainsKey('scheme') ) { $payload.Add('scheme', $scheme) }
+            if ( $PSBoundParameters.ContainsKey('resultexpr') ) { $payload.Add('resultexpr', $resultexpr) }
+            if ( $PSBoundParameters.ContainsKey('cacheforsecs') ) { $payload.Add('cacheforsecs', $cacheforsecs) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("policyhttpcallout", "Update Policy configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type policyhttpcallout -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetPolicyhttpcallout -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetPolicyhttpcallout -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1515,92 +1483,93 @@ function Invoke-ADCUpdatePolicyhttpcallout {
 }
 
 function Invoke-ADCUnsetPolicyhttpcallout {
-<#
+    <#
     .SYNOPSIS
-        Unset Policy configuration Object
+        Unset Policy configuration Object.
     .DESCRIPTION
-        Unset Policy configuration Object 
-   .PARAMETER name 
-       Name for the HTTP callout. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout. 
-   .PARAMETER ipaddress 
-       IP Address of the server (callout agent) to which the callout is sent. Can be an IPv4 or IPv6 address.  
-       Mutually exclusive with the Virtual Server parameter. Therefore, you cannot set the <IP Address, Port> and the Virtual Server in the same HTTP callout. 
-   .PARAMETER port 
-       Server port to which the HTTP callout agent is mapped. Mutually exclusive with the Virtual Server parameter. Therefore, you cannot set the <IP Address, Port> and the Virtual Server in the same HTTP callout. 
-   .PARAMETER vserver 
-       Name of the load balancing, content switching, or cache redirection virtual server (the callout agent) to which the HTTP callout is sent. The service type of the virtual server must be HTTP. Mutually exclusive with the IP address and port parameters. Therefore, you cannot set the <IP Address, Port> and the Virtual Server in the same HTTP callout. 
-   .PARAMETER httpmethod 
-       Method used in the HTTP request that this callout sends. Mutually exclusive with the full HTTP request expression.  
-       Possible values = GET, POST 
-   .PARAMETER hostexpr 
-       String expression to configure the Host header. Can contain a literal value (for example, 10.101.10.11) or a derived value (for example, http.req.header("Host")). The literal value can be an IP address or a fully qualified domain name. Mutually exclusive with the full HTTP request expression. 
-   .PARAMETER urlstemexpr 
-       String expression for generating the URL stem. Can contain a literal string (for example, "/mysite/index.html") or an expression that derives the value (for example, http.req.url). Mutually exclusive with the full HTTP request expression. 
-   .PARAMETER headers 
-       One or more headers to insert into the HTTP request. Each header is specified as "name(expr)", where expr is an expression that is evaluated at runtime to provide the value for the named header. You can configure a maximum of eight headers for an HTTP callout. Mutually exclusive with the full HTTP request expression. 
-   .PARAMETER parameters 
-       One or more query parameters to insert into the HTTP request URL (for a GET request) or into the request body (for a POST request). Each parameter is specified as "name(expr)", where expr is an expression that is evaluated at run time to provide the value for the named parameter (name=value). The parameter values are URL encoded. Mutually exclusive with the full HTTP request expression. 
-   .PARAMETER bodyexpr 
-       An advanced string expression for generating the body of the request. The expression can contain a literal string or an expression that derives the value (for example, client.ip.src). Mutually exclusive with -fullReqExpr. 
-   .PARAMETER fullreqexpr 
-       Exact HTTP request, in the form of an expression, which the Citrix ADC sends to the callout agent. If you set this parameter, you must not include HTTP method, host expression, URL stem expression, headers, or parameters.  
-       The request expression is constrained by the feature for which the callout is used. For example, an HTTP.RES expression cannot be used in a request-time policy bank or in a TCP content switching policy bank.  
-       The Citrix ADC does not check the validity of this request. You must manually validate the request. 
-   .PARAMETER resultexpr 
-       Expression that extracts the callout results from the response sent by the HTTP callout agent. Must be a response based expression, that is, it must begin with HTTP.RES. The operations in this expression must match the return type. For example, if you configure a return type of TEXT, the result expression must be a text based expression. If the return type is NUM, the result expression (resultExpr) must return a numeric value, as in the following example: http.res.body(10000).length. 
-   .PARAMETER cacheforsecs 
-       Duration, in seconds, for which the callout response is cached. The cached responses are stored in an integrated caching content group named "calloutContentGroup". If no duration is configured, the callout responses will not be cached unless normal caching configuration is used to cache them. This parameter takes precedence over any normal caching configuration that would otherwise apply to these responses.  
-       Note that the calloutContentGroup definition may not be modified or removed nor may it be used with other cache policies. 
-   .PARAMETER comment 
-       Any comments to preserve information about this HTTP callout.
+        Configuration for HTTP callout resource.
+    .PARAMETER Name 
+        Name for the HTTP callout. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout. 
+    .PARAMETER Ipaddress 
+        IP Address of the server (callout agent) to which the callout is sent. Can be an IPv4 or IPv6 address. 
+        Mutually exclusive with the Virtual Server parameter. Therefore, you cannot set the <IP Address, Port> and the Virtual Server in the same HTTP callout. 
+    .PARAMETER Port 
+        Server port to which the HTTP callout agent is mapped. Mutually exclusive with the Virtual Server parameter. Therefore, you cannot set the <IP Address, Port> and the Virtual Server in the same HTTP callout. 
+    .PARAMETER Vserver 
+        Name of the load balancing, content switching, or cache redirection virtual server (the callout agent) to which the HTTP callout is sent. The service type of the virtual server must be HTTP. Mutually exclusive with the IP address and port parameters. Therefore, you cannot set the <IP Address, Port> and the Virtual Server in the same HTTP callout. 
+    .PARAMETER Httpmethod 
+        Method used in the HTTP request that this callout sends. Mutually exclusive with the full HTTP request expression. 
+        Possible values = GET, POST 
+    .PARAMETER Hostexpr 
+        String expression to configure the Host header. Can contain a literal value (for example, 10.101.10.11) or a derived value (for example, http.req.header("Host")). The literal value can be an IP address or a fully qualified domain name. Mutually exclusive with the full HTTP request expression. 
+    .PARAMETER Urlstemexpr 
+        String expression for generating the URL stem. Can contain a literal string (for example, "/mysite/index.html") or an expression that derives the value (for example, http.req.url). Mutually exclusive with the full HTTP request expression. 
+    .PARAMETER Headers 
+        One or more headers to insert into the HTTP request. Each header is specified as "name(expr)", where expr is an expression that is evaluated at runtime to provide the value for the named header. You can configure a maximum of eight headers for an HTTP callout. Mutually exclusive with the full HTTP request expression. 
+    .PARAMETER Parameters 
+        One or more query parameters to insert into the HTTP request URL (for a GET request) or into the request body (for a POST request). Each parameter is specified as "name(expr)", where expr is an expression that is evaluated at run time to provide the value for the named parameter (name=value). The parameter values are URL encoded. Mutually exclusive with the full HTTP request expression. 
+    .PARAMETER Bodyexpr 
+        An advanced string expression for generating the body of the request. The expression can contain a literal string or an expression that derives the value (for example, client.ip.src). Mutually exclusive with -fullReqExpr. 
+    .PARAMETER Fullreqexpr 
+        Exact HTTP request, in the form of an expression, which the Citrix ADC sends to the callout agent. If you set this parameter, you must not include HTTP method, host expression, URL stem expression, headers, or parameters. 
+        The request expression is constrained by the feature for which the callout is used. For example, an HTTP.RES expression cannot be used in a request-time policy bank or in a TCP content switching policy bank. 
+        The Citrix ADC does not check the validity of this request. You must manually validate the request. 
+    .PARAMETER Resultexpr 
+        Expression that extracts the callout results from the response sent by the HTTP callout agent. Must be a response based expression, that is, it must begin with HTTP.RES. The operations in this expression must match the return type. For example, if you configure a return type of TEXT, the result expression must be a text based expression. If the return type is NUM, the result expression (resultExpr) must return a numeric value, as in the following example: http.res.body(10000).length. 
+    .PARAMETER Cacheforsecs 
+        Duration, in seconds, for which the callout response is cached. The cached responses are stored in an integrated caching content group named "calloutContentGroup". If no duration is configured, the callout responses will not be cached unless normal caching configuration is used to cache them. This parameter takes precedence over any normal caching configuration that would otherwise apply to these responses. 
+        Note that the calloutContentGroup definition may not be modified or removed nor may it be used with other cache policies. 
+    .PARAMETER Comment 
+        Any comments to preserve information about this HTTP callout.
     .EXAMPLE
-        Invoke-ADCUnsetPolicyhttpcallout -name <string>
+        PS C:\>Invoke-ADCUnsetPolicyhttpcallout -name <string>
+        An example how to unset policyhttpcallout configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetPolicyhttpcallout
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyhttpcallout
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$ipaddress ,
+        [Boolean]$ipaddress,
 
-        [Boolean]$port ,
+        [Boolean]$port,
 
-        [Boolean]$vserver ,
+        [Boolean]$vserver,
 
-        [Boolean]$httpmethod ,
+        [Boolean]$httpmethod,
 
-        [Boolean]$hostexpr ,
+        [Boolean]$hostexpr,
 
-        [Boolean]$urlstemexpr ,
+        [Boolean]$urlstemexpr,
 
-        [Boolean]$headers ,
+        [Boolean]$headers,
 
-        [Boolean]$parameters ,
+        [Boolean]$parameters,
 
-        [Boolean]$bodyexpr ,
+        [Boolean]$bodyexpr,
 
-        [Boolean]$fullreqexpr ,
+        [Boolean]$fullreqexpr,
 
-        [Boolean]$resultexpr ,
+        [Boolean]$resultexpr,
 
-        [Boolean]$cacheforsecs ,
+        [Boolean]$cacheforsecs,
 
         [Boolean]$comment 
     )
@@ -1609,24 +1578,22 @@ function Invoke-ADCUnsetPolicyhttpcallout {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('ipaddress')) { $Payload.Add('ipaddress', $ipaddress) }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('vserver')) { $Payload.Add('vserver', $vserver) }
-            if ($PSBoundParameters.ContainsKey('httpmethod')) { $Payload.Add('httpmethod', $httpmethod) }
-            if ($PSBoundParameters.ContainsKey('hostexpr')) { $Payload.Add('hostexpr', $hostexpr) }
-            if ($PSBoundParameters.ContainsKey('urlstemexpr')) { $Payload.Add('urlstemexpr', $urlstemexpr) }
-            if ($PSBoundParameters.ContainsKey('headers')) { $Payload.Add('headers', $headers) }
-            if ($PSBoundParameters.ContainsKey('parameters')) { $Payload.Add('parameters', $parameters) }
-            if ($PSBoundParameters.ContainsKey('bodyexpr')) { $Payload.Add('bodyexpr', $bodyexpr) }
-            if ($PSBoundParameters.ContainsKey('fullreqexpr')) { $Payload.Add('fullreqexpr', $fullreqexpr) }
-            if ($PSBoundParameters.ContainsKey('resultexpr')) { $Payload.Add('resultexpr', $resultexpr) }
-            if ($PSBoundParameters.ContainsKey('cacheforsecs')) { $Payload.Add('cacheforsecs', $cacheforsecs) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Policy configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type policyhttpcallout -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('ipaddress') ) { $payload.Add('ipaddress', $ipaddress) }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('vserver') ) { $payload.Add('vserver', $vserver) }
+            if ( $PSBoundParameters.ContainsKey('httpmethod') ) { $payload.Add('httpmethod', $httpmethod) }
+            if ( $PSBoundParameters.ContainsKey('hostexpr') ) { $payload.Add('hostexpr', $hostexpr) }
+            if ( $PSBoundParameters.ContainsKey('urlstemexpr') ) { $payload.Add('urlstemexpr', $urlstemexpr) }
+            if ( $PSBoundParameters.ContainsKey('headers') ) { $payload.Add('headers', $headers) }
+            if ( $PSBoundParameters.ContainsKey('parameters') ) { $payload.Add('parameters', $parameters) }
+            if ( $PSBoundParameters.ContainsKey('bodyexpr') ) { $payload.Add('bodyexpr', $bodyexpr) }
+            if ( $PSBoundParameters.ContainsKey('fullreqexpr') ) { $payload.Add('fullreqexpr', $fullreqexpr) }
+            if ( $PSBoundParameters.ContainsKey('resultexpr') ) { $payload.Add('resultexpr', $resultexpr) }
+            if ( $PSBoundParameters.ContainsKey('cacheforsecs') ) { $payload.Add('cacheforsecs', $cacheforsecs) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Policy configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type policyhttpcallout -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1642,56 +1609,62 @@ function Invoke-ADCUnsetPolicyhttpcallout {
 }
 
 function Invoke-ADCGetPolicyhttpcallout {
-<#
+    <#
     .SYNOPSIS
-        Get Policy configuration object(s)
+        Get Policy configuration object(s).
     .DESCRIPTION
-        Get Policy configuration object(s)
-    .PARAMETER name 
-       Name for the HTTP callout. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout. 
+        Configuration for HTTP callout resource.
+    .PARAMETER Name 
+        Name for the HTTP callout. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, stringmap, or HTTP callout. 
     .PARAMETER GetAll 
-        Retreive all policyhttpcallout object(s)
+        Retrieve all policyhttpcallout object(s).
     .PARAMETER Count
-        If specified, the count of the policyhttpcallout object(s) will be returned
+        If specified, the count of the policyhttpcallout object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetPolicyhttpcallout
+        PS C:\>Invoke-ADCGetPolicyhttpcallout
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetPolicyhttpcallout -GetAll 
+        PS C:\>Invoke-ADCGetPolicyhttpcallout -GetAll 
+        Get all policyhttpcallout data. 
     .EXAMPLE 
-        Invoke-ADCGetPolicyhttpcallout -Count
+        PS C:\>Invoke-ADCGetPolicyhttpcallout -Count 
+        Get the number of policyhttpcallout objects.
     .EXAMPLE
-        Invoke-ADCGetPolicyhttpcallout -name <string>
+        PS C:\>Invoke-ADCGetPolicyhttpcallout -name <string>
+        Get policyhttpcallout object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetPolicyhttpcallout -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetPolicyhttpcallout -Filter @{ 'name'='<value>' }
+        Get policyhttpcallout data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPolicyhttpcallout
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyhttpcallout/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1709,24 +1682,24 @@ function Invoke-ADCGetPolicyhttpcallout {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all policyhttpcallout objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyhttpcallout -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyhttpcallout -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for policyhttpcallout objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyhttpcallout -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyhttpcallout -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving policyhttpcallout objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyhttpcallout -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyhttpcallout -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving policyhttpcallout configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyhttpcallout -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving policyhttpcallout configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyhttpcallout -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyhttpcallout -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1740,93 +1713,86 @@ function Invoke-ADCGetPolicyhttpcallout {
 }
 
 function Invoke-ADCAddPolicymap {
-<#
+    <#
     .SYNOPSIS
-        Add Policy configuration Object
+        Add Policy configuration Object.
     .DESCRIPTION
-        Add Policy configuration Object 
-    .PARAMETER mappolicyname 
-        Name for the map policy. Must begin with a letter, number, or the underscore (_) character and must consist only of letters, numbers, and the hash (#), period (.), colon (:), space ( ), at (@), equals (=), hyphen (-), and underscore (_) characters.  
-        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my map" or 'my map').  
-        Minimum length = 1 
-    .PARAMETER sd 
-        Publicly known source domain name. This is the domain name with which a client request arrives at a reverse proxy virtual server for cache redirection. If you specify a source domain, you must specify a target domain.  
-        Minimum length = 1 
-    .PARAMETER su 
-        Source URL. Specify all or part of the source URL, in the following format: /[[prefix] [*]] [.suffix].  
-        Minimum length = 1 
-    .PARAMETER td 
-        Target domain name sent to the server. The source domain name is replaced with this domain name.  
-        Minimum length = 1 
-    .PARAMETER tu 
-        Target URL. Specify the target URL in the following format: /[[prefix] [*]][.suffix].  
-        Minimum length = 1 
+        Configuration for map policy resource.
+    .PARAMETER Mappolicyname 
+        Name for the map policy. Must begin with a letter, number, or the underscore (_) character and must consist only of letters, numbers, and the hash (#), period (.), colon (:), space ( ), at (@), equals (=), hyphen (-), and underscore (_) characters. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my map" or 'my map'). 
+    .PARAMETER Sd 
+        Publicly known source domain name. This is the domain name with which a client request arrives at a reverse proxy virtual server for cache redirection. If you specify a source domain, you must specify a target domain. 
+    .PARAMETER Su 
+        Source URL. Specify all or part of the source URL, in the following format: /[[prefix] [*]] [.suffix]. 
+    .PARAMETER Td 
+        Target domain name sent to the server. The source domain name is replaced with this domain name. 
+    .PARAMETER Tu 
+        Target URL. Specify the target URL in the following format: /[[prefix] [*]][.suffix]. 
     .PARAMETER PassThru 
         Return details about the created policymap item.
     .EXAMPLE
-        Invoke-ADCAddPolicymap -mappolicyname <string> -sd <string>
+        PS C:\>Invoke-ADCAddPolicymap -mappolicyname <string> -sd <string>
+        An example how to add policymap configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddPolicymap
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policymap/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
-        [string]$mappolicyname ,
+        [string]$Mappolicyname,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$sd ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$su ,
+        [string]$Sd,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$td ,
+        [string]$Su,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$tu ,
+        [string]$Td,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Tu,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddPolicymap: Starting"
     }
     process {
         try {
-            $Payload = @{
-                mappolicyname = $mappolicyname
-                sd = $sd
+            $payload = @{ mappolicyname = $mappolicyname
+                sd                      = $sd
             }
-            if ($PSBoundParameters.ContainsKey('su')) { $Payload.Add('su', $su) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
-            if ($PSBoundParameters.ContainsKey('tu')) { $Payload.Add('tu', $tu) }
- 
-            if ($PSCmdlet.ShouldProcess("policymap", "Add Policy configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policymap -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('su') ) { $payload.Add('su', $su) }
+            if ( $PSBoundParameters.ContainsKey('td') ) { $payload.Add('td', $td) }
+            if ( $PSBoundParameters.ContainsKey('tu') ) { $payload.Add('tu', $tu) }
+            if ( $PSCmdlet.ShouldProcess("policymap", "Add Policy configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policymap -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetPolicymap -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetPolicymap -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1839,48 +1805,48 @@ function Invoke-ADCAddPolicymap {
 }
 
 function Invoke-ADCDeletePolicymap {
-<#
+    <#
     .SYNOPSIS
-        Delete Policy configuration Object
+        Delete Policy configuration Object.
     .DESCRIPTION
-        Delete Policy configuration Object
-    .PARAMETER mappolicyname 
-       Name for the map policy. Must begin with a letter, number, or the underscore (_) character and must consist only of letters, numbers, and the hash (#), period (.), colon (:), space ( ), at (@), equals (=), hyphen (-), and underscore (_) characters.  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my map" or 'my map').  
-       Minimum length = 1 
+        Configuration for map policy resource.
+    .PARAMETER Mappolicyname 
+        Name for the map policy. Must begin with a letter, number, or the underscore (_) character and must consist only of letters, numbers, and the hash (#), period (.), colon (:), space ( ), at (@), equals (=), hyphen (-), and underscore (_) characters. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my map" or 'my map').
     .EXAMPLE
-        Invoke-ADCDeletePolicymap -mappolicyname <string>
+        PS C:\>Invoke-ADCDeletePolicymap -Mappolicyname <string>
+        An example how to delete policymap configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeletePolicymap
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policymap/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$mappolicyname 
+        [Parameter(Mandatory)]
+        [string]$Mappolicyname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeletePolicymap: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$mappolicyname", "Delete Policy configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policymap -NitroPath nitro/v1/config -Resource $mappolicyname -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$mappolicyname", "Delete Policy configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policymap -NitroPath nitro/v1/config -Resource $mappolicyname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1896,57 +1862,63 @@ function Invoke-ADCDeletePolicymap {
 }
 
 function Invoke-ADCGetPolicymap {
-<#
+    <#
     .SYNOPSIS
-        Get Policy configuration object(s)
+        Get Policy configuration object(s).
     .DESCRIPTION
-        Get Policy configuration object(s)
-    .PARAMETER mappolicyname 
-       Name for the map policy. Must begin with a letter, number, or the underscore (_) character and must consist only of letters, numbers, and the hash (#), period (.), colon (:), space ( ), at (@), equals (=), hyphen (-), and underscore (_) characters.  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my map" or 'my map'). 
+        Configuration for map policy resource.
+    .PARAMETER Mappolicyname 
+        Name for the map policy. Must begin with a letter, number, or the underscore (_) character and must consist only of letters, numbers, and the hash (#), period (.), colon (:), space ( ), at (@), equals (=), hyphen (-), and underscore (_) characters. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my map" or 'my map'). 
     .PARAMETER GetAll 
-        Retreive all policymap object(s)
+        Retrieve all policymap object(s).
     .PARAMETER Count
-        If specified, the count of the policymap object(s) will be returned
+        If specified, the count of the policymap object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetPolicymap
+        PS C:\>Invoke-ADCGetPolicymap
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetPolicymap -GetAll 
+        PS C:\>Invoke-ADCGetPolicymap -GetAll 
+        Get all policymap data. 
     .EXAMPLE 
-        Invoke-ADCGetPolicymap -Count
+        PS C:\>Invoke-ADCGetPolicymap -Count 
+        Get the number of policymap objects.
     .EXAMPLE
-        Invoke-ADCGetPolicymap -name <string>
+        PS C:\>Invoke-ADCGetPolicymap -name <string>
+        Get policymap object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetPolicymap -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetPolicymap -Filter @{ 'name'='<value>' }
+        Get policymap data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPolicymap
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policymap/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
-        [string]$mappolicyname,
+        [string]$Mappolicyname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1964,24 +1936,24 @@ function Invoke-ADCGetPolicymap {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all policymap objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policymap -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policymap -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for policymap objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policymap -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policymap -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving policymap objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policymap -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policymap -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving policymap configuration for property 'mappolicyname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policymap -NitroPath nitro/v1/config -Resource $mappolicyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving policymap configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policymap -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policymap -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1995,56 +1967,50 @@ function Invoke-ADCGetPolicymap {
 }
 
 function Invoke-ADCUpdatePolicyparam {
-<#
+    <#
     .SYNOPSIS
-        Update Policy configuration Object
+        Update Policy configuration Object.
     .DESCRIPTION
-        Update Policy configuration Object 
-    .PARAMETER timeout 
-        Maximum time in milliseconds to allow for processing expressions without interruption. If the timeout is reached then the evaluation causes an UNDEF to be raised and no further processing is performed.  
-        Default value: 3900  
-        Minimum value = 1  
-        Maximum value = 5000
+        Configuration for policy parameter resource.
+    .PARAMETER Timeout 
+        Maximum time in milliseconds to allow for processing expressions without interruption. If the timeout is reached then the evaluation causes an UNDEF to be raised and no further processing is performed.
     .EXAMPLE
-        Invoke-ADCUpdatePolicyparam 
+        PS C:\>Invoke-ADCUpdatePolicyparam 
+        An example how to update policyparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdatePolicyparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyparam/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateRange(1, 5000)]
-        [double]$timeout 
-
+        [double]$Timeout 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdatePolicyparam: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('timeout')) { $Payload.Add('timeout', $timeout) }
- 
-            if ($PSCmdlet.ShouldProcess("policyparam", "Update Policy configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type policyparam -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('timeout') ) { $payload.Add('timeout', $timeout) }
+            if ( $PSCmdlet.ShouldProcess("policyparam", "Update Policy configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type policyparam -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2057,32 +2023,34 @@ function Invoke-ADCUpdatePolicyparam {
 }
 
 function Invoke-ADCUnsetPolicyparam {
-<#
+    <#
     .SYNOPSIS
-        Unset Policy configuration Object
+        Unset Policy configuration Object.
     .DESCRIPTION
-        Unset Policy configuration Object 
-   .PARAMETER timeout 
-       Maximum time in milliseconds to allow for processing expressions without interruption. If the timeout is reached then the evaluation causes an UNDEF to be raised and no further processing is performed.
+        Configuration for policy parameter resource.
+    .PARAMETER Timeout 
+        Maximum time in milliseconds to allow for processing expressions without interruption. If the timeout is reached then the evaluation causes an UNDEF to be raised and no further processing is performed.
     .EXAMPLE
-        Invoke-ADCUnsetPolicyparam 
+        PS C:\>Invoke-ADCUnsetPolicyparam 
+        An example how to unset policyparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetPolicyparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyparam
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Boolean]$timeout 
     )
@@ -2091,12 +2059,10 @@ function Invoke-ADCUnsetPolicyparam {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('timeout')) { $Payload.Add('timeout', $timeout) }
-            if ($PSCmdlet.ShouldProcess("policyparam", "Unset Policy configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type policyparam -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('timeout') ) { $payload.Add('timeout', $timeout) }
+            if ( $PSCmdlet.ShouldProcess("policyparam", "Unset Policy configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type policyparam -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2112,45 +2078,50 @@ function Invoke-ADCUnsetPolicyparam {
 }
 
 function Invoke-ADCGetPolicyparam {
-<#
+    <#
     .SYNOPSIS
-        Get Policy configuration object(s)
+        Get Policy configuration object(s).
     .DESCRIPTION
-        Get Policy configuration object(s)
+        Configuration for policy parameter resource.
     .PARAMETER GetAll 
-        Retreive all policyparam object(s)
+        Retrieve all policyparam object(s).
     .PARAMETER Count
-        If specified, the count of the policyparam object(s) will be returned
+        If specified, the count of the policyparam object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetPolicyparam
+        PS C:\>Invoke-ADCGetPolicyparam
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetPolicyparam -GetAll
+        PS C:\>Invoke-ADCGetPolicyparam -GetAll 
+        Get all policyparam data.
     .EXAMPLE
-        Invoke-ADCGetPolicyparam -name <string>
+        PS C:\>Invoke-ADCGetPolicyparam -name <string>
+        Get policyparam object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetPolicyparam -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetPolicyparam -Filter @{ 'name'='<value>' }
+        Get policyparam data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPolicyparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyparam/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -2162,24 +2133,24 @@ function Invoke-ADCGetPolicyparam {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all policyparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyparam -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for policyparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyparam -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving policyparam objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyparam -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyparam -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving policyparam configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving policyparam configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyparam -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyparam -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2193,75 +2164,69 @@ function Invoke-ADCGetPolicyparam {
 }
 
 function Invoke-ADCAddPolicypatset {
-<#
+    <#
     .SYNOPSIS
-        Add Policy configuration Object
+        Add Policy configuration Object.
     .DESCRIPTION
-        Add Policy configuration Object 
-    .PARAMETER name 
-        Unique name of the pattern set. Not case sensitive. Must begin with an ASCII letter or underscore (_) character and must contain only alphanumeric and underscore characters. Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout.  
-        Minimum length = 1 
-    .PARAMETER indextype 
-        Index type.  
-        Possible values = Auto-generated, User-defined 
-    .PARAMETER comment 
+        Configuration for PAT set resource.
+    .PARAMETER Name 
+        Unique name of the pattern set. Not case sensitive. Must begin with an ASCII letter or underscore (_) character and must contain only alphanumeric and underscore characters. Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout. 
+    .PARAMETER Comment 
         Any comments to preserve information about this patset or a pattern bound to this patset. 
+    .PARAMETER Patsetfile 
+        File which contains list of patterns that needs to be bound to the patset. A patsetfile cannot be associated with multiple patsets. 
     .PARAMETER PassThru 
         Return details about the created policypatset item.
     .EXAMPLE
-        Invoke-ADCAddPolicypatset -name <string>
+        PS C:\>Invoke-ADCAddPolicypatset -name <string>
+        An example how to add policypatset configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddPolicypatset
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policypatset/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [ValidateSet('Auto-generated', 'User-defined')]
-        [string]$indextype ,
+        [string]$Comment,
 
-        [string]$comment ,
+        [string]$Patsetfile,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddPolicypatset: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('indextype')) { $Payload.Add('indextype', $indextype) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("policypatset", "Add Policy configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policypatset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('patsetfile') ) { $payload.Add('patsetfile', $patsetfile) }
+            if ( $PSCmdlet.ShouldProcess("policypatset", "Add Policy configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policypatset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetPolicypatset -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetPolicypatset -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2274,47 +2239,47 @@ function Invoke-ADCAddPolicypatset {
 }
 
 function Invoke-ADCDeletePolicypatset {
-<#
+    <#
     .SYNOPSIS
-        Delete Policy configuration Object
+        Delete Policy configuration Object.
     .DESCRIPTION
-        Delete Policy configuration Object
-    .PARAMETER name 
-       Unique name of the pattern set. Not case sensitive. Must begin with an ASCII letter or underscore (_) character and must contain only alphanumeric and underscore characters. Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout.  
-       Minimum length = 1 
+        Configuration for PAT set resource.
+    .PARAMETER Name 
+        Unique name of the pattern set. Not case sensitive. Must begin with an ASCII letter or underscore (_) character and must contain only alphanumeric and underscore characters. Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout.
     .EXAMPLE
-        Invoke-ADCDeletePolicypatset -name <string>
+        PS C:\>Invoke-ADCDeletePolicypatset -Name <string>
+        An example how to delete policypatset configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeletePolicypatset
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policypatset/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeletePolicypatset: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Policy configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policypatset -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Policy configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policypatset -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2330,56 +2295,62 @@ function Invoke-ADCDeletePolicypatset {
 }
 
 function Invoke-ADCGetPolicypatset {
-<#
+    <#
     .SYNOPSIS
-        Get Policy configuration object(s)
+        Get Policy configuration object(s).
     .DESCRIPTION
-        Get Policy configuration object(s)
-    .PARAMETER name 
-       Unique name of the pattern set. Not case sensitive. Must begin with an ASCII letter or underscore (_) character and must contain only alphanumeric and underscore characters. Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout. 
+        Configuration for PAT set resource.
+    .PARAMETER Name 
+        Unique name of the pattern set. Not case sensitive. Must begin with an ASCII letter or underscore (_) character and must contain only alphanumeric and underscore characters. Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout. 
     .PARAMETER GetAll 
-        Retreive all policypatset object(s)
+        Retrieve all policypatset object(s).
     .PARAMETER Count
-        If specified, the count of the policypatset object(s) will be returned
+        If specified, the count of the policypatset object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetPolicypatset
+        PS C:\>Invoke-ADCGetPolicypatset
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetPolicypatset -GetAll 
+        PS C:\>Invoke-ADCGetPolicypatset -GetAll 
+        Get all policypatset data. 
     .EXAMPLE 
-        Invoke-ADCGetPolicypatset -Count
+        PS C:\>Invoke-ADCGetPolicypatset -Count 
+        Get the number of policypatset objects.
     .EXAMPLE
-        Invoke-ADCGetPolicypatset -name <string>
+        PS C:\>Invoke-ADCGetPolicypatset -name <string>
+        Get policypatset object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetPolicypatset -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetPolicypatset -Filter @{ 'name'='<value>' }
+        Get policypatset data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPolicypatset
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policypatset/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2397,24 +2368,24 @@ function Invoke-ADCGetPolicypatset {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all policypatset objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for policypatset objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving policypatset objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving policypatset configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving policypatset configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2428,51 +2399,56 @@ function Invoke-ADCGetPolicypatset {
 }
 
 function Invoke-ADCGetPolicypatsetbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Policy configuration object(s)
+        Get Policy configuration object(s).
     .DESCRIPTION
-        Get Policy configuration object(s)
-    .PARAMETER name 
-       Name of the pattern set for which to display the detailed information. If a name is not provided, a list of all pattern sets configured on the appliance is shown. 
+        Binding object which returns the resources bound to policypatset.
+    .PARAMETER Name 
+        Name of the pattern set for which to display the detailed information. If a name is not provided, a list of all pattern sets configured on the appliance is shown. 
     .PARAMETER GetAll 
-        Retreive all policypatset_binding object(s)
+        Retrieve all policypatset_binding object(s).
     .PARAMETER Count
-        If specified, the count of the policypatset_binding object(s) will be returned
+        If specified, the count of the policypatset_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetPolicypatsetbinding
+        PS C:\>Invoke-ADCGetPolicypatsetbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetPolicypatsetbinding -GetAll
+        PS C:\>Invoke-ADCGetPolicypatsetbinding -GetAll 
+        Get all policypatset_binding data.
     .EXAMPLE
-        Invoke-ADCGetPolicypatsetbinding -name <string>
+        PS C:\>Invoke-ADCGetPolicypatsetbinding -name <string>
+        Get policypatset_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetPolicypatsetbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetPolicypatsetbinding -Filter @{ 'name'='<value>' }
+        Get policypatset_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPolicypatsetbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policypatset_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -2484,26 +2460,24 @@ function Invoke-ADCGetPolicypatsetbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all policypatset_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for policypatset_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving policypatset_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving policypatset_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving policypatset_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2517,85 +2491,82 @@ function Invoke-ADCGetPolicypatsetbinding {
 }
 
 function Invoke-ADCAddPolicypatsetpatternbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Policy configuration Object
+        Add Policy configuration Object.
     .DESCRIPTION
-        Add Policy configuration Object 
-    .PARAMETER name 
-        Name of the pattern set to which to bind the string.  
-        Minimum length = 1 
+        Binding object showing the pattern that can be bound to policypatset.
+    .PARAMETER Name 
+        Name of the pattern set to which to bind the string. 
     .PARAMETER String 
         String of characters that constitutes a pattern. For more information about the characters that can be used, refer to the character set parameter. Note: Minimum length for pattern sets used in rewrite actions of type REPLACE_ALL, DELETE_ALL, INSERT_AFTER_ALL, and INSERT_BEFORE_ALL, is three characters. 
-    .PARAMETER index 
+    .PARAMETER Index 
         The index of the string associated with the patset. 
-    .PARAMETER charset 
-        Character set associated with the characters in the string. Note: UTF-8 characters can be entered directly (if the UI supports it) or can be encoded as a sequence of hexadecimal bytes '\xNN'. For example, the UTF-8 character 'ü' can be encoded as '\xC3\xBC'.  
+    .PARAMETER Charset 
+        Character set associated with the characters in the string. Note: UTF-8 characters can be entered directly (if the UI supports it) or can be encoded as a sequence of hexadecimal bytes '\xNN'. For example, the UTF-8 character 'ü' can be encoded as '\xC3\xBC'. 
         Possible values = ASCII, UTF_8 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any comments to preserve information about this patset or a pattern bound to this patset. 
     .PARAMETER PassThru 
         Return details about the created policypatset_pattern_binding item.
     .EXAMPLE
-        Invoke-ADCAddPolicypatsetpatternbinding -name <string> -String <string>
+        PS C:\>Invoke-ADCAddPolicypatsetpatternbinding -name <string> -String <string>
+        An example how to add policypatset_pattern_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddPolicypatsetpatternbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policypatset_pattern_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
-        [string]$String ,
+        [Parameter(Mandatory)]
+        [string]$String,
 
-        [double]$index ,
+        [double]$Index,
 
         [ValidateSet('ASCII', 'UTF_8')]
-        [string]$charset ,
+        [string]$Charset,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddPolicypatsetpatternbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                String = $String
+            $payload = @{ name = $name
+                String         = $String
             }
-            if ($PSBoundParameters.ContainsKey('index')) { $Payload.Add('index', $index) }
-            if ($PSBoundParameters.ContainsKey('charset')) { $Payload.Add('charset', $charset) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("policypatset_pattern_binding", "Add Policy configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type policypatset_pattern_binding -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('index') ) { $payload.Add('index', $index) }
+            if ( $PSBoundParameters.ContainsKey('charset') ) { $payload.Add('charset', $charset) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("policypatset_pattern_binding", "Add Policy configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type policypatset_pattern_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetPolicypatsetpatternbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetPolicypatsetpatternbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2608,37 +2579,39 @@ function Invoke-ADCAddPolicypatsetpatternbinding {
 }
 
 function Invoke-ADCDeletePolicypatsetpatternbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Policy configuration Object
+        Delete Policy configuration Object.
     .DESCRIPTION
-        Delete Policy configuration Object
-    .PARAMETER name 
-       Name of the pattern set to which to bind the string.  
-       Minimum length = 1    .PARAMETER String 
-       String of characters that constitutes a pattern. For more information about the characters that can be used, refer to the character set parameter. Note: Minimum length for pattern sets used in rewrite actions of type REPLACE_ALL, DELETE_ALL, INSERT_AFTER_ALL, and INSERT_BEFORE_ALL, is three characters.
+        Binding object showing the pattern that can be bound to policypatset.
+    .PARAMETER Name 
+        Name of the pattern set to which to bind the string. 
+    .PARAMETER String 
+        String of characters that constitutes a pattern. For more information about the characters that can be used, refer to the character set parameter. Note: Minimum length for pattern sets used in rewrite actions of type REPLACE_ALL, DELETE_ALL, INSERT_AFTER_ALL, and INSERT_BEFORE_ALL, is three characters.
     .EXAMPLE
-        Invoke-ADCDeletePolicypatsetpatternbinding -name <string>
+        PS C:\>Invoke-ADCDeletePolicypatsetpatternbinding -Name <string>
+        An example how to delete policypatset_pattern_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeletePolicypatsetpatternbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policypatset_pattern_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
         [string]$String 
     )
@@ -2647,11 +2620,10 @@ function Invoke-ADCDeletePolicypatsetpatternbinding {
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('String')) { $Arguments.Add('String', $String) }
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Policy configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policypatset_pattern_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('String') ) { $arguments.Add('String', $String) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Policy configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policypatset_pattern_binding -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2667,55 +2639,61 @@ function Invoke-ADCDeletePolicypatsetpatternbinding {
 }
 
 function Invoke-ADCGetPolicypatsetpatternbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Policy configuration object(s)
+        Get Policy configuration object(s).
     .DESCRIPTION
-        Get Policy configuration object(s)
-    .PARAMETER name 
-       Name of the pattern set to which to bind the string. 
+        Binding object showing the pattern that can be bound to policypatset.
+    .PARAMETER Name 
+        Name of the pattern set to which to bind the string. 
     .PARAMETER GetAll 
-        Retreive all policypatset_pattern_binding object(s)
+        Retrieve all policypatset_pattern_binding object(s).
     .PARAMETER Count
-        If specified, the count of the policypatset_pattern_binding object(s) will be returned
+        If specified, the count of the policypatset_pattern_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetPolicypatsetpatternbinding
+        PS C:\>Invoke-ADCGetPolicypatsetpatternbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetPolicypatsetpatternbinding -GetAll 
+        PS C:\>Invoke-ADCGetPolicypatsetpatternbinding -GetAll 
+        Get all policypatset_pattern_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetPolicypatsetpatternbinding -Count
+        PS C:\>Invoke-ADCGetPolicypatsetpatternbinding -Count 
+        Get the number of policypatset_pattern_binding objects.
     .EXAMPLE
-        Invoke-ADCGetPolicypatsetpatternbinding -name <string>
+        PS C:\>Invoke-ADCGetPolicypatsetpatternbinding -name <string>
+        Get policypatset_pattern_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetPolicypatsetpatternbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetPolicypatsetpatternbinding -Filter @{ 'name'='<value>' }
+        Get policypatset_pattern_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPolicypatsetpatternbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policypatset_pattern_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2728,26 +2706,24 @@ function Invoke-ADCGetPolicypatsetpatternbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all policypatset_pattern_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset_pattern_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset_pattern_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for policypatset_pattern_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset_pattern_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset_pattern_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving policypatset_pattern_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset_pattern_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset_pattern_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving policypatset_pattern_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset_pattern_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving policypatset_pattern_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset_pattern_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policypatset_pattern_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2761,68 +2737,64 @@ function Invoke-ADCGetPolicypatsetpatternbinding {
 }
 
 function Invoke-ADCAddPolicystringmap {
-<#
+    <#
     .SYNOPSIS
-        Add Policy configuration Object
+        Add Policy configuration Object.
     .DESCRIPTION
-        Add Policy configuration Object 
-    .PARAMETER name 
-        Unique name for the string map. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout.  
-        Minimum length = 1 
-    .PARAMETER comment 
+        Configuration for string map resource.
+    .PARAMETER Name 
+        Unique name for the string map. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout. 
+    .PARAMETER Comment 
         Comments associated with the string map or key-value pair bound to this string map. 
     .PARAMETER PassThru 
         Return details about the created policystringmap item.
     .EXAMPLE
-        Invoke-ADCAddPolicystringmap -name <string>
+        PS C:\>Invoke-ADCAddPolicystringmap -name <string>
+        An example how to add policystringmap configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddPolicystringmap
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policystringmap/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddPolicystringmap: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("policystringmap", "Add Policy configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policystringmap -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("policystringmap", "Add Policy configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policystringmap -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetPolicystringmap -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetPolicystringmap -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2835,47 +2807,47 @@ function Invoke-ADCAddPolicystringmap {
 }
 
 function Invoke-ADCDeletePolicystringmap {
-<#
+    <#
     .SYNOPSIS
-        Delete Policy configuration Object
+        Delete Policy configuration Object.
     .DESCRIPTION
-        Delete Policy configuration Object
-    .PARAMETER name 
-       Unique name for the string map. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout.  
-       Minimum length = 1 
+        Configuration for string map resource.
+    .PARAMETER Name 
+        Unique name for the string map. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout.
     .EXAMPLE
-        Invoke-ADCDeletePolicystringmap -name <string>
+        PS C:\>Invoke-ADCDeletePolicystringmap -Name <string>
+        An example how to delete policystringmap configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeletePolicystringmap
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policystringmap/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeletePolicystringmap: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Policy configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policystringmap -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Policy configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policystringmap -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2891,68 +2863,64 @@ function Invoke-ADCDeletePolicystringmap {
 }
 
 function Invoke-ADCUpdatePolicystringmap {
-<#
+    <#
     .SYNOPSIS
-        Update Policy configuration Object
+        Update Policy configuration Object.
     .DESCRIPTION
-        Update Policy configuration Object 
-    .PARAMETER name 
-        Unique name for the string map. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout.  
-        Minimum length = 1 
-    .PARAMETER comment 
+        Configuration for string map resource.
+    .PARAMETER Name 
+        Unique name for the string map. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout. 
+    .PARAMETER Comment 
         Comments associated with the string map or key-value pair bound to this string map. 
     .PARAMETER PassThru 
         Return details about the created policystringmap item.
     .EXAMPLE
-        Invoke-ADCUpdatePolicystringmap -name <string>
+        PS C:\>Invoke-ADCUpdatePolicystringmap -name <string>
+        An example how to update policystringmap configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdatePolicystringmap
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policystringmap/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdatePolicystringmap: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("policystringmap", "Update Policy configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type policystringmap -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("policystringmap", "Update Policy configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type policystringmap -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetPolicystringmap -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetPolicystringmap -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2965,39 +2933,40 @@ function Invoke-ADCUpdatePolicystringmap {
 }
 
 function Invoke-ADCUnsetPolicystringmap {
-<#
+    <#
     .SYNOPSIS
-        Unset Policy configuration Object
+        Unset Policy configuration Object.
     .DESCRIPTION
-        Unset Policy configuration Object 
-   .PARAMETER name 
-       Unique name for the string map. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout. 
-   .PARAMETER comment 
-       Comments associated with the string map or key-value pair bound to this string map.
+        Configuration for string map resource.
+    .PARAMETER Name 
+        Unique name for the string map. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout. 
+    .PARAMETER Comment 
+        Comments associated with the string map or key-value pair bound to this string map.
     .EXAMPLE
-        Invoke-ADCUnsetPolicystringmap -name <string>
+        PS C:\>Invoke-ADCUnsetPolicystringmap -name <string>
+        An example how to unset policystringmap configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetPolicystringmap
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policystringmap
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
         [Boolean]$comment 
     )
@@ -3006,12 +2975,10 @@ function Invoke-ADCUnsetPolicystringmap {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Policy configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type policystringmap -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Policy configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type policystringmap -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3027,56 +2994,62 @@ function Invoke-ADCUnsetPolicystringmap {
 }
 
 function Invoke-ADCGetPolicystringmap {
-<#
+    <#
     .SYNOPSIS
-        Get Policy configuration object(s)
+        Get Policy configuration object(s).
     .DESCRIPTION
-        Get Policy configuration object(s)
-    .PARAMETER name 
-       Unique name for the string map. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout. 
+        Configuration for string map resource.
+    .PARAMETER Name 
+        Unique name for the string map. Not case sensitive. Must begin with an ASCII letter or underscore (_) character, and must consist only of ASCII alphanumeric or underscore characters. Must not begin with 're' or 'xp' or be a word reserved for use as an expression qualifier prefix (such as HTTP) or enumeration value (such as ASCII). Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout. 
     .PARAMETER GetAll 
-        Retreive all policystringmap object(s)
+        Retrieve all policystringmap object(s).
     .PARAMETER Count
-        If specified, the count of the policystringmap object(s) will be returned
+        If specified, the count of the policystringmap object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetPolicystringmap
+        PS C:\>Invoke-ADCGetPolicystringmap
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetPolicystringmap -GetAll 
+        PS C:\>Invoke-ADCGetPolicystringmap -GetAll 
+        Get all policystringmap data. 
     .EXAMPLE 
-        Invoke-ADCGetPolicystringmap -Count
+        PS C:\>Invoke-ADCGetPolicystringmap -Count 
+        Get the number of policystringmap objects.
     .EXAMPLE
-        Invoke-ADCGetPolicystringmap -name <string>
+        PS C:\>Invoke-ADCGetPolicystringmap -name <string>
+        Get policystringmap object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetPolicystringmap -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetPolicystringmap -Filter @{ 'name'='<value>' }
+        Get policystringmap data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPolicystringmap
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policystringmap/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3094,24 +3067,24 @@ function Invoke-ADCGetPolicystringmap {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all policystringmap objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for policystringmap objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving policystringmap objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving policystringmap configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving policystringmap configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3125,51 +3098,56 @@ function Invoke-ADCGetPolicystringmap {
 }
 
 function Invoke-ADCGetPolicystringmapbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Policy configuration object(s)
+        Get Policy configuration object(s).
     .DESCRIPTION
-        Get Policy configuration object(s)
-    .PARAMETER name 
-       Name of the string map to display. If a name is not provided, a list of all the configured string maps is shown. 
+        Binding object which returns the resources bound to policystringmap.
+    .PARAMETER Name 
+        Name of the string map to display. If a name is not provided, a list of all the configured string maps is shown. 
     .PARAMETER GetAll 
-        Retreive all policystringmap_binding object(s)
+        Retrieve all policystringmap_binding object(s).
     .PARAMETER Count
-        If specified, the count of the policystringmap_binding object(s) will be returned
+        If specified, the count of the policystringmap_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetPolicystringmapbinding
+        PS C:\>Invoke-ADCGetPolicystringmapbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetPolicystringmapbinding -GetAll
+        PS C:\>Invoke-ADCGetPolicystringmapbinding -GetAll 
+        Get all policystringmap_binding data.
     .EXAMPLE
-        Invoke-ADCGetPolicystringmapbinding -name <string>
+        PS C:\>Invoke-ADCGetPolicystringmapbinding -name <string>
+        Get policystringmap_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetPolicystringmapbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetPolicystringmapbinding -Filter @{ 'name'='<value>' }
+        Get policystringmap_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPolicystringmapbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policystringmap_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -3181,26 +3159,24 @@ function Invoke-ADCGetPolicystringmapbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all policystringmap_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for policystringmap_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving policystringmap_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving policystringmap_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving policystringmap_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3214,83 +3190,78 @@ function Invoke-ADCGetPolicystringmapbinding {
 }
 
 function Invoke-ADCAddPolicystringmappatternbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Policy configuration Object
+        Add Policy configuration Object.
     .DESCRIPTION
-        Add Policy configuration Object 
-    .PARAMETER name 
-        Name of the string map to which to bind the key-value pair.  
-        Minimum length = 1 
-    .PARAMETER key 
-        Character string constituting the key to be bound to the string map. The key is matched against the data processed by the operation that uses the string map. The default character set is ASCII. UTF-8 characters can be included if the character set is UTF-8. UTF-8 characters can be entered directly (if the UI supports it) or can be encoded as a sequence of hexadecimal bytes '\xNN'. For example, the UTF-8 character 'ü' can be encoded as '\xC3\xBC'.  
-        Minimum length = 1 
-    .PARAMETER value 
-        Character string constituting the value associated with the key. This value is returned when processed data matches the associated key. Refer to the key parameter for details of the value character set.  
-        Minimum length = 1 
-    .PARAMETER comment 
+        Binding object showing the pattern that can be bound to policystringmap.
+    .PARAMETER Name 
+        Name of the string map to which to bind the key-value pair. 
+    .PARAMETER Key 
+        Character string constituting the key to be bound to the string map. The key is matched against the data processed by the operation that uses the string map. The default character set is ASCII. UTF-8 characters can be included if the character set is UTF-8. UTF-8 characters can be entered directly (if the UI supports it) or can be encoded as a sequence of hexadecimal bytes '\xNN'. For example, the UTF-8 character 'ü' can be encoded as '\xC3\xBC'. 
+    .PARAMETER Value 
+        Character string constituting the value associated with the key. This value is returned when processed data matches the associated key. Refer to the key parameter for details of the value character set. 
+    .PARAMETER Comment 
         Comments associated with the string map or key-value pair bound to this string map. 
     .PARAMETER PassThru 
         Return details about the created policystringmap_pattern_binding item.
     .EXAMPLE
-        Invoke-ADCAddPolicystringmappatternbinding -name <string> -key <string> -value <string>
+        PS C:\>Invoke-ADCAddPolicystringmappatternbinding -name <string> -key <string> -value <string>
+        An example how to add policystringmap_pattern_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddPolicystringmappatternbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policystringmap_pattern_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$key ,
+        [string]$Key,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$value ,
+        [string]$Value,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddPolicystringmappatternbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                key = $key
-                value = $value
+            $payload = @{ name = $name
+                key            = $key
+                value          = $value
             }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("policystringmap_pattern_binding", "Add Policy configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type policystringmap_pattern_binding -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("policystringmap_pattern_binding", "Add Policy configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type policystringmap_pattern_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetPolicystringmappatternbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetPolicystringmappatternbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3303,51 +3274,51 @@ function Invoke-ADCAddPolicystringmappatternbinding {
 }
 
 function Invoke-ADCDeletePolicystringmappatternbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Policy configuration Object
+        Delete Policy configuration Object.
     .DESCRIPTION
-        Delete Policy configuration Object
-    .PARAMETER name 
-       Name of the string map to which to bind the key-value pair.  
-       Minimum length = 1    .PARAMETER key 
-       Character string constituting the key to be bound to the string map. The key is matched against the data processed by the operation that uses the string map. The default character set is ASCII. UTF-8 characters can be included if the character set is UTF-8. UTF-8 characters can be entered directly (if the UI supports it) or can be encoded as a sequence of hexadecimal bytes '\xNN'. For example, the UTF-8 character 'ü' can be encoded as '\xC3\xBC'.  
-       Minimum length = 1
+        Binding object showing the pattern that can be bound to policystringmap.
+    .PARAMETER Name 
+        Name of the string map to which to bind the key-value pair. 
+    .PARAMETER Key 
+        Character string constituting the key to be bound to the string map. The key is matched against the data processed by the operation that uses the string map. The default character set is ASCII. UTF-8 characters can be included if the character set is UTF-8. UTF-8 characters can be entered directly (if the UI supports it) or can be encoded as a sequence of hexadecimal bytes '\xNN'. For example, the UTF-8 character 'ü' can be encoded as '\xC3\xBC'.
     .EXAMPLE
-        Invoke-ADCDeletePolicystringmappatternbinding -name <string>
+        PS C:\>Invoke-ADCDeletePolicystringmappatternbinding -Name <string>
+        An example how to delete policystringmap_pattern_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeletePolicystringmappatternbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policystringmap_pattern_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [string]$key 
+        [string]$Key 
     )
     begin {
         Write-Verbose "Invoke-ADCDeletePolicystringmappatternbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('key')) { $Arguments.Add('key', $key) }
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Policy configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policystringmap_pattern_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Key') ) { $arguments.Add('key', $Key) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Policy configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policystringmap_pattern_binding -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3363,55 +3334,61 @@ function Invoke-ADCDeletePolicystringmappatternbinding {
 }
 
 function Invoke-ADCGetPolicystringmappatternbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Policy configuration object(s)
+        Get Policy configuration object(s).
     .DESCRIPTION
-        Get Policy configuration object(s)
-    .PARAMETER name 
-       Name of the string map to which to bind the key-value pair. 
+        Binding object showing the pattern that can be bound to policystringmap.
+    .PARAMETER Name 
+        Name of the string map to which to bind the key-value pair. 
     .PARAMETER GetAll 
-        Retreive all policystringmap_pattern_binding object(s)
+        Retrieve all policystringmap_pattern_binding object(s).
     .PARAMETER Count
-        If specified, the count of the policystringmap_pattern_binding object(s) will be returned
+        If specified, the count of the policystringmap_pattern_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetPolicystringmappatternbinding
+        PS C:\>Invoke-ADCGetPolicystringmappatternbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetPolicystringmappatternbinding -GetAll 
+        PS C:\>Invoke-ADCGetPolicystringmappatternbinding -GetAll 
+        Get all policystringmap_pattern_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetPolicystringmappatternbinding -Count
+        PS C:\>Invoke-ADCGetPolicystringmappatternbinding -Count 
+        Get the number of policystringmap_pattern_binding objects.
     .EXAMPLE
-        Invoke-ADCGetPolicystringmappatternbinding -name <string>
+        PS C:\>Invoke-ADCGetPolicystringmappatternbinding -name <string>
+        Get policystringmap_pattern_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetPolicystringmappatternbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetPolicystringmappatternbinding -Filter @{ 'name'='<value>' }
+        Get policystringmap_pattern_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPolicystringmappatternbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policystringmap_pattern_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3424,26 +3401,24 @@ function Invoke-ADCGetPolicystringmappatternbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all policystringmap_pattern_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap_pattern_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap_pattern_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for policystringmap_pattern_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap_pattern_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap_pattern_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving policystringmap_pattern_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap_pattern_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap_pattern_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving policystringmap_pattern_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap_pattern_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving policystringmap_pattern_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap_pattern_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policystringmap_pattern_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3457,69 +3432,64 @@ function Invoke-ADCGetPolicystringmappatternbinding {
 }
 
 function Invoke-ADCAddPolicyurlset {
-<#
+    <#
     .SYNOPSIS
-        Add Policy configuration Object
+        Add Policy configuration Object.
     .DESCRIPTION
-        Add Policy configuration Object 
-    .PARAMETER name 
-        Unique name of the url set. Not case sensitive. Must begin with an ASCII letter or underscore (_) character and must contain only alphanumeric and underscore characters. Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER comment 
+        Configuration for URL set resource.
+    .PARAMETER Name 
+        Unique name of the url set. Not case sensitive. Must begin with an ASCII letter or underscore (_) character and must contain only alphanumeric and underscore characters. Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout. 
+    .PARAMETER Comment 
         Any comments to preserve information about this url set. 
     .PARAMETER PassThru 
         Return details about the created policyurlset item.
     .EXAMPLE
-        Invoke-ADCAddPolicyurlset -name <string>
+        PS C:\>Invoke-ADCAddPolicyurlset -name <string>
+        An example how to add policyurlset configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddPolicyurlset
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyurlset/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddPolicyurlset: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("policyurlset", "Add Policy configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policyurlset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("policyurlset", "Add Policy configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policyurlset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetPolicyurlset -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetPolicyurlset -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3532,48 +3502,47 @@ function Invoke-ADCAddPolicyurlset {
 }
 
 function Invoke-ADCDeletePolicyurlset {
-<#
+    <#
     .SYNOPSIS
-        Delete Policy configuration Object
+        Delete Policy configuration Object.
     .DESCRIPTION
-        Delete Policy configuration Object
-    .PARAMETER name 
-       Unique name of the url set. Not case sensitive. Must begin with an ASCII letter or underscore (_) character and must contain only alphanumeric and underscore characters. Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout.  
-       Minimum length = 1  
-       Maximum length = 127 
+        Configuration for URL set resource.
+    .PARAMETER Name 
+        Unique name of the url set. Not case sensitive. Must begin with an ASCII letter or underscore (_) character and must contain only alphanumeric and underscore characters. Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout.
     .EXAMPLE
-        Invoke-ADCDeletePolicyurlset -name <string>
+        PS C:\>Invoke-ADCDeletePolicyurlset -Name <string>
+        An example how to delete policyurlset configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeletePolicyurlset
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyurlset/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeletePolicyurlset: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Policy configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policyurlset -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Policy configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type policyurlset -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3589,78 +3558,80 @@ function Invoke-ADCDeletePolicyurlset {
 }
 
 function Invoke-ADCImportPolicyurlset {
-<#
+    <#
     .SYNOPSIS
-        Import Policy configuration Object
+        Import Policy configuration Object.
     .DESCRIPTION
-        Import Policy configuration Object 
-    .PARAMETER name 
+        Configuration for URL set resource.
+    .PARAMETER Name 
         Unique name of the url set. Not case sensitive. Must begin with an ASCII letter or underscore (_) character and must contain only alphanumeric and underscore characters. Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout. 
-    .PARAMETER overwrite 
+    .PARAMETER Overwrite 
         Overwrites the existing file. 
-    .PARAMETER delimiter 
+    .PARAMETER Delimiter 
         CSV file record delimiter. 
-    .PARAMETER rowseparator 
+    .PARAMETER Rowseparator 
         CSV file row separator. 
-    .PARAMETER url 
+    .PARAMETER Url 
         URL (protocol, host, path and file name) from where the CSV (comma separated file) file will be imported or exported. Each record/line will one entry within the urlset. The first field contains the URL pattern, subsequent fields contains the metadata, if available. HTTP, HTTPS and FTP protocols are supported. NOTE: The operation fails if the destination HTTPS server requires client certificate authentication for access. 
-    .PARAMETER interval 
+    .PARAMETER Interval 
         The interval, in seconds, rounded down to the nearest 15 minutes, at which the update of urlset occurs. 
-    .PARAMETER privateset 
+    .PARAMETER Privateset 
         Prevent this urlset from being exported. 
-    .PARAMETER subdomainexactmatch 
+    .PARAMETER Subdomainexactmatch 
         Force exact subdomain matching, ex. given an entry 'google.com' in the urlset, a request to 'news.google.com' won't match, if subdomainExactMatch is set. 
-    .PARAMETER matchedid 
+    .PARAMETER Matchedid 
         An ID that would be sent to AppFlow to indicate which URLSet was the last one that matched the requested URL. 
-    .PARAMETER canaryurl 
+    .PARAMETER Canaryurl 
         Add this URL to this urlset. Used for testing when contents of urlset is kept confidential.
     .EXAMPLE
-        Invoke-ADCImportPolicyurlset -name <string> -url <string>
+        PS C:\>Invoke-ADCImportPolicyurlset -name <string> -url <string>
+        An example how to import policyurlset configuration Object(s).
     .NOTES
         File Name : Invoke-ADCImportPolicyurlset
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyurlset/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$name ,
+        [string]$Name,
 
-        [boolean]$overwrite ,
+        [boolean]$Overwrite,
 
-        [string]$delimiter ,
+        [string]$Delimiter,
 
-        [string]$rowseparator ,
+        [string]$Rowseparator,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 2047)]
-        [string]$url ,
+        [string]$Url,
 
         [ValidateRange(0, 2592000)]
-        [double]$interval ,
+        [double]$Interval,
 
-        [boolean]$privateset ,
+        [boolean]$Privateset,
 
-        [boolean]$subdomainexactmatch ,
+        [boolean]$Subdomainexactmatch,
 
         [ValidateRange(2, 31)]
-        [double]$matchedid ,
+        [double]$Matchedid,
 
         [ValidateLength(1, 2047)]
-        [string]$canaryurl 
+        [string]$Canaryurl 
 
     )
     begin {
@@ -3668,20 +3639,19 @@ function Invoke-ADCImportPolicyurlset {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                url = $url
+            $payload = @{ name = $name
+                url            = $url
             }
-            if ($PSBoundParameters.ContainsKey('overwrite')) { $Payload.Add('overwrite', $overwrite) }
-            if ($PSBoundParameters.ContainsKey('delimiter')) { $Payload.Add('delimiter', $delimiter) }
-            if ($PSBoundParameters.ContainsKey('rowseparator')) { $Payload.Add('rowseparator', $rowseparator) }
-            if ($PSBoundParameters.ContainsKey('interval')) { $Payload.Add('interval', $interval) }
-            if ($PSBoundParameters.ContainsKey('privateset')) { $Payload.Add('privateset', $privateset) }
-            if ($PSBoundParameters.ContainsKey('subdomainexactmatch')) { $Payload.Add('subdomainexactmatch', $subdomainexactmatch) }
-            if ($PSBoundParameters.ContainsKey('matchedid')) { $Payload.Add('matchedid', $matchedid) }
-            if ($PSBoundParameters.ContainsKey('canaryurl')) { $Payload.Add('canaryurl', $canaryurl) }
-            if ($PSCmdlet.ShouldProcess($Name, "Import Policy configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policyurlset -Action import -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('overwrite') ) { $payload.Add('overwrite', $overwrite) }
+            if ( $PSBoundParameters.ContainsKey('delimiter') ) { $payload.Add('delimiter', $delimiter) }
+            if ( $PSBoundParameters.ContainsKey('rowseparator') ) { $payload.Add('rowseparator', $rowseparator) }
+            if ( $PSBoundParameters.ContainsKey('interval') ) { $payload.Add('interval', $interval) }
+            if ( $PSBoundParameters.ContainsKey('privateset') ) { $payload.Add('privateset', $privateset) }
+            if ( $PSBoundParameters.ContainsKey('subdomainexactmatch') ) { $payload.Add('subdomainexactmatch', $subdomainexactmatch) }
+            if ( $PSBoundParameters.ContainsKey('matchedid') ) { $payload.Add('matchedid', $matchedid) }
+            if ( $PSBoundParameters.ContainsKey('canaryurl') ) { $payload.Add('canaryurl', $canaryurl) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Import Policy configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policyurlset -Action import -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -3697,65 +3667,60 @@ function Invoke-ADCImportPolicyurlset {
 }
 
 function Invoke-ADCChangePolicyurlset {
-<#
+    <#
     .SYNOPSIS
-        Change Policy configuration Object
+        Change Policy configuration Object.
     .DESCRIPTION
-        Change Policy configuration Object 
-    .PARAMETER name 
-        Unique name of the url set. Not case sensitive. Must begin with an ASCII letter or underscore (_) character and must contain only alphanumeric and underscore characters. Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout.  
-        Minimum length = 1  
-        Maximum length = 127 
+        Configuration for URL set resource.
+    .PARAMETER Name 
+        Unique name of the url set. Not case sensitive. Must begin with an ASCII letter or underscore (_) character and must contain only alphanumeric and underscore characters. Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout. 
     .PARAMETER PassThru 
         Return details about the created policyurlset item.
     .EXAMPLE
-        Invoke-ADCChangePolicyurlset -name <string>
+        PS C:\>Invoke-ADCChangePolicyurlset -name <string>
+        An example how to change policyurlset configuration Object(s).
     .NOTES
         File Name : Invoke-ADCChangePolicyurlset
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyurlset/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$name ,
+        [string]$Name,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCChangePolicyurlset: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
+            $payload = @{ name = $name }
 
- 
-            if ($PSCmdlet.ShouldProcess("policyurlset", "Change Policy configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policyurlset -Action update -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("policyurlset", "Change Policy configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policyurlset -Action update -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetPolicyurlset -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetPolicyurlset -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3768,43 +3733,45 @@ function Invoke-ADCChangePolicyurlset {
 }
 
 function Invoke-ADCExportPolicyurlset {
-<#
+    <#
     .SYNOPSIS
-        Export Policy configuration Object
+        Export Policy configuration Object.
     .DESCRIPTION
-        Export Policy configuration Object 
-    .PARAMETER name 
+        Configuration for URL set resource.
+    .PARAMETER Name 
         Unique name of the url set. Not case sensitive. Must begin with an ASCII letter or underscore (_) character and must contain only alphanumeric and underscore characters. Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout. 
-    .PARAMETER url 
+    .PARAMETER Url 
         URL (protocol, host, path and file name) from where the CSV (comma separated file) file will be imported or exported. Each record/line will one entry within the urlset. The first field contains the URL pattern, subsequent fields contains the metadata, if available. HTTP, HTTPS and FTP protocols are supported. NOTE: The operation fails if the destination HTTPS server requires client certificate authentication for access.
     .EXAMPLE
-        Invoke-ADCExportPolicyurlset -name <string> -url <string>
+        PS C:\>Invoke-ADCExportPolicyurlset -name <string> -url <string>
+        An example how to export policyurlset configuration Object(s).
     .NOTES
         File Name : Invoke-ADCExportPolicyurlset
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyurlset/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 2047)]
-        [string]$url 
+        [string]$Url 
 
     )
     begin {
@@ -3812,13 +3779,12 @@ function Invoke-ADCExportPolicyurlset {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                url = $url
+            $payload = @{ name = $name
+                url            = $url
             }
 
-            if ($PSCmdlet.ShouldProcess($Name, "Export Policy configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policyurlset -Action export -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Export Policy configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type policyurlset -Action export -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -3834,56 +3800,62 @@ function Invoke-ADCExportPolicyurlset {
 }
 
 function Invoke-ADCGetPolicyurlset {
-<#
+    <#
     .SYNOPSIS
-        Get Policy configuration object(s)
+        Get Policy configuration object(s).
     .DESCRIPTION
-        Get Policy configuration object(s)
-    .PARAMETER name 
-       Unique name of the url set. Not case sensitive. Must begin with an ASCII letter or underscore (_) character and must contain only alphanumeric and underscore characters. Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout. 
+        Configuration for URL set resource.
+    .PARAMETER Name 
+        Unique name of the url set. Not case sensitive. Must begin with an ASCII letter or underscore (_) character and must contain only alphanumeric and underscore characters. Must not be the name of an existing named expression, pattern set, dataset, string map, or HTTP callout. 
     .PARAMETER GetAll 
-        Retreive all policyurlset object(s)
+        Retrieve all policyurlset object(s).
     .PARAMETER Count
-        If specified, the count of the policyurlset object(s) will be returned
+        If specified, the count of the policyurlset object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetPolicyurlset
+        PS C:\>Invoke-ADCGetPolicyurlset
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetPolicyurlset -GetAll 
+        PS C:\>Invoke-ADCGetPolicyurlset -GetAll 
+        Get all policyurlset data. 
     .EXAMPLE 
-        Invoke-ADCGetPolicyurlset -Count
+        PS C:\>Invoke-ADCGetPolicyurlset -Count 
+        Get the number of policyurlset objects.
     .EXAMPLE
-        Invoke-ADCGetPolicyurlset -name <string>
+        PS C:\>Invoke-ADCGetPolicyurlset -name <string>
+        Get policyurlset object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetPolicyurlset -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetPolicyurlset -Filter @{ 'name'='<value>' }
+        Get policyurlset data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPolicyurlset
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/policy/policyurlset/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3901,24 +3873,24 @@ function Invoke-ADCGetPolicyurlset {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all policyurlset objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyurlset -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyurlset -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for policyurlset objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyurlset -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyurlset -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving policyurlset objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyurlset -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyurlset -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving policyurlset configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyurlset -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving policyurlset configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyurlset -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type policyurlset -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

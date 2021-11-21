@@ -1,49 +1,54 @@
 function Invoke-ADCGetAuthorizationpolicylabelStats {
-<#
+    <#
     .SYNOPSIS
-        Get Authorization statistics object(s)
+        Get Authorization statistics object(s).
     .DESCRIPTION
-        Get Authorization statistics object(s)
-    .PARAMETER labelname 
-       Name of the authorization policy label. 
+        Statistics for authorization policy label resource.
+    .PARAMETER Labelname 
+        Name of the authorization policy label. 
     .PARAMETER GetAll 
-        Retreive all authorizationpolicylabel object(s)
+        Retrieve all authorizationpolicylabel object(s).
     .PARAMETER Count
-        If specified, the count of the authorizationpolicylabel object(s) will be returned
+        If specified, the count of the authorizationpolicylabel object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetAuthorizationpolicylabelStats
+        PS C:\>Invoke-ADCGetAuthorizationpolicylabelStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetAuthorizationpolicylabelStats -GetAll
+        PS C:\>Invoke-ADCGetAuthorizationpolicylabelStats -GetAll 
+        Get all authorizationpolicylabel data.
     .EXAMPLE
-        Invoke-ADCGetAuthorizationpolicylabelStats -name <string>
+        PS C:\>Invoke-ADCGetAuthorizationpolicylabelStats -name <string>
+        Get authorizationpolicylabel object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetAuthorizationpolicylabelStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetAuthorizationpolicylabelStats -Filter @{ 'name'='<value>' }
+        Get authorizationpolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuthorizationpolicylabelStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/authorization/authorizationpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$labelname,
+        [string]$Labelname,
 			
         [hashtable]$Filter = @{ },
 
@@ -55,24 +60,24 @@ function Invoke-ADCGetAuthorizationpolicylabelStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all authorizationpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authorizationpolicylabel -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authorizationpolicylabel -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authorizationpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authorizationpolicylabel -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authorizationpolicylabel -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authorizationpolicylabel objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authorizationpolicylabel -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authorizationpolicylabel -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authorizationpolicylabel configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authorizationpolicylabel -NitroPath nitro/v1/stat -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authorizationpolicylabel configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authorizationpolicylabel -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authorizationpolicylabel -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

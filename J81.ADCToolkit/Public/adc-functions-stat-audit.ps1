@@ -1,50 +1,55 @@
 function Invoke-ADCGetAuditStats {
-<#
+    <#
     .SYNOPSIS
-        Get Audit statistics object(s)
+        Get Audit statistics object(s).
     .DESCRIPTION
-        Get Audit statistics object(s)
-    .PARAMETER clearstats 
-       Clear the statsistics / counters.  
-       Possible values = basic, full 
+        Statistics for audit.
+    .PARAMETER Clearstats 
+        Clear the statsistics / counters. 
+        Possible values = basic, full 
     .PARAMETER GetAll 
-        Retreive all audit object(s)
+        Retrieve all audit object(s).
     .PARAMETER Count
-        If specified, the count of the audit object(s) will be returned
+        If specified, the count of the audit object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetAuditStats
+        PS C:\>Invoke-ADCGetAuditStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetAuditStats -GetAll
+        PS C:\>Invoke-ADCGetAuditStats -GetAll 
+        Get all audit data.
     .EXAMPLE
-        Invoke-ADCGetAuditStats -name <string>
+        PS C:\>Invoke-ADCGetAuditStats -name <string>
+        Get audit object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetAuditStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetAuditStats -Filter @{ 'name'='<value>' }
+        Get audit data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/audit/audit/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('basic', 'full')]
-        [string]$clearstats,
+        [string]$Clearstats,
 			
         [hashtable]$Filter = @{ },
 
@@ -56,29 +61,29 @@ function Invoke-ADCGetAuditStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all audit objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type audit -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type audit -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for audit objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type audit -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type audit -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving audit objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('detail')) { $Arguments.Add('detail', $detail) } 
-                if ($PSBoundParameters.ContainsKey('fullvalues')) { $Arguments.Add('fullvalues', $fullvalues) } 
-                if ($PSBoundParameters.ContainsKey('ntimes')) { $Arguments.Add('ntimes', $ntimes) } 
-                if ($PSBoundParameters.ContainsKey('logfile')) { $Arguments.Add('logfile', $logfile) } 
-                if ($PSBoundParameters.ContainsKey('clearstats')) { $Arguments.Add('clearstats', $clearstats) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type audit -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('detail') ) { $arguments.Add('detail', $detail) } 
+                if ( $PSBoundParameters.ContainsKey('fullvalues') ) { $arguments.Add('fullvalues', $fullvalues) } 
+                if ( $PSBoundParameters.ContainsKey('ntimes') ) { $arguments.Add('ntimes', $ntimes) } 
+                if ( $PSBoundParameters.ContainsKey('logfile') ) { $arguments.Add('logfile', $logfile) } 
+                if ( $PSBoundParameters.ContainsKey('clearstats') ) { $arguments.Add('clearstats', $clearstats) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type audit -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving audit configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving audit configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type audit -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type audit -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

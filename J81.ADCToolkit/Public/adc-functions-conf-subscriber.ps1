@@ -1,174 +1,144 @@
 function Invoke-ADCUpdateSubscribergxinterface {
-<#
+    <#
     .SYNOPSIS
-        Update Subscriber configuration Object
+        Update Subscriber configuration Object.
     .DESCRIPTION
-        Update Subscriber configuration Object 
-    .PARAMETER vserver 
-        Name of the load balancing, or content switching vserver to which the Gx connections are established. The service type of the virtual server must be DIAMETER/SSL_DIAMETER. Mutually exclusive with the service parameter. Therefore, you cannot set both service and the Virtual Server in the Gx Interface.  
-        Minimum length = 1 
-    .PARAMETER service 
-        Name of DIAMETER/SSL_DIAMETER service corresponding to PCRF to which the Gx connection is established. The service type of the service must be DIAMETER/SSL_DIAMETER. Mutually exclusive with vserver parameter. Therefore, you cannot set both Service and the Virtual Server in the Gx Interface.  
-        Minimum length = 1 
-    .PARAMETER pcrfrealm 
-        PCRF realm is of type DiameterIdentity and contains the realm of PCRF to which the message is to be routed. This is the realm used in Destination-Realm AVP by Citrix ADC Gx client (as a Diameter node).  
-        Minimum length = 1 
-    .PARAMETER holdonsubscriberabsence 
-        Set this setting to yes if Citrix ADC needs to Hold pakcets till subscriber session is fetched from PCRF. Else set to NO. By default set to yes. If this setting is set to NO, then till Citrix ADC fetches subscriber from PCRF, default subscriber profile will be applied to this subscriber if configured. If default subscriber profile is also not configured an undef would be raised to expressions which use Subscriber attributes. .  
-        Default value: YES  
+        Configuration for Gx interface Parameters resource.
+    .PARAMETER Vserver 
+        Name of the load balancing, or content switching vserver to which the Gx connections are established. The service type of the virtual server must be DIAMETER/SSL_DIAMETER. Mutually exclusive with the service parameter. Therefore, you cannot set both service and the Virtual Server in the Gx Interface. 
+    .PARAMETER Service 
+        Name of DIAMETER/SSL_DIAMETER service corresponding to PCRF to which the Gx connection is established. The service type of the service must be DIAMETER/SSL_DIAMETER. Mutually exclusive with vserver parameter. Therefore, you cannot set both Service and the Virtual Server in the Gx Interface. 
+    .PARAMETER Pcrfrealm 
+        PCRF realm is of type DiameterIdentity and contains the realm of PCRF to which the message is to be routed. This is the realm used in Destination-Realm AVP by Citrix ADC Gx client (as a Diameter node). 
+    .PARAMETER Holdonsubscriberabsence 
+        Set this setting to yes if Citrix ADC needs to Hold pakcets till subscriber session is fetched from PCRF. Else set to NO. By default set to yes. If this setting is set to NO, then till Citrix ADC fetches subscriber from PCRF, default subscriber profile will be applied to this subscriber if configured. If default subscriber profile is also not configured an undef would be raised to expressions which use Subscriber attributes. . 
         Possible values = YES, NO 
-    .PARAMETER requesttimeout 
-        q!Time, in seconds, within which the Gx CCR request must complete. If the request does not complete within this time, the request is retransmitted for requestRetryAttempts time. If still reuqest is not complete then default subscriber profile will be applied to this subscriber if configured. If default subscriber profile is also not configured an undef would be raised to expressions which use Subscriber attributes.  
-        Zero disables the timeout. !.  
-        Default value: 10  
-        Minimum value = 0  
-        Maximum value = 86400 
-    .PARAMETER requestretryattempts 
-        If the request does not complete within requestTimeout time, the request is retransmitted for requestRetryAttempts time.  
-        Default value: 3 
-    .PARAMETER idlettl 
-        q!Idle Time, in seconds, after which the Gx CCR-U request will be sent after any PCRF activity on a session. Any RAR or CCA message resets the timer.  
-        Zero value disables the idle timeout. !.  
-        Default value: 900  
-        Minimum value = 0  
-        Maximum value = 86400 
-    .PARAMETER revalidationtimeout 
-        q!Revalidation Timeout, in seconds, after which the Gx CCR-U request will be sent after any PCRF activity on a session. Any RAR or CCA message resets the timer.  
-        Zero value disables the idle timeout. !.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 86400 
-    .PARAMETER healthcheck 
-        q!Set this setting to yes if Citrix ADC should send DWR packets to PCRF server. When the session is idle, healthcheck timer expires and DWR packets are initiated in order to check that PCRF server is active. By default set to No. !.  
-        Default value: NO  
+    .PARAMETER Requesttimeout 
+        q!Time, in seconds, within which the Gx CCR request must complete. If the request does not complete within this time, the request is retransmitted for requestRetryAttempts time. If still reuqest is not complete then default subscriber profile will be applied to this subscriber if configured. If default subscriber profile is also not configured an undef would be raised to expressions which use Subscriber attributes. 
+        Zero disables the timeout. !. 
+    .PARAMETER Requestretryattempts 
+        If the request does not complete within requestTimeout time, the request is retransmitted for requestRetryAttempts time. 
+    .PARAMETER Idlettl 
+        q!Idle Time, in seconds, after which the Gx CCR-U request will be sent after any PCRF activity on a session. Any RAR or CCA message resets the timer. 
+        Zero value disables the idle timeout. !. 
+    .PARAMETER Revalidationtimeout 
+        q!Revalidation Timeout, in seconds, after which the Gx CCR-U request will be sent after any PCRF activity on a session. Any RAR or CCA message resets the timer. 
+        Zero value disables the idle timeout. !. 
+    .PARAMETER Healthcheck 
+        q!Set this setting to yes if Citrix ADC should send DWR packets to PCRF server. When the session is idle, healthcheck timer expires and DWR packets are initiated in order to check that PCRF server is active. By default set to No. !. 
         Possible values = YES, NO 
-    .PARAMETER healthcheckttl 
-        q!Healthcheck timeout, in seconds, after which the DWR will be sent in order to ensure the state of the PCRF server. Any CCR, CCA, RAR or RRA message resets the timer. !.  
-        Default value: 30  
-        Minimum value = 6  
-        Maximum value = 86400 
-    .PARAMETER cerrequesttimeout 
-        q!Healthcheck request timeout, in seconds, after which the Citrix ADC considers that no CCA packet received to the initiated CCR. After this time Citrix ADC should send again CCR to PCRF server. !.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 86400 
-    .PARAMETER negativettl 
-        q!Negative TTL, in seconds, after which the Gx CCR-I request will be resent for sessions that have not been resolved by PCRF due to server being down or no response or failed response. Instead of polling the PCRF server constantly, negative-TTL makes Citrix ADC stick to un-resolved session. Meanwhile Citrix ADC installs a negative session to avoid going to PCRF.  
-        For Negative Sessions, Netcaler inherits the attributes from default subscriber profile if default subscriber is configured. A default subscriber could be configured as 'add subscriber profile *'. Or these attributes can be inherited from Radius as well if Radius is configued.  
-        Zero value disables the Negative Sessions. And Citrix ADC does not install Negative sessions even if subscriber session could not be fetched. !.  
-        Default value: 600  
-        Minimum value = 0  
-        Maximum value = 86400 
-    .PARAMETER negativettllimitedsuccess 
-        Set this to YES if Citrix ADC should create negative session for Result-Code DIAMETER_LIMITED_SUCCESS (2002) received in CCA-I. If set to NO, regular session is created.  
-        Default value: NO  
+    .PARAMETER Healthcheckttl 
+        q!Healthcheck timeout, in seconds, after which the DWR will be sent in order to ensure the state of the PCRF server. Any CCR, CCA, RAR or RRA message resets the timer. !. 
+    .PARAMETER Cerrequesttimeout 
+        q!Healthcheck request timeout, in seconds, after which the Citrix ADC considers that no CCA packet received to the initiated CCR. After this time Citrix ADC should send again CCR to PCRF server. !. 
+    .PARAMETER Negativettl 
+        q!Negative TTL, in seconds, after which the Gx CCR-I request will be resent for sessions that have not been resolved by PCRF due to server being down or no response or failed response. Instead of polling the PCRF server constantly, negative-TTL makes Citrix ADC stick to un-resolved session. Meanwhile Citrix ADC installs a negative session to avoid going to PCRF. 
+        For Negative Sessions, Netcaler inherits the attributes from default subscriber profile if default subscriber is configured. A default subscriber could be configured as 'add subscriber profile *'. Or these attributes can be inherited from Radius as well if Radius is configued. 
+        Zero value disables the Negative Sessions. And Citrix ADC does not install Negative sessions even if subscriber session could not be fetched. !. 
+    .PARAMETER Negativettllimitedsuccess 
+        Set this to YES if Citrix ADC should create negative session for Result-Code DIAMETER_LIMITED_SUCCESS (2002) received in CCA-I. If set to NO, regular session is created. 
         Possible values = YES, NO 
-    .PARAMETER purgesdbongxfailure 
-        Set this setting to YES if needed to purge Subscriber Database in case of Gx failure. By default set to NO. .  
-        Default value: NO  
+    .PARAMETER Purgesdbongxfailure 
+        Set this setting to YES if needed to purge Subscriber Database in case of Gx failure. By default set to NO. . 
         Possible values = YES, NO 
-    .PARAMETER servicepathavp 
-        The AVP code in which PCRF sends service path applicable for subscriber.  
-        Minimum value = 1 
-    .PARAMETER servicepathvendorid 
+    .PARAMETER Servicepathavp 
+        The AVP code in which PCRF sends service path applicable for subscriber. 
+    .PARAMETER Servicepathvendorid 
         The vendorid of the AVP in which PCRF sends service path for subscriber.
     .EXAMPLE
-        Invoke-ADCUpdateSubscribergxinterface 
+        PS C:\>Invoke-ADCUpdateSubscribergxinterface 
+        An example how to update subscribergxinterface configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSubscribergxinterface
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribergxinterface/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$vserver ,
+        [string]$Vserver,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$service ,
+        [string]$Service,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$pcrfrealm ,
+        [string]$Pcrfrealm,
 
         [ValidateSet('YES', 'NO')]
-        [string]$holdonsubscriberabsence ,
+        [string]$Holdonsubscriberabsence,
 
         [ValidateRange(0, 86400)]
-        [double]$requesttimeout ,
+        [double]$Requesttimeout,
 
-        [double]$requestretryattempts ,
-
-        [ValidateRange(0, 86400)]
-        [double]$idlettl ,
+        [double]$Requestretryattempts,
 
         [ValidateRange(0, 86400)]
-        [double]$revalidationtimeout ,
+        [double]$Idlettl,
+
+        [ValidateRange(0, 86400)]
+        [double]$Revalidationtimeout,
 
         [ValidateSet('YES', 'NO')]
-        [string]$healthcheck ,
+        [string]$Healthcheck,
 
         [ValidateRange(6, 86400)]
-        [double]$healthcheckttl ,
+        [double]$Healthcheckttl,
 
         [ValidateRange(0, 86400)]
-        [double]$cerrequesttimeout ,
+        [double]$Cerrequesttimeout,
 
         [ValidateRange(0, 86400)]
-        [double]$negativettl ,
+        [double]$Negativettl,
 
         [ValidateSet('YES', 'NO')]
-        [string]$negativettllimitedsuccess ,
+        [string]$Negativettllimitedsuccess,
 
         [ValidateSet('YES', 'NO')]
-        [string]$purgesdbongxfailure ,
+        [string]$Purgesdbongxfailure,
 
-        [double[]]$servicepathavp ,
+        [double[]]$Servicepathavp,
 
-        [double]$servicepathvendorid 
-
+        [double]$Servicepathvendorid 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSubscribergxinterface: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('vserver')) { $Payload.Add('vserver', $vserver) }
-            if ($PSBoundParameters.ContainsKey('service')) { $Payload.Add('service', $service) }
-            if ($PSBoundParameters.ContainsKey('pcrfrealm')) { $Payload.Add('pcrfrealm', $pcrfrealm) }
-            if ($PSBoundParameters.ContainsKey('holdonsubscriberabsence')) { $Payload.Add('holdonsubscriberabsence', $holdonsubscriberabsence) }
-            if ($PSBoundParameters.ContainsKey('requesttimeout')) { $Payload.Add('requesttimeout', $requesttimeout) }
-            if ($PSBoundParameters.ContainsKey('requestretryattempts')) { $Payload.Add('requestretryattempts', $requestretryattempts) }
-            if ($PSBoundParameters.ContainsKey('idlettl')) { $Payload.Add('idlettl', $idlettl) }
-            if ($PSBoundParameters.ContainsKey('revalidationtimeout')) { $Payload.Add('revalidationtimeout', $revalidationtimeout) }
-            if ($PSBoundParameters.ContainsKey('healthcheck')) { $Payload.Add('healthcheck', $healthcheck) }
-            if ($PSBoundParameters.ContainsKey('healthcheckttl')) { $Payload.Add('healthcheckttl', $healthcheckttl) }
-            if ($PSBoundParameters.ContainsKey('cerrequesttimeout')) { $Payload.Add('cerrequesttimeout', $cerrequesttimeout) }
-            if ($PSBoundParameters.ContainsKey('negativettl')) { $Payload.Add('negativettl', $negativettl) }
-            if ($PSBoundParameters.ContainsKey('negativettllimitedsuccess')) { $Payload.Add('negativettllimitedsuccess', $negativettllimitedsuccess) }
-            if ($PSBoundParameters.ContainsKey('purgesdbongxfailure')) { $Payload.Add('purgesdbongxfailure', $purgesdbongxfailure) }
-            if ($PSBoundParameters.ContainsKey('servicepathavp')) { $Payload.Add('servicepathavp', $servicepathavp) }
-            if ($PSBoundParameters.ContainsKey('servicepathvendorid')) { $Payload.Add('servicepathvendorid', $servicepathvendorid) }
- 
-            if ($PSCmdlet.ShouldProcess("subscribergxinterface", "Update Subscriber configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type subscribergxinterface -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('vserver') ) { $payload.Add('vserver', $vserver) }
+            if ( $PSBoundParameters.ContainsKey('service') ) { $payload.Add('service', $service) }
+            if ( $PSBoundParameters.ContainsKey('pcrfrealm') ) { $payload.Add('pcrfrealm', $pcrfrealm) }
+            if ( $PSBoundParameters.ContainsKey('holdonsubscriberabsence') ) { $payload.Add('holdonsubscriberabsence', $holdonsubscriberabsence) }
+            if ( $PSBoundParameters.ContainsKey('requesttimeout') ) { $payload.Add('requesttimeout', $requesttimeout) }
+            if ( $PSBoundParameters.ContainsKey('requestretryattempts') ) { $payload.Add('requestretryattempts', $requestretryattempts) }
+            if ( $PSBoundParameters.ContainsKey('idlettl') ) { $payload.Add('idlettl', $idlettl) }
+            if ( $PSBoundParameters.ContainsKey('revalidationtimeout') ) { $payload.Add('revalidationtimeout', $revalidationtimeout) }
+            if ( $PSBoundParameters.ContainsKey('healthcheck') ) { $payload.Add('healthcheck', $healthcheck) }
+            if ( $PSBoundParameters.ContainsKey('healthcheckttl') ) { $payload.Add('healthcheckttl', $healthcheckttl) }
+            if ( $PSBoundParameters.ContainsKey('cerrequesttimeout') ) { $payload.Add('cerrequesttimeout', $cerrequesttimeout) }
+            if ( $PSBoundParameters.ContainsKey('negativettl') ) { $payload.Add('negativettl', $negativettl) }
+            if ( $PSBoundParameters.ContainsKey('negativettllimitedsuccess') ) { $payload.Add('negativettllimitedsuccess', $negativettllimitedsuccess) }
+            if ( $PSBoundParameters.ContainsKey('purgesdbongxfailure') ) { $payload.Add('purgesdbongxfailure', $purgesdbongxfailure) }
+            if ( $PSBoundParameters.ContainsKey('servicepathavp') ) { $payload.Add('servicepathavp', $servicepathavp) }
+            if ( $PSBoundParameters.ContainsKey('servicepathvendorid') ) { $payload.Add('servicepathvendorid', $servicepathvendorid) }
+            if ( $PSCmdlet.ShouldProcess("subscribergxinterface", "Update Subscriber configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type subscribergxinterface -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -181,97 +151,99 @@ function Invoke-ADCUpdateSubscribergxinterface {
 }
 
 function Invoke-ADCUnsetSubscribergxinterface {
-<#
+    <#
     .SYNOPSIS
-        Unset Subscriber configuration Object
+        Unset Subscriber configuration Object.
     .DESCRIPTION
-        Unset Subscriber configuration Object 
-   .PARAMETER vserver 
-       Name of the load balancing, or content switching vserver to which the Gx connections are established. The service type of the virtual server must be DIAMETER/SSL_DIAMETER. Mutually exclusive with the service parameter. Therefore, you cannot set both service and the Virtual Server in the Gx Interface. 
-   .PARAMETER service 
-       Name of DIAMETER/SSL_DIAMETER service corresponding to PCRF to which the Gx connection is established. The service type of the service must be DIAMETER/SSL_DIAMETER. Mutually exclusive with vserver parameter. Therefore, you cannot set both Service and the Virtual Server in the Gx Interface. 
-   .PARAMETER holdonsubscriberabsence 
-       Set this setting to yes if Citrix ADC needs to Hold pakcets till subscriber session is fetched from PCRF. Else set to NO. By default set to yes. If this setting is set to NO, then till Citrix ADC fetches subscriber from PCRF, default subscriber profile will be applied to this subscriber if configured. If default subscriber profile is also not configured an undef would be raised to expressions which use Subscriber attributes. .  
-       Possible values = YES, NO 
-   .PARAMETER requesttimeout 
-       q!Time, in seconds, within which the Gx CCR request must complete. If the request does not complete within this time, the request is retransmitted for requestRetryAttempts time. If still reuqest is not complete then default subscriber profile will be applied to this subscriber if configured. If default subscriber profile is also not configured an undef would be raised to expressions which use Subscriber attributes.  
-       Zero disables the timeout. !. 
-   .PARAMETER requestretryattempts 
-       If the request does not complete within requestTimeout time, the request is retransmitted for requestRetryAttempts time. 
-   .PARAMETER idlettl 
-       q!Idle Time, in seconds, after which the Gx CCR-U request will be sent after any PCRF activity on a session. Any RAR or CCA message resets the timer.  
-       Zero value disables the idle timeout. !. 
-   .PARAMETER revalidationtimeout 
-       q!Revalidation Timeout, in seconds, after which the Gx CCR-U request will be sent after any PCRF activity on a session. Any RAR or CCA message resets the timer.  
-       Zero value disables the idle timeout. !. 
-   .PARAMETER healthcheck 
-       q!Set this setting to yes if Citrix ADC should send DWR packets to PCRF server. When the session is idle, healthcheck timer expires and DWR packets are initiated in order to check that PCRF server is active. By default set to No. !.  
-       Possible values = YES, NO 
-   .PARAMETER healthcheckttl 
-       q!Healthcheck timeout, in seconds, after which the DWR will be sent in order to ensure the state of the PCRF server. Any CCR, CCA, RAR or RRA message resets the timer. !. 
-   .PARAMETER cerrequesttimeout 
-       q!Healthcheck request timeout, in seconds, after which the Citrix ADC considers that no CCA packet received to the initiated CCR. After this time Citrix ADC should send again CCR to PCRF server. !. 
-   .PARAMETER negativettl 
-       q!Negative TTL, in seconds, after which the Gx CCR-I request will be resent for sessions that have not been resolved by PCRF due to server being down or no response or failed response. Instead of polling the PCRF server constantly, negative-TTL makes Citrix ADC stick to un-resolved session. Meanwhile Citrix ADC installs a negative session to avoid going to PCRF.  
-       For Negative Sessions, Netcaler inherits the attributes from default subscriber profile if default subscriber is configured. A default subscriber could be configured as 'add subscriber profile *'. Or these attributes can be inherited from Radius as well if Radius is configued.  
-       Zero value disables the Negative Sessions. And Citrix ADC does not install Negative sessions even if subscriber session could not be fetched. !. 
-   .PARAMETER negativettllimitedsuccess 
-       Set this to YES if Citrix ADC should create negative session for Result-Code DIAMETER_LIMITED_SUCCESS (2002) received in CCA-I. If set to NO, regular session is created.  
-       Possible values = YES, NO 
-   .PARAMETER purgesdbongxfailure 
-       Set this setting to YES if needed to purge Subscriber Database in case of Gx failure. By default set to NO. .  
-       Possible values = YES, NO 
-   .PARAMETER servicepathavp 
-       The AVP code in which PCRF sends service path applicable for subscriber. 
-   .PARAMETER servicepathvendorid 
-       The vendorid of the AVP in which PCRF sends service path for subscriber.
+        Configuration for Gx interface Parameters resource.
+    .PARAMETER Vserver 
+        Name of the load balancing, or content switching vserver to which the Gx connections are established. The service type of the virtual server must be DIAMETER/SSL_DIAMETER. Mutually exclusive with the service parameter. Therefore, you cannot set both service and the Virtual Server in the Gx Interface. 
+    .PARAMETER Service 
+        Name of DIAMETER/SSL_DIAMETER service corresponding to PCRF to which the Gx connection is established. The service type of the service must be DIAMETER/SSL_DIAMETER. Mutually exclusive with vserver parameter. Therefore, you cannot set both Service and the Virtual Server in the Gx Interface. 
+    .PARAMETER Holdonsubscriberabsence 
+        Set this setting to yes if Citrix ADC needs to Hold pakcets till subscriber session is fetched from PCRF. Else set to NO. By default set to yes. If this setting is set to NO, then till Citrix ADC fetches subscriber from PCRF, default subscriber profile will be applied to this subscriber if configured. If default subscriber profile is also not configured an undef would be raised to expressions which use Subscriber attributes. . 
+        Possible values = YES, NO 
+    .PARAMETER Requesttimeout 
+        q!Time, in seconds, within which the Gx CCR request must complete. If the request does not complete within this time, the request is retransmitted for requestRetryAttempts time. If still reuqest is not complete then default subscriber profile will be applied to this subscriber if configured. If default subscriber profile is also not configured an undef would be raised to expressions which use Subscriber attributes. 
+        Zero disables the timeout. !. 
+    .PARAMETER Requestretryattempts 
+        If the request does not complete within requestTimeout time, the request is retransmitted for requestRetryAttempts time. 
+    .PARAMETER Idlettl 
+        q!Idle Time, in seconds, after which the Gx CCR-U request will be sent after any PCRF activity on a session. Any RAR or CCA message resets the timer. 
+        Zero value disables the idle timeout. !. 
+    .PARAMETER Revalidationtimeout 
+        q!Revalidation Timeout, in seconds, after which the Gx CCR-U request will be sent after any PCRF activity on a session. Any RAR or CCA message resets the timer. 
+        Zero value disables the idle timeout. !. 
+    .PARAMETER Healthcheck 
+        q!Set this setting to yes if Citrix ADC should send DWR packets to PCRF server. When the session is idle, healthcheck timer expires and DWR packets are initiated in order to check that PCRF server is active. By default set to No. !. 
+        Possible values = YES, NO 
+    .PARAMETER Healthcheckttl 
+        q!Healthcheck timeout, in seconds, after which the DWR will be sent in order to ensure the state of the PCRF server. Any CCR, CCA, RAR or RRA message resets the timer. !. 
+    .PARAMETER Cerrequesttimeout 
+        q!Healthcheck request timeout, in seconds, after which the Citrix ADC considers that no CCA packet received to the initiated CCR. After this time Citrix ADC should send again CCR to PCRF server. !. 
+    .PARAMETER Negativettl 
+        q!Negative TTL, in seconds, after which the Gx CCR-I request will be resent for sessions that have not been resolved by PCRF due to server being down or no response or failed response. Instead of polling the PCRF server constantly, negative-TTL makes Citrix ADC stick to un-resolved session. Meanwhile Citrix ADC installs a negative session to avoid going to PCRF. 
+        For Negative Sessions, Netcaler inherits the attributes from default subscriber profile if default subscriber is configured. A default subscriber could be configured as 'add subscriber profile *'. Or these attributes can be inherited from Radius as well if Radius is configued. 
+        Zero value disables the Negative Sessions. And Citrix ADC does not install Negative sessions even if subscriber session could not be fetched. !. 
+    .PARAMETER Negativettllimitedsuccess 
+        Set this to YES if Citrix ADC should create negative session for Result-Code DIAMETER_LIMITED_SUCCESS (2002) received in CCA-I. If set to NO, regular session is created. 
+        Possible values = YES, NO 
+    .PARAMETER Purgesdbongxfailure 
+        Set this setting to YES if needed to purge Subscriber Database in case of Gx failure. By default set to NO. . 
+        Possible values = YES, NO 
+    .PARAMETER Servicepathavp 
+        The AVP code in which PCRF sends service path applicable for subscriber. 
+    .PARAMETER Servicepathvendorid 
+        The vendorid of the AVP in which PCRF sends service path for subscriber.
     .EXAMPLE
-        Invoke-ADCUnsetSubscribergxinterface 
+        PS C:\>Invoke-ADCUnsetSubscribergxinterface 
+        An example how to unset subscribergxinterface configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSubscribergxinterface
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribergxinterface
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$vserver ,
+        [Boolean]$vserver,
 
-        [Boolean]$service ,
+        [Boolean]$service,
 
-        [Boolean]$holdonsubscriberabsence ,
+        [Boolean]$holdonsubscriberabsence,
 
-        [Boolean]$requesttimeout ,
+        [Boolean]$requesttimeout,
 
-        [Boolean]$requestretryattempts ,
+        [Boolean]$requestretryattempts,
 
-        [Boolean]$idlettl ,
+        [Boolean]$idlettl,
 
-        [Boolean]$revalidationtimeout ,
+        [Boolean]$revalidationtimeout,
 
-        [Boolean]$healthcheck ,
+        [Boolean]$healthcheck,
 
-        [Boolean]$healthcheckttl ,
+        [Boolean]$healthcheckttl,
 
-        [Boolean]$cerrequesttimeout ,
+        [Boolean]$cerrequesttimeout,
 
-        [Boolean]$negativettl ,
+        [Boolean]$negativettl,
 
-        [Boolean]$negativettllimitedsuccess ,
+        [Boolean]$negativettllimitedsuccess,
 
-        [Boolean]$purgesdbongxfailure ,
+        [Boolean]$purgesdbongxfailure,
 
-        [Boolean]$servicepathavp ,
+        [Boolean]$servicepathavp,
 
         [Boolean]$servicepathvendorid 
     )
@@ -280,26 +252,24 @@ function Invoke-ADCUnsetSubscribergxinterface {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('vserver')) { $Payload.Add('vserver', $vserver) }
-            if ($PSBoundParameters.ContainsKey('service')) { $Payload.Add('service', $service) }
-            if ($PSBoundParameters.ContainsKey('holdonsubscriberabsence')) { $Payload.Add('holdonsubscriberabsence', $holdonsubscriberabsence) }
-            if ($PSBoundParameters.ContainsKey('requesttimeout')) { $Payload.Add('requesttimeout', $requesttimeout) }
-            if ($PSBoundParameters.ContainsKey('requestretryattempts')) { $Payload.Add('requestretryattempts', $requestretryattempts) }
-            if ($PSBoundParameters.ContainsKey('idlettl')) { $Payload.Add('idlettl', $idlettl) }
-            if ($PSBoundParameters.ContainsKey('revalidationtimeout')) { $Payload.Add('revalidationtimeout', $revalidationtimeout) }
-            if ($PSBoundParameters.ContainsKey('healthcheck')) { $Payload.Add('healthcheck', $healthcheck) }
-            if ($PSBoundParameters.ContainsKey('healthcheckttl')) { $Payload.Add('healthcheckttl', $healthcheckttl) }
-            if ($PSBoundParameters.ContainsKey('cerrequesttimeout')) { $Payload.Add('cerrequesttimeout', $cerrequesttimeout) }
-            if ($PSBoundParameters.ContainsKey('negativettl')) { $Payload.Add('negativettl', $negativettl) }
-            if ($PSBoundParameters.ContainsKey('negativettllimitedsuccess')) { $Payload.Add('negativettllimitedsuccess', $negativettllimitedsuccess) }
-            if ($PSBoundParameters.ContainsKey('purgesdbongxfailure')) { $Payload.Add('purgesdbongxfailure', $purgesdbongxfailure) }
-            if ($PSBoundParameters.ContainsKey('servicepathavp')) { $Payload.Add('servicepathavp', $servicepathavp) }
-            if ($PSBoundParameters.ContainsKey('servicepathvendorid')) { $Payload.Add('servicepathvendorid', $servicepathvendorid) }
-            if ($PSCmdlet.ShouldProcess("subscribergxinterface", "Unset Subscriber configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type subscribergxinterface -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('vserver') ) { $payload.Add('vserver', $vserver) }
+            if ( $PSBoundParameters.ContainsKey('service') ) { $payload.Add('service', $service) }
+            if ( $PSBoundParameters.ContainsKey('holdonsubscriberabsence') ) { $payload.Add('holdonsubscriberabsence', $holdonsubscriberabsence) }
+            if ( $PSBoundParameters.ContainsKey('requesttimeout') ) { $payload.Add('requesttimeout', $requesttimeout) }
+            if ( $PSBoundParameters.ContainsKey('requestretryattempts') ) { $payload.Add('requestretryattempts', $requestretryattempts) }
+            if ( $PSBoundParameters.ContainsKey('idlettl') ) { $payload.Add('idlettl', $idlettl) }
+            if ( $PSBoundParameters.ContainsKey('revalidationtimeout') ) { $payload.Add('revalidationtimeout', $revalidationtimeout) }
+            if ( $PSBoundParameters.ContainsKey('healthcheck') ) { $payload.Add('healthcheck', $healthcheck) }
+            if ( $PSBoundParameters.ContainsKey('healthcheckttl') ) { $payload.Add('healthcheckttl', $healthcheckttl) }
+            if ( $PSBoundParameters.ContainsKey('cerrequesttimeout') ) { $payload.Add('cerrequesttimeout', $cerrequesttimeout) }
+            if ( $PSBoundParameters.ContainsKey('negativettl') ) { $payload.Add('negativettl', $negativettl) }
+            if ( $PSBoundParameters.ContainsKey('negativettllimitedsuccess') ) { $payload.Add('negativettllimitedsuccess', $negativettllimitedsuccess) }
+            if ( $PSBoundParameters.ContainsKey('purgesdbongxfailure') ) { $payload.Add('purgesdbongxfailure', $purgesdbongxfailure) }
+            if ( $PSBoundParameters.ContainsKey('servicepathavp') ) { $payload.Add('servicepathavp', $servicepathavp) }
+            if ( $PSBoundParameters.ContainsKey('servicepathvendorid') ) { $payload.Add('servicepathvendorid', $servicepathvendorid) }
+            if ( $PSCmdlet.ShouldProcess("subscribergxinterface", "Unset Subscriber configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type subscribergxinterface -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -315,51 +285,56 @@ function Invoke-ADCUnsetSubscribergxinterface {
 }
 
 function Invoke-ADCGetSubscribergxinterface {
-<#
+    <#
     .SYNOPSIS
-        Get Subscriber configuration object(s)
+        Get Subscriber configuration object(s).
     .DESCRIPTION
-        Get Subscriber configuration object(s)
-    .PARAMETER nodeid 
-       Unique number that identifies the cluster node. 
+        Configuration for Gx interface Parameters resource.
+    .PARAMETER Nodeid 
+        Unique number that identifies the cluster node. 
     .PARAMETER GetAll 
-        Retreive all subscribergxinterface object(s)
+        Retrieve all subscribergxinterface object(s).
     .PARAMETER Count
-        If specified, the count of the subscribergxinterface object(s) will be returned
+        If specified, the count of the subscribergxinterface object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSubscribergxinterface
+        PS C:\>Invoke-ADCGetSubscribergxinterface
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSubscribergxinterface -GetAll
+        PS C:\>Invoke-ADCGetSubscribergxinterface -GetAll 
+        Get all subscribergxinterface data.
     .EXAMPLE
-        Invoke-ADCGetSubscribergxinterface -name <string>
+        PS C:\>Invoke-ADCGetSubscribergxinterface -name <string>
+        Get subscribergxinterface object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSubscribergxinterface -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSubscribergxinterface -Filter @{ 'name'='<value>' }
+        Get subscribergxinterface data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSubscribergxinterface
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribergxinterface/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateRange(0, 31)]
-        [double]$nodeid,
+        [double]$Nodeid,
 			
         [hashtable]$Filter = @{ },
 
@@ -371,25 +346,25 @@ function Invoke-ADCGetSubscribergxinterface {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all subscribergxinterface objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribergxinterface -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribergxinterface -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for subscribergxinterface objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribergxinterface -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribergxinterface -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving subscribergxinterface objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribergxinterface -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('nodeid') ) { $arguments.Add('nodeid', $nodeid) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribergxinterface -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving subscribergxinterface configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving subscribergxinterface configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribergxinterface -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribergxinterface -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -403,98 +378,87 @@ function Invoke-ADCGetSubscribergxinterface {
 }
 
 function Invoke-ADCUpdateSubscriberparam {
-<#
+    <#
     .SYNOPSIS
-        Update Subscriber configuration Object
+        Update Subscriber configuration Object.
     .DESCRIPTION
-        Update Subscriber configuration Object 
-    .PARAMETER keytype 
-        Type of subscriber key type IP or IPANDVLAN. IPANDVLAN option can be used only when the interfaceType is set to gxOnly.  
-        Changing the lookup method should result to the subscriber session database being flushed.  
-        Default value: IP  
+        Configuration for Subscriber Params resource.
+    .PARAMETER Keytype 
+        Type of subscriber key type IP or IPANDVLAN. IPANDVLAN option can be used only when the interfaceType is set to gxOnly. 
+        Changing the lookup method should result to the subscriber session database being flushed. 
         Possible values = IP, IPANDVLAN 
-    .PARAMETER interfacetype 
-        Subscriber Interface refers to Citrix ADC interaction with control plane protocols, RADIUS and GX.  
-        Types of subscriber interface: NONE, RadiusOnly, RadiusAndGx, GxOnly.  
-        NONE: Only static subscribers can be configured.  
-        RadiusOnly: GX interface is absent. Subscriber information is obtained through RADIUS Accounting messages.  
-        RadiusAndGx: Subscriber ID obtained through RADIUS Accounting is used to query PCRF. Subscriber information is obtained from both RADIUS and PCRF.  
-        GxOnly: RADIUS interface is absent. Subscriber information is queried using Subscriber IP or IP+VLAN.  
-        Default value: None  
+    .PARAMETER Interfacetype 
+        Subscriber Interface refers to Citrix ADC interaction with control plane protocols, RADIUS and GX. 
+        Types of subscriber interface: NONE, RadiusOnly, RadiusAndGx, GxOnly. 
+        NONE: Only static subscribers can be configured. 
+        RadiusOnly: GX interface is absent. Subscriber information is obtained through RADIUS Accounting messages. 
+        RadiusAndGx: Subscriber ID obtained through RADIUS Accounting is used to query PCRF. Subscriber information is obtained from both RADIUS and PCRF. 
+        GxOnly: RADIUS interface is absent. Subscriber information is queried using Subscriber IP or IP+VLAN. 
         Possible values = None, RadiusOnly, RadiusAndGx, GxOnly 
-    .PARAMETER idlettl 
-        q!Idle Timeout, in seconds, after which Citrix ADC will take an idleAction on a subscriber session (refer to 'idleAction' arguement in 'set subscriber param' for more details on idleAction). Any data-plane or control plane activity updates the idleTimeout on subscriber session. idleAction could be to 'just delete the session' or 'delete and CCR-T' (if PCRF is configured) or 'do not delete but send a CCR-U'.  
-        Zero value disables the idle timeout. !.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 172800 
-    .PARAMETER idleaction 
-        q!Once idleTTL exprires on a subscriber session, Citrix ADC will take an idle action on that session. idleAction could be chosen from one of these ==>  
-        1. ccrTerminate: (default) send CCR-T to inform PCRF about session termination and delete the session.  
-        2. delete: Just delete the subscriber session without informing PCRF.  
-        3. ccrUpdate: Do not delete the session and instead send a CCR-U to PCRF requesting for an updated session. !.  
-        Default value: ccrTerminate  
+    .PARAMETER Idlettl 
+        q!Idle Timeout, in seconds, after which Citrix ADC will take an idleAction on a subscriber session (refer to 'idleAction' arguement in 'set subscriber param' for more details on idleAction). Any data-plane or control plane activity updates the idleTimeout on subscriber session. idleAction could be to 'just delete the session' or 'delete and CCR-T' (if PCRF is configured) or 'do not delete but send a CCR-U'. 
+        Zero value disables the idle timeout. !. 
+    .PARAMETER Idleaction 
+        q!Once idleTTL exprires on a subscriber session, Citrix ADC will take an idle action on that session. idleAction could be chosen from one of these ==> 
+        1. ccrTerminate: (default) send CCR-T to inform PCRF about session termination and delete the session. 
+        2. delete: Just delete the subscriber session without informing PCRF. 
+        3. ccrUpdate: Do not delete the session and instead send a CCR-U to PCRF requesting for an updated session. !. 
         Possible values = ccrTerminate, delete, ccrUpdate 
-    .PARAMETER ipv6prefixlookuplist 
-        The ipv6PrefixLookupList should consist of all the ipv6 prefix lengths assigned to the UE's'.  
-        Minimum value = 1  
-        Maximum value = 128
+    .PARAMETER Ipv6prefixlookuplist 
+        The ipv6PrefixLookupList should consist of all the ipv6 prefix lengths assigned to the UE's'.
     .EXAMPLE
-        Invoke-ADCUpdateSubscriberparam 
+        PS C:\>Invoke-ADCUpdateSubscriberparam 
+        An example how to update subscriberparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSubscriberparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberparam/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateSet('IP', 'IPANDVLAN')]
-        [string]$keytype ,
+        [string]$Keytype,
 
         [ValidateSet('None', 'RadiusOnly', 'RadiusAndGx', 'GxOnly')]
-        [string]$interfacetype ,
+        [string]$Interfacetype,
 
         [ValidateRange(0, 172800)]
-        [double]$idlettl ,
+        [double]$Idlettl,
 
         [ValidateSet('ccrTerminate', 'delete', 'ccrUpdate')]
-        [string]$idleaction ,
+        [string]$Idleaction,
 
         [ValidateRange(1, 128)]
-        [double[]]$ipv6prefixlookuplist 
-
+        [double[]]$Ipv6prefixlookuplist 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSubscriberparam: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('keytype')) { $Payload.Add('keytype', $keytype) }
-            if ($PSBoundParameters.ContainsKey('interfacetype')) { $Payload.Add('interfacetype', $interfacetype) }
-            if ($PSBoundParameters.ContainsKey('idlettl')) { $Payload.Add('idlettl', $idlettl) }
-            if ($PSBoundParameters.ContainsKey('idleaction')) { $Payload.Add('idleaction', $idleaction) }
-            if ($PSBoundParameters.ContainsKey('ipv6prefixlookuplist')) { $Payload.Add('ipv6prefixlookuplist', $ipv6prefixlookuplist) }
- 
-            if ($PSCmdlet.ShouldProcess("subscriberparam", "Update Subscriber configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type subscriberparam -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('keytype') ) { $payload.Add('keytype', $keytype) }
+            if ( $PSBoundParameters.ContainsKey('interfacetype') ) { $payload.Add('interfacetype', $interfacetype) }
+            if ( $PSBoundParameters.ContainsKey('idlettl') ) { $payload.Add('idlettl', $idlettl) }
+            if ( $PSBoundParameters.ContainsKey('idleaction') ) { $payload.Add('idleaction', $idleaction) }
+            if ( $PSBoundParameters.ContainsKey('ipv6prefixlookuplist') ) { $payload.Add('ipv6prefixlookuplist', $ipv6prefixlookuplist) }
+            if ( $PSCmdlet.ShouldProcess("subscriberparam", "Update Subscriber configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type subscriberparam -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -507,57 +471,59 @@ function Invoke-ADCUpdateSubscriberparam {
 }
 
 function Invoke-ADCUnsetSubscriberparam {
-<#
+    <#
     .SYNOPSIS
-        Unset Subscriber configuration Object
+        Unset Subscriber configuration Object.
     .DESCRIPTION
-        Unset Subscriber configuration Object 
-   .PARAMETER keytype 
-       Type of subscriber key type IP or IPANDVLAN. IPANDVLAN option can be used only when the interfaceType is set to gxOnly.  
-       Changing the lookup method should result to the subscriber session database being flushed.  
-       Possible values = IP, IPANDVLAN 
-   .PARAMETER interfacetype 
-       Subscriber Interface refers to Citrix ADC interaction with control plane protocols, RADIUS and GX.  
-       Types of subscriber interface: NONE, RadiusOnly, RadiusAndGx, GxOnly.  
-       NONE: Only static subscribers can be configured.  
-       RadiusOnly: GX interface is absent. Subscriber information is obtained through RADIUS Accounting messages.  
-       RadiusAndGx: Subscriber ID obtained through RADIUS Accounting is used to query PCRF. Subscriber information is obtained from both RADIUS and PCRF.  
-       GxOnly: RADIUS interface is absent. Subscriber information is queried using Subscriber IP or IP+VLAN.  
-       Possible values = None, RadiusOnly, RadiusAndGx, GxOnly 
-   .PARAMETER idlettl 
-       q!Idle Timeout, in seconds, after which Citrix ADC will take an idleAction on a subscriber session (refer to 'idleAction' arguement in 'set subscriber param' for more details on idleAction). Any data-plane or control plane activity updates the idleTimeout on subscriber session. idleAction could be to 'just delete the session' or 'delete and CCR-T' (if PCRF is configured) or 'do not delete but send a CCR-U'.  
-       Zero value disables the idle timeout. !. 
-   .PARAMETER idleaction 
-       q!Once idleTTL exprires on a subscriber session, Citrix ADC will take an idle action on that session. idleAction could be chosen from one of these ==>  
-       1. ccrTerminate: (default) send CCR-T to inform PCRF about session termination and delete the session.  
-       2. delete: Just delete the subscriber session without informing PCRF.  
-       3. ccrUpdate: Do not delete the session and instead send a CCR-U to PCRF requesting for an updated session. !.  
-       Possible values = ccrTerminate, delete, ccrUpdate
+        Configuration for Subscriber Params resource.
+    .PARAMETER Keytype 
+        Type of subscriber key type IP or IPANDVLAN. IPANDVLAN option can be used only when the interfaceType is set to gxOnly. 
+        Changing the lookup method should result to the subscriber session database being flushed. 
+        Possible values = IP, IPANDVLAN 
+    .PARAMETER Interfacetype 
+        Subscriber Interface refers to Citrix ADC interaction with control plane protocols, RADIUS and GX. 
+        Types of subscriber interface: NONE, RadiusOnly, RadiusAndGx, GxOnly. 
+        NONE: Only static subscribers can be configured. 
+        RadiusOnly: GX interface is absent. Subscriber information is obtained through RADIUS Accounting messages. 
+        RadiusAndGx: Subscriber ID obtained through RADIUS Accounting is used to query PCRF. Subscriber information is obtained from both RADIUS and PCRF. 
+        GxOnly: RADIUS interface is absent. Subscriber information is queried using Subscriber IP or IP+VLAN. 
+        Possible values = None, RadiusOnly, RadiusAndGx, GxOnly 
+    .PARAMETER Idlettl 
+        q!Idle Timeout, in seconds, after which Citrix ADC will take an idleAction on a subscriber session (refer to 'idleAction' arguement in 'set subscriber param' for more details on idleAction). Any data-plane or control plane activity updates the idleTimeout on subscriber session. idleAction could be to 'just delete the session' or 'delete and CCR-T' (if PCRF is configured) or 'do not delete but send a CCR-U'. 
+        Zero value disables the idle timeout. !. 
+    .PARAMETER Idleaction 
+        q!Once idleTTL exprires on a subscriber session, Citrix ADC will take an idle action on that session. idleAction could be chosen from one of these ==> 
+        1. ccrTerminate: (default) send CCR-T to inform PCRF about session termination and delete the session. 
+        2. delete: Just delete the subscriber session without informing PCRF. 
+        3. ccrUpdate: Do not delete the session and instead send a CCR-U to PCRF requesting for an updated session. !. 
+        Possible values = ccrTerminate, delete, ccrUpdate
     .EXAMPLE
-        Invoke-ADCUnsetSubscriberparam 
+        PS C:\>Invoke-ADCUnsetSubscriberparam 
+        An example how to unset subscriberparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSubscriberparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberparam
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$keytype ,
+        [Boolean]$keytype,
 
-        [Boolean]$interfacetype ,
+        [Boolean]$interfacetype,
 
-        [Boolean]$idlettl ,
+        [Boolean]$idlettl,
 
         [Boolean]$idleaction 
     )
@@ -566,15 +532,13 @@ function Invoke-ADCUnsetSubscriberparam {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('keytype')) { $Payload.Add('keytype', $keytype) }
-            if ($PSBoundParameters.ContainsKey('interfacetype')) { $Payload.Add('interfacetype', $interfacetype) }
-            if ($PSBoundParameters.ContainsKey('idlettl')) { $Payload.Add('idlettl', $idlettl) }
-            if ($PSBoundParameters.ContainsKey('idleaction')) { $Payload.Add('idleaction', $idleaction) }
-            if ($PSCmdlet.ShouldProcess("subscriberparam", "Unset Subscriber configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type subscriberparam -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('keytype') ) { $payload.Add('keytype', $keytype) }
+            if ( $PSBoundParameters.ContainsKey('interfacetype') ) { $payload.Add('interfacetype', $interfacetype) }
+            if ( $PSBoundParameters.ContainsKey('idlettl') ) { $payload.Add('idlettl', $idlettl) }
+            if ( $PSBoundParameters.ContainsKey('idleaction') ) { $payload.Add('idleaction', $idleaction) }
+            if ( $PSCmdlet.ShouldProcess("subscriberparam", "Unset Subscriber configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type subscriberparam -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -590,45 +554,50 @@ function Invoke-ADCUnsetSubscriberparam {
 }
 
 function Invoke-ADCGetSubscriberparam {
-<#
+    <#
     .SYNOPSIS
-        Get Subscriber configuration object(s)
+        Get Subscriber configuration object(s).
     .DESCRIPTION
-        Get Subscriber configuration object(s)
+        Configuration for Subscriber Params resource.
     .PARAMETER GetAll 
-        Retreive all subscriberparam object(s)
+        Retrieve all subscriberparam object(s).
     .PARAMETER Count
-        If specified, the count of the subscriberparam object(s) will be returned
+        If specified, the count of the subscriberparam object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSubscriberparam
+        PS C:\>Invoke-ADCGetSubscriberparam
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSubscriberparam -GetAll
+        PS C:\>Invoke-ADCGetSubscriberparam -GetAll 
+        Get all subscriberparam data.
     .EXAMPLE
-        Invoke-ADCGetSubscriberparam -name <string>
+        PS C:\>Invoke-ADCGetSubscriberparam -name <string>
+        Get subscriberparam object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSubscriberparam -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSubscriberparam -Filter @{ 'name'='<value>' }
+        Get subscriberparam data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSubscriberparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberparam/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -640,24 +609,24 @@ function Invoke-ADCGetSubscriberparam {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all subscriberparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberparam -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for subscriberparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberparam -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving subscriberparam objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberparam -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberparam -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving subscriberparam configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving subscriberparam configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberparam -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberparam -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -671,83 +640,77 @@ function Invoke-ADCGetSubscriberparam {
 }
 
 function Invoke-ADCAddSubscriberprofile {
-<#
+    <#
     .SYNOPSIS
-        Add Subscriber configuration Object
+        Add Subscriber configuration Object.
     .DESCRIPTION
-        Add Subscriber configuration Object 
-    .PARAMETER ip 
+        Configuration for Subscriber Profile resource.
+    .PARAMETER Ip 
         Subscriber ip address. 
-    .PARAMETER vlan 
-        The vlan number on which the subscriber is located.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 4096 
-    .PARAMETER subscriberrules 
+    .PARAMETER Vlan 
+        The vlan number on which the subscriber is located. 
+    .PARAMETER Subscriberrules 
         Rules configured for this subscriber. This is similar to rules received from PCRF for dynamic subscriber sessions. 
-    .PARAMETER subscriptionidtype 
-        Subscription-Id type.  
+    .PARAMETER Subscriptionidtype 
+        Subscription-Id type. 
         Possible values = E164, IMSI, SIP_URI, NAI, PRIVATE 
-    .PARAMETER subscriptionidvalue 
+    .PARAMETER Subscriptionidvalue 
         Subscription-Id value. 
-    .PARAMETER servicepath 
+    .PARAMETER Servicepath 
         Name of the servicepath to be taken for this subscriber.
     .EXAMPLE
-        Invoke-ADCAddSubscriberprofile -ip <string>
+        PS C:\>Invoke-ADCAddSubscriberprofile -ip <string>
+        An example how to add subscriberprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSubscriberprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$ip ,
+        [Parameter(Mandatory)]
+        [string]$Ip,
 
         [ValidateRange(0, 4096)]
-        [double]$vlan = '0' ,
+        [double]$Vlan = '0',
 
-        [string[]]$subscriberrules ,
+        [string[]]$Subscriberrules,
 
         [ValidateSet('E164', 'IMSI', 'SIP_URI', 'NAI', 'PRIVATE')]
-        [string]$subscriptionidtype ,
+        [string]$Subscriptionidtype,
 
-        [string]$subscriptionidvalue ,
+        [string]$Subscriptionidvalue,
 
-        [string]$servicepath 
-
+        [string]$Servicepath 
     )
     begin {
         Write-Verbose "Invoke-ADCAddSubscriberprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                ip = $ip
-            }
-            if ($PSBoundParameters.ContainsKey('vlan')) { $Payload.Add('vlan', $vlan) }
-            if ($PSBoundParameters.ContainsKey('subscriberrules')) { $Payload.Add('subscriberrules', $subscriberrules) }
-            if ($PSBoundParameters.ContainsKey('subscriptionidtype')) { $Payload.Add('subscriptionidtype', $subscriptionidtype) }
-            if ($PSBoundParameters.ContainsKey('subscriptionidvalue')) { $Payload.Add('subscriptionidvalue', $subscriptionidvalue) }
-            if ($PSBoundParameters.ContainsKey('servicepath')) { $Payload.Add('servicepath', $servicepath) }
- 
-            if ($PSCmdlet.ShouldProcess("subscriberprofile", "Add Subscriber configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type subscriberprofile -Payload $Payload -GetWarning
+            $payload = @{ ip = $ip }
+            if ( $PSBoundParameters.ContainsKey('vlan') ) { $payload.Add('vlan', $vlan) }
+            if ( $PSBoundParameters.ContainsKey('subscriberrules') ) { $payload.Add('subscriberrules', $subscriberrules) }
+            if ( $PSBoundParameters.ContainsKey('subscriptionidtype') ) { $payload.Add('subscriptionidtype', $subscriptionidtype) }
+            if ( $PSBoundParameters.ContainsKey('subscriptionidvalue') ) { $payload.Add('subscriptionidvalue', $subscriptionidvalue) }
+            if ( $PSBoundParameters.ContainsKey('servicepath') ) { $payload.Add('servicepath', $servicepath) }
+            if ( $PSCmdlet.ShouldProcess("subscriberprofile", "Add Subscriber configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type subscriberprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -760,83 +723,77 @@ function Invoke-ADCAddSubscriberprofile {
 }
 
 function Invoke-ADCUpdateSubscriberprofile {
-<#
+    <#
     .SYNOPSIS
-        Update Subscriber configuration Object
+        Update Subscriber configuration Object.
     .DESCRIPTION
-        Update Subscriber configuration Object 
-    .PARAMETER ip 
+        Configuration for Subscriber Profile resource.
+    .PARAMETER Ip 
         Subscriber ip address. 
-    .PARAMETER vlan 
-        The vlan number on which the subscriber is located.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 4096 
-    .PARAMETER subscriberrules 
+    .PARAMETER Vlan 
+        The vlan number on which the subscriber is located. 
+    .PARAMETER Subscriberrules 
         Rules configured for this subscriber. This is similar to rules received from PCRF for dynamic subscriber sessions. 
-    .PARAMETER subscriptionidtype 
-        Subscription-Id type.  
+    .PARAMETER Subscriptionidtype 
+        Subscription-Id type. 
         Possible values = E164, IMSI, SIP_URI, NAI, PRIVATE 
-    .PARAMETER subscriptionidvalue 
+    .PARAMETER Subscriptionidvalue 
         Subscription-Id value. 
-    .PARAMETER servicepath 
+    .PARAMETER Servicepath 
         Name of the servicepath to be taken for this subscriber.
     .EXAMPLE
-        Invoke-ADCUpdateSubscriberprofile -ip <string>
+        PS C:\>Invoke-ADCUpdateSubscriberprofile -ip <string>
+        An example how to update subscriberprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSubscriberprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$ip ,
+        [Parameter(Mandatory)]
+        [string]$Ip,
 
         [ValidateRange(0, 4096)]
-        [double]$vlan ,
+        [double]$Vlan,
 
-        [string[]]$subscriberrules ,
+        [string[]]$Subscriberrules,
 
         [ValidateSet('E164', 'IMSI', 'SIP_URI', 'NAI', 'PRIVATE')]
-        [string]$subscriptionidtype ,
+        [string]$Subscriptionidtype,
 
-        [string]$subscriptionidvalue ,
+        [string]$Subscriptionidvalue,
 
-        [string]$servicepath 
-
+        [string]$Servicepath 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSubscriberprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                ip = $ip
-            }
-            if ($PSBoundParameters.ContainsKey('vlan')) { $Payload.Add('vlan', $vlan) }
-            if ($PSBoundParameters.ContainsKey('subscriberrules')) { $Payload.Add('subscriberrules', $subscriberrules) }
-            if ($PSBoundParameters.ContainsKey('subscriptionidtype')) { $Payload.Add('subscriptionidtype', $subscriptionidtype) }
-            if ($PSBoundParameters.ContainsKey('subscriptionidvalue')) { $Payload.Add('subscriptionidvalue', $subscriptionidvalue) }
-            if ($PSBoundParameters.ContainsKey('servicepath')) { $Payload.Add('servicepath', $servicepath) }
- 
-            if ($PSCmdlet.ShouldProcess("subscriberprofile", "Update Subscriber configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type subscriberprofile -Payload $Payload -GetWarning
+            $payload = @{ ip = $ip }
+            if ( $PSBoundParameters.ContainsKey('vlan') ) { $payload.Add('vlan', $vlan) }
+            if ( $PSBoundParameters.ContainsKey('subscriberrules') ) { $payload.Add('subscriberrules', $subscriberrules) }
+            if ( $PSBoundParameters.ContainsKey('subscriptionidtype') ) { $payload.Add('subscriptionidtype', $subscriptionidtype) }
+            if ( $PSBoundParameters.ContainsKey('subscriptionidvalue') ) { $payload.Add('subscriptionidvalue', $subscriptionidvalue) }
+            if ( $PSBoundParameters.ContainsKey('servicepath') ) { $payload.Add('servicepath', $servicepath) }
+            if ( $PSCmdlet.ShouldProcess("subscriberprofile", "Update Subscriber configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type subscriberprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -849,37 +806,38 @@ function Invoke-ADCUpdateSubscriberprofile {
 }
 
 function Invoke-ADCUnsetSubscriberprofile {
-<#
+    <#
     .SYNOPSIS
-        Unset Subscriber configuration Object
+        Unset Subscriber configuration Object.
     .DESCRIPTION
-        Unset Subscriber configuration Object 
-   .PARAMETER ip 
-       Subscriber ip address. 
-   .PARAMETER servicepath 
-       Name of the servicepath to be taken for this subscriber.
+        Configuration for Subscriber Profile resource.
+    .PARAMETER Ip 
+        Subscriber ip address. 
+    .PARAMETER Servicepath 
+        Name of the servicepath to be taken for this subscriber.
     .EXAMPLE
-        Invoke-ADCUnsetSubscriberprofile -ip <string>
+        PS C:\>Invoke-ADCUnsetSubscriberprofile -ip <string>
+        An example how to unset subscriberprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSubscriberprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$ip ,
+        [string]$Ip,
 
         [Boolean]$servicepath 
     )
@@ -888,12 +846,10 @@ function Invoke-ADCUnsetSubscriberprofile {
     }
     process {
         try {
-            $Payload = @{
-                ip = $ip
-            }
-            if ($PSBoundParameters.ContainsKey('servicepath')) { $Payload.Add('servicepath', $servicepath) }
-            if ($PSCmdlet.ShouldProcess("$ip", "Unset Subscriber configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type subscriberprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ ip = $ip }
+            if ( $PSBoundParameters.ContainsKey('servicepath') ) { $payload.Add('servicepath', $servicepath) }
+            if ( $PSCmdlet.ShouldProcess("$ip", "Unset Subscriber configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type subscriberprofile -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -909,52 +865,51 @@ function Invoke-ADCUnsetSubscriberprofile {
 }
 
 function Invoke-ADCDeleteSubscriberprofile {
-<#
+    <#
     .SYNOPSIS
-        Delete Subscriber configuration Object
+        Delete Subscriber configuration Object.
     .DESCRIPTION
-        Delete Subscriber configuration Object
-    .PARAMETER ip 
-       Subscriber ip address.    .PARAMETER vlan 
-       The vlan number on which the subscriber is located.  
-       Default value: 0  
-       Minimum value = 0  
-       Maximum value = 4096
+        Configuration for Subscriber Profile resource.
+    .PARAMETER Ip 
+        Subscriber ip address. 
+    .PARAMETER Vlan 
+        The vlan number on which the subscriber is located.
     .EXAMPLE
-        Invoke-ADCDeleteSubscriberprofile -ip <string>
+        PS C:\>Invoke-ADCDeleteSubscriberprofile -Ip <string>
+        An example how to delete subscriberprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSubscriberprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$ip ,
+        [Parameter(Mandatory)]
+        [string]$Ip,
 
-        [double]$vlan 
+        [double]$Vlan 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSubscriberprofile: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('vlan')) { $Arguments.Add('vlan', $vlan) }
-            if ($PSCmdlet.ShouldProcess("$ip", "Delete Subscriber configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type subscriberprofile -NitroPath nitro/v1/config -Resource $ip -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Vlan') ) { $arguments.Add('vlan', $Vlan) }
+            if ( $PSCmdlet.ShouldProcess("$ip", "Delete Subscriber configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type subscriberprofile -NitroPath nitro/v1/config -Resource $ip -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -970,49 +925,55 @@ function Invoke-ADCDeleteSubscriberprofile {
 }
 
 function Invoke-ADCGetSubscriberprofile {
-<#
+    <#
     .SYNOPSIS
-        Get Subscriber configuration object(s)
+        Get Subscriber configuration object(s).
     .DESCRIPTION
-        Get Subscriber configuration object(s)
+        Configuration for Subscriber Profile resource.
     .PARAMETER GetAll 
-        Retreive all subscriberprofile object(s)
+        Retrieve all subscriberprofile object(s).
     .PARAMETER Count
-        If specified, the count of the subscriberprofile object(s) will be returned
+        If specified, the count of the subscriberprofile object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSubscriberprofile
+        PS C:\>Invoke-ADCGetSubscriberprofile
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSubscriberprofile -GetAll 
+        PS C:\>Invoke-ADCGetSubscriberprofile -GetAll 
+        Get all subscriberprofile data. 
     .EXAMPLE 
-        Invoke-ADCGetSubscriberprofile -Count
+        PS C:\>Invoke-ADCGetSubscriberprofile -Count 
+        Get the number of subscriberprofile objects.
     .EXAMPLE
-        Invoke-ADCGetSubscriberprofile -name <string>
+        PS C:\>Invoke-ADCGetSubscriberprofile -name <string>
+        Get subscriberprofile object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSubscriberprofile -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSubscriberprofile -Filter @{ 'name'='<value>' }
+        Get subscriberprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSubscriberprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1029,24 +990,24 @@ function Invoke-ADCGetSubscriberprofile {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all subscriberprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for subscriberprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving subscriberprofile objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberprofile -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving subscriberprofile configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving subscriberprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1060,62 +1021,57 @@ function Invoke-ADCGetSubscriberprofile {
 }
 
 function Invoke-ADCUpdateSubscriberradiusinterface {
-<#
+    <#
     .SYNOPSIS
-        Update Subscriber configuration Object
+        Update Subscriber configuration Object.
     .DESCRIPTION
-        Update Subscriber configuration Object 
-    .PARAMETER listeningservice 
-        Name of RADIUS LISTENING service that will process RADIUS accounting requests.  
-        Minimum length = 1 
-    .PARAMETER radiusinterimasstart 
-        Treat radius interim message as start radius messages.  
-        Default value: DISABLED  
+        Configuration for RADIUS interface Parameters resource.
+    .PARAMETER Listeningservice 
+        Name of RADIUS LISTENING service that will process RADIUS accounting requests. 
+    .PARAMETER Radiusinterimasstart 
+        Treat radius interim message as start radius messages. 
         Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCUpdateSubscriberradiusinterface 
+        PS C:\>Invoke-ADCUpdateSubscriberradiusinterface 
+        An example how to update subscriberradiusinterface configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSubscriberradiusinterface
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberradiusinterface/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$listeningservice ,
+        [string]$Listeningservice,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$radiusinterimasstart 
-
+        [string]$Radiusinterimasstart 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSubscriberradiusinterface: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('listeningservice')) { $Payload.Add('listeningservice', $listeningservice) }
-            if ($PSBoundParameters.ContainsKey('radiusinterimasstart')) { $Payload.Add('radiusinterimasstart', $radiusinterimasstart) }
- 
-            if ($PSCmdlet.ShouldProcess("subscriberradiusinterface", "Update Subscriber configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type subscriberradiusinterface -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('listeningservice') ) { $payload.Add('listeningservice', $listeningservice) }
+            if ( $PSBoundParameters.ContainsKey('radiusinterimasstart') ) { $payload.Add('radiusinterimasstart', $radiusinterimasstart) }
+            if ( $PSCmdlet.ShouldProcess("subscriberradiusinterface", "Update Subscriber configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type subscriberradiusinterface -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1128,33 +1084,35 @@ function Invoke-ADCUpdateSubscriberradiusinterface {
 }
 
 function Invoke-ADCUnsetSubscriberradiusinterface {
-<#
+    <#
     .SYNOPSIS
-        Unset Subscriber configuration Object
+        Unset Subscriber configuration Object.
     .DESCRIPTION
-        Unset Subscriber configuration Object 
-   .PARAMETER radiusinterimasstart 
-       Treat radius interim message as start radius messages.  
-       Possible values = ENABLED, DISABLED
+        Configuration for RADIUS interface Parameters resource.
+    .PARAMETER Radiusinterimasstart 
+        Treat radius interim message as start radius messages. 
+        Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCUnsetSubscriberradiusinterface 
+        PS C:\>Invoke-ADCUnsetSubscriberradiusinterface 
+        An example how to unset subscriberradiusinterface configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSubscriberradiusinterface
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberradiusinterface
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Boolean]$radiusinterimasstart 
     )
@@ -1163,12 +1121,10 @@ function Invoke-ADCUnsetSubscriberradiusinterface {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('radiusinterimasstart')) { $Payload.Add('radiusinterimasstart', $radiusinterimasstart) }
-            if ($PSCmdlet.ShouldProcess("subscriberradiusinterface", "Unset Subscriber configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type subscriberradiusinterface -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('radiusinterimasstart') ) { $payload.Add('radiusinterimasstart', $radiusinterimasstart) }
+            if ( $PSCmdlet.ShouldProcess("subscriberradiusinterface", "Unset Subscriber configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type subscriberradiusinterface -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1184,45 +1140,50 @@ function Invoke-ADCUnsetSubscriberradiusinterface {
 }
 
 function Invoke-ADCGetSubscriberradiusinterface {
-<#
+    <#
     .SYNOPSIS
-        Get Subscriber configuration object(s)
+        Get Subscriber configuration object(s).
     .DESCRIPTION
-        Get Subscriber configuration object(s)
+        Configuration for RADIUS interface Parameters resource.
     .PARAMETER GetAll 
-        Retreive all subscriberradiusinterface object(s)
+        Retrieve all subscriberradiusinterface object(s).
     .PARAMETER Count
-        If specified, the count of the subscriberradiusinterface object(s) will be returned
+        If specified, the count of the subscriberradiusinterface object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSubscriberradiusinterface
+        PS C:\>Invoke-ADCGetSubscriberradiusinterface
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSubscriberradiusinterface -GetAll
+        PS C:\>Invoke-ADCGetSubscriberradiusinterface -GetAll 
+        Get all subscriberradiusinterface data.
     .EXAMPLE
-        Invoke-ADCGetSubscriberradiusinterface -name <string>
+        PS C:\>Invoke-ADCGetSubscriberradiusinterface -name <string>
+        Get subscriberradiusinterface object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSubscriberradiusinterface -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSubscriberradiusinterface -Filter @{ 'name'='<value>' }
+        Get subscriberradiusinterface data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSubscriberradiusinterface
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberradiusinterface/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -1234,24 +1195,24 @@ function Invoke-ADCGetSubscriberradiusinterface {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all subscriberradiusinterface objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberradiusinterface -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberradiusinterface -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for subscriberradiusinterface objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberradiusinterface -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberradiusinterface -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving subscriberradiusinterface objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberradiusinterface -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberradiusinterface -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving subscriberradiusinterface configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving subscriberradiusinterface configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberradiusinterface -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscriberradiusinterface -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1265,39 +1226,41 @@ function Invoke-ADCGetSubscriberradiusinterface {
 }
 
 function Invoke-ADCClearSubscribersessions {
-<#
+    <#
     .SYNOPSIS
-        Clear Subscriber configuration Object
+        Clear Subscriber configuration Object.
     .DESCRIPTION
-        Clear Subscriber configuration Object 
-    .PARAMETER ip 
+        Configuration for subscriber sesions resource.
+    .PARAMETER Ip 
         Subscriber IP Address. 
-    .PARAMETER vlan 
+    .PARAMETER Vlan 
         The vlan number on which the subscriber is located.
     .EXAMPLE
-        Invoke-ADCClearSubscribersessions 
+        PS C:\>Invoke-ADCClearSubscribersessions 
+        An example how to clear subscribersessions configuration Object(s).
     .NOTES
         File Name : Invoke-ADCClearSubscribersessions
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribersessions/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$ip ,
+        [string]$Ip,
 
         [ValidateRange(0, 4096)]
-        [double]$vlan 
+        [double]$Vlan 
 
     )
     begin {
@@ -1305,13 +1268,11 @@ function Invoke-ADCClearSubscribersessions {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('ip')) { $Payload.Add('ip', $ip) }
-            if ($PSBoundParameters.ContainsKey('vlan')) { $Payload.Add('vlan', $vlan) }
-            if ($PSCmdlet.ShouldProcess($Name, "Clear Subscriber configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type subscribersessions -Action clear -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('ip') ) { $payload.Add('ip', $ip) }
+            if ( $PSBoundParameters.ContainsKey('vlan') ) { $payload.Add('vlan', $vlan) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Clear Subscriber configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type subscribersessions -Action clear -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -1327,66 +1288,72 @@ function Invoke-ADCClearSubscribersessions {
 }
 
 function Invoke-ADCGetSubscribersessions {
-<#
+    <#
     .SYNOPSIS
-        Get Subscriber configuration object(s)
+        Get Subscriber configuration object(s).
     .DESCRIPTION
-        Get Subscriber configuration object(s)
-    .PARAMETER ip 
-       Subscriber IP Address. 
-    .PARAMETER vlan 
-       The vlan number on which the subscriber is located. 
-    .PARAMETER nodeid 
-       Unique number that identifies the cluster node. 
+        Configuration for subscriber sesions resource.
+    .PARAMETER Ip 
+        Subscriber IP Address. 
+    .PARAMETER Vlan 
+        The vlan number on which the subscriber is located. 
+    .PARAMETER Nodeid 
+        Unique number that identifies the cluster node. 
     .PARAMETER GetAll 
-        Retreive all subscribersessions object(s)
+        Retrieve all subscribersessions object(s).
     .PARAMETER Count
-        If specified, the count of the subscribersessions object(s) will be returned
+        If specified, the count of the subscribersessions object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSubscribersessions
+        PS C:\>Invoke-ADCGetSubscribersessions
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSubscribersessions -GetAll 
+        PS C:\>Invoke-ADCGetSubscribersessions -GetAll 
+        Get all subscribersessions data. 
     .EXAMPLE 
-        Invoke-ADCGetSubscribersessions -Count
+        PS C:\>Invoke-ADCGetSubscribersessions -Count 
+        Get the number of subscribersessions objects.
     .EXAMPLE
-        Invoke-ADCGetSubscribersessions -name <string>
+        PS C:\>Invoke-ADCGetSubscribersessions -name <string>
+        Get subscribersessions object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSubscribersessions -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSubscribersessions -Filter @{ 'name'='<value>' }
+        Get subscribersessions data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSubscribersessions
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribersessions/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$ip ,
+        [string]$Ip,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateRange(0, 4096)]
-        [double]$vlan ,
+        [double]$Vlan,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateRange(0, 31)]
-        [double]$nodeid,
+        [double]$Nodeid,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1403,27 +1370,27 @@ function Invoke-ADCGetSubscribersessions {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all subscribersessions objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribersessions -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribersessions -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for subscribersessions objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribersessions -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribersessions -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving subscribersessions objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('ip')) { $Arguments.Add('ip', $ip) } 
-                if ($PSBoundParameters.ContainsKey('vlan')) { $Arguments.Add('vlan', $vlan) } 
-                if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribersessions -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('ip') ) { $arguments.Add('ip', $ip) } 
+                if ( $PSBoundParameters.ContainsKey('vlan') ) { $arguments.Add('vlan', $vlan) } 
+                if ( $PSBoundParameters.ContainsKey('nodeid') ) { $arguments.Add('nodeid', $nodeid) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribersessions -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving subscribersessions configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving subscribersessions configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribersessions -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type subscribersessions -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

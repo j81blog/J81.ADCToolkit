@@ -1,49 +1,54 @@
 function Invoke-ADCGetIpsecalgcountersStats {
-<#
+    <#
     .SYNOPSIS
-        Get Ipsecalg statistics object(s)
+        Get Ipsecalg statistics object(s).
     .DESCRIPTION
-        Get Ipsecalg statistics object(s)
-    .PARAMETER name 
-       Name of IPSec ALG Profile. 
+        Statistics for counters resource.
+    .PARAMETER Name 
+        Name of IPSec ALG Profile. 
     .PARAMETER GetAll 
-        Retreive all ipsecalgcounters object(s)
+        Retrieve all ipsecalgcounters object(s).
     .PARAMETER Count
-        If specified, the count of the ipsecalgcounters object(s) will be returned
+        If specified, the count of the ipsecalgcounters object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetIpsecalgcountersStats
+        PS C:\>Invoke-ADCGetIpsecalgcountersStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetIpsecalgcountersStats -GetAll
+        PS C:\>Invoke-ADCGetIpsecalgcountersStats -GetAll 
+        Get all ipsecalgcounters data.
     .EXAMPLE
-        Invoke-ADCGetIpsecalgcountersStats -name <string>
+        PS C:\>Invoke-ADCGetIpsecalgcountersStats -name <string>
+        Get ipsecalgcounters object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetIpsecalgcountersStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetIpsecalgcountersStats -Filter @{ 'name'='<value>' }
+        Get ipsecalgcounters data with a filter.
     .NOTES
         File Name : Invoke-ADCGetIpsecalgcountersStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ipsecalg/ipsecalgcounters/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateLength(1, 32)]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -55,24 +60,24 @@ function Invoke-ADCGetIpsecalgcountersStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all ipsecalgcounters objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgcounters -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgcounters -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for ipsecalgcounters objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgcounters -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgcounters -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving ipsecalgcounters objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgcounters -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgcounters -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving ipsecalgcounters configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgcounters -NitroPath nitro/v1/stat -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving ipsecalgcounters configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgcounters -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecalgcounters -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

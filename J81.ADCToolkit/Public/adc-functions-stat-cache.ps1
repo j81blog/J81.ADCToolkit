@@ -1,50 +1,55 @@
 function Invoke-ADCGetCacheStats {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching statistics object(s)
+        Get Integrated Caching statistics object(s).
     .DESCRIPTION
-        Get Integrated Caching statistics object(s)
-    .PARAMETER clearstats 
-       Clear the statsistics / counters.  
-       Possible values = basic, full 
+        Statistics for cache.
+    .PARAMETER Clearstats 
+        Clear the statsistics / counters. 
+        Possible values = basic, full 
     .PARAMETER GetAll 
-        Retreive all cache object(s)
+        Retrieve all cache object(s).
     .PARAMETER Count
-        If specified, the count of the cache object(s) will be returned
+        If specified, the count of the cache object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCacheStats
+        PS C:\>Invoke-ADCGetCacheStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCacheStats -GetAll
+        PS C:\>Invoke-ADCGetCacheStats -GetAll 
+        Get all cache data.
     .EXAMPLE
-        Invoke-ADCGetCacheStats -name <string>
+        PS C:\>Invoke-ADCGetCacheStats -name <string>
+        Get cache object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCacheStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCacheStats -Filter @{ 'name'='<value>' }
+        Get cache data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCacheStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cache/cache/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('basic', 'full')]
-        [string]$clearstats,
+        [string]$Clearstats,
 			
         [hashtable]$Filter = @{ },
 
@@ -56,29 +61,29 @@ function Invoke-ADCGetCacheStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cache objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cache -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cache -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cache objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cache -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cache -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cache objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('detail')) { $Arguments.Add('detail', $detail) } 
-                if ($PSBoundParameters.ContainsKey('fullvalues')) { $Arguments.Add('fullvalues', $fullvalues) } 
-                if ($PSBoundParameters.ContainsKey('ntimes')) { $Arguments.Add('ntimes', $ntimes) } 
-                if ($PSBoundParameters.ContainsKey('logfile')) { $Arguments.Add('logfile', $logfile) } 
-                if ($PSBoundParameters.ContainsKey('clearstats')) { $Arguments.Add('clearstats', $clearstats) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cache -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('detail') ) { $arguments.Add('detail', $detail) } 
+                if ( $PSBoundParameters.ContainsKey('fullvalues') ) { $arguments.Add('fullvalues', $fullvalues) } 
+                if ( $PSBoundParameters.ContainsKey('ntimes') ) { $arguments.Add('ntimes', $ntimes) } 
+                if ( $PSBoundParameters.ContainsKey('logfile') ) { $arguments.Add('logfile', $logfile) } 
+                if ( $PSBoundParameters.ContainsKey('clearstats') ) { $arguments.Add('clearstats', $clearstats) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cache -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cache configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving cache configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cache -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cache -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -92,51 +97,56 @@ function Invoke-ADCGetCacheStats {
 }
 
 function Invoke-ADCGetCachecontentgroupStats {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching statistics object(s)
+        Get Integrated Caching statistics object(s).
     .DESCRIPTION
-        Get Integrated Caching statistics object(s)
-    .PARAMETER name 
-       Name of the cache contentgroup for which to display statistics. If you do not set this parameter, statistics are shown for all cache contentgroups. 
+        Statistics for Integrated Cache content group resource.
+    .PARAMETER Name 
+        Name of the cache contentgroup for which to display statistics. If you do not set this parameter, statistics are shown for all cache contentgroups. 
     .PARAMETER GetAll 
-        Retreive all cachecontentgroup object(s)
+        Retrieve all cachecontentgroup object(s).
     .PARAMETER Count
-        If specified, the count of the cachecontentgroup object(s) will be returned
+        If specified, the count of the cachecontentgroup object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCachecontentgroupStats
+        PS C:\>Invoke-ADCGetCachecontentgroupStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCachecontentgroupStats -GetAll
+        PS C:\>Invoke-ADCGetCachecontentgroupStats -GetAll 
+        Get all cachecontentgroup data.
     .EXAMPLE
-        Invoke-ADCGetCachecontentgroupStats -name <string>
+        PS C:\>Invoke-ADCGetCachecontentgroupStats -name <string>
+        Get cachecontentgroup object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCachecontentgroupStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCachecontentgroupStats -Filter @{ 'name'='<value>' }
+        Get cachecontentgroup data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachecontentgroupStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cache/cachecontentgroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -148,24 +158,24 @@ function Invoke-ADCGetCachecontentgroupStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cachecontentgroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachecontentgroup -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachecontentgroup -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cachecontentgroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachecontentgroup -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachecontentgroup -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cachecontentgroup objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachecontentgroup -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachecontentgroup -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cachecontentgroup configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachecontentgroup -NitroPath nitro/v1/stat -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cachecontentgroup configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachecontentgroup -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachecontentgroup -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -179,51 +189,56 @@ function Invoke-ADCGetCachecontentgroupStats {
 }
 
 function Invoke-ADCGetCachepolicyStats {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching statistics object(s)
+        Get Integrated Caching statistics object(s).
     .DESCRIPTION
-        Get Integrated Caching statistics object(s)
-    .PARAMETER policyname 
-       Name of the cache policy for which to display statistics. If you do not set this parameter, statistics are shown for all cache policies. 
+        Statistics for Integrated Cache policy resource.
+    .PARAMETER Policyname 
+        Name of the cache policy for which to display statistics. If you do not set this parameter, statistics are shown for all cache policies. 
     .PARAMETER GetAll 
-        Retreive all cachepolicy object(s)
+        Retrieve all cachepolicy object(s).
     .PARAMETER Count
-        If specified, the count of the cachepolicy object(s) will be returned
+        If specified, the count of the cachepolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCachepolicyStats
+        PS C:\>Invoke-ADCGetCachepolicyStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCachepolicyStats -GetAll
+        PS C:\>Invoke-ADCGetCachepolicyStats -GetAll 
+        Get all cachepolicy data.
     .EXAMPLE
-        Invoke-ADCGetCachepolicyStats -name <string>
+        PS C:\>Invoke-ADCGetCachepolicyStats -name <string>
+        Get cachepolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCachepolicyStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCachepolicyStats -Filter @{ 'name'='<value>' }
+        Get cachepolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachepolicyStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cache/cachepolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$policyname,
+        [string]$Policyname,
 			
         [hashtable]$Filter = @{ },
 
@@ -235,24 +250,24 @@ function Invoke-ADCGetCachepolicyStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cachepolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cachepolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cachepolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cachepolicy configuration for property 'policyname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy -NitroPath nitro/v1/stat -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cachepolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicy -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -266,51 +281,56 @@ function Invoke-ADCGetCachepolicyStats {
 }
 
 function Invoke-ADCGetCachepolicylabelStats {
-<#
+    <#
     .SYNOPSIS
-        Get Integrated Caching statistics object(s)
+        Get Integrated Caching statistics object(s).
     .DESCRIPTION
-        Get Integrated Caching statistics object(s)
-    .PARAMETER labelname 
-       Name of the cache-policy label for which to display statistics. If you do not set this parameter statistics are shown for all cache-policy labels. 
+        Statistics for cache policy label resource.
+    .PARAMETER Labelname 
+        Name of the cache-policy label for which to display statistics. If you do not set this parameter statistics are shown for all cache-policy labels. 
     .PARAMETER GetAll 
-        Retreive all cachepolicylabel object(s)
+        Retrieve all cachepolicylabel object(s).
     .PARAMETER Count
-        If specified, the count of the cachepolicylabel object(s) will be returned
+        If specified, the count of the cachepolicylabel object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCachepolicylabelStats
+        PS C:\>Invoke-ADCGetCachepolicylabelStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCachepolicylabelStats -GetAll
+        PS C:\>Invoke-ADCGetCachepolicylabelStats -GetAll 
+        Get all cachepolicylabel data.
     .EXAMPLE
-        Invoke-ADCGetCachepolicylabelStats -name <string>
+        PS C:\>Invoke-ADCGetCachepolicylabelStats -name <string>
+        Get cachepolicylabel object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCachepolicylabelStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCachepolicylabelStats -Filter @{ 'name'='<value>' }
+        Get cachepolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachepolicylabelStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cache/cachepolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$labelname,
+        [string]$Labelname,
 			
         [hashtable]$Filter = @{ },
 
@@ -322,24 +342,24 @@ function Invoke-ADCGetCachepolicylabelStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cachepolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cachepolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cachepolicylabel objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cachepolicylabel configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel -NitroPath nitro/v1/stat -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cachepolicylabel configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cachepolicylabel -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

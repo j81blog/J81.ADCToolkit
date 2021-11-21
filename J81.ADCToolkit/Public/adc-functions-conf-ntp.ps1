@@ -1,79 +1,67 @@
 function Invoke-ADCUpdateNtpparam {
-<#
+    <#
     .SYNOPSIS
-        Update NTP configuration Object
+        Update NTP configuration Object.
     .DESCRIPTION
-        Update NTP configuration Object 
-    .PARAMETER authentication 
-        Apply NTP authentication, which enables the NTP client (Citrix ADC) to verify that the server is in fact known and trusted.  
-        Default value: YES  
+        Configuration for NTP parameter resource.
+    .PARAMETER Authentication 
+        Apply NTP authentication, which enables the NTP client (Citrix ADC) to verify that the server is in fact known and trusted. 
         Possible values = YES, NO 
-    .PARAMETER trustedkey 
-        Key identifiers that are trusted for server authentication with symmetric key cryptography in the keys file.  
-        Minimum value = 1  
-        Maximum value = 65534 
-    .PARAMETER autokeylogsec 
-        Autokey protocol requires the keys to be refreshed periodically. This parameter specifies the interval between regenerations of new session keys. In seconds, expressed as a power of 2.  
-        Default value: 12  
-        Minimum value = 0  
-        Maximum value = 32 
-    .PARAMETER revokelogsec 
-        Interval between re-randomizations of the autokey seeds to prevent brute-force attacks on the autokey algorithms.  
-        Default value: 16  
-        Minimum value = 0  
-        Maximum value = 32
+    .PARAMETER Trustedkey 
+        Key identifiers that are trusted for server authentication with symmetric key cryptography in the keys file. 
+    .PARAMETER Autokeylogsec 
+        Autokey protocol requires the keys to be refreshed periodically. This parameter specifies the interval between regenerations of new session keys. In seconds, expressed as a power of 2. 
+    .PARAMETER Revokelogsec 
+        Interval between re-randomizations of the autokey seeds to prevent brute-force attacks on the autokey algorithms.
     .EXAMPLE
-        Invoke-ADCUpdateNtpparam 
+        PS C:\>Invoke-ADCUpdateNtpparam 
+        An example how to update ntpparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateNtpparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpparam/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateSet('YES', 'NO')]
-        [string]$authentication ,
+        [string]$Authentication,
 
         [ValidateRange(1, 65534)]
-        [double[]]$trustedkey ,
+        [double[]]$Trustedkey,
 
         [ValidateRange(0, 32)]
-        [double]$autokeylogsec ,
+        [double]$Autokeylogsec,
 
         [ValidateRange(0, 32)]
-        [double]$revokelogsec 
-
+        [double]$Revokelogsec 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateNtpparam: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('authentication')) { $Payload.Add('authentication', $authentication) }
-            if ($PSBoundParameters.ContainsKey('trustedkey')) { $Payload.Add('trustedkey', $trustedkey) }
-            if ($PSBoundParameters.ContainsKey('autokeylogsec')) { $Payload.Add('autokeylogsec', $autokeylogsec) }
-            if ($PSBoundParameters.ContainsKey('revokelogsec')) { $Payload.Add('revokelogsec', $revokelogsec) }
- 
-            if ($PSCmdlet.ShouldProcess("ntpparam", "Update NTP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type ntpparam -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('authentication') ) { $payload.Add('authentication', $authentication) }
+            if ( $PSBoundParameters.ContainsKey('trustedkey') ) { $payload.Add('trustedkey', $trustedkey) }
+            if ( $PSBoundParameters.ContainsKey('autokeylogsec') ) { $payload.Add('autokeylogsec', $autokeylogsec) }
+            if ( $PSBoundParameters.ContainsKey('revokelogsec') ) { $payload.Add('revokelogsec', $revokelogsec) }
+            if ( $PSCmdlet.ShouldProcess("ntpparam", "Update NTP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type ntpparam -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -86,45 +74,47 @@ function Invoke-ADCUpdateNtpparam {
 }
 
 function Invoke-ADCUnsetNtpparam {
-<#
+    <#
     .SYNOPSIS
-        Unset NTP configuration Object
+        Unset NTP configuration Object.
     .DESCRIPTION
-        Unset NTP configuration Object 
-   .PARAMETER authentication 
-       Apply NTP authentication, which enables the NTP client (Citrix ADC) to verify that the server is in fact known and trusted.  
-       Possible values = YES, NO 
-   .PARAMETER trustedkey 
-       Key identifiers that are trusted for server authentication with symmetric key cryptography in the keys file. 
-   .PARAMETER autokeylogsec 
-       Autokey protocol requires the keys to be refreshed periodically. This parameter specifies the interval between regenerations of new session keys. In seconds, expressed as a power of 2. 
-   .PARAMETER revokelogsec 
-       Interval between re-randomizations of the autokey seeds to prevent brute-force attacks on the autokey algorithms.
+        Configuration for NTP parameter resource.
+    .PARAMETER Authentication 
+        Apply NTP authentication, which enables the NTP client (Citrix ADC) to verify that the server is in fact known and trusted. 
+        Possible values = YES, NO 
+    .PARAMETER Trustedkey 
+        Key identifiers that are trusted for server authentication with symmetric key cryptography in the keys file. 
+    .PARAMETER Autokeylogsec 
+        Autokey protocol requires the keys to be refreshed periodically. This parameter specifies the interval between regenerations of new session keys. In seconds, expressed as a power of 2. 
+    .PARAMETER Revokelogsec 
+        Interval between re-randomizations of the autokey seeds to prevent brute-force attacks on the autokey algorithms.
     .EXAMPLE
-        Invoke-ADCUnsetNtpparam 
+        PS C:\>Invoke-ADCUnsetNtpparam 
+        An example how to unset ntpparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetNtpparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpparam
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$authentication ,
+        [Boolean]$authentication,
 
-        [Boolean]$trustedkey ,
+        [Boolean]$trustedkey,
 
-        [Boolean]$autokeylogsec ,
+        [Boolean]$autokeylogsec,
 
         [Boolean]$revokelogsec 
     )
@@ -133,15 +123,13 @@ function Invoke-ADCUnsetNtpparam {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('authentication')) { $Payload.Add('authentication', $authentication) }
-            if ($PSBoundParameters.ContainsKey('trustedkey')) { $Payload.Add('trustedkey', $trustedkey) }
-            if ($PSBoundParameters.ContainsKey('autokeylogsec')) { $Payload.Add('autokeylogsec', $autokeylogsec) }
-            if ($PSBoundParameters.ContainsKey('revokelogsec')) { $Payload.Add('revokelogsec', $revokelogsec) }
-            if ($PSCmdlet.ShouldProcess("ntpparam", "Unset NTP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ntpparam -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('authentication') ) { $payload.Add('authentication', $authentication) }
+            if ( $PSBoundParameters.ContainsKey('trustedkey') ) { $payload.Add('trustedkey', $trustedkey) }
+            if ( $PSBoundParameters.ContainsKey('autokeylogsec') ) { $payload.Add('autokeylogsec', $autokeylogsec) }
+            if ( $PSBoundParameters.ContainsKey('revokelogsec') ) { $payload.Add('revokelogsec', $revokelogsec) }
+            if ( $PSCmdlet.ShouldProcess("ntpparam", "Unset NTP configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ntpparam -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -157,45 +145,50 @@ function Invoke-ADCUnsetNtpparam {
 }
 
 function Invoke-ADCGetNtpparam {
-<#
+    <#
     .SYNOPSIS
-        Get NTP configuration object(s)
+        Get NTP configuration object(s).
     .DESCRIPTION
-        Get NTP configuration object(s)
+        Configuration for NTP parameter resource.
     .PARAMETER GetAll 
-        Retreive all ntpparam object(s)
+        Retrieve all ntpparam object(s).
     .PARAMETER Count
-        If specified, the count of the ntpparam object(s) will be returned
+        If specified, the count of the ntpparam object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetNtpparam
+        PS C:\>Invoke-ADCGetNtpparam
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetNtpparam -GetAll
+        PS C:\>Invoke-ADCGetNtpparam -GetAll 
+        Get all ntpparam data.
     .EXAMPLE
-        Invoke-ADCGetNtpparam -name <string>
+        PS C:\>Invoke-ADCGetNtpparam -name <string>
+        Get ntpparam object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetNtpparam -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetNtpparam -Filter @{ 'name'='<value>' }
+        Get ntpparam data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNtpparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpparam/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -207,24 +200,24 @@ function Invoke-ADCGetNtpparam {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all ntpparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpparam -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for ntpparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpparam -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving ntpparam objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpparam -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpparam -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving ntpparam configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving ntpparam configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpparam -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpparam -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -238,88 +231,78 @@ function Invoke-ADCGetNtpparam {
 }
 
 function Invoke-ADCAddNtpserver {
-<#
+    <#
     .SYNOPSIS
-        Add NTP configuration Object
+        Add NTP configuration Object.
     .DESCRIPTION
-        Add NTP configuration Object 
-    .PARAMETER serverip 
-        IP address of the NTP server.  
-        Minimum length = 1 
-    .PARAMETER servername 
+        Configuration for NTP server resource.
+    .PARAMETER Serverip 
+        IP address of the NTP server. 
+    .PARAMETER Servername 
         Fully qualified domain name of the NTP server. 
-    .PARAMETER minpoll 
-        Minimum time after which the NTP server must poll the NTP messages. In seconds, expressed as a power of 2.  
-        Minimum value = 4  
-        Maximum value = 17 
-    .PARAMETER maxpoll 
-        Maximum time after which the NTP server must poll the NTP messages. In seconds, expressed as a power of 2.  
-        Minimum value = 4  
-        Maximum value = 17 
-    .PARAMETER autokey 
+    .PARAMETER Minpoll 
+        Minimum time after which the NTP server must poll the NTP messages. In seconds, expressed as a power of 2. 
+    .PARAMETER Maxpoll 
+        Maximum time after which the NTP server must poll the NTP messages. In seconds, expressed as a power of 2. 
+    .PARAMETER Autokey 
         Use the Autokey protocol for key management for this server, with the cryptographic values (for example, symmetric key, host and public certificate files, and sign key) generated by the ntp-keygen utility. To require authentication for communication with the server, you must set either the value of this parameter or the key parameter. 
-    .PARAMETER key 
-        Key to use for encrypting authentication fields. All packets sent to and received from the server must include authentication fields encrypted by using this key. To require authentication for communication with the server, you must set either the value of this parameter or the autokey parameter.  
-        Minimum value = 1  
-        Maximum value = 65534
+    .PARAMETER Key 
+        Key to use for encrypting authentication fields. All packets sent to and received from the server must include authentication fields encrypted by using this key. To require authentication for communication with the server, you must set either the value of this parameter or the autokey parameter.
     .EXAMPLE
-        Invoke-ADCAddNtpserver 
+        PS C:\>Invoke-ADCAddNtpserver 
+        An example how to add ntpserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddNtpserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$serverip ,
+        [string]$Serverip,
 
-        [string]$servername ,
-
-        [ValidateRange(4, 17)]
-        [double]$minpoll ,
+        [string]$Servername,
 
         [ValidateRange(4, 17)]
-        [double]$maxpoll ,
+        [double]$Minpoll,
 
-        [boolean]$autokey ,
+        [ValidateRange(4, 17)]
+        [double]$Maxpoll,
+
+        [boolean]$Autokey,
 
         [ValidateRange(1, 65534)]
-        [double]$key 
-
+        [double]$Key 
     )
     begin {
         Write-Verbose "Invoke-ADCAddNtpserver: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('serverip')) { $Payload.Add('serverip', $serverip) }
-            if ($PSBoundParameters.ContainsKey('servername')) { $Payload.Add('servername', $servername) }
-            if ($PSBoundParameters.ContainsKey('minpoll')) { $Payload.Add('minpoll', $minpoll) }
-            if ($PSBoundParameters.ContainsKey('maxpoll')) { $Payload.Add('maxpoll', $maxpoll) }
-            if ($PSBoundParameters.ContainsKey('autokey')) { $Payload.Add('autokey', $autokey) }
-            if ($PSBoundParameters.ContainsKey('key')) { $Payload.Add('key', $key) }
- 
-            if ($PSCmdlet.ShouldProcess("ntpserver", "Add NTP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ntpserver -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('serverip') ) { $payload.Add('serverip', $serverip) }
+            if ( $PSBoundParameters.ContainsKey('servername') ) { $payload.Add('servername', $servername) }
+            if ( $PSBoundParameters.ContainsKey('minpoll') ) { $payload.Add('minpoll', $minpoll) }
+            if ( $PSBoundParameters.ContainsKey('maxpoll') ) { $payload.Add('maxpoll', $maxpoll) }
+            if ( $PSBoundParameters.ContainsKey('autokey') ) { $payload.Add('autokey', $autokey) }
+            if ( $PSBoundParameters.ContainsKey('key') ) { $payload.Add('key', $key) }
+            if ( $PSCmdlet.ShouldProcess("ntpserver", "Add NTP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ntpserver -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -332,50 +315,51 @@ function Invoke-ADCAddNtpserver {
 }
 
 function Invoke-ADCDeleteNtpserver {
-<#
+    <#
     .SYNOPSIS
-        Delete NTP configuration Object
+        Delete NTP configuration Object.
     .DESCRIPTION
-        Delete NTP configuration Object
-    .PARAMETER serverip 
-       IP address of the NTP server.  
-       Minimum length = 1    .PARAMETER servername 
-       Fully qualified domain name of the NTP server.
+        Configuration for NTP server resource.
+    .PARAMETER Serverip 
+        IP address of the NTP server. 
+    .PARAMETER Servername 
+        Fully qualified domain name of the NTP server.
     .EXAMPLE
-        Invoke-ADCDeleteNtpserver -serverip <string>
+        PS C:\>Invoke-ADCDeleteNtpserver -Serverip <string>
+        An example how to delete ntpserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteNtpserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$serverip ,
+        [Parameter(Mandatory)]
+        [string]$Serverip,
 
-        [string]$servername 
+        [string]$Servername 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteNtpserver: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('servername')) { $Arguments.Add('servername', $servername) }
-            if ($PSCmdlet.ShouldProcess("$serverip", "Delete NTP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type ntpserver -NitroPath nitro/v1/config -Resource $serverip -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Servername') ) { $arguments.Add('servername', $Servername) }
+            if ( $PSCmdlet.ShouldProcess("$serverip", "Delete NTP configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type ntpserver -NitroPath nitro/v1/config -Resource $serverip -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -391,96 +375,85 @@ function Invoke-ADCDeleteNtpserver {
 }
 
 function Invoke-ADCUpdateNtpserver {
-<#
+    <#
     .SYNOPSIS
-        Update NTP configuration Object
+        Update NTP configuration Object.
     .DESCRIPTION
-        Update NTP configuration Object 
-    .PARAMETER serverip 
-        IP address of the NTP server.  
-        Minimum length = 1 
-    .PARAMETER servername 
+        Configuration for NTP server resource.
+    .PARAMETER Serverip 
+        IP address of the NTP server. 
+    .PARAMETER Servername 
         Fully qualified domain name of the NTP server. 
-    .PARAMETER minpoll 
-        Minimum time after which the NTP server must poll the NTP messages. In seconds, expressed as a power of 2.  
-        Minimum value = 4  
-        Maximum value = 17 
-    .PARAMETER maxpoll 
-        Maximum time after which the NTP server must poll the NTP messages. In seconds, expressed as a power of 2.  
-        Minimum value = 4  
-        Maximum value = 17 
-    .PARAMETER preferredntpserver 
-        Preferred NTP server. The Citrix ADC chooses this NTP server for time synchronization among a set of correctly operating hosts.  
-        Default value: NO  
+    .PARAMETER Minpoll 
+        Minimum time after which the NTP server must poll the NTP messages. In seconds, expressed as a power of 2. 
+    .PARAMETER Maxpoll 
+        Maximum time after which the NTP server must poll the NTP messages. In seconds, expressed as a power of 2. 
+    .PARAMETER Preferredntpserver 
+        Preferred NTP server. The Citrix ADC chooses this NTP server for time synchronization among a set of correctly operating hosts. 
         Possible values = YES, NO 
-    .PARAMETER autokey 
+    .PARAMETER Autokey 
         Use the Autokey protocol for key management for this server, with the cryptographic values (for example, symmetric key, host and public certificate files, and sign key) generated by the ntp-keygen utility. To require authentication for communication with the server, you must set either the value of this parameter or the key parameter. 
-    .PARAMETER key 
-        Key to use for encrypting authentication fields. All packets sent to and received from the server must include authentication fields encrypted by using this key. To require authentication for communication with the server, you must set either the value of this parameter or the autokey parameter.  
-        Minimum value = 1  
-        Maximum value = 65534
+    .PARAMETER Key 
+        Key to use for encrypting authentication fields. All packets sent to and received from the server must include authentication fields encrypted by using this key. To require authentication for communication with the server, you must set either the value of this parameter or the autokey parameter.
     .EXAMPLE
-        Invoke-ADCUpdateNtpserver 
+        PS C:\>Invoke-ADCUpdateNtpserver 
+        An example how to update ntpserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateNtpserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$serverip ,
+        [string]$Serverip,
 
-        [string]$servername ,
-
-        [ValidateRange(4, 17)]
-        [double]$minpoll ,
+        [string]$Servername,
 
         [ValidateRange(4, 17)]
-        [double]$maxpoll ,
+        [double]$Minpoll,
+
+        [ValidateRange(4, 17)]
+        [double]$Maxpoll,
 
         [ValidateSet('YES', 'NO')]
-        [string]$preferredntpserver ,
+        [string]$Preferredntpserver,
 
-        [boolean]$autokey ,
+        [boolean]$Autokey,
 
         [ValidateRange(1, 65534)]
-        [double]$key 
-
+        [double]$Key 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateNtpserver: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('serverip')) { $Payload.Add('serverip', $serverip) }
-            if ($PSBoundParameters.ContainsKey('servername')) { $Payload.Add('servername', $servername) }
-            if ($PSBoundParameters.ContainsKey('minpoll')) { $Payload.Add('minpoll', $minpoll) }
-            if ($PSBoundParameters.ContainsKey('maxpoll')) { $Payload.Add('maxpoll', $maxpoll) }
-            if ($PSBoundParameters.ContainsKey('preferredntpserver')) { $Payload.Add('preferredntpserver', $preferredntpserver) }
-            if ($PSBoundParameters.ContainsKey('autokey')) { $Payload.Add('autokey', $autokey) }
-            if ($PSBoundParameters.ContainsKey('key')) { $Payload.Add('key', $key) }
- 
-            if ($PSCmdlet.ShouldProcess("ntpserver", "Update NTP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type ntpserver -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('serverip') ) { $payload.Add('serverip', $serverip) }
+            if ( $PSBoundParameters.ContainsKey('servername') ) { $payload.Add('servername', $servername) }
+            if ( $PSBoundParameters.ContainsKey('minpoll') ) { $payload.Add('minpoll', $minpoll) }
+            if ( $PSBoundParameters.ContainsKey('maxpoll') ) { $payload.Add('maxpoll', $maxpoll) }
+            if ( $PSBoundParameters.ContainsKey('preferredntpserver') ) { $payload.Add('preferredntpserver', $preferredntpserver) }
+            if ( $PSBoundParameters.ContainsKey('autokey') ) { $payload.Add('autokey', $autokey) }
+            if ( $PSBoundParameters.ContainsKey('key') ) { $payload.Add('key', $key) }
+            if ( $PSCmdlet.ShouldProcess("ntpserver", "Update NTP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type ntpserver -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -493,57 +466,59 @@ function Invoke-ADCUpdateNtpserver {
 }
 
 function Invoke-ADCUnsetNtpserver {
-<#
+    <#
     .SYNOPSIS
-        Unset NTP configuration Object
+        Unset NTP configuration Object.
     .DESCRIPTION
-        Unset NTP configuration Object 
-   .PARAMETER serverip 
-       IP address of the NTP server. 
-   .PARAMETER servername 
-       Fully qualified domain name of the NTP server. 
-   .PARAMETER autokey 
-       Use the Autokey protocol for key management for this server, with the cryptographic values (for example, symmetric key, host and public certificate files, and sign key) generated by the ntp-keygen utility. To require authentication for communication with the server, you must set either the value of this parameter or the key parameter. 
-   .PARAMETER minpoll 
-       Minimum time after which the NTP server must poll the NTP messages. In seconds, expressed as a power of 2. 
-   .PARAMETER maxpoll 
-       Maximum time after which the NTP server must poll the NTP messages. In seconds, expressed as a power of 2. 
-   .PARAMETER preferredntpserver 
-       Preferred NTP server. The Citrix ADC chooses this NTP server for time synchronization among a set of correctly operating hosts.  
-       Possible values = YES, NO 
-   .PARAMETER key 
-       Key to use for encrypting authentication fields. All packets sent to and received from the server must include authentication fields encrypted by using this key. To require authentication for communication with the server, you must set either the value of this parameter or the autokey parameter.
+        Configuration for NTP server resource.
+    .PARAMETER Serverip 
+        IP address of the NTP server. 
+    .PARAMETER Servername 
+        Fully qualified domain name of the NTP server. 
+    .PARAMETER Autokey 
+        Use the Autokey protocol for key management for this server, with the cryptographic values (for example, symmetric key, host and public certificate files, and sign key) generated by the ntp-keygen utility. To require authentication for communication with the server, you must set either the value of this parameter or the key parameter. 
+    .PARAMETER Minpoll 
+        Minimum time after which the NTP server must poll the NTP messages. In seconds, expressed as a power of 2. 
+    .PARAMETER Maxpoll 
+        Maximum time after which the NTP server must poll the NTP messages. In seconds, expressed as a power of 2. 
+    .PARAMETER Preferredntpserver 
+        Preferred NTP server. The Citrix ADC chooses this NTP server for time synchronization among a set of correctly operating hosts. 
+        Possible values = YES, NO 
+    .PARAMETER Key 
+        Key to use for encrypting authentication fields. All packets sent to and received from the server must include authentication fields encrypted by using this key. To require authentication for communication with the server, you must set either the value of this parameter or the autokey parameter.
     .EXAMPLE
-        Invoke-ADCUnsetNtpserver 
+        PS C:\>Invoke-ADCUnsetNtpserver 
+        An example how to unset ntpserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetNtpserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpserver
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$serverip ,
+        [Boolean]$serverip,
 
-        [Boolean]$servername ,
+        [Boolean]$servername,
 
-        [Boolean]$autokey ,
+        [Boolean]$autokey,
 
-        [Boolean]$minpoll ,
+        [Boolean]$minpoll,
 
-        [Boolean]$maxpoll ,
+        [Boolean]$maxpoll,
 
-        [Boolean]$preferredntpserver ,
+        [Boolean]$preferredntpserver,
 
         [Boolean]$key 
     )
@@ -552,18 +527,16 @@ function Invoke-ADCUnsetNtpserver {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('serverip')) { $Payload.Add('serverip', $serverip) }
-            if ($PSBoundParameters.ContainsKey('servername')) { $Payload.Add('servername', $servername) }
-            if ($PSBoundParameters.ContainsKey('autokey')) { $Payload.Add('autokey', $autokey) }
-            if ($PSBoundParameters.ContainsKey('minpoll')) { $Payload.Add('minpoll', $minpoll) }
-            if ($PSBoundParameters.ContainsKey('maxpoll')) { $Payload.Add('maxpoll', $maxpoll) }
-            if ($PSBoundParameters.ContainsKey('preferredntpserver')) { $Payload.Add('preferredntpserver', $preferredntpserver) }
-            if ($PSBoundParameters.ContainsKey('key')) { $Payload.Add('key', $key) }
-            if ($PSCmdlet.ShouldProcess("ntpserver", "Unset NTP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ntpserver -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('serverip') ) { $payload.Add('serverip', $serverip) }
+            if ( $PSBoundParameters.ContainsKey('servername') ) { $payload.Add('servername', $servername) }
+            if ( $PSBoundParameters.ContainsKey('autokey') ) { $payload.Add('autokey', $autokey) }
+            if ( $PSBoundParameters.ContainsKey('minpoll') ) { $payload.Add('minpoll', $minpoll) }
+            if ( $PSBoundParameters.ContainsKey('maxpoll') ) { $payload.Add('maxpoll', $maxpoll) }
+            if ( $PSBoundParameters.ContainsKey('preferredntpserver') ) { $payload.Add('preferredntpserver', $preferredntpserver) }
+            if ( $PSBoundParameters.ContainsKey('key') ) { $payload.Add('key', $key) }
+            if ( $PSCmdlet.ShouldProcess("ntpserver", "Unset NTP configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ntpserver -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -579,49 +552,55 @@ function Invoke-ADCUnsetNtpserver {
 }
 
 function Invoke-ADCGetNtpserver {
-<#
+    <#
     .SYNOPSIS
-        Get NTP configuration object(s)
+        Get NTP configuration object(s).
     .DESCRIPTION
-        Get NTP configuration object(s)
+        Configuration for NTP server resource.
     .PARAMETER GetAll 
-        Retreive all ntpserver object(s)
+        Retrieve all ntpserver object(s).
     .PARAMETER Count
-        If specified, the count of the ntpserver object(s) will be returned
+        If specified, the count of the ntpserver object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetNtpserver
+        PS C:\>Invoke-ADCGetNtpserver
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetNtpserver -GetAll 
+        PS C:\>Invoke-ADCGetNtpserver -GetAll 
+        Get all ntpserver data. 
     .EXAMPLE 
-        Invoke-ADCGetNtpserver -Count
+        PS C:\>Invoke-ADCGetNtpserver -Count 
+        Get the number of ntpserver objects.
     .EXAMPLE
-        Invoke-ADCGetNtpserver -name <string>
+        PS C:\>Invoke-ADCGetNtpserver -name <string>
+        Get ntpserver object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetNtpserver -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetNtpserver -Filter @{ 'name'='<value>' }
+        Get ntpserver data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNtpserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -638,24 +617,24 @@ function Invoke-ADCGetNtpserver {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all ntpserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpserver -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for ntpserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpserver -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving ntpserver objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpserver -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpserver -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving ntpserver configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving ntpserver configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpserver -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpserver -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -669,45 +648,50 @@ function Invoke-ADCGetNtpserver {
 }
 
 function Invoke-ADCGetNtpstatus {
-<#
+    <#
     .SYNOPSIS
-        Get NTP configuration object(s)
+        Get NTP configuration object(s).
     .DESCRIPTION
-        Get NTP configuration object(s)
+        Configuration for ntp status resource.
     .PARAMETER GetAll 
-        Retreive all ntpstatus object(s)
+        Retrieve all ntpstatus object(s).
     .PARAMETER Count
-        If specified, the count of the ntpstatus object(s) will be returned
+        If specified, the count of the ntpstatus object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetNtpstatus
+        PS C:\>Invoke-ADCGetNtpstatus
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetNtpstatus -GetAll
+        PS C:\>Invoke-ADCGetNtpstatus -GetAll 
+        Get all ntpstatus data.
     .EXAMPLE
-        Invoke-ADCGetNtpstatus -name <string>
+        PS C:\>Invoke-ADCGetNtpstatus -name <string>
+        Get ntpstatus object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetNtpstatus -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetNtpstatus -Filter @{ 'name'='<value>' }
+        Get ntpstatus data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNtpstatus
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpstatus/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -719,24 +703,24 @@ function Invoke-ADCGetNtpstatus {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all ntpstatus objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpstatus -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpstatus -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for ntpstatus objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpstatus -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpstatus -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving ntpstatus objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpstatus -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpstatus -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving ntpstatus configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving ntpstatus configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpstatus -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpstatus -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -750,30 +734,32 @@ function Invoke-ADCGetNtpstatus {
 }
 
 function Invoke-ADCEnableNtpsync {
-<#
+    <#
     .SYNOPSIS
-        Enable NTP configuration Object
+        Enable NTP configuration Object.
     .DESCRIPTION
-        Enable NTP configuration Object 
+        Configuration for NTP sync resource.
     .EXAMPLE
-        Invoke-ADCEnableNtpsync 
+        PS C:\>Invoke-ADCEnableNtpsync 
+        An example how to enable ntpsync configuration Object(s).
     .NOTES
         File Name : Invoke-ADCEnableNtpsync
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpsync/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession) 
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession) 
 
     )
     begin {
@@ -781,12 +767,10 @@ function Invoke-ADCEnableNtpsync {
     }
     process {
         try {
-            $Payload = @{
+            $payload = @{ }
 
-            }
-
-            if ($PSCmdlet.ShouldProcess($Name, "Enable NTP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ntpsync -Action enable -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Enable NTP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ntpsync -Action enable -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -802,30 +786,32 @@ function Invoke-ADCEnableNtpsync {
 }
 
 function Invoke-ADCDisableNtpsync {
-<#
+    <#
     .SYNOPSIS
-        Disable NTP configuration Object
+        Disable NTP configuration Object.
     .DESCRIPTION
-        Disable NTP configuration Object 
+        Configuration for NTP sync resource.
     .EXAMPLE
-        Invoke-ADCDisableNtpsync 
+        PS C:\>Invoke-ADCDisableNtpsync 
+        An example how to disable ntpsync configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDisableNtpsync
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpsync/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession) 
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession) 
 
     )
     begin {
@@ -833,12 +819,10 @@ function Invoke-ADCDisableNtpsync {
     }
     process {
         try {
-            $Payload = @{
+            $payload = @{ }
 
-            }
-
-            if ($PSCmdlet.ShouldProcess($Name, "Disable NTP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ntpsync -Action disable -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Disable NTP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ntpsync -Action disable -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -854,45 +838,50 @@ function Invoke-ADCDisableNtpsync {
 }
 
 function Invoke-ADCGetNtpsync {
-<#
+    <#
     .SYNOPSIS
-        Get NTP configuration object(s)
+        Get NTP configuration object(s).
     .DESCRIPTION
-        Get NTP configuration object(s)
+        Configuration for NTP sync resource.
     .PARAMETER GetAll 
-        Retreive all ntpsync object(s)
+        Retrieve all ntpsync object(s).
     .PARAMETER Count
-        If specified, the count of the ntpsync object(s) will be returned
+        If specified, the count of the ntpsync object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetNtpsync
+        PS C:\>Invoke-ADCGetNtpsync
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetNtpsync -GetAll
+        PS C:\>Invoke-ADCGetNtpsync -GetAll 
+        Get all ntpsync data.
     .EXAMPLE
-        Invoke-ADCGetNtpsync -name <string>
+        PS C:\>Invoke-ADCGetNtpsync -name <string>
+        Get ntpsync object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetNtpsync -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetNtpsync -Filter @{ 'name'='<value>' }
+        Get ntpsync data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNtpsync
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpsync/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -904,24 +893,24 @@ function Invoke-ADCGetNtpsync {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all ntpsync objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpsync -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpsync -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for ntpsync objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpsync -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpsync -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving ntpsync objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpsync -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpsync -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving ntpsync configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving ntpsync configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpsync -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ntpsync -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

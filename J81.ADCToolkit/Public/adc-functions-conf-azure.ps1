@@ -1,102 +1,93 @@
 function Invoke-ADCAddAzureapplication {
-<#
+    <#
     .SYNOPSIS
-        Add Azure configuration Object
+        Add Azure configuration Object.
     .DESCRIPTION
-        Add Azure configuration Object 
-    .PARAMETER name 
-        Name for the application. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at sign (@), equal sign (=), and hyphen (-) characters. Can be changed after the application is created.',  
-        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my application" or 'my application').  
-        Minimum length = 1 
-    .PARAMETER clientid 
-        Application ID that is generated when an application is created in Azure Active Directory using either the Azure CLI or the Azure portal (GUI).  
-        Minimum length = 1 
-    .PARAMETER clientsecret 
-        Password for the application configured in Azure Active Directory. The password is specified in the Azure CLI or generated in the Azure portal (GUI).  
-        Minimum length = 1 
-    .PARAMETER tenantid 
-        ID of the directory inside Azure Active Directory in which the application was created.  
-        Minimum length = 1 
-    .PARAMETER vaultresource 
-        Vault resource for which access token is granted. Example : vault.azure.net.  
-        Minimum length = 3  
-        Maximum length = 255 
-    .PARAMETER tokenendpoint 
-        URL from where access token can be obtained. If the token end point is not specified, the default value is https://login.microsoftonline.com/<tenant id>.  
-        Minimum length = 1 
+        Configuration for Azure Application resource.
+    .PARAMETER Name 
+        Name for the application. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at sign (@), equal sign (=), and hyphen (-) characters. Can be changed after the application is created.', 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my application" or 'my application'). 
+    .PARAMETER Clientid 
+        Application ID that is generated when an application is created in Azure Active Directory using either the Azure CLI or the Azure portal (GUI). 
+    .PARAMETER Clientsecret 
+        Password for the application configured in Azure Active Directory. The password is specified in the Azure CLI or generated in the Azure portal (GUI). 
+    .PARAMETER Tenantid 
+        ID of the directory inside Azure Active Directory in which the application was created. 
+    .PARAMETER Vaultresource 
+        Vault resource for which access token is granted. Example : vault.azure.net. 
+    .PARAMETER Tokenendpoint 
+        URL from where access token can be obtained. If the token end point is not specified, the default value is https://login.microsoftonline.com/<tenant id>. 
     .PARAMETER PassThru 
         Return details about the created azureapplication item.
     .EXAMPLE
-        Invoke-ADCAddAzureapplication -name <string> -clientid <string> -clientsecret <string> -tenantid <string> -vaultresource <string>
+        PS C:\>Invoke-ADCAddAzureapplication -name <string> -clientid <string> -clientsecret <string> -tenantid <string> -vaultresource <string>
+        An example how to add azureapplication configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAzureapplication
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azureapplication/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$clientid ,
+        [string]$Clientid,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$clientsecret ,
+        [string]$Clientsecret,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$tenantid ,
+        [string]$Tenantid,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(3, 255)]
-        [string]$vaultresource ,
+        [string]$Vaultresource,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$tokenendpoint ,
+        [string]$Tokenendpoint,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddAzureapplication: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                clientid = $clientid
-                clientsecret = $clientsecret
-                tenantid = $tenantid
-                vaultresource = $vaultresource
+            $payload = @{ name = $name
+                clientid       = $clientid
+                clientsecret   = $clientsecret
+                tenantid       = $tenantid
+                vaultresource  = $vaultresource
             }
-            if ($PSBoundParameters.ContainsKey('tokenendpoint')) { $Payload.Add('tokenendpoint', $tokenendpoint) }
- 
-            if ($PSCmdlet.ShouldProcess("azureapplication", "Add Azure configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type azureapplication -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('tokenendpoint') ) { $payload.Add('tokenendpoint', $tokenendpoint) }
+            if ( $PSCmdlet.ShouldProcess("azureapplication", "Add Azure configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type azureapplication -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetAzureapplication -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetAzureapplication -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -109,48 +100,48 @@ function Invoke-ADCAddAzureapplication {
 }
 
 function Invoke-ADCDeleteAzureapplication {
-<#
+    <#
     .SYNOPSIS
-        Delete Azure configuration Object
+        Delete Azure configuration Object.
     .DESCRIPTION
-        Delete Azure configuration Object
-    .PARAMETER name 
-       Name for the application. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at sign (@), equal sign (=), and hyphen (-) characters. Can be changed after the application is created.',  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my application" or 'my application').  
-       Minimum length = 1 
+        Configuration for Azure Application resource.
+    .PARAMETER Name 
+        Name for the application. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at sign (@), equal sign (=), and hyphen (-) characters. Can be changed after the application is created.', 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my application" or 'my application').
     .EXAMPLE
-        Invoke-ADCDeleteAzureapplication -name <string>
+        PS C:\>Invoke-ADCDeleteAzureapplication -Name <string>
+        An example how to delete azureapplication configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAzureapplication
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azureapplication/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteAzureapplication: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Azure configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type azureapplication -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Azure configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type azureapplication -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -166,57 +157,63 @@ function Invoke-ADCDeleteAzureapplication {
 }
 
 function Invoke-ADCGetAzureapplication {
-<#
+    <#
     .SYNOPSIS
-        Get Azure configuration object(s)
+        Get Azure configuration object(s).
     .DESCRIPTION
-        Get Azure configuration object(s)
-    .PARAMETER name 
-       Name for the application. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at sign (@), equal sign (=), and hyphen (-) characters. Can be changed after the application is created.',  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my application" or 'my application'). 
+        Configuration for Azure Application resource.
+    .PARAMETER Name 
+        Name for the application. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at sign (@), equal sign (=), and hyphen (-) characters. Can be changed after the application is created.', 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my application" or 'my application'). 
     .PARAMETER GetAll 
-        Retreive all azureapplication object(s)
+        Retrieve all azureapplication object(s).
     .PARAMETER Count
-        If specified, the count of the azureapplication object(s) will be returned
+        If specified, the count of the azureapplication object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetAzureapplication
+        PS C:\>Invoke-ADCGetAzureapplication
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetAzureapplication -GetAll 
+        PS C:\>Invoke-ADCGetAzureapplication -GetAll 
+        Get all azureapplication data. 
     .EXAMPLE 
-        Invoke-ADCGetAzureapplication -Count
+        PS C:\>Invoke-ADCGetAzureapplication -Count 
+        Get the number of azureapplication objects.
     .EXAMPLE
-        Invoke-ADCGetAzureapplication -name <string>
+        PS C:\>Invoke-ADCGetAzureapplication -name <string>
+        Get azureapplication object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetAzureapplication -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetAzureapplication -Filter @{ 'name'='<value>' }
+        Get azureapplication data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAzureapplication
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azureapplication/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -234,24 +231,24 @@ function Invoke-ADCGetAzureapplication {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all azureapplication objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azureapplication -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azureapplication -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for azureapplication objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azureapplication -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azureapplication -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving azureapplication objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azureapplication -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azureapplication -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving azureapplication configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azureapplication -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving azureapplication configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azureapplication -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azureapplication -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -265,81 +262,74 @@ function Invoke-ADCGetAzureapplication {
 }
 
 function Invoke-ADCAddAzurekeyvault {
-<#
+    <#
     .SYNOPSIS
-        Add Azure configuration Object
+        Add Azure configuration Object.
     .DESCRIPTION
-        Add Azure configuration Object 
-    .PARAMETER name 
-        Name for the Key Vault. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at sign (@), equal sign (=), and hyphen (-) characters. Can be changed after the Key Vault is created.  
-        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my keyvault" or 'my keyvault').  
-        Minimum length = 1 
-    .PARAMETER azurevaultname 
-        Name of the Key Vault configured in Azure cloud using either the Azure CLI or the Azure portal (GUI) with complete domain name. Example: Test.vault.azure.net.  
-        Minimum length = 3  
-        Maximum length = 255 
-    .PARAMETER azureapplication 
-        Name of the Azure Application object created on the ADC appliance. This object will be used for authentication with Azure Active Directory.  
-        Minimum length = 1  
-        Maximum length = 63 
+        Configuration for Azure Key Vault entity resource.
+    .PARAMETER Name 
+        Name for the Key Vault. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at sign (@), equal sign (=), and hyphen (-) characters. Can be changed after the Key Vault is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my keyvault" or 'my keyvault'). 
+    .PARAMETER Azurevaultname 
+        Name of the Key Vault configured in Azure cloud using either the Azure CLI or the Azure portal (GUI) with complete domain name. Example: Test.vault.azure.net. 
+    .PARAMETER Azureapplication 
+        Name of the Azure Application object created on the ADC appliance. This object will be used for authentication with Azure Active Directory. 
     .PARAMETER PassThru 
         Return details about the created azurekeyvault item.
     .EXAMPLE
-        Invoke-ADCAddAzurekeyvault -name <string> -azureapplication <string>
+        PS C:\>Invoke-ADCAddAzurekeyvault -name <string> -azureapplication <string>
+        An example how to add azurekeyvault configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAzurekeyvault
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azurekeyvault/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateLength(3, 255)]
-        [string]$azurevaultname ,
+        [string]$Azurevaultname,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 63)]
-        [string]$azureapplication ,
+        [string]$Azureapplication,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddAzurekeyvault: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
+            $payload = @{ name   = $name
                 azureapplication = $azureapplication
             }
-            if ($PSBoundParameters.ContainsKey('azurevaultname')) { $Payload.Add('azurevaultname', $azurevaultname) }
- 
-            if ($PSCmdlet.ShouldProcess("azurekeyvault", "Add Azure configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type azurekeyvault -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('azurevaultname') ) { $payload.Add('azurevaultname', $azurevaultname) }
+            if ( $PSCmdlet.ShouldProcess("azurekeyvault", "Add Azure configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type azurekeyvault -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetAzurekeyvault -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetAzurekeyvault -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -352,48 +342,48 @@ function Invoke-ADCAddAzurekeyvault {
 }
 
 function Invoke-ADCDeleteAzurekeyvault {
-<#
+    <#
     .SYNOPSIS
-        Delete Azure configuration Object
+        Delete Azure configuration Object.
     .DESCRIPTION
-        Delete Azure configuration Object
-    .PARAMETER name 
-       Name for the Key Vault. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at sign (@), equal sign (=), and hyphen (-) characters. Can be changed after the Key Vault is created.  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my keyvault" or 'my keyvault').  
-       Minimum length = 1 
+        Configuration for Azure Key Vault entity resource.
+    .PARAMETER Name 
+        Name for the Key Vault. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at sign (@), equal sign (=), and hyphen (-) characters. Can be changed after the Key Vault is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my keyvault" or 'my keyvault').
     .EXAMPLE
-        Invoke-ADCDeleteAzurekeyvault -name <string>
+        PS C:\>Invoke-ADCDeleteAzurekeyvault -Name <string>
+        An example how to delete azurekeyvault configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAzurekeyvault
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azurekeyvault/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteAzurekeyvault: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Azure configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type azurekeyvault -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Azure configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type azurekeyvault -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -409,57 +399,63 @@ function Invoke-ADCDeleteAzurekeyvault {
 }
 
 function Invoke-ADCGetAzurekeyvault {
-<#
+    <#
     .SYNOPSIS
-        Get Azure configuration object(s)
+        Get Azure configuration object(s).
     .DESCRIPTION
-        Get Azure configuration object(s)
-    .PARAMETER name 
-       Name for the Key Vault. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at sign (@), equal sign (=), and hyphen (-) characters. Can be changed after the Key Vault is created.  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my keyvault" or 'my keyvault'). 
+        Configuration for Azure Key Vault entity resource.
+    .PARAMETER Name 
+        Name for the Key Vault. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at sign (@), equal sign (=), and hyphen (-) characters. Can be changed after the Key Vault is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my keyvault" or 'my keyvault'). 
     .PARAMETER GetAll 
-        Retreive all azurekeyvault object(s)
+        Retrieve all azurekeyvault object(s).
     .PARAMETER Count
-        If specified, the count of the azurekeyvault object(s) will be returned
+        If specified, the count of the azurekeyvault object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetAzurekeyvault
+        PS C:\>Invoke-ADCGetAzurekeyvault
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetAzurekeyvault -GetAll 
+        PS C:\>Invoke-ADCGetAzurekeyvault -GetAll 
+        Get all azurekeyvault data. 
     .EXAMPLE 
-        Invoke-ADCGetAzurekeyvault -Count
+        PS C:\>Invoke-ADCGetAzurekeyvault -Count 
+        Get the number of azurekeyvault objects.
     .EXAMPLE
-        Invoke-ADCGetAzurekeyvault -name <string>
+        PS C:\>Invoke-ADCGetAzurekeyvault -name <string>
+        Get azurekeyvault object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetAzurekeyvault -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetAzurekeyvault -Filter @{ 'name'='<value>' }
+        Get azurekeyvault data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAzurekeyvault
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azurekeyvault/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -477,24 +473,24 @@ function Invoke-ADCGetAzurekeyvault {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all azurekeyvault objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azurekeyvault -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azurekeyvault -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for azurekeyvault objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azurekeyvault -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azurekeyvault -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving azurekeyvault objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azurekeyvault -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azurekeyvault -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving azurekeyvault configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azurekeyvault -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving azurekeyvault configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azurekeyvault -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type azurekeyvault -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

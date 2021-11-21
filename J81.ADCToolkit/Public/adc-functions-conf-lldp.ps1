@@ -1,28 +1,30 @@
 function Invoke-ADCClearLldpneighbors {
-<#
+    <#
     .SYNOPSIS
-        Clear LLDP configuration Object
+        Clear LLDP configuration Object.
     .DESCRIPTION
-        Clear LLDP configuration Object 
+        Configuration for lldp neighbors resource.
     .EXAMPLE
-        Invoke-ADCClearLldpneighbors 
+        PS C:\>Invoke-ADCClearLldpneighbors 
+        An example how to clear lldpneighbors configuration Object(s).
     .NOTES
         File Name : Invoke-ADCClearLldpneighbors
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lldp/lldpneighbors/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession) 
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession) 
 
     )
     begin {
@@ -30,12 +32,10 @@ function Invoke-ADCClearLldpneighbors {
     }
     process {
         try {
-            $Payload = @{
+            $payload = @{ }
 
-            }
-
-            if ($PSCmdlet.ShouldProcess($Name, "Clear LLDP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lldpneighbors -Action clear -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Clear LLDP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lldpneighbors -Action clear -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -51,54 +51,60 @@ function Invoke-ADCClearLldpneighbors {
 }
 
 function Invoke-ADCGetLldpneighbors {
-<#
+    <#
     .SYNOPSIS
-        Get LLDP configuration object(s)
+        Get LLDP configuration object(s).
     .DESCRIPTION
-        Get LLDP configuration object(s)
-    .PARAMETER ifnum 
-       Interface Name. 
+        Configuration for lldp neighbors resource.
+    .PARAMETER Ifnum 
+        Interface Name. 
     .PARAMETER GetAll 
-        Retreive all lldpneighbors object(s)
+        Retrieve all lldpneighbors object(s).
     .PARAMETER Count
-        If specified, the count of the lldpneighbors object(s) will be returned
+        If specified, the count of the lldpneighbors object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLldpneighbors
+        PS C:\>Invoke-ADCGetLldpneighbors
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLldpneighbors -GetAll 
+        PS C:\>Invoke-ADCGetLldpneighbors -GetAll 
+        Get all lldpneighbors data. 
     .EXAMPLE 
-        Invoke-ADCGetLldpneighbors -Count
+        PS C:\>Invoke-ADCGetLldpneighbors -Count 
+        Get the number of lldpneighbors objects.
     .EXAMPLE
-        Invoke-ADCGetLldpneighbors -name <string>
+        PS C:\>Invoke-ADCGetLldpneighbors -name <string>
+        Get lldpneighbors object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLldpneighbors -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLldpneighbors -Filter @{ 'name'='<value>' }
+        Get lldpneighbors data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLldpneighbors
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lldp/lldpneighbors/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$ifnum,
+        [string]$Ifnum,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -116,24 +122,24 @@ function Invoke-ADCGetLldpneighbors {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all lldpneighbors objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lldpneighbors -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lldpneighbors -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lldpneighbors objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lldpneighbors -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lldpneighbors -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lldpneighbors objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lldpneighbors -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lldpneighbors -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lldpneighbors configuration for property 'ifnum'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lldpneighbors -NitroPath nitro/v1/config -Resource $ifnum -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lldpneighbors configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lldpneighbors -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lldpneighbors -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -147,72 +153,63 @@ function Invoke-ADCGetLldpneighbors {
 }
 
 function Invoke-ADCUpdateLldpparam {
-<#
+    <#
     .SYNOPSIS
-        Update LLDP configuration Object
+        Update LLDP configuration Object.
     .DESCRIPTION
-        Update LLDP configuration Object 
-    .PARAMETER holdtimetxmult 
-        A multiplier for calculating the duration for which the receiving device stores the LLDP information in its database before discarding or removing it. The duration is calculated as the holdtimeTxMult (Holdtime Multiplier) parameter value multiplied by the timer (Timer) parameter value.  
-        Default value: 4  
-        Minimum value = 1  
-        Maximum value = 20 
-    .PARAMETER timer 
-        Interval, in seconds, between LLDP packet data units (LLDPDUs). that the Citrix ADC sends to a directly connected device.  
-        Default value: 30  
-        Minimum value = 1  
-        Maximum value = 3000 
-    .PARAMETER mode 
-        Global mode of Link Layer Discovery Protocol (LLDP) on the Citrix ADC. The resultant LLDP mode of an interface depends on the LLDP mode configured at the global and the interface levels.  
+        Configuration for lldp params resource.
+    .PARAMETER Holdtimetxmult 
+        A multiplier for calculating the duration for which the receiving device stores the LLDP information in its database before discarding or removing it. The duration is calculated as the holdtimeTxMult (Holdtime Multiplier) parameter value multiplied by the timer (Timer) parameter value. 
+    .PARAMETER Timer 
+        Interval, in seconds, between LLDP packet data units (LLDPDUs). that the Citrix ADC sends to a directly connected device. 
+    .PARAMETER Mode 
+        Global mode of Link Layer Discovery Protocol (LLDP) on the Citrix ADC. The resultant LLDP mode of an interface depends on the LLDP mode configured at the global and the interface levels. 
         Possible values = NONE, TRANSMITTER, RECEIVER, TRANSCEIVER
     .EXAMPLE
-        Invoke-ADCUpdateLldpparam 
+        PS C:\>Invoke-ADCUpdateLldpparam 
+        An example how to update lldpparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLldpparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lldp/lldpparam/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateRange(1, 20)]
-        [double]$holdtimetxmult ,
+        [double]$Holdtimetxmult,
 
         [ValidateRange(1, 3000)]
-        [double]$timer ,
+        [double]$Timer,
 
         [ValidateSet('NONE', 'TRANSMITTER', 'RECEIVER', 'TRANSCEIVER')]
-        [string]$mode 
-
+        [string]$Mode 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateLldpparam: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('holdtimetxmult')) { $Payload.Add('holdtimetxmult', $holdtimetxmult) }
-            if ($PSBoundParameters.ContainsKey('timer')) { $Payload.Add('timer', $timer) }
-            if ($PSBoundParameters.ContainsKey('mode')) { $Payload.Add('mode', $mode) }
- 
-            if ($PSCmdlet.ShouldProcess("lldpparam", "Update LLDP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lldpparam -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('holdtimetxmult') ) { $payload.Add('holdtimetxmult', $holdtimetxmult) }
+            if ( $PSBoundParameters.ContainsKey('timer') ) { $payload.Add('timer', $timer) }
+            if ( $PSBoundParameters.ContainsKey('mode') ) { $payload.Add('mode', $mode) }
+            if ( $PSCmdlet.ShouldProcess("lldpparam", "Update LLDP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lldpparam -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -225,41 +222,43 @@ function Invoke-ADCUpdateLldpparam {
 }
 
 function Invoke-ADCUnsetLldpparam {
-<#
+    <#
     .SYNOPSIS
-        Unset LLDP configuration Object
+        Unset LLDP configuration Object.
     .DESCRIPTION
-        Unset LLDP configuration Object 
-   .PARAMETER holdtimetxmult 
-       A multiplier for calculating the duration for which the receiving device stores the LLDP information in its database before discarding or removing it. The duration is calculated as the holdtimeTxMult (Holdtime Multiplier) parameter value multiplied by the timer (Timer) parameter value. 
-   .PARAMETER timer 
-       Interval, in seconds, between LLDP packet data units (LLDPDUs). that the Citrix ADC sends to a directly connected device. 
-   .PARAMETER mode 
-       Global mode of Link Layer Discovery Protocol (LLDP) on the Citrix ADC. The resultant LLDP mode of an interface depends on the LLDP mode configured at the global and the interface levels.  
-       Possible values = NONE, TRANSMITTER, RECEIVER, TRANSCEIVER
+        Configuration for lldp params resource.
+    .PARAMETER Holdtimetxmult 
+        A multiplier for calculating the duration for which the receiving device stores the LLDP information in its database before discarding or removing it. The duration is calculated as the holdtimeTxMult (Holdtime Multiplier) parameter value multiplied by the timer (Timer) parameter value. 
+    .PARAMETER Timer 
+        Interval, in seconds, between LLDP packet data units (LLDPDUs). that the Citrix ADC sends to a directly connected device. 
+    .PARAMETER Mode 
+        Global mode of Link Layer Discovery Protocol (LLDP) on the Citrix ADC. The resultant LLDP mode of an interface depends on the LLDP mode configured at the global and the interface levels. 
+        Possible values = NONE, TRANSMITTER, RECEIVER, TRANSCEIVER
     .EXAMPLE
-        Invoke-ADCUnsetLldpparam 
+        PS C:\>Invoke-ADCUnsetLldpparam 
+        An example how to unset lldpparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLldpparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lldp/lldpparam
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$holdtimetxmult ,
+        [Boolean]$holdtimetxmult,
 
-        [Boolean]$timer ,
+        [Boolean]$timer,
 
         [Boolean]$mode 
     )
@@ -268,14 +267,12 @@ function Invoke-ADCUnsetLldpparam {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('holdtimetxmult')) { $Payload.Add('holdtimetxmult', $holdtimetxmult) }
-            if ($PSBoundParameters.ContainsKey('timer')) { $Payload.Add('timer', $timer) }
-            if ($PSBoundParameters.ContainsKey('mode')) { $Payload.Add('mode', $mode) }
-            if ($PSCmdlet.ShouldProcess("lldpparam", "Unset LLDP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lldpparam -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('holdtimetxmult') ) { $payload.Add('holdtimetxmult', $holdtimetxmult) }
+            if ( $PSBoundParameters.ContainsKey('timer') ) { $payload.Add('timer', $timer) }
+            if ( $PSBoundParameters.ContainsKey('mode') ) { $payload.Add('mode', $mode) }
+            if ( $PSCmdlet.ShouldProcess("lldpparam", "Unset LLDP configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lldpparam -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -291,45 +288,50 @@ function Invoke-ADCUnsetLldpparam {
 }
 
 function Invoke-ADCGetLldpparam {
-<#
+    <#
     .SYNOPSIS
-        Get LLDP configuration object(s)
+        Get LLDP configuration object(s).
     .DESCRIPTION
-        Get LLDP configuration object(s)
+        Configuration for lldp params resource.
     .PARAMETER GetAll 
-        Retreive all lldpparam object(s)
+        Retrieve all lldpparam object(s).
     .PARAMETER Count
-        If specified, the count of the lldpparam object(s) will be returned
+        If specified, the count of the lldpparam object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLldpparam
+        PS C:\>Invoke-ADCGetLldpparam
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLldpparam -GetAll
+        PS C:\>Invoke-ADCGetLldpparam -GetAll 
+        Get all lldpparam data.
     .EXAMPLE
-        Invoke-ADCGetLldpparam -name <string>
+        PS C:\>Invoke-ADCGetLldpparam -name <string>
+        Get lldpparam object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLldpparam -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLldpparam -Filter @{ 'name'='<value>' }
+        Get lldpparam data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLldpparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lldp/lldpparam/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -341,24 +343,24 @@ function Invoke-ADCGetLldpparam {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all lldpparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lldpparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lldpparam -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lldpparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lldpparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lldpparam -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lldpparam objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lldpparam -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lldpparam -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lldpparam configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving lldpparam configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lldpparam -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lldpparam -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

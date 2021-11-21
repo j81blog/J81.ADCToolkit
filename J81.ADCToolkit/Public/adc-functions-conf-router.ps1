@@ -1,50 +1,47 @@
 function Invoke-ADCAddRouterdynamicrouting {
-<#
+    <#
     .SYNOPSIS
-        Add Router configuration Object
+        Add Router configuration Object.
     .DESCRIPTION
-        Add Router configuration Object 
-    .PARAMETER commandstring 
+        Configuration for dynamic routing config resource.
+    .PARAMETER Commandstring 
         command to be executed.
     .EXAMPLE
-        Invoke-ADCAddRouterdynamicrouting 
+        PS C:\>Invoke-ADCAddRouterdynamicrouting 
+        An example how to add routerdynamicrouting configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddRouterdynamicrouting
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/router/routerdynamicrouting/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$commandstring 
-
+        [string]$Commandstring 
     )
     begin {
         Write-Verbose "Invoke-ADCAddRouterdynamicrouting: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('commandstring')) { $Payload.Add('commandstring', $commandstring) }
- 
-            if ($PSCmdlet.ShouldProcess("routerdynamicrouting", "Add Router configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type routerdynamicrouting -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('commandstring') ) { $payload.Add('commandstring', $commandstring) }
+            if ( $PSCmdlet.ShouldProcess("routerdynamicrouting", "Add Router configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type routerdynamicrouting -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -57,45 +54,46 @@ function Invoke-ADCAddRouterdynamicrouting {
 }
 
 function Invoke-ADCDeleteRouterdynamicrouting {
-<#
+    <#
     .SYNOPSIS
-        Delete Router configuration Object
+        Delete Router configuration Object.
     .DESCRIPTION
-        Delete Router configuration Object
-     .PARAMETER commandstring 
-       command to be executed.
+        Configuration for dynamic routing config resource.
+    .PARAMETER Commandstring 
+        command to be executed.
     .EXAMPLE
-        Invoke-ADCDeleteRouterdynamicrouting 
+        PS C:\>Invoke-ADCDeleteRouterdynamicrouting 
+        An example how to delete routerdynamicrouting configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteRouterdynamicrouting
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/router/routerdynamicrouting/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$commandstring 
+        [string]$Commandstring 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteRouterdynamicrouting: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('commandstring')) { $Arguments.Add('commandstring', $commandstring) }
-            if ($PSCmdlet.ShouldProcess("routerdynamicrouting", "Delete Router configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type routerdynamicrouting -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Commandstring') ) { $arguments.Add('commandstring', $Commandstring) }
+            if ( $PSCmdlet.ShouldProcess("routerdynamicrouting", "Delete Router configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type routerdynamicrouting -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -111,52 +109,49 @@ function Invoke-ADCDeleteRouterdynamicrouting {
 }
 
 function Invoke-ADCUpdateRouterdynamicrouting {
-<#
+    <#
     .SYNOPSIS
-        Update Router configuration Object
+        Update Router configuration Object.
     .DESCRIPTION
-        Update Router configuration Object 
-    .PARAMETER commandstring 
+        Configuration for dynamic routing config resource.
+    .PARAMETER Commandstring 
         command to be executed.
     .EXAMPLE
-        Invoke-ADCUpdateRouterdynamicrouting 
+        PS C:\>Invoke-ADCUpdateRouterdynamicrouting 
+        An example how to update routerdynamicrouting configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateRouterdynamicrouting
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/router/routerdynamicrouting/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$commandstring 
-
+        [string]$Commandstring 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateRouterdynamicrouting: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('commandstring')) { $Payload.Add('commandstring', $commandstring) }
- 
-            if ($PSCmdlet.ShouldProcess("routerdynamicrouting", "Update Router configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type routerdynamicrouting -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('commandstring') ) { $payload.Add('commandstring', $commandstring) }
+            if ( $PSCmdlet.ShouldProcess("routerdynamicrouting", "Update Router configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type routerdynamicrouting -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -169,32 +164,34 @@ function Invoke-ADCUpdateRouterdynamicrouting {
 }
 
 function Invoke-ADCUnsetRouterdynamicrouting {
-<#
+    <#
     .SYNOPSIS
-        Unset Router configuration Object
+        Unset Router configuration Object.
     .DESCRIPTION
-        Unset Router configuration Object 
-   .PARAMETER commandstring 
-       command to be executed.
+        Configuration for dynamic routing config resource.
+    .PARAMETER Commandstring 
+        command to be executed.
     .EXAMPLE
-        Invoke-ADCUnsetRouterdynamicrouting 
+        PS C:\>Invoke-ADCUnsetRouterdynamicrouting 
+        An example how to unset routerdynamicrouting configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetRouterdynamicrouting
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/router/routerdynamicrouting
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Boolean]$commandstring 
     )
@@ -203,12 +200,10 @@ function Invoke-ADCUnsetRouterdynamicrouting {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('commandstring')) { $Payload.Add('commandstring', $commandstring) }
-            if ($PSCmdlet.ShouldProcess("routerdynamicrouting", "Unset Router configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type routerdynamicrouting -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('commandstring') ) { $payload.Add('commandstring', $commandstring) }
+            if ( $PSCmdlet.ShouldProcess("routerdynamicrouting", "Unset Router configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type routerdynamicrouting -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -224,34 +219,36 @@ function Invoke-ADCUnsetRouterdynamicrouting {
 }
 
 function Invoke-ADCApplyRouterdynamicrouting {
-<#
+    <#
     .SYNOPSIS
-        Apply Router configuration Object
+        Apply Router configuration Object.
     .DESCRIPTION
-        Apply Router configuration Object 
-    .PARAMETER commandstring 
+        Configuration for dynamic routing config resource.
+    .PARAMETER Commandstring 
         command to be executed.
     .EXAMPLE
-        Invoke-ADCApplyRouterdynamicrouting 
+        PS C:\>Invoke-ADCApplyRouterdynamicrouting 
+        An example how to apply routerdynamicrouting configuration Object(s).
     .NOTES
         File Name : Invoke-ADCApplyRouterdynamicrouting
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/router/routerdynamicrouting/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$commandstring 
+        [string]$Commandstring 
 
     )
     begin {
@@ -259,12 +256,10 @@ function Invoke-ADCApplyRouterdynamicrouting {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('commandstring')) { $Payload.Add('commandstring', $commandstring) }
-            if ($PSCmdlet.ShouldProcess($Name, "Apply Router configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type routerdynamicrouting -Action apply -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('commandstring') ) { $payload.Add('commandstring', $commandstring) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Apply Router configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type routerdynamicrouting -Action apply -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -280,60 +275,66 @@ function Invoke-ADCApplyRouterdynamicrouting {
 }
 
 function Invoke-ADCGetRouterdynamicrouting {
-<#
+    <#
     .SYNOPSIS
-        Get Router configuration object(s)
+        Get Router configuration object(s).
     .DESCRIPTION
-        Get Router configuration object(s)
-    .PARAMETER commandstring 
-       command to be executed. 
-    .PARAMETER nodeid 
-       Unique number that identifies the cluster node. 
+        Configuration for dynamic routing config resource.
+    .PARAMETER Commandstring 
+        command to be executed. 
+    .PARAMETER Nodeid 
+        Unique number that identifies the cluster node. 
     .PARAMETER GetAll 
-        Retreive all routerdynamicrouting object(s)
+        Retrieve all routerdynamicrouting object(s).
     .PARAMETER Count
-        If specified, the count of the routerdynamicrouting object(s) will be returned
+        If specified, the count of the routerdynamicrouting object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetRouterdynamicrouting
+        PS C:\>Invoke-ADCGetRouterdynamicrouting
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetRouterdynamicrouting -GetAll 
+        PS C:\>Invoke-ADCGetRouterdynamicrouting -GetAll 
+        Get all routerdynamicrouting data. 
     .EXAMPLE 
-        Invoke-ADCGetRouterdynamicrouting -Count
+        PS C:\>Invoke-ADCGetRouterdynamicrouting -Count 
+        Get the number of routerdynamicrouting objects.
     .EXAMPLE
-        Invoke-ADCGetRouterdynamicrouting -name <string>
+        PS C:\>Invoke-ADCGetRouterdynamicrouting -name <string>
+        Get routerdynamicrouting object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetRouterdynamicrouting -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetRouterdynamicrouting -Filter @{ 'name'='<value>' }
+        Get routerdynamicrouting data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRouterdynamicrouting
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/router/routerdynamicrouting/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$commandstring ,
+        [string]$Commandstring,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateRange(0, 31)]
-        [double]$nodeid,
+        [double]$Nodeid,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -350,26 +351,26 @@ function Invoke-ADCGetRouterdynamicrouting {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all routerdynamicrouting objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type routerdynamicrouting -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type routerdynamicrouting -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for routerdynamicrouting objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type routerdynamicrouting -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type routerdynamicrouting -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving routerdynamicrouting objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('commandstring')) { $Arguments.Add('commandstring', $commandstring) } 
-                if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type routerdynamicrouting -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('commandstring') ) { $arguments.Add('commandstring', $commandstring) } 
+                if ( $PSBoundParameters.ContainsKey('nodeid') ) { $arguments.Add('nodeid', $nodeid) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type routerdynamicrouting -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving routerdynamicrouting configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving routerdynamicrouting configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type routerdynamicrouting -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type routerdynamicrouting -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

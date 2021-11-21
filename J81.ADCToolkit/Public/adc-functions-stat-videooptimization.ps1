@@ -1,50 +1,55 @@
 function Invoke-ADCGetVideooptimizationStats {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization statistics object(s)
+        Get VideoOptimization statistics object(s).
     .DESCRIPTION
-        Get VideoOptimization statistics object(s)
-    .PARAMETER clearstats 
-       Clear the statsistics / counters.  
-       Possible values = basic, full 
+        Statistics for videooptimization.
+    .PARAMETER Clearstats 
+        Clear the statsistics / counters. 
+        Possible values = basic, full 
     .PARAMETER GetAll 
-        Retreive all videooptimization object(s)
+        Retrieve all videooptimization object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimization object(s) will be returned
+        If specified, the count of the videooptimization object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationStats
+        PS C:\>Invoke-ADCGetVideooptimizationStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationStats -GetAll
+        PS C:\>Invoke-ADCGetVideooptimizationStats -GetAll 
+        Get all videooptimization data.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationStats -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationStats -name <string>
+        Get videooptimization object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationStats -Filter @{ 'name'='<value>' }
+        Get videooptimization data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/videooptimization/videooptimization/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('basic', 'full')]
-        [string]$clearstats,
+        [string]$Clearstats,
 			
         [hashtable]$Filter = @{ },
 
@@ -56,29 +61,29 @@ function Invoke-ADCGetVideooptimizationStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all videooptimization objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimization -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimization -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimization objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimization -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimization -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimization objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('detail')) { $Arguments.Add('detail', $detail) } 
-                if ($PSBoundParameters.ContainsKey('fullvalues')) { $Arguments.Add('fullvalues', $fullvalues) } 
-                if ($PSBoundParameters.ContainsKey('ntimes')) { $Arguments.Add('ntimes', $ntimes) } 
-                if ($PSBoundParameters.ContainsKey('logfile')) { $Arguments.Add('logfile', $logfile) } 
-                if ($PSBoundParameters.ContainsKey('clearstats')) { $Arguments.Add('clearstats', $clearstats) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimization -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('detail') ) { $arguments.Add('detail', $detail) } 
+                if ( $PSBoundParameters.ContainsKey('fullvalues') ) { $arguments.Add('fullvalues', $fullvalues) } 
+                if ( $PSBoundParameters.ContainsKey('ntimes') ) { $arguments.Add('ntimes', $ntimes) } 
+                if ( $PSBoundParameters.ContainsKey('logfile') ) { $arguments.Add('logfile', $logfile) } 
+                if ( $PSBoundParameters.ContainsKey('clearstats') ) { $arguments.Add('clearstats', $clearstats) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimization -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimization configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving videooptimization configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimization -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimization -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -92,51 +97,56 @@ function Invoke-ADCGetVideooptimizationStats {
 }
 
 function Invoke-ADCGetVideooptimizationdetectionpolicyStats {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization statistics object(s)
+        Get VideoOptimization statistics object(s).
     .DESCRIPTION
-        Get VideoOptimization statistics object(s)
-    .PARAMETER name 
-       Name of the Video Optimization detection policy for which to show detailed statistics. 
+        Statistics for videooptimization detectionpolicy resource.
+    .PARAMETER Name 
+        Name of the Video Optimization detection policy for which to show detailed statistics. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationdetectionpolicy object(s)
+        Retrieve all videooptimizationdetectionpolicy object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationdetectionpolicy object(s) will be returned
+        If specified, the count of the videooptimizationdetectionpolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicyStats
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicyStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationdetectionpolicyStats -GetAll
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicyStats -GetAll 
+        Get all videooptimizationdetectionpolicy data.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicyStats -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicyStats -name <string>
+        Get videooptimizationdetectionpolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicyStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicyStats -Filter @{ 'name'='<value>' }
+        Get videooptimizationdetectionpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionpolicyStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/videooptimization/videooptimizationdetectionpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -148,24 +158,24 @@ function Invoke-ADCGetVideooptimizationdetectionpolicyStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all videooptimizationdetectionpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationdetectionpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicy configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/stat -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -179,51 +189,56 @@ function Invoke-ADCGetVideooptimizationdetectionpolicyStats {
 }
 
 function Invoke-ADCGetVideooptimizationdetectionpolicylabelStats {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization statistics object(s)
+        Get VideoOptimization statistics object(s).
     .DESCRIPTION
-        Get VideoOptimization statistics object(s)
-    .PARAMETER labelname 
-       Name of the videooptimization detection policy label. 
+        Statistics for videooptimization detection policy label resource.
+    .PARAMETER Labelname 
+        Name of the videooptimization detection policy label. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationdetectionpolicylabel object(s)
+        Retrieve all videooptimizationdetectionpolicylabel object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationdetectionpolicylabel object(s) will be returned
+        If specified, the count of the videooptimizationdetectionpolicylabel object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicylabelStats
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabelStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationdetectionpolicylabelStats -GetAll
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabelStats -GetAll 
+        Get all videooptimizationdetectionpolicylabel data.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicylabelStats -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabelStats -name <string>
+        Get videooptimizationdetectionpolicylabel object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicylabelStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabelStats -Filter @{ 'name'='<value>' }
+        Get videooptimizationdetectionpolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionpolicylabelStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/videooptimization/videooptimizationdetectionpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$labelname,
+        [string]$Labelname,
 			
         [hashtable]$Filter = @{ },
 
@@ -235,24 +250,24 @@ function Invoke-ADCGetVideooptimizationdetectionpolicylabelStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all videooptimizationdetectionpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationdetectionpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicylabel objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicylabel configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/stat -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicylabel configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -266,51 +281,56 @@ function Invoke-ADCGetVideooptimizationdetectionpolicylabelStats {
 }
 
 function Invoke-ADCGetVideooptimizationpacingpolicyStats {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization statistics object(s)
+        Get VideoOptimization statistics object(s).
     .DESCRIPTION
-        Get VideoOptimization statistics object(s)
-    .PARAMETER name 
-       Name of the Video Optimization Pacing policy for which to show detailed statistics. 
+        Statistics for videooptimization pacingpolicy resource.
+    .PARAMETER Name 
+        Name of the Video Optimization Pacing policy for which to show detailed statistics. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationpacingpolicy object(s)
+        Retrieve all videooptimizationpacingpolicy object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationpacingpolicy object(s) will be returned
+        If specified, the count of the videooptimizationpacingpolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicyStats
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicyStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationpacingpolicyStats -GetAll
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicyStats -GetAll 
+        Get all videooptimizationpacingpolicy data.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicyStats -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicyStats -name <string>
+        Get videooptimizationpacingpolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicyStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicyStats -Filter @{ 'name'='<value>' }
+        Get videooptimizationpacingpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingpolicyStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/videooptimization/videooptimizationpacingpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -322,24 +342,24 @@ function Invoke-ADCGetVideooptimizationpacingpolicyStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all videooptimizationpacingpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationpacingpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicy configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy -NitroPath nitro/v1/stat -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationpacingpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -353,51 +373,56 @@ function Invoke-ADCGetVideooptimizationpacingpolicyStats {
 }
 
 function Invoke-ADCGetVideooptimizationpacingpolicylabelStats {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization statistics object(s)
+        Get VideoOptimization statistics object(s).
     .DESCRIPTION
-        Get VideoOptimization statistics object(s)
-    .PARAMETER labelname 
-       Name of the videooptimization pacing policy label. 
+        Statistics for videooptimization pacing policy label resource.
+    .PARAMETER Labelname 
+        Name of the videooptimization pacing policy label. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationpacingpolicylabel object(s)
+        Retrieve all videooptimizationpacingpolicylabel object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationpacingpolicylabel object(s) will be returned
+        If specified, the count of the videooptimizationpacingpolicylabel object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicylabelStats
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabelStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationpacingpolicylabelStats -GetAll
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabelStats -GetAll 
+        Get all videooptimizationpacingpolicylabel data.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicylabelStats -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabelStats -name <string>
+        Get videooptimizationpacingpolicylabel object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicylabelStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabelStats -Filter @{ 'name'='<value>' }
+        Get videooptimizationpacingpolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingpolicylabelStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/videooptimization/videooptimizationpacingpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$labelname,
+        [string]$Labelname,
 			
         [hashtable]$Filter = @{ },
 
@@ -409,24 +434,24 @@ function Invoke-ADCGetVideooptimizationpacingpolicylabelStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all videooptimizationpacingpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationpacingpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicylabel objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicylabel configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/stat -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationpacingpolicylabel configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

@@ -1,85 +1,78 @@
 function Invoke-ADCAddLsnappsattributes {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER name 
+        Configuration for LSN Application Attributes resource.
+    .PARAMETER Name 
         Name for the LSN Application Port ATTRIBUTES. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
-    .PARAMETER transportprotocol 
-        Name of the protocol(TCP,UDP) for which the parameters of this LSN application port ATTRIBUTES applies.  
+    .PARAMETER Transportprotocol 
+        Name of the protocol(TCP,UDP) for which the parameters of this LSN application port ATTRIBUTES applies. 
         Possible values = TCP, UDP, ICMP 
-    .PARAMETER port 
-        This is used for Displaying Port/Port range in CLI/Nitro.Lowport, Highport values are populated and used for displaying.Port numbers or range of port numbers to match against the destination port of the incoming packet from a subscriber. When the destination port is matched, the LSN application profile is applied for the LSN session. Separate a range of ports with a hyphen. For example, 40-90.  
-        Minimum length = 1 
-    .PARAMETER sessiontimeout 
-        Timeout, in seconds, for an idle LSN session. If an LSN session is idle for a time that exceeds this value, the Citrix ADC removes the session.This timeout does not apply for a TCP LSN session when a FIN or RST message is received from either of the endpoints.  
-        Default value: 30  
-        Minimum value = 5  
-        Maximum value = 600 
+    .PARAMETER Port 
+        This is used for Displaying Port/Port range in CLI/Nitro.Lowport, Highport values are populated and used for displaying.Port numbers or range of port numbers to match against the destination port of the incoming packet from a subscriber. When the destination port is matched, the LSN application profile is applied for the LSN session. Separate a range of ports with a hyphen. For example, 40-90. 
+    .PARAMETER Sessiontimeout 
+        Timeout, in seconds, for an idle LSN session. If an LSN session is idle for a time that exceeds this value, the Citrix ADC removes the session.This timeout does not apply for a TCP LSN session when a FIN or RST message is received from either of the endpoints. 
     .PARAMETER PassThru 
         Return details about the created lsnappsattributes item.
     .EXAMPLE
-        Invoke-ADCAddLsnappsattributes -name <string> -transportprotocol <string>
+        PS C:\>Invoke-ADCAddLsnappsattributes -name <string> -transportprotocol <string>
+        An example how to add lsnappsattributes configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnappsattributes
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('TCP', 'UDP', 'ICMP')]
-        [string]$transportprotocol ,
+        [string]$Transportprotocol,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidateRange(40, 90)]
-        [string]$port ,
+        [string]$Port,
 
         [ValidateRange(5, 600)]
-        [double]$sessiontimeout = '30' ,
+        [double]$Sessiontimeout = '30',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsnappsattributes: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
+            $payload = @{ name    = $name
                 transportprotocol = $transportprotocol
             }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('sessiontimeout')) { $Payload.Add('sessiontimeout', $sessiontimeout) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnappsattributes", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnappsattributes -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('sessiontimeout') ) { $payload.Add('sessiontimeout', $sessiontimeout) }
+            if ( $PSCmdlet.ShouldProcess("lsnappsattributes", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnappsattributes -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnappsattributes -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnappsattributes -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -92,46 +85,47 @@ function Invoke-ADCAddLsnappsattributes {
 }
 
 function Invoke-ADCDeleteLsnappsattributes {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER name 
-       Name for the LSN Application Port ATTRIBUTES. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
+        Configuration for LSN Application Attributes resource.
+    .PARAMETER Name 
+        Name for the LSN Application Port ATTRIBUTES. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created.
     .EXAMPLE
-        Invoke-ADCDeleteLsnappsattributes -name <string>
+        PS C:\>Invoke-ADCDeleteLsnappsattributes -Name <string>
+        An example how to delete lsnappsattributes configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnappsattributes
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsnappsattributes: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnappsattributes -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnappsattributes -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -147,71 +141,65 @@ function Invoke-ADCDeleteLsnappsattributes {
 }
 
 function Invoke-ADCUpdateLsnappsattributes {
-<#
+    <#
     .SYNOPSIS
-        Update Lsn configuration Object
+        Update Lsn configuration Object.
     .DESCRIPTION
-        Update Lsn configuration Object 
-    .PARAMETER name 
+        Configuration for LSN Application Attributes resource.
+    .PARAMETER Name 
         Name for the LSN Application Port ATTRIBUTES. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
-    .PARAMETER sessiontimeout 
-        Timeout, in seconds, for an idle LSN session. If an LSN session is idle for a time that exceeds this value, the Citrix ADC removes the session.This timeout does not apply for a TCP LSN session when a FIN or RST message is received from either of the endpoints.  
-        Default value: 30  
-        Minimum value = 5  
-        Maximum value = 600 
+    .PARAMETER Sessiontimeout 
+        Timeout, in seconds, for an idle LSN session. If an LSN session is idle for a time that exceeds this value, the Citrix ADC removes the session.This timeout does not apply for a TCP LSN session when a FIN or RST message is received from either of the endpoints. 
     .PARAMETER PassThru 
         Return details about the created lsnappsattributes item.
     .EXAMPLE
-        Invoke-ADCUpdateLsnappsattributes -name <string>
+        PS C:\>Invoke-ADCUpdateLsnappsattributes -name <string>
+        An example how to update lsnappsattributes configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsnappsattributes
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateRange(5, 600)]
-        [double]$sessiontimeout ,
+        [double]$Sessiontimeout,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateLsnappsattributes: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('sessiontimeout')) { $Payload.Add('sessiontimeout', $sessiontimeout) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnappsattributes", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnappsattributes -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('sessiontimeout') ) { $payload.Add('sessiontimeout', $sessiontimeout) }
+            if ( $PSCmdlet.ShouldProcess("lsnappsattributes", "Update Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnappsattributes -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnappsattributes -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnappsattributes -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -224,39 +212,40 @@ function Invoke-ADCUpdateLsnappsattributes {
 }
 
 function Invoke-ADCUnsetLsnappsattributes {
-<#
+    <#
     .SYNOPSIS
-        Unset Lsn configuration Object
+        Unset Lsn configuration Object.
     .DESCRIPTION
-        Unset Lsn configuration Object 
-   .PARAMETER name 
-       Name for the LSN Application Port ATTRIBUTES. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
-   .PARAMETER sessiontimeout 
-       Timeout, in seconds, for an idle LSN session. If an LSN session is idle for a time that exceeds this value, the Citrix ADC removes the session.This timeout does not apply for a TCP LSN session when a FIN or RST message is received from either of the endpoints.
+        Configuration for LSN Application Attributes resource.
+    .PARAMETER Name 
+        Name for the LSN Application Port ATTRIBUTES. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
+    .PARAMETER Sessiontimeout 
+        Timeout, in seconds, for an idle LSN session. If an LSN session is idle for a time that exceeds this value, the Citrix ADC removes the session.This timeout does not apply for a TCP LSN session when a FIN or RST message is received from either of the endpoints.
     .EXAMPLE
-        Invoke-ADCUnsetLsnappsattributes -name <string>
+        PS C:\>Invoke-ADCUnsetLsnappsattributes -name <string>
+        An example how to unset lsnappsattributes configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsnappsattributes
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$name ,
+        [string]$Name,
 
         [Boolean]$sessiontimeout 
     )
@@ -265,12 +254,10 @@ function Invoke-ADCUnsetLsnappsattributes {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('sessiontimeout')) { $Payload.Add('sessiontimeout', $sessiontimeout) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnappsattributes -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('sessiontimeout') ) { $payload.Add('sessiontimeout', $sessiontimeout) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnappsattributes -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -286,56 +273,62 @@ function Invoke-ADCUnsetLsnappsattributes {
 }
 
 function Invoke-ADCGetLsnappsattributes {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER name 
-       Name for the LSN Application Port ATTRIBUTES. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
+        Configuration for LSN Application Attributes resource.
+    .PARAMETER Name 
+        Name for the LSN Application Port ATTRIBUTES. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
     .PARAMETER GetAll 
-        Retreive all lsnappsattributes object(s)
+        Retrieve all lsnappsattributes object(s).
     .PARAMETER Count
-        If specified, the count of the lsnappsattributes object(s) will be returned
+        If specified, the count of the lsnappsattributes object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnappsattributes
+        PS C:\>Invoke-ADCGetLsnappsattributes
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnappsattributes -GetAll 
+        PS C:\>Invoke-ADCGetLsnappsattributes -GetAll 
+        Get all lsnappsattributes data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnappsattributes -Count
+        PS C:\>Invoke-ADCGetLsnappsattributes -Count 
+        Get the number of lsnappsattributes objects.
     .EXAMPLE
-        Invoke-ADCGetLsnappsattributes -name <string>
+        PS C:\>Invoke-ADCGetLsnappsattributes -name <string>
+        Get lsnappsattributes object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnappsattributes -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnappsattributes -Filter @{ 'name'='<value>' }
+        Get lsnappsattributes data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnappsattributes
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -353,24 +346,24 @@ function Invoke-ADCGetLsnappsattributes {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all lsnappsattributes objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsattributes -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsattributes -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnappsattributes objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsattributes -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsattributes -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnappsattributes objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsattributes -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsattributes -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnappsattributes configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsattributes -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnappsattributes configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsattributes -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsattributes -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -384,131 +377,123 @@ function Invoke-ADCGetLsnappsattributes {
 }
 
 function Invoke-ADCAddLsnappsprofile {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER appsprofilename 
+        Configuration for LSN Application Profile resource.
+    .PARAMETER Appsprofilename 
         Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
-    .PARAMETER transportprotocol 
-        Name of the protocol for which the parameters of this LSN application profile applies.  
+    .PARAMETER Transportprotocol 
+        Name of the protocol for which the parameters of this LSN application profile applies. 
         Possible values = TCP, UDP, ICMP 
-    .PARAMETER ippooling 
-        NAT IP address allocation options for sessions associated with the same subscriber.  
-        Available options function as follows:  
-        * Paired - The Citrix ADC allocates the same NAT IP address for all sessions associated with the same subscriber. When all the ports of a NAT IP address are used in LSN sessions (for same or multiple subscribers), the Citrix ADC ADC drops any new connection from the subscriber.  
-        * Random - The Citrix ADC allocates random NAT IP addresses, from the pool, for different sessions associated with the same subscriber.  
-        This parameter is applicable to dynamic NAT allocation only.  
-        Default value: RANDOM  
+    .PARAMETER Ippooling 
+        NAT IP address allocation options for sessions associated with the same subscriber. 
+        Available options function as follows: 
+        * Paired - The Citrix ADC allocates the same NAT IP address for all sessions associated with the same subscriber. When all the ports of a NAT IP address are used in LSN sessions (for same or multiple subscribers), the Citrix ADC ADC drops any new connection from the subscriber. 
+        * Random - The Citrix ADC allocates random NAT IP addresses, from the pool, for different sessions associated with the same subscriber. 
+        This parameter is applicable to dynamic NAT allocation only. 
         Possible values = PAIRED, RANDOM 
-    .PARAMETER mapping 
-        Type of LSN mapping to apply to subsequent packets originating from the same subscriber IP address and port.  
-        Consider an example of an LSN mapping that includes the mapping of the subscriber IP:port (X:x), NAT IP:port (N:n), and external host IP:port (Y:y).  
-        Available options function as follows:  
-        * ENDPOINT-INDEPENDENT - Reuse the LSN mapping for subsequent packets sent from the same subscriber IP address and port (X:x) to any external IP address and port.  
-        * ADDRESS-DEPENDENT - Reuse the LSN mapping for subsequent packets sent from the same subscriber IP address and port (X:x) to the same external IP address (Y), regardless of the external port.  
-        * ADDRESS-PORT-DEPENDENT - Reuse the LSN mapping for subsequent packets sent from the same internal IP address and port (X:x) to the same external IP address and port (Y:y) while the mapping is still active.  
-        Default value: ADDRESS-PORT-DEPENDENT  
+    .PARAMETER Mapping 
+        Type of LSN mapping to apply to subsequent packets originating from the same subscriber IP address and port. 
+        Consider an example of an LSN mapping that includes the mapping of the subscriber IP:port (X:x), NAT IP:port (N:n), and external host IP:port (Y:y). 
+        Available options function as follows: 
+        * ENDPOINT-INDEPENDENT - Reuse the LSN mapping for subsequent packets sent from the same subscriber IP address and port (X:x) to any external IP address and port. 
+        * ADDRESS-DEPENDENT - Reuse the LSN mapping for subsequent packets sent from the same subscriber IP address and port (X:x) to the same external IP address (Y), regardless of the external port. 
+        * ADDRESS-PORT-DEPENDENT - Reuse the LSN mapping for subsequent packets sent from the same internal IP address and port (X:x) to the same external IP address and port (Y:y) while the mapping is still active. 
         Possible values = ENDPOINT-INDEPENDENT, ADDRESS-DEPENDENT, ADDRESS-PORT-DEPENDENT 
-    .PARAMETER filtering 
-        Type of filter to apply to packets originating from external hosts.  
-        Consider an example of an LSN mapping that includes the mapping of subscriber IP:port (X:x), NAT IP:port (N:n), and external host IP:port (Y:y).  
-        Available options function as follows:  
-        * ENDPOINT INDEPENDENT - Filters out only packets not destined to the subscriber IP address and port X:x, regardless of the external host IP address and port source (Z:z). The Citrix ADC forwards any packets destined to X:x. In other words, sending packets from the subscriber to any external IP address is sufficient to allow packets from any external hosts to the subscriber.  
-        * ADDRESS DEPENDENT - Filters out packets not destined to subscriber IP address and port X:x. In addition, the ADC filters out packets from Y:y destined for the subscriber (X:x) if the client has not previously sent packets to Y:anyport (external port independent). In other words, receiving packets from a specific external host requires that the subscriber first send packets to that specific external host's IP address.  
-        * ADDRESS PORT DEPENDENT (the default) - Filters out packets not destined to subscriber IP address and port (X:x). In addition, the Citrix ADC filters out packets from Y:y destined for the subscriber (X:x) if the subscriber has not previously sent packets to Y:y. In other words, receiving packets from a specific external host requires that the subscriber first send packets first to that external IP address and port.  
-        Default value: ADDRESS-PORT-DEPENDENT  
+    .PARAMETER Filtering 
+        Type of filter to apply to packets originating from external hosts. 
+        Consider an example of an LSN mapping that includes the mapping of subscriber IP:port (X:x), NAT IP:port (N:n), and external host IP:port (Y:y). 
+        Available options function as follows: 
+        * ENDPOINT INDEPENDENT - Filters out only packets not destined to the subscriber IP address and port X:x, regardless of the external host IP address and port source (Z:z). The Citrix ADC forwards any packets destined to X:x. In other words, sending packets from the subscriber to any external IP address is sufficient to allow packets from any external hosts to the subscriber. 
+        * ADDRESS DEPENDENT - Filters out packets not destined to subscriber IP address and port X:x. In addition, the ADC filters out packets from Y:y destined for the subscriber (X:x) if the client has not previously sent packets to Y:anyport (external port independent). In other words, receiving packets from a specific external host requires that the subscriber first send packets to that specific external host's IP address. 
+        * ADDRESS PORT DEPENDENT (the default) - Filters out packets not destined to subscriber IP address and port (X:x). In addition, the Citrix ADC filters out packets from Y:y destined for the subscriber (X:x) if the subscriber has not previously sent packets to Y:y. In other words, receiving packets from a specific external host requires that the subscriber first send packets first to that external IP address and port. 
         Possible values = ENDPOINT-INDEPENDENT, ADDRESS-DEPENDENT, ADDRESS-PORT-DEPENDENT 
-    .PARAMETER tcpproxy 
-        Enable TCP proxy, which enables the Citrix ADC to optimize the TCP traffic by using Layer 4 features.  
-        Default value: DISABLED  
+    .PARAMETER Tcpproxy 
+        Enable TCP proxy, which enables the Citrix ADC to optimize the TCP traffic by using Layer 4 features. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER td 
-        ID of the traffic domain through which the Citrix ADC sends the outbound traffic after performing LSN.  
-        If you do not specify an ID, the ADC sends the outbound traffic through the default traffic domain, which has an ID of 0.  
-        Default value: 4095 
-    .PARAMETER l2info 
-        Enable l2info by creating natpcbs for LSN, which enables the Citrix ADC to use L2CONN/MBF with LSN.  
-        Default value: DISABLED  
+    .PARAMETER Td 
+        ID of the traffic domain through which the Citrix ADC sends the outbound traffic after performing LSN. 
+        If you do not specify an ID, the ADC sends the outbound traffic through the default traffic domain, which has an ID of 0. 
+    .PARAMETER L2info 
+        Enable l2info by creating natpcbs for LSN, which enables the Citrix ADC to use L2CONN/MBF with LSN. 
         Possible values = ENABLED, DISABLED 
     .PARAMETER PassThru 
         Return details about the created lsnappsprofile item.
     .EXAMPLE
-        Invoke-ADCAddLsnappsprofile -appsprofilename <string> -transportprotocol <string>
+        PS C:\>Invoke-ADCAddLsnappsprofile -appsprofilename <string> -transportprotocol <string>
+        An example how to add lsnappsprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnappsprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$appsprofilename ,
+        [string]$Appsprofilename,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('TCP', 'UDP', 'ICMP')]
-        [string]$transportprotocol ,
+        [string]$Transportprotocol,
 
         [ValidateSet('PAIRED', 'RANDOM')]
-        [string]$ippooling = 'RANDOM' ,
+        [string]$Ippooling = 'RANDOM',
 
         [ValidateSet('ENDPOINT-INDEPENDENT', 'ADDRESS-DEPENDENT', 'ADDRESS-PORT-DEPENDENT')]
-        [string]$mapping = 'ADDRESS-PORT-DEPENDENT' ,
+        [string]$Mapping = 'ADDRESS-PORT-DEPENDENT',
 
         [ValidateSet('ENDPOINT-INDEPENDENT', 'ADDRESS-DEPENDENT', 'ADDRESS-PORT-DEPENDENT')]
-        [string]$filtering = 'ADDRESS-PORT-DEPENDENT' ,
+        [string]$Filtering = 'ADDRESS-PORT-DEPENDENT',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$tcpproxy = 'DISABLED' ,
+        [string]$Tcpproxy = 'DISABLED',
 
-        [double]$td = '4095' ,
+        [double]$Td = '4095',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$l2info = 'DISABLED' ,
+        [string]$L2info = 'DISABLED',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsnappsprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                appsprofilename = $appsprofilename
-                transportprotocol = $transportprotocol
+            $payload = @{ appsprofilename = $appsprofilename
+                transportprotocol         = $transportprotocol
             }
-            if ($PSBoundParameters.ContainsKey('ippooling')) { $Payload.Add('ippooling', $ippooling) }
-            if ($PSBoundParameters.ContainsKey('mapping')) { $Payload.Add('mapping', $mapping) }
-            if ($PSBoundParameters.ContainsKey('filtering')) { $Payload.Add('filtering', $filtering) }
-            if ($PSBoundParameters.ContainsKey('tcpproxy')) { $Payload.Add('tcpproxy', $tcpproxy) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
-            if ($PSBoundParameters.ContainsKey('l2info')) { $Payload.Add('l2info', $l2info) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnappsprofile", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnappsprofile -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('ippooling') ) { $payload.Add('ippooling', $ippooling) }
+            if ( $PSBoundParameters.ContainsKey('mapping') ) { $payload.Add('mapping', $mapping) }
+            if ( $PSBoundParameters.ContainsKey('filtering') ) { $payload.Add('filtering', $filtering) }
+            if ( $PSBoundParameters.ContainsKey('tcpproxy') ) { $payload.Add('tcpproxy', $tcpproxy) }
+            if ( $PSBoundParameters.ContainsKey('td') ) { $payload.Add('td', $td) }
+            if ( $PSBoundParameters.ContainsKey('l2info') ) { $payload.Add('l2info', $l2info) }
+            if ( $PSCmdlet.ShouldProcess("lsnappsprofile", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnappsprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnappsprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnappsprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -521,46 +506,47 @@ function Invoke-ADCAddLsnappsprofile {
 }
 
 function Invoke-ADCDeleteLsnappsprofile {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER appsprofilename 
-       Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
+        Configuration for LSN Application Profile resource.
+    .PARAMETER Appsprofilename 
+        Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created.
     .EXAMPLE
-        Invoke-ADCDeleteLsnappsprofile -appsprofilename <string>
+        PS C:\>Invoke-ADCDeleteLsnappsprofile -Appsprofilename <string>
+        An example how to delete lsnappsprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnappsprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$appsprofilename 
+        [Parameter(Mandatory)]
+        [string]$Appsprofilename 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsnappsprofile: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$appsprofilename", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnappsprofile -NitroPath nitro/v1/config -Resource $appsprofilename -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$appsprofilename", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnappsprofile -NitroPath nitro/v1/config -Resource $appsprofilename -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -576,123 +562,114 @@ function Invoke-ADCDeleteLsnappsprofile {
 }
 
 function Invoke-ADCUpdateLsnappsprofile {
-<#
+    <#
     .SYNOPSIS
-        Update Lsn configuration Object
+        Update Lsn configuration Object.
     .DESCRIPTION
-        Update Lsn configuration Object 
-    .PARAMETER appsprofilename 
+        Configuration for LSN Application Profile resource.
+    .PARAMETER Appsprofilename 
         Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
-    .PARAMETER ippooling 
-        NAT IP address allocation options for sessions associated with the same subscriber.  
-        Available options function as follows:  
-        * Paired - The Citrix ADC allocates the same NAT IP address for all sessions associated with the same subscriber. When all the ports of a NAT IP address are used in LSN sessions (for same or multiple subscribers), the Citrix ADC ADC drops any new connection from the subscriber.  
-        * Random - The Citrix ADC allocates random NAT IP addresses, from the pool, for different sessions associated with the same subscriber.  
-        This parameter is applicable to dynamic NAT allocation only.  
-        Default value: RANDOM  
+    .PARAMETER Ippooling 
+        NAT IP address allocation options for sessions associated with the same subscriber. 
+        Available options function as follows: 
+        * Paired - The Citrix ADC allocates the same NAT IP address for all sessions associated with the same subscriber. When all the ports of a NAT IP address are used in LSN sessions (for same or multiple subscribers), the Citrix ADC ADC drops any new connection from the subscriber. 
+        * Random - The Citrix ADC allocates random NAT IP addresses, from the pool, for different sessions associated with the same subscriber. 
+        This parameter is applicable to dynamic NAT allocation only. 
         Possible values = PAIRED, RANDOM 
-    .PARAMETER mapping 
-        Type of LSN mapping to apply to subsequent packets originating from the same subscriber IP address and port.  
-        Consider an example of an LSN mapping that includes the mapping of the subscriber IP:port (X:x), NAT IP:port (N:n), and external host IP:port (Y:y).  
-        Available options function as follows:  
-        * ENDPOINT-INDEPENDENT - Reuse the LSN mapping for subsequent packets sent from the same subscriber IP address and port (X:x) to any external IP address and port.  
-        * ADDRESS-DEPENDENT - Reuse the LSN mapping for subsequent packets sent from the same subscriber IP address and port (X:x) to the same external IP address (Y), regardless of the external port.  
-        * ADDRESS-PORT-DEPENDENT - Reuse the LSN mapping for subsequent packets sent from the same internal IP address and port (X:x) to the same external IP address and port (Y:y) while the mapping is still active.  
-        Default value: ADDRESS-PORT-DEPENDENT  
+    .PARAMETER Mapping 
+        Type of LSN mapping to apply to subsequent packets originating from the same subscriber IP address and port. 
+        Consider an example of an LSN mapping that includes the mapping of the subscriber IP:port (X:x), NAT IP:port (N:n), and external host IP:port (Y:y). 
+        Available options function as follows: 
+        * ENDPOINT-INDEPENDENT - Reuse the LSN mapping for subsequent packets sent from the same subscriber IP address and port (X:x) to any external IP address and port. 
+        * ADDRESS-DEPENDENT - Reuse the LSN mapping for subsequent packets sent from the same subscriber IP address and port (X:x) to the same external IP address (Y), regardless of the external port. 
+        * ADDRESS-PORT-DEPENDENT - Reuse the LSN mapping for subsequent packets sent from the same internal IP address and port (X:x) to the same external IP address and port (Y:y) while the mapping is still active. 
         Possible values = ENDPOINT-INDEPENDENT, ADDRESS-DEPENDENT, ADDRESS-PORT-DEPENDENT 
-    .PARAMETER filtering 
-        Type of filter to apply to packets originating from external hosts.  
-        Consider an example of an LSN mapping that includes the mapping of subscriber IP:port (X:x), NAT IP:port (N:n), and external host IP:port (Y:y).  
-        Available options function as follows:  
-        * ENDPOINT INDEPENDENT - Filters out only packets not destined to the subscriber IP address and port X:x, regardless of the external host IP address and port source (Z:z). The Citrix ADC forwards any packets destined to X:x. In other words, sending packets from the subscriber to any external IP address is sufficient to allow packets from any external hosts to the subscriber.  
-        * ADDRESS DEPENDENT - Filters out packets not destined to subscriber IP address and port X:x. In addition, the ADC filters out packets from Y:y destined for the subscriber (X:x) if the client has not previously sent packets to Y:anyport (external port independent). In other words, receiving packets from a specific external host requires that the subscriber first send packets to that specific external host's IP address.  
-        * ADDRESS PORT DEPENDENT (the default) - Filters out packets not destined to subscriber IP address and port (X:x). In addition, the Citrix ADC filters out packets from Y:y destined for the subscriber (X:x) if the subscriber has not previously sent packets to Y:y. In other words, receiving packets from a specific external host requires that the subscriber first send packets first to that external IP address and port.  
-        Default value: ADDRESS-PORT-DEPENDENT  
+    .PARAMETER Filtering 
+        Type of filter to apply to packets originating from external hosts. 
+        Consider an example of an LSN mapping that includes the mapping of subscriber IP:port (X:x), NAT IP:port (N:n), and external host IP:port (Y:y). 
+        Available options function as follows: 
+        * ENDPOINT INDEPENDENT - Filters out only packets not destined to the subscriber IP address and port X:x, regardless of the external host IP address and port source (Z:z). The Citrix ADC forwards any packets destined to X:x. In other words, sending packets from the subscriber to any external IP address is sufficient to allow packets from any external hosts to the subscriber. 
+        * ADDRESS DEPENDENT - Filters out packets not destined to subscriber IP address and port X:x. In addition, the ADC filters out packets from Y:y destined for the subscriber (X:x) if the client has not previously sent packets to Y:anyport (external port independent). In other words, receiving packets from a specific external host requires that the subscriber first send packets to that specific external host's IP address. 
+        * ADDRESS PORT DEPENDENT (the default) - Filters out packets not destined to subscriber IP address and port (X:x). In addition, the Citrix ADC filters out packets from Y:y destined for the subscriber (X:x) if the subscriber has not previously sent packets to Y:y. In other words, receiving packets from a specific external host requires that the subscriber first send packets first to that external IP address and port. 
         Possible values = ENDPOINT-INDEPENDENT, ADDRESS-DEPENDENT, ADDRESS-PORT-DEPENDENT 
-    .PARAMETER tcpproxy 
-        Enable TCP proxy, which enables the Citrix ADC to optimize the TCP traffic by using Layer 4 features.  
-        Default value: DISABLED  
+    .PARAMETER Tcpproxy 
+        Enable TCP proxy, which enables the Citrix ADC to optimize the TCP traffic by using Layer 4 features. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER td 
-        ID of the traffic domain through which the Citrix ADC sends the outbound traffic after performing LSN.  
-        If you do not specify an ID, the ADC sends the outbound traffic through the default traffic domain, which has an ID of 0.  
-        Default value: 4095 
-    .PARAMETER l2info 
-        Enable l2info by creating natpcbs for LSN, which enables the Citrix ADC to use L2CONN/MBF with LSN.  
-        Default value: DISABLED  
+    .PARAMETER Td 
+        ID of the traffic domain through which the Citrix ADC sends the outbound traffic after performing LSN. 
+        If you do not specify an ID, the ADC sends the outbound traffic through the default traffic domain, which has an ID of 0. 
+    .PARAMETER L2info 
+        Enable l2info by creating natpcbs for LSN, which enables the Citrix ADC to use L2CONN/MBF with LSN. 
         Possible values = ENABLED, DISABLED 
     .PARAMETER PassThru 
         Return details about the created lsnappsprofile item.
     .EXAMPLE
-        Invoke-ADCUpdateLsnappsprofile -appsprofilename <string>
+        PS C:\>Invoke-ADCUpdateLsnappsprofile -appsprofilename <string>
+        An example how to update lsnappsprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsnappsprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$appsprofilename ,
+        [string]$Appsprofilename,
 
         [ValidateSet('PAIRED', 'RANDOM')]
-        [string]$ippooling ,
+        [string]$Ippooling,
 
         [ValidateSet('ENDPOINT-INDEPENDENT', 'ADDRESS-DEPENDENT', 'ADDRESS-PORT-DEPENDENT')]
-        [string]$mapping ,
+        [string]$Mapping,
 
         [ValidateSet('ENDPOINT-INDEPENDENT', 'ADDRESS-DEPENDENT', 'ADDRESS-PORT-DEPENDENT')]
-        [string]$filtering ,
+        [string]$Filtering,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$tcpproxy ,
+        [string]$Tcpproxy,
 
-        [double]$td ,
+        [double]$Td,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$l2info ,
+        [string]$L2info,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateLsnappsprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                appsprofilename = $appsprofilename
-            }
-            if ($PSBoundParameters.ContainsKey('ippooling')) { $Payload.Add('ippooling', $ippooling) }
-            if ($PSBoundParameters.ContainsKey('mapping')) { $Payload.Add('mapping', $mapping) }
-            if ($PSBoundParameters.ContainsKey('filtering')) { $Payload.Add('filtering', $filtering) }
-            if ($PSBoundParameters.ContainsKey('tcpproxy')) { $Payload.Add('tcpproxy', $tcpproxy) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
-            if ($PSBoundParameters.ContainsKey('l2info')) { $Payload.Add('l2info', $l2info) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnappsprofile", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnappsprofile -Payload $Payload -GetWarning
+            $payload = @{ appsprofilename = $appsprofilename }
+            if ( $PSBoundParameters.ContainsKey('ippooling') ) { $payload.Add('ippooling', $ippooling) }
+            if ( $PSBoundParameters.ContainsKey('mapping') ) { $payload.Add('mapping', $mapping) }
+            if ( $PSBoundParameters.ContainsKey('filtering') ) { $payload.Add('filtering', $filtering) }
+            if ( $PSBoundParameters.ContainsKey('tcpproxy') ) { $payload.Add('tcpproxy', $tcpproxy) }
+            if ( $PSBoundParameters.ContainsKey('td') ) { $payload.Add('td', $td) }
+            if ( $PSBoundParameters.ContainsKey('l2info') ) { $payload.Add('l2info', $l2info) }
+            if ( $PSCmdlet.ShouldProcess("lsnappsprofile", "Update Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnappsprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnappsprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnappsprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -705,79 +682,80 @@ function Invoke-ADCUpdateLsnappsprofile {
 }
 
 function Invoke-ADCUnsetLsnappsprofile {
-<#
+    <#
     .SYNOPSIS
-        Unset Lsn configuration Object
+        Unset Lsn configuration Object.
     .DESCRIPTION
-        Unset Lsn configuration Object 
-   .PARAMETER appsprofilename 
-       Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
-   .PARAMETER ippooling 
-       NAT IP address allocation options for sessions associated with the same subscriber.  
-       Available options function as follows:  
-       * Paired - The Citrix ADC allocates the same NAT IP address for all sessions associated with the same subscriber. When all the ports of a NAT IP address are used in LSN sessions (for same or multiple subscribers), the Citrix ADC ADC drops any new connection from the subscriber.  
-       * Random - The Citrix ADC allocates random NAT IP addresses, from the pool, for different sessions associated with the same subscriber.  
-       This parameter is applicable to dynamic NAT allocation only.  
-       Possible values = PAIRED, RANDOM 
-   .PARAMETER mapping 
-       Type of LSN mapping to apply to subsequent packets originating from the same subscriber IP address and port.  
-       Consider an example of an LSN mapping that includes the mapping of the subscriber IP:port (X:x), NAT IP:port (N:n), and external host IP:port (Y:y).  
-       Available options function as follows:  
-       * ENDPOINT-INDEPENDENT - Reuse the LSN mapping for subsequent packets sent from the same subscriber IP address and port (X:x) to any external IP address and port.  
-       * ADDRESS-DEPENDENT - Reuse the LSN mapping for subsequent packets sent from the same subscriber IP address and port (X:x) to the same external IP address (Y), regardless of the external port.  
-       * ADDRESS-PORT-DEPENDENT - Reuse the LSN mapping for subsequent packets sent from the same internal IP address and port (X:x) to the same external IP address and port (Y:y) while the mapping is still active.  
-       Possible values = ENDPOINT-INDEPENDENT, ADDRESS-DEPENDENT, ADDRESS-PORT-DEPENDENT 
-   .PARAMETER filtering 
-       Type of filter to apply to packets originating from external hosts.  
-       Consider an example of an LSN mapping that includes the mapping of subscriber IP:port (X:x), NAT IP:port (N:n), and external host IP:port (Y:y).  
-       Available options function as follows:  
-       * ENDPOINT INDEPENDENT - Filters out only packets not destined to the subscriber IP address and port X:x, regardless of the external host IP address and port source (Z:z). The Citrix ADC forwards any packets destined to X:x. In other words, sending packets from the subscriber to any external IP address is sufficient to allow packets from any external hosts to the subscriber.  
-       * ADDRESS DEPENDENT - Filters out packets not destined to subscriber IP address and port X:x. In addition, the ADC filters out packets from Y:y destined for the subscriber (X:x) if the client has not previously sent packets to Y:anyport (external port independent). In other words, receiving packets from a specific external host requires that the subscriber first send packets to that specific external host's IP address.  
-       * ADDRESS PORT DEPENDENT (the default) - Filters out packets not destined to subscriber IP address and port (X:x). In addition, the Citrix ADC filters out packets from Y:y destined for the subscriber (X:x) if the subscriber has not previously sent packets to Y:y. In other words, receiving packets from a specific external host requires that the subscriber first send packets first to that external IP address and port.  
-       Possible values = ENDPOINT-INDEPENDENT, ADDRESS-DEPENDENT, ADDRESS-PORT-DEPENDENT 
-   .PARAMETER tcpproxy 
-       Enable TCP proxy, which enables the Citrix ADC to optimize the TCP traffic by using Layer 4 features.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER td 
-       ID of the traffic domain through which the Citrix ADC sends the outbound traffic after performing LSN.  
-       If you do not specify an ID, the ADC sends the outbound traffic through the default traffic domain, which has an ID of 0. 
-   .PARAMETER l2info 
-       Enable l2info by creating natpcbs for LSN, which enables the Citrix ADC to use L2CONN/MBF with LSN.  
-       Possible values = ENABLED, DISABLED
+        Configuration for LSN Application Profile resource.
+    .PARAMETER Appsprofilename 
+        Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
+    .PARAMETER Ippooling 
+        NAT IP address allocation options for sessions associated with the same subscriber. 
+        Available options function as follows: 
+        * Paired - The Citrix ADC allocates the same NAT IP address for all sessions associated with the same subscriber. When all the ports of a NAT IP address are used in LSN sessions (for same or multiple subscribers), the Citrix ADC ADC drops any new connection from the subscriber. 
+        * Random - The Citrix ADC allocates random NAT IP addresses, from the pool, for different sessions associated with the same subscriber. 
+        This parameter is applicable to dynamic NAT allocation only. 
+        Possible values = PAIRED, RANDOM 
+    .PARAMETER Mapping 
+        Type of LSN mapping to apply to subsequent packets originating from the same subscriber IP address and port. 
+        Consider an example of an LSN mapping that includes the mapping of the subscriber IP:port (X:x), NAT IP:port (N:n), and external host IP:port (Y:y). 
+        Available options function as follows: 
+        * ENDPOINT-INDEPENDENT - Reuse the LSN mapping for subsequent packets sent from the same subscriber IP address and port (X:x) to any external IP address and port. 
+        * ADDRESS-DEPENDENT - Reuse the LSN mapping for subsequent packets sent from the same subscriber IP address and port (X:x) to the same external IP address (Y), regardless of the external port. 
+        * ADDRESS-PORT-DEPENDENT - Reuse the LSN mapping for subsequent packets sent from the same internal IP address and port (X:x) to the same external IP address and port (Y:y) while the mapping is still active. 
+        Possible values = ENDPOINT-INDEPENDENT, ADDRESS-DEPENDENT, ADDRESS-PORT-DEPENDENT 
+    .PARAMETER Filtering 
+        Type of filter to apply to packets originating from external hosts. 
+        Consider an example of an LSN mapping that includes the mapping of subscriber IP:port (X:x), NAT IP:port (N:n), and external host IP:port (Y:y). 
+        Available options function as follows: 
+        * ENDPOINT INDEPENDENT - Filters out only packets not destined to the subscriber IP address and port X:x, regardless of the external host IP address and port source (Z:z). The Citrix ADC forwards any packets destined to X:x. In other words, sending packets from the subscriber to any external IP address is sufficient to allow packets from any external hosts to the subscriber. 
+        * ADDRESS DEPENDENT - Filters out packets not destined to subscriber IP address and port X:x. In addition, the ADC filters out packets from Y:y destined for the subscriber (X:x) if the client has not previously sent packets to Y:anyport (external port independent). In other words, receiving packets from a specific external host requires that the subscriber first send packets to that specific external host's IP address. 
+        * ADDRESS PORT DEPENDENT (the default) - Filters out packets not destined to subscriber IP address and port (X:x). In addition, the Citrix ADC filters out packets from Y:y destined for the subscriber (X:x) if the subscriber has not previously sent packets to Y:y. In other words, receiving packets from a specific external host requires that the subscriber first send packets first to that external IP address and port. 
+        Possible values = ENDPOINT-INDEPENDENT, ADDRESS-DEPENDENT, ADDRESS-PORT-DEPENDENT 
+    .PARAMETER Tcpproxy 
+        Enable TCP proxy, which enables the Citrix ADC to optimize the TCP traffic by using Layer 4 features. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Td 
+        ID of the traffic domain through which the Citrix ADC sends the outbound traffic after performing LSN. 
+        If you do not specify an ID, the ADC sends the outbound traffic through the default traffic domain, which has an ID of 0. 
+    .PARAMETER L2info 
+        Enable l2info by creating natpcbs for LSN, which enables the Citrix ADC to use L2CONN/MBF with LSN. 
+        Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCUnsetLsnappsprofile -appsprofilename <string>
+        PS C:\>Invoke-ADCUnsetLsnappsprofile -appsprofilename <string>
+        An example how to unset lsnappsprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsnappsprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$appsprofilename ,
+        [string]$Appsprofilename,
 
-        [Boolean]$ippooling ,
+        [Boolean]$ippooling,
 
-        [Boolean]$mapping ,
+        [Boolean]$mapping,
 
-        [Boolean]$filtering ,
+        [Boolean]$filtering,
 
-        [Boolean]$tcpproxy ,
+        [Boolean]$tcpproxy,
 
-        [Boolean]$td ,
+        [Boolean]$td,
 
         [Boolean]$l2info 
     )
@@ -786,17 +764,15 @@ function Invoke-ADCUnsetLsnappsprofile {
     }
     process {
         try {
-            $Payload = @{
-                appsprofilename = $appsprofilename
-            }
-            if ($PSBoundParameters.ContainsKey('ippooling')) { $Payload.Add('ippooling', $ippooling) }
-            if ($PSBoundParameters.ContainsKey('mapping')) { $Payload.Add('mapping', $mapping) }
-            if ($PSBoundParameters.ContainsKey('filtering')) { $Payload.Add('filtering', $filtering) }
-            if ($PSBoundParameters.ContainsKey('tcpproxy')) { $Payload.Add('tcpproxy', $tcpproxy) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
-            if ($PSBoundParameters.ContainsKey('l2info')) { $Payload.Add('l2info', $l2info) }
-            if ($PSCmdlet.ShouldProcess("$appsprofilename", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnappsprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ appsprofilename = $appsprofilename }
+            if ( $PSBoundParameters.ContainsKey('ippooling') ) { $payload.Add('ippooling', $ippooling) }
+            if ( $PSBoundParameters.ContainsKey('mapping') ) { $payload.Add('mapping', $mapping) }
+            if ( $PSBoundParameters.ContainsKey('filtering') ) { $payload.Add('filtering', $filtering) }
+            if ( $PSBoundParameters.ContainsKey('tcpproxy') ) { $payload.Add('tcpproxy', $tcpproxy) }
+            if ( $PSBoundParameters.ContainsKey('td') ) { $payload.Add('td', $td) }
+            if ( $PSBoundParameters.ContainsKey('l2info') ) { $payload.Add('l2info', $l2info) }
+            if ( $PSCmdlet.ShouldProcess("$appsprofilename", "Unset Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnappsprofile -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -812,56 +788,62 @@ function Invoke-ADCUnsetLsnappsprofile {
 }
 
 function Invoke-ADCGetLsnappsprofile {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER appsprofilename 
-       Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
+        Configuration for LSN Application Profile resource.
+    .PARAMETER Appsprofilename 
+        Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
     .PARAMETER GetAll 
-        Retreive all lsnappsprofile object(s)
+        Retrieve all lsnappsprofile object(s).
     .PARAMETER Count
-        If specified, the count of the lsnappsprofile object(s) will be returned
+        If specified, the count of the lsnappsprofile object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnappsprofile
+        PS C:\>Invoke-ADCGetLsnappsprofile
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnappsprofile -GetAll 
+        PS C:\>Invoke-ADCGetLsnappsprofile -GetAll 
+        Get all lsnappsprofile data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnappsprofile -Count
+        PS C:\>Invoke-ADCGetLsnappsprofile -Count 
+        Get the number of lsnappsprofile objects.
     .EXAMPLE
-        Invoke-ADCGetLsnappsprofile -name <string>
+        PS C:\>Invoke-ADCGetLsnappsprofile -name <string>
+        Get lsnappsprofile object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnappsprofile -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnappsprofile -Filter @{ 'name'='<value>' }
+        Get lsnappsprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnappsprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$appsprofilename,
+        [string]$Appsprofilename,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -879,24 +861,24 @@ function Invoke-ADCGetLsnappsprofile {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all lsnappsprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnappsprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnappsprofile objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnappsprofile configuration for property 'appsprofilename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile -NitroPath nitro/v1/config -Resource $appsprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnappsprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -910,52 +892,57 @@ function Invoke-ADCGetLsnappsprofile {
 }
 
 function Invoke-ADCGetLsnappsprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER appsprofilename 
-       Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
+        Binding object which returns the resources bound to lsnappsprofile.
+    .PARAMETER Appsprofilename 
+        Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
     .PARAMETER GetAll 
-        Retreive all lsnappsprofile_binding object(s)
+        Retrieve all lsnappsprofile_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsnappsprofile_binding object(s) will be returned
+        If specified, the count of the lsnappsprofile_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnappsprofilebinding
+        PS C:\>Invoke-ADCGetLsnappsprofilebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnappsprofilebinding -GetAll
+        PS C:\>Invoke-ADCGetLsnappsprofilebinding -GetAll 
+        Get all lsnappsprofile_binding data.
     .EXAMPLE
-        Invoke-ADCGetLsnappsprofilebinding -name <string>
+        PS C:\>Invoke-ADCGetLsnappsprofilebinding -name <string>
+        Get lsnappsprofile_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnappsprofilebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnappsprofilebinding -Filter @{ 'name'='<value>' }
+        Get lsnappsprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnappsprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$appsprofilename,
+        [string]$Appsprofilename,
 			
         [hashtable]$Filter = @{ },
 
@@ -967,26 +954,24 @@ function Invoke-ADCGetLsnappsprofilebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsnappsprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnappsprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnappsprofile_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnappsprofile_binding configuration for property 'appsprofilename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_binding -NitroPath nitro/v1/config -Resource $appsprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnappsprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1000,67 +985,64 @@ function Invoke-ADCGetLsnappsprofilebinding {
 }
 
 function Invoke-ADCAddLsnappsprofilelsnappsattributesbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER appsprofilename 
+        Binding object showing the lsnappsattributes that can be bound to lsnappsprofile.
+    .PARAMETER Appsprofilename 
         Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
-    .PARAMETER appsattributesname 
+    .PARAMETER Appsattributesname 
         Name of the LSN application port ATTRIBUTES command to bind to the specified LSN Appsprofile. Properties of the Appsprofile will be applicable to this APPSATTRIBUTES. 
     .PARAMETER PassThru 
         Return details about the created lsnappsprofile_lsnappsattributes_binding item.
     .EXAMPLE
-        Invoke-ADCAddLsnappsprofilelsnappsattributesbinding -appsprofilename <string>
+        PS C:\>Invoke-ADCAddLsnappsprofilelsnappsattributesbinding -appsprofilename <string>
+        An example how to add lsnappsprofile_lsnappsattributes_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnappsprofilelsnappsattributesbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_lsnappsattributes_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$appsprofilename ,
+        [string]$Appsprofilename,
 
-        [string]$appsattributesname ,
+        [string]$Appsattributesname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsnappsprofilelsnappsattributesbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                appsprofilename = $appsprofilename
-            }
-            if ($PSBoundParameters.ContainsKey('appsattributesname')) { $Payload.Add('appsattributesname', $appsattributesname) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnappsprofile_lsnappsattributes_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnappsprofile_lsnappsattributes_binding -Payload $Payload -GetWarning
+            $payload = @{ appsprofilename = $appsprofilename }
+            if ( $PSBoundParameters.ContainsKey('appsattributesname') ) { $payload.Add('appsattributesname', $appsattributesname) }
+            if ( $PSCmdlet.ShouldProcess("lsnappsprofile_lsnappsattributes_binding", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnappsprofile_lsnappsattributes_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnappsprofilelsnappsattributesbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnappsprofilelsnappsattributesbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1073,49 +1055,51 @@ function Invoke-ADCAddLsnappsprofilelsnappsattributesbinding {
 }
 
 function Invoke-ADCDeleteLsnappsprofilelsnappsattributesbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER appsprofilename 
-       Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created.    .PARAMETER appsattributesname 
-       Name of the LSN application port ATTRIBUTES command to bind to the specified LSN Appsprofile. Properties of the Appsprofile will be applicable to this APPSATTRIBUTES.
+        Binding object showing the lsnappsattributes that can be bound to lsnappsprofile.
+    .PARAMETER Appsprofilename 
+        Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
+    .PARAMETER Appsattributesname 
+        Name of the LSN application port ATTRIBUTES command to bind to the specified LSN Appsprofile. Properties of the Appsprofile will be applicable to this APPSATTRIBUTES.
     .EXAMPLE
-        Invoke-ADCDeleteLsnappsprofilelsnappsattributesbinding -appsprofilename <string>
+        PS C:\>Invoke-ADCDeleteLsnappsprofilelsnappsattributesbinding -Appsprofilename <string>
+        An example how to delete lsnappsprofile_lsnappsattributes_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnappsprofilelsnappsattributesbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_lsnappsattributes_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$appsprofilename ,
+        [Parameter(Mandatory)]
+        [string]$Appsprofilename,
 
-        [string]$appsattributesname 
+        [string]$Appsattributesname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsnappsprofilelsnappsattributesbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('appsattributesname')) { $Arguments.Add('appsattributesname', $appsattributesname) }
-            if ($PSCmdlet.ShouldProcess("$appsprofilename", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnappsprofile_lsnappsattributes_binding -NitroPath nitro/v1/config -Resource $appsprofilename -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Appsattributesname') ) { $arguments.Add('appsattributesname', $Appsattributesname) }
+            if ( $PSCmdlet.ShouldProcess("$appsprofilename", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnappsprofile_lsnappsattributes_binding -NitroPath nitro/v1/config -Resource $appsprofilename -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1131,56 +1115,62 @@ function Invoke-ADCDeleteLsnappsprofilelsnappsattributesbinding {
 }
 
 function Invoke-ADCGetLsnappsprofilelsnappsattributesbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER appsprofilename 
-       Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
+        Binding object showing the lsnappsattributes that can be bound to lsnappsprofile.
+    .PARAMETER Appsprofilename 
+        Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
     .PARAMETER GetAll 
-        Retreive all lsnappsprofile_lsnappsattributes_binding object(s)
+        Retrieve all lsnappsprofile_lsnappsattributes_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsnappsprofile_lsnappsattributes_binding object(s) will be returned
+        If specified, the count of the lsnappsprofile_lsnappsattributes_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnappsprofilelsnappsattributesbinding
+        PS C:\>Invoke-ADCGetLsnappsprofilelsnappsattributesbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnappsprofilelsnappsattributesbinding -GetAll 
+        PS C:\>Invoke-ADCGetLsnappsprofilelsnappsattributesbinding -GetAll 
+        Get all lsnappsprofile_lsnappsattributes_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnappsprofilelsnappsattributesbinding -Count
+        PS C:\>Invoke-ADCGetLsnappsprofilelsnappsattributesbinding -Count 
+        Get the number of lsnappsprofile_lsnappsattributes_binding objects.
     .EXAMPLE
-        Invoke-ADCGetLsnappsprofilelsnappsattributesbinding -name <string>
+        PS C:\>Invoke-ADCGetLsnappsprofilelsnappsattributesbinding -name <string>
+        Get lsnappsprofile_lsnappsattributes_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnappsprofilelsnappsattributesbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnappsprofilelsnappsattributesbinding -Filter @{ 'name'='<value>' }
+        Get lsnappsprofile_lsnappsattributes_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnappsprofilelsnappsattributesbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_lsnappsattributes_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$appsprofilename,
+        [string]$Appsprofilename,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1193,26 +1183,24 @@ function Invoke-ADCGetLsnappsprofilelsnappsattributesbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsnappsprofile_lsnappsattributes_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_lsnappsattributes_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_lsnappsattributes_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnappsprofile_lsnappsattributes_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_lsnappsattributes_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_lsnappsattributes_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnappsprofile_lsnappsattributes_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_lsnappsattributes_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_lsnappsattributes_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnappsprofile_lsnappsattributes_binding configuration for property 'appsprofilename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_lsnappsattributes_binding -NitroPath nitro/v1/config -Resource $appsprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnappsprofile_lsnappsattributes_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_lsnappsattributes_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_lsnappsattributes_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1226,70 +1214,65 @@ function Invoke-ADCGetLsnappsprofilelsnappsattributesbinding {
 }
 
 function Invoke-ADCAddLsnappsprofileportbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER appsprofilename 
+        Binding object showing the port that can be bound to lsnappsprofile.
+    .PARAMETER Appsprofilename 
         Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
-    .PARAMETER lsnport 
-        Port numbers or range of port numbers to match against the destination port of the incoming packet from a subscriber. When the destination port is matched, the LSN application profile is applied for the LSN session. Separate a range of ports with a hyphen. For example, 40-90.  
-        Minimum length = 1 
+    .PARAMETER Lsnport 
+        Port numbers or range of port numbers to match against the destination port of the incoming packet from a subscriber. When the destination port is matched, the LSN application profile is applied for the LSN session. Separate a range of ports with a hyphen. For example, 40-90. 
     .PARAMETER PassThru 
         Return details about the created lsnappsprofile_port_binding item.
     .EXAMPLE
-        Invoke-ADCAddLsnappsprofileportbinding -appsprofilename <string>
+        PS C:\>Invoke-ADCAddLsnappsprofileportbinding -appsprofilename <string>
+        An example how to add lsnappsprofile_port_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnappsprofileportbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_port_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$appsprofilename ,
+        [string]$Appsprofilename,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidateRange(40, 90)]
-        [string]$lsnport ,
+        [string]$Lsnport,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsnappsprofileportbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                appsprofilename = $appsprofilename
-            }
-            if ($PSBoundParameters.ContainsKey('lsnport')) { $Payload.Add('lsnport', $lsnport) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnappsprofile_port_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnappsprofile_port_binding -Payload $Payload -GetWarning
+            $payload = @{ appsprofilename = $appsprofilename }
+            if ( $PSBoundParameters.ContainsKey('lsnport') ) { $payload.Add('lsnport', $lsnport) }
+            if ( $PSCmdlet.ShouldProcess("lsnappsprofile_port_binding", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnappsprofile_port_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnappsprofileportbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnappsprofileportbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1302,50 +1285,51 @@ function Invoke-ADCAddLsnappsprofileportbinding {
 }
 
 function Invoke-ADCDeleteLsnappsprofileportbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER appsprofilename 
-       Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created.    .PARAMETER lsnport 
-       Port numbers or range of port numbers to match against the destination port of the incoming packet from a subscriber. When the destination port is matched, the LSN application profile is applied for the LSN session. Separate a range of ports with a hyphen. For example, 40-90.  
-       Minimum length = 1
+        Binding object showing the port that can be bound to lsnappsprofile.
+    .PARAMETER Appsprofilename 
+        Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
+    .PARAMETER Lsnport 
+        Port numbers or range of port numbers to match against the destination port of the incoming packet from a subscriber. When the destination port is matched, the LSN application profile is applied for the LSN session. Separate a range of ports with a hyphen. For example, 40-90.
     .EXAMPLE
-        Invoke-ADCDeleteLsnappsprofileportbinding -appsprofilename <string>
+        PS C:\>Invoke-ADCDeleteLsnappsprofileportbinding -Appsprofilename <string>
+        An example how to delete lsnappsprofile_port_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnappsprofileportbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_port_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$appsprofilename ,
+        [Parameter(Mandatory)]
+        [string]$Appsprofilename,
 
-        [string]$lsnport 
+        [string]$Lsnport 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsnappsprofileportbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('lsnport')) { $Arguments.Add('lsnport', $lsnport) }
-            if ($PSCmdlet.ShouldProcess("$appsprofilename", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnappsprofile_port_binding -NitroPath nitro/v1/config -Resource $appsprofilename -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Lsnport') ) { $arguments.Add('lsnport', $Lsnport) }
+            if ( $PSCmdlet.ShouldProcess("$appsprofilename", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnappsprofile_port_binding -NitroPath nitro/v1/config -Resource $appsprofilename -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1361,56 +1345,62 @@ function Invoke-ADCDeleteLsnappsprofileportbinding {
 }
 
 function Invoke-ADCGetLsnappsprofileportbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER appsprofilename 
-       Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
+        Binding object showing the port that can be bound to lsnappsprofile.
+    .PARAMETER Appsprofilename 
+        Name for the LSN application profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN application profile is created. 
     .PARAMETER GetAll 
-        Retreive all lsnappsprofile_port_binding object(s)
+        Retrieve all lsnappsprofile_port_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsnappsprofile_port_binding object(s) will be returned
+        If specified, the count of the lsnappsprofile_port_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnappsprofileportbinding
+        PS C:\>Invoke-ADCGetLsnappsprofileportbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnappsprofileportbinding -GetAll 
+        PS C:\>Invoke-ADCGetLsnappsprofileportbinding -GetAll 
+        Get all lsnappsprofile_port_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnappsprofileportbinding -Count
+        PS C:\>Invoke-ADCGetLsnappsprofileportbinding -Count 
+        Get the number of lsnappsprofile_port_binding objects.
     .EXAMPLE
-        Invoke-ADCGetLsnappsprofileportbinding -name <string>
+        PS C:\>Invoke-ADCGetLsnappsprofileportbinding -name <string>
+        Get lsnappsprofile_port_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnappsprofileportbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnappsprofileportbinding -Filter @{ 'name'='<value>' }
+        Get lsnappsprofile_port_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnappsprofileportbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_port_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$appsprofilename,
+        [string]$Appsprofilename,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1423,26 +1413,24 @@ function Invoke-ADCGetLsnappsprofileportbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsnappsprofile_port_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_port_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_port_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnappsprofile_port_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_port_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_port_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnappsprofile_port_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_port_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_port_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnappsprofile_port_binding configuration for property 'appsprofilename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_port_binding -NitroPath nitro/v1/config -Resource $appsprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnappsprofile_port_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_port_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnappsprofile_port_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1456,63 +1444,60 @@ function Invoke-ADCGetLsnappsprofileportbinding {
 }
 
 function Invoke-ADCAddLsnclient {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER clientname 
+        Configuration for lsn client resource.
+    .PARAMETER Clientname 
         Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
     .PARAMETER PassThru 
         Return details about the created lsnclient item.
     .EXAMPLE
-        Invoke-ADCAddLsnclient -clientname <string>
+        PS C:\>Invoke-ADCAddLsnclient -clientname <string>
+        An example how to add lsnclient configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnclient
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$clientname ,
+        [string]$Clientname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsnclient: Starting"
     }
     process {
         try {
-            $Payload = @{
-                clientname = $clientname
-            }
+            $payload = @{ clientname = $clientname }
 
- 
-            if ($PSCmdlet.ShouldProcess("lsnclient", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnclient -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("lsnclient", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnclient -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnclient -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnclient -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1525,46 +1510,47 @@ function Invoke-ADCAddLsnclient {
 }
 
 function Invoke-ADCDeleteLsnclient {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER clientname 
-       Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
+        Configuration for lsn client resource.
+    .PARAMETER Clientname 
+        Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created.
     .EXAMPLE
-        Invoke-ADCDeleteLsnclient -clientname <string>
+        PS C:\>Invoke-ADCDeleteLsnclient -Clientname <string>
+        An example how to delete lsnclient configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnclient
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$clientname 
+        [Parameter(Mandatory)]
+        [string]$Clientname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsnclient: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$clientname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient -NitroPath nitro/v1/config -Resource $clientname -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$clientname", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient -NitroPath nitro/v1/config -Resource $clientname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1580,56 +1566,62 @@ function Invoke-ADCDeleteLsnclient {
 }
 
 function Invoke-ADCGetLsnclient {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER clientname 
-       Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
+        Configuration for lsn client resource.
+    .PARAMETER Clientname 
+        Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
     .PARAMETER GetAll 
-        Retreive all lsnclient object(s)
+        Retrieve all lsnclient object(s).
     .PARAMETER Count
-        If specified, the count of the lsnclient object(s) will be returned
+        If specified, the count of the lsnclient object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnclient
+        PS C:\>Invoke-ADCGetLsnclient
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnclient -GetAll 
+        PS C:\>Invoke-ADCGetLsnclient -GetAll 
+        Get all lsnclient data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnclient -Count
+        PS C:\>Invoke-ADCGetLsnclient -Count 
+        Get the number of lsnclient objects.
     .EXAMPLE
-        Invoke-ADCGetLsnclient -name <string>
+        PS C:\>Invoke-ADCGetLsnclient -name <string>
+        Get lsnclient object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnclient -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnclient -Filter @{ 'name'='<value>' }
+        Get lsnclient data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnclient
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$clientname,
+        [string]$Clientname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1647,24 +1639,24 @@ function Invoke-ADCGetLsnclient {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all lsnclient objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnclient objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnclient objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnclient configuration for property 'clientname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient -NitroPath nitro/v1/config -Resource $clientname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnclient configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1678,52 +1670,57 @@ function Invoke-ADCGetLsnclient {
 }
 
 function Invoke-ADCGetLsnclientbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER clientname 
-       Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
+        Binding object which returns the resources bound to lsnclient.
+    .PARAMETER Clientname 
+        Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
     .PARAMETER GetAll 
-        Retreive all lsnclient_binding object(s)
+        Retrieve all lsnclient_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsnclient_binding object(s) will be returned
+        If specified, the count of the lsnclient_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnclientbinding
+        PS C:\>Invoke-ADCGetLsnclientbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnclientbinding -GetAll
+        PS C:\>Invoke-ADCGetLsnclientbinding -GetAll 
+        Get all lsnclient_binding data.
     .EXAMPLE
-        Invoke-ADCGetLsnclientbinding -name <string>
+        PS C:\>Invoke-ADCGetLsnclientbinding -name <string>
+        Get lsnclient_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnclientbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnclientbinding -Filter @{ 'name'='<value>' }
+        Get lsnclient_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnclientbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$clientname,
+        [string]$Clientname,
 			
         [hashtable]$Filter = @{ },
 
@@ -1735,26 +1732,24 @@ function Invoke-ADCGetLsnclientbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsnclient_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnclient_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnclient_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnclient_binding configuration for property 'clientname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_binding -NitroPath nitro/v1/config -Resource $clientname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnclient_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1768,90 +1763,82 @@ function Invoke-ADCGetLsnclientbinding {
 }
 
 function Invoke-ADCAddLsnclientnetwork6binding {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER clientname 
+        Binding object showing the network6 that can be bound to lsnclient.
+    .PARAMETER Clientname 
         Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
-    .PARAMETER network 
-        IPv4 address(es) of the LSN subscriber(s) or subscriber network(s) on whose traffic you want the Citrix ADC to perform Large Scale NAT.  
-        Minimum length = 1 
-    .PARAMETER netmask 
+    .PARAMETER Network 
+        IPv4 address(es) of the LSN subscriber(s) or subscriber network(s) on whose traffic you want the Citrix ADC to perform Large Scale NAT. 
+    .PARAMETER Netmask 
         Subnet mask for the IPv4 address specified in the Network parameter. 
-    .PARAMETER network6 
-        IPv6 address(es) of the LSN subscriber(s) or subscriber network(s) on whose traffic you want the Citrix ADC to perform Large Scale NAT.  
-        Minimum length = 1 
-    .PARAMETER td 
-        ID of the traffic domain on which this subscriber or the subscriber network (as specified by the network parameter) belongs. If you do not specify an ID, the subscriber or the subscriber network becomes part of the default traffic domain.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 4094 
+    .PARAMETER Network6 
+        IPv6 address(es) of the LSN subscriber(s) or subscriber network(s) on whose traffic you want the Citrix ADC to perform Large Scale NAT. 
+    .PARAMETER Td 
+        ID of the traffic domain on which this subscriber or the subscriber network (as specified by the network parameter) belongs. If you do not specify an ID, the subscriber or the subscriber network becomes part of the default traffic domain. 
     .PARAMETER PassThru 
         Return details about the created lsnclient_network6_binding item.
     .EXAMPLE
-        Invoke-ADCAddLsnclientnetwork6binding -clientname <string>
+        PS C:\>Invoke-ADCAddLsnclientnetwork6binding -clientname <string>
+        An example how to add lsnclient_network6_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnclientnetwork6binding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network6_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$clientname ,
+        [string]$Clientname,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$network ,
+        [string]$Network,
 
-        [string]$netmask ,
+        [string]$Netmask,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$network6 ,
+        [string]$Network6,
 
         [ValidateRange(0, 4094)]
-        [double]$td = '0' ,
+        [double]$Td = '0',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsnclientnetwork6binding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                clientname = $clientname
-            }
-            if ($PSBoundParameters.ContainsKey('network')) { $Payload.Add('network', $network) }
-            if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
-            if ($PSBoundParameters.ContainsKey('network6')) { $Payload.Add('network6', $network6) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnclient_network6_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnclient_network6_binding -Payload $Payload -GetWarning
+            $payload = @{ clientname = $clientname }
+            if ( $PSBoundParameters.ContainsKey('network') ) { $payload.Add('network', $network) }
+            if ( $PSBoundParameters.ContainsKey('netmask') ) { $payload.Add('netmask', $netmask) }
+            if ( $PSBoundParameters.ContainsKey('network6') ) { $payload.Add('network6', $network6) }
+            if ( $PSBoundParameters.ContainsKey('td') ) { $payload.Add('td', $td) }
+            if ( $PSCmdlet.ShouldProcess("lsnclient_network6_binding", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnclient_network6_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnclientnetwork6binding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnclientnetwork6binding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1864,66 +1851,66 @@ function Invoke-ADCAddLsnclientnetwork6binding {
 }
 
 function Invoke-ADCDeleteLsnclientnetwork6binding {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER clientname 
-       Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created.    .PARAMETER network 
-       IPv4 address(es) of the LSN subscriber(s) or subscriber network(s) on whose traffic you want the Citrix ADC to perform Large Scale NAT.  
-       Minimum length = 1    .PARAMETER netmask 
-       Subnet mask for the IPv4 address specified in the Network parameter.    .PARAMETER network6 
-       IPv6 address(es) of the LSN subscriber(s) or subscriber network(s) on whose traffic you want the Citrix ADC to perform Large Scale NAT.  
-       Minimum length = 1    .PARAMETER td 
-       ID of the traffic domain on which this subscriber or the subscriber network (as specified by the network parameter) belongs. If you do not specify an ID, the subscriber or the subscriber network becomes part of the default traffic domain.  
-       Default value: 0  
-       Minimum value = 0  
-       Maximum value = 4094
+        Binding object showing the network6 that can be bound to lsnclient.
+    .PARAMETER Clientname 
+        Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
+    .PARAMETER Network 
+        IPv4 address(es) of the LSN subscriber(s) or subscriber network(s) on whose traffic you want the Citrix ADC to perform Large Scale NAT. 
+    .PARAMETER Netmask 
+        Subnet mask for the IPv4 address specified in the Network parameter. 
+    .PARAMETER Network6 
+        IPv6 address(es) of the LSN subscriber(s) or subscriber network(s) on whose traffic you want the Citrix ADC to perform Large Scale NAT. 
+    .PARAMETER Td 
+        ID of the traffic domain on which this subscriber or the subscriber network (as specified by the network parameter) belongs. If you do not specify an ID, the subscriber or the subscriber network becomes part of the default traffic domain.
     .EXAMPLE
-        Invoke-ADCDeleteLsnclientnetwork6binding -clientname <string>
+        PS C:\>Invoke-ADCDeleteLsnclientnetwork6binding -Clientname <string>
+        An example how to delete lsnclient_network6_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnclientnetwork6binding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network6_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$clientname ,
+        [Parameter(Mandatory)]
+        [string]$Clientname,
 
-        [string]$network ,
+        [string]$Network,
 
-        [string]$netmask ,
+        [string]$Netmask,
 
-        [string]$network6 ,
+        [string]$Network6,
 
-        [double]$td 
+        [double]$Td 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsnclientnetwork6binding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('network')) { $Arguments.Add('network', $network) }
-            if ($PSBoundParameters.ContainsKey('netmask')) { $Arguments.Add('netmask', $netmask) }
-            if ($PSBoundParameters.ContainsKey('network6')) { $Arguments.Add('network6', $network6) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Arguments.Add('td', $td) }
-            if ($PSCmdlet.ShouldProcess("$clientname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient_network6_binding -NitroPath nitro/v1/config -Resource $clientname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Network') ) { $arguments.Add('network', $Network) }
+            if ( $PSBoundParameters.ContainsKey('Netmask') ) { $arguments.Add('netmask', $Netmask) }
+            if ( $PSBoundParameters.ContainsKey('Network6') ) { $arguments.Add('network6', $Network6) }
+            if ( $PSBoundParameters.ContainsKey('Td') ) { $arguments.Add('td', $Td) }
+            if ( $PSCmdlet.ShouldProcess("$clientname", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient_network6_binding -NitroPath nitro/v1/config -Resource $clientname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1939,56 +1926,62 @@ function Invoke-ADCDeleteLsnclientnetwork6binding {
 }
 
 function Invoke-ADCGetLsnclientnetwork6binding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER clientname 
-       Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
+        Binding object showing the network6 that can be bound to lsnclient.
+    .PARAMETER Clientname 
+        Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
     .PARAMETER GetAll 
-        Retreive all lsnclient_network6_binding object(s)
+        Retrieve all lsnclient_network6_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsnclient_network6_binding object(s) will be returned
+        If specified, the count of the lsnclient_network6_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnclientnetwork6binding
+        PS C:\>Invoke-ADCGetLsnclientnetwork6binding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnclientnetwork6binding -GetAll 
+        PS C:\>Invoke-ADCGetLsnclientnetwork6binding -GetAll 
+        Get all lsnclient_network6_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnclientnetwork6binding -Count
+        PS C:\>Invoke-ADCGetLsnclientnetwork6binding -Count 
+        Get the number of lsnclient_network6_binding objects.
     .EXAMPLE
-        Invoke-ADCGetLsnclientnetwork6binding -name <string>
+        PS C:\>Invoke-ADCGetLsnclientnetwork6binding -name <string>
+        Get lsnclient_network6_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnclientnetwork6binding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnclientnetwork6binding -Filter @{ 'name'='<value>' }
+        Get lsnclient_network6_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnclientnetwork6binding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network6_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$clientname,
+        [string]$Clientname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2001,26 +1994,24 @@ function Invoke-ADCGetLsnclientnetwork6binding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsnclient_network6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network6_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnclient_network6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network6_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnclient_network6_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network6_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network6_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnclient_network6_binding configuration for property 'clientname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network6_binding -NitroPath nitro/v1/config -Resource $clientname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnclient_network6_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network6_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network6_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2034,83 +2025,76 @@ function Invoke-ADCGetLsnclientnetwork6binding {
 }
 
 function Invoke-ADCAddLsnclientnetworkbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER clientname 
+        Binding object showing the network that can be bound to lsnclient.
+    .PARAMETER Clientname 
         Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
-    .PARAMETER network 
-        IPv4 address(es) of the LSN subscriber(s) or subscriber network(s) on whose traffic you want the Citrix ADC to perform Large Scale NAT.  
-        Minimum length = 1 
-    .PARAMETER netmask 
+    .PARAMETER Network 
+        IPv4 address(es) of the LSN subscriber(s) or subscriber network(s) on whose traffic you want the Citrix ADC to perform Large Scale NAT. 
+    .PARAMETER Netmask 
         Subnet mask for the IPv4 address specified in the Network parameter. 
-    .PARAMETER td 
-        ID of the traffic domain on which this subscriber or the subscriber network (as specified by the network parameter) belongs. If you do not specify an ID, the subscriber or the subscriber network becomes part of the default traffic domain.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 4094 
+    .PARAMETER Td 
+        ID of the traffic domain on which this subscriber or the subscriber network (as specified by the network parameter) belongs. If you do not specify an ID, the subscriber or the subscriber network becomes part of the default traffic domain. 
     .PARAMETER PassThru 
         Return details about the created lsnclient_network_binding item.
     .EXAMPLE
-        Invoke-ADCAddLsnclientnetworkbinding -clientname <string>
+        PS C:\>Invoke-ADCAddLsnclientnetworkbinding -clientname <string>
+        An example how to add lsnclient_network_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnclientnetworkbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$clientname ,
+        [string]$Clientname,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$network ,
+        [string]$Network,
 
-        [string]$netmask ,
+        [string]$Netmask,
 
         [ValidateRange(0, 4094)]
-        [double]$td = '0' ,
+        [double]$Td = '0',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsnclientnetworkbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                clientname = $clientname
-            }
-            if ($PSBoundParameters.ContainsKey('network')) { $Payload.Add('network', $network) }
-            if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnclient_network_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnclient_network_binding -Payload $Payload -GetWarning
+            $payload = @{ clientname = $clientname }
+            if ( $PSBoundParameters.ContainsKey('network') ) { $payload.Add('network', $network) }
+            if ( $PSBoundParameters.ContainsKey('netmask') ) { $payload.Add('netmask', $netmask) }
+            if ( $PSBoundParameters.ContainsKey('td') ) { $payload.Add('td', $td) }
+            if ( $PSCmdlet.ShouldProcess("lsnclient_network_binding", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnclient_network_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnclientnetworkbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnclientnetworkbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2123,61 +2107,61 @@ function Invoke-ADCAddLsnclientnetworkbinding {
 }
 
 function Invoke-ADCDeleteLsnclientnetworkbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER clientname 
-       Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created.    .PARAMETER network 
-       IPv4 address(es) of the LSN subscriber(s) or subscriber network(s) on whose traffic you want the Citrix ADC to perform Large Scale NAT.  
-       Minimum length = 1    .PARAMETER netmask 
-       Subnet mask for the IPv4 address specified in the Network parameter.    .PARAMETER td 
-       ID of the traffic domain on which this subscriber or the subscriber network (as specified by the network parameter) belongs. If you do not specify an ID, the subscriber or the subscriber network becomes part of the default traffic domain.  
-       Default value: 0  
-       Minimum value = 0  
-       Maximum value = 4094
+        Binding object showing the network that can be bound to lsnclient.
+    .PARAMETER Clientname 
+        Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
+    .PARAMETER Network 
+        IPv4 address(es) of the LSN subscriber(s) or subscriber network(s) on whose traffic you want the Citrix ADC to perform Large Scale NAT. 
+    .PARAMETER Netmask 
+        Subnet mask for the IPv4 address specified in the Network parameter. 
+    .PARAMETER Td 
+        ID of the traffic domain on which this subscriber or the subscriber network (as specified by the network parameter) belongs. If you do not specify an ID, the subscriber or the subscriber network becomes part of the default traffic domain.
     .EXAMPLE
-        Invoke-ADCDeleteLsnclientnetworkbinding -clientname <string>
+        PS C:\>Invoke-ADCDeleteLsnclientnetworkbinding -Clientname <string>
+        An example how to delete lsnclient_network_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnclientnetworkbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$clientname ,
+        [Parameter(Mandatory)]
+        [string]$Clientname,
 
-        [string]$network ,
+        [string]$Network,
 
-        [string]$netmask ,
+        [string]$Netmask,
 
-        [double]$td 
+        [double]$Td 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsnclientnetworkbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('network')) { $Arguments.Add('network', $network) }
-            if ($PSBoundParameters.ContainsKey('netmask')) { $Arguments.Add('netmask', $netmask) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Arguments.Add('td', $td) }
-            if ($PSCmdlet.ShouldProcess("$clientname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient_network_binding -NitroPath nitro/v1/config -Resource $clientname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Network') ) { $arguments.Add('network', $Network) }
+            if ( $PSBoundParameters.ContainsKey('Netmask') ) { $arguments.Add('netmask', $Netmask) }
+            if ( $PSBoundParameters.ContainsKey('Td') ) { $arguments.Add('td', $Td) }
+            if ( $PSCmdlet.ShouldProcess("$clientname", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient_network_binding -NitroPath nitro/v1/config -Resource $clientname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2193,56 +2177,62 @@ function Invoke-ADCDeleteLsnclientnetworkbinding {
 }
 
 function Invoke-ADCGetLsnclientnetworkbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER clientname 
-       Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
+        Binding object showing the network that can be bound to lsnclient.
+    .PARAMETER Clientname 
+        Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
     .PARAMETER GetAll 
-        Retreive all lsnclient_network_binding object(s)
+        Retrieve all lsnclient_network_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsnclient_network_binding object(s) will be returned
+        If specified, the count of the lsnclient_network_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnclientnetworkbinding
+        PS C:\>Invoke-ADCGetLsnclientnetworkbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnclientnetworkbinding -GetAll 
+        PS C:\>Invoke-ADCGetLsnclientnetworkbinding -GetAll 
+        Get all lsnclient_network_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnclientnetworkbinding -Count
+        PS C:\>Invoke-ADCGetLsnclientnetworkbinding -Count 
+        Get the number of lsnclient_network_binding objects.
     .EXAMPLE
-        Invoke-ADCGetLsnclientnetworkbinding -name <string>
+        PS C:\>Invoke-ADCGetLsnclientnetworkbinding -name <string>
+        Get lsnclient_network_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnclientnetworkbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnclientnetworkbinding -Filter @{ 'name'='<value>' }
+        Get lsnclient_network_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnclientnetworkbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$clientname,
+        [string]$Clientname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2255,26 +2245,24 @@ function Invoke-ADCGetLsnclientnetworkbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsnclient_network_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnclient_network_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnclient_network_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnclient_network_binding configuration for property 'clientname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network_binding -NitroPath nitro/v1/config -Resource $clientname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnclient_network_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_network_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2288,78 +2276,71 @@ function Invoke-ADCGetLsnclientnetworkbinding {
 }
 
 function Invoke-ADCAddLsnclientnsacl6binding {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER clientname 
+        Binding object showing the nsacl6 that can be bound to lsnclient.
+    .PARAMETER Clientname 
         Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
-    .PARAMETER acl6name 
-        Name of any configured extended ACL6 whose action is ALLOW. The condition specified in the extended ACL6 rule is used as the condition for the LSN client.  
-        Minimum length = 1 
-    .PARAMETER td 
-        ID of the traffic domain on which this subscriber or the subscriber network (as specified by the network parameter) belongs. If you do not specify an ID, the subscriber or the subscriber network becomes part of the default traffic domain.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 4094 
+    .PARAMETER Acl6name 
+        Name of any configured extended ACL6 whose action is ALLOW. The condition specified in the extended ACL6 rule is used as the condition for the LSN client. 
+    .PARAMETER Td 
+        ID of the traffic domain on which this subscriber or the subscriber network (as specified by the network parameter) belongs. If you do not specify an ID, the subscriber or the subscriber network becomes part of the default traffic domain. 
     .PARAMETER PassThru 
         Return details about the created lsnclient_nsacl6_binding item.
     .EXAMPLE
-        Invoke-ADCAddLsnclientnsacl6binding -clientname <string>
+        PS C:\>Invoke-ADCAddLsnclientnsacl6binding -clientname <string>
+        An example how to add lsnclient_nsacl6_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnclientnsacl6binding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl6_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$clientname ,
+        [string]$Clientname,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$acl6name ,
+        [string]$Acl6name,
 
         [ValidateRange(0, 4094)]
-        [double]$td = '0' ,
+        [double]$Td = '0',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsnclientnsacl6binding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                clientname = $clientname
-            }
-            if ($PSBoundParameters.ContainsKey('acl6name')) { $Payload.Add('acl6name', $acl6name) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnclient_nsacl6_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnclient_nsacl6_binding -Payload $Payload -GetWarning
+            $payload = @{ clientname = $clientname }
+            if ( $PSBoundParameters.ContainsKey('acl6name') ) { $payload.Add('acl6name', $acl6name) }
+            if ( $PSBoundParameters.ContainsKey('td') ) { $payload.Add('td', $td) }
+            if ( $PSCmdlet.ShouldProcess("lsnclient_nsacl6_binding", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnclient_nsacl6_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnclientnsacl6binding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnclientnsacl6binding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2372,57 +2353,56 @@ function Invoke-ADCAddLsnclientnsacl6binding {
 }
 
 function Invoke-ADCDeleteLsnclientnsacl6binding {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER clientname 
-       Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created.    .PARAMETER acl6name 
-       Name of any configured extended ACL6 whose action is ALLOW. The condition specified in the extended ACL6 rule is used as the condition for the LSN client.  
-       Minimum length = 1    .PARAMETER td 
-       ID of the traffic domain on which this subscriber or the subscriber network (as specified by the network parameter) belongs. If you do not specify an ID, the subscriber or the subscriber network becomes part of the default traffic domain.  
-       Default value: 0  
-       Minimum value = 0  
-       Maximum value = 4094
+        Binding object showing the nsacl6 that can be bound to lsnclient.
+    .PARAMETER Clientname 
+        Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
+    .PARAMETER Acl6name 
+        Name of any configured extended ACL6 whose action is ALLOW. The condition specified in the extended ACL6 rule is used as the condition for the LSN client. 
+    .PARAMETER Td 
+        ID of the traffic domain on which this subscriber or the subscriber network (as specified by the network parameter) belongs. If you do not specify an ID, the subscriber or the subscriber network becomes part of the default traffic domain.
     .EXAMPLE
-        Invoke-ADCDeleteLsnclientnsacl6binding -clientname <string>
+        PS C:\>Invoke-ADCDeleteLsnclientnsacl6binding -Clientname <string>
+        An example how to delete lsnclient_nsacl6_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnclientnsacl6binding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl6_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$clientname ,
+        [Parameter(Mandatory)]
+        [string]$Clientname,
 
-        [string]$acl6name ,
+        [string]$Acl6name,
 
-        [double]$td 
+        [double]$Td 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsnclientnsacl6binding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('acl6name')) { $Arguments.Add('acl6name', $acl6name) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Arguments.Add('td', $td) }
-            if ($PSCmdlet.ShouldProcess("$clientname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient_nsacl6_binding -NitroPath nitro/v1/config -Resource $clientname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Acl6name') ) { $arguments.Add('acl6name', $Acl6name) }
+            if ( $PSBoundParameters.ContainsKey('Td') ) { $arguments.Add('td', $Td) }
+            if ( $PSCmdlet.ShouldProcess("$clientname", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient_nsacl6_binding -NitroPath nitro/v1/config -Resource $clientname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2438,56 +2418,62 @@ function Invoke-ADCDeleteLsnclientnsacl6binding {
 }
 
 function Invoke-ADCGetLsnclientnsacl6binding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER clientname 
-       Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
+        Binding object showing the nsacl6 that can be bound to lsnclient.
+    .PARAMETER Clientname 
+        Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
     .PARAMETER GetAll 
-        Retreive all lsnclient_nsacl6_binding object(s)
+        Retrieve all lsnclient_nsacl6_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsnclient_nsacl6_binding object(s) will be returned
+        If specified, the count of the lsnclient_nsacl6_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnclientnsacl6binding
+        PS C:\>Invoke-ADCGetLsnclientnsacl6binding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnclientnsacl6binding -GetAll 
+        PS C:\>Invoke-ADCGetLsnclientnsacl6binding -GetAll 
+        Get all lsnclient_nsacl6_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnclientnsacl6binding -Count
+        PS C:\>Invoke-ADCGetLsnclientnsacl6binding -Count 
+        Get the number of lsnclient_nsacl6_binding objects.
     .EXAMPLE
-        Invoke-ADCGetLsnclientnsacl6binding -name <string>
+        PS C:\>Invoke-ADCGetLsnclientnsacl6binding -name <string>
+        Get lsnclient_nsacl6_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnclientnsacl6binding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnclientnsacl6binding -Filter @{ 'name'='<value>' }
+        Get lsnclient_nsacl6_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnclientnsacl6binding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl6_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$clientname,
+        [string]$Clientname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2500,26 +2486,24 @@ function Invoke-ADCGetLsnclientnsacl6binding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsnclient_nsacl6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl6_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnclient_nsacl6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl6_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnclient_nsacl6_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl6_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl6_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnclient_nsacl6_binding configuration for property 'clientname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl6_binding -NitroPath nitro/v1/config -Resource $clientname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnclient_nsacl6_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl6_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl6_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2533,78 +2517,71 @@ function Invoke-ADCGetLsnclientnsacl6binding {
 }
 
 function Invoke-ADCAddLsnclientnsaclbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER clientname 
+        Binding object showing the nsacl that can be bound to lsnclient.
+    .PARAMETER Clientname 
         Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
-    .PARAMETER aclname 
-        Name(s) of any configured extended ACL(s) whose action is ALLOW. The condition specified in the extended ACL rule identifies the traffic from an LSN subscriber for which the Citrix ADC is to perform large scale NAT. .  
-        Minimum length = 1 
-    .PARAMETER td 
-        ID of the traffic domain on which this subscriber or the subscriber network (as specified by the network parameter) belongs. If you do not specify an ID, the subscriber or the subscriber network becomes part of the default traffic domain.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 4094 
+    .PARAMETER Aclname 
+        Name(s) of any configured extended ACL(s) whose action is ALLOW. The condition specified in the extended ACL rule identifies the traffic from an LSN subscriber for which the Citrix ADC is to perform large scale NAT. . 
+    .PARAMETER Td 
+        ID of the traffic domain on which this subscriber or the subscriber network (as specified by the network parameter) belongs. If you do not specify an ID, the subscriber or the subscriber network becomes part of the default traffic domain. 
     .PARAMETER PassThru 
         Return details about the created lsnclient_nsacl_binding item.
     .EXAMPLE
-        Invoke-ADCAddLsnclientnsaclbinding -clientname <string>
+        PS C:\>Invoke-ADCAddLsnclientnsaclbinding -clientname <string>
+        An example how to add lsnclient_nsacl_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnclientnsaclbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$clientname ,
+        [string]$Clientname,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$aclname ,
+        [string]$Aclname,
 
         [ValidateRange(0, 4094)]
-        [double]$td = '0' ,
+        [double]$Td = '0',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsnclientnsaclbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                clientname = $clientname
-            }
-            if ($PSBoundParameters.ContainsKey('aclname')) { $Payload.Add('aclname', $aclname) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnclient_nsacl_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnclient_nsacl_binding -Payload $Payload -GetWarning
+            $payload = @{ clientname = $clientname }
+            if ( $PSBoundParameters.ContainsKey('aclname') ) { $payload.Add('aclname', $aclname) }
+            if ( $PSBoundParameters.ContainsKey('td') ) { $payload.Add('td', $td) }
+            if ( $PSCmdlet.ShouldProcess("lsnclient_nsacl_binding", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnclient_nsacl_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnclientnsaclbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnclientnsaclbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2617,57 +2594,56 @@ function Invoke-ADCAddLsnclientnsaclbinding {
 }
 
 function Invoke-ADCDeleteLsnclientnsaclbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER clientname 
-       Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created.    .PARAMETER aclname 
-       Name(s) of any configured extended ACL(s) whose action is ALLOW. The condition specified in the extended ACL rule identifies the traffic from an LSN subscriber for which the Citrix ADC is to perform large scale NAT. .  
-       Minimum length = 1    .PARAMETER td 
-       ID of the traffic domain on which this subscriber or the subscriber network (as specified by the network parameter) belongs. If you do not specify an ID, the subscriber or the subscriber network becomes part of the default traffic domain.  
-       Default value: 0  
-       Minimum value = 0  
-       Maximum value = 4094
+        Binding object showing the nsacl that can be bound to lsnclient.
+    .PARAMETER Clientname 
+        Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
+    .PARAMETER Aclname 
+        Name(s) of any configured extended ACL(s) whose action is ALLOW. The condition specified in the extended ACL rule identifies the traffic from an LSN subscriber for which the Citrix ADC is to perform large scale NAT. . 
+    .PARAMETER Td 
+        ID of the traffic domain on which this subscriber or the subscriber network (as specified by the network parameter) belongs. If you do not specify an ID, the subscriber or the subscriber network becomes part of the default traffic domain.
     .EXAMPLE
-        Invoke-ADCDeleteLsnclientnsaclbinding -clientname <string>
+        PS C:\>Invoke-ADCDeleteLsnclientnsaclbinding -Clientname <string>
+        An example how to delete lsnclient_nsacl_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnclientnsaclbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$clientname ,
+        [Parameter(Mandatory)]
+        [string]$Clientname,
 
-        [string]$aclname ,
+        [string]$Aclname,
 
-        [double]$td 
+        [double]$Td 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsnclientnsaclbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('aclname')) { $Arguments.Add('aclname', $aclname) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Arguments.Add('td', $td) }
-            if ($PSCmdlet.ShouldProcess("$clientname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient_nsacl_binding -NitroPath nitro/v1/config -Resource $clientname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Aclname') ) { $arguments.Add('aclname', $Aclname) }
+            if ( $PSBoundParameters.ContainsKey('Td') ) { $arguments.Add('td', $Td) }
+            if ( $PSCmdlet.ShouldProcess("$clientname", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnclient_nsacl_binding -NitroPath nitro/v1/config -Resource $clientname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2683,56 +2659,62 @@ function Invoke-ADCDeleteLsnclientnsaclbinding {
 }
 
 function Invoke-ADCGetLsnclientnsaclbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER clientname 
-       Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
+        Binding object showing the nsacl that can be bound to lsnclient.
+    .PARAMETER Clientname 
+        Name for the LSN client entity. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN client is created. 
     .PARAMETER GetAll 
-        Retreive all lsnclient_nsacl_binding object(s)
+        Retrieve all lsnclient_nsacl_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsnclient_nsacl_binding object(s) will be returned
+        If specified, the count of the lsnclient_nsacl_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnclientnsaclbinding
+        PS C:\>Invoke-ADCGetLsnclientnsaclbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnclientnsaclbinding -GetAll 
+        PS C:\>Invoke-ADCGetLsnclientnsaclbinding -GetAll 
+        Get all lsnclient_nsacl_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnclientnsaclbinding -Count
+        PS C:\>Invoke-ADCGetLsnclientnsaclbinding -Count 
+        Get the number of lsnclient_nsacl_binding objects.
     .EXAMPLE
-        Invoke-ADCGetLsnclientnsaclbinding -name <string>
+        PS C:\>Invoke-ADCGetLsnclientnsaclbinding -name <string>
+        Get lsnclient_nsacl_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnclientnsaclbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnclientnsaclbinding -Filter @{ 'name'='<value>' }
+        Get lsnclient_nsacl_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnclientnsaclbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$clientname,
+        [string]$Clientname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2745,26 +2727,24 @@ function Invoke-ADCGetLsnclientnsaclbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsnclient_nsacl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnclient_nsacl_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnclient_nsacl_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnclient_nsacl_binding configuration for property 'clientname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl_binding -NitroPath nitro/v1/config -Resource $clientname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnclient_nsacl_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnclient_nsacl_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2778,76 +2758,82 @@ function Invoke-ADCGetLsnclientnsaclbinding {
 }
 
 function Invoke-ADCGetLsndeterministicnat {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER clientname 
-       The name of the LSN Client. 
-    .PARAMETER network6 
-       IPv6 address of the LSN subscriber or B4 device. 
-    .PARAMETER subscrip 
-       The Client IP address. 
-    .PARAMETER td 
-       The LSN client TD. 
-    .PARAMETER natip 
-       The NAT IP address. 
+        Configuration for deterministic NAT resource.
+    .PARAMETER Clientname 
+        The name of the LSN Client. 
+    .PARAMETER Network6 
+        IPv6 address of the LSN subscriber or B4 device. 
+    .PARAMETER Subscrip 
+        The Client IP address. 
+    .PARAMETER Td 
+        The LSN client TD. 
+    .PARAMETER Natip 
+        The NAT IP address. 
     .PARAMETER GetAll 
-        Retreive all lsndeterministicnat object(s)
+        Retrieve all lsndeterministicnat object(s).
     .PARAMETER Count
-        If specified, the count of the lsndeterministicnat object(s) will be returned
+        If specified, the count of the lsndeterministicnat object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsndeterministicnat
+        PS C:\>Invoke-ADCGetLsndeterministicnat
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsndeterministicnat -GetAll 
+        PS C:\>Invoke-ADCGetLsndeterministicnat -GetAll 
+        Get all lsndeterministicnat data. 
     .EXAMPLE 
-        Invoke-ADCGetLsndeterministicnat -Count
+        PS C:\>Invoke-ADCGetLsndeterministicnat -Count 
+        Get the number of lsndeterministicnat objects.
     .EXAMPLE
-        Invoke-ADCGetLsndeterministicnat -name <string>
+        PS C:\>Invoke-ADCGetLsndeterministicnat -name <string>
+        Get lsndeterministicnat object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsndeterministicnat -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsndeterministicnat -Filter @{ 'name'='<value>' }
+        Get lsndeterministicnat data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsndeterministicnat
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsndeterministicnat/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$clientname ,
+        [string]$Clientname,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$network6 ,
+        [string]$Network6,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$subscrip ,
+        [string]$Subscrip,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateRange(0, 4094)]
-        [double]$td ,
+        [double]$Td,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$natip,
+        [string]$Natip,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2864,29 +2850,29 @@ function Invoke-ADCGetLsndeterministicnat {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all lsndeterministicnat objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsndeterministicnat -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsndeterministicnat -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsndeterministicnat objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsndeterministicnat -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsndeterministicnat -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsndeterministicnat objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('clientname')) { $Arguments.Add('clientname', $clientname) } 
-                if ($PSBoundParameters.ContainsKey('network6')) { $Arguments.Add('network6', $network6) } 
-                if ($PSBoundParameters.ContainsKey('subscrip')) { $Arguments.Add('subscrip', $subscrip) } 
-                if ($PSBoundParameters.ContainsKey('td')) { $Arguments.Add('td', $td) } 
-                if ($PSBoundParameters.ContainsKey('natip')) { $Arguments.Add('natip', $natip) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsndeterministicnat -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('clientname') ) { $arguments.Add('clientname', $clientname) } 
+                if ( $PSBoundParameters.ContainsKey('network6') ) { $arguments.Add('network6', $network6) } 
+                if ( $PSBoundParameters.ContainsKey('subscrip') ) { $arguments.Add('subscrip', $subscrip) } 
+                if ( $PSBoundParameters.ContainsKey('td') ) { $arguments.Add('td', $td) } 
+                if ( $PSBoundParameters.ContainsKey('natip') ) { $arguments.Add('natip', $natip) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsndeterministicnat -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsndeterministicnat configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving lsndeterministicnat configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsndeterministicnat -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsndeterministicnat -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2900,221 +2886,201 @@ function Invoke-ADCGetLsndeterministicnat {
 }
 
 function Invoke-ADCAddLsngroup {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER groupname 
+        Configuration for LSN group resource.
+    .PARAMETER Groupname 
         Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
-    .PARAMETER clientname 
+    .PARAMETER Clientname 
         Name of the LSN client entity to be associated with the LSN group. You can associate only one LSN client entity with an LSN group.You cannot remove this association or replace with another LSN client entity once the LSN group is created. 
-    .PARAMETER nattype 
-        Type of NAT IP address and port allocation (from the bound LSN pools) for subscribers:  
-        Available options function as follows:  
-        * Deterministic - Allocate a NAT IP address and a block of ports to each subscriber (of the LSN client bound to the LSN group). The Citrix ADC sequentially allocates NAT resources to these subscribers. The Citrix ADC ADC assigns the first block of ports (block size determined by the port block size parameter of the LSN group) on the beginning NAT IP address to the beginning subscriber IP address. The next range of ports is assigned to the next subscriber, and so on, until the NAT address does not have enough ports for the next subscriber. In this case, the first port block on the next NAT address is used for the subscriber, and so on. Because each subscriber now receives a deterministic NAT IP address and a block of ports, a subscriber can be identified without any need for logging. For a connection, a subscriber can be identified based only on the NAT IP address and port, and the destination IP address and port. The maximum number of LSN subscribers allowed, globally, is 1 million.  
-        * Dynamic - Allocate a random NAT IP address and a port from the LSN NAT pool for a subscriber's connection. If port block allocation is enabled (in LSN pool) and a port block size is specified (in the LSN group), the Citrix ADC allocates a random NAT IP address and a block of ports for a subscriber when it initiates a connection for the first time. The ADC allocates this NAT IP address and a port (from the allocated block of ports) for different connections from this subscriber. If all the ports are allocated (for different subscriber's connections) from the subscriber's allocated port block, the ADC allocates a new random port block for the subscriber.  
-        Default value: DYNAMIC  
+    .PARAMETER Nattype 
+        Type of NAT IP address and port allocation (from the bound LSN pools) for subscribers: 
+        Available options function as follows: 
+        * Deterministic - Allocate a NAT IP address and a block of ports to each subscriber (of the LSN client bound to the LSN group). The Citrix ADC sequentially allocates NAT resources to these subscribers. The Citrix ADC ADC assigns the first block of ports (block size determined by the port block size parameter of the LSN group) on the beginning NAT IP address to the beginning subscriber IP address. The next range of ports is assigned to the next subscriber, and so on, until the NAT address does not have enough ports for the next subscriber. In this case, the first port block on the next NAT address is used for the subscriber, and so on. Because each subscriber now receives a deterministic NAT IP address and a block of ports, a subscriber can be identified without any need for logging. For a connection, a subscriber can be identified based only on the NAT IP address and port, and the destination IP address and port. The maximum number of LSN subscribers allowed, globally, is 1 million. 
+        * Dynamic - Allocate a random NAT IP address and a port from the LSN NAT pool for a subscriber's connection. If port block allocation is enabled (in LSN pool) and a port block size is specified (in the LSN group), the Citrix ADC allocates a random NAT IP address and a block of ports for a subscriber when it initiates a connection for the first time. The ADC allocates this NAT IP address and a port (from the allocated block of ports) for different connections from this subscriber. If all the ports are allocated (for different subscriber's connections) from the subscriber's allocated port block, the ADC allocates a new random port block for the subscriber. 
         Possible values = DYNAMIC, DETERMINISTIC 
-    .PARAMETER allocpolicy 
-        NAT IP and PORT block allocation policy for Deterministic NAT. Supported Policies are,  
-        1: PORTS: Port blocks from single NATIP will be allocated to LSN subscribers sequentially. After all blocks are exhausted, port blocks from next NATIP will be allocated and so on.  
-        2: IPADDRS(Default): One port block from each NATIP will be allocated and once all the NATIPs are over second port block from each NATIP will be allocated and so on.  
-        To understand better if we assume port blocks of all NAT IPs as two dimensional array, PORTS policy follows "row major order" and IPADDRS policy follows "column major order" while allocating port blocks.  
-        Example:  
-        Client IPs: 2.2.2.1, 2.2.2.2 and 2.2.2.3  
-        NAT IPs and PORT Blocks:  
-        4.4.4.1:PB1, PB2, PB3,., PBn  
-        4.4.4.2: PB1, PB2, PB3,., PBn  
-        PORTS Policy:  
-        2.2.2.1 => 4.4.4.1:PB1  
-        2.2.2.2 => 4.4.4.1:PB2  
-        2.2.2.3 => 4.4.4.1:PB3  
-        IPADDRS Policy:  
-        2.2.2.1 => 4.4.4.1:PB1  
-        2.2.2.2 => 4.4.4.2:PB1  
-        2.2.2.3 => 4.4.4.1:PB2.  
-        Default value: IPADDRS  
+    .PARAMETER Allocpolicy 
+        NAT IP and PORT block allocation policy for Deterministic NAT. Supported Policies are, 
+        1: PORTS: Port blocks from single NATIP will be allocated to LSN subscribers sequentially. After all blocks are exhausted, port blocks from next NATIP will be allocated and so on. 
+        2: IPADDRS(Default): One port block from each NATIP will be allocated and once all the NATIPs are over second port block from each NATIP will be allocated and so on. 
+        To understand better if we assume port blocks of all NAT IPs as two dimensional array, PORTS policy follows "row major order" and IPADDRS policy follows "column major order" while allocating port blocks. 
+        Example: 
+        Client IPs: 2.2.2.1, 2.2.2.2 and 2.2.2.3 
+        NAT IPs and PORT Blocks: 
+        4.4.4.1:PB1, PB2, PB3,., PBn 
+        4.4.4.2: PB1, PB2, PB3,., PBn 
+        PORTS Policy: 
+        2.2.2.1 => 4.4.4.1:PB1 
+        2.2.2.2 => 4.4.4.1:PB2 
+        2.2.2.3 => 4.4.4.1:PB3 
+        IPADDRS Policy: 
+        2.2.2.1 => 4.4.4.1:PB1 
+        2.2.2.2 => 4.4.4.2:PB1 
+        2.2.2.3 => 4.4.4.1:PB2. 
         Possible values = PORTS, IPADDRS 
-    .PARAMETER portblocksize 
-        Size of the NAT port block to be allocated for each subscriber.  
-        To set this parameter for Dynamic NAT, you must enable the port block allocation parameter in the bound LSN pool. For Deterministic NAT, the port block allocation parameter is always enabled, and you cannot disable it.  
-        In Dynamic NAT, the Citrix ADC allocates a random NAT port block, from the available NAT port pool of an NAT IP address, for each subscriber. For a subscriber, if all the ports are allocated from the subscriber's allocated port block, the ADC allocates a new random port block for the subscriber.  
-        The default port block size is 256 for Deterministic NAT, and 0 for Dynamic NAT.  
-        Default value: 0  
-        Minimum value = 256  
-        Maximum value = 65536 
-    .PARAMETER logging 
-        Log mapping entries and sessions created or deleted for this LSN group. The Citrix ADC logs LSN sessions for this LSN group only when both logging and session logging parameters are enabled.  
-        The ADC uses its existing syslog and audit log framework to log LSN information. You must enable global level LSN logging by enabling the LSN parameter in the related NSLOG action and SYLOG action entities. When the Logging parameter is enabled, the Citrix ADC generates log messages related to LSN mappings and LSN sessions of this LSN group. The ADC then sends these log messages to servers associated with the NSLOG action and SYSLOG actions entities.  
-        A log message for an LSN mapping entry consists of the following information:  
-        * NSIP address of the Citrix ADC  
-        * Time stamp  
-        * Entry type (MAPPING or SESSION)  
-        * Whether the LSN mapping entry is created or deleted  
-        * Subscriber's IP address, port, and traffic domain ID  
-        * NAT IP address and port  
-        * Protocol name  
-        * Destination IP address, port, and traffic domain ID might be present, depending on the following conditions:  
-        ** Destination IP address and port are not logged for Endpoint-Independent mapping  
-        ** Only Destination IP address (and not port) is logged for Address-Dependent mapping  
-        ** Destination IP address and port are logged for Address-Port-Dependent mapping.  
-        Default value: DISABLED  
+    .PARAMETER Portblocksize 
+        Size of the NAT port block to be allocated for each subscriber. 
+        To set this parameter for Dynamic NAT, you must enable the port block allocation parameter in the bound LSN pool. For Deterministic NAT, the port block allocation parameter is always enabled, and you cannot disable it. 
+        In Dynamic NAT, the Citrix ADC allocates a random NAT port block, from the available NAT port pool of an NAT IP address, for each subscriber. For a subscriber, if all the ports are allocated from the subscriber's allocated port block, the ADC allocates a new random port block for the subscriber. 
+        The default port block size is 256 for Deterministic NAT, and 0 for Dynamic NAT. 
+    .PARAMETER Logging 
+        Log mapping entries and sessions created or deleted for this LSN group. The Citrix ADC logs LSN sessions for this LSN group only when both logging and session logging parameters are enabled. 
+        The ADC uses its existing syslog and audit log framework to log LSN information. You must enable global level LSN logging by enabling the LSN parameter in the related NSLOG action and SYLOG action entities. When the Logging parameter is enabled, the Citrix ADC generates log messages related to LSN mappings and LSN sessions of this LSN group. The ADC then sends these log messages to servers associated with the NSLOG action and SYSLOG actions entities. 
+        A log message for an LSN mapping entry consists of the following information: 
+        * NSIP address of the Citrix ADC 
+        * Time stamp 
+        * Entry type (MAPPING or SESSION) 
+        * Whether the LSN mapping entry is created or deleted 
+        * Subscriber's IP address, port, and traffic domain ID 
+        * NAT IP address and port 
+        * Protocol name 
+        * Destination IP address, port, and traffic domain ID might be present, depending on the following conditions: 
+        ** Destination IP address and port are not logged for Endpoint-Independent mapping 
+        ** Only Destination IP address (and not port) is logged for Address-Dependent mapping 
+        ** Destination IP address and port are logged for Address-Port-Dependent mapping. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER sessionlogging 
-        Log sessions created or deleted for the LSN group. The Citrix ADC logs LSN sessions for this LSN group only when both logging and session logging parameters are enabled.  
-        A log message for an LSN session consists of the following information:  
-        * NSIP address of the Citrix ADC  
-        * Time stamp  
-        * Entry type (MAPPING or SESSION)  
-        * Whether the LSN session is created or removed  
-        * Subscriber's IP address, port, and traffic domain ID  
-        * NAT IP address and port  
-        * Protocol name  
-        * Destination IP address, port, and traffic domain ID.  
-        Default value: DISABLED  
+    .PARAMETER Sessionlogging 
+        Log sessions created or deleted for the LSN group. The Citrix ADC logs LSN sessions for this LSN group only when both logging and session logging parameters are enabled. 
+        A log message for an LSN session consists of the following information: 
+        * NSIP address of the Citrix ADC 
+        * Time stamp 
+        * Entry type (MAPPING or SESSION) 
+        * Whether the LSN session is created or removed 
+        * Subscriber's IP address, port, and traffic domain ID 
+        * NAT IP address and port 
+        * Protocol name 
+        * Destination IP address, port, and traffic domain ID. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER sessionsync 
-        In a high availability (HA) deployment, synchronize information of all LSN sessions related to this LSN group with the secondary node. After a failover, established TCP connections and UDP packet flows are kept active and resumed on the secondary node (new primary).  
-        For this setting to work, you must enable the global session synchronization parameter.  
-        Default value: ENABLED  
+    .PARAMETER Sessionsync 
+        In a high availability (HA) deployment, synchronize information of all LSN sessions related to this LSN group with the secondary node. After a failover, established TCP connections and UDP packet flows are kept active and resumed on the secondary node (new primary). 
+        For this setting to work, you must enable the global session synchronization parameter. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER snmptraplimit 
-        Maximum number of SNMP Trap messages that can be generated for the LSN group in one minute.  
-        Default value: 100  
-        Minimum value = 0  
-        Maximum value = 10000 
-    .PARAMETER ftp 
-        Enable Application Layer Gateway (ALG) for the FTP protocol. For some application-layer protocols, the IP addresses and protocol port numbers are usually communicated in the packet's payload. When acting as an ALG, the Citrix ADC changes the packet's payload to ensure that the protocol continues to work over LSN.  
-        Note: The Citrix ADC also includes ALG for ICMP and TFTP protocols. ALG for the ICMP protocol is enabled by default, and there is no provision to disable it. ALG for the TFTP protocol is disabled by default. ALG is enabled automatically for an LSN group when you bind a UDP LSN application profile, with endpoint-independent-mapping, endpoint-independent filtering, and destination port as 69 (well-known port for TFTP), to the LSN group.  
-        Default value: ENABLED  
+    .PARAMETER Snmptraplimit 
+        Maximum number of SNMP Trap messages that can be generated for the LSN group in one minute. 
+    .PARAMETER Ftp 
+        Enable Application Layer Gateway (ALG) for the FTP protocol. For some application-layer protocols, the IP addresses and protocol port numbers are usually communicated in the packet's payload. When acting as an ALG, the Citrix ADC changes the packet's payload to ensure that the protocol continues to work over LSN. 
+        Note: The Citrix ADC also includes ALG for ICMP and TFTP protocols. ALG for the ICMP protocol is enabled by default, and there is no provision to disable it. ALG for the TFTP protocol is disabled by default. ALG is enabled automatically for an LSN group when you bind a UDP LSN application profile, with endpoint-independent-mapping, endpoint-independent filtering, and destination port as 69 (well-known port for TFTP), to the LSN group. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER pptp 
-        Enable the PPTP Application Layer Gateway.  
-        Default value: DISABLED  
+    .PARAMETER Pptp 
+        Enable the PPTP Application Layer Gateway. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER sipalg 
-        Enable the SIP ALG.  
-        Default value: DISABLED  
+    .PARAMETER Sipalg 
+        Enable the SIP ALG. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER rtspalg 
-        Enable the RTSP ALG.  
-        Default value: DISABLED  
+    .PARAMETER Rtspalg 
+        Enable the RTSP ALG. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER ip6profile 
-        Name of the LSN ip6 profile to associate with the specified LSN group. An ip6 profile can be associated with a group only during group creation.  
-        By default, no LSN ip6 profile is associated with an LSN group during its creation. Only one ip6profile can be associated with a group.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER ftpcm 
-        Enable the FTP connection mirroring for specified LSN group. Connection mirroring (CM or connection failover) refers to keeping active an established TCP or UDP connection when a failover occurs.  
-        Default value: DISABLED  
+    .PARAMETER Ip6profile 
+        Name of the LSN ip6 profile to associate with the specified LSN group. An ip6 profile can be associated with a group only during group creation. 
+        By default, no LSN ip6 profile is associated with an LSN group during its creation. Only one ip6profile can be associated with a group. 
+    .PARAMETER Ftpcm 
+        Enable the FTP connection mirroring for specified LSN group. Connection mirroring (CM or connection failover) refers to keeping active an established TCP or UDP connection when a failover occurs. 
         Possible values = ENABLED, DISABLED 
     .PARAMETER PassThru 
         Return details about the created lsngroup item.
     .EXAMPLE
-        Invoke-ADCAddLsngroup -groupname <string> -clientname <string>
+        PS C:\>Invoke-ADCAddLsngroup -groupname <string> -clientname <string>
+        An example how to add lsngroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname ,
+        [string]$Groupname,
 
-        [Parameter(Mandatory = $true)]
-        [string]$clientname ,
+        [Parameter(Mandatory)]
+        [string]$Clientname,
 
         [ValidateSet('DYNAMIC', 'DETERMINISTIC')]
-        [string]$nattype = 'DYNAMIC' ,
+        [string]$Nattype = 'DYNAMIC',
 
         [ValidateSet('PORTS', 'IPADDRS')]
-        [string]$allocpolicy = 'IPADDRS' ,
+        [string]$Allocpolicy = 'PORTS',
 
         [ValidateRange(256, 65536)]
-        [double]$portblocksize = '0' ,
+        [double]$Portblocksize = '0',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$logging = 'DISABLED' ,
+        [string]$Logging = 'DISABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$sessionlogging = 'DISABLED' ,
+        [string]$Sessionlogging = 'DISABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$sessionsync = 'ENABLED' ,
+        [string]$Sessionsync = 'ENABLED',
 
         [ValidateRange(0, 10000)]
-        [double]$snmptraplimit = '100' ,
+        [double]$Snmptraplimit = '100',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$ftp = 'ENABLED' ,
+        [string]$Ftp = 'ENABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$pptp = 'DISABLED' ,
+        [string]$Pptp = 'DISABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$sipalg = 'DISABLED' ,
+        [string]$Sipalg = 'DISABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$rtspalg = 'DISABLED' ,
+        [string]$Rtspalg = 'DISABLED',
 
         [ValidateLength(1, 127)]
-        [string]$ip6profile ,
+        [string]$Ip6profile,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$ftpcm = 'DISABLED' ,
+        [string]$Ftpcm = 'DISABLED',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsngroup: Starting"
     }
     process {
         try {
-            $Payload = @{
-                groupname = $groupname
-                clientname = $clientname
+            $payload = @{ groupname = $groupname
+                clientname          = $clientname
             }
-            if ($PSBoundParameters.ContainsKey('nattype')) { $Payload.Add('nattype', $nattype) }
-            if ($PSBoundParameters.ContainsKey('allocpolicy')) { $Payload.Add('allocpolicy', $allocpolicy) }
-            if ($PSBoundParameters.ContainsKey('portblocksize')) { $Payload.Add('portblocksize', $portblocksize) }
-            if ($PSBoundParameters.ContainsKey('logging')) { $Payload.Add('logging', $logging) }
-            if ($PSBoundParameters.ContainsKey('sessionlogging')) { $Payload.Add('sessionlogging', $sessionlogging) }
-            if ($PSBoundParameters.ContainsKey('sessionsync')) { $Payload.Add('sessionsync', $sessionsync) }
-            if ($PSBoundParameters.ContainsKey('snmptraplimit')) { $Payload.Add('snmptraplimit', $snmptraplimit) }
-            if ($PSBoundParameters.ContainsKey('ftp')) { $Payload.Add('ftp', $ftp) }
-            if ($PSBoundParameters.ContainsKey('pptp')) { $Payload.Add('pptp', $pptp) }
-            if ($PSBoundParameters.ContainsKey('sipalg')) { $Payload.Add('sipalg', $sipalg) }
-            if ($PSBoundParameters.ContainsKey('rtspalg')) { $Payload.Add('rtspalg', $rtspalg) }
-            if ($PSBoundParameters.ContainsKey('ip6profile')) { $Payload.Add('ip6profile', $ip6profile) }
-            if ($PSBoundParameters.ContainsKey('ftpcm')) { $Payload.Add('ftpcm', $ftpcm) }
- 
-            if ($PSCmdlet.ShouldProcess("lsngroup", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsngroup -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('nattype') ) { $payload.Add('nattype', $nattype) }
+            if ( $PSBoundParameters.ContainsKey('allocpolicy') ) { $payload.Add('allocpolicy', $allocpolicy) }
+            if ( $PSBoundParameters.ContainsKey('portblocksize') ) { $payload.Add('portblocksize', $portblocksize) }
+            if ( $PSBoundParameters.ContainsKey('logging') ) { $payload.Add('logging', $logging) }
+            if ( $PSBoundParameters.ContainsKey('sessionlogging') ) { $payload.Add('sessionlogging', $sessionlogging) }
+            if ( $PSBoundParameters.ContainsKey('sessionsync') ) { $payload.Add('sessionsync', $sessionsync) }
+            if ( $PSBoundParameters.ContainsKey('snmptraplimit') ) { $payload.Add('snmptraplimit', $snmptraplimit) }
+            if ( $PSBoundParameters.ContainsKey('ftp') ) { $payload.Add('ftp', $ftp) }
+            if ( $PSBoundParameters.ContainsKey('pptp') ) { $payload.Add('pptp', $pptp) }
+            if ( $PSBoundParameters.ContainsKey('sipalg') ) { $payload.Add('sipalg', $sipalg) }
+            if ( $PSBoundParameters.ContainsKey('rtspalg') ) { $payload.Add('rtspalg', $rtspalg) }
+            if ( $PSBoundParameters.ContainsKey('ip6profile') ) { $payload.Add('ip6profile', $ip6profile) }
+            if ( $PSBoundParameters.ContainsKey('ftpcm') ) { $payload.Add('ftpcm', $ftpcm) }
+            if ( $PSCmdlet.ShouldProcess("lsngroup", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsngroup -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsngroup -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsngroup -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3127,46 +3093,47 @@ function Invoke-ADCAddLsngroup {
 }
 
 function Invoke-ADCDeleteLsngroup {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+        Configuration for LSN group resource.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created.
     .EXAMPLE
-        Invoke-ADCDeleteLsngroup -groupname <string>
+        PS C:\>Invoke-ADCDeleteLsngroup -Groupname <string>
+        An example how to delete lsngroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$groupname 
+        [Parameter(Mandatory)]
+        [string]$Groupname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsngroup: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup -NitroPath nitro/v1/config -Resource $groupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3182,171 +3149,154 @@ function Invoke-ADCDeleteLsngroup {
 }
 
 function Invoke-ADCUpdateLsngroup {
-<#
+    <#
     .SYNOPSIS
-        Update Lsn configuration Object
+        Update Lsn configuration Object.
     .DESCRIPTION
-        Update Lsn configuration Object 
-    .PARAMETER groupname 
+        Configuration for LSN group resource.
+    .PARAMETER Groupname 
         Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
-    .PARAMETER portblocksize 
-        Size of the NAT port block to be allocated for each subscriber.  
-        To set this parameter for Dynamic NAT, you must enable the port block allocation parameter in the bound LSN pool. For Deterministic NAT, the port block allocation parameter is always enabled, and you cannot disable it.  
-        In Dynamic NAT, the Citrix ADC allocates a random NAT port block, from the available NAT port pool of an NAT IP address, for each subscriber. For a subscriber, if all the ports are allocated from the subscriber's allocated port block, the ADC allocates a new random port block for the subscriber.  
-        The default port block size is 256 for Deterministic NAT, and 0 for Dynamic NAT.  
-        Default value: 0  
-        Minimum value = 256  
-        Maximum value = 65536 
-    .PARAMETER logging 
-        Log mapping entries and sessions created or deleted for this LSN group. The Citrix ADC logs LSN sessions for this LSN group only when both logging and session logging parameters are enabled.  
-        The ADC uses its existing syslog and audit log framework to log LSN information. You must enable global level LSN logging by enabling the LSN parameter in the related NSLOG action and SYLOG action entities. When the Logging parameter is enabled, the Citrix ADC generates log messages related to LSN mappings and LSN sessions of this LSN group. The ADC then sends these log messages to servers associated with the NSLOG action and SYSLOG actions entities.  
-        A log message for an LSN mapping entry consists of the following information:  
-        * NSIP address of the Citrix ADC  
-        * Time stamp  
-        * Entry type (MAPPING or SESSION)  
-        * Whether the LSN mapping entry is created or deleted  
-        * Subscriber's IP address, port, and traffic domain ID  
-        * NAT IP address and port  
-        * Protocol name  
-        * Destination IP address, port, and traffic domain ID might be present, depending on the following conditions:  
-        ** Destination IP address and port are not logged for Endpoint-Independent mapping  
-        ** Only Destination IP address (and not port) is logged for Address-Dependent mapping  
-        ** Destination IP address and port are logged for Address-Port-Dependent mapping.  
-        Default value: DISABLED  
+    .PARAMETER Portblocksize 
+        Size of the NAT port block to be allocated for each subscriber. 
+        To set this parameter for Dynamic NAT, you must enable the port block allocation parameter in the bound LSN pool. For Deterministic NAT, the port block allocation parameter is always enabled, and you cannot disable it. 
+        In Dynamic NAT, the Citrix ADC allocates a random NAT port block, from the available NAT port pool of an NAT IP address, for each subscriber. For a subscriber, if all the ports are allocated from the subscriber's allocated port block, the ADC allocates a new random port block for the subscriber. 
+        The default port block size is 256 for Deterministic NAT, and 0 for Dynamic NAT. 
+    .PARAMETER Logging 
+        Log mapping entries and sessions created or deleted for this LSN group. The Citrix ADC logs LSN sessions for this LSN group only when both logging and session logging parameters are enabled. 
+        The ADC uses its existing syslog and audit log framework to log LSN information. You must enable global level LSN logging by enabling the LSN parameter in the related NSLOG action and SYLOG action entities. When the Logging parameter is enabled, the Citrix ADC generates log messages related to LSN mappings and LSN sessions of this LSN group. The ADC then sends these log messages to servers associated with the NSLOG action and SYSLOG actions entities. 
+        A log message for an LSN mapping entry consists of the following information: 
+        * NSIP address of the Citrix ADC 
+        * Time stamp 
+        * Entry type (MAPPING or SESSION) 
+        * Whether the LSN mapping entry is created or deleted 
+        * Subscriber's IP address, port, and traffic domain ID 
+        * NAT IP address and port 
+        * Protocol name 
+        * Destination IP address, port, and traffic domain ID might be present, depending on the following conditions: 
+        ** Destination IP address and port are not logged for Endpoint-Independent mapping 
+        ** Only Destination IP address (and not port) is logged for Address-Dependent mapping 
+        ** Destination IP address and port are logged for Address-Port-Dependent mapping. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER sessionlogging 
-        Log sessions created or deleted for the LSN group. The Citrix ADC logs LSN sessions for this LSN group only when both logging and session logging parameters are enabled.  
-        A log message for an LSN session consists of the following information:  
-        * NSIP address of the Citrix ADC  
-        * Time stamp  
-        * Entry type (MAPPING or SESSION)  
-        * Whether the LSN session is created or removed  
-        * Subscriber's IP address, port, and traffic domain ID  
-        * NAT IP address and port  
-        * Protocol name  
-        * Destination IP address, port, and traffic domain ID.  
-        Default value: DISABLED  
+    .PARAMETER Sessionlogging 
+        Log sessions created or deleted for the LSN group. The Citrix ADC logs LSN sessions for this LSN group only when both logging and session logging parameters are enabled. 
+        A log message for an LSN session consists of the following information: 
+        * NSIP address of the Citrix ADC 
+        * Time stamp 
+        * Entry type (MAPPING or SESSION) 
+        * Whether the LSN session is created or removed 
+        * Subscriber's IP address, port, and traffic domain ID 
+        * NAT IP address and port 
+        * Protocol name 
+        * Destination IP address, port, and traffic domain ID. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER sessionsync 
-        In a high availability (HA) deployment, synchronize information of all LSN sessions related to this LSN group with the secondary node. After a failover, established TCP connections and UDP packet flows are kept active and resumed on the secondary node (new primary).  
-        For this setting to work, you must enable the global session synchronization parameter.  
-        Default value: ENABLED  
+    .PARAMETER Sessionsync 
+        In a high availability (HA) deployment, synchronize information of all LSN sessions related to this LSN group with the secondary node. After a failover, established TCP connections and UDP packet flows are kept active and resumed on the secondary node (new primary). 
+        For this setting to work, you must enable the global session synchronization parameter. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER snmptraplimit 
-        Maximum number of SNMP Trap messages that can be generated for the LSN group in one minute.  
-        Default value: 100  
-        Minimum value = 0  
-        Maximum value = 10000 
-    .PARAMETER ftp 
-        Enable Application Layer Gateway (ALG) for the FTP protocol. For some application-layer protocols, the IP addresses and protocol port numbers are usually communicated in the packet's payload. When acting as an ALG, the Citrix ADC changes the packet's payload to ensure that the protocol continues to work over LSN.  
-        Note: The Citrix ADC also includes ALG for ICMP and TFTP protocols. ALG for the ICMP protocol is enabled by default, and there is no provision to disable it. ALG for the TFTP protocol is disabled by default. ALG is enabled automatically for an LSN group when you bind a UDP LSN application profile, with endpoint-independent-mapping, endpoint-independent filtering, and destination port as 69 (well-known port for TFTP), to the LSN group.  
-        Default value: ENABLED  
+    .PARAMETER Snmptraplimit 
+        Maximum number of SNMP Trap messages that can be generated for the LSN group in one minute. 
+    .PARAMETER Ftp 
+        Enable Application Layer Gateway (ALG) for the FTP protocol. For some application-layer protocols, the IP addresses and protocol port numbers are usually communicated in the packet's payload. When acting as an ALG, the Citrix ADC changes the packet's payload to ensure that the protocol continues to work over LSN. 
+        Note: The Citrix ADC also includes ALG for ICMP and TFTP protocols. ALG for the ICMP protocol is enabled by default, and there is no provision to disable it. ALG for the TFTP protocol is disabled by default. ALG is enabled automatically for an LSN group when you bind a UDP LSN application profile, with endpoint-independent-mapping, endpoint-independent filtering, and destination port as 69 (well-known port for TFTP), to the LSN group. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER pptp 
-        Enable the PPTP Application Layer Gateway.  
-        Default value: DISABLED  
+    .PARAMETER Pptp 
+        Enable the PPTP Application Layer Gateway. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER sipalg 
-        Enable the SIP ALG.  
-        Default value: DISABLED  
+    .PARAMETER Sipalg 
+        Enable the SIP ALG. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER rtspalg 
-        Enable the RTSP ALG.  
-        Default value: DISABLED  
+    .PARAMETER Rtspalg 
+        Enable the RTSP ALG. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER ftpcm 
-        Enable the FTP connection mirroring for specified LSN group. Connection mirroring (CM or connection failover) refers to keeping active an established TCP or UDP connection when a failover occurs.  
-        Default value: DISABLED  
+    .PARAMETER Ftpcm 
+        Enable the FTP connection mirroring for specified LSN group. Connection mirroring (CM or connection failover) refers to keeping active an established TCP or UDP connection when a failover occurs. 
         Possible values = ENABLED, DISABLED 
     .PARAMETER PassThru 
         Return details about the created lsngroup item.
     .EXAMPLE
-        Invoke-ADCUpdateLsngroup -groupname <string>
+        PS C:\>Invoke-ADCUpdateLsngroup -groupname <string>
+        An example how to update lsngroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsngroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname ,
+        [string]$Groupname,
 
         [ValidateRange(256, 65536)]
-        [double]$portblocksize ,
+        [double]$Portblocksize,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$logging ,
+        [string]$Logging,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$sessionlogging ,
+        [string]$Sessionlogging,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$sessionsync ,
+        [string]$Sessionsync,
 
         [ValidateRange(0, 10000)]
-        [double]$snmptraplimit ,
+        [double]$Snmptraplimit,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$ftp ,
+        [string]$Ftp,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$pptp ,
+        [string]$Pptp,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$sipalg ,
+        [string]$Sipalg,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$rtspalg ,
+        [string]$Rtspalg,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$ftpcm ,
+        [string]$Ftpcm,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateLsngroup: Starting"
     }
     process {
         try {
-            $Payload = @{
-                groupname = $groupname
-            }
-            if ($PSBoundParameters.ContainsKey('portblocksize')) { $Payload.Add('portblocksize', $portblocksize) }
-            if ($PSBoundParameters.ContainsKey('logging')) { $Payload.Add('logging', $logging) }
-            if ($PSBoundParameters.ContainsKey('sessionlogging')) { $Payload.Add('sessionlogging', $sessionlogging) }
-            if ($PSBoundParameters.ContainsKey('sessionsync')) { $Payload.Add('sessionsync', $sessionsync) }
-            if ($PSBoundParameters.ContainsKey('snmptraplimit')) { $Payload.Add('snmptraplimit', $snmptraplimit) }
-            if ($PSBoundParameters.ContainsKey('ftp')) { $Payload.Add('ftp', $ftp) }
-            if ($PSBoundParameters.ContainsKey('pptp')) { $Payload.Add('pptp', $pptp) }
-            if ($PSBoundParameters.ContainsKey('sipalg')) { $Payload.Add('sipalg', $sipalg) }
-            if ($PSBoundParameters.ContainsKey('rtspalg')) { $Payload.Add('rtspalg', $rtspalg) }
-            if ($PSBoundParameters.ContainsKey('ftpcm')) { $Payload.Add('ftpcm', $ftpcm) }
- 
-            if ($PSCmdlet.ShouldProcess("lsngroup", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup -Payload $Payload -GetWarning
+            $payload = @{ groupname = $groupname }
+            if ( $PSBoundParameters.ContainsKey('portblocksize') ) { $payload.Add('portblocksize', $portblocksize) }
+            if ( $PSBoundParameters.ContainsKey('logging') ) { $payload.Add('logging', $logging) }
+            if ( $PSBoundParameters.ContainsKey('sessionlogging') ) { $payload.Add('sessionlogging', $sessionlogging) }
+            if ( $PSBoundParameters.ContainsKey('sessionsync') ) { $payload.Add('sessionsync', $sessionsync) }
+            if ( $PSBoundParameters.ContainsKey('snmptraplimit') ) { $payload.Add('snmptraplimit', $snmptraplimit) }
+            if ( $PSBoundParameters.ContainsKey('ftp') ) { $payload.Add('ftp', $ftp) }
+            if ( $PSBoundParameters.ContainsKey('pptp') ) { $payload.Add('pptp', $pptp) }
+            if ( $PSBoundParameters.ContainsKey('sipalg') ) { $payload.Add('sipalg', $sipalg) }
+            if ( $PSBoundParameters.ContainsKey('rtspalg') ) { $payload.Add('rtspalg', $rtspalg) }
+            if ( $PSBoundParameters.ContainsKey('ftpcm') ) { $payload.Add('ftpcm', $ftpcm) }
+            if ( $PSCmdlet.ShouldProcess("lsngroup", "Update Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsngroup -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsngroup -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3359,110 +3309,111 @@ function Invoke-ADCUpdateLsngroup {
 }
 
 function Invoke-ADCUnsetLsngroup {
-<#
+    <#
     .SYNOPSIS
-        Unset Lsn configuration Object
+        Unset Lsn configuration Object.
     .DESCRIPTION
-        Unset Lsn configuration Object 
-   .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
-   .PARAMETER portblocksize 
-       Size of the NAT port block to be allocated for each subscriber.  
-       To set this parameter for Dynamic NAT, you must enable the port block allocation parameter in the bound LSN pool. For Deterministic NAT, the port block allocation parameter is always enabled, and you cannot disable it.  
-       In Dynamic NAT, the Citrix ADC allocates a random NAT port block, from the available NAT port pool of an NAT IP address, for each subscriber. For a subscriber, if all the ports are allocated from the subscriber's allocated port block, the ADC allocates a new random port block for the subscriber.  
-       The default port block size is 256 for Deterministic NAT, and 0 for Dynamic NAT. 
-   .PARAMETER logging 
-       Log mapping entries and sessions created or deleted for this LSN group. The Citrix ADC logs LSN sessions for this LSN group only when both logging and session logging parameters are enabled.  
-       The ADC uses its existing syslog and audit log framework to log LSN information. You must enable global level LSN logging by enabling the LSN parameter in the related NSLOG action and SYLOG action entities. When the Logging parameter is enabled, the Citrix ADC generates log messages related to LSN mappings and LSN sessions of this LSN group. The ADC then sends these log messages to servers associated with the NSLOG action and SYSLOG actions entities.  
-       A log message for an LSN mapping entry consists of the following information:  
-       * NSIP address of the Citrix ADC  
-       * Time stamp  
-       * Entry type (MAPPING or SESSION)  
-       * Whether the LSN mapping entry is created or deleted  
-       * Subscriber's IP address, port, and traffic domain ID  
-       * NAT IP address and port  
-       * Protocol name  
-       * Destination IP address, port, and traffic domain ID might be present, depending on the following conditions:  
-       ** Destination IP address and port are not logged for Endpoint-Independent mapping  
-       ** Only Destination IP address (and not port) is logged for Address-Dependent mapping  
-       ** Destination IP address and port are logged for Address-Port-Dependent mapping.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER sessionlogging 
-       Log sessions created or deleted for the LSN group. The Citrix ADC logs LSN sessions for this LSN group only when both logging and session logging parameters are enabled.  
-       A log message for an LSN session consists of the following information:  
-       * NSIP address of the Citrix ADC  
-       * Time stamp  
-       * Entry type (MAPPING or SESSION)  
-       * Whether the LSN session is created or removed  
-       * Subscriber's IP address, port, and traffic domain ID  
-       * NAT IP address and port  
-       * Protocol name  
-       * Destination IP address, port, and traffic domain ID.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER sessionsync 
-       In a high availability (HA) deployment, synchronize information of all LSN sessions related to this LSN group with the secondary node. After a failover, established TCP connections and UDP packet flows are kept active and resumed on the secondary node (new primary).  
-       For this setting to work, you must enable the global session synchronization parameter.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER snmptraplimit 
-       Maximum number of SNMP Trap messages that can be generated for the LSN group in one minute. 
-   .PARAMETER ftp 
-       Enable Application Layer Gateway (ALG) for the FTP protocol. For some application-layer protocols, the IP addresses and protocol port numbers are usually communicated in the packet's payload. When acting as an ALG, the Citrix ADC changes the packet's payload to ensure that the protocol continues to work over LSN.  
-       Note: The Citrix ADC also includes ALG for ICMP and TFTP protocols. ALG for the ICMP protocol is enabled by default, and there is no provision to disable it. ALG for the TFTP protocol is disabled by default. ALG is enabled automatically for an LSN group when you bind a UDP LSN application profile, with endpoint-independent-mapping, endpoint-independent filtering, and destination port as 69 (well-known port for TFTP), to the LSN group.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER pptp 
-       Enable the PPTP Application Layer Gateway.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER sipalg 
-       Enable the SIP ALG.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER rtspalg 
-       Enable the RTSP ALG.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER ftpcm 
-       Enable the FTP connection mirroring for specified LSN group. Connection mirroring (CM or connection failover) refers to keeping active an established TCP or UDP connection when a failover occurs.  
-       Possible values = ENABLED, DISABLED
+        Configuration for LSN group resource.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+    .PARAMETER Portblocksize 
+        Size of the NAT port block to be allocated for each subscriber. 
+        To set this parameter for Dynamic NAT, you must enable the port block allocation parameter in the bound LSN pool. For Deterministic NAT, the port block allocation parameter is always enabled, and you cannot disable it. 
+        In Dynamic NAT, the Citrix ADC allocates a random NAT port block, from the available NAT port pool of an NAT IP address, for each subscriber. For a subscriber, if all the ports are allocated from the subscriber's allocated port block, the ADC allocates a new random port block for the subscriber. 
+        The default port block size is 256 for Deterministic NAT, and 0 for Dynamic NAT. 
+    .PARAMETER Logging 
+        Log mapping entries and sessions created or deleted for this LSN group. The Citrix ADC logs LSN sessions for this LSN group only when both logging and session logging parameters are enabled. 
+        The ADC uses its existing syslog and audit log framework to log LSN information. You must enable global level LSN logging by enabling the LSN parameter in the related NSLOG action and SYLOG action entities. When the Logging parameter is enabled, the Citrix ADC generates log messages related to LSN mappings and LSN sessions of this LSN group. The ADC then sends these log messages to servers associated with the NSLOG action and SYSLOG actions entities. 
+        A log message for an LSN mapping entry consists of the following information: 
+        * NSIP address of the Citrix ADC 
+        * Time stamp 
+        * Entry type (MAPPING or SESSION) 
+        * Whether the LSN mapping entry is created or deleted 
+        * Subscriber's IP address, port, and traffic domain ID 
+        * NAT IP address and port 
+        * Protocol name 
+        * Destination IP address, port, and traffic domain ID might be present, depending on the following conditions: 
+        ** Destination IP address and port are not logged for Endpoint-Independent mapping 
+        ** Only Destination IP address (and not port) is logged for Address-Dependent mapping 
+        ** Destination IP address and port are logged for Address-Port-Dependent mapping. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Sessionlogging 
+        Log sessions created or deleted for the LSN group. The Citrix ADC logs LSN sessions for this LSN group only when both logging and session logging parameters are enabled. 
+        A log message for an LSN session consists of the following information: 
+        * NSIP address of the Citrix ADC 
+        * Time stamp 
+        * Entry type (MAPPING or SESSION) 
+        * Whether the LSN session is created or removed 
+        * Subscriber's IP address, port, and traffic domain ID 
+        * NAT IP address and port 
+        * Protocol name 
+        * Destination IP address, port, and traffic domain ID. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Sessionsync 
+        In a high availability (HA) deployment, synchronize information of all LSN sessions related to this LSN group with the secondary node. After a failover, established TCP connections and UDP packet flows are kept active and resumed on the secondary node (new primary). 
+        For this setting to work, you must enable the global session synchronization parameter. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Snmptraplimit 
+        Maximum number of SNMP Trap messages that can be generated for the LSN group in one minute. 
+    .PARAMETER Ftp 
+        Enable Application Layer Gateway (ALG) for the FTP protocol. For some application-layer protocols, the IP addresses and protocol port numbers are usually communicated in the packet's payload. When acting as an ALG, the Citrix ADC changes the packet's payload to ensure that the protocol continues to work over LSN. 
+        Note: The Citrix ADC also includes ALG for ICMP and TFTP protocols. ALG for the ICMP protocol is enabled by default, and there is no provision to disable it. ALG for the TFTP protocol is disabled by default. ALG is enabled automatically for an LSN group when you bind a UDP LSN application profile, with endpoint-independent-mapping, endpoint-independent filtering, and destination port as 69 (well-known port for TFTP), to the LSN group. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Pptp 
+        Enable the PPTP Application Layer Gateway. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Sipalg 
+        Enable the SIP ALG. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Rtspalg 
+        Enable the RTSP ALG. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Ftpcm 
+        Enable the FTP connection mirroring for specified LSN group. Connection mirroring (CM or connection failover) refers to keeping active an established TCP or UDP connection when a failover occurs. 
+        Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCUnsetLsngroup -groupname <string>
+        PS C:\>Invoke-ADCUnsetLsngroup -groupname <string>
+        An example how to unset lsngroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsngroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname ,
+        [string]$Groupname,
 
-        [Boolean]$portblocksize ,
+        [Boolean]$portblocksize,
 
-        [Boolean]$logging ,
+        [Boolean]$logging,
 
-        [Boolean]$sessionlogging ,
+        [Boolean]$sessionlogging,
 
-        [Boolean]$sessionsync ,
+        [Boolean]$sessionsync,
 
-        [Boolean]$snmptraplimit ,
+        [Boolean]$snmptraplimit,
 
-        [Boolean]$ftp ,
+        [Boolean]$ftp,
 
-        [Boolean]$pptp ,
+        [Boolean]$pptp,
 
-        [Boolean]$sipalg ,
+        [Boolean]$sipalg,
 
-        [Boolean]$rtspalg ,
+        [Boolean]$rtspalg,
 
         [Boolean]$ftpcm 
     )
@@ -3471,21 +3422,19 @@ function Invoke-ADCUnsetLsngroup {
     }
     process {
         try {
-            $Payload = @{
-                groupname = $groupname
-            }
-            if ($PSBoundParameters.ContainsKey('portblocksize')) { $Payload.Add('portblocksize', $portblocksize) }
-            if ($PSBoundParameters.ContainsKey('logging')) { $Payload.Add('logging', $logging) }
-            if ($PSBoundParameters.ContainsKey('sessionlogging')) { $Payload.Add('sessionlogging', $sessionlogging) }
-            if ($PSBoundParameters.ContainsKey('sessionsync')) { $Payload.Add('sessionsync', $sessionsync) }
-            if ($PSBoundParameters.ContainsKey('snmptraplimit')) { $Payload.Add('snmptraplimit', $snmptraplimit) }
-            if ($PSBoundParameters.ContainsKey('ftp')) { $Payload.Add('ftp', $ftp) }
-            if ($PSBoundParameters.ContainsKey('pptp')) { $Payload.Add('pptp', $pptp) }
-            if ($PSBoundParameters.ContainsKey('sipalg')) { $Payload.Add('sipalg', $sipalg) }
-            if ($PSBoundParameters.ContainsKey('rtspalg')) { $Payload.Add('rtspalg', $rtspalg) }
-            if ($PSBoundParameters.ContainsKey('ftpcm')) { $Payload.Add('ftpcm', $ftpcm) }
-            if ($PSCmdlet.ShouldProcess("$groupname", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsngroup -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ groupname = $groupname }
+            if ( $PSBoundParameters.ContainsKey('portblocksize') ) { $payload.Add('portblocksize', $portblocksize) }
+            if ( $PSBoundParameters.ContainsKey('logging') ) { $payload.Add('logging', $logging) }
+            if ( $PSBoundParameters.ContainsKey('sessionlogging') ) { $payload.Add('sessionlogging', $sessionlogging) }
+            if ( $PSBoundParameters.ContainsKey('sessionsync') ) { $payload.Add('sessionsync', $sessionsync) }
+            if ( $PSBoundParameters.ContainsKey('snmptraplimit') ) { $payload.Add('snmptraplimit', $snmptraplimit) }
+            if ( $PSBoundParameters.ContainsKey('ftp') ) { $payload.Add('ftp', $ftp) }
+            if ( $PSBoundParameters.ContainsKey('pptp') ) { $payload.Add('pptp', $pptp) }
+            if ( $PSBoundParameters.ContainsKey('sipalg') ) { $payload.Add('sipalg', $sipalg) }
+            if ( $PSBoundParameters.ContainsKey('rtspalg') ) { $payload.Add('rtspalg', $rtspalg) }
+            if ( $PSBoundParameters.ContainsKey('ftpcm') ) { $payload.Add('ftpcm', $ftpcm) }
+            if ( $PSCmdlet.ShouldProcess("$groupname", "Unset Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsngroup -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3501,56 +3450,62 @@ function Invoke-ADCUnsetLsngroup {
 }
 
 function Invoke-ADCGetLsngroup {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+        Configuration for LSN group resource.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
     .PARAMETER GetAll 
-        Retreive all lsngroup object(s)
+        Retrieve all lsngroup object(s).
     .PARAMETER Count
-        If specified, the count of the lsngroup object(s) will be returned
+        If specified, the count of the lsngroup object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsngroup
+        PS C:\>Invoke-ADCGetLsngroup
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsngroup -GetAll 
+        PS C:\>Invoke-ADCGetLsngroup -GetAll 
+        Get all lsngroup data. 
     .EXAMPLE 
-        Invoke-ADCGetLsngroup -Count
+        PS C:\>Invoke-ADCGetLsngroup -Count 
+        Get the number of lsngroup objects.
     .EXAMPLE
-        Invoke-ADCGetLsngroup -name <string>
+        PS C:\>Invoke-ADCGetLsngroup -name <string>
+        Get lsngroup object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsngroup -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsngroup -Filter @{ 'name'='<value>' }
+        Get lsngroup data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname,
+        [string]$Groupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3568,24 +3523,24 @@ function Invoke-ADCGetLsngroup {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all lsngroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup configuration for property 'groupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3599,52 +3554,57 @@ function Invoke-ADCGetLsngroup {
 }
 
 function Invoke-ADCGetLsngroupbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+        Binding object which returns the resources bound to lsngroup.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
     .PARAMETER GetAll 
-        Retreive all lsngroup_binding object(s)
+        Retrieve all lsngroup_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsngroup_binding object(s) will be returned
+        If specified, the count of the lsngroup_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsngroupbinding
+        PS C:\>Invoke-ADCGetLsngroupbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsngroupbinding -GetAll
+        PS C:\>Invoke-ADCGetLsngroupbinding -GetAll 
+        Get all lsngroup_binding data.
     .EXAMPLE
-        Invoke-ADCGetLsngroupbinding -name <string>
+        PS C:\>Invoke-ADCGetLsngroupbinding -name <string>
+        Get lsngroup_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsngroupbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsngroupbinding -Filter @{ 'name'='<value>' }
+        Get lsngroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngroupbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname,
+        [string]$Groupname,
 			
         [hashtable]$Filter = @{ },
 
@@ -3656,26 +3616,24 @@ function Invoke-ADCGetLsngroupbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsngroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_binding configuration for property 'groupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3689,67 +3647,64 @@ function Invoke-ADCGetLsngroupbinding {
 }
 
 function Invoke-ADCAddLsngroupipsecalgprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER groupname 
+        Binding object showing the ipsecalgprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
         Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
-    .PARAMETER ipsecalgprofile 
+    .PARAMETER Ipsecalgprofile 
         Name of the IPSec ALG profile to bind to the specified LSN group. 
     .PARAMETER PassThru 
         Return details about the created lsngroup_ipsecalgprofile_binding item.
     .EXAMPLE
-        Invoke-ADCAddLsngroupipsecalgprofilebinding -groupname <string>
+        PS C:\>Invoke-ADCAddLsngroupipsecalgprofilebinding -groupname <string>
+        An example how to add lsngroup_ipsecalgprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngroupipsecalgprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_ipsecalgprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname ,
+        [string]$Groupname,
 
-        [string]$ipsecalgprofile ,
+        [string]$Ipsecalgprofile,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsngroupipsecalgprofilebinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                groupname = $groupname
-            }
-            if ($PSBoundParameters.ContainsKey('ipsecalgprofile')) { $Payload.Add('ipsecalgprofile', $ipsecalgprofile) }
- 
-            if ($PSCmdlet.ShouldProcess("lsngroup_ipsecalgprofile_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_ipsecalgprofile_binding -Payload $Payload -GetWarning
+            $payload = @{ groupname = $groupname }
+            if ( $PSBoundParameters.ContainsKey('ipsecalgprofile') ) { $payload.Add('ipsecalgprofile', $ipsecalgprofile) }
+            if ( $PSCmdlet.ShouldProcess("lsngroup_ipsecalgprofile_binding", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_ipsecalgprofile_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsngroupipsecalgprofilebinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsngroupipsecalgprofilebinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3762,49 +3717,51 @@ function Invoke-ADCAddLsngroupipsecalgprofilebinding {
 }
 
 function Invoke-ADCDeleteLsngroupipsecalgprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created.    .PARAMETER ipsecalgprofile 
-       Name of the IPSec ALG profile to bind to the specified LSN group.
+        Binding object showing the ipsecalgprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+    .PARAMETER Ipsecalgprofile 
+        Name of the IPSec ALG profile to bind to the specified LSN group.
     .EXAMPLE
-        Invoke-ADCDeleteLsngroupipsecalgprofilebinding -groupname <string>
+        PS C:\>Invoke-ADCDeleteLsngroupipsecalgprofilebinding -Groupname <string>
+        An example how to delete lsngroup_ipsecalgprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngroupipsecalgprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_ipsecalgprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$groupname ,
+        [Parameter(Mandatory)]
+        [string]$Groupname,
 
-        [string]$ipsecalgprofile 
+        [string]$Ipsecalgprofile 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsngroupipsecalgprofilebinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('ipsecalgprofile')) { $Arguments.Add('ipsecalgprofile', $ipsecalgprofile) }
-            if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_ipsecalgprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Ipsecalgprofile') ) { $arguments.Add('ipsecalgprofile', $Ipsecalgprofile) }
+            if ( $PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_ipsecalgprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3820,56 +3777,62 @@ function Invoke-ADCDeleteLsngroupipsecalgprofilebinding {
 }
 
 function Invoke-ADCGetLsngroupipsecalgprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+        Binding object showing the ipsecalgprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
     .PARAMETER GetAll 
-        Retreive all lsngroup_ipsecalgprofile_binding object(s)
+        Retrieve all lsngroup_ipsecalgprofile_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsngroup_ipsecalgprofile_binding object(s) will be returned
+        If specified, the count of the lsngroup_ipsecalgprofile_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsngroupipsecalgprofilebinding
+        PS C:\>Invoke-ADCGetLsngroupipsecalgprofilebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsngroupipsecalgprofilebinding -GetAll 
+        PS C:\>Invoke-ADCGetLsngroupipsecalgprofilebinding -GetAll 
+        Get all lsngroup_ipsecalgprofile_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetLsngroupipsecalgprofilebinding -Count
+        PS C:\>Invoke-ADCGetLsngroupipsecalgprofilebinding -Count 
+        Get the number of lsngroup_ipsecalgprofile_binding objects.
     .EXAMPLE
-        Invoke-ADCGetLsngroupipsecalgprofilebinding -name <string>
+        PS C:\>Invoke-ADCGetLsngroupipsecalgprofilebinding -name <string>
+        Get lsngroup_ipsecalgprofile_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsngroupipsecalgprofilebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsngroupipsecalgprofilebinding -Filter @{ 'name'='<value>' }
+        Get lsngroup_ipsecalgprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngroupipsecalgprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_ipsecalgprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname,
+        [string]$Groupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3882,26 +3845,24 @@ function Invoke-ADCGetLsngroupipsecalgprofilebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsngroup_ipsecalgprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_ipsecalgprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_ipsecalgprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_ipsecalgprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_ipsecalgprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_ipsecalgprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_ipsecalgprofile_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_ipsecalgprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_ipsecalgprofile_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_ipsecalgprofile_binding configuration for property 'groupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_ipsecalgprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_ipsecalgprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_ipsecalgprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_ipsecalgprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3915,67 +3876,64 @@ function Invoke-ADCGetLsngroupipsecalgprofilebinding {
 }
 
 function Invoke-ADCAddLsngrouplsnappsprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER groupname 
+        Binding object showing the lsnappsprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
         Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
-    .PARAMETER appsprofilename 
+    .PARAMETER Appsprofilename 
         Name of the LSN application profile to bind to the specified LSN group. For each set of destination ports, bind a profile for each protocol for which you want to specify settings. By default, one LSN application profile with default settings for TCP, UDP, and ICMP protocols for all destination ports is bound to an LSN group during its creation. This profile is called a default application profile. When you bind an LSN application profile, with a specified set of destination ports, to an LSN group, the bound profile overrides the default LSN application profile for that protocol at that set of destination ports. 
     .PARAMETER PassThru 
         Return details about the created lsngroup_lsnappsprofile_binding item.
     .EXAMPLE
-        Invoke-ADCAddLsngrouplsnappsprofilebinding -groupname <string>
+        PS C:\>Invoke-ADCAddLsngrouplsnappsprofilebinding -groupname <string>
+        An example how to add lsngroup_lsnappsprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnappsprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnappsprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname ,
+        [string]$Groupname,
 
-        [string]$appsprofilename ,
+        [string]$Appsprofilename,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsngrouplsnappsprofilebinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                groupname = $groupname
-            }
-            if ($PSBoundParameters.ContainsKey('appsprofilename')) { $Payload.Add('appsprofilename', $appsprofilename) }
- 
-            if ($PSCmdlet.ShouldProcess("lsngroup_lsnappsprofile_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsnappsprofile_binding -Payload $Payload -GetWarning
+            $payload = @{ groupname = $groupname }
+            if ( $PSBoundParameters.ContainsKey('appsprofilename') ) { $payload.Add('appsprofilename', $appsprofilename) }
+            if ( $PSCmdlet.ShouldProcess("lsngroup_lsnappsprofile_binding", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsnappsprofile_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsngrouplsnappsprofilebinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsngrouplsnappsprofilebinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3988,49 +3946,51 @@ function Invoke-ADCAddLsngrouplsnappsprofilebinding {
 }
 
 function Invoke-ADCDeleteLsngrouplsnappsprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created.    .PARAMETER appsprofilename 
-       Name of the LSN application profile to bind to the specified LSN group. For each set of destination ports, bind a profile for each protocol for which you want to specify settings. By default, one LSN application profile with default settings for TCP, UDP, and ICMP protocols for all destination ports is bound to an LSN group during its creation. This profile is called a default application profile. When you bind an LSN application profile, with a specified set of destination ports, to an LSN group, the bound profile overrides the default LSN application profile for that protocol at that set of destination ports.
+        Binding object showing the lsnappsprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+    .PARAMETER Appsprofilename 
+        Name of the LSN application profile to bind to the specified LSN group. For each set of destination ports, bind a profile for each protocol for which you want to specify settings. By default, one LSN application profile with default settings for TCP, UDP, and ICMP protocols for all destination ports is bound to an LSN group during its creation. This profile is called a default application profile. When you bind an LSN application profile, with a specified set of destination ports, to an LSN group, the bound profile overrides the default LSN application profile for that protocol at that set of destination ports.
     .EXAMPLE
-        Invoke-ADCDeleteLsngrouplsnappsprofilebinding -groupname <string>
+        PS C:\>Invoke-ADCDeleteLsngrouplsnappsprofilebinding -Groupname <string>
+        An example how to delete lsngroup_lsnappsprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnappsprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnappsprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$groupname ,
+        [Parameter(Mandatory)]
+        [string]$Groupname,
 
-        [string]$appsprofilename 
+        [string]$Appsprofilename 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsngrouplsnappsprofilebinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('appsprofilename')) { $Arguments.Add('appsprofilename', $appsprofilename) }
-            if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnappsprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Appsprofilename') ) { $arguments.Add('appsprofilename', $Appsprofilename) }
+            if ( $PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnappsprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4046,56 +4006,62 @@ function Invoke-ADCDeleteLsngrouplsnappsprofilebinding {
 }
 
 function Invoke-ADCGetLsngrouplsnappsprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+        Binding object showing the lsnappsprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
     .PARAMETER GetAll 
-        Retreive all lsngroup_lsnappsprofile_binding object(s)
+        Retrieve all lsngroup_lsnappsprofile_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsngroup_lsnappsprofile_binding object(s) will be returned
+        If specified, the count of the lsngroup_lsnappsprofile_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsnappsprofilebinding
+        PS C:\>Invoke-ADCGetLsngrouplsnappsprofilebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsngrouplsnappsprofilebinding -GetAll 
+        PS C:\>Invoke-ADCGetLsngrouplsnappsprofilebinding -GetAll 
+        Get all lsngroup_lsnappsprofile_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetLsngrouplsnappsprofilebinding -Count
+        PS C:\>Invoke-ADCGetLsngrouplsnappsprofilebinding -Count 
+        Get the number of lsngroup_lsnappsprofile_binding objects.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsnappsprofilebinding -name <string>
+        PS C:\>Invoke-ADCGetLsngrouplsnappsprofilebinding -name <string>
+        Get lsngroup_lsnappsprofile_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsnappsprofilebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsngrouplsnappsprofilebinding -Filter @{ 'name'='<value>' }
+        Get lsngroup_lsnappsprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnappsprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnappsprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname,
+        [string]$Groupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4108,26 +4074,24 @@ function Invoke-ADCGetLsngrouplsnappsprofilebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsngroup_lsnappsprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnappsprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnappsprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_lsnappsprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnappsprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnappsprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_lsnappsprofile_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnappsprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnappsprofile_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_lsnappsprofile_binding configuration for property 'groupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnappsprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_lsnappsprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnappsprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnappsprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4141,67 +4105,64 @@ function Invoke-ADCGetLsngrouplsnappsprofilebinding {
 }
 
 function Invoke-ADCAddLsngrouplsnhttphdrlogprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER groupname 
+        Binding object showing the lsnhttphdrlogprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
         Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
-    .PARAMETER httphdrlogprofilename 
+    .PARAMETER Httphdrlogprofilename 
         The name of the LSN HTTP header logging Profile. 
     .PARAMETER PassThru 
         Return details about the created lsngroup_lsnhttphdrlogprofile_binding item.
     .EXAMPLE
-        Invoke-ADCAddLsngrouplsnhttphdrlogprofilebinding -groupname <string>
+        PS C:\>Invoke-ADCAddLsngrouplsnhttphdrlogprofilebinding -groupname <string>
+        An example how to add lsngroup_lsnhttphdrlogprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnhttphdrlogprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnhttphdrlogprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname ,
+        [string]$Groupname,
 
-        [string]$httphdrlogprofilename ,
+        [string]$Httphdrlogprofilename,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsngrouplsnhttphdrlogprofilebinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                groupname = $groupname
-            }
-            if ($PSBoundParameters.ContainsKey('httphdrlogprofilename')) { $Payload.Add('httphdrlogprofilename', $httphdrlogprofilename) }
- 
-            if ($PSCmdlet.ShouldProcess("lsngroup_lsnhttphdrlogprofile_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsnhttphdrlogprofile_binding -Payload $Payload -GetWarning
+            $payload = @{ groupname = $groupname }
+            if ( $PSBoundParameters.ContainsKey('httphdrlogprofilename') ) { $payload.Add('httphdrlogprofilename', $httphdrlogprofilename) }
+            if ( $PSCmdlet.ShouldProcess("lsngroup_lsnhttphdrlogprofile_binding", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsnhttphdrlogprofile_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4214,49 +4175,51 @@ function Invoke-ADCAddLsngrouplsnhttphdrlogprofilebinding {
 }
 
 function Invoke-ADCDeleteLsngrouplsnhttphdrlogprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created.    .PARAMETER httphdrlogprofilename 
-       The name of the LSN HTTP header logging Profile.
+        Binding object showing the lsnhttphdrlogprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+    .PARAMETER Httphdrlogprofilename 
+        The name of the LSN HTTP header logging Profile.
     .EXAMPLE
-        Invoke-ADCDeleteLsngrouplsnhttphdrlogprofilebinding -groupname <string>
+        PS C:\>Invoke-ADCDeleteLsngrouplsnhttphdrlogprofilebinding -Groupname <string>
+        An example how to delete lsngroup_lsnhttphdrlogprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnhttphdrlogprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnhttphdrlogprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$groupname ,
+        [Parameter(Mandatory)]
+        [string]$Groupname,
 
-        [string]$httphdrlogprofilename 
+        [string]$Httphdrlogprofilename 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsngrouplsnhttphdrlogprofilebinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('httphdrlogprofilename')) { $Arguments.Add('httphdrlogprofilename', $httphdrlogprofilename) }
-            if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnhttphdrlogprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Httphdrlogprofilename') ) { $arguments.Add('httphdrlogprofilename', $Httphdrlogprofilename) }
+            if ( $PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnhttphdrlogprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4272,56 +4235,62 @@ function Invoke-ADCDeleteLsngrouplsnhttphdrlogprofilebinding {
 }
 
 function Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+        Binding object showing the lsnhttphdrlogprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
     .PARAMETER GetAll 
-        Retreive all lsngroup_lsnhttphdrlogprofile_binding object(s)
+        Retrieve all lsngroup_lsnhttphdrlogprofile_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsngroup_lsnhttphdrlogprofile_binding object(s) will be returned
+        If specified, the count of the lsngroup_lsnhttphdrlogprofile_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding
+        PS C:\>Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding -GetAll 
+        PS C:\>Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding -GetAll 
+        Get all lsngroup_lsnhttphdrlogprofile_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding -Count
+        PS C:\>Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding -Count 
+        Get the number of lsngroup_lsnhttphdrlogprofile_binding objects.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding -name <string>
+        PS C:\>Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding -name <string>
+        Get lsngroup_lsnhttphdrlogprofile_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding -Filter @{ 'name'='<value>' }
+        Get lsngroup_lsnhttphdrlogprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnhttphdrlogprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname,
+        [string]$Groupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4334,26 +4303,24 @@ function Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsngroup_lsnhttphdrlogprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnhttphdrlogprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnhttphdrlogprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_lsnhttphdrlogprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnhttphdrlogprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnhttphdrlogprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_lsnhttphdrlogprofile_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnhttphdrlogprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnhttphdrlogprofile_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_lsnhttphdrlogprofile_binding configuration for property 'groupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnhttphdrlogprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_lsnhttphdrlogprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnhttphdrlogprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnhttphdrlogprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4367,67 +4334,64 @@ function Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding {
 }
 
 function Invoke-ADCAddLsngrouplsnlogprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER groupname 
+        Binding object showing the lsnlogprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
         Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
-    .PARAMETER logprofilename 
+    .PARAMETER Logprofilename 
         The name of the LSN logging Profile. 
     .PARAMETER PassThru 
         Return details about the created lsngroup_lsnlogprofile_binding item.
     .EXAMPLE
-        Invoke-ADCAddLsngrouplsnlogprofilebinding -groupname <string>
+        PS C:\>Invoke-ADCAddLsngrouplsnlogprofilebinding -groupname <string>
+        An example how to add lsngroup_lsnlogprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnlogprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnlogprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname ,
+        [string]$Groupname,
 
-        [string]$logprofilename ,
+        [string]$Logprofilename,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsngrouplsnlogprofilebinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                groupname = $groupname
-            }
-            if ($PSBoundParameters.ContainsKey('logprofilename')) { $Payload.Add('logprofilename', $logprofilename) }
- 
-            if ($PSCmdlet.ShouldProcess("lsngroup_lsnlogprofile_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsnlogprofile_binding -Payload $Payload -GetWarning
+            $payload = @{ groupname = $groupname }
+            if ( $PSBoundParameters.ContainsKey('logprofilename') ) { $payload.Add('logprofilename', $logprofilename) }
+            if ( $PSCmdlet.ShouldProcess("lsngroup_lsnlogprofile_binding", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsnlogprofile_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsngrouplsnlogprofilebinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsngrouplsnlogprofilebinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4440,49 +4404,51 @@ function Invoke-ADCAddLsngrouplsnlogprofilebinding {
 }
 
 function Invoke-ADCDeleteLsngrouplsnlogprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created.    .PARAMETER logprofilename 
-       The name of the LSN logging Profile.
+        Binding object showing the lsnlogprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+    .PARAMETER Logprofilename 
+        The name of the LSN logging Profile.
     .EXAMPLE
-        Invoke-ADCDeleteLsngrouplsnlogprofilebinding -groupname <string>
+        PS C:\>Invoke-ADCDeleteLsngrouplsnlogprofilebinding -Groupname <string>
+        An example how to delete lsngroup_lsnlogprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnlogprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnlogprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$groupname ,
+        [Parameter(Mandatory)]
+        [string]$Groupname,
 
-        [string]$logprofilename 
+        [string]$Logprofilename 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsngrouplsnlogprofilebinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('logprofilename')) { $Arguments.Add('logprofilename', $logprofilename) }
-            if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnlogprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Logprofilename') ) { $arguments.Add('logprofilename', $Logprofilename) }
+            if ( $PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnlogprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4498,56 +4464,62 @@ function Invoke-ADCDeleteLsngrouplsnlogprofilebinding {
 }
 
 function Invoke-ADCGetLsngrouplsnlogprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+        Binding object showing the lsnlogprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
     .PARAMETER GetAll 
-        Retreive all lsngroup_lsnlogprofile_binding object(s)
+        Retrieve all lsngroup_lsnlogprofile_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsngroup_lsnlogprofile_binding object(s) will be returned
+        If specified, the count of the lsngroup_lsnlogprofile_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsnlogprofilebinding
+        PS C:\>Invoke-ADCGetLsngrouplsnlogprofilebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsngrouplsnlogprofilebinding -GetAll 
+        PS C:\>Invoke-ADCGetLsngrouplsnlogprofilebinding -GetAll 
+        Get all lsngroup_lsnlogprofile_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetLsngrouplsnlogprofilebinding -Count
+        PS C:\>Invoke-ADCGetLsngrouplsnlogprofilebinding -Count 
+        Get the number of lsngroup_lsnlogprofile_binding objects.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsnlogprofilebinding -name <string>
+        PS C:\>Invoke-ADCGetLsngrouplsnlogprofilebinding -name <string>
+        Get lsngroup_lsnlogprofile_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsnlogprofilebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsngrouplsnlogprofilebinding -Filter @{ 'name'='<value>' }
+        Get lsngroup_lsnlogprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnlogprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnlogprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname,
+        [string]$Groupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4560,26 +4532,24 @@ function Invoke-ADCGetLsngrouplsnlogprofilebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsngroup_lsnlogprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnlogprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnlogprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_lsnlogprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnlogprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnlogprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_lsnlogprofile_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnlogprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnlogprofile_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_lsnlogprofile_binding configuration for property 'groupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnlogprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_lsnlogprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnlogprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnlogprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4593,67 +4563,64 @@ function Invoke-ADCGetLsngrouplsnlogprofilebinding {
 }
 
 function Invoke-ADCAddLsngrouplsnpoolbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER groupname 
+        Binding object showing the lsnpool that can be bound to lsngroup.
+    .PARAMETER Groupname 
         Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
-    .PARAMETER poolname 
+    .PARAMETER Poolname 
         Name of the LSN pool to bind to the specified LSN group. Only LSN Pools and LSN groups with the same NAT type settings can be bound together. Multiples LSN pools can be bound to an LSN group. For Deterministic NAT, pools bound to an LSN group cannot be bound to other LSN groups. For Dynamic NAT, pools bound to an LSN group can be bound to multiple LSN groups. 
     .PARAMETER PassThru 
         Return details about the created lsngroup_lsnpool_binding item.
     .EXAMPLE
-        Invoke-ADCAddLsngrouplsnpoolbinding -groupname <string>
+        PS C:\>Invoke-ADCAddLsngrouplsnpoolbinding -groupname <string>
+        An example how to add lsngroup_lsnpool_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnpoolbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnpool_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname ,
+        [string]$Groupname,
 
-        [string]$poolname ,
+        [string]$Poolname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsngrouplsnpoolbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                groupname = $groupname
-            }
-            if ($PSBoundParameters.ContainsKey('poolname')) { $Payload.Add('poolname', $poolname) }
- 
-            if ($PSCmdlet.ShouldProcess("lsngroup_lsnpool_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsnpool_binding -Payload $Payload -GetWarning
+            $payload = @{ groupname = $groupname }
+            if ( $PSBoundParameters.ContainsKey('poolname') ) { $payload.Add('poolname', $poolname) }
+            if ( $PSCmdlet.ShouldProcess("lsngroup_lsnpool_binding", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsnpool_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsngrouplsnpoolbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsngrouplsnpoolbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4666,49 +4633,51 @@ function Invoke-ADCAddLsngrouplsnpoolbinding {
 }
 
 function Invoke-ADCDeleteLsngrouplsnpoolbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created.    .PARAMETER poolname 
-       Name of the LSN pool to bind to the specified LSN group. Only LSN Pools and LSN groups with the same NAT type settings can be bound together. Multiples LSN pools can be bound to an LSN group. For Deterministic NAT, pools bound to an LSN group cannot be bound to other LSN groups. For Dynamic NAT, pools bound to an LSN group can be bound to multiple LSN groups.
+        Binding object showing the lsnpool that can be bound to lsngroup.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+    .PARAMETER Poolname 
+        Name of the LSN pool to bind to the specified LSN group. Only LSN Pools and LSN groups with the same NAT type settings can be bound together. Multiples LSN pools can be bound to an LSN group. For Deterministic NAT, pools bound to an LSN group cannot be bound to other LSN groups. For Dynamic NAT, pools bound to an LSN group can be bound to multiple LSN groups.
     .EXAMPLE
-        Invoke-ADCDeleteLsngrouplsnpoolbinding -groupname <string>
+        PS C:\>Invoke-ADCDeleteLsngrouplsnpoolbinding -Groupname <string>
+        An example how to delete lsngroup_lsnpool_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnpoolbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnpool_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$groupname ,
+        [Parameter(Mandatory)]
+        [string]$Groupname,
 
-        [string]$poolname 
+        [string]$Poolname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsngrouplsnpoolbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('poolname')) { $Arguments.Add('poolname', $poolname) }
-            if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnpool_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Poolname') ) { $arguments.Add('poolname', $Poolname) }
+            if ( $PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnpool_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4724,56 +4693,62 @@ function Invoke-ADCDeleteLsngrouplsnpoolbinding {
 }
 
 function Invoke-ADCGetLsngrouplsnpoolbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+        Binding object showing the lsnpool that can be bound to lsngroup.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
     .PARAMETER GetAll 
-        Retreive all lsngroup_lsnpool_binding object(s)
+        Retrieve all lsngroup_lsnpool_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsngroup_lsnpool_binding object(s) will be returned
+        If specified, the count of the lsngroup_lsnpool_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsnpoolbinding
+        PS C:\>Invoke-ADCGetLsngrouplsnpoolbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsngrouplsnpoolbinding -GetAll 
+        PS C:\>Invoke-ADCGetLsngrouplsnpoolbinding -GetAll 
+        Get all lsngroup_lsnpool_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetLsngrouplsnpoolbinding -Count
+        PS C:\>Invoke-ADCGetLsngrouplsnpoolbinding -Count 
+        Get the number of lsngroup_lsnpool_binding objects.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsnpoolbinding -name <string>
+        PS C:\>Invoke-ADCGetLsngrouplsnpoolbinding -name <string>
+        Get lsngroup_lsnpool_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsnpoolbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsngrouplsnpoolbinding -Filter @{ 'name'='<value>' }
+        Get lsngroup_lsnpool_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnpoolbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnpool_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname,
+        [string]$Groupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4786,26 +4761,24 @@ function Invoke-ADCGetLsngrouplsnpoolbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsngroup_lsnpool_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnpool_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnpool_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_lsnpool_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnpool_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnpool_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_lsnpool_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnpool_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnpool_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_lsnpool_binding configuration for property 'groupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnpool_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_lsnpool_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnpool_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnpool_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4819,67 +4792,64 @@ function Invoke-ADCGetLsngrouplsnpoolbinding {
 }
 
 function Invoke-ADCAddLsngrouplsnrtspalgprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER groupname 
+        Binding object showing the lsnrtspalgprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
         Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
-    .PARAMETER rtspalgprofilename 
+    .PARAMETER Rtspalgprofilename 
         The name of the LSN RTSP ALG Profile. 
     .PARAMETER PassThru 
         Return details about the created lsngroup_lsnrtspalgprofile_binding item.
     .EXAMPLE
-        Invoke-ADCAddLsngrouplsnrtspalgprofilebinding -groupname <string>
+        PS C:\>Invoke-ADCAddLsngrouplsnrtspalgprofilebinding -groupname <string>
+        An example how to add lsngroup_lsnrtspalgprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnrtspalgprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnrtspalgprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname ,
+        [string]$Groupname,
 
-        [string]$rtspalgprofilename ,
+        [string]$Rtspalgprofilename,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsngrouplsnrtspalgprofilebinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                groupname = $groupname
-            }
-            if ($PSBoundParameters.ContainsKey('rtspalgprofilename')) { $Payload.Add('rtspalgprofilename', $rtspalgprofilename) }
- 
-            if ($PSCmdlet.ShouldProcess("lsngroup_lsnrtspalgprofile_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsnrtspalgprofile_binding -Payload $Payload -GetWarning
+            $payload = @{ groupname = $groupname }
+            if ( $PSBoundParameters.ContainsKey('rtspalgprofilename') ) { $payload.Add('rtspalgprofilename', $rtspalgprofilename) }
+            if ( $PSCmdlet.ShouldProcess("lsngroup_lsnrtspalgprofile_binding", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsnrtspalgprofile_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsngrouplsnrtspalgprofilebinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsngrouplsnrtspalgprofilebinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4892,49 +4862,51 @@ function Invoke-ADCAddLsngrouplsnrtspalgprofilebinding {
 }
 
 function Invoke-ADCDeleteLsngrouplsnrtspalgprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created.    .PARAMETER rtspalgprofilename 
-       The name of the LSN RTSP ALG Profile.
+        Binding object showing the lsnrtspalgprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+    .PARAMETER Rtspalgprofilename 
+        The name of the LSN RTSP ALG Profile.
     .EXAMPLE
-        Invoke-ADCDeleteLsngrouplsnrtspalgprofilebinding -groupname <string>
+        PS C:\>Invoke-ADCDeleteLsngrouplsnrtspalgprofilebinding -Groupname <string>
+        An example how to delete lsngroup_lsnrtspalgprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnrtspalgprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnrtspalgprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$groupname ,
+        [Parameter(Mandatory)]
+        [string]$Groupname,
 
-        [string]$rtspalgprofilename 
+        [string]$Rtspalgprofilename 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsngrouplsnrtspalgprofilebinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('rtspalgprofilename')) { $Arguments.Add('rtspalgprofilename', $rtspalgprofilename) }
-            if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnrtspalgprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Rtspalgprofilename') ) { $arguments.Add('rtspalgprofilename', $Rtspalgprofilename) }
+            if ( $PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnrtspalgprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4950,56 +4922,62 @@ function Invoke-ADCDeleteLsngrouplsnrtspalgprofilebinding {
 }
 
 function Invoke-ADCGetLsngrouplsnrtspalgprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+        Binding object showing the lsnrtspalgprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
     .PARAMETER GetAll 
-        Retreive all lsngroup_lsnrtspalgprofile_binding object(s)
+        Retrieve all lsngroup_lsnrtspalgprofile_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsngroup_lsnrtspalgprofile_binding object(s) will be returned
+        If specified, the count of the lsngroup_lsnrtspalgprofile_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsnrtspalgprofilebinding
+        PS C:\>Invoke-ADCGetLsngrouplsnrtspalgprofilebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsngrouplsnrtspalgprofilebinding -GetAll 
+        PS C:\>Invoke-ADCGetLsngrouplsnrtspalgprofilebinding -GetAll 
+        Get all lsngroup_lsnrtspalgprofile_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetLsngrouplsnrtspalgprofilebinding -Count
+        PS C:\>Invoke-ADCGetLsngrouplsnrtspalgprofilebinding -Count 
+        Get the number of lsngroup_lsnrtspalgprofile_binding objects.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsnrtspalgprofilebinding -name <string>
+        PS C:\>Invoke-ADCGetLsngrouplsnrtspalgprofilebinding -name <string>
+        Get lsngroup_lsnrtspalgprofile_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsnrtspalgprofilebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsngrouplsnrtspalgprofilebinding -Filter @{ 'name'='<value>' }
+        Get lsngroup_lsnrtspalgprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnrtspalgprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnrtspalgprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname,
+        [string]$Groupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -5012,26 +4990,24 @@ function Invoke-ADCGetLsngrouplsnrtspalgprofilebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsngroup_lsnrtspalgprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnrtspalgprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnrtspalgprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_lsnrtspalgprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnrtspalgprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnrtspalgprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_lsnrtspalgprofile_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnrtspalgprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnrtspalgprofile_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_lsnrtspalgprofile_binding configuration for property 'groupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnrtspalgprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_lsnrtspalgprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnrtspalgprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnrtspalgprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5045,67 +5021,64 @@ function Invoke-ADCGetLsngrouplsnrtspalgprofilebinding {
 }
 
 function Invoke-ADCAddLsngrouplsnsipalgprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER groupname 
+        Binding object showing the lsnsipalgprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
         Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
-    .PARAMETER sipalgprofilename 
+    .PARAMETER Sipalgprofilename 
         The name of the LSN SIP ALG Profile. 
     .PARAMETER PassThru 
         Return details about the created lsngroup_lsnsipalgprofile_binding item.
     .EXAMPLE
-        Invoke-ADCAddLsngrouplsnsipalgprofilebinding -groupname <string>
+        PS C:\>Invoke-ADCAddLsngrouplsnsipalgprofilebinding -groupname <string>
+        An example how to add lsngroup_lsnsipalgprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnsipalgprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnsipalgprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname ,
+        [string]$Groupname,
 
-        [string]$sipalgprofilename ,
+        [string]$Sipalgprofilename,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsngrouplsnsipalgprofilebinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                groupname = $groupname
-            }
-            if ($PSBoundParameters.ContainsKey('sipalgprofilename')) { $Payload.Add('sipalgprofilename', $sipalgprofilename) }
- 
-            if ($PSCmdlet.ShouldProcess("lsngroup_lsnsipalgprofile_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsnsipalgprofile_binding -Payload $Payload -GetWarning
+            $payload = @{ groupname = $groupname }
+            if ( $PSBoundParameters.ContainsKey('sipalgprofilename') ) { $payload.Add('sipalgprofilename', $sipalgprofilename) }
+            if ( $PSCmdlet.ShouldProcess("lsngroup_lsnsipalgprofile_binding", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsnsipalgprofile_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsngrouplsnsipalgprofilebinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsngrouplsnsipalgprofilebinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5118,49 +5091,51 @@ function Invoke-ADCAddLsngrouplsnsipalgprofilebinding {
 }
 
 function Invoke-ADCDeleteLsngrouplsnsipalgprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created.    .PARAMETER sipalgprofilename 
-       The name of the LSN SIP ALG Profile.
+        Binding object showing the lsnsipalgprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+    .PARAMETER Sipalgprofilename 
+        The name of the LSN SIP ALG Profile.
     .EXAMPLE
-        Invoke-ADCDeleteLsngrouplsnsipalgprofilebinding -groupname <string>
+        PS C:\>Invoke-ADCDeleteLsngrouplsnsipalgprofilebinding -Groupname <string>
+        An example how to delete lsngroup_lsnsipalgprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnsipalgprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnsipalgprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$groupname ,
+        [Parameter(Mandatory)]
+        [string]$Groupname,
 
-        [string]$sipalgprofilename 
+        [string]$Sipalgprofilename 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsngrouplsnsipalgprofilebinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('sipalgprofilename')) { $Arguments.Add('sipalgprofilename', $sipalgprofilename) }
-            if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnsipalgprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Sipalgprofilename') ) { $arguments.Add('sipalgprofilename', $Sipalgprofilename) }
+            if ( $PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsnsipalgprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5176,56 +5151,62 @@ function Invoke-ADCDeleteLsngrouplsnsipalgprofilebinding {
 }
 
 function Invoke-ADCGetLsngrouplsnsipalgprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+        Binding object showing the lsnsipalgprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
     .PARAMETER GetAll 
-        Retreive all lsngroup_lsnsipalgprofile_binding object(s)
+        Retrieve all lsngroup_lsnsipalgprofile_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsngroup_lsnsipalgprofile_binding object(s) will be returned
+        If specified, the count of the lsngroup_lsnsipalgprofile_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsnsipalgprofilebinding
+        PS C:\>Invoke-ADCGetLsngrouplsnsipalgprofilebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsngrouplsnsipalgprofilebinding -GetAll 
+        PS C:\>Invoke-ADCGetLsngrouplsnsipalgprofilebinding -GetAll 
+        Get all lsngroup_lsnsipalgprofile_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetLsngrouplsnsipalgprofilebinding -Count
+        PS C:\>Invoke-ADCGetLsngrouplsnsipalgprofilebinding -Count 
+        Get the number of lsngroup_lsnsipalgprofile_binding objects.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsnsipalgprofilebinding -name <string>
+        PS C:\>Invoke-ADCGetLsngrouplsnsipalgprofilebinding -name <string>
+        Get lsngroup_lsnsipalgprofile_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsnsipalgprofilebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsngrouplsnsipalgprofilebinding -Filter @{ 'name'='<value>' }
+        Get lsngroup_lsnsipalgprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnsipalgprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnsipalgprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname,
+        [string]$Groupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -5238,26 +5219,24 @@ function Invoke-ADCGetLsngrouplsnsipalgprofilebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsngroup_lsnsipalgprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnsipalgprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnsipalgprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_lsnsipalgprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnsipalgprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnsipalgprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_lsnsipalgprofile_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnsipalgprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnsipalgprofile_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_lsnsipalgprofile_binding configuration for property 'groupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnsipalgprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_lsnsipalgprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnsipalgprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsnsipalgprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5271,67 +5250,64 @@ function Invoke-ADCGetLsngrouplsnsipalgprofilebinding {
 }
 
 function Invoke-ADCAddLsngrouplsntransportprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER groupname 
+        Binding object showing the lsntransportprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
         Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
-    .PARAMETER transportprofilename 
+    .PARAMETER Transportprofilename 
         Name of the LSN transport profile to bind to the specified LSN group. Bind a profile for each protocol for which you want to specify settings. By default, one LSN transport profile with default settings for TCP, UDP, and ICMP protocols is bound to an LSN group during its creation. This profile is called a default transport. An LSN transport profile that you bind to an LSN group overrides the default LSN transport profile for that protocol. 
     .PARAMETER PassThru 
         Return details about the created lsngroup_lsntransportprofile_binding item.
     .EXAMPLE
-        Invoke-ADCAddLsngrouplsntransportprofilebinding -groupname <string>
+        PS C:\>Invoke-ADCAddLsngrouplsntransportprofilebinding -groupname <string>
+        An example how to add lsngroup_lsntransportprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsntransportprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsntransportprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname ,
+        [string]$Groupname,
 
-        [string]$transportprofilename ,
+        [string]$Transportprofilename,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsngrouplsntransportprofilebinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                groupname = $groupname
-            }
-            if ($PSBoundParameters.ContainsKey('transportprofilename')) { $Payload.Add('transportprofilename', $transportprofilename) }
- 
-            if ($PSCmdlet.ShouldProcess("lsngroup_lsntransportprofile_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsntransportprofile_binding -Payload $Payload -GetWarning
+            $payload = @{ groupname = $groupname }
+            if ( $PSBoundParameters.ContainsKey('transportprofilename') ) { $payload.Add('transportprofilename', $transportprofilename) }
+            if ( $PSCmdlet.ShouldProcess("lsngroup_lsntransportprofile_binding", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_lsntransportprofile_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsngrouplsntransportprofilebinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsngrouplsntransportprofilebinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5344,49 +5320,51 @@ function Invoke-ADCAddLsngrouplsntransportprofilebinding {
 }
 
 function Invoke-ADCDeleteLsngrouplsntransportprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created.    .PARAMETER transportprofilename 
-       Name of the LSN transport profile to bind to the specified LSN group. Bind a profile for each protocol for which you want to specify settings. By default, one LSN transport profile with default settings for TCP, UDP, and ICMP protocols is bound to an LSN group during its creation. This profile is called a default transport. An LSN transport profile that you bind to an LSN group overrides the default LSN transport profile for that protocol.
+        Binding object showing the lsntransportprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+    .PARAMETER Transportprofilename 
+        Name of the LSN transport profile to bind to the specified LSN group. Bind a profile for each protocol for which you want to specify settings. By default, one LSN transport profile with default settings for TCP, UDP, and ICMP protocols is bound to an LSN group during its creation. This profile is called a default transport. An LSN transport profile that you bind to an LSN group overrides the default LSN transport profile for that protocol.
     .EXAMPLE
-        Invoke-ADCDeleteLsngrouplsntransportprofilebinding -groupname <string>
+        PS C:\>Invoke-ADCDeleteLsngrouplsntransportprofilebinding -Groupname <string>
+        An example how to delete lsngroup_lsntransportprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsntransportprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsntransportprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$groupname ,
+        [Parameter(Mandatory)]
+        [string]$Groupname,
 
-        [string]$transportprofilename 
+        [string]$Transportprofilename 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsngrouplsntransportprofilebinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('transportprofilename')) { $Arguments.Add('transportprofilename', $transportprofilename) }
-            if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsntransportprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Transportprofilename') ) { $arguments.Add('transportprofilename', $Transportprofilename) }
+            if ( $PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_lsntransportprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5402,56 +5380,62 @@ function Invoke-ADCDeleteLsngrouplsntransportprofilebinding {
 }
 
 function Invoke-ADCGetLsngrouplsntransportprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+        Binding object showing the lsntransportprofile that can be bound to lsngroup.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
     .PARAMETER GetAll 
-        Retreive all lsngroup_lsntransportprofile_binding object(s)
+        Retrieve all lsngroup_lsntransportprofile_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsngroup_lsntransportprofile_binding object(s) will be returned
+        If specified, the count of the lsngroup_lsntransportprofile_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsntransportprofilebinding
+        PS C:\>Invoke-ADCGetLsngrouplsntransportprofilebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsngrouplsntransportprofilebinding -GetAll 
+        PS C:\>Invoke-ADCGetLsngrouplsntransportprofilebinding -GetAll 
+        Get all lsngroup_lsntransportprofile_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetLsngrouplsntransportprofilebinding -Count
+        PS C:\>Invoke-ADCGetLsngrouplsntransportprofilebinding -Count 
+        Get the number of lsngroup_lsntransportprofile_binding objects.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsntransportprofilebinding -name <string>
+        PS C:\>Invoke-ADCGetLsngrouplsntransportprofilebinding -name <string>
+        Get lsngroup_lsntransportprofile_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsngrouplsntransportprofilebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsngrouplsntransportprofilebinding -Filter @{ 'name'='<value>' }
+        Get lsngroup_lsntransportprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsntransportprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsntransportprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname,
+        [string]$Groupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -5464,26 +5448,24 @@ function Invoke-ADCGetLsngrouplsntransportprofilebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsngroup_lsntransportprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsntransportprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsntransportprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_lsntransportprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsntransportprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsntransportprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_lsntransportprofile_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsntransportprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsntransportprofile_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_lsntransportprofile_binding configuration for property 'groupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsntransportprofile_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_lsntransportprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsntransportprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_lsntransportprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5497,67 +5479,64 @@ function Invoke-ADCGetLsngrouplsntransportprofilebinding {
 }
 
 function Invoke-ADCAddLsngrouppcpserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER groupname 
+        Binding object showing the pcpserver that can be bound to lsngroup.
+    .PARAMETER Groupname 
         Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
-    .PARAMETER pcpserver 
+    .PARAMETER Pcpserver 
         Name of the PCP server to be associated with lsn group. 
     .PARAMETER PassThru 
         Return details about the created lsngroup_pcpserver_binding item.
     .EXAMPLE
-        Invoke-ADCAddLsngrouppcpserverbinding -groupname <string>
+        PS C:\>Invoke-ADCAddLsngrouppcpserverbinding -groupname <string>
+        An example how to add lsngroup_pcpserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngrouppcpserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_pcpserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname ,
+        [string]$Groupname,
 
-        [string]$pcpserver ,
+        [string]$Pcpserver,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsngrouppcpserverbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                groupname = $groupname
-            }
-            if ($PSBoundParameters.ContainsKey('pcpserver')) { $Payload.Add('pcpserver', $pcpserver) }
- 
-            if ($PSCmdlet.ShouldProcess("lsngroup_pcpserver_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_pcpserver_binding -Payload $Payload -GetWarning
+            $payload = @{ groupname = $groupname }
+            if ( $PSBoundParameters.ContainsKey('pcpserver') ) { $payload.Add('pcpserver', $pcpserver) }
+            if ( $PSCmdlet.ShouldProcess("lsngroup_pcpserver_binding", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsngroup_pcpserver_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsngrouppcpserverbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsngrouppcpserverbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5570,49 +5549,51 @@ function Invoke-ADCAddLsngrouppcpserverbinding {
 }
 
 function Invoke-ADCDeleteLsngrouppcpserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created.    .PARAMETER pcpserver 
-       Name of the PCP server to be associated with lsn group.
+        Binding object showing the pcpserver that can be bound to lsngroup.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+    .PARAMETER Pcpserver 
+        Name of the PCP server to be associated with lsn group.
     .EXAMPLE
-        Invoke-ADCDeleteLsngrouppcpserverbinding -groupname <string>
+        PS C:\>Invoke-ADCDeleteLsngrouppcpserverbinding -Groupname <string>
+        An example how to delete lsngroup_pcpserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouppcpserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_pcpserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$groupname ,
+        [Parameter(Mandatory)]
+        [string]$Groupname,
 
-        [string]$pcpserver 
+        [string]$Pcpserver 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsngrouppcpserverbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('pcpserver')) { $Arguments.Add('pcpserver', $pcpserver) }
-            if ($PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_pcpserver_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Pcpserver') ) { $arguments.Add('pcpserver', $Pcpserver) }
+            if ( $PSCmdlet.ShouldProcess("$groupname", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsngroup_pcpserver_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5628,56 +5609,62 @@ function Invoke-ADCDeleteLsngrouppcpserverbinding {
 }
 
 function Invoke-ADCGetLsngrouppcpserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER groupname 
-       Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+        Binding object showing the pcpserver that can be bound to lsngroup.
+    .PARAMETER Groupname 
+        Name for the LSN group. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
     .PARAMETER GetAll 
-        Retreive all lsngroup_pcpserver_binding object(s)
+        Retrieve all lsngroup_pcpserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsngroup_pcpserver_binding object(s) will be returned
+        If specified, the count of the lsngroup_pcpserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsngrouppcpserverbinding
+        PS C:\>Invoke-ADCGetLsngrouppcpserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsngrouppcpserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetLsngrouppcpserverbinding -GetAll 
+        Get all lsngroup_pcpserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetLsngrouppcpserverbinding -Count
+        PS C:\>Invoke-ADCGetLsngrouppcpserverbinding -Count 
+        Get the number of lsngroup_pcpserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetLsngrouppcpserverbinding -name <string>
+        PS C:\>Invoke-ADCGetLsngrouppcpserverbinding -name <string>
+        Get lsngroup_pcpserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsngrouppcpserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsngrouppcpserverbinding -Filter @{ 'name'='<value>' }
+        Get lsngroup_pcpserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngrouppcpserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_pcpserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$groupname,
+        [string]$Groupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -5690,26 +5677,24 @@ function Invoke-ADCGetLsngrouppcpserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsngroup_pcpserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_pcpserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_pcpserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsngroup_pcpserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_pcpserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_pcpserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsngroup_pcpserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_pcpserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_pcpserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsngroup_pcpserver_binding configuration for property 'groupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_pcpserver_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsngroup_pcpserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_pcpserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsngroup_pcpserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5723,95 +5708,86 @@ function Invoke-ADCGetLsngrouppcpserverbinding {
 }
 
 function Invoke-ADCAddLsnhttphdrlogprofile {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER httphdrlogprofilename 
-        The name of the HTTP header logging Profile.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER logurl 
-        URL information is logged if option is enabled.  
-        Default value: ENABLED  
+        Configuration for LSN HTTP header logging Profile resource.
+    .PARAMETER Httphdrlogprofilename 
+        The name of the HTTP header logging Profile. 
+    .PARAMETER Logurl 
+        URL information is logged if option is enabled. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER logmethod 
-        HTTP method information is logged if option is enabled.  
-        Default value: ENABLED  
+    .PARAMETER Logmethod 
+        HTTP method information is logged if option is enabled. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER logversion 
-        Version information is logged if option is enabled.  
-        Default value: ENABLED  
+    .PARAMETER Logversion 
+        Version information is logged if option is enabled. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER loghost 
-        Host information is logged if option is enabled.  
-        Default value: ENABLED  
+    .PARAMETER Loghost 
+        Host information is logged if option is enabled. 
         Possible values = ENABLED, DISABLED 
     .PARAMETER PassThru 
         Return details about the created lsnhttphdrlogprofile item.
     .EXAMPLE
-        Invoke-ADCAddLsnhttphdrlogprofile -httphdrlogprofilename <string>
+        PS C:\>Invoke-ADCAddLsnhttphdrlogprofile -httphdrlogprofilename <string>
+        An example how to add lsnhttphdrlogprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnhttphdrlogprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 127)]
-        [string]$httphdrlogprofilename ,
+        [string]$Httphdrlogprofilename,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$logurl = 'ENABLED' ,
+        [string]$Logurl = 'ENABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$logmethod = 'ENABLED' ,
+        [string]$Logmethod = 'ENABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$logversion = 'ENABLED' ,
+        [string]$Logversion = 'ENABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$loghost = 'ENABLED' ,
+        [string]$Loghost = 'ENABLED',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsnhttphdrlogprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                httphdrlogprofilename = $httphdrlogprofilename
-            }
-            if ($PSBoundParameters.ContainsKey('logurl')) { $Payload.Add('logurl', $logurl) }
-            if ($PSBoundParameters.ContainsKey('logmethod')) { $Payload.Add('logmethod', $logmethod) }
-            if ($PSBoundParameters.ContainsKey('logversion')) { $Payload.Add('logversion', $logversion) }
-            if ($PSBoundParameters.ContainsKey('loghost')) { $Payload.Add('loghost', $loghost) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnhttphdrlogprofile", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnhttphdrlogprofile -Payload $Payload -GetWarning
+            $payload = @{ httphdrlogprofilename = $httphdrlogprofilename }
+            if ( $PSBoundParameters.ContainsKey('logurl') ) { $payload.Add('logurl', $logurl) }
+            if ( $PSBoundParameters.ContainsKey('logmethod') ) { $payload.Add('logmethod', $logmethod) }
+            if ( $PSBoundParameters.ContainsKey('logversion') ) { $payload.Add('logversion', $logversion) }
+            if ( $PSBoundParameters.ContainsKey('loghost') ) { $payload.Add('loghost', $loghost) }
+            if ( $PSCmdlet.ShouldProcess("lsnhttphdrlogprofile", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnhttphdrlogprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnhttphdrlogprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnhttphdrlogprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5824,48 +5800,47 @@ function Invoke-ADCAddLsnhttphdrlogprofile {
 }
 
 function Invoke-ADCDeleteLsnhttphdrlogprofile {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER httphdrlogprofilename 
-       The name of the HTTP header logging Profile.  
-       Minimum length = 1  
-       Maximum length = 127 
+        Configuration for LSN HTTP header logging Profile resource.
+    .PARAMETER Httphdrlogprofilename 
+        The name of the HTTP header logging Profile.
     .EXAMPLE
-        Invoke-ADCDeleteLsnhttphdrlogprofile -httphdrlogprofilename <string>
+        PS C:\>Invoke-ADCDeleteLsnhttphdrlogprofile -Httphdrlogprofilename <string>
+        An example how to delete lsnhttphdrlogprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnhttphdrlogprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$httphdrlogprofilename 
+        [Parameter(Mandatory)]
+        [string]$Httphdrlogprofilename 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsnhttphdrlogprofile: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$httphdrlogprofilename", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Resource $httphdrlogprofilename -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$httphdrlogprofilename", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Resource $httphdrlogprofilename -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5881,95 +5856,86 @@ function Invoke-ADCDeleteLsnhttphdrlogprofile {
 }
 
 function Invoke-ADCUpdateLsnhttphdrlogprofile {
-<#
+    <#
     .SYNOPSIS
-        Update Lsn configuration Object
+        Update Lsn configuration Object.
     .DESCRIPTION
-        Update Lsn configuration Object 
-    .PARAMETER httphdrlogprofilename 
-        The name of the HTTP header logging Profile.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER logurl 
-        URL information is logged if option is enabled.  
-        Default value: ENABLED  
+        Configuration for LSN HTTP header logging Profile resource.
+    .PARAMETER Httphdrlogprofilename 
+        The name of the HTTP header logging Profile. 
+    .PARAMETER Logurl 
+        URL information is logged if option is enabled. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER logmethod 
-        HTTP method information is logged if option is enabled.  
-        Default value: ENABLED  
+    .PARAMETER Logmethod 
+        HTTP method information is logged if option is enabled. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER logversion 
-        Version information is logged if option is enabled.  
-        Default value: ENABLED  
+    .PARAMETER Logversion 
+        Version information is logged if option is enabled. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER loghost 
-        Host information is logged if option is enabled.  
-        Default value: ENABLED  
+    .PARAMETER Loghost 
+        Host information is logged if option is enabled. 
         Possible values = ENABLED, DISABLED 
     .PARAMETER PassThru 
         Return details about the created lsnhttphdrlogprofile item.
     .EXAMPLE
-        Invoke-ADCUpdateLsnhttphdrlogprofile -httphdrlogprofilename <string>
+        PS C:\>Invoke-ADCUpdateLsnhttphdrlogprofile -httphdrlogprofilename <string>
+        An example how to update lsnhttphdrlogprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsnhttphdrlogprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 127)]
-        [string]$httphdrlogprofilename ,
+        [string]$Httphdrlogprofilename,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$logurl ,
+        [string]$Logurl,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$logmethod ,
+        [string]$Logmethod,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$logversion ,
+        [string]$Logversion,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$loghost ,
+        [string]$Loghost,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateLsnhttphdrlogprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                httphdrlogprofilename = $httphdrlogprofilename
-            }
-            if ($PSBoundParameters.ContainsKey('logurl')) { $Payload.Add('logurl', $logurl) }
-            if ($PSBoundParameters.ContainsKey('logmethod')) { $Payload.Add('logmethod', $logmethod) }
-            if ($PSBoundParameters.ContainsKey('logversion')) { $Payload.Add('logversion', $logversion) }
-            if ($PSBoundParameters.ContainsKey('loghost')) { $Payload.Add('loghost', $loghost) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnhttphdrlogprofile", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnhttphdrlogprofile -Payload $Payload -GetWarning
+            $payload = @{ httphdrlogprofilename = $httphdrlogprofilename }
+            if ( $PSBoundParameters.ContainsKey('logurl') ) { $payload.Add('logurl', $logurl) }
+            if ( $PSBoundParameters.ContainsKey('logmethod') ) { $payload.Add('logmethod', $logmethod) }
+            if ( $PSBoundParameters.ContainsKey('logversion') ) { $payload.Add('logversion', $logversion) }
+            if ( $PSBoundParameters.ContainsKey('loghost') ) { $payload.Add('loghost', $loghost) }
+            if ( $PSCmdlet.ShouldProcess("lsnhttphdrlogprofile", "Update Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnhttphdrlogprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnhttphdrlogprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnhttphdrlogprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5982,54 +5948,55 @@ function Invoke-ADCUpdateLsnhttphdrlogprofile {
 }
 
 function Invoke-ADCUnsetLsnhttphdrlogprofile {
-<#
+    <#
     .SYNOPSIS
-        Unset Lsn configuration Object
+        Unset Lsn configuration Object.
     .DESCRIPTION
-        Unset Lsn configuration Object 
-   .PARAMETER httphdrlogprofilename 
-       The name of the HTTP header logging Profile. 
-   .PARAMETER logurl 
-       URL information is logged if option is enabled.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER logmethod 
-       HTTP method information is logged if option is enabled.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER logversion 
-       Version information is logged if option is enabled.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER loghost 
-       Host information is logged if option is enabled.  
-       Possible values = ENABLED, DISABLED
+        Configuration for LSN HTTP header logging Profile resource.
+    .PARAMETER Httphdrlogprofilename 
+        The name of the HTTP header logging Profile. 
+    .PARAMETER Logurl 
+        URL information is logged if option is enabled. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Logmethod 
+        HTTP method information is logged if option is enabled. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Logversion 
+        Version information is logged if option is enabled. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Loghost 
+        Host information is logged if option is enabled. 
+        Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCUnsetLsnhttphdrlogprofile -httphdrlogprofilename <string>
+        PS C:\>Invoke-ADCUnsetLsnhttphdrlogprofile -httphdrlogprofilename <string>
+        An example how to unset lsnhttphdrlogprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsnhttphdrlogprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateLength(1, 127)]
-        [string]$httphdrlogprofilename ,
+        [string]$Httphdrlogprofilename,
 
-        [Boolean]$logurl ,
+        [Boolean]$logurl,
 
-        [Boolean]$logmethod ,
+        [Boolean]$logmethod,
 
-        [Boolean]$logversion ,
+        [Boolean]$logversion,
 
         [Boolean]$loghost 
     )
@@ -6038,15 +6005,13 @@ function Invoke-ADCUnsetLsnhttphdrlogprofile {
     }
     process {
         try {
-            $Payload = @{
-                httphdrlogprofilename = $httphdrlogprofilename
-            }
-            if ($PSBoundParameters.ContainsKey('logurl')) { $Payload.Add('logurl', $logurl) }
-            if ($PSBoundParameters.ContainsKey('logmethod')) { $Payload.Add('logmethod', $logmethod) }
-            if ($PSBoundParameters.ContainsKey('logversion')) { $Payload.Add('logversion', $logversion) }
-            if ($PSBoundParameters.ContainsKey('loghost')) { $Payload.Add('loghost', $loghost) }
-            if ($PSCmdlet.ShouldProcess("$httphdrlogprofilename", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ httphdrlogprofilename = $httphdrlogprofilename }
+            if ( $PSBoundParameters.ContainsKey('logurl') ) { $payload.Add('logurl', $logurl) }
+            if ( $PSBoundParameters.ContainsKey('logmethod') ) { $payload.Add('logmethod', $logmethod) }
+            if ( $PSBoundParameters.ContainsKey('logversion') ) { $payload.Add('logversion', $logversion) }
+            if ( $PSBoundParameters.ContainsKey('loghost') ) { $payload.Add('loghost', $loghost) }
+            if ( $PSCmdlet.ShouldProcess("$httphdrlogprofilename", "Unset Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6062,55 +6027,61 @@ function Invoke-ADCUnsetLsnhttphdrlogprofile {
 }
 
 function Invoke-ADCGetLsnhttphdrlogprofile {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER httphdrlogprofilename 
-       The name of the HTTP header logging Profile. 
+        Configuration for LSN HTTP header logging Profile resource.
+    .PARAMETER Httphdrlogprofilename 
+        The name of the HTTP header logging Profile. 
     .PARAMETER GetAll 
-        Retreive all lsnhttphdrlogprofile object(s)
+        Retrieve all lsnhttphdrlogprofile object(s).
     .PARAMETER Count
-        If specified, the count of the lsnhttphdrlogprofile object(s) will be returned
+        If specified, the count of the lsnhttphdrlogprofile object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnhttphdrlogprofile
+        PS C:\>Invoke-ADCGetLsnhttphdrlogprofile
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnhttphdrlogprofile -GetAll 
+        PS C:\>Invoke-ADCGetLsnhttphdrlogprofile -GetAll 
+        Get all lsnhttphdrlogprofile data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnhttphdrlogprofile -Count
+        PS C:\>Invoke-ADCGetLsnhttphdrlogprofile -Count 
+        Get the number of lsnhttphdrlogprofile objects.
     .EXAMPLE
-        Invoke-ADCGetLsnhttphdrlogprofile -name <string>
+        PS C:\>Invoke-ADCGetLsnhttphdrlogprofile -name <string>
+        Get lsnhttphdrlogprofile object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnhttphdrlogprofile -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnhttphdrlogprofile -Filter @{ 'name'='<value>' }
+        Get lsnhttphdrlogprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnhttphdrlogprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateLength(1, 127)]
-        [string]$httphdrlogprofilename,
+        [string]$Httphdrlogprofilename,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -6128,24 +6099,24 @@ function Invoke-ADCGetLsnhttphdrlogprofile {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all lsnhttphdrlogprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnhttphdrlogprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnhttphdrlogprofile objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnhttphdrlogprofile configuration for property 'httphdrlogprofilename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Resource $httphdrlogprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnhttphdrlogprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnhttphdrlogprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6159,80 +6130,78 @@ function Invoke-ADCGetLsnhttphdrlogprofile {
 }
 
 function Invoke-ADCAddLsnip6profile {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER name 
+        Configuration for LSN ip6 Profile resource.
+    .PARAMETER Name 
         Name for the LSN ip6 profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN ip6 profile is created. 
-    .PARAMETER type 
-        IPv6 translation type for which to set the LSN IP6 profile parameters.  
+    .PARAMETER Type 
+        IPv6 translation type for which to set the LSN IP6 profile parameters. 
         Possible values = DS-Lite, NAT64 
-    .PARAMETER natprefix 
+    .PARAMETER Natprefix 
         IPv6 address(es) of the LSN subscriber(s) or subscriber network(s) on whose traffic you want the Citrix ADC to perform Large Scale NAT. 
-    .PARAMETER network6 
+    .PARAMETER Network6 
         IPv6 address of the Citrix ADC AFTR device. 
     .PARAMETER PassThru 
         Return details about the created lsnip6profile item.
     .EXAMPLE
-        Invoke-ADCAddLsnip6profile -name <string> -type <string>
+        PS C:\>Invoke-ADCAddLsnip6profile -name <string> -type <string>
+        An example how to add lsnip6profile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnip6profile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnip6profile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('DS-Lite', 'NAT64')]
-        [string]$type ,
+        [string]$Type,
 
-        [string]$natprefix ,
+        [string]$Natprefix,
 
-        [string]$network6 ,
+        [string]$Network6,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsnip6profile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                type = $type
+            $payload = @{ name = $name
+                type           = $type
             }
-            if ($PSBoundParameters.ContainsKey('natprefix')) { $Payload.Add('natprefix', $natprefix) }
-            if ($PSBoundParameters.ContainsKey('network6')) { $Payload.Add('network6', $network6) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnip6profile", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnip6profile -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('natprefix') ) { $payload.Add('natprefix', $natprefix) }
+            if ( $PSBoundParameters.ContainsKey('network6') ) { $payload.Add('network6', $network6) }
+            if ( $PSCmdlet.ShouldProcess("lsnip6profile", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnip6profile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnip6profile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnip6profile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6245,46 +6214,47 @@ function Invoke-ADCAddLsnip6profile {
 }
 
 function Invoke-ADCDeleteLsnip6profile {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER name 
-       Name for the LSN ip6 profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN ip6 profile is created. 
+        Configuration for LSN ip6 Profile resource.
+    .PARAMETER Name 
+        Name for the LSN ip6 profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN ip6 profile is created.
     .EXAMPLE
-        Invoke-ADCDeleteLsnip6profile -name <string>
+        PS C:\>Invoke-ADCDeleteLsnip6profile -Name <string>
+        An example how to delete lsnip6profile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnip6profile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnip6profile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsnip6profile: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnip6profile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnip6profile -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6300,56 +6270,62 @@ function Invoke-ADCDeleteLsnip6profile {
 }
 
 function Invoke-ADCGetLsnip6profile {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER name 
-       Name for the LSN ip6 profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN ip6 profile is created. 
+        Configuration for LSN ip6 Profile resource.
+    .PARAMETER Name 
+        Name for the LSN ip6 profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN ip6 profile is created. 
     .PARAMETER GetAll 
-        Retreive all lsnip6profile object(s)
+        Retrieve all lsnip6profile object(s).
     .PARAMETER Count
-        If specified, the count of the lsnip6profile object(s) will be returned
+        If specified, the count of the lsnip6profile object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnip6profile
+        PS C:\>Invoke-ADCGetLsnip6profile
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnip6profile -GetAll 
+        PS C:\>Invoke-ADCGetLsnip6profile -GetAll 
+        Get all lsnip6profile data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnip6profile -Count
+        PS C:\>Invoke-ADCGetLsnip6profile -Count 
+        Get the number of lsnip6profile objects.
     .EXAMPLE
-        Invoke-ADCGetLsnip6profile -name <string>
+        PS C:\>Invoke-ADCGetLsnip6profile -name <string>
+        Get lsnip6profile object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnip6profile -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnip6profile -Filter @{ 'name'='<value>' }
+        Get lsnip6profile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnip6profile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnip6profile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -6367,24 +6343,24 @@ function Invoke-ADCGetLsnip6profile {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all lsnip6profile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnip6profile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnip6profile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnip6profile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnip6profile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnip6profile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnip6profile objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnip6profile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnip6profile -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnip6profile configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnip6profile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnip6profile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnip6profile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnip6profile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6398,100 +6374,91 @@ function Invoke-ADCGetLsnip6profile {
 }
 
 function Invoke-ADCAddLsnlogprofile {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER logprofilename 
-        The name of the logging Profile.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER logsubscrinfo 
-        Subscriber ID information is logged if option is enabled.  
-        Default value: DISABLED  
+        Configuration for LSN logging Profile resource.
+    .PARAMETER Logprofilename 
+        The name of the logging Profile. 
+    .PARAMETER Logsubscrinfo 
+        Subscriber ID information is logged if option is enabled. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER logcompact 
-        Logs in Compact Logging format if option is enabled.  
-        Default value: ENABLED  
+    .PARAMETER Logcompact 
+        Logs in Compact Logging format if option is enabled. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER logipfix 
-        Logs in IPFIX format if option is enabled.  
-        Default value: DISABLED  
+    .PARAMETER Logipfix 
+        Logs in IPFIX format if option is enabled. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER analyticsprofile 
+    .PARAMETER Analyticsprofile 
         Name of the Analytics Profile attached to this lsn profile. 
-    .PARAMETER logsessdeletion 
-        LSN Session deletion will not be logged if disabled.  
-        Default value: ENABLED  
+    .PARAMETER Logsessdeletion 
+        LSN Session deletion will not be logged if disabled. 
         Possible values = ENABLED, DISABLED 
     .PARAMETER PassThru 
         Return details about the created lsnlogprofile item.
     .EXAMPLE
-        Invoke-ADCAddLsnlogprofile -logprofilename <string>
+        PS C:\>Invoke-ADCAddLsnlogprofile -logprofilename <string>
+        An example how to add lsnlogprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnlogprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 127)]
-        [string]$logprofilename ,
+        [string]$Logprofilename,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$logsubscrinfo = 'DISABLED' ,
+        [string]$Logsubscrinfo = 'DISABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$logcompact = 'ENABLED' ,
+        [string]$Logcompact = 'ENABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$logipfix = 'DISABLED' ,
+        [string]$Logipfix = 'DISABLED',
 
-        [string]$analyticsprofile ,
+        [string]$Analyticsprofile,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$logsessdeletion = 'ENABLED' ,
+        [string]$Logsessdeletion = 'ENABLED',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsnlogprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                logprofilename = $logprofilename
-            }
-            if ($PSBoundParameters.ContainsKey('logsubscrinfo')) { $Payload.Add('logsubscrinfo', $logsubscrinfo) }
-            if ($PSBoundParameters.ContainsKey('logcompact')) { $Payload.Add('logcompact', $logcompact) }
-            if ($PSBoundParameters.ContainsKey('logipfix')) { $Payload.Add('logipfix', $logipfix) }
-            if ($PSBoundParameters.ContainsKey('analyticsprofile')) { $Payload.Add('analyticsprofile', $analyticsprofile) }
-            if ($PSBoundParameters.ContainsKey('logsessdeletion')) { $Payload.Add('logsessdeletion', $logsessdeletion) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnlogprofile", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnlogprofile -Payload $Payload -GetWarning
+            $payload = @{ logprofilename = $logprofilename }
+            if ( $PSBoundParameters.ContainsKey('logsubscrinfo') ) { $payload.Add('logsubscrinfo', $logsubscrinfo) }
+            if ( $PSBoundParameters.ContainsKey('logcompact') ) { $payload.Add('logcompact', $logcompact) }
+            if ( $PSBoundParameters.ContainsKey('logipfix') ) { $payload.Add('logipfix', $logipfix) }
+            if ( $PSBoundParameters.ContainsKey('analyticsprofile') ) { $payload.Add('analyticsprofile', $analyticsprofile) }
+            if ( $PSBoundParameters.ContainsKey('logsessdeletion') ) { $payload.Add('logsessdeletion', $logsessdeletion) }
+            if ( $PSCmdlet.ShouldProcess("lsnlogprofile", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnlogprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnlogprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnlogprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6504,48 +6471,47 @@ function Invoke-ADCAddLsnlogprofile {
 }
 
 function Invoke-ADCDeleteLsnlogprofile {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER logprofilename 
-       The name of the logging Profile.  
-       Minimum length = 1  
-       Maximum length = 127 
+        Configuration for LSN logging Profile resource.
+    .PARAMETER Logprofilename 
+        The name of the logging Profile.
     .EXAMPLE
-        Invoke-ADCDeleteLsnlogprofile -logprofilename <string>
+        PS C:\>Invoke-ADCDeleteLsnlogprofile -Logprofilename <string>
+        An example how to delete lsnlogprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnlogprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$logprofilename 
+        [Parameter(Mandatory)]
+        [string]$Logprofilename 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsnlogprofile: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$logprofilename", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnlogprofile -NitroPath nitro/v1/config -Resource $logprofilename -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$logprofilename", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnlogprofile -NitroPath nitro/v1/config -Resource $logprofilename -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6561,100 +6527,91 @@ function Invoke-ADCDeleteLsnlogprofile {
 }
 
 function Invoke-ADCUpdateLsnlogprofile {
-<#
+    <#
     .SYNOPSIS
-        Update Lsn configuration Object
+        Update Lsn configuration Object.
     .DESCRIPTION
-        Update Lsn configuration Object 
-    .PARAMETER logprofilename 
-        The name of the logging Profile.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER logsubscrinfo 
-        Subscriber ID information is logged if option is enabled.  
-        Default value: DISABLED  
+        Configuration for LSN logging Profile resource.
+    .PARAMETER Logprofilename 
+        The name of the logging Profile. 
+    .PARAMETER Logsubscrinfo 
+        Subscriber ID information is logged if option is enabled. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER logcompact 
-        Logs in Compact Logging format if option is enabled.  
-        Default value: ENABLED  
+    .PARAMETER Logcompact 
+        Logs in Compact Logging format if option is enabled. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER logipfix 
-        Logs in IPFIX format if option is enabled.  
-        Default value: DISABLED  
+    .PARAMETER Logipfix 
+        Logs in IPFIX format if option is enabled. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER analyticsprofile 
+    .PARAMETER Analyticsprofile 
         Name of the Analytics Profile attached to this lsn profile. 
-    .PARAMETER logsessdeletion 
-        LSN Session deletion will not be logged if disabled.  
-        Default value: ENABLED  
+    .PARAMETER Logsessdeletion 
+        LSN Session deletion will not be logged if disabled. 
         Possible values = ENABLED, DISABLED 
     .PARAMETER PassThru 
         Return details about the created lsnlogprofile item.
     .EXAMPLE
-        Invoke-ADCUpdateLsnlogprofile -logprofilename <string>
+        PS C:\>Invoke-ADCUpdateLsnlogprofile -logprofilename <string>
+        An example how to update lsnlogprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsnlogprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 127)]
-        [string]$logprofilename ,
+        [string]$Logprofilename,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$logsubscrinfo ,
+        [string]$Logsubscrinfo,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$logcompact ,
+        [string]$Logcompact,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$logipfix ,
+        [string]$Logipfix,
 
-        [string]$analyticsprofile ,
+        [string]$Analyticsprofile,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$logsessdeletion ,
+        [string]$Logsessdeletion,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateLsnlogprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                logprofilename = $logprofilename
-            }
-            if ($PSBoundParameters.ContainsKey('logsubscrinfo')) { $Payload.Add('logsubscrinfo', $logsubscrinfo) }
-            if ($PSBoundParameters.ContainsKey('logcompact')) { $Payload.Add('logcompact', $logcompact) }
-            if ($PSBoundParameters.ContainsKey('logipfix')) { $Payload.Add('logipfix', $logipfix) }
-            if ($PSBoundParameters.ContainsKey('analyticsprofile')) { $Payload.Add('analyticsprofile', $analyticsprofile) }
-            if ($PSBoundParameters.ContainsKey('logsessdeletion')) { $Payload.Add('logsessdeletion', $logsessdeletion) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnlogprofile", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnlogprofile -Payload $Payload -GetWarning
+            $payload = @{ logprofilename = $logprofilename }
+            if ( $PSBoundParameters.ContainsKey('logsubscrinfo') ) { $payload.Add('logsubscrinfo', $logsubscrinfo) }
+            if ( $PSBoundParameters.ContainsKey('logcompact') ) { $payload.Add('logcompact', $logcompact) }
+            if ( $PSBoundParameters.ContainsKey('logipfix') ) { $payload.Add('logipfix', $logipfix) }
+            if ( $PSBoundParameters.ContainsKey('analyticsprofile') ) { $payload.Add('analyticsprofile', $analyticsprofile) }
+            if ( $PSBoundParameters.ContainsKey('logsessdeletion') ) { $payload.Add('logsessdeletion', $logsessdeletion) }
+            if ( $PSCmdlet.ShouldProcess("lsnlogprofile", "Update Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnlogprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnlogprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnlogprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6667,58 +6624,59 @@ function Invoke-ADCUpdateLsnlogprofile {
 }
 
 function Invoke-ADCUnsetLsnlogprofile {
-<#
+    <#
     .SYNOPSIS
-        Unset Lsn configuration Object
+        Unset Lsn configuration Object.
     .DESCRIPTION
-        Unset Lsn configuration Object 
-   .PARAMETER logprofilename 
-       The name of the logging Profile. 
-   .PARAMETER logsubscrinfo 
-       Subscriber ID information is logged if option is enabled.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER logcompact 
-       Logs in Compact Logging format if option is enabled.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER logipfix 
-       Logs in IPFIX format if option is enabled.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER analyticsprofile 
-       Name of the Analytics Profile attached to this lsn profile. 
-   .PARAMETER logsessdeletion 
-       LSN Session deletion will not be logged if disabled.  
-       Possible values = ENABLED, DISABLED
+        Configuration for LSN logging Profile resource.
+    .PARAMETER Logprofilename 
+        The name of the logging Profile. 
+    .PARAMETER Logsubscrinfo 
+        Subscriber ID information is logged if option is enabled. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Logcompact 
+        Logs in Compact Logging format if option is enabled. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Logipfix 
+        Logs in IPFIX format if option is enabled. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Analyticsprofile 
+        Name of the Analytics Profile attached to this lsn profile. 
+    .PARAMETER Logsessdeletion 
+        LSN Session deletion will not be logged if disabled. 
+        Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCUnsetLsnlogprofile -logprofilename <string>
+        PS C:\>Invoke-ADCUnsetLsnlogprofile -logprofilename <string>
+        An example how to unset lsnlogprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsnlogprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateLength(1, 127)]
-        [string]$logprofilename ,
+        [string]$Logprofilename,
 
-        [Boolean]$logsubscrinfo ,
+        [Boolean]$logsubscrinfo,
 
-        [Boolean]$logcompact ,
+        [Boolean]$logcompact,
 
-        [Boolean]$logipfix ,
+        [Boolean]$logipfix,
 
-        [Boolean]$analyticsprofile ,
+        [Boolean]$analyticsprofile,
 
         [Boolean]$logsessdeletion 
     )
@@ -6727,16 +6685,14 @@ function Invoke-ADCUnsetLsnlogprofile {
     }
     process {
         try {
-            $Payload = @{
-                logprofilename = $logprofilename
-            }
-            if ($PSBoundParameters.ContainsKey('logsubscrinfo')) { $Payload.Add('logsubscrinfo', $logsubscrinfo) }
-            if ($PSBoundParameters.ContainsKey('logcompact')) { $Payload.Add('logcompact', $logcompact) }
-            if ($PSBoundParameters.ContainsKey('logipfix')) { $Payload.Add('logipfix', $logipfix) }
-            if ($PSBoundParameters.ContainsKey('analyticsprofile')) { $Payload.Add('analyticsprofile', $analyticsprofile) }
-            if ($PSBoundParameters.ContainsKey('logsessdeletion')) { $Payload.Add('logsessdeletion', $logsessdeletion) }
-            if ($PSCmdlet.ShouldProcess("$logprofilename", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnlogprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ logprofilename = $logprofilename }
+            if ( $PSBoundParameters.ContainsKey('logsubscrinfo') ) { $payload.Add('logsubscrinfo', $logsubscrinfo) }
+            if ( $PSBoundParameters.ContainsKey('logcompact') ) { $payload.Add('logcompact', $logcompact) }
+            if ( $PSBoundParameters.ContainsKey('logipfix') ) { $payload.Add('logipfix', $logipfix) }
+            if ( $PSBoundParameters.ContainsKey('analyticsprofile') ) { $payload.Add('analyticsprofile', $analyticsprofile) }
+            if ( $PSBoundParameters.ContainsKey('logsessdeletion') ) { $payload.Add('logsessdeletion', $logsessdeletion) }
+            if ( $PSCmdlet.ShouldProcess("$logprofilename", "Unset Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnlogprofile -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6752,55 +6708,61 @@ function Invoke-ADCUnsetLsnlogprofile {
 }
 
 function Invoke-ADCGetLsnlogprofile {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER logprofilename 
-       The name of the logging Profile. 
+        Configuration for LSN logging Profile resource.
+    .PARAMETER Logprofilename 
+        The name of the logging Profile. 
     .PARAMETER GetAll 
-        Retreive all lsnlogprofile object(s)
+        Retrieve all lsnlogprofile object(s).
     .PARAMETER Count
-        If specified, the count of the lsnlogprofile object(s) will be returned
+        If specified, the count of the lsnlogprofile object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnlogprofile
+        PS C:\>Invoke-ADCGetLsnlogprofile
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnlogprofile -GetAll 
+        PS C:\>Invoke-ADCGetLsnlogprofile -GetAll 
+        Get all lsnlogprofile data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnlogprofile -Count
+        PS C:\>Invoke-ADCGetLsnlogprofile -Count 
+        Get the number of lsnlogprofile objects.
     .EXAMPLE
-        Invoke-ADCGetLsnlogprofile -name <string>
+        PS C:\>Invoke-ADCGetLsnlogprofile -name <string>
+        Get lsnlogprofile object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnlogprofile -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnlogprofile -Filter @{ 'name'='<value>' }
+        Get lsnlogprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnlogprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateLength(1, 127)]
-        [string]$logprofilename,
+        [string]$Logprofilename,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -6818,24 +6780,24 @@ function Invoke-ADCGetLsnlogprofile {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all lsnlogprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnlogprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnlogprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnlogprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnlogprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnlogprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnlogprofile objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnlogprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnlogprofile -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnlogprofile configuration for property 'logprofilename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnlogprofile -NitroPath nitro/v1/config -Resource $logprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnlogprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnlogprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnlogprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6849,72 +6811,67 @@ function Invoke-ADCGetLsnlogprofile {
 }
 
 function Invoke-ADCUpdateLsnparameter {
-<#
+    <#
     .SYNOPSIS
-        Update Lsn configuration Object
+        Update Lsn configuration Object.
     .DESCRIPTION
-        Update Lsn configuration Object 
-    .PARAMETER memlimit 
-        Amount of Citrix ADC memory to reserve for the LSN feature, in multiples of 2MB.  
-        Note: If you later reduce the value of this parameter, the amount of active memory is not reduced. Changing the configured memory limit can only increase the amount of active memory.  
+        Configuration for LSN parameter resource.
+    .PARAMETER Memlimit 
+        Amount of Citrix ADC memory to reserve for the LSN feature, in multiples of 2MB. 
+        Note: If you later reduce the value of this parameter, the amount of active memory is not reduced. Changing the configured memory limit can only increase the amount of active memory. 
         This command is deprecated, use 'set extendedmemoryparam -memlimit' instead. 
-    .PARAMETER sessionsync 
-        Synchronize all LSN sessions with the secondary node in a high availability (HA) deployment (global synchronization). After a failover, established TCP connections and UDP packet flows are kept active and resumed on the secondary node (new primary).  
-        The global session synchronization parameter and session synchronization parameters (group level) of all LSN groups are enabled by default.  
-        For a group, when both the global level and the group level LSN session synchronization parameters are enabled, the primary node synchronizes information of all LSN sessions related to this LSN group with the secondary node.  
-        Default value: ENABLED  
+    .PARAMETER Sessionsync 
+        Synchronize all LSN sessions with the secondary node in a high availability (HA) deployment (global synchronization). After a failover, established TCP connections and UDP packet flows are kept active and resumed on the secondary node (new primary). 
+        The global session synchronization parameter and session synchronization parameters (group level) of all LSN groups are enabled by default. 
+        For a group, when both the global level and the group level LSN session synchronization parameters are enabled, the primary node synchronizes information of all LSN sessions related to this LSN group with the secondary node. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER subscrsessionremoval 
-        LSN global setting for controlling subscriber aware session removal, when this is enabled, when ever the subscriber info is deleted from subscriber database, sessions corresponding to that subscriber will be removed. if this setting is disabled, subscriber sessions will be timed out as per the idle time out settings.  
-        Default value: DISABLED  
+    .PARAMETER Subscrsessionremoval 
+        LSN global setting for controlling subscriber aware session removal, when this is enabled, when ever the subscriber info is deleted from subscriber database, sessions corresponding to that subscriber will be removed. if this setting is disabled, subscriber sessions will be timed out as per the idle time out settings. 
         Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCUpdateLsnparameter 
+        PS C:\>Invoke-ADCUpdateLsnparameter 
+        An example how to update lsnparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsnparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [double]$memlimit ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$sessionsync ,
+        [double]$Memlimit,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$subscrsessionremoval 
+        [string]$Sessionsync,
 
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Subscrsessionremoval 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateLsnparameter: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('memlimit')) { $Payload.Add('memlimit', $memlimit) }
-            if ($PSBoundParameters.ContainsKey('sessionsync')) { $Payload.Add('sessionsync', $sessionsync) }
-            if ($PSBoundParameters.ContainsKey('subscrsessionremoval')) { $Payload.Add('subscrsessionremoval', $subscrsessionremoval) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnparameter", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnparameter -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('memlimit') ) { $payload.Add('memlimit', $memlimit) }
+            if ( $PSBoundParameters.ContainsKey('sessionsync') ) { $payload.Add('sessionsync', $sessionsync) }
+            if ( $PSBoundParameters.ContainsKey('subscrsessionremoval') ) { $payload.Add('subscrsessionremoval', $subscrsessionremoval) }
+            if ( $PSCmdlet.ShouldProcess("lsnparameter", "Update Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnparameter -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6927,46 +6884,48 @@ function Invoke-ADCUpdateLsnparameter {
 }
 
 function Invoke-ADCUnsetLsnparameter {
-<#
+    <#
     .SYNOPSIS
-        Unset Lsn configuration Object
+        Unset Lsn configuration Object.
     .DESCRIPTION
-        Unset Lsn configuration Object 
-   .PARAMETER memlimit 
-       Amount of Citrix ADC memory to reserve for the LSN feature, in multiples of 2MB.  
-       Note: If you later reduce the value of this parameter, the amount of active memory is not reduced. Changing the configured memory limit can only increase the amount of active memory.  
-       This command is deprecated, use 'set extendedmemoryparam -memlimit' instead. 
-   .PARAMETER sessionsync 
-       Synchronize all LSN sessions with the secondary node in a high availability (HA) deployment (global synchronization). After a failover, established TCP connections and UDP packet flows are kept active and resumed on the secondary node (new primary).  
-       The global session synchronization parameter and session synchronization parameters (group level) of all LSN groups are enabled by default.  
-       For a group, when both the global level and the group level LSN session synchronization parameters are enabled, the primary node synchronizes information of all LSN sessions related to this LSN group with the secondary node.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER subscrsessionremoval 
-       LSN global setting for controlling subscriber aware session removal, when this is enabled, when ever the subscriber info is deleted from subscriber database, sessions corresponding to that subscriber will be removed. if this setting is disabled, subscriber sessions will be timed out as per the idle time out settings.  
-       Possible values = ENABLED, DISABLED
+        Configuration for LSN parameter resource.
+    .PARAMETER Memlimit 
+        Amount of Citrix ADC memory to reserve for the LSN feature, in multiples of 2MB. 
+        Note: If you later reduce the value of this parameter, the amount of active memory is not reduced. Changing the configured memory limit can only increase the amount of active memory. 
+        This command is deprecated, use 'set extendedmemoryparam -memlimit' instead. 
+    .PARAMETER Sessionsync 
+        Synchronize all LSN sessions with the secondary node in a high availability (HA) deployment (global synchronization). After a failover, established TCP connections and UDP packet flows are kept active and resumed on the secondary node (new primary). 
+        The global session synchronization parameter and session synchronization parameters (group level) of all LSN groups are enabled by default. 
+        For a group, when both the global level and the group level LSN session synchronization parameters are enabled, the primary node synchronizes information of all LSN sessions related to this LSN group with the secondary node. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Subscrsessionremoval 
+        LSN global setting for controlling subscriber aware session removal, when this is enabled, when ever the subscriber info is deleted from subscriber database, sessions corresponding to that subscriber will be removed. if this setting is disabled, subscriber sessions will be timed out as per the idle time out settings. 
+        Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCUnsetLsnparameter 
+        PS C:\>Invoke-ADCUnsetLsnparameter 
+        An example how to unset lsnparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsnparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnparameter
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$memlimit ,
+        [Boolean]$memlimit,
 
-        [Boolean]$sessionsync ,
+        [Boolean]$sessionsync,
 
         [Boolean]$subscrsessionremoval 
     )
@@ -6975,14 +6934,12 @@ function Invoke-ADCUnsetLsnparameter {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('memlimit')) { $Payload.Add('memlimit', $memlimit) }
-            if ($PSBoundParameters.ContainsKey('sessionsync')) { $Payload.Add('sessionsync', $sessionsync) }
-            if ($PSBoundParameters.ContainsKey('subscrsessionremoval')) { $Payload.Add('subscrsessionremoval', $subscrsessionremoval) }
-            if ($PSCmdlet.ShouldProcess("lsnparameter", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('memlimit') ) { $payload.Add('memlimit', $memlimit) }
+            if ( $PSBoundParameters.ContainsKey('sessionsync') ) { $payload.Add('sessionsync', $sessionsync) }
+            if ( $PSBoundParameters.ContainsKey('subscrsessionremoval') ) { $payload.Add('subscrsessionremoval', $subscrsessionremoval) }
+            if ( $PSCmdlet.ShouldProcess("lsnparameter", "Unset Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnparameter -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6998,45 +6955,50 @@ function Invoke-ADCUnsetLsnparameter {
 }
 
 function Invoke-ADCGetLsnparameter {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
+        Configuration for LSN parameter resource.
     .PARAMETER GetAll 
-        Retreive all lsnparameter object(s)
+        Retrieve all lsnparameter object(s).
     .PARAMETER Count
-        If specified, the count of the lsnparameter object(s) will be returned
+        If specified, the count of the lsnparameter object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnparameter
+        PS C:\>Invoke-ADCGetLsnparameter
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnparameter -GetAll
+        PS C:\>Invoke-ADCGetLsnparameter -GetAll 
+        Get all lsnparameter data.
     .EXAMPLE
-        Invoke-ADCGetLsnparameter -name <string>
+        PS C:\>Invoke-ADCGetLsnparameter -name <string>
+        Get lsnparameter object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnparameter -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnparameter -Filter @{ 'name'='<value>' }
+        Get lsnparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -7048,24 +7010,24 @@ function Invoke-ADCGetLsnparameter {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all lsnparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnparameter objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnparameter -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving lsnparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7079,107 +7041,96 @@ function Invoke-ADCGetLsnparameter {
 }
 
 function Invoke-ADCAddLsnpool {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER poolname 
+        Configuration for LSN pool resource.
+    .PARAMETER Poolname 
         Name for the LSN pool. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN pool is created. 
-    .PARAMETER nattype 
-        Type of NAT IP address and port allocation (from the LSN pools bound to an LSN group) for subscribers (of the LSN client entity bound to the LSN group):  
-        Available options function as follows:  
-        * Deterministic - Allocate a NAT IP address and a block of ports to each subscriber (of the LSN client bound to the LSN group). The Citrix ADC sequentially allocates NAT resources to these subscribers. The Citrix ADC ADC assigns the first block of ports (block size determined by the port block size parameter of the LSN group) on the beginning NAT IP address to the beginning subscriber IP address. The next range of ports is assigned to the next subscriber, and so on, until the NAT address does not have enough ports for the next subscriber. In this case, the first port block on the next NAT address is used for the subscriber, and so on. Because each subscriber now receives a deterministic NAT IP address and a block of ports, a subscriber can be identified without any need for logging. For a connection, a subscriber can be identified based only on the NAT IP address and port, and the destination IP address and port.  
-        * Dynamic - Allocate a random NAT IP address and a port from the LSN NAT pool for a subscriber's connection. If port block allocation is enabled (in LSN pool) and a port block size is specified (in the LSN group), the Citrix ADC allocates a random NAT IP address and a block of ports for a subscriber when it initiates a connection for the first time. The ADC allocates this NAT IP address and a port (from the allocated block of ports) for different connections from this subscriber. If all the ports are allocated (for different subscriber's connections) from the subscriber's allocated port block, the ADC allocates a new random port block for the subscriber.  
-        Only LSN Pools and LSN groups with the same NAT type settings can be bound together. Multiples LSN pools can be bound to an LSN group. A maximum of 16 LSN pools can be bound to an LSN group. .  
-        Default value: DYNAMIC  
+    .PARAMETER Nattype 
+        Type of NAT IP address and port allocation (from the LSN pools bound to an LSN group) for subscribers (of the LSN client entity bound to the LSN group): 
+        Available options function as follows: 
+        * Deterministic - Allocate a NAT IP address and a block of ports to each subscriber (of the LSN client bound to the LSN group). The Citrix ADC sequentially allocates NAT resources to these subscribers. The Citrix ADC ADC assigns the first block of ports (block size determined by the port block size parameter of the LSN group) on the beginning NAT IP address to the beginning subscriber IP address. The next range of ports is assigned to the next subscriber, and so on, until the NAT address does not have enough ports for the next subscriber. In this case, the first port block on the next NAT address is used for the subscriber, and so on. Because each subscriber now receives a deterministic NAT IP address and a block of ports, a subscriber can be identified without any need for logging. For a connection, a subscriber can be identified based only on the NAT IP address and port, and the destination IP address and port. 
+        * Dynamic - Allocate a random NAT IP address and a port from the LSN NAT pool for a subscriber's connection. If port block allocation is enabled (in LSN pool) and a port block size is specified (in the LSN group), the Citrix ADC allocates a random NAT IP address and a block of ports for a subscriber when it initiates a connection for the first time. The ADC allocates this NAT IP address and a port (from the allocated block of ports) for different connections from this subscriber. If all the ports are allocated (for different subscriber's connections) from the subscriber's allocated port block, the ADC allocates a new random port block for the subscriber. 
+        Only LSN Pools and LSN groups with the same NAT type settings can be bound together. Multiples LSN pools can be bound to an LSN group. A maximum of 16 LSN pools can be bound to an LSN group. . 
         Possible values = DYNAMIC, DETERMINISTIC 
-    .PARAMETER portblockallocation 
-        Allocate a random NAT port block, from the available NAT port pool of an NAT IP address, for each subscriber when the NAT allocation is set as Dynamic NAT. For any connection initiated from a subscriber, the Citrix ADC allocates a NAT port from the subscriber's allocated NAT port block to create the LSN session.  
-        You must set the port block size in the bound LSN group. For a subscriber, if all the ports are allocated from the subscriber's allocated port block, the Citrix ADC allocates a new random port block for the subscriber.  
-        For Deterministic NAT, this parameter is enabled by default, and you cannot disable it.  
-        Default value: DISABLED  
+    .PARAMETER Portblockallocation 
+        Allocate a random NAT port block, from the available NAT port pool of an NAT IP address, for each subscriber when the NAT allocation is set as Dynamic NAT. For any connection initiated from a subscriber, the Citrix ADC allocates a NAT port from the subscriber's allocated NAT port block to create the LSN session. 
+        You must set the port block size in the bound LSN group. For a subscriber, if all the ports are allocated from the subscriber's allocated port block, the Citrix ADC allocates a new random port block for the subscriber. 
+        For Deterministic NAT, this parameter is enabled by default, and you cannot disable it. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER portrealloctimeout 
-        The waiting time, in seconds, between deallocating LSN NAT ports (when an LSN mapping is removed) and reallocating them for a new LSN session. This parameter is necessary in order to prevent collisions between old and new mappings and sessions. It ensures that all established sessions are broken instead of redirected to a different subscriber. This is not applicable for ports used in:  
-        * Deterministic NAT  
-        * Address-Dependent filtering and Address-Port-Dependent filtering  
-        * Dynamic NAT with port block allocation  
-        In these cases, ports are immediately reallocated.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 600 
-    .PARAMETER maxportrealloctmq 
-        Maximum number of ports for which the port reallocation timeout applies for each NAT IP address. In other words, the maximum deallocated-port queue size for which the reallocation timeout applies for each NAT IP address.  
-        When the queue size is full, the next port deallocated is reallocated immediately for a new LSN session.  
-        Default value: 65536  
-        Minimum value = 0  
-        Maximum value = 65536 
+    .PARAMETER Portrealloctimeout 
+        The waiting time, in seconds, between deallocating LSN NAT ports (when an LSN mapping is removed) and reallocating them for a new LSN session. This parameter is necessary in order to prevent collisions between old and new mappings and sessions. It ensures that all established sessions are broken instead of redirected to a different subscriber. This is not applicable for ports used in: 
+        * Deterministic NAT 
+        * Address-Dependent filtering and Address-Port-Dependent filtering 
+        * Dynamic NAT with port block allocation 
+        In these cases, ports are immediately reallocated. 
+    .PARAMETER Maxportrealloctmq 
+        Maximum number of ports for which the port reallocation timeout applies for each NAT IP address. In other words, the maximum deallocated-port queue size for which the reallocation timeout applies for each NAT IP address. 
+        When the queue size is full, the next port deallocated is reallocated immediately for a new LSN session. 
     .PARAMETER PassThru 
         Return details about the created lsnpool item.
     .EXAMPLE
-        Invoke-ADCAddLsnpool -poolname <string>
+        PS C:\>Invoke-ADCAddLsnpool -poolname <string>
+        An example how to add lsnpool configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnpool
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$poolname ,
+        [string]$Poolname,
 
         [ValidateSet('DYNAMIC', 'DETERMINISTIC')]
-        [string]$nattype = 'DYNAMIC' ,
+        [string]$Nattype = 'DYNAMIC',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$portblockallocation = 'DISABLED' ,
+        [string]$Portblockallocation = 'DISABLED',
 
         [ValidateRange(0, 600)]
-        [double]$portrealloctimeout = '0' ,
+        [double]$Portrealloctimeout = '0',
 
         [ValidateRange(0, 65536)]
-        [double]$maxportrealloctmq = '65536' ,
+        [double]$Maxportrealloctmq = '65536',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsnpool: Starting"
     }
     process {
         try {
-            $Payload = @{
-                poolname = $poolname
-            }
-            if ($PSBoundParameters.ContainsKey('nattype')) { $Payload.Add('nattype', $nattype) }
-            if ($PSBoundParameters.ContainsKey('portblockallocation')) { $Payload.Add('portblockallocation', $portblockallocation) }
-            if ($PSBoundParameters.ContainsKey('portrealloctimeout')) { $Payload.Add('portrealloctimeout', $portrealloctimeout) }
-            if ($PSBoundParameters.ContainsKey('maxportrealloctmq')) { $Payload.Add('maxportrealloctmq', $maxportrealloctmq) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnpool", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnpool -Payload $Payload -GetWarning
+            $payload = @{ poolname = $poolname }
+            if ( $PSBoundParameters.ContainsKey('nattype') ) { $payload.Add('nattype', $nattype) }
+            if ( $PSBoundParameters.ContainsKey('portblockallocation') ) { $payload.Add('portblockallocation', $portblockallocation) }
+            if ( $PSBoundParameters.ContainsKey('portrealloctimeout') ) { $payload.Add('portrealloctimeout', $portrealloctimeout) }
+            if ( $PSBoundParameters.ContainsKey('maxportrealloctmq') ) { $payload.Add('maxportrealloctmq', $maxportrealloctmq) }
+            if ( $PSCmdlet.ShouldProcess("lsnpool", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnpool -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnpool -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnpool -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7192,46 +7143,47 @@ function Invoke-ADCAddLsnpool {
 }
 
 function Invoke-ADCDeleteLsnpool {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER poolname 
-       Name for the LSN pool. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN pool is created. 
+        Configuration for LSN pool resource.
+    .PARAMETER Poolname 
+        Name for the LSN pool. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN pool is created.
     .EXAMPLE
-        Invoke-ADCDeleteLsnpool -poolname <string>
+        PS C:\>Invoke-ADCDeleteLsnpool -Poolname <string>
+        An example how to delete lsnpool configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnpool
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$poolname 
+        [Parameter(Mandatory)]
+        [string]$Poolname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsnpool: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$poolname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnpool -NitroPath nitro/v1/config -Resource $poolname -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$poolname", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnpool -NitroPath nitro/v1/config -Resource $poolname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7247,85 +7199,76 @@ function Invoke-ADCDeleteLsnpool {
 }
 
 function Invoke-ADCUpdateLsnpool {
-<#
+    <#
     .SYNOPSIS
-        Update Lsn configuration Object
+        Update Lsn configuration Object.
     .DESCRIPTION
-        Update Lsn configuration Object 
-    .PARAMETER poolname 
+        Configuration for LSN pool resource.
+    .PARAMETER Poolname 
         Name for the LSN pool. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN pool is created. 
-    .PARAMETER portrealloctimeout 
-        The waiting time, in seconds, between deallocating LSN NAT ports (when an LSN mapping is removed) and reallocating them for a new LSN session. This parameter is necessary in order to prevent collisions between old and new mappings and sessions. It ensures that all established sessions are broken instead of redirected to a different subscriber. This is not applicable for ports used in:  
-        * Deterministic NAT  
-        * Address-Dependent filtering and Address-Port-Dependent filtering  
-        * Dynamic NAT with port block allocation  
-        In these cases, ports are immediately reallocated.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 600 
-    .PARAMETER maxportrealloctmq 
-        Maximum number of ports for which the port reallocation timeout applies for each NAT IP address. In other words, the maximum deallocated-port queue size for which the reallocation timeout applies for each NAT IP address.  
-        When the queue size is full, the next port deallocated is reallocated immediately for a new LSN session.  
-        Default value: 65536  
-        Minimum value = 0  
-        Maximum value = 65536 
+    .PARAMETER Portrealloctimeout 
+        The waiting time, in seconds, between deallocating LSN NAT ports (when an LSN mapping is removed) and reallocating them for a new LSN session. This parameter is necessary in order to prevent collisions between old and new mappings and sessions. It ensures that all established sessions are broken instead of redirected to a different subscriber. This is not applicable for ports used in: 
+        * Deterministic NAT 
+        * Address-Dependent filtering and Address-Port-Dependent filtering 
+        * Dynamic NAT with port block allocation 
+        In these cases, ports are immediately reallocated. 
+    .PARAMETER Maxportrealloctmq 
+        Maximum number of ports for which the port reallocation timeout applies for each NAT IP address. In other words, the maximum deallocated-port queue size for which the reallocation timeout applies for each NAT IP address. 
+        When the queue size is full, the next port deallocated is reallocated immediately for a new LSN session. 
     .PARAMETER PassThru 
         Return details about the created lsnpool item.
     .EXAMPLE
-        Invoke-ADCUpdateLsnpool -poolname <string>
+        PS C:\>Invoke-ADCUpdateLsnpool -poolname <string>
+        An example how to update lsnpool configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsnpool
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$poolname ,
+        [string]$Poolname,
 
         [ValidateRange(0, 600)]
-        [double]$portrealloctimeout ,
+        [double]$Portrealloctimeout,
 
         [ValidateRange(0, 65536)]
-        [double]$maxportrealloctmq ,
+        [double]$Maxportrealloctmq,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateLsnpool: Starting"
     }
     process {
         try {
-            $Payload = @{
-                poolname = $poolname
-            }
-            if ($PSBoundParameters.ContainsKey('portrealloctimeout')) { $Payload.Add('portrealloctimeout', $portrealloctimeout) }
-            if ($PSBoundParameters.ContainsKey('maxportrealloctmq')) { $Payload.Add('maxportrealloctmq', $maxportrealloctmq) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnpool", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnpool -Payload $Payload -GetWarning
+            $payload = @{ poolname = $poolname }
+            if ( $PSBoundParameters.ContainsKey('portrealloctimeout') ) { $payload.Add('portrealloctimeout', $portrealloctimeout) }
+            if ( $PSBoundParameters.ContainsKey('maxportrealloctmq') ) { $payload.Add('maxportrealloctmq', $maxportrealloctmq) }
+            if ( $PSCmdlet.ShouldProcess("lsnpool", "Update Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnpool -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnpool -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnpool -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7338,48 +7281,49 @@ function Invoke-ADCUpdateLsnpool {
 }
 
 function Invoke-ADCUnsetLsnpool {
-<#
+    <#
     .SYNOPSIS
-        Unset Lsn configuration Object
+        Unset Lsn configuration Object.
     .DESCRIPTION
-        Unset Lsn configuration Object 
-   .PARAMETER poolname 
-       Name for the LSN pool. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN pool is created. 
-   .PARAMETER portrealloctimeout 
-       The waiting time, in seconds, between deallocating LSN NAT ports (when an LSN mapping is removed) and reallocating them for a new LSN session. This parameter is necessary in order to prevent collisions between old and new mappings and sessions. It ensures that all established sessions are broken instead of redirected to a different subscriber. This is not applicable for ports used in:  
-       * Deterministic NAT  
-       * Address-Dependent filtering and Address-Port-Dependent filtering  
-       * Dynamic NAT with port block allocation  
-       In these cases, ports are immediately reallocated. 
-   .PARAMETER maxportrealloctmq 
-       Maximum number of ports for which the port reallocation timeout applies for each NAT IP address. In other words, the maximum deallocated-port queue size for which the reallocation timeout applies for each NAT IP address.  
-       When the queue size is full, the next port deallocated is reallocated immediately for a new LSN session.
+        Configuration for LSN pool resource.
+    .PARAMETER Poolname 
+        Name for the LSN pool. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN pool is created. 
+    .PARAMETER Portrealloctimeout 
+        The waiting time, in seconds, between deallocating LSN NAT ports (when an LSN mapping is removed) and reallocating them for a new LSN session. This parameter is necessary in order to prevent collisions between old and new mappings and sessions. It ensures that all established sessions are broken instead of redirected to a different subscriber. This is not applicable for ports used in: 
+        * Deterministic NAT 
+        * Address-Dependent filtering and Address-Port-Dependent filtering 
+        * Dynamic NAT with port block allocation 
+        In these cases, ports are immediately reallocated. 
+    .PARAMETER Maxportrealloctmq 
+        Maximum number of ports for which the port reallocation timeout applies for each NAT IP address. In other words, the maximum deallocated-port queue size for which the reallocation timeout applies for each NAT IP address. 
+        When the queue size is full, the next port deallocated is reallocated immediately for a new LSN session.
     .EXAMPLE
-        Invoke-ADCUnsetLsnpool -poolname <string>
+        PS C:\>Invoke-ADCUnsetLsnpool -poolname <string>
+        An example how to unset lsnpool configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsnpool
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$poolname ,
+        [string]$Poolname,
 
-        [Boolean]$portrealloctimeout ,
+        [Boolean]$portrealloctimeout,
 
         [Boolean]$maxportrealloctmq 
     )
@@ -7388,13 +7332,11 @@ function Invoke-ADCUnsetLsnpool {
     }
     process {
         try {
-            $Payload = @{
-                poolname = $poolname
-            }
-            if ($PSBoundParameters.ContainsKey('portrealloctimeout')) { $Payload.Add('portrealloctimeout', $portrealloctimeout) }
-            if ($PSBoundParameters.ContainsKey('maxportrealloctmq')) { $Payload.Add('maxportrealloctmq', $maxportrealloctmq) }
-            if ($PSCmdlet.ShouldProcess("$poolname", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnpool -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ poolname = $poolname }
+            if ( $PSBoundParameters.ContainsKey('portrealloctimeout') ) { $payload.Add('portrealloctimeout', $portrealloctimeout) }
+            if ( $PSBoundParameters.ContainsKey('maxportrealloctmq') ) { $payload.Add('maxportrealloctmq', $maxportrealloctmq) }
+            if ( $PSCmdlet.ShouldProcess("$poolname", "Unset Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnpool -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7410,56 +7352,62 @@ function Invoke-ADCUnsetLsnpool {
 }
 
 function Invoke-ADCGetLsnpool {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER poolname 
-       Name for the LSN pool. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN pool is created. 
+        Configuration for LSN pool resource.
+    .PARAMETER Poolname 
+        Name for the LSN pool. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN pool is created. 
     .PARAMETER GetAll 
-        Retreive all lsnpool object(s)
+        Retrieve all lsnpool object(s).
     .PARAMETER Count
-        If specified, the count of the lsnpool object(s) will be returned
+        If specified, the count of the lsnpool object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnpool
+        PS C:\>Invoke-ADCGetLsnpool
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnpool -GetAll 
+        PS C:\>Invoke-ADCGetLsnpool -GetAll 
+        Get all lsnpool data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnpool -Count
+        PS C:\>Invoke-ADCGetLsnpool -Count 
+        Get the number of lsnpool objects.
     .EXAMPLE
-        Invoke-ADCGetLsnpool -name <string>
+        PS C:\>Invoke-ADCGetLsnpool -name <string>
+        Get lsnpool object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnpool -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnpool -Filter @{ 'name'='<value>' }
+        Get lsnpool data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnpool
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$poolname,
+        [string]$Poolname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -7477,24 +7425,24 @@ function Invoke-ADCGetLsnpool {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all lsnpool objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnpool objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnpool objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnpool configuration for property 'poolname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool -NitroPath nitro/v1/config -Resource $poolname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnpool configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7508,52 +7456,57 @@ function Invoke-ADCGetLsnpool {
 }
 
 function Invoke-ADCGetLsnpoolbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER poolname 
-       Name for the LSN pool. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN pool is created. 
+        Binding object which returns the resources bound to lsnpool.
+    .PARAMETER Poolname 
+        Name for the LSN pool. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN pool is created. 
     .PARAMETER GetAll 
-        Retreive all lsnpool_binding object(s)
+        Retrieve all lsnpool_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsnpool_binding object(s) will be returned
+        If specified, the count of the lsnpool_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnpoolbinding
+        PS C:\>Invoke-ADCGetLsnpoolbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnpoolbinding -GetAll
+        PS C:\>Invoke-ADCGetLsnpoolbinding -GetAll 
+        Get all lsnpool_binding data.
     .EXAMPLE
-        Invoke-ADCGetLsnpoolbinding -name <string>
+        PS C:\>Invoke-ADCGetLsnpoolbinding -name <string>
+        Get lsnpool_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnpoolbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnpoolbinding -Filter @{ 'name'='<value>' }
+        Get lsnpool_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnpoolbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$poolname,
+        [string]$Poolname,
 			
         [hashtable]$Filter = @{ },
 
@@ -7565,26 +7518,24 @@ function Invoke-ADCGetLsnpoolbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsnpool_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnpool_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnpool_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnpool_binding configuration for property 'poolname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_binding -NitroPath nitro/v1/config -Resource $poolname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnpool_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7598,78 +7549,71 @@ function Invoke-ADCGetLsnpoolbinding {
 }
 
 function Invoke-ADCAddLsnpoollsnipbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER poolname 
+        Binding object showing the lsnip that can be bound to lsnpool.
+    .PARAMETER Poolname 
         Name for the LSN pool. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN pool is created. 
-    .PARAMETER ownernode 
-        ID(s) of cluster node(s) on which command is to be executed.  
-        Minimum value = 0  
-        Maximum value = 31 
-    .PARAMETER lsnip 
-        IPv4 address or a range of IPv4 addresses to be used as NAT IP address(es) for LSN. After the pool is created, these IPv4 addresses are added to the Citrix ADC as Citrix ADC owned IP address of type LSN. A maximum of 4096 IP addresses can be bound to an LSN pool. An LSN IP address associated with an LSN pool cannot be shared with other LSN pools. IP addresses specified for this parameter must not already exist on the Citrix ADC as any Citrix ADC owned IP addresses. In the command line interface, separate the range with a hyphen. For example: 10.102.29.30-10.102.29.189. You can later remove some or all the LSN IP addresses from the pool, and add IP addresses to the LSN pool. By default , arp is enabled on LSN IP address but, you can disable it using command - "set ns ip" .  
-        Minimum length = 1 
+    .PARAMETER Ownernode 
+        ID(s) of cluster node(s) on which command is to be executed. 
+    .PARAMETER Lsnip 
+        IPv4 address or a range of IPv4 addresses to be used as NAT IP address(es) for LSN. After the pool is created, these IPv4 addresses are added to the Citrix ADC as Citrix ADC owned IP address of type LSN. A maximum of 4096 IP addresses can be bound to an LSN pool. An LSN IP address associated with an LSN pool cannot be shared with other LSN pools. IP addresses specified for this parameter must not already exist on the Citrix ADC as any Citrix ADC owned IP addresses. In the command line interface, separate the range with a hyphen. For example: 10.102.29.30-10.102.29.189. You can later remove some or all the LSN IP addresses from the pool, and add IP addresses to the LSN pool. By default, arp is enabled on LSN IP address but, you can disable it using command - "set ns ip" . 
     .PARAMETER PassThru 
         Return details about the created lsnpool_lsnip_binding item.
     .EXAMPLE
-        Invoke-ADCAddLsnpoollsnipbinding -poolname <string>
+        PS C:\>Invoke-ADCAddLsnpoollsnipbinding -poolname <string>
+        An example how to add lsnpool_lsnip_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnpoollsnipbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool_lsnip_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$poolname ,
+        [string]$Poolname,
 
         [ValidateRange(0, 31)]
-        [double]$ownernode ,
+        [double]$Ownernode,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidateRange(30, 10)]
-        [string]$lsnip ,
+        [string]$Lsnip,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsnpoollsnipbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                poolname = $poolname
-            }
-            if ($PSBoundParameters.ContainsKey('ownernode')) { $Payload.Add('ownernode', $ownernode) }
-            if ($PSBoundParameters.ContainsKey('lsnip')) { $Payload.Add('lsnip', $lsnip) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnpool_lsnip_binding", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnpool_lsnip_binding -Payload $Payload -GetWarning
+            $payload = @{ poolname = $poolname }
+            if ( $PSBoundParameters.ContainsKey('ownernode') ) { $payload.Add('ownernode', $ownernode) }
+            if ( $PSBoundParameters.ContainsKey('lsnip') ) { $payload.Add('lsnip', $lsnip) }
+            if ( $PSCmdlet.ShouldProcess("lsnpool_lsnip_binding", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnpool_lsnip_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnpoollsnipbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnpoollsnipbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7682,56 +7626,56 @@ function Invoke-ADCAddLsnpoollsnipbinding {
 }
 
 function Invoke-ADCDeleteLsnpoollsnipbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER poolname 
-       Name for the LSN pool. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN pool is created.    .PARAMETER ownernode 
-       ID(s) of cluster node(s) on which command is to be executed.  
-       Minimum value = 0  
-       Maximum value = 31    .PARAMETER lsnip 
-       IPv4 address or a range of IPv4 addresses to be used as NAT IP address(es) for LSN. After the pool is created, these IPv4 addresses are added to the Citrix ADC as Citrix ADC owned IP address of type LSN. A maximum of 4096 IP addresses can be bound to an LSN pool. An LSN IP address associated with an LSN pool cannot be shared with other LSN pools. IP addresses specified for this parameter must not already exist on the Citrix ADC as any Citrix ADC owned IP addresses. In the command line interface, separate the range with a hyphen. For example: 10.102.29.30-10.102.29.189. You can later remove some or all the LSN IP addresses from the pool, and add IP addresses to the LSN pool. By default , arp is enabled on LSN IP address but, you can disable it using command - "set ns ip" .  
-       Minimum length = 1
+        Binding object showing the lsnip that can be bound to lsnpool.
+    .PARAMETER Poolname 
+        Name for the LSN pool. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN pool is created. 
+    .PARAMETER Ownernode 
+        ID(s) of cluster node(s) on which command is to be executed. 
+    .PARAMETER Lsnip 
+        IPv4 address or a range of IPv4 addresses to be used as NAT IP address(es) for LSN. After the pool is created, these IPv4 addresses are added to the Citrix ADC as Citrix ADC owned IP address of type LSN. A maximum of 4096 IP addresses can be bound to an LSN pool. An LSN IP address associated with an LSN pool cannot be shared with other LSN pools. IP addresses specified for this parameter must not already exist on the Citrix ADC as any Citrix ADC owned IP addresses. In the command line interface, separate the range with a hyphen. For example: 10.102.29.30-10.102.29.189. You can later remove some or all the LSN IP addresses from the pool, and add IP addresses to the LSN pool. By default, arp is enabled on LSN IP address but, you can disable it using command - "set ns ip" .
     .EXAMPLE
-        Invoke-ADCDeleteLsnpoollsnipbinding -poolname <string>
+        PS C:\>Invoke-ADCDeleteLsnpoollsnipbinding -Poolname <string>
+        An example how to delete lsnpool_lsnip_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnpoollsnipbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool_lsnip_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$poolname ,
+        [Parameter(Mandatory)]
+        [string]$Poolname,
 
-        [double]$ownernode ,
+        [double]$Ownernode,
 
-        [string]$lsnip 
+        [string]$Lsnip 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsnpoollsnipbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('ownernode')) { $Arguments.Add('ownernode', $ownernode) }
-            if ($PSBoundParameters.ContainsKey('lsnip')) { $Arguments.Add('lsnip', $lsnip) }
-            if ($PSCmdlet.ShouldProcess("$poolname", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnpool_lsnip_binding -NitroPath nitro/v1/config -Resource $poolname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Ownernode') ) { $arguments.Add('ownernode', $Ownernode) }
+            if ( $PSBoundParameters.ContainsKey('Lsnip') ) { $arguments.Add('lsnip', $Lsnip) }
+            if ( $PSCmdlet.ShouldProcess("$poolname", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnpool_lsnip_binding -NitroPath nitro/v1/config -Resource $poolname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7747,56 +7691,62 @@ function Invoke-ADCDeleteLsnpoollsnipbinding {
 }
 
 function Invoke-ADCGetLsnpoollsnipbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER poolname 
-       Name for the LSN pool. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN pool is created. 
+        Binding object showing the lsnip that can be bound to lsnpool.
+    .PARAMETER Poolname 
+        Name for the LSN pool. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN pool is created. 
     .PARAMETER GetAll 
-        Retreive all lsnpool_lsnip_binding object(s)
+        Retrieve all lsnpool_lsnip_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsnpool_lsnip_binding object(s) will be returned
+        If specified, the count of the lsnpool_lsnip_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnpoollsnipbinding
+        PS C:\>Invoke-ADCGetLsnpoollsnipbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnpoollsnipbinding -GetAll 
+        PS C:\>Invoke-ADCGetLsnpoollsnipbinding -GetAll 
+        Get all lsnpool_lsnip_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnpoollsnipbinding -Count
+        PS C:\>Invoke-ADCGetLsnpoollsnipbinding -Count 
+        Get the number of lsnpool_lsnip_binding objects.
     .EXAMPLE
-        Invoke-ADCGetLsnpoollsnipbinding -name <string>
+        PS C:\>Invoke-ADCGetLsnpoollsnipbinding -name <string>
+        Get lsnpool_lsnip_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnpoollsnipbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnpoollsnipbinding -Filter @{ 'name'='<value>' }
+        Get lsnpool_lsnip_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnpoollsnipbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool_lsnip_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$poolname,
+        [string]$Poolname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -7809,26 +7759,24 @@ function Invoke-ADCGetLsnpoollsnipbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsnpool_lsnip_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_lsnip_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_lsnip_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnpool_lsnip_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_lsnip_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_lsnip_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnpool_lsnip_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_lsnip_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_lsnip_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnpool_lsnip_binding configuration for property 'poolname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_lsnip_binding -NitroPath nitro/v1/config -Resource $poolname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnpool_lsnip_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_lsnip_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnpool_lsnip_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7842,83 +7790,77 @@ function Invoke-ADCGetLsnpoollsnipbinding {
 }
 
 function Invoke-ADCAddLsnrtspalgprofile {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER rtspalgprofilename 
-        The name of the RTSPALG Profile.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER rtspidletimeout 
-        Idle timeout for the rtsp sessions in seconds.  
-        Default value: 120 
-    .PARAMETER rtspportrange 
+        Configuration for LSN RTSPALG Profile resource.
+    .PARAMETER Rtspalgprofilename 
+        The name of the RTSPALG Profile. 
+    .PARAMETER Rtspidletimeout 
+        Idle timeout for the rtsp sessions in seconds. 
+    .PARAMETER Rtspportrange 
         port for the RTSP. 
-    .PARAMETER rtsptransportprotocol 
-        RTSP ALG Profile transport protocol type.  
-        Default value: TCP  
+    .PARAMETER Rtsptransportprotocol 
+        RTSP ALG Profile transport protocol type. 
         Possible values = TCP, UDP 
     .PARAMETER PassThru 
         Return details about the created lsnrtspalgprofile item.
     .EXAMPLE
-        Invoke-ADCAddLsnrtspalgprofile -rtspalgprofilename <string> -rtspportrange <string>
+        PS C:\>Invoke-ADCAddLsnrtspalgprofile -rtspalgprofilename <string> -rtspportrange <string>
+        An example how to add lsnrtspalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnrtspalgprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 127)]
-        [string]$rtspalgprofilename ,
+        [string]$Rtspalgprofilename,
 
-        [double]$rtspidletimeout = '120' ,
+        [double]$Rtspidletimeout = '120',
 
-        [Parameter(Mandatory = $true)]
-        [string]$rtspportrange ,
+        [Parameter(Mandatory)]
+        [string]$Rtspportrange,
 
         [ValidateSet('TCP', 'UDP')]
-        [string]$rtsptransportprotocol = 'TCP' ,
+        [string]$Rtsptransportprotocol = 'TCP',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsnrtspalgprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                rtspalgprofilename = $rtspalgprofilename
-                rtspportrange = $rtspportrange
+            $payload = @{ rtspalgprofilename = $rtspalgprofilename
+                rtspportrange                = $rtspportrange
             }
-            if ($PSBoundParameters.ContainsKey('rtspidletimeout')) { $Payload.Add('rtspidletimeout', $rtspidletimeout) }
-            if ($PSBoundParameters.ContainsKey('rtsptransportprotocol')) { $Payload.Add('rtsptransportprotocol', $rtsptransportprotocol) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnrtspalgprofile", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnrtspalgprofile -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('rtspidletimeout') ) { $payload.Add('rtspidletimeout', $rtspidletimeout) }
+            if ( $PSBoundParameters.ContainsKey('rtsptransportprotocol') ) { $payload.Add('rtsptransportprotocol', $rtsptransportprotocol) }
+            if ( $PSCmdlet.ShouldProcess("lsnrtspalgprofile", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnrtspalgprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnrtspalgprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnrtspalgprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7931,82 +7873,75 @@ function Invoke-ADCAddLsnrtspalgprofile {
 }
 
 function Invoke-ADCUpdateLsnrtspalgprofile {
-<#
+    <#
     .SYNOPSIS
-        Update Lsn configuration Object
+        Update Lsn configuration Object.
     .DESCRIPTION
-        Update Lsn configuration Object 
-    .PARAMETER rtspalgprofilename 
-        The name of the RTSPALG Profile.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER rtspidletimeout 
-        Idle timeout for the rtsp sessions in seconds.  
-        Default value: 120 
-    .PARAMETER rtspportrange 
+        Configuration for LSN RTSPALG Profile resource.
+    .PARAMETER Rtspalgprofilename 
+        The name of the RTSPALG Profile. 
+    .PARAMETER Rtspidletimeout 
+        Idle timeout for the rtsp sessions in seconds. 
+    .PARAMETER Rtspportrange 
         port for the RTSP. 
-    .PARAMETER rtsptransportprotocol 
-        RTSP ALG Profile transport protocol type.  
-        Default value: TCP  
+    .PARAMETER Rtsptransportprotocol 
+        RTSP ALG Profile transport protocol type. 
         Possible values = TCP, UDP 
     .PARAMETER PassThru 
         Return details about the created lsnrtspalgprofile item.
     .EXAMPLE
-        Invoke-ADCUpdateLsnrtspalgprofile -rtspalgprofilename <string>
+        PS C:\>Invoke-ADCUpdateLsnrtspalgprofile -rtspalgprofilename <string>
+        An example how to update lsnrtspalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsnrtspalgprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 127)]
-        [string]$rtspalgprofilename ,
+        [string]$Rtspalgprofilename,
 
-        [double]$rtspidletimeout ,
+        [double]$Rtspidletimeout,
 
-        [string]$rtspportrange ,
+        [string]$Rtspportrange,
 
         [ValidateSet('TCP', 'UDP')]
-        [string]$rtsptransportprotocol ,
+        [string]$Rtsptransportprotocol,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateLsnrtspalgprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                rtspalgprofilename = $rtspalgprofilename
-            }
-            if ($PSBoundParameters.ContainsKey('rtspidletimeout')) { $Payload.Add('rtspidletimeout', $rtspidletimeout) }
-            if ($PSBoundParameters.ContainsKey('rtspportrange')) { $Payload.Add('rtspportrange', $rtspportrange) }
-            if ($PSBoundParameters.ContainsKey('rtsptransportprotocol')) { $Payload.Add('rtsptransportprotocol', $rtsptransportprotocol) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnrtspalgprofile", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnrtspalgprofile -Payload $Payload -GetWarning
+            $payload = @{ rtspalgprofilename = $rtspalgprofilename }
+            if ( $PSBoundParameters.ContainsKey('rtspidletimeout') ) { $payload.Add('rtspidletimeout', $rtspidletimeout) }
+            if ( $PSBoundParameters.ContainsKey('rtspportrange') ) { $payload.Add('rtspportrange', $rtspportrange) }
+            if ( $PSBoundParameters.ContainsKey('rtsptransportprotocol') ) { $payload.Add('rtsptransportprotocol', $rtsptransportprotocol) }
+            if ( $PSCmdlet.ShouldProcess("lsnrtspalgprofile", "Update Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnrtspalgprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnrtspalgprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnrtspalgprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8019,47 +7954,48 @@ function Invoke-ADCUpdateLsnrtspalgprofile {
 }
 
 function Invoke-ADCUnsetLsnrtspalgprofile {
-<#
+    <#
     .SYNOPSIS
-        Unset Lsn configuration Object
+        Unset Lsn configuration Object.
     .DESCRIPTION
-        Unset Lsn configuration Object 
-   .PARAMETER rtspalgprofilename 
-       The name of the RTSPALG Profile. 
-   .PARAMETER rtspidletimeout 
-       Idle timeout for the rtsp sessions in seconds. 
-   .PARAMETER rtspportrange 
-       port for the RTSP. 
-   .PARAMETER rtsptransportprotocol 
-       RTSP ALG Profile transport protocol type.  
-       Possible values = TCP, UDP
+        Configuration for LSN RTSPALG Profile resource.
+    .PARAMETER Rtspalgprofilename 
+        The name of the RTSPALG Profile. 
+    .PARAMETER Rtspidletimeout 
+        Idle timeout for the rtsp sessions in seconds. 
+    .PARAMETER Rtspportrange 
+        port for the RTSP. 
+    .PARAMETER Rtsptransportprotocol 
+        RTSP ALG Profile transport protocol type. 
+        Possible values = TCP, UDP
     .EXAMPLE
-        Invoke-ADCUnsetLsnrtspalgprofile -rtspalgprofilename <string>
+        PS C:\>Invoke-ADCUnsetLsnrtspalgprofile -rtspalgprofilename <string>
+        An example how to unset lsnrtspalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsnrtspalgprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateLength(1, 127)]
-        [string]$rtspalgprofilename ,
+        [string]$Rtspalgprofilename,
 
-        [Boolean]$rtspidletimeout ,
+        [Boolean]$rtspidletimeout,
 
-        [Boolean]$rtspportrange ,
+        [Boolean]$rtspportrange,
 
         [Boolean]$rtsptransportprotocol 
     )
@@ -8068,14 +8004,12 @@ function Invoke-ADCUnsetLsnrtspalgprofile {
     }
     process {
         try {
-            $Payload = @{
-                rtspalgprofilename = $rtspalgprofilename
-            }
-            if ($PSBoundParameters.ContainsKey('rtspidletimeout')) { $Payload.Add('rtspidletimeout', $rtspidletimeout) }
-            if ($PSBoundParameters.ContainsKey('rtspportrange')) { $Payload.Add('rtspportrange', $rtspportrange) }
-            if ($PSBoundParameters.ContainsKey('rtsptransportprotocol')) { $Payload.Add('rtsptransportprotocol', $rtsptransportprotocol) }
-            if ($PSCmdlet.ShouldProcess("$rtspalgprofilename", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ rtspalgprofilename = $rtspalgprofilename }
+            if ( $PSBoundParameters.ContainsKey('rtspidletimeout') ) { $payload.Add('rtspidletimeout', $rtspidletimeout) }
+            if ( $PSBoundParameters.ContainsKey('rtspportrange') ) { $payload.Add('rtspportrange', $rtspportrange) }
+            if ( $PSBoundParameters.ContainsKey('rtsptransportprotocol') ) { $payload.Add('rtsptransportprotocol', $rtsptransportprotocol) }
+            if ( $PSCmdlet.ShouldProcess("$rtspalgprofilename", "Unset Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8091,48 +8025,47 @@ function Invoke-ADCUnsetLsnrtspalgprofile {
 }
 
 function Invoke-ADCDeleteLsnrtspalgprofile {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER rtspalgprofilename 
-       The name of the RTSPALG Profile.  
-       Minimum length = 1  
-       Maximum length = 127 
+        Configuration for LSN RTSPALG Profile resource.
+    .PARAMETER Rtspalgprofilename 
+        The name of the RTSPALG Profile.
     .EXAMPLE
-        Invoke-ADCDeleteLsnrtspalgprofile -rtspalgprofilename <string>
+        PS C:\>Invoke-ADCDeleteLsnrtspalgprofile -Rtspalgprofilename <string>
+        An example how to delete lsnrtspalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnrtspalgprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$rtspalgprofilename 
+        [Parameter(Mandatory)]
+        [string]$Rtspalgprofilename 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsnrtspalgprofile: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$rtspalgprofilename", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Resource $rtspalgprofilename -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$rtspalgprofilename", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Resource $rtspalgprofilename -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -8148,55 +8081,61 @@ function Invoke-ADCDeleteLsnrtspalgprofile {
 }
 
 function Invoke-ADCGetLsnrtspalgprofile {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER rtspalgprofilename 
-       The name of the RTSPALG Profile. 
+        Configuration for LSN RTSPALG Profile resource.
+    .PARAMETER Rtspalgprofilename 
+        The name of the RTSPALG Profile. 
     .PARAMETER GetAll 
-        Retreive all lsnrtspalgprofile object(s)
+        Retrieve all lsnrtspalgprofile object(s).
     .PARAMETER Count
-        If specified, the count of the lsnrtspalgprofile object(s) will be returned
+        If specified, the count of the lsnrtspalgprofile object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnrtspalgprofile
+        PS C:\>Invoke-ADCGetLsnrtspalgprofile
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnrtspalgprofile -GetAll 
+        PS C:\>Invoke-ADCGetLsnrtspalgprofile -GetAll 
+        Get all lsnrtspalgprofile data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnrtspalgprofile -Count
+        PS C:\>Invoke-ADCGetLsnrtspalgprofile -Count 
+        Get the number of lsnrtspalgprofile objects.
     .EXAMPLE
-        Invoke-ADCGetLsnrtspalgprofile -name <string>
+        PS C:\>Invoke-ADCGetLsnrtspalgprofile -name <string>
+        Get lsnrtspalgprofile object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnrtspalgprofile -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnrtspalgprofile -Filter @{ 'name'='<value>' }
+        Get lsnrtspalgprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnrtspalgprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateLength(1, 127)]
-        [string]$rtspalgprofilename,
+        [string]$Rtspalgprofilename,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -8214,24 +8153,24 @@ function Invoke-ADCGetLsnrtspalgprofile {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all lsnrtspalgprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnrtspalgprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnrtspalgprofile objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnrtspalgprofile configuration for property 'rtspalgprofilename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Resource $rtspalgprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnrtspalgprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8245,35 +8184,37 @@ function Invoke-ADCGetLsnrtspalgprofile {
 }
 
 function Invoke-ADCFlushLsnrtspalgsession {
-<#
+    <#
     .SYNOPSIS
-        Flush Lsn configuration Object
+        Flush Lsn configuration Object.
     .DESCRIPTION
-        Flush Lsn configuration Object 
-    .PARAMETER sessionid 
+        Configuration for LSN RTSPALG session resource.
+    .PARAMETER Sessionid 
         Session ID for the RTSP call.
     .EXAMPLE
-        Invoke-ADCFlushLsnrtspalgsession -sessionid <string>
+        PS C:\>Invoke-ADCFlushLsnrtspalgsession -sessionid <string>
+        An example how to flush lsnrtspalgsession configuration Object(s).
     .NOTES
         File Name : Invoke-ADCFlushLsnrtspalgsession
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgsession/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$sessionid 
+        [Parameter(Mandatory)]
+        [string]$Sessionid 
 
     )
     begin {
@@ -8281,12 +8222,10 @@ function Invoke-ADCFlushLsnrtspalgsession {
     }
     process {
         try {
-            $Payload = @{
-                sessionid = $sessionid
-            }
+            $payload = @{ sessionid = $sessionid }
 
-            if ($PSCmdlet.ShouldProcess($Name, "Flush Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnrtspalgsession -Action flush -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Flush Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnrtspalgsession -Action flush -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -8302,54 +8241,60 @@ function Invoke-ADCFlushLsnrtspalgsession {
 }
 
 function Invoke-ADCGetLsnrtspalgsession {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER sessionid 
-       Session ID for the RTSP call. 
+        Configuration for LSN RTSPALG session resource.
+    .PARAMETER Sessionid 
+        Session ID for the RTSP call. 
     .PARAMETER GetAll 
-        Retreive all lsnrtspalgsession object(s)
+        Retrieve all lsnrtspalgsession object(s).
     .PARAMETER Count
-        If specified, the count of the lsnrtspalgsession object(s) will be returned
+        If specified, the count of the lsnrtspalgsession object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnrtspalgsession
+        PS C:\>Invoke-ADCGetLsnrtspalgsession
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnrtspalgsession -GetAll 
+        PS C:\>Invoke-ADCGetLsnrtspalgsession -GetAll 
+        Get all lsnrtspalgsession data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnrtspalgsession -Count
+        PS C:\>Invoke-ADCGetLsnrtspalgsession -Count 
+        Get the number of lsnrtspalgsession objects.
     .EXAMPLE
-        Invoke-ADCGetLsnrtspalgsession -name <string>
+        PS C:\>Invoke-ADCGetLsnrtspalgsession -name <string>
+        Get lsnrtspalgsession object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnrtspalgsession -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnrtspalgsession -Filter @{ 'name'='<value>' }
+        Get lsnrtspalgsession data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnrtspalgsession
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgsession/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$sessionid,
+        [string]$Sessionid,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -8367,24 +8312,24 @@ function Invoke-ADCGetLsnrtspalgsession {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all lsnrtspalgsession objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnrtspalgsession objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnrtspalgsession objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnrtspalgsession configuration for property 'sessionid'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession -NitroPath nitro/v1/config -Resource $sessionid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnrtspalgsession configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8398,50 +8343,55 @@ function Invoke-ADCGetLsnrtspalgsession {
 }
 
 function Invoke-ADCGetLsnrtspalgsessionbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER sessionid 
-       Session ID for the RTSP call. 
+        Binding object which returns the resources bound to lsnrtspalgsession.
+    .PARAMETER Sessionid 
+        Session ID for the RTSP call. 
     .PARAMETER GetAll 
-        Retreive all lsnrtspalgsession_binding object(s)
+        Retrieve all lsnrtspalgsession_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsnrtspalgsession_binding object(s) will be returned
+        If specified, the count of the lsnrtspalgsession_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnrtspalgsessionbinding
+        PS C:\>Invoke-ADCGetLsnrtspalgsessionbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnrtspalgsessionbinding -GetAll
+        PS C:\>Invoke-ADCGetLsnrtspalgsessionbinding -GetAll 
+        Get all lsnrtspalgsession_binding data.
     .EXAMPLE
-        Invoke-ADCGetLsnrtspalgsessionbinding -name <string>
+        PS C:\>Invoke-ADCGetLsnrtspalgsessionbinding -name <string>
+        Get lsnrtspalgsession_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnrtspalgsessionbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnrtspalgsessionbinding -Filter @{ 'name'='<value>' }
+        Get lsnrtspalgsession_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnrtspalgsessionbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgsession_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$sessionid,
+        [string]$Sessionid,
 			
         [hashtable]$Filter = @{ },
 
@@ -8453,26 +8403,24 @@ function Invoke-ADCGetLsnrtspalgsessionbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsnrtspalgsession_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnrtspalgsession_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnrtspalgsession_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnrtspalgsession_binding configuration for property 'sessionid'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_binding -NitroPath nitro/v1/config -Resource $sessionid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnrtspalgsession_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8486,54 +8434,60 @@ function Invoke-ADCGetLsnrtspalgsessionbinding {
 }
 
 function Invoke-ADCGetLsnrtspalgsessiondatachannelbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER sessionid 
-       Session ID for the RTSP call. 
+        Binding object showing the datachannel that can be bound to lsnrtspalgsession.
+    .PARAMETER Sessionid 
+        Session ID for the RTSP call. 
     .PARAMETER GetAll 
-        Retreive all lsnrtspalgsession_datachannel_binding object(s)
+        Retrieve all lsnrtspalgsession_datachannel_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsnrtspalgsession_datachannel_binding object(s) will be returned
+        If specified, the count of the lsnrtspalgsession_datachannel_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnrtspalgsessiondatachannelbinding
+        PS C:\>Invoke-ADCGetLsnrtspalgsessiondatachannelbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnrtspalgsessiondatachannelbinding -GetAll 
+        PS C:\>Invoke-ADCGetLsnrtspalgsessiondatachannelbinding -GetAll 
+        Get all lsnrtspalgsession_datachannel_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnrtspalgsessiondatachannelbinding -Count
+        PS C:\>Invoke-ADCGetLsnrtspalgsessiondatachannelbinding -Count 
+        Get the number of lsnrtspalgsession_datachannel_binding objects.
     .EXAMPLE
-        Invoke-ADCGetLsnrtspalgsessiondatachannelbinding -name <string>
+        PS C:\>Invoke-ADCGetLsnrtspalgsessiondatachannelbinding -name <string>
+        Get lsnrtspalgsession_datachannel_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnrtspalgsessiondatachannelbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnrtspalgsessiondatachannelbinding -Filter @{ 'name'='<value>' }
+        Get lsnrtspalgsession_datachannel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnrtspalgsessiondatachannelbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgsession_datachannel_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$sessionid,
+        [string]$Sessionid,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -8546,26 +8500,24 @@ function Invoke-ADCGetLsnrtspalgsessiondatachannelbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsnrtspalgsession_datachannel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_datachannel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_datachannel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnrtspalgsession_datachannel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_datachannel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_datachannel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnrtspalgsession_datachannel_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_datachannel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_datachannel_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnrtspalgsession_datachannel_binding configuration for property 'sessionid'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_datachannel_binding -NitroPath nitro/v1/config -Resource $sessionid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnrtspalgsession_datachannel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_datachannel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnrtspalgsession_datachannel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8579,70 +8531,72 @@ function Invoke-ADCGetLsnrtspalgsessiondatachannelbinding {
 }
 
 function Invoke-ADCFlushLsnsession {
-<#
+    <#
     .SYNOPSIS
-        Flush Lsn configuration Object
+        Flush Lsn configuration Object.
     .DESCRIPTION
-        Flush Lsn configuration Object 
-    .PARAMETER nattype 
-        Type of sessions to be displayed.  
+        Configuration for lsn session resource.
+    .PARAMETER Nattype 
+        Type of sessions to be displayed. 
         Possible values = NAT44, DS-Lite, NAT64 
-    .PARAMETER clientname 
+    .PARAMETER Clientname 
         Name of the LSN Client entity. 
-    .PARAMETER network 
+    .PARAMETER Network 
         IP address or network address of subscriber(s). 
-    .PARAMETER netmask 
+    .PARAMETER Netmask 
         Subnet mask for the IP address specified by the network parameter. 
-    .PARAMETER network6 
+    .PARAMETER Network6 
         IPv6 address of the LSN subscriber or B4 device. 
-    .PARAMETER td 
+    .PARAMETER Td 
         Traffic domain ID of the LSN client entity. 
-    .PARAMETER natip 
+    .PARAMETER Natip 
         Mapped NAT IP address used in LSN sessions. 
-    .PARAMETER natport2 
+    .PARAMETER Natport2 
         Mapped NAT port used in the LSN sessions. 
-    .PARAMETER nodeid 
+    .PARAMETER Nodeid 
         Unique number that identifies the cluster node.
     .EXAMPLE
-        Invoke-ADCFlushLsnsession 
+        PS C:\>Invoke-ADCFlushLsnsession 
+        An example how to flush lsnsession configuration Object(s).
     .NOTES
         File Name : Invoke-ADCFlushLsnsession
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsession/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateSet('NAT44', 'DS-Lite', 'NAT64')]
-        [string]$nattype ,
+        [string]$Nattype,
 
-        [string]$clientname ,
+        [string]$Clientname,
 
-        [string]$network ,
+        [string]$Network,
 
-        [string]$netmask ,
+        [string]$Netmask,
 
-        [string]$network6 ,
+        [string]$Network6,
 
         [ValidateRange(0, 4094)]
-        [double]$td ,
+        [double]$Td,
 
-        [string]$natip ,
+        [string]$Natip,
 
-        [int]$natport2 ,
+        [int]$Natport2,
 
         [ValidateRange(0, 31)]
-        [double]$nodeid 
+        [double]$Nodeid 
 
     )
     begin {
@@ -8650,20 +8604,18 @@ function Invoke-ADCFlushLsnsession {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('nattype')) { $Payload.Add('nattype', $nattype) }
-            if ($PSBoundParameters.ContainsKey('clientname')) { $Payload.Add('clientname', $clientname) }
-            if ($PSBoundParameters.ContainsKey('network')) { $Payload.Add('network', $network) }
-            if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
-            if ($PSBoundParameters.ContainsKey('network6')) { $Payload.Add('network6', $network6) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
-            if ($PSBoundParameters.ContainsKey('natip')) { $Payload.Add('natip', $natip) }
-            if ($PSBoundParameters.ContainsKey('natport2')) { $Payload.Add('natport2', $natport2) }
-            if ($PSBoundParameters.ContainsKey('nodeid')) { $Payload.Add('nodeid', $nodeid) }
-            if ($PSCmdlet.ShouldProcess($Name, "Flush Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnsession -Action flush -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('nattype') ) { $payload.Add('nattype', $nattype) }
+            if ( $PSBoundParameters.ContainsKey('clientname') ) { $payload.Add('clientname', $clientname) }
+            if ( $PSBoundParameters.ContainsKey('network') ) { $payload.Add('network', $network) }
+            if ( $PSBoundParameters.ContainsKey('netmask') ) { $payload.Add('netmask', $netmask) }
+            if ( $PSBoundParameters.ContainsKey('network6') ) { $payload.Add('network6', $network6) }
+            if ( $PSBoundParameters.ContainsKey('td') ) { $payload.Add('td', $td) }
+            if ( $PSBoundParameters.ContainsKey('natip') ) { $payload.Add('natip', $natip) }
+            if ( $PSBoundParameters.ContainsKey('natport2') ) { $payload.Add('natport2', $natport2) }
+            if ( $PSBoundParameters.ContainsKey('nodeid') ) { $payload.Add('nodeid', $nodeid) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Flush Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnsession -Action flush -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -8679,93 +8631,99 @@ function Invoke-ADCFlushLsnsession {
 }
 
 function Invoke-ADCGetLsnsession {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER nattype 
-       Type of sessions to be displayed.  
-       Possible values = NAT44, DS-Lite, NAT64 
-    .PARAMETER clientname 
-       Name of the LSN Client entity. 
-    .PARAMETER network 
-       IP address or network address of subscriber(s). 
-    .PARAMETER netmask 
-       Subnet mask for the IP address specified by the network parameter. 
-    .PARAMETER network6 
-       IPv6 address of the LSN subscriber or B4 device. 
-    .PARAMETER td 
-       Traffic domain ID of the LSN client entity. 
-    .PARAMETER natip 
-       Mapped NAT IP address used in LSN sessions. 
-    .PARAMETER nodeid 
-       Unique number that identifies the cluster node. 
+        Configuration for lsn session resource.
+    .PARAMETER Nattype 
+        Type of sessions to be displayed. 
+        Possible values = NAT44, DS-Lite, NAT64 
+    .PARAMETER Clientname 
+        Name of the LSN Client entity. 
+    .PARAMETER Network 
+        IP address or network address of subscriber(s). 
+    .PARAMETER Netmask 
+        Subnet mask for the IP address specified by the network parameter. 
+    .PARAMETER Network6 
+        IPv6 address of the LSN subscriber or B4 device. 
+    .PARAMETER Td 
+        Traffic domain ID of the LSN client entity. 
+    .PARAMETER Natip 
+        Mapped NAT IP address used in LSN sessions. 
+    .PARAMETER Nodeid 
+        Unique number that identifies the cluster node. 
     .PARAMETER GetAll 
-        Retreive all lsnsession object(s)
+        Retrieve all lsnsession object(s).
     .PARAMETER Count
-        If specified, the count of the lsnsession object(s) will be returned
+        If specified, the count of the lsnsession object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnsession
+        PS C:\>Invoke-ADCGetLsnsession
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnsession -GetAll 
+        PS C:\>Invoke-ADCGetLsnsession -GetAll 
+        Get all lsnsession data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnsession -Count
+        PS C:\>Invoke-ADCGetLsnsession -Count 
+        Get the number of lsnsession objects.
     .EXAMPLE
-        Invoke-ADCGetLsnsession -name <string>
+        PS C:\>Invoke-ADCGetLsnsession -name <string>
+        Get lsnsession object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnsession -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnsession -Filter @{ 'name'='<value>' }
+        Get lsnsession data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnsession
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsession/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('NAT44', 'DS-Lite', 'NAT64')]
-        [string]$nattype ,
+        [string]$Nattype,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$clientname ,
+        [string]$Clientname,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$network ,
+        [string]$Network,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$netmask ,
+        [string]$Netmask,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$network6 ,
+        [string]$Network6,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateRange(0, 4094)]
-        [double]$td ,
+        [double]$Td,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$natip ,
+        [string]$Natip,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateRange(0, 31)]
-        [double]$nodeid,
+        [double]$Nodeid,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -8782,32 +8740,32 @@ function Invoke-ADCGetLsnsession {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all lsnsession objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsession -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsession -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnsession objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsession -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsession -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnsession objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('nattype')) { $Arguments.Add('nattype', $nattype) } 
-                if ($PSBoundParameters.ContainsKey('clientname')) { $Arguments.Add('clientname', $clientname) } 
-                if ($PSBoundParameters.ContainsKey('network')) { $Arguments.Add('network', $network) } 
-                if ($PSBoundParameters.ContainsKey('netmask')) { $Arguments.Add('netmask', $netmask) } 
-                if ($PSBoundParameters.ContainsKey('network6')) { $Arguments.Add('network6', $network6) } 
-                if ($PSBoundParameters.ContainsKey('td')) { $Arguments.Add('td', $td) } 
-                if ($PSBoundParameters.ContainsKey('natip')) { $Arguments.Add('natip', $natip) } 
-                if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsession -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('nattype') ) { $arguments.Add('nattype', $nattype) } 
+                if ( $PSBoundParameters.ContainsKey('clientname') ) { $arguments.Add('clientname', $clientname) } 
+                if ( $PSBoundParameters.ContainsKey('network') ) { $arguments.Add('network', $network) } 
+                if ( $PSBoundParameters.ContainsKey('netmask') ) { $arguments.Add('netmask', $netmask) } 
+                if ( $PSBoundParameters.ContainsKey('network6') ) { $arguments.Add('network6', $network6) } 
+                if ( $PSBoundParameters.ContainsKey('td') ) { $arguments.Add('td', $td) } 
+                if ( $PSBoundParameters.ContainsKey('natip') ) { $arguments.Add('natip', $natip) } 
+                if ( $PSBoundParameters.ContainsKey('nodeid') ) { $arguments.Add('nodeid', $nodeid) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsession -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnsession configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving lsnsession configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsession -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsession -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8821,35 +8779,37 @@ function Invoke-ADCGetLsnsession {
 }
 
 function Invoke-ADCFlushLsnsipalgcall {
-<#
+    <#
     .SYNOPSIS
-        Flush Lsn configuration Object
+        Flush Lsn configuration Object.
     .DESCRIPTION
-        Flush Lsn configuration Object 
-    .PARAMETER callid 
+        Configuration for LSN SIPALG call resource.
+    .PARAMETER Callid 
         Call ID for the SIP call.
     .EXAMPLE
-        Invoke-ADCFlushLsnsipalgcall -callid <string>
+        PS C:\>Invoke-ADCFlushLsnsipalgcall -callid <string>
+        An example how to flush lsnsipalgcall configuration Object(s).
     .NOTES
         File Name : Invoke-ADCFlushLsnsipalgcall
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$callid 
+        [Parameter(Mandatory)]
+        [string]$Callid 
 
     )
     begin {
@@ -8857,12 +8817,10 @@ function Invoke-ADCFlushLsnsipalgcall {
     }
     process {
         try {
-            $Payload = @{
-                callid = $callid
-            }
+            $payload = @{ callid = $callid }
 
-            if ($PSCmdlet.ShouldProcess($Name, "Flush Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnsipalgcall -Action flush -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Flush Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnsipalgcall -Action flush -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -8878,54 +8836,60 @@ function Invoke-ADCFlushLsnsipalgcall {
 }
 
 function Invoke-ADCGetLsnsipalgcall {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER callid 
-       Call ID for the SIP call. 
+        Configuration for LSN SIPALG call resource.
+    .PARAMETER Callid 
+        Call ID for the SIP call. 
     .PARAMETER GetAll 
-        Retreive all lsnsipalgcall object(s)
+        Retrieve all lsnsipalgcall object(s).
     .PARAMETER Count
-        If specified, the count of the lsnsipalgcall object(s) will be returned
+        If specified, the count of the lsnsipalgcall object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnsipalgcall
+        PS C:\>Invoke-ADCGetLsnsipalgcall
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnsipalgcall -GetAll 
+        PS C:\>Invoke-ADCGetLsnsipalgcall -GetAll 
+        Get all lsnsipalgcall data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnsipalgcall -Count
+        PS C:\>Invoke-ADCGetLsnsipalgcall -Count 
+        Get the number of lsnsipalgcall objects.
     .EXAMPLE
-        Invoke-ADCGetLsnsipalgcall -name <string>
+        PS C:\>Invoke-ADCGetLsnsipalgcall -name <string>
+        Get lsnsipalgcall object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnsipalgcall -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnsipalgcall -Filter @{ 'name'='<value>' }
+        Get lsnsipalgcall data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgcall
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$callid,
+        [string]$Callid,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -8943,24 +8907,24 @@ function Invoke-ADCGetLsnsipalgcall {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all lsnsipalgcall objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnsipalgcall objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnsipalgcall objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnsipalgcall configuration for property 'callid'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall -NitroPath nitro/v1/config -Resource $callid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnsipalgcall configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -8974,50 +8938,55 @@ function Invoke-ADCGetLsnsipalgcall {
 }
 
 function Invoke-ADCGetLsnsipalgcallbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER callid 
-       Call ID for the SIP call. 
+        Binding object which returns the resources bound to lsnsipalgcall.
+    .PARAMETER Callid 
+        Call ID for the SIP call. 
     .PARAMETER GetAll 
-        Retreive all lsnsipalgcall_binding object(s)
+        Retrieve all lsnsipalgcall_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsnsipalgcall_binding object(s) will be returned
+        If specified, the count of the lsnsipalgcall_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnsipalgcallbinding
+        PS C:\>Invoke-ADCGetLsnsipalgcallbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnsipalgcallbinding -GetAll
+        PS C:\>Invoke-ADCGetLsnsipalgcallbinding -GetAll 
+        Get all lsnsipalgcall_binding data.
     .EXAMPLE
-        Invoke-ADCGetLsnsipalgcallbinding -name <string>
+        PS C:\>Invoke-ADCGetLsnsipalgcallbinding -name <string>
+        Get lsnsipalgcall_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnsipalgcallbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnsipalgcallbinding -Filter @{ 'name'='<value>' }
+        Get lsnsipalgcall_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgcallbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$callid,
+        [string]$Callid,
 			
         [hashtable]$Filter = @{ },
 
@@ -9029,26 +8998,24 @@ function Invoke-ADCGetLsnsipalgcallbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsnsipalgcall_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnsipalgcall_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnsipalgcall_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnsipalgcall_binding configuration for property 'callid'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_binding -NitroPath nitro/v1/config -Resource $callid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnsipalgcall_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9062,54 +9029,60 @@ function Invoke-ADCGetLsnsipalgcallbinding {
 }
 
 function Invoke-ADCGetLsnsipalgcallcontrolchannelbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER callid 
-       Call ID for the SIP call. 
+        Binding object showing the controlchannel that can be bound to lsnsipalgcall.
+    .PARAMETER Callid 
+        Call ID for the SIP call. 
     .PARAMETER GetAll 
-        Retreive all lsnsipalgcall_controlchannel_binding object(s)
+        Retrieve all lsnsipalgcall_controlchannel_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsnsipalgcall_controlchannel_binding object(s) will be returned
+        If specified, the count of the lsnsipalgcall_controlchannel_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnsipalgcallcontrolchannelbinding
+        PS C:\>Invoke-ADCGetLsnsipalgcallcontrolchannelbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnsipalgcallcontrolchannelbinding -GetAll 
+        PS C:\>Invoke-ADCGetLsnsipalgcallcontrolchannelbinding -GetAll 
+        Get all lsnsipalgcall_controlchannel_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnsipalgcallcontrolchannelbinding -Count
+        PS C:\>Invoke-ADCGetLsnsipalgcallcontrolchannelbinding -Count 
+        Get the number of lsnsipalgcall_controlchannel_binding objects.
     .EXAMPLE
-        Invoke-ADCGetLsnsipalgcallcontrolchannelbinding -name <string>
+        PS C:\>Invoke-ADCGetLsnsipalgcallcontrolchannelbinding -name <string>
+        Get lsnsipalgcall_controlchannel_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnsipalgcallcontrolchannelbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnsipalgcallcontrolchannelbinding -Filter @{ 'name'='<value>' }
+        Get lsnsipalgcall_controlchannel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgcallcontrolchannelbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall_controlchannel_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$callid,
+        [string]$Callid,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -9122,26 +9095,24 @@ function Invoke-ADCGetLsnsipalgcallcontrolchannelbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsnsipalgcall_controlchannel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_controlchannel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_controlchannel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnsipalgcall_controlchannel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_controlchannel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_controlchannel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnsipalgcall_controlchannel_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_controlchannel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_controlchannel_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnsipalgcall_controlchannel_binding configuration for property 'callid'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_controlchannel_binding -NitroPath nitro/v1/config -Resource $callid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnsipalgcall_controlchannel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_controlchannel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_controlchannel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9155,54 +9126,60 @@ function Invoke-ADCGetLsnsipalgcallcontrolchannelbinding {
 }
 
 function Invoke-ADCGetLsnsipalgcalldatachannelbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER callid 
-       Call ID for the SIP call. 
+        Binding object showing the datachannel that can be bound to lsnsipalgcall.
+    .PARAMETER Callid 
+        Call ID for the SIP call. 
     .PARAMETER GetAll 
-        Retreive all lsnsipalgcall_datachannel_binding object(s)
+        Retrieve all lsnsipalgcall_datachannel_binding object(s).
     .PARAMETER Count
-        If specified, the count of the lsnsipalgcall_datachannel_binding object(s) will be returned
+        If specified, the count of the lsnsipalgcall_datachannel_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnsipalgcalldatachannelbinding
+        PS C:\>Invoke-ADCGetLsnsipalgcalldatachannelbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnsipalgcalldatachannelbinding -GetAll 
+        PS C:\>Invoke-ADCGetLsnsipalgcalldatachannelbinding -GetAll 
+        Get all lsnsipalgcall_datachannel_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnsipalgcalldatachannelbinding -Count
+        PS C:\>Invoke-ADCGetLsnsipalgcalldatachannelbinding -Count 
+        Get the number of lsnsipalgcall_datachannel_binding objects.
     .EXAMPLE
-        Invoke-ADCGetLsnsipalgcalldatachannelbinding -name <string>
+        PS C:\>Invoke-ADCGetLsnsipalgcalldatachannelbinding -name <string>
+        Get lsnsipalgcall_datachannel_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnsipalgcalldatachannelbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnsipalgcalldatachannelbinding -Filter @{ 'name'='<value>' }
+        Get lsnsipalgcall_datachannel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgcalldatachannelbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall_datachannel_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$callid,
+        [string]$Callid,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -9215,26 +9192,24 @@ function Invoke-ADCGetLsnsipalgcalldatachannelbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all lsnsipalgcall_datachannel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_datachannel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_datachannel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnsipalgcall_datachannel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_datachannel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_datachannel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnsipalgcall_datachannel_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_datachannel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_datachannel_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnsipalgcall_datachannel_binding configuration for property 'callid'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_datachannel_binding -NitroPath nitro/v1/config -Resource $callid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnsipalgcall_datachannel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_datachannel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgcall_datachannel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9248,147 +9223,134 @@ function Invoke-ADCGetLsnsipalgcalldatachannelbinding {
 }
 
 function Invoke-ADCAddLsnsipalgprofile {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER sipalgprofilename 
-        The name of the SIPALG Profile.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER datasessionidletimeout 
-        Idle timeout for the data channel sessions in seconds.  
-        Default value: 120 
-    .PARAMETER sipsessiontimeout 
-        SIP control channel session timeout in seconds.  
-        Default value: 600 
-    .PARAMETER registrationtimeout 
-        SIP registration timeout in seconds.  
-        Default value: 60 
-    .PARAMETER sipsrcportrange 
+        Configuration for LSN SIPALG Profile resource.
+    .PARAMETER Sipalgprofilename 
+        The name of the SIPALG Profile. 
+    .PARAMETER Datasessionidletimeout 
+        Idle timeout for the data channel sessions in seconds. 
+    .PARAMETER Sipsessiontimeout 
+        SIP control channel session timeout in seconds. 
+    .PARAMETER Registrationtimeout 
+        SIP registration timeout in seconds. 
+    .PARAMETER Sipsrcportrange 
         Source port range for SIP_UDP and SIP_TCP. 
-    .PARAMETER sipdstportrange 
+    .PARAMETER Sipdstportrange 
         Destination port range for SIP_UDP and SIP_TCP. 
-    .PARAMETER openregisterpinhole 
-        ENABLE/DISABLE RegisterPinhole creation.  
-        Default value: ENABLED  
+    .PARAMETER Openregisterpinhole 
+        ENABLE/DISABLE RegisterPinhole creation. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER opencontactpinhole 
-        ENABLE/DISABLE ContactPinhole creation.  
-        Default value: ENABLED  
+    .PARAMETER Opencontactpinhole 
+        ENABLE/DISABLE ContactPinhole creation. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER openviapinhole 
-        ENABLE/DISABLE ViaPinhole creation.  
-        Default value: ENABLED  
+    .PARAMETER Openviapinhole 
+        ENABLE/DISABLE ViaPinhole creation. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER openrecordroutepinhole 
-        ENABLE/DISABLE RecordRoutePinhole creation.  
-        Default value: ENABLED  
+    .PARAMETER Openrecordroutepinhole 
+        ENABLE/DISABLE RecordRoutePinhole creation. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER siptransportprotocol 
-        SIP ALG Profile transport protocol type.  
+    .PARAMETER Siptransportprotocol 
+        SIP ALG Profile transport protocol type. 
         Possible values = TCP, UDP 
-    .PARAMETER openroutepinhole 
-        ENABLE/DISABLE RoutePinhole creation.  
-        Default value: ENABLED  
+    .PARAMETER Openroutepinhole 
+        ENABLE/DISABLE RoutePinhole creation. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER rport 
-        ENABLE/DISABLE rport.  
-        Default value: ENABLED  
+    .PARAMETER Rport 
+        ENABLE/DISABLE rport. 
         Possible values = ENABLED, DISABLED 
     .PARAMETER PassThru 
         Return details about the created lsnsipalgprofile item.
     .EXAMPLE
-        Invoke-ADCAddLsnsipalgprofile -sipalgprofilename <string> -siptransportprotocol <string>
+        PS C:\>Invoke-ADCAddLsnsipalgprofile -sipalgprofilename <string> -siptransportprotocol <string>
+        An example how to add lsnsipalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnsipalgprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 127)]
-        [string]$sipalgprofilename ,
+        [string]$Sipalgprofilename,
 
-        [double]$datasessionidletimeout = '120' ,
+        [double]$Datasessionidletimeout = '120',
 
-        [double]$sipsessiontimeout = '600' ,
+        [double]$Sipsessiontimeout = '600',
 
-        [double]$registrationtimeout = '60' ,
+        [double]$Registrationtimeout = '60',
 
-        [string]$sipsrcportrange ,
+        [string]$Sipsrcportrange,
 
-        [string]$sipdstportrange ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$openregisterpinhole = 'ENABLED' ,
+        [string]$Sipdstportrange,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$opencontactpinhole = 'ENABLED' ,
+        [string]$Openregisterpinhole = 'ENABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$openviapinhole = 'ENABLED' ,
+        [string]$Opencontactpinhole = 'ENABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$openrecordroutepinhole = 'ENABLED' ,
+        [string]$Openviapinhole = 'ENABLED',
 
-        [Parameter(Mandatory = $true)]
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Openrecordroutepinhole = 'ENABLED',
+
+        [Parameter(Mandatory)]
         [ValidateSet('TCP', 'UDP')]
-        [string]$siptransportprotocol ,
+        [string]$Siptransportprotocol,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$openroutepinhole = 'ENABLED' ,
+        [string]$Openroutepinhole = 'ENABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$rport = 'ENABLED' ,
+        [string]$Rport = 'ENABLED',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsnsipalgprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                sipalgprofilename = $sipalgprofilename
-                siptransportprotocol = $siptransportprotocol
+            $payload = @{ sipalgprofilename = $sipalgprofilename
+                siptransportprotocol        = $siptransportprotocol
             }
-            if ($PSBoundParameters.ContainsKey('datasessionidletimeout')) { $Payload.Add('datasessionidletimeout', $datasessionidletimeout) }
-            if ($PSBoundParameters.ContainsKey('sipsessiontimeout')) { $Payload.Add('sipsessiontimeout', $sipsessiontimeout) }
-            if ($PSBoundParameters.ContainsKey('registrationtimeout')) { $Payload.Add('registrationtimeout', $registrationtimeout) }
-            if ($PSBoundParameters.ContainsKey('sipsrcportrange')) { $Payload.Add('sipsrcportrange', $sipsrcportrange) }
-            if ($PSBoundParameters.ContainsKey('sipdstportrange')) { $Payload.Add('sipdstportrange', $sipdstportrange) }
-            if ($PSBoundParameters.ContainsKey('openregisterpinhole')) { $Payload.Add('openregisterpinhole', $openregisterpinhole) }
-            if ($PSBoundParameters.ContainsKey('opencontactpinhole')) { $Payload.Add('opencontactpinhole', $opencontactpinhole) }
-            if ($PSBoundParameters.ContainsKey('openviapinhole')) { $Payload.Add('openviapinhole', $openviapinhole) }
-            if ($PSBoundParameters.ContainsKey('openrecordroutepinhole')) { $Payload.Add('openrecordroutepinhole', $openrecordroutepinhole) }
-            if ($PSBoundParameters.ContainsKey('openroutepinhole')) { $Payload.Add('openroutepinhole', $openroutepinhole) }
-            if ($PSBoundParameters.ContainsKey('rport')) { $Payload.Add('rport', $rport) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnsipalgprofile", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnsipalgprofile -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('datasessionidletimeout') ) { $payload.Add('datasessionidletimeout', $datasessionidletimeout) }
+            if ( $PSBoundParameters.ContainsKey('sipsessiontimeout') ) { $payload.Add('sipsessiontimeout', $sipsessiontimeout) }
+            if ( $PSBoundParameters.ContainsKey('registrationtimeout') ) { $payload.Add('registrationtimeout', $registrationtimeout) }
+            if ( $PSBoundParameters.ContainsKey('sipsrcportrange') ) { $payload.Add('sipsrcportrange', $sipsrcportrange) }
+            if ( $PSBoundParameters.ContainsKey('sipdstportrange') ) { $payload.Add('sipdstportrange', $sipdstportrange) }
+            if ( $PSBoundParameters.ContainsKey('openregisterpinhole') ) { $payload.Add('openregisterpinhole', $openregisterpinhole) }
+            if ( $PSBoundParameters.ContainsKey('opencontactpinhole') ) { $payload.Add('opencontactpinhole', $opencontactpinhole) }
+            if ( $PSBoundParameters.ContainsKey('openviapinhole') ) { $payload.Add('openviapinhole', $openviapinhole) }
+            if ( $PSBoundParameters.ContainsKey('openrecordroutepinhole') ) { $payload.Add('openrecordroutepinhole', $openrecordroutepinhole) }
+            if ( $PSBoundParameters.ContainsKey('openroutepinhole') ) { $payload.Add('openroutepinhole', $openroutepinhole) }
+            if ( $PSBoundParameters.ContainsKey('rport') ) { $payload.Add('rport', $rport) }
+            if ( $PSCmdlet.ShouldProcess("lsnsipalgprofile", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnsipalgprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnsipalgprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnsipalgprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9401,146 +9363,132 @@ function Invoke-ADCAddLsnsipalgprofile {
 }
 
 function Invoke-ADCUpdateLsnsipalgprofile {
-<#
+    <#
     .SYNOPSIS
-        Update Lsn configuration Object
+        Update Lsn configuration Object.
     .DESCRIPTION
-        Update Lsn configuration Object 
-    .PARAMETER sipalgprofilename 
-        The name of the SIPALG Profile.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER datasessionidletimeout 
-        Idle timeout for the data channel sessions in seconds.  
-        Default value: 120 
-    .PARAMETER sipsessiontimeout 
-        SIP control channel session timeout in seconds.  
-        Default value: 600 
-    .PARAMETER registrationtimeout 
-        SIP registration timeout in seconds.  
-        Default value: 60 
-    .PARAMETER sipsrcportrange 
+        Configuration for LSN SIPALG Profile resource.
+    .PARAMETER Sipalgprofilename 
+        The name of the SIPALG Profile. 
+    .PARAMETER Datasessionidletimeout 
+        Idle timeout for the data channel sessions in seconds. 
+    .PARAMETER Sipsessiontimeout 
+        SIP control channel session timeout in seconds. 
+    .PARAMETER Registrationtimeout 
+        SIP registration timeout in seconds. 
+    .PARAMETER Sipsrcportrange 
         Source port range for SIP_UDP and SIP_TCP. 
-    .PARAMETER sipdstportrange 
+    .PARAMETER Sipdstportrange 
         Destination port range for SIP_UDP and SIP_TCP. 
-    .PARAMETER openregisterpinhole 
-        ENABLE/DISABLE RegisterPinhole creation.  
-        Default value: ENABLED  
+    .PARAMETER Openregisterpinhole 
+        ENABLE/DISABLE RegisterPinhole creation. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER opencontactpinhole 
-        ENABLE/DISABLE ContactPinhole creation.  
-        Default value: ENABLED  
+    .PARAMETER Opencontactpinhole 
+        ENABLE/DISABLE ContactPinhole creation. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER openviapinhole 
-        ENABLE/DISABLE ViaPinhole creation.  
-        Default value: ENABLED  
+    .PARAMETER Openviapinhole 
+        ENABLE/DISABLE ViaPinhole creation. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER openrecordroutepinhole 
-        ENABLE/DISABLE RecordRoutePinhole creation.  
-        Default value: ENABLED  
+    .PARAMETER Openrecordroutepinhole 
+        ENABLE/DISABLE RecordRoutePinhole creation. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER siptransportprotocol 
-        SIP ALG Profile transport protocol type.  
+    .PARAMETER Siptransportprotocol 
+        SIP ALG Profile transport protocol type. 
         Possible values = TCP, UDP 
-    .PARAMETER openroutepinhole 
-        ENABLE/DISABLE RoutePinhole creation.  
-        Default value: ENABLED  
+    .PARAMETER Openroutepinhole 
+        ENABLE/DISABLE RoutePinhole creation. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER rport 
-        ENABLE/DISABLE rport.  
-        Default value: ENABLED  
+    .PARAMETER Rport 
+        ENABLE/DISABLE rport. 
         Possible values = ENABLED, DISABLED 
     .PARAMETER PassThru 
         Return details about the created lsnsipalgprofile item.
     .EXAMPLE
-        Invoke-ADCUpdateLsnsipalgprofile -sipalgprofilename <string>
+        PS C:\>Invoke-ADCUpdateLsnsipalgprofile -sipalgprofilename <string>
+        An example how to update lsnsipalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsnsipalgprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 127)]
-        [string]$sipalgprofilename ,
+        [string]$Sipalgprofilename,
 
-        [double]$datasessionidletimeout ,
+        [double]$Datasessionidletimeout,
 
-        [double]$sipsessiontimeout ,
+        [double]$Sipsessiontimeout,
 
-        [double]$registrationtimeout ,
+        [double]$Registrationtimeout,
 
-        [string]$sipsrcportrange ,
+        [string]$Sipsrcportrange,
 
-        [string]$sipdstportrange ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$openregisterpinhole ,
+        [string]$Sipdstportrange,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$opencontactpinhole ,
+        [string]$Openregisterpinhole,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$openviapinhole ,
+        [string]$Opencontactpinhole,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$openrecordroutepinhole ,
+        [string]$Openviapinhole,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Openrecordroutepinhole,
 
         [ValidateSet('TCP', 'UDP')]
-        [string]$siptransportprotocol ,
+        [string]$Siptransportprotocol,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$openroutepinhole ,
+        [string]$Openroutepinhole,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$rport ,
+        [string]$Rport,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateLsnsipalgprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                sipalgprofilename = $sipalgprofilename
-            }
-            if ($PSBoundParameters.ContainsKey('datasessionidletimeout')) { $Payload.Add('datasessionidletimeout', $datasessionidletimeout) }
-            if ($PSBoundParameters.ContainsKey('sipsessiontimeout')) { $Payload.Add('sipsessiontimeout', $sipsessiontimeout) }
-            if ($PSBoundParameters.ContainsKey('registrationtimeout')) { $Payload.Add('registrationtimeout', $registrationtimeout) }
-            if ($PSBoundParameters.ContainsKey('sipsrcportrange')) { $Payload.Add('sipsrcportrange', $sipsrcportrange) }
-            if ($PSBoundParameters.ContainsKey('sipdstportrange')) { $Payload.Add('sipdstportrange', $sipdstportrange) }
-            if ($PSBoundParameters.ContainsKey('openregisterpinhole')) { $Payload.Add('openregisterpinhole', $openregisterpinhole) }
-            if ($PSBoundParameters.ContainsKey('opencontactpinhole')) { $Payload.Add('opencontactpinhole', $opencontactpinhole) }
-            if ($PSBoundParameters.ContainsKey('openviapinhole')) { $Payload.Add('openviapinhole', $openviapinhole) }
-            if ($PSBoundParameters.ContainsKey('openrecordroutepinhole')) { $Payload.Add('openrecordroutepinhole', $openrecordroutepinhole) }
-            if ($PSBoundParameters.ContainsKey('siptransportprotocol')) { $Payload.Add('siptransportprotocol', $siptransportprotocol) }
-            if ($PSBoundParameters.ContainsKey('openroutepinhole')) { $Payload.Add('openroutepinhole', $openroutepinhole) }
-            if ($PSBoundParameters.ContainsKey('rport')) { $Payload.Add('rport', $rport) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnsipalgprofile", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnsipalgprofile -Payload $Payload -GetWarning
+            $payload = @{ sipalgprofilename = $sipalgprofilename }
+            if ( $PSBoundParameters.ContainsKey('datasessionidletimeout') ) { $payload.Add('datasessionidletimeout', $datasessionidletimeout) }
+            if ( $PSBoundParameters.ContainsKey('sipsessiontimeout') ) { $payload.Add('sipsessiontimeout', $sipsessiontimeout) }
+            if ( $PSBoundParameters.ContainsKey('registrationtimeout') ) { $payload.Add('registrationtimeout', $registrationtimeout) }
+            if ( $PSBoundParameters.ContainsKey('sipsrcportrange') ) { $payload.Add('sipsrcportrange', $sipsrcportrange) }
+            if ( $PSBoundParameters.ContainsKey('sipdstportrange') ) { $payload.Add('sipdstportrange', $sipdstportrange) }
+            if ( $PSBoundParameters.ContainsKey('openregisterpinhole') ) { $payload.Add('openregisterpinhole', $openregisterpinhole) }
+            if ( $PSBoundParameters.ContainsKey('opencontactpinhole') ) { $payload.Add('opencontactpinhole', $opencontactpinhole) }
+            if ( $PSBoundParameters.ContainsKey('openviapinhole') ) { $payload.Add('openviapinhole', $openviapinhole) }
+            if ( $PSBoundParameters.ContainsKey('openrecordroutepinhole') ) { $payload.Add('openrecordroutepinhole', $openrecordroutepinhole) }
+            if ( $PSBoundParameters.ContainsKey('siptransportprotocol') ) { $payload.Add('siptransportprotocol', $siptransportprotocol) }
+            if ( $PSBoundParameters.ContainsKey('openroutepinhole') ) { $payload.Add('openroutepinhole', $openroutepinhole) }
+            if ( $PSBoundParameters.ContainsKey('rport') ) { $payload.Add('rport', $rport) }
+            if ( $PSCmdlet.ShouldProcess("lsnsipalgprofile", "Update Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsnsipalgprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnsipalgprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnsipalgprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9553,89 +9501,90 @@ function Invoke-ADCUpdateLsnsipalgprofile {
 }
 
 function Invoke-ADCUnsetLsnsipalgprofile {
-<#
+    <#
     .SYNOPSIS
-        Unset Lsn configuration Object
+        Unset Lsn configuration Object.
     .DESCRIPTION
-        Unset Lsn configuration Object 
-   .PARAMETER sipalgprofilename 
-       The name of the SIPALG Profile. 
-   .PARAMETER datasessionidletimeout 
-       Idle timeout for the data channel sessions in seconds. 
-   .PARAMETER sipsessiontimeout 
-       SIP control channel session timeout in seconds. 
-   .PARAMETER registrationtimeout 
-       SIP registration timeout in seconds. 
-   .PARAMETER sipsrcportrange 
-       Source port range for SIP_UDP and SIP_TCP. 
-   .PARAMETER sipdstportrange 
-       Destination port range for SIP_UDP and SIP_TCP. 
-   .PARAMETER openregisterpinhole 
-       ENABLE/DISABLE RegisterPinhole creation.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER opencontactpinhole 
-       ENABLE/DISABLE ContactPinhole creation.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER openviapinhole 
-       ENABLE/DISABLE ViaPinhole creation.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER openrecordroutepinhole 
-       ENABLE/DISABLE RecordRoutePinhole creation.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER siptransportprotocol 
-       SIP ALG Profile transport protocol type.  
-       Possible values = TCP, UDP 
-   .PARAMETER openroutepinhole 
-       ENABLE/DISABLE RoutePinhole creation.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER rport 
-       ENABLE/DISABLE rport.  
-       Possible values = ENABLED, DISABLED
+        Configuration for LSN SIPALG Profile resource.
+    .PARAMETER Sipalgprofilename 
+        The name of the SIPALG Profile. 
+    .PARAMETER Datasessionidletimeout 
+        Idle timeout for the data channel sessions in seconds. 
+    .PARAMETER Sipsessiontimeout 
+        SIP control channel session timeout in seconds. 
+    .PARAMETER Registrationtimeout 
+        SIP registration timeout in seconds. 
+    .PARAMETER Sipsrcportrange 
+        Source port range for SIP_UDP and SIP_TCP. 
+    .PARAMETER Sipdstportrange 
+        Destination port range for SIP_UDP and SIP_TCP. 
+    .PARAMETER Openregisterpinhole 
+        ENABLE/DISABLE RegisterPinhole creation. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Opencontactpinhole 
+        ENABLE/DISABLE ContactPinhole creation. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Openviapinhole 
+        ENABLE/DISABLE ViaPinhole creation. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Openrecordroutepinhole 
+        ENABLE/DISABLE RecordRoutePinhole creation. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Siptransportprotocol 
+        SIP ALG Profile transport protocol type. 
+        Possible values = TCP, UDP 
+    .PARAMETER Openroutepinhole 
+        ENABLE/DISABLE RoutePinhole creation. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Rport 
+        ENABLE/DISABLE rport. 
+        Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCUnsetLsnsipalgprofile -sipalgprofilename <string>
+        PS C:\>Invoke-ADCUnsetLsnsipalgprofile -sipalgprofilename <string>
+        An example how to unset lsnsipalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsnsipalgprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateLength(1, 127)]
-        [string]$sipalgprofilename ,
+        [string]$Sipalgprofilename,
 
-        [Boolean]$datasessionidletimeout ,
+        [Boolean]$datasessionidletimeout,
 
-        [Boolean]$sipsessiontimeout ,
+        [Boolean]$sipsessiontimeout,
 
-        [Boolean]$registrationtimeout ,
+        [Boolean]$registrationtimeout,
 
-        [Boolean]$sipsrcportrange ,
+        [Boolean]$sipsrcportrange,
 
-        [Boolean]$sipdstportrange ,
+        [Boolean]$sipdstportrange,
 
-        [Boolean]$openregisterpinhole ,
+        [Boolean]$openregisterpinhole,
 
-        [Boolean]$opencontactpinhole ,
+        [Boolean]$opencontactpinhole,
 
-        [Boolean]$openviapinhole ,
+        [Boolean]$openviapinhole,
 
-        [Boolean]$openrecordroutepinhole ,
+        [Boolean]$openrecordroutepinhole,
 
-        [Boolean]$siptransportprotocol ,
+        [Boolean]$siptransportprotocol,
 
-        [Boolean]$openroutepinhole ,
+        [Boolean]$openroutepinhole,
 
         [Boolean]$rport 
     )
@@ -9644,23 +9593,21 @@ function Invoke-ADCUnsetLsnsipalgprofile {
     }
     process {
         try {
-            $Payload = @{
-                sipalgprofilename = $sipalgprofilename
-            }
-            if ($PSBoundParameters.ContainsKey('datasessionidletimeout')) { $Payload.Add('datasessionidletimeout', $datasessionidletimeout) }
-            if ($PSBoundParameters.ContainsKey('sipsessiontimeout')) { $Payload.Add('sipsessiontimeout', $sipsessiontimeout) }
-            if ($PSBoundParameters.ContainsKey('registrationtimeout')) { $Payload.Add('registrationtimeout', $registrationtimeout) }
-            if ($PSBoundParameters.ContainsKey('sipsrcportrange')) { $Payload.Add('sipsrcportrange', $sipsrcportrange) }
-            if ($PSBoundParameters.ContainsKey('sipdstportrange')) { $Payload.Add('sipdstportrange', $sipdstportrange) }
-            if ($PSBoundParameters.ContainsKey('openregisterpinhole')) { $Payload.Add('openregisterpinhole', $openregisterpinhole) }
-            if ($PSBoundParameters.ContainsKey('opencontactpinhole')) { $Payload.Add('opencontactpinhole', $opencontactpinhole) }
-            if ($PSBoundParameters.ContainsKey('openviapinhole')) { $Payload.Add('openviapinhole', $openviapinhole) }
-            if ($PSBoundParameters.ContainsKey('openrecordroutepinhole')) { $Payload.Add('openrecordroutepinhole', $openrecordroutepinhole) }
-            if ($PSBoundParameters.ContainsKey('siptransportprotocol')) { $Payload.Add('siptransportprotocol', $siptransportprotocol) }
-            if ($PSBoundParameters.ContainsKey('openroutepinhole')) { $Payload.Add('openroutepinhole', $openroutepinhole) }
-            if ($PSBoundParameters.ContainsKey('rport')) { $Payload.Add('rport', $rport) }
-            if ($PSCmdlet.ShouldProcess("$sipalgprofilename", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnsipalgprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ sipalgprofilename = $sipalgprofilename }
+            if ( $PSBoundParameters.ContainsKey('datasessionidletimeout') ) { $payload.Add('datasessionidletimeout', $datasessionidletimeout) }
+            if ( $PSBoundParameters.ContainsKey('sipsessiontimeout') ) { $payload.Add('sipsessiontimeout', $sipsessiontimeout) }
+            if ( $PSBoundParameters.ContainsKey('registrationtimeout') ) { $payload.Add('registrationtimeout', $registrationtimeout) }
+            if ( $PSBoundParameters.ContainsKey('sipsrcportrange') ) { $payload.Add('sipsrcportrange', $sipsrcportrange) }
+            if ( $PSBoundParameters.ContainsKey('sipdstportrange') ) { $payload.Add('sipdstportrange', $sipdstportrange) }
+            if ( $PSBoundParameters.ContainsKey('openregisterpinhole') ) { $payload.Add('openregisterpinhole', $openregisterpinhole) }
+            if ( $PSBoundParameters.ContainsKey('opencontactpinhole') ) { $payload.Add('opencontactpinhole', $opencontactpinhole) }
+            if ( $PSBoundParameters.ContainsKey('openviapinhole') ) { $payload.Add('openviapinhole', $openviapinhole) }
+            if ( $PSBoundParameters.ContainsKey('openrecordroutepinhole') ) { $payload.Add('openrecordroutepinhole', $openrecordroutepinhole) }
+            if ( $PSBoundParameters.ContainsKey('siptransportprotocol') ) { $payload.Add('siptransportprotocol', $siptransportprotocol) }
+            if ( $PSBoundParameters.ContainsKey('openroutepinhole') ) { $payload.Add('openroutepinhole', $openroutepinhole) }
+            if ( $PSBoundParameters.ContainsKey('rport') ) { $payload.Add('rport', $rport) }
+            if ( $PSCmdlet.ShouldProcess("$sipalgprofilename", "Unset Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsnsipalgprofile -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9676,48 +9623,47 @@ function Invoke-ADCUnsetLsnsipalgprofile {
 }
 
 function Invoke-ADCDeleteLsnsipalgprofile {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER sipalgprofilename 
-       The name of the SIPALG Profile.  
-       Minimum length = 1  
-       Maximum length = 127 
+        Configuration for LSN SIPALG Profile resource.
+    .PARAMETER Sipalgprofilename 
+        The name of the SIPALG Profile.
     .EXAMPLE
-        Invoke-ADCDeleteLsnsipalgprofile -sipalgprofilename <string>
+        PS C:\>Invoke-ADCDeleteLsnsipalgprofile -Sipalgprofilename <string>
+        An example how to delete lsnsipalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnsipalgprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$sipalgprofilename 
+        [Parameter(Mandatory)]
+        [string]$Sipalgprofilename 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsnsipalgprofile: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$sipalgprofilename", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnsipalgprofile -NitroPath nitro/v1/config -Resource $sipalgprofilename -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$sipalgprofilename", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnsipalgprofile -NitroPath nitro/v1/config -Resource $sipalgprofilename -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -9733,55 +9679,61 @@ function Invoke-ADCDeleteLsnsipalgprofile {
 }
 
 function Invoke-ADCGetLsnsipalgprofile {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER sipalgprofilename 
-       The name of the SIPALG Profile. 
+        Configuration for LSN SIPALG Profile resource.
+    .PARAMETER Sipalgprofilename 
+        The name of the SIPALG Profile. 
     .PARAMETER GetAll 
-        Retreive all lsnsipalgprofile object(s)
+        Retrieve all lsnsipalgprofile object(s).
     .PARAMETER Count
-        If specified, the count of the lsnsipalgprofile object(s) will be returned
+        If specified, the count of the lsnsipalgprofile object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnsipalgprofile
+        PS C:\>Invoke-ADCGetLsnsipalgprofile
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnsipalgprofile -GetAll 
+        PS C:\>Invoke-ADCGetLsnsipalgprofile -GetAll 
+        Get all lsnsipalgprofile data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnsipalgprofile -Count
+        PS C:\>Invoke-ADCGetLsnsipalgprofile -Count 
+        Get the number of lsnsipalgprofile objects.
     .EXAMPLE
-        Invoke-ADCGetLsnsipalgprofile -name <string>
+        PS C:\>Invoke-ADCGetLsnsipalgprofile -name <string>
+        Get lsnsipalgprofile object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnsipalgprofile -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnsipalgprofile -Filter @{ 'name'='<value>' }
+        Get lsnsipalgprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateLength(1, 127)]
-        [string]$sipalgprofilename,
+        [string]$Sipalgprofilename,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -9799,24 +9751,24 @@ function Invoke-ADCGetLsnsipalgprofile {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all lsnsipalgprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnsipalgprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnsipalgprofile objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgprofile -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnsipalgprofile configuration for property 'sipalgprofilename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgprofile -NitroPath nitro/v1/config -Resource $sipalgprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnsipalgprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnsipalgprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9830,134 +9782,119 @@ function Invoke-ADCGetLsnsipalgprofile {
 }
 
 function Invoke-ADCAddLsnstatic {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER name 
+        Configuration for static mapping resource.
+    .PARAMETER Name 
         Name for the LSN static mapping entry. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
-    .PARAMETER transportprotocol 
-        Protocol for the LSN mapping entry.  
+    .PARAMETER Transportprotocol 
+        Protocol for the LSN mapping entry. 
         Possible values = TCP, UDP, ICMP, ALL 
-    .PARAMETER subscrip 
+    .PARAMETER Subscrip 
         IPv4(NAT44 ; DS-Lite)/IPv6(NAT64) address of an LSN subscriber for the LSN static mapping entry. 
-    .PARAMETER subscrport 
-        Port of the LSN subscriber for the LSN mapping entry. * represents all ports being used. Used in case of static wildcard.  
-        Minimum value = 0  
-        Maximum value = 65535  
-        Range 1 - 65535  
+    .PARAMETER Subscrport 
+        Port of the LSN subscriber for the LSN mapping entry. * represents all ports being used. Used in case of static wildcard. 
         * in CLI is represented as 65535 in NITRO API 
-    .PARAMETER network6 
-        B4 address in DS-Lite setup.  
-        Minimum length = 1 
-    .PARAMETER td 
-        ID of the traffic domain to which the subscriber belongs.  
-        If you do not specify an ID, the subscriber is assumed to be a part of the default traffic domain.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 4094 
-    .PARAMETER natip 
+    .PARAMETER Network6 
+        B4 address in DS-Lite setup. 
+    .PARAMETER Td 
+        ID of the traffic domain to which the subscriber belongs. 
+        If you do not specify an ID, the subscriber is assumed to be a part of the default traffic domain. 
+    .PARAMETER Natip 
         IPv4 address, already existing on the Citrix ADC as type LSN, to be used as NAT IP address for this mapping entry. 
-    .PARAMETER natport 
-        NAT port for this LSN mapping entry. * represents all ports being used. Used in case of static wildcard.  
-        Minimum value = 0  
-        Maximum value = 65535  
-        Range 1 - 65535  
+    .PARAMETER Natport 
+        NAT port for this LSN mapping entry. * represents all ports being used. Used in case of static wildcard. 
         * in CLI is represented as 65535 in NITRO API 
-    .PARAMETER destip 
+    .PARAMETER Destip 
         Destination IP address for the LSN mapping entry. 
-    .PARAMETER dsttd 
-        ID of the traffic domain through which the destination IP address for this LSN mapping entry is reachable from the Citrix ADC.  
-        If you do not specify an ID, the destination IP address is assumed to be reachable through the default traffic domain, which has an ID of 0.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 4094 
+    .PARAMETER Dsttd 
+        ID of the traffic domain through which the destination IP address for this LSN mapping entry is reachable from the Citrix ADC. 
+        If you do not specify an ID, the destination IP address is assumed to be reachable through the default traffic domain, which has an ID of 0. 
     .PARAMETER PassThru 
         Return details about the created lsnstatic item.
     .EXAMPLE
-        Invoke-ADCAddLsnstatic -name <string> -transportprotocol <string> -subscrip <string> -subscrport <int>
+        PS C:\>Invoke-ADCAddLsnstatic -name <string> -transportprotocol <string> -subscrip <string> -subscrport <int>
+        An example how to add lsnstatic configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnstatic
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnstatic/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('TCP', 'UDP', 'ICMP', 'ALL')]
-        [string]$transportprotocol ,
+        [string]$Transportprotocol,
 
-        [Parameter(Mandatory = $true)]
-        [string]$subscrip ,
+        [Parameter(Mandatory)]
+        [string]$Subscrip,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateRange(1, 65535)]
-        [int]$subscrport ,
+        [int]$Subscrport,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$network6 ,
+        [string]$Network6,
 
         [ValidateRange(0, 4094)]
-        [double]$td = '0' ,
+        [double]$Td = '0',
 
-        [string]$natip ,
+        [string]$Natip,
 
         [ValidateRange(1, 65535)]
-        [int]$natport ,
+        [int]$Natport,
 
-        [string]$destip ,
+        [string]$Destip,
 
         [ValidateRange(0, 4094)]
-        [double]$dsttd = '0' ,
+        [double]$Dsttd = '0',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsnstatic: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
+            $payload = @{ name    = $name
                 transportprotocol = $transportprotocol
-                subscrip = $subscrip
-                subscrport = $subscrport
+                subscrip          = $subscrip
+                subscrport        = $subscrport
             }
-            if ($PSBoundParameters.ContainsKey('network6')) { $Payload.Add('network6', $network6) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
-            if ($PSBoundParameters.ContainsKey('natip')) { $Payload.Add('natip', $natip) }
-            if ($PSBoundParameters.ContainsKey('natport')) { $Payload.Add('natport', $natport) }
-            if ($PSBoundParameters.ContainsKey('destip')) { $Payload.Add('destip', $destip) }
-            if ($PSBoundParameters.ContainsKey('dsttd')) { $Payload.Add('dsttd', $dsttd) }
- 
-            if ($PSCmdlet.ShouldProcess("lsnstatic", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnstatic -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('network6') ) { $payload.Add('network6', $network6) }
+            if ( $PSBoundParameters.ContainsKey('td') ) { $payload.Add('td', $td) }
+            if ( $PSBoundParameters.ContainsKey('natip') ) { $payload.Add('natip', $natip) }
+            if ( $PSBoundParameters.ContainsKey('natport') ) { $payload.Add('natport', $natport) }
+            if ( $PSBoundParameters.ContainsKey('destip') ) { $payload.Add('destip', $destip) }
+            if ( $PSBoundParameters.ContainsKey('dsttd') ) { $payload.Add('dsttd', $dsttd) }
+            if ( $PSCmdlet.ShouldProcess("lsnstatic", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsnstatic -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsnstatic -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsnstatic -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -9970,46 +9907,47 @@ function Invoke-ADCAddLsnstatic {
 }
 
 function Invoke-ADCDeleteLsnstatic {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER name 
-       Name for the LSN static mapping entry. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+        Configuration for static mapping resource.
+    .PARAMETER Name 
+        Name for the LSN static mapping entry. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created.
     .EXAMPLE
-        Invoke-ADCDeleteLsnstatic -name <string>
+        PS C:\>Invoke-ADCDeleteLsnstatic -Name <string>
+        An example how to delete lsnstatic configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnstatic
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnstatic/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsnstatic: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnstatic -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsnstatic -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10025,56 +9963,62 @@ function Invoke-ADCDeleteLsnstatic {
 }
 
 function Invoke-ADCGetLsnstatic {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER name 
-       Name for the LSN static mapping entry. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
+        Configuration for static mapping resource.
+    .PARAMETER Name 
+        Name for the LSN static mapping entry. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN group is created. 
     .PARAMETER GetAll 
-        Retreive all lsnstatic object(s)
+        Retrieve all lsnstatic object(s).
     .PARAMETER Count
-        If specified, the count of the lsnstatic object(s) will be returned
+        If specified, the count of the lsnstatic object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsnstatic
+        PS C:\>Invoke-ADCGetLsnstatic
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsnstatic -GetAll 
+        PS C:\>Invoke-ADCGetLsnstatic -GetAll 
+        Get all lsnstatic data. 
     .EXAMPLE 
-        Invoke-ADCGetLsnstatic -Count
+        PS C:\>Invoke-ADCGetLsnstatic -Count 
+        Get the number of lsnstatic objects.
     .EXAMPLE
-        Invoke-ADCGetLsnstatic -name <string>
+        PS C:\>Invoke-ADCGetLsnstatic -name <string>
+        Get lsnstatic object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsnstatic -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsnstatic -Filter @{ 'name'='<value>' }
+        Get lsnstatic data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnstatic
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnstatic/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -10092,24 +10036,24 @@ function Invoke-ADCGetLsnstatic {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all lsnstatic objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnstatic -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnstatic -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsnstatic objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnstatic -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnstatic -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsnstatic objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnstatic -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnstatic -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsnstatic configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnstatic -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsnstatic configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnstatic -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsnstatic -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10123,161 +10067,139 @@ function Invoke-ADCGetLsnstatic {
 }
 
 function Invoke-ADCAddLsntransportprofile {
-<#
+    <#
     .SYNOPSIS
-        Add Lsn configuration Object
+        Add Lsn configuration Object.
     .DESCRIPTION
-        Add Lsn configuration Object 
-    .PARAMETER transportprofilename 
+        Configuration for LSN Transport Profile resource.
+    .PARAMETER Transportprofilename 
         Name for the LSN transport profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN transport profile is created. 
-    .PARAMETER transportprotocol 
-        Protocol for which to set the LSN transport profile parameters.  
+    .PARAMETER Transportprotocol 
+        Protocol for which to set the LSN transport profile parameters. 
         Possible values = TCP, UDP, ICMP 
-    .PARAMETER sessiontimeout 
-        Timeout, in seconds, for an idle LSN session. If an LSN session is idle for a time that exceeds this value, the Citrix ADC removes the session.  
-        This timeout does not apply for a TCP LSN session when a FIN or RST message is received from either of the endpoints. .  
-        Default value: 120  
-        Minimum value = 60 
-    .PARAMETER finrsttimeout 
-        Timeout, in seconds, for a TCP LSN session after a FIN or RST message is received from one of the endpoints.  
-        If a TCP LSN session is idle (after the Citrix ADC receives a FIN or RST message) for a time that exceeds this value, the Citrix ADC ADC removes the session.  
-        Since the LSN feature of the Citrix ADC does not maintain state information of any TCP LSN sessions, this timeout accommodates the transmission of the FIN or RST, and ACK messages from the other endpoint so that both endpoints can properly close the connection.  
-        Default value: 30 
-    .PARAMETER stuntimeout 
-        STUN protocol timeout.  
-        Default value: 600  
-        Minimum value = 120  
-        Maximum value = 1200 
-    .PARAMETER synidletimeout 
-        SYN Idle timeout.  
-        Default value: 60  
-        Minimum value = 30  
-        Maximum value = 120 
-    .PARAMETER portquota 
-        Maximum number of LSN NAT ports to be used at a time by each subscriber for the specified protocol. For example, each subscriber can be limited to a maximum of 500 TCP NAT ports. When the LSN NAT mappings for a subscriber reach the limit, the Citrix ADC does not allocate additional NAT ports for that subscriber.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER sessionquota 
-        Maximum number of concurrent LSN sessions allowed for each subscriber for the specified protocol.  
-        When the number of LSN sessions reaches the limit for a subscriber, the Citrix ADC does not allow the subscriber to open additional sessions.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER groupsessionlimit 
-        Maximum number of concurrent LSN sessions(for the specified protocol) allowed for all subscriber of a group to which this profile has bound. This limit will get split across the Citrix ADCs packet engines and rounded down. When the number of LSN sessions reaches the limit for a group in packet engine, the Citrix ADC does not allow the subscriber of that group to open additional sessions through that packet engine.  
-        Default value: 0 
-    .PARAMETER portpreserveparity 
-        Enable port parity between a subscriber port and its mapped LSN NAT port. For example, if a subscriber initiates a connection from an odd numbered port, the Citrix ADC allocates an odd numbered LSN NAT port for this connection.  
-        You must set this parameter for proper functioning of protocols that require the source port to be even or odd numbered, for example, in peer-to-peer applications that use RTP or RTCP protocol.  
-        Default value: DISABLED  
+    .PARAMETER Sessiontimeout 
+        Timeout, in seconds, for an idle LSN session. If an LSN session is idle for a time that exceeds this value, the Citrix ADC removes the session. 
+        This timeout does not apply for a TCP LSN session when a FIN or RST message is received from either of the endpoints. . 
+    .PARAMETER Finrsttimeout 
+        Timeout, in seconds, for a TCP LSN session after a FIN or RST message is received from one of the endpoints. 
+        If a TCP LSN session is idle (after the Citrix ADC receives a FIN or RST message) for a time that exceeds this value, the Citrix ADC ADC removes the session. 
+        Since the LSN feature of the Citrix ADC does not maintain state information of any TCP LSN sessions, this timeout accommodates the transmission of the FIN or RST, and ACK messages from the other endpoint so that both endpoints can properly close the connection. 
+    .PARAMETER Stuntimeout 
+        STUN protocol timeout. 
+    .PARAMETER Synidletimeout 
+        SYN Idle timeout. 
+    .PARAMETER Portquota 
+        Maximum number of LSN NAT ports to be used at a time by each subscriber for the specified protocol. For example, each subscriber can be limited to a maximum of 500 TCP NAT ports. When the LSN NAT mappings for a subscriber reach the limit, the Citrix ADC does not allocate additional NAT ports for that subscriber. 
+    .PARAMETER Sessionquota 
+        Maximum number of concurrent LSN sessions allowed for each subscriber for the specified protocol. 
+        When the number of LSN sessions reaches the limit for a subscriber, the Citrix ADC does not allow the subscriber to open additional sessions. 
+    .PARAMETER Groupsessionlimit 
+        Maximum number of concurrent LSN sessions(for the specified protocol) allowed for all subscriber of a group to which this profile has bound. This limit will get split across the Citrix ADCs packet engines and rounded down. When the number of LSN sessions reaches the limit for a group in packet engine, the Citrix ADC does not allow the subscriber of that group to open additional sessions through that packet engine. 
+    .PARAMETER Portpreserveparity 
+        Enable port parity between a subscriber port and its mapped LSN NAT port. For example, if a subscriber initiates a connection from an odd numbered port, the Citrix ADC allocates an odd numbered LSN NAT port for this connection. 
+        You must set this parameter for proper functioning of protocols that require the source port to be even or odd numbered, for example, in peer-to-peer applications that use RTP or RTCP protocol. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER portpreserverange 
-        If a subscriber initiates a connection from a well-known port (0-1023), allocate a NAT port from the well-known port range (0-1023) for this connection. For example, if a subscriber initiates a connection from port 80, the Citrix ADC can allocate port 100 as the NAT port for this connection.  
-        This parameter applies to dynamic NAT without port block allocation. It also applies to Deterministic NAT if the range of ports allocated includes well-known ports.  
-        When all the well-known ports of all the available NAT IP addresses are used in different subscriber's connections (LSN sessions), and a subscriber initiates a connection from a well-known port, the Citrix ADC drops this connection.  
-        Default value: DISABLED  
+    .PARAMETER Portpreserverange 
+        If a subscriber initiates a connection from a well-known port (0-1023), allocate a NAT port from the well-known port range (0-1023) for this connection. For example, if a subscriber initiates a connection from port 80, the Citrix ADC can allocate port 100 as the NAT port for this connection. 
+        This parameter applies to dynamic NAT without port block allocation. It also applies to Deterministic NAT if the range of ports allocated includes well-known ports. 
+        When all the well-known ports of all the available NAT IP addresses are used in different subscriber's connections (LSN sessions), and a subscriber initiates a connection from a well-known port, the Citrix ADC drops this connection. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER syncheck 
-        Silently drop any non-SYN packets for connections for which there is no LSN-NAT session present on the Citrix ADC.  
-        If you disable this parameter, the Citrix ADC accepts any non-SYN packets and creates a new LSN session entry for this connection.  
-        Following are some reasons for the Citrix ADC to receive such packets:  
-        * LSN session for a connection existed but the Citrix ADC removed this session because the LSN session was idle for a time that exceeded the configured session timeout.  
-        * Such packets can be a part of a DoS attack.  
-        Default value: ENABLED  
+    .PARAMETER Syncheck 
+        Silently drop any non-SYN packets for connections for which there is no LSN-NAT session present on the Citrix ADC. 
+        If you disable this parameter, the Citrix ADC accepts any non-SYN packets and creates a new LSN session entry for this connection. 
+        Following are some reasons for the Citrix ADC to receive such packets: 
+        * LSN session for a connection existed but the Citrix ADC removed this session because the LSN session was idle for a time that exceeded the configured session timeout. 
+        * Such packets can be a part of a DoS attack. 
         Possible values = ENABLED, DISABLED 
     .PARAMETER PassThru 
         Return details about the created lsntransportprofile item.
     .EXAMPLE
-        Invoke-ADCAddLsntransportprofile -transportprofilename <string> -transportprotocol <string>
+        PS C:\>Invoke-ADCAddLsntransportprofile -transportprofilename <string> -transportprotocol <string>
+        An example how to add lsntransportprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsntransportprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$transportprofilename ,
+        [string]$Transportprofilename,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('TCP', 'UDP', 'ICMP')]
-        [string]$transportprotocol ,
+        [string]$Transportprotocol,
 
-        [double]$sessiontimeout = '120' ,
+        [double]$Sessiontimeout = '120',
 
-        [double]$finrsttimeout = '30' ,
+        [double]$Finrsttimeout = '30',
 
         [ValidateRange(120, 1200)]
-        [double]$stuntimeout = '600' ,
+        [double]$Stuntimeout = '600',
 
         [ValidateRange(30, 120)]
-        [double]$synidletimeout = '60' ,
+        [double]$Synidletimeout = '60',
 
         [ValidateRange(0, 65535)]
-        [double]$portquota = '0' ,
+        [double]$Portquota = '0',
 
         [ValidateRange(0, 65535)]
-        [double]$sessionquota = '0' ,
+        [double]$Sessionquota = '0',
 
-        [double]$groupsessionlimit = '0' ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$portpreserveparity = 'DISABLED' ,
-
-        [ValidateRange(0, 1023)]
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$portpreserverange = 'DISABLED' ,
+        [double]$Groupsessionlimit = '0',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$syncheck = 'ENABLED' ,
+        [string]$Portpreserveparity = 'DISABLED',
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Portpreserverange = 'DISABLED',
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Syncheck = 'ENABLED',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddLsntransportprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                transportprofilename = $transportprofilename
-                transportprotocol = $transportprotocol
+            $payload = @{ transportprofilename = $transportprofilename
+                transportprotocol              = $transportprotocol
             }
-            if ($PSBoundParameters.ContainsKey('sessiontimeout')) { $Payload.Add('sessiontimeout', $sessiontimeout) }
-            if ($PSBoundParameters.ContainsKey('finrsttimeout')) { $Payload.Add('finrsttimeout', $finrsttimeout) }
-            if ($PSBoundParameters.ContainsKey('stuntimeout')) { $Payload.Add('stuntimeout', $stuntimeout) }
-            if ($PSBoundParameters.ContainsKey('synidletimeout')) { $Payload.Add('synidletimeout', $synidletimeout) }
-            if ($PSBoundParameters.ContainsKey('portquota')) { $Payload.Add('portquota', $portquota) }
-            if ($PSBoundParameters.ContainsKey('sessionquota')) { $Payload.Add('sessionquota', $sessionquota) }
-            if ($PSBoundParameters.ContainsKey('groupsessionlimit')) { $Payload.Add('groupsessionlimit', $groupsessionlimit) }
-            if ($PSBoundParameters.ContainsKey('portpreserveparity')) { $Payload.Add('portpreserveparity', $portpreserveparity) }
-            if ($PSBoundParameters.ContainsKey('portpreserverange')) { $Payload.Add('portpreserverange', $portpreserverange) }
-            if ($PSBoundParameters.ContainsKey('syncheck')) { $Payload.Add('syncheck', $syncheck) }
- 
-            if ($PSCmdlet.ShouldProcess("lsntransportprofile", "Add Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsntransportprofile -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('sessiontimeout') ) { $payload.Add('sessiontimeout', $sessiontimeout) }
+            if ( $PSBoundParameters.ContainsKey('finrsttimeout') ) { $payload.Add('finrsttimeout', $finrsttimeout) }
+            if ( $PSBoundParameters.ContainsKey('stuntimeout') ) { $payload.Add('stuntimeout', $stuntimeout) }
+            if ( $PSBoundParameters.ContainsKey('synidletimeout') ) { $payload.Add('synidletimeout', $synidletimeout) }
+            if ( $PSBoundParameters.ContainsKey('portquota') ) { $payload.Add('portquota', $portquota) }
+            if ( $PSBoundParameters.ContainsKey('sessionquota') ) { $payload.Add('sessionquota', $sessionquota) }
+            if ( $PSBoundParameters.ContainsKey('groupsessionlimit') ) { $payload.Add('groupsessionlimit', $groupsessionlimit) }
+            if ( $PSBoundParameters.ContainsKey('portpreserveparity') ) { $payload.Add('portpreserveparity', $portpreserveparity) }
+            if ( $PSBoundParameters.ContainsKey('portpreserverange') ) { $payload.Add('portpreserverange', $portpreserverange) }
+            if ( $PSBoundParameters.ContainsKey('syncheck') ) { $payload.Add('syncheck', $syncheck) }
+            if ( $PSCmdlet.ShouldProcess("lsntransportprofile", "Add Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lsntransportprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsntransportprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsntransportprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10290,46 +10212,47 @@ function Invoke-ADCAddLsntransportprofile {
 }
 
 function Invoke-ADCDeleteLsntransportprofile {
-<#
+    <#
     .SYNOPSIS
-        Delete Lsn configuration Object
+        Delete Lsn configuration Object.
     .DESCRIPTION
-        Delete Lsn configuration Object
-    .PARAMETER transportprofilename 
-       Name for the LSN transport profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN transport profile is created. 
+        Configuration for LSN Transport Profile resource.
+    .PARAMETER Transportprofilename 
+        Name for the LSN transport profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN transport profile is created.
     .EXAMPLE
-        Invoke-ADCDeleteLsntransportprofile -transportprofilename <string>
+        PS C:\>Invoke-ADCDeleteLsntransportprofile -Transportprofilename <string>
+        An example how to delete lsntransportprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsntransportprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$transportprofilename 
+        [Parameter(Mandatory)]
+        [string]$Transportprofilename 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteLsntransportprofile: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$transportprofilename", "Delete Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsntransportprofile -NitroPath nitro/v1/config -Resource $transportprofilename -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$transportprofilename", "Delete Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type lsntransportprofile -NitroPath nitro/v1/config -Resource $transportprofilename -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10345,153 +10268,130 @@ function Invoke-ADCDeleteLsntransportprofile {
 }
 
 function Invoke-ADCUpdateLsntransportprofile {
-<#
+    <#
     .SYNOPSIS
-        Update Lsn configuration Object
+        Update Lsn configuration Object.
     .DESCRIPTION
-        Update Lsn configuration Object 
-    .PARAMETER transportprofilename 
+        Configuration for LSN Transport Profile resource.
+    .PARAMETER Transportprofilename 
         Name for the LSN transport profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN transport profile is created. 
-    .PARAMETER sessiontimeout 
-        Timeout, in seconds, for an idle LSN session. If an LSN session is idle for a time that exceeds this value, the Citrix ADC removes the session.  
-        This timeout does not apply for a TCP LSN session when a FIN or RST message is received from either of the endpoints. .  
-        Default value: 120  
-        Minimum value = 60 
-    .PARAMETER finrsttimeout 
-        Timeout, in seconds, for a TCP LSN session after a FIN or RST message is received from one of the endpoints.  
-        If a TCP LSN session is idle (after the Citrix ADC receives a FIN or RST message) for a time that exceeds this value, the Citrix ADC ADC removes the session.  
-        Since the LSN feature of the Citrix ADC does not maintain state information of any TCP LSN sessions, this timeout accommodates the transmission of the FIN or RST, and ACK messages from the other endpoint so that both endpoints can properly close the connection.  
-        Default value: 30 
-    .PARAMETER stuntimeout 
-        STUN protocol timeout.  
-        Default value: 600  
-        Minimum value = 120  
-        Maximum value = 1200 
-    .PARAMETER synidletimeout 
-        SYN Idle timeout.  
-        Default value: 60  
-        Minimum value = 30  
-        Maximum value = 120 
-    .PARAMETER portquota 
-        Maximum number of LSN NAT ports to be used at a time by each subscriber for the specified protocol. For example, each subscriber can be limited to a maximum of 500 TCP NAT ports. When the LSN NAT mappings for a subscriber reach the limit, the Citrix ADC does not allocate additional NAT ports for that subscriber.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER sessionquota 
-        Maximum number of concurrent LSN sessions allowed for each subscriber for the specified protocol.  
-        When the number of LSN sessions reaches the limit for a subscriber, the Citrix ADC does not allow the subscriber to open additional sessions.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER groupsessionlimit 
-        Maximum number of concurrent LSN sessions(for the specified protocol) allowed for all subscriber of a group to which this profile has bound. This limit will get split across the Citrix ADCs packet engines and rounded down. When the number of LSN sessions reaches the limit for a group in packet engine, the Citrix ADC does not allow the subscriber of that group to open additional sessions through that packet engine.  
-        Default value: 0 
-    .PARAMETER portpreserveparity 
-        Enable port parity between a subscriber port and its mapped LSN NAT port. For example, if a subscriber initiates a connection from an odd numbered port, the Citrix ADC allocates an odd numbered LSN NAT port for this connection.  
-        You must set this parameter for proper functioning of protocols that require the source port to be even or odd numbered, for example, in peer-to-peer applications that use RTP or RTCP protocol.  
-        Default value: DISABLED  
+    .PARAMETER Sessiontimeout 
+        Timeout, in seconds, for an idle LSN session. If an LSN session is idle for a time that exceeds this value, the Citrix ADC removes the session. 
+        This timeout does not apply for a TCP LSN session when a FIN or RST message is received from either of the endpoints. . 
+    .PARAMETER Finrsttimeout 
+        Timeout, in seconds, for a TCP LSN session after a FIN or RST message is received from one of the endpoints. 
+        If a TCP LSN session is idle (after the Citrix ADC receives a FIN or RST message) for a time that exceeds this value, the Citrix ADC ADC removes the session. 
+        Since the LSN feature of the Citrix ADC does not maintain state information of any TCP LSN sessions, this timeout accommodates the transmission of the FIN or RST, and ACK messages from the other endpoint so that both endpoints can properly close the connection. 
+    .PARAMETER Stuntimeout 
+        STUN protocol timeout. 
+    .PARAMETER Synidletimeout 
+        SYN Idle timeout. 
+    .PARAMETER Portquota 
+        Maximum number of LSN NAT ports to be used at a time by each subscriber for the specified protocol. For example, each subscriber can be limited to a maximum of 500 TCP NAT ports. When the LSN NAT mappings for a subscriber reach the limit, the Citrix ADC does not allocate additional NAT ports for that subscriber. 
+    .PARAMETER Sessionquota 
+        Maximum number of concurrent LSN sessions allowed for each subscriber for the specified protocol. 
+        When the number of LSN sessions reaches the limit for a subscriber, the Citrix ADC does not allow the subscriber to open additional sessions. 
+    .PARAMETER Groupsessionlimit 
+        Maximum number of concurrent LSN sessions(for the specified protocol) allowed for all subscriber of a group to which this profile has bound. This limit will get split across the Citrix ADCs packet engines and rounded down. When the number of LSN sessions reaches the limit for a group in packet engine, the Citrix ADC does not allow the subscriber of that group to open additional sessions through that packet engine. 
+    .PARAMETER Portpreserveparity 
+        Enable port parity between a subscriber port and its mapped LSN NAT port. For example, if a subscriber initiates a connection from an odd numbered port, the Citrix ADC allocates an odd numbered LSN NAT port for this connection. 
+        You must set this parameter for proper functioning of protocols that require the source port to be even or odd numbered, for example, in peer-to-peer applications that use RTP or RTCP protocol. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER portpreserverange 
-        If a subscriber initiates a connection from a well-known port (0-1023), allocate a NAT port from the well-known port range (0-1023) for this connection. For example, if a subscriber initiates a connection from port 80, the Citrix ADC can allocate port 100 as the NAT port for this connection.  
-        This parameter applies to dynamic NAT without port block allocation. It also applies to Deterministic NAT if the range of ports allocated includes well-known ports.  
-        When all the well-known ports of all the available NAT IP addresses are used in different subscriber's connections (LSN sessions), and a subscriber initiates a connection from a well-known port, the Citrix ADC drops this connection.  
-        Default value: DISABLED  
+    .PARAMETER Portpreserverange 
+        If a subscriber initiates a connection from a well-known port (0-1023), allocate a NAT port from the well-known port range (0-1023) for this connection. For example, if a subscriber initiates a connection from port 80, the Citrix ADC can allocate port 100 as the NAT port for this connection. 
+        This parameter applies to dynamic NAT without port block allocation. It also applies to Deterministic NAT if the range of ports allocated includes well-known ports. 
+        When all the well-known ports of all the available NAT IP addresses are used in different subscriber's connections (LSN sessions), and a subscriber initiates a connection from a well-known port, the Citrix ADC drops this connection. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER syncheck 
-        Silently drop any non-SYN packets for connections for which there is no LSN-NAT session present on the Citrix ADC.  
-        If you disable this parameter, the Citrix ADC accepts any non-SYN packets and creates a new LSN session entry for this connection.  
-        Following are some reasons for the Citrix ADC to receive such packets:  
-        * LSN session for a connection existed but the Citrix ADC removed this session because the LSN session was idle for a time that exceeded the configured session timeout.  
-        * Such packets can be a part of a DoS attack.  
-        Default value: ENABLED  
+    .PARAMETER Syncheck 
+        Silently drop any non-SYN packets for connections for which there is no LSN-NAT session present on the Citrix ADC. 
+        If you disable this parameter, the Citrix ADC accepts any non-SYN packets and creates a new LSN session entry for this connection. 
+        Following are some reasons for the Citrix ADC to receive such packets: 
+        * LSN session for a connection existed but the Citrix ADC removed this session because the LSN session was idle for a time that exceeded the configured session timeout. 
+        * Such packets can be a part of a DoS attack. 
         Possible values = ENABLED, DISABLED 
     .PARAMETER PassThru 
         Return details about the created lsntransportprofile item.
     .EXAMPLE
-        Invoke-ADCUpdateLsntransportprofile -transportprofilename <string>
+        PS C:\>Invoke-ADCUpdateLsntransportprofile -transportprofilename <string>
+        An example how to update lsntransportprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsntransportprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$transportprofilename ,
+        [string]$Transportprofilename,
 
-        [double]$sessiontimeout ,
+        [double]$Sessiontimeout,
 
-        [double]$finrsttimeout ,
+        [double]$Finrsttimeout,
 
         [ValidateRange(120, 1200)]
-        [double]$stuntimeout ,
+        [double]$Stuntimeout,
 
         [ValidateRange(30, 120)]
-        [double]$synidletimeout ,
+        [double]$Synidletimeout,
 
         [ValidateRange(0, 65535)]
-        [double]$portquota ,
+        [double]$Portquota,
 
         [ValidateRange(0, 65535)]
-        [double]$sessionquota ,
+        [double]$Sessionquota,
 
-        [double]$groupsessionlimit ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$portpreserveparity ,
-
-        [ValidateRange(0, 1023)]
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$portpreserverange ,
+        [double]$Groupsessionlimit,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$syncheck ,
+        [string]$Portpreserveparity,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Portpreserverange,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Syncheck,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateLsntransportprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                transportprofilename = $transportprofilename
-            }
-            if ($PSBoundParameters.ContainsKey('sessiontimeout')) { $Payload.Add('sessiontimeout', $sessiontimeout) }
-            if ($PSBoundParameters.ContainsKey('finrsttimeout')) { $Payload.Add('finrsttimeout', $finrsttimeout) }
-            if ($PSBoundParameters.ContainsKey('stuntimeout')) { $Payload.Add('stuntimeout', $stuntimeout) }
-            if ($PSBoundParameters.ContainsKey('synidletimeout')) { $Payload.Add('synidletimeout', $synidletimeout) }
-            if ($PSBoundParameters.ContainsKey('portquota')) { $Payload.Add('portquota', $portquota) }
-            if ($PSBoundParameters.ContainsKey('sessionquota')) { $Payload.Add('sessionquota', $sessionquota) }
-            if ($PSBoundParameters.ContainsKey('groupsessionlimit')) { $Payload.Add('groupsessionlimit', $groupsessionlimit) }
-            if ($PSBoundParameters.ContainsKey('portpreserveparity')) { $Payload.Add('portpreserveparity', $portpreserveparity) }
-            if ($PSBoundParameters.ContainsKey('portpreserverange')) { $Payload.Add('portpreserverange', $portpreserverange) }
-            if ($PSBoundParameters.ContainsKey('syncheck')) { $Payload.Add('syncheck', $syncheck) }
- 
-            if ($PSCmdlet.ShouldProcess("lsntransportprofile", "Update Lsn configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsntransportprofile -Payload $Payload -GetWarning
+            $payload = @{ transportprofilename = $transportprofilename }
+            if ( $PSBoundParameters.ContainsKey('sessiontimeout') ) { $payload.Add('sessiontimeout', $sessiontimeout) }
+            if ( $PSBoundParameters.ContainsKey('finrsttimeout') ) { $payload.Add('finrsttimeout', $finrsttimeout) }
+            if ( $PSBoundParameters.ContainsKey('stuntimeout') ) { $payload.Add('stuntimeout', $stuntimeout) }
+            if ( $PSBoundParameters.ContainsKey('synidletimeout') ) { $payload.Add('synidletimeout', $synidletimeout) }
+            if ( $PSBoundParameters.ContainsKey('portquota') ) { $payload.Add('portquota', $portquota) }
+            if ( $PSBoundParameters.ContainsKey('sessionquota') ) { $payload.Add('sessionquota', $sessionquota) }
+            if ( $PSBoundParameters.ContainsKey('groupsessionlimit') ) { $payload.Add('groupsessionlimit', $groupsessionlimit) }
+            if ( $PSBoundParameters.ContainsKey('portpreserveparity') ) { $payload.Add('portpreserveparity', $portpreserveparity) }
+            if ( $PSBoundParameters.ContainsKey('portpreserverange') ) { $payload.Add('portpreserverange', $portpreserverange) }
+            if ( $PSBoundParameters.ContainsKey('syncheck') ) { $payload.Add('syncheck', $syncheck) }
+            if ( $PSCmdlet.ShouldProcess("lsntransportprofile", "Update Lsn configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type lsntransportprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetLsntransportprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetLsntransportprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -10504,89 +10404,90 @@ function Invoke-ADCUpdateLsntransportprofile {
 }
 
 function Invoke-ADCUnsetLsntransportprofile {
-<#
+    <#
     .SYNOPSIS
-        Unset Lsn configuration Object
+        Unset Lsn configuration Object.
     .DESCRIPTION
-        Unset Lsn configuration Object 
-   .PARAMETER transportprofilename 
-       Name for the LSN transport profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN transport profile is created. 
-   .PARAMETER sessiontimeout 
-       Timeout, in seconds, for an idle LSN session. If an LSN session is idle for a time that exceeds this value, the Citrix ADC removes the session.  
-       This timeout does not apply for a TCP LSN session when a FIN or RST message is received from either of the endpoints. . 
-   .PARAMETER finrsttimeout 
-       Timeout, in seconds, for a TCP LSN session after a FIN or RST message is received from one of the endpoints.  
-       If a TCP LSN session is idle (after the Citrix ADC receives a FIN or RST message) for a time that exceeds this value, the Citrix ADC ADC removes the session.  
-       Since the LSN feature of the Citrix ADC does not maintain state information of any TCP LSN sessions, this timeout accommodates the transmission of the FIN or RST, and ACK messages from the other endpoint so that both endpoints can properly close the connection. 
-   .PARAMETER stuntimeout 
-       STUN protocol timeout. 
-   .PARAMETER synidletimeout 
-       SYN Idle timeout. 
-   .PARAMETER portquota 
-       Maximum number of LSN NAT ports to be used at a time by each subscriber for the specified protocol. For example, each subscriber can be limited to a maximum of 500 TCP NAT ports. When the LSN NAT mappings for a subscriber reach the limit, the Citrix ADC does not allocate additional NAT ports for that subscriber. 
-   .PARAMETER sessionquota 
-       Maximum number of concurrent LSN sessions allowed for each subscriber for the specified protocol.  
-       When the number of LSN sessions reaches the limit for a subscriber, the Citrix ADC does not allow the subscriber to open additional sessions. 
-   .PARAMETER groupsessionlimit 
-       Maximum number of concurrent LSN sessions(for the specified protocol) allowed for all subscriber of a group to which this profile has bound. This limit will get split across the Citrix ADCs packet engines and rounded down. When the number of LSN sessions reaches the limit for a group in packet engine, the Citrix ADC does not allow the subscriber of that group to open additional sessions through that packet engine. 
-   .PARAMETER portpreserveparity 
-       Enable port parity between a subscriber port and its mapped LSN NAT port. For example, if a subscriber initiates a connection from an odd numbered port, the Citrix ADC allocates an odd numbered LSN NAT port for this connection.  
-       You must set this parameter for proper functioning of protocols that require the source port to be even or odd numbered, for example, in peer-to-peer applications that use RTP or RTCP protocol.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER portpreserverange 
-       If a subscriber initiates a connection from a well-known port (0-1023), allocate a NAT port from the well-known port ) for this connection. For example, if a subscriber initiates a connection from port 80, the Citrix ADC can allocate port 100 as the NAT port for this connection.  
-       This parameter applies to dynamic NAT without port block allocation. It also applies to Deterministic NAT if the known ports.  
-       When all the well-known ports of all the available NAT IP addresses are used in different subscriber's connections (LSN sessions), and a subscriber initiates a connection from a well-known port, the Citrix ADC drops this connection.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER syncheck 
-       Silently drop any non-SYN packets for connections for which there is no LSN-NAT session present on the Citrix ADC.  
-       If you disable this parameter, the Citrix ADC accepts any non-SYN packets and creates a new LSN session entry for this connection.  
-       Following are some reasons for the Citrix ADC to receive such packets:  
-       * LSN session for a connection existed but the Citrix ADC removed this session because the LSN session was idle for a time that exceeded the configured session timeout.  
-       * Such packets can be a part of a DoS attack.  
-       Possible values = ENABLED, DISABLED
+        Configuration for LSN Transport Profile resource.
+    .PARAMETER Transportprofilename 
+        Name for the LSN transport profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN transport profile is created. 
+    .PARAMETER Sessiontimeout 
+        Timeout, in seconds, for an idle LSN session. If an LSN session is idle for a time that exceeds this value, the Citrix ADC removes the session. 
+        This timeout does not apply for a TCP LSN session when a FIN or RST message is received from either of the endpoints. . 
+    .PARAMETER Finrsttimeout 
+        Timeout, in seconds, for a TCP LSN session after a FIN or RST message is received from one of the endpoints. 
+        If a TCP LSN session is idle (after the Citrix ADC receives a FIN or RST message) for a time that exceeds this value, the Citrix ADC ADC removes the session. 
+        Since the LSN feature of the Citrix ADC does not maintain state information of any TCP LSN sessions, this timeout accommodates the transmission of the FIN or RST, and ACK messages from the other endpoint so that both endpoints can properly close the connection. 
+    .PARAMETER Stuntimeout 
+        STUN protocol timeout. 
+    .PARAMETER Synidletimeout 
+        SYN Idle timeout. 
+    .PARAMETER Portquota 
+        Maximum number of LSN NAT ports to be used at a time by each subscriber for the specified protocol. For example, each subscriber can be limited to a maximum of 500 TCP NAT ports. When the LSN NAT mappings for a subscriber reach the limit, the Citrix ADC does not allocate additional NAT ports for that subscriber. 
+    .PARAMETER Sessionquota 
+        Maximum number of concurrent LSN sessions allowed for each subscriber for the specified protocol. 
+        When the number of LSN sessions reaches the limit for a subscriber, the Citrix ADC does not allow the subscriber to open additional sessions. 
+    .PARAMETER Groupsessionlimit 
+        Maximum number of concurrent LSN sessions(for the specified protocol) allowed for all subscriber of a group to which this profile has bound. This limit will get split across the Citrix ADCs packet engines and rounded down. When the number of LSN sessions reaches the limit for a group in packet engine, the Citrix ADC does not allow the subscriber of that group to open additional sessions through that packet engine. 
+    .PARAMETER Portpreserveparity 
+        Enable port parity between a subscriber port and its mapped LSN NAT port. For example, if a subscriber initiates a connection from an odd numbered port, the Citrix ADC allocates an odd numbered LSN NAT port for this connection. 
+        You must set this parameter for proper functioning of protocols that require the source port to be even or odd numbered, for example, in peer-to-peer applications that use RTP or RTCP protocol. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Portpreserverange 
+        If a subscriber initiates a connection from a well-known port (0-1023), allocate a NAT port from the well-known port range (0-1023) for this connection. For example, if a subscriber initiates a connection from port 80, the Citrix ADC can allocate port 100 as the NAT port for this connection. 
+        This parameter applies to dynamic NAT without port block allocation. It also applies to Deterministic NAT if the range of ports allocated includes well-known ports. 
+        When all the well-known ports of all the available NAT IP addresses are used in different subscriber's connections (LSN sessions), and a subscriber initiates a connection from a well-known port, the Citrix ADC drops this connection. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Syncheck 
+        Silently drop any non-SYN packets for connections for which there is no LSN-NAT session present on the Citrix ADC. 
+        If you disable this parameter, the Citrix ADC accepts any non-SYN packets and creates a new LSN session entry for this connection. 
+        Following are some reasons for the Citrix ADC to receive such packets: 
+        * LSN session for a connection existed but the Citrix ADC removed this session because the LSN session was idle for a time that exceeded the configured session timeout. 
+        * Such packets can be a part of a DoS attack. 
+        Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCUnsetLsntransportprofile -transportprofilename <string>
+        PS C:\>Invoke-ADCUnsetLsntransportprofile -transportprofilename <string>
+        An example how to unset lsntransportprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsntransportprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$transportprofilename ,
+        [string]$Transportprofilename,
 
-        [Boolean]$sessiontimeout ,
+        [Boolean]$sessiontimeout,
 
-        [Boolean]$finrsttimeout ,
+        [Boolean]$finrsttimeout,
 
-        [Boolean]$stuntimeout ,
+        [Boolean]$stuntimeout,
 
-        [Boolean]$synidletimeout ,
+        [Boolean]$synidletimeout,
 
-        [Boolean]$portquota ,
+        [Boolean]$portquota,
 
-        [Boolean]$sessionquota ,
+        [Boolean]$sessionquota,
 
-        [Boolean]$groupsessionlimit ,
+        [Boolean]$groupsessionlimit,
 
-        [Boolean]$portpreserveparity ,
+        [Boolean]$portpreserveparity,
 
-        [Boolean]$portpreserverange ,
+        [Boolean]$portpreserverange,
 
         [Boolean]$syncheck 
     )
@@ -10595,21 +10496,19 @@ function Invoke-ADCUnsetLsntransportprofile {
     }
     process {
         try {
-            $Payload = @{
-                transportprofilename = $transportprofilename
-            }
-            if ($PSBoundParameters.ContainsKey('sessiontimeout')) { $Payload.Add('sessiontimeout', $sessiontimeout) }
-            if ($PSBoundParameters.ContainsKey('finrsttimeout')) { $Payload.Add('finrsttimeout', $finrsttimeout) }
-            if ($PSBoundParameters.ContainsKey('stuntimeout')) { $Payload.Add('stuntimeout', $stuntimeout) }
-            if ($PSBoundParameters.ContainsKey('synidletimeout')) { $Payload.Add('synidletimeout', $synidletimeout) }
-            if ($PSBoundParameters.ContainsKey('portquota')) { $Payload.Add('portquota', $portquota) }
-            if ($PSBoundParameters.ContainsKey('sessionquota')) { $Payload.Add('sessionquota', $sessionquota) }
-            if ($PSBoundParameters.ContainsKey('groupsessionlimit')) { $Payload.Add('groupsessionlimit', $groupsessionlimit) }
-            if ($PSBoundParameters.ContainsKey('portpreserveparity')) { $Payload.Add('portpreserveparity', $portpreserveparity) }
-            if ($PSBoundParameters.ContainsKey('portpreserverange')) { $Payload.Add('portpreserverange', $portpreserverange) }
-            if ($PSBoundParameters.ContainsKey('syncheck')) { $Payload.Add('syncheck', $syncheck) }
-            if ($PSCmdlet.ShouldProcess("$transportprofilename", "Unset Lsn configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsntransportprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ transportprofilename = $transportprofilename }
+            if ( $PSBoundParameters.ContainsKey('sessiontimeout') ) { $payload.Add('sessiontimeout', $sessiontimeout) }
+            if ( $PSBoundParameters.ContainsKey('finrsttimeout') ) { $payload.Add('finrsttimeout', $finrsttimeout) }
+            if ( $PSBoundParameters.ContainsKey('stuntimeout') ) { $payload.Add('stuntimeout', $stuntimeout) }
+            if ( $PSBoundParameters.ContainsKey('synidletimeout') ) { $payload.Add('synidletimeout', $synidletimeout) }
+            if ( $PSBoundParameters.ContainsKey('portquota') ) { $payload.Add('portquota', $portquota) }
+            if ( $PSBoundParameters.ContainsKey('sessionquota') ) { $payload.Add('sessionquota', $sessionquota) }
+            if ( $PSBoundParameters.ContainsKey('groupsessionlimit') ) { $payload.Add('groupsessionlimit', $groupsessionlimit) }
+            if ( $PSBoundParameters.ContainsKey('portpreserveparity') ) { $payload.Add('portpreserveparity', $portpreserveparity) }
+            if ( $PSBoundParameters.ContainsKey('portpreserverange') ) { $payload.Add('portpreserverange', $portpreserverange) }
+            if ( $PSBoundParameters.ContainsKey('syncheck') ) { $payload.Add('syncheck', $syncheck) }
+            if ( $PSCmdlet.ShouldProcess("$transportprofilename", "Unset Lsn configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type lsntransportprofile -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -10625,56 +10524,62 @@ function Invoke-ADCUnsetLsntransportprofile {
 }
 
 function Invoke-ADCGetLsntransportprofile {
-<#
+    <#
     .SYNOPSIS
-        Get Lsn configuration object(s)
+        Get Lsn configuration object(s).
     .DESCRIPTION
-        Get Lsn configuration object(s)
-    .PARAMETER transportprofilename 
-       Name for the LSN transport profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN transport profile is created. 
+        Configuration for LSN Transport Profile resource.
+    .PARAMETER Transportprofilename 
+        Name for the LSN transport profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the LSN transport profile is created. 
     .PARAMETER GetAll 
-        Retreive all lsntransportprofile object(s)
+        Retrieve all lsntransportprofile object(s).
     .PARAMETER Count
-        If specified, the count of the lsntransportprofile object(s) will be returned
+        If specified, the count of the lsntransportprofile object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetLsntransportprofile
+        PS C:\>Invoke-ADCGetLsntransportprofile
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetLsntransportprofile -GetAll 
+        PS C:\>Invoke-ADCGetLsntransportprofile -GetAll 
+        Get all lsntransportprofile data. 
     .EXAMPLE 
-        Invoke-ADCGetLsntransportprofile -Count
+        PS C:\>Invoke-ADCGetLsntransportprofile -Count 
+        Get the number of lsntransportprofile objects.
     .EXAMPLE
-        Invoke-ADCGetLsntransportprofile -name <string>
+        PS C:\>Invoke-ADCGetLsntransportprofile -name <string>
+        Get lsntransportprofile object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetLsntransportprofile -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetLsntransportprofile -Filter @{ 'name'='<value>' }
+        Get lsntransportprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsntransportprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$transportprofilename,
+        [string]$Transportprofilename,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -10692,24 +10597,24 @@ function Invoke-ADCGetLsntransportprofile {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all lsntransportprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsntransportprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsntransportprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for lsntransportprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsntransportprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsntransportprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving lsntransportprofile objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsntransportprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsntransportprofile -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving lsntransportprofile configuration for property 'transportprofilename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsntransportprofile -NitroPath nitro/v1/config -Resource $transportprofilename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving lsntransportprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsntransportprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type lsntransportprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

@@ -1,85 +1,79 @@
 function Invoke-ADCAddTransformaction {
-<#
+    <#
     .SYNOPSIS
-        Add Transform configuration Object
+        Add Transform configuration Object.
     .DESCRIPTION
-        Add Transform configuration Object 
-    .PARAMETER name 
-        Name for the URL transformation action.  
+        Configuration for transform action resource.
+    .PARAMETER Name 
+        Name for the URL transformation action. 
         Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the URL Transformation action is added. 
-    .PARAMETER profilename 
-        Name of the URL Transformation profile with which to associate this action.  
-        Minimum length = 1 
-    .PARAMETER priority 
-        Positive integer specifying the priority of the action within the profile. A lower number specifies a higher priority. Must be unique within the list of actions bound to the profile. Policies are evaluated in the order of their priority numbers, and the first policy that matches is applied.  
-        Minimum value = 1  
-        Maximum value = 2147483647 
-    .PARAMETER state 
-        Enable or disable this action.  
-        Default value: ENABLED  
+    .PARAMETER Profilename 
+        Name of the URL Transformation profile with which to associate this action. 
+    .PARAMETER Priority 
+        Positive integer specifying the priority of the action within the profile. A lower number specifies a higher priority. Must be unique within the list of actions bound to the profile. Policies are evaluated in the order of their priority numbers, and the first policy that matches is applied. 
+    .PARAMETER State 
+        Enable or disable this action. 
         Possible values = ENABLED, DISABLED 
     .PARAMETER PassThru 
         Return details about the created transformaction item.
     .EXAMPLE
-        Invoke-ADCAddTransformaction -name <string> -profilename <string> -priority <double>
+        PS C:\>Invoke-ADCAddTransformaction -name <string> -profilename <string> -priority <double>
+        An example how to add transformaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTransformaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$profilename ,
+        [string]$Profilename,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateRange(1, 2147483647)]
-        [double]$priority ,
+        [double]$Priority,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$state = 'ENABLED' ,
+        [string]$State = 'ENABLED',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddTransformaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                profilename = $profilename
-                priority = $priority
+            $payload = @{ name = $name
+                profilename    = $profilename
+                priority       = $priority
             }
-            if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
- 
-            if ($PSCmdlet.ShouldProcess("transformaction", "Add Transform configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type transformaction -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('state') ) { $payload.Add('state', $state) }
+            if ( $PSCmdlet.ShouldProcess("transformaction", "Add Transform configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type transformaction -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetTransformaction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetTransformaction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -92,47 +86,48 @@ function Invoke-ADCAddTransformaction {
 }
 
 function Invoke-ADCDeleteTransformaction {
-<#
+    <#
     .SYNOPSIS
-        Delete Transform configuration Object
+        Delete Transform configuration Object.
     .DESCRIPTION
-        Delete Transform configuration Object
-    .PARAMETER name 
-       Name for the URL transformation action.  
-       Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the URL Transformation action is added. 
+        Configuration for transform action resource.
+    .PARAMETER Name 
+        Name for the URL transformation action. 
+        Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the URL Transformation action is added.
     .EXAMPLE
-        Invoke-ADCDeleteTransformaction -name <string>
+        PS C:\>Invoke-ADCDeleteTransformaction -Name <string>
+        An example how to delete transformaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTransformaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteTransformaction: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Transform configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type transformaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Transform configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type transformaction -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -148,126 +143,114 @@ function Invoke-ADCDeleteTransformaction {
 }
 
 function Invoke-ADCUpdateTransformaction {
-<#
+    <#
     .SYNOPSIS
-        Update Transform configuration Object
+        Update Transform configuration Object.
     .DESCRIPTION
-        Update Transform configuration Object 
-    .PARAMETER name 
-        Name for the URL transformation action.  
+        Configuration for transform action resource.
+    .PARAMETER Name 
+        Name for the URL transformation action. 
         Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the URL Transformation action is added. 
-    .PARAMETER priority 
-        Positive integer specifying the priority of the action within the profile. A lower number specifies a higher priority. Must be unique within the list of actions bound to the profile. Policies are evaluated in the order of their priority numbers, and the first policy that matches is applied.  
-        Minimum value = 1  
-        Maximum value = 2147483647 
-    .PARAMETER requrlfrom 
-        PCRE-format regular expression that describes the request URL pattern to be transformed.  
-        Minimum length = 1 
-    .PARAMETER requrlinto 
-        PCRE-format regular expression that describes the transformation to be performed on URLs that match the reqUrlFrom pattern.  
-        Minimum length = 1 
-    .PARAMETER resurlfrom 
-        PCRE-format regular expression that describes the response URL pattern to be transformed.  
-        Minimum length = 1 
-    .PARAMETER resurlinto 
-        PCRE-format regular expression that describes the transformation to be performed on URLs that match the resUrlFrom pattern.  
-        Minimum length = 1 
-    .PARAMETER cookiedomainfrom 
-        Pattern that matches the domain to be transformed in Set-Cookie headers.  
-        Minimum length = 1 
-    .PARAMETER cookiedomaininto 
-        PCRE-format regular expression that describes the transformation to be performed on cookie domains that match the cookieDomainFrom pattern.  
-        NOTE: The cookie domain to be transformed is extracted from the request.  
-        Minimum length = 1 
-    .PARAMETER state 
-        Enable or disable this action.  
-        Default value: ENABLED  
+    .PARAMETER Priority 
+        Positive integer specifying the priority of the action within the profile. A lower number specifies a higher priority. Must be unique within the list of actions bound to the profile. Policies are evaluated in the order of their priority numbers, and the first policy that matches is applied. 
+    .PARAMETER Requrlfrom 
+        PCRE-format regular expression that describes the request URL pattern to be transformed. 
+    .PARAMETER Requrlinto 
+        PCRE-format regular expression that describes the transformation to be performed on URLs that match the reqUrlFrom pattern. 
+    .PARAMETER Resurlfrom 
+        PCRE-format regular expression that describes the response URL pattern to be transformed. 
+    .PARAMETER Resurlinto 
+        PCRE-format regular expression that describes the transformation to be performed on URLs that match the resUrlFrom pattern. 
+    .PARAMETER Cookiedomainfrom 
+        Pattern that matches the domain to be transformed in Set-Cookie headers. 
+    .PARAMETER Cookiedomaininto 
+        PCRE-format regular expression that describes the transformation to be performed on cookie domains that match the cookieDomainFrom pattern. 
+        NOTE: The cookie domain to be transformed is extracted from the request. 
+    .PARAMETER State 
+        Enable or disable this action. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any comments to preserve information about this URL Transformation action. 
     .PARAMETER PassThru 
         Return details about the created transformaction item.
     .EXAMPLE
-        Invoke-ADCUpdateTransformaction -name <string>
+        PS C:\>Invoke-ADCUpdateTransformaction -name <string>
+        An example how to update transformaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateTransformaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateRange(1, 2147483647)]
-        [double]$priority ,
+        [double]$Priority,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$requrlfrom ,
+        [string]$Requrlfrom,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$requrlinto ,
+        [string]$Requrlinto,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$resurlfrom ,
+        [string]$Resurlfrom,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$resurlinto ,
+        [string]$Resurlinto,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$cookiedomainfrom ,
+        [string]$Cookiedomainfrom,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$cookiedomaininto ,
+        [string]$Cookiedomaininto,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$state ,
+        [string]$State,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateTransformaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
-            if ($PSBoundParameters.ContainsKey('requrlfrom')) { $Payload.Add('requrlfrom', $requrlfrom) }
-            if ($PSBoundParameters.ContainsKey('requrlinto')) { $Payload.Add('requrlinto', $requrlinto) }
-            if ($PSBoundParameters.ContainsKey('resurlfrom')) { $Payload.Add('resurlfrom', $resurlfrom) }
-            if ($PSBoundParameters.ContainsKey('resurlinto')) { $Payload.Add('resurlinto', $resurlinto) }
-            if ($PSBoundParameters.ContainsKey('cookiedomainfrom')) { $Payload.Add('cookiedomainfrom', $cookiedomainfrom) }
-            if ($PSBoundParameters.ContainsKey('cookiedomaininto')) { $Payload.Add('cookiedomaininto', $cookiedomaininto) }
-            if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("transformaction", "Update Transform configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type transformaction -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('priority') ) { $payload.Add('priority', $priority) }
+            if ( $PSBoundParameters.ContainsKey('requrlfrom') ) { $payload.Add('requrlfrom', $requrlfrom) }
+            if ( $PSBoundParameters.ContainsKey('requrlinto') ) { $payload.Add('requrlinto', $requrlinto) }
+            if ( $PSBoundParameters.ContainsKey('resurlfrom') ) { $payload.Add('resurlfrom', $resurlfrom) }
+            if ( $PSBoundParameters.ContainsKey('resurlinto') ) { $payload.Add('resurlinto', $resurlinto) }
+            if ( $PSBoundParameters.ContainsKey('cookiedomainfrom') ) { $payload.Add('cookiedomainfrom', $cookiedomainfrom) }
+            if ( $PSBoundParameters.ContainsKey('cookiedomaininto') ) { $payload.Add('cookiedomaininto', $cookiedomaininto) }
+            if ( $PSBoundParameters.ContainsKey('state') ) { $payload.Add('state', $state) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("transformaction", "Update Transform configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type transformaction -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetTransformaction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetTransformaction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -280,69 +263,70 @@ function Invoke-ADCUpdateTransformaction {
 }
 
 function Invoke-ADCUnsetTransformaction {
-<#
+    <#
     .SYNOPSIS
-        Unset Transform configuration Object
+        Unset Transform configuration Object.
     .DESCRIPTION
-        Unset Transform configuration Object 
-   .PARAMETER name 
-       Name for the URL transformation action.  
-       Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the URL Transformation action is added. 
-   .PARAMETER requrlfrom 
-       PCRE-format regular expression that describes the request URL pattern to be transformed. 
-   .PARAMETER requrlinto 
-       PCRE-format regular expression that describes the transformation to be performed on URLs that match the reqUrlFrom pattern. 
-   .PARAMETER resurlfrom 
-       PCRE-format regular expression that describes the response URL pattern to be transformed. 
-   .PARAMETER resurlinto 
-       PCRE-format regular expression that describes the transformation to be performed on URLs that match the resUrlFrom pattern. 
-   .PARAMETER cookiedomainfrom 
-       Pattern that matches the domain to be transformed in Set-Cookie headers. 
-   .PARAMETER cookiedomaininto 
-       PCRE-format regular expression that describes the transformation to be performed on cookie domains that match the cookieDomainFrom pattern.  
-       NOTE: The cookie domain to be transformed is extracted from the request. 
-   .PARAMETER state 
-       Enable or disable this action.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER comment 
-       Any comments to preserve information about this URL Transformation action.
+        Configuration for transform action resource.
+    .PARAMETER Name 
+        Name for the URL transformation action. 
+        Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the URL Transformation action is added. 
+    .PARAMETER Requrlfrom 
+        PCRE-format regular expression that describes the request URL pattern to be transformed. 
+    .PARAMETER Requrlinto 
+        PCRE-format regular expression that describes the transformation to be performed on URLs that match the reqUrlFrom pattern. 
+    .PARAMETER Resurlfrom 
+        PCRE-format regular expression that describes the response URL pattern to be transformed. 
+    .PARAMETER Resurlinto 
+        PCRE-format regular expression that describes the transformation to be performed on URLs that match the resUrlFrom pattern. 
+    .PARAMETER Cookiedomainfrom 
+        Pattern that matches the domain to be transformed in Set-Cookie headers. 
+    .PARAMETER Cookiedomaininto 
+        PCRE-format regular expression that describes the transformation to be performed on cookie domains that match the cookieDomainFrom pattern. 
+        NOTE: The cookie domain to be transformed is extracted from the request. 
+    .PARAMETER State 
+        Enable or disable this action. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Comment 
+        Any comments to preserve information about this URL Transformation action.
     .EXAMPLE
-        Invoke-ADCUnsetTransformaction -name <string>
+        PS C:\>Invoke-ADCUnsetTransformaction -name <string>
+        An example how to unset transformaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetTransformaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformaction
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$requrlfrom ,
+        [Boolean]$requrlfrom,
 
-        [Boolean]$requrlinto ,
+        [Boolean]$requrlinto,
 
-        [Boolean]$resurlfrom ,
+        [Boolean]$resurlfrom,
 
-        [Boolean]$resurlinto ,
+        [Boolean]$resurlinto,
 
-        [Boolean]$cookiedomainfrom ,
+        [Boolean]$cookiedomainfrom,
 
-        [Boolean]$cookiedomaininto ,
+        [Boolean]$cookiedomaininto,
 
-        [Boolean]$state ,
+        [Boolean]$state,
 
         [Boolean]$comment 
     )
@@ -351,19 +335,17 @@ function Invoke-ADCUnsetTransformaction {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('requrlfrom')) { $Payload.Add('requrlfrom', $requrlfrom) }
-            if ($PSBoundParameters.ContainsKey('requrlinto')) { $Payload.Add('requrlinto', $requrlinto) }
-            if ($PSBoundParameters.ContainsKey('resurlfrom')) { $Payload.Add('resurlfrom', $resurlfrom) }
-            if ($PSBoundParameters.ContainsKey('resurlinto')) { $Payload.Add('resurlinto', $resurlinto) }
-            if ($PSBoundParameters.ContainsKey('cookiedomainfrom')) { $Payload.Add('cookiedomainfrom', $cookiedomainfrom) }
-            if ($PSBoundParameters.ContainsKey('cookiedomaininto')) { $Payload.Add('cookiedomaininto', $cookiedomaininto) }
-            if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Transform configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type transformaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('requrlfrom') ) { $payload.Add('requrlfrom', $requrlfrom) }
+            if ( $PSBoundParameters.ContainsKey('requrlinto') ) { $payload.Add('requrlinto', $requrlinto) }
+            if ( $PSBoundParameters.ContainsKey('resurlfrom') ) { $payload.Add('resurlfrom', $resurlfrom) }
+            if ( $PSBoundParameters.ContainsKey('resurlinto') ) { $payload.Add('resurlinto', $resurlinto) }
+            if ( $PSBoundParameters.ContainsKey('cookiedomainfrom') ) { $payload.Add('cookiedomainfrom', $cookiedomainfrom) }
+            if ( $PSBoundParameters.ContainsKey('cookiedomaininto') ) { $payload.Add('cookiedomaininto', $cookiedomaininto) }
+            if ( $PSBoundParameters.ContainsKey('state') ) { $payload.Add('state', $state) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Transform configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type transformaction -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -379,56 +361,62 @@ function Invoke-ADCUnsetTransformaction {
 }
 
 function Invoke-ADCGetTransformaction {
-<#
+    <#
     .SYNOPSIS
-        Get Transform configuration object(s)
+        Get Transform configuration object(s).
     .DESCRIPTION
-        Get Transform configuration object(s)
-    .PARAMETER name 
-       Name for the URL transformation action.  
-       Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the URL Transformation action is added. 
+        Configuration for transform action resource.
+    .PARAMETER Name 
+        Name for the URL transformation action. 
+        Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the URL Transformation action is added. 
     .PARAMETER GetAll 
-        Retreive all transformaction object(s)
+        Retrieve all transformaction object(s).
     .PARAMETER Count
-        If specified, the count of the transformaction object(s) will be returned
+        If specified, the count of the transformaction object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTransformaction
+        PS C:\>Invoke-ADCGetTransformaction
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTransformaction -GetAll 
+        PS C:\>Invoke-ADCGetTransformaction -GetAll 
+        Get all transformaction data. 
     .EXAMPLE 
-        Invoke-ADCGetTransformaction -Count
+        PS C:\>Invoke-ADCGetTransformaction -Count 
+        Get the number of transformaction objects.
     .EXAMPLE
-        Invoke-ADCGetTransformaction -name <string>
+        PS C:\>Invoke-ADCGetTransformaction -name <string>
+        Get transformaction object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTransformaction -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTransformaction -Filter @{ 'name'='<value>' }
+        Get transformaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTransformaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -446,24 +434,24 @@ function Invoke-ADCGetTransformaction {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all transformaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformaction -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for transformaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformaction -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving transformaction objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformaction -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving transformaction configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving transformaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -477,45 +465,50 @@ function Invoke-ADCGetTransformaction {
 }
 
 function Invoke-ADCGetTransformglobalbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Transform configuration object(s)
+        Get Transform configuration object(s).
     .DESCRIPTION
-        Get Transform configuration object(s)
+        Binding object which returns the resources bound to transformglobal.
     .PARAMETER GetAll 
-        Retreive all transformglobal_binding object(s)
+        Retrieve all transformglobal_binding object(s).
     .PARAMETER Count
-        If specified, the count of the transformglobal_binding object(s) will be returned
+        If specified, the count of the transformglobal_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTransformglobalbinding
+        PS C:\>Invoke-ADCGetTransformglobalbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTransformglobalbinding -GetAll
+        PS C:\>Invoke-ADCGetTransformglobalbinding -GetAll 
+        Get all transformglobal_binding data.
     .EXAMPLE
-        Invoke-ADCGetTransformglobalbinding -name <string>
+        PS C:\>Invoke-ADCGetTransformglobalbinding -name <string>
+        Get transformglobal_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTransformglobalbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTransformglobalbinding -Filter @{ 'name'='<value>' }
+        Get transformglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTransformglobalbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformglobal_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -527,26 +520,24 @@ function Invoke-ADCGetTransformglobalbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all transformglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for transformglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving transformglobal_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformglobal_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving transformglobal_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving transformglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -560,95 +551,93 @@ function Invoke-ADCGetTransformglobalbinding {
 }
 
 function Invoke-ADCAddTransformglobaltransformpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add Transform configuration Object
+        Add Transform configuration Object.
     .DESCRIPTION
-        Add Transform configuration Object 
-    .PARAMETER policyname 
+        Binding object showing the transformpolicy that can be bound to transformglobal.
+    .PARAMETER Policyname 
         Name of the transform policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         Specifies the priority of the policy. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Expression specifying the priority of the next policy which will get evaluated if the current policy rule evaluates to TRUE. 
-    .PARAMETER type 
-        Specifies the bind point to which to bind the policy. Available settings function as follows: * REQ_OVERRIDE. Request override. Binds the policy to the priority request queue. * REQ_DEFAULT. Binds the policy to the default request queue.  
-        Possible values = REQ_OVERRIDE, REQ_DEFAULT 
-    .PARAMETER invoke 
+    .PARAMETER Type 
+        Specifies the bind point to which to bind the policy. Available settings function as follows: * REQ_OVERRIDE. Request override. Binds the policy to the priority request queue. * REQ_DEFAULT. Binds the policy to the default request queue. * HTTPQUIC_REQ_OVERRIDE - Binds the policy to the HTTP_QUIC override request queue. * HTTPQUIC_REQ_DEFAULT - Binds the policy to the HTTP_QUIC default request queue. 
+        Possible values = REQ_OVERRIDE, REQ_DEFAULT, HTTPQUIC_REQ_OVERRIDE, HTTPQUIC_REQ_DEFAULT 
+    .PARAMETER Invoke 
         If the current policy evaluates to TRUE, terminate evaluation of policies bound to the current policy label, and then forwards the request or response to the specified virtual server or evaluates the specified policy label. 
-    .PARAMETER labeltype 
-        Type of invocation. Available settings function as follows: * reqvserver - Send the request to the specified request virtual server. * resvserver - Send the response to the specified response virtual server. * policylabel - Invoke the specified policy label.  
+    .PARAMETER Labeltype 
+        Type of invocation. Available settings function as follows: * reqvserver - Send the request to the specified request virtual server. * resvserver - Send the response to the specified response virtual server. * policylabel - Invoke the specified policy label. 
         Possible values = reqvserver, resvserver, policylabel 
-    .PARAMETER labelname 
+    .PARAMETER Labelname 
         Name of the policy label to invoke if the current policy evaluates to TRUE, the invoke parameter is set, and the label type is Policy Label. 
     .PARAMETER PassThru 
         Return details about the created transformglobal_transformpolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddTransformglobaltransformpolicybinding -policyname <string> -priority <double>
+        PS C:\>Invoke-ADCAddTransformglobaltransformpolicybinding -policyname <string> -priority <double>
+        An example how to add transformglobal_transformpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTransformglobaltransformpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformglobal_transformpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$policyname ,
+        [Parameter(Mandatory)]
+        [string]$Policyname,
 
-        [Parameter(Mandatory = $true)]
-        [double]$priority ,
+        [Parameter(Mandatory)]
+        [double]$Priority,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
-        [ValidateSet('REQ_OVERRIDE', 'REQ_DEFAULT')]
-        [string]$type ,
+        [ValidateSet('REQ_OVERRIDE', 'REQ_DEFAULT', 'HTTPQUIC_REQ_OVERRIDE', 'HTTPQUIC_REQ_DEFAULT')]
+        [string]$Type,
 
-        [boolean]$invoke ,
+        [boolean]$Invoke,
 
         [ValidateSet('reqvserver', 'resvserver', 'policylabel')]
-        [string]$labeltype ,
+        [string]$Labeltype,
 
-        [string]$labelname ,
+        [string]$Labelname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddTransformglobaltransformpolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                policyname = $policyname
-                priority = $priority
+            $payload = @{ policyname = $policyname
+                priority             = $priority
             }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('invoke')) { $Payload.Add('invoke', $invoke) }
-            if ($PSBoundParameters.ContainsKey('labeltype')) { $Payload.Add('labeltype', $labeltype) }
-            if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
- 
-            if ($PSCmdlet.ShouldProcess("transformglobal_transformpolicy_binding", "Add Transform configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type transformglobal_transformpolicy_binding -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSBoundParameters.ContainsKey('type') ) { $payload.Add('type', $type) }
+            if ( $PSBoundParameters.ContainsKey('invoke') ) { $payload.Add('invoke', $invoke) }
+            if ( $PSBoundParameters.ContainsKey('labeltype') ) { $payload.Add('labeltype', $labeltype) }
+            if ( $PSBoundParameters.ContainsKey('labelname') ) { $payload.Add('labelname', $labelname) }
+            if ( $PSCmdlet.ShouldProcess("transformglobal_transformpolicy_binding", "Add Transform configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type transformglobal_transformpolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetTransformglobaltransformpolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetTransformglobaltransformpolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -661,54 +650,57 @@ function Invoke-ADCAddTransformglobaltransformpolicybinding {
 }
 
 function Invoke-ADCDeleteTransformglobaltransformpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Transform configuration Object
+        Delete Transform configuration Object.
     .DESCRIPTION
-        Delete Transform configuration Object
-     .PARAMETER policyname 
-       Name of the transform policy.    .PARAMETER type 
-       Specifies the bind point to which to bind the policy. Available settings function as follows: * REQ_OVERRIDE. Request override. Binds the policy to the priority request queue. * REQ_DEFAULT. Binds the policy to the default request queue.  
-       Possible values = REQ_OVERRIDE, REQ_DEFAULT    .PARAMETER priority 
-       Specifies the priority of the policy.
+        Binding object showing the transformpolicy that can be bound to transformglobal.
+    .PARAMETER Policyname 
+        Name of the transform policy. 
+    .PARAMETER Type 
+        Specifies the bind point to which to bind the policy. Available settings function as follows: * REQ_OVERRIDE. Request override. Binds the policy to the priority request queue. * REQ_DEFAULT. Binds the policy to the default request queue. * HTTPQUIC_REQ_OVERRIDE - Binds the policy to the HTTP_QUIC override request queue. * HTTPQUIC_REQ_DEFAULT - Binds the policy to the HTTP_QUIC default request queue. 
+        Possible values = REQ_OVERRIDE, REQ_DEFAULT, HTTPQUIC_REQ_OVERRIDE, HTTPQUIC_REQ_DEFAULT 
+    .PARAMETER Priority 
+        Specifies the priority of the policy.
     .EXAMPLE
-        Invoke-ADCDeleteTransformglobaltransformpolicybinding 
+        PS C:\>Invoke-ADCDeleteTransformglobaltransformpolicybinding 
+        An example how to delete transformglobal_transformpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTransformglobaltransformpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformglobal_transformpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [string]$type ,
+        [string]$Type,
 
-        [double]$priority 
+        [double]$Priority 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteTransformglobaltransformpolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
-            if ($PSCmdlet.ShouldProcess("transformglobal_transformpolicy_binding", "Delete Transform configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type transformglobal_transformpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSBoundParameters.ContainsKey('Type') ) { $arguments.Add('type', $Type) }
+            if ( $PSBoundParameters.ContainsKey('Priority') ) { $arguments.Add('priority', $Priority) }
+            if ( $PSCmdlet.ShouldProcess("transformglobal_transformpolicy_binding", "Delete Transform configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type transformglobal_transformpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -724,49 +716,55 @@ function Invoke-ADCDeleteTransformglobaltransformpolicybinding {
 }
 
 function Invoke-ADCGetTransformglobaltransformpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Transform configuration object(s)
+        Get Transform configuration object(s).
     .DESCRIPTION
-        Get Transform configuration object(s)
+        Binding object showing the transformpolicy that can be bound to transformglobal.
     .PARAMETER GetAll 
-        Retreive all transformglobal_transformpolicy_binding object(s)
+        Retrieve all transformglobal_transformpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the transformglobal_transformpolicy_binding object(s) will be returned
+        If specified, the count of the transformglobal_transformpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTransformglobaltransformpolicybinding
+        PS C:\>Invoke-ADCGetTransformglobaltransformpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTransformglobaltransformpolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetTransformglobaltransformpolicybinding -GetAll 
+        Get all transformglobal_transformpolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetTransformglobaltransformpolicybinding -Count
+        PS C:\>Invoke-ADCGetTransformglobaltransformpolicybinding -Count 
+        Get the number of transformglobal_transformpolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetTransformglobaltransformpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetTransformglobaltransformpolicybinding -name <string>
+        Get transformglobal_transformpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTransformglobaltransformpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTransformglobaltransformpolicybinding -Filter @{ 'name'='<value>' }
+        Get transformglobal_transformpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTransformglobaltransformpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformglobal_transformpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -779,26 +777,24 @@ function Invoke-ADCGetTransformglobaltransformpolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all transformglobal_transformpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformglobal_transformpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformglobal_transformpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for transformglobal_transformpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformglobal_transformpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformglobal_transformpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving transformglobal_transformpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformglobal_transformpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformglobal_transformpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving transformglobal_transformpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving transformglobal_transformpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformglobal_transformpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformglobal_transformpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -812,90 +808,87 @@ function Invoke-ADCGetTransformglobaltransformpolicybinding {
 }
 
 function Invoke-ADCAddTransformpolicy {
-<#
+    <#
     .SYNOPSIS
-        Add Transform configuration Object
+        Add Transform configuration Object.
     .DESCRIPTION
-        Add Transform configuration Object 
-    .PARAMETER name 
-        Name for the URL Transformation policy.  
+        Configuration for URL Transformation policy resource.
+    .PARAMETER Name 
+        Name for the URL Transformation policy. 
         Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the URL Transformation policy is added. 
-    .PARAMETER rule 
-        Expression, or name of a named expression, against which to evaluate traffic.  
-        The following requirements apply only to the Citrix ADC CLI:  
-        * If the expression includes blank spaces, the entire expression must be enclosed in double quotation marks.  
-        * If the expression itself includes double quotation marks, you must escape the quotations by using the \ character.  
+    .PARAMETER Rule 
+        Expression, or name of a named expression, against which to evaluate traffic. 
+        The following requirements apply only to the Citrix ADC CLI: 
+        * If the expression includes blank spaces, the entire expression must be enclosed in double quotation marks. 
+        * If the expression itself includes double quotation marks, you must escape the quotations by using the \ character. 
         * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks. 
-    .PARAMETER profilename 
-        Name of the URL Transformation profile to use to transform requests and responses that match the policy.  
-        Minimum length = 1 
-    .PARAMETER comment 
+    .PARAMETER Profilename 
+        Name of the URL Transformation profile to use to transform requests and responses that match the policy. 
+    .PARAMETER Comment 
         Any comments to preserve information about this URL Transformation policy. 
-    .PARAMETER logaction 
+    .PARAMETER Logaction 
         Log server to use to log connections that match this policy. 
     .PARAMETER PassThru 
         Return details about the created transformpolicy item.
     .EXAMPLE
-        Invoke-ADCAddTransformpolicy -name <string> -rule <string> -profilename <string>
+        PS C:\>Invoke-ADCAddTransformpolicy -name <string> -rule <string> -profilename <string>
+        An example how to add transformpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTransformpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
-        [string]$rule ,
+        [Parameter(Mandatory)]
+        [string]$Rule,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$profilename ,
+        [string]$Profilename,
 
-        [string]$comment ,
+        [string]$Comment,
 
-        [string]$logaction ,
+        [string]$Logaction,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddTransformpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                rule = $rule
-                profilename = $profilename
+            $payload = @{ name = $name
+                rule           = $rule
+                profilename    = $profilename
             }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
- 
-            if ($PSCmdlet.ShouldProcess("transformpolicy", "Add Transform configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type transformpolicy -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("transformpolicy", "Add Transform configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type transformpolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetTransformpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetTransformpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -908,47 +901,48 @@ function Invoke-ADCAddTransformpolicy {
 }
 
 function Invoke-ADCDeleteTransformpolicy {
-<#
+    <#
     .SYNOPSIS
-        Delete Transform configuration Object
+        Delete Transform configuration Object.
     .DESCRIPTION
-        Delete Transform configuration Object
-    .PARAMETER name 
-       Name for the URL Transformation policy.  
-       Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the URL Transformation policy is added. 
+        Configuration for URL Transformation policy resource.
+    .PARAMETER Name 
+        Name for the URL Transformation policy. 
+        Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the URL Transformation policy is added.
     .EXAMPLE
-        Invoke-ADCDeleteTransformpolicy -name <string>
+        PS C:\>Invoke-ADCDeleteTransformpolicy -Name <string>
+        An example how to delete transformpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTransformpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteTransformpolicy: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Transform configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type transformpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Transform configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type transformpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -964,88 +958,84 @@ function Invoke-ADCDeleteTransformpolicy {
 }
 
 function Invoke-ADCUpdateTransformpolicy {
-<#
+    <#
     .SYNOPSIS
-        Update Transform configuration Object
+        Update Transform configuration Object.
     .DESCRIPTION
-        Update Transform configuration Object 
-    .PARAMETER name 
-        Name for the URL Transformation policy.  
+        Configuration for URL Transformation policy resource.
+    .PARAMETER Name 
+        Name for the URL Transformation policy. 
         Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the URL Transformation policy is added. 
-    .PARAMETER rule 
-        Expression, or name of a named expression, against which to evaluate traffic.  
-        The following requirements apply only to the Citrix ADC CLI:  
-        * If the expression includes blank spaces, the entire expression must be enclosed in double quotation marks.  
-        * If the expression itself includes double quotation marks, you must escape the quotations by using the \ character.  
+    .PARAMETER Rule 
+        Expression, or name of a named expression, against which to evaluate traffic. 
+        The following requirements apply only to the Citrix ADC CLI: 
+        * If the expression includes blank spaces, the entire expression must be enclosed in double quotation marks. 
+        * If the expression itself includes double quotation marks, you must escape the quotations by using the \ character. 
         * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks. 
-    .PARAMETER profilename 
-        Name of the URL Transformation profile to use to transform requests and responses that match the policy.  
-        Minimum length = 1 
-    .PARAMETER comment 
+    .PARAMETER Profilename 
+        Name of the URL Transformation profile to use to transform requests and responses that match the policy. 
+    .PARAMETER Comment 
         Any comments to preserve information about this URL Transformation policy. 
-    .PARAMETER logaction 
+    .PARAMETER Logaction 
         Log server to use to log connections that match this policy. 
     .PARAMETER PassThru 
         Return details about the created transformpolicy item.
     .EXAMPLE
-        Invoke-ADCUpdateTransformpolicy -name <string>
+        PS C:\>Invoke-ADCUpdateTransformpolicy -name <string>
+        An example how to update transformpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateTransformpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$rule ,
+        [string]$Rule,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$profilename ,
+        [string]$Profilename,
 
-        [string]$comment ,
+        [string]$Comment,
 
-        [string]$logaction ,
+        [string]$Logaction,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateTransformpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
-            if ($PSBoundParameters.ContainsKey('profilename')) { $Payload.Add('profilename', $profilename) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
- 
-            if ($PSCmdlet.ShouldProcess("transformpolicy", "Update Transform configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type transformpolicy -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('rule') ) { $payload.Add('rule', $rule) }
+            if ( $PSBoundParameters.ContainsKey('profilename') ) { $payload.Add('profilename', $profilename) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("transformpolicy", "Update Transform configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type transformpolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetTransformpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetTransformpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1058,43 +1048,44 @@ function Invoke-ADCUpdateTransformpolicy {
 }
 
 function Invoke-ADCUnsetTransformpolicy {
-<#
+    <#
     .SYNOPSIS
-        Unset Transform configuration Object
+        Unset Transform configuration Object.
     .DESCRIPTION
-        Unset Transform configuration Object 
-   .PARAMETER name 
-       Name for the URL Transformation policy.  
-       Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the URL Transformation policy is added. 
-   .PARAMETER comment 
-       Any comments to preserve information about this URL Transformation policy. 
-   .PARAMETER logaction 
-       Log server to use to log connections that match this policy.
+        Configuration for URL Transformation policy resource.
+    .PARAMETER Name 
+        Name for the URL Transformation policy. 
+        Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the URL Transformation policy is added. 
+    .PARAMETER Comment 
+        Any comments to preserve information about this URL Transformation policy. 
+    .PARAMETER Logaction 
+        Log server to use to log connections that match this policy.
     .EXAMPLE
-        Invoke-ADCUnsetTransformpolicy -name <string>
+        PS C:\>Invoke-ADCUnsetTransformpolicy -name <string>
+        An example how to unset transformpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetTransformpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicy
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$comment ,
+        [Boolean]$comment,
 
         [Boolean]$logaction 
     )
@@ -1103,13 +1094,11 @@ function Invoke-ADCUnsetTransformpolicy {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Transform configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type transformpolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Transform configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type transformpolicy -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1125,70 +1114,68 @@ function Invoke-ADCUnsetTransformpolicy {
 }
 
 function Invoke-ADCRenameTransformpolicy {
-<#
+    <#
     .SYNOPSIS
-        Rename Transform configuration Object
+        Rename Transform configuration Object.
     .DESCRIPTION
-        Rename Transform configuration Object 
-    .PARAMETER name 
-        Name for the URL Transformation policy.  
+        Configuration for URL Transformation policy resource.
+    .PARAMETER Name 
+        Name for the URL Transformation policy. 
         Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the URL Transformation policy is added. 
-    .PARAMETER newname 
+    .PARAMETER Newname 
         New name for the policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
     .PARAMETER PassThru 
         Return details about the created transformpolicy item.
     .EXAMPLE
-        Invoke-ADCRenameTransformpolicy -name <string> -newname <string>
+        PS C:\>Invoke-ADCRenameTransformpolicy -name <string> -newname <string>
+        An example how to rename transformpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameTransformpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameTransformpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                newname = $newname
+            $payload = @{ name = $name
+                newname        = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("transformpolicy", "Rename Transform configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type transformpolicy -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("transformpolicy", "Rename Transform configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type transformpolicy -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetTransformpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetTransformpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1201,56 +1188,62 @@ function Invoke-ADCRenameTransformpolicy {
 }
 
 function Invoke-ADCGetTransformpolicy {
-<#
+    <#
     .SYNOPSIS
-        Get Transform configuration object(s)
+        Get Transform configuration object(s).
     .DESCRIPTION
-        Get Transform configuration object(s)
-    .PARAMETER name 
-       Name for the URL Transformation policy.  
-       Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the URL Transformation policy is added. 
+        Configuration for URL Transformation policy resource.
+    .PARAMETER Name 
+        Name for the URL Transformation policy. 
+        Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the URL Transformation policy is added. 
     .PARAMETER GetAll 
-        Retreive all transformpolicy object(s)
+        Retrieve all transformpolicy object(s).
     .PARAMETER Count
-        If specified, the count of the transformpolicy object(s) will be returned
+        If specified, the count of the transformpolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicy
+        PS C:\>Invoke-ADCGetTransformpolicy
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTransformpolicy -GetAll 
+        PS C:\>Invoke-ADCGetTransformpolicy -GetAll 
+        Get all transformpolicy data. 
     .EXAMPLE 
-        Invoke-ADCGetTransformpolicy -Count
+        PS C:\>Invoke-ADCGetTransformpolicy -Count 
+        Get the number of transformpolicy objects.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicy -name <string>
+        PS C:\>Invoke-ADCGetTransformpolicy -name <string>
+        Get transformpolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicy -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTransformpolicy -Filter @{ 'name'='<value>' }
+        Get transformpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTransformpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1268,24 +1261,24 @@ function Invoke-ADCGetTransformpolicy {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all transformpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for transformpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving transformpolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving transformpolicy configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving transformpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1299,69 +1292,67 @@ function Invoke-ADCGetTransformpolicy {
 }
 
 function Invoke-ADCAddTransformpolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Add Transform configuration Object
+        Add Transform configuration Object.
     .DESCRIPTION
-        Add Transform configuration Object 
-    .PARAMETER labelname 
+        Configuration for transform policy label resource.
+    .PARAMETER Labelname 
         Name for the policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the URL Transformation policy label is added. 
-    .PARAMETER policylabeltype 
-        Types of transformations allowed by the policies bound to the label. For URL transformation, always http_req (HTTP Request).  
-        Possible values = http_req 
+    .PARAMETER Policylabeltype 
+        Types of transformations allowed by the policies bound to the label. For URL transformation, always http_req (HTTP Request). 
+        Possible values = http_req, httpquic_req 
     .PARAMETER PassThru 
         Return details about the created transformpolicylabel item.
     .EXAMPLE
-        Invoke-ADCAddTransformpolicylabel -labelname <string> -policylabeltype <string>
+        PS C:\>Invoke-ADCAddTransformpolicylabel -labelname <string> -policylabeltype <string>
+        An example how to add transformpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTransformpolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [Parameter(Mandatory = $true)]
-        [ValidateSet('http_req')]
-        [string]$policylabeltype ,
+        [Parameter(Mandatory)]
+        [ValidateSet('http_req', 'httpquic_req')]
+        [string]$Policylabeltype,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddTransformpolicylabel: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-                policylabeltype = $policylabeltype
+            $payload = @{ labelname = $labelname
+                policylabeltype     = $policylabeltype
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("transformpolicylabel", "Add Transform configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type transformpolicylabel -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("transformpolicylabel", "Add Transform configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type transformpolicylabel -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetTransformpolicylabel -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetTransformpolicylabel -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1374,46 +1365,47 @@ function Invoke-ADCAddTransformpolicylabel {
 }
 
 function Invoke-ADCDeleteTransformpolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Delete Transform configuration Object
+        Delete Transform configuration Object.
     .DESCRIPTION
-        Delete Transform configuration Object
-    .PARAMETER labelname 
-       Name for the policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the URL Transformation policy label is added. 
+        Configuration for transform policy label resource.
+    .PARAMETER Labelname 
+        Name for the policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the URL Transformation policy label is added.
     .EXAMPLE
-        Invoke-ADCDeleteTransformpolicylabel -labelname <string>
+        PS C:\>Invoke-ADCDeleteTransformpolicylabel -Labelname <string>
+        An example how to delete transformpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTransformpolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname 
+        [Parameter(Mandatory)]
+        [string]$Labelname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteTransformpolicylabel: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$labelname", "Delete Transform configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type transformpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$labelname", "Delete Transform configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type transformpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1429,69 +1421,67 @@ function Invoke-ADCDeleteTransformpolicylabel {
 }
 
 function Invoke-ADCRenameTransformpolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Rename Transform configuration Object
+        Rename Transform configuration Object.
     .DESCRIPTION
-        Rename Transform configuration Object 
-    .PARAMETER labelname 
+        Configuration for transform policy label resource.
+    .PARAMETER Labelname 
         Name for the policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the URL Transformation policy label is added. 
-    .PARAMETER newname 
-        New name for the policy label.  
+    .PARAMETER Newname 
+        New name for the policy label. 
         Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
     .PARAMETER PassThru 
         Return details about the created transformpolicylabel item.
     .EXAMPLE
-        Invoke-ADCRenameTransformpolicylabel -labelname <string> -newname <string>
+        PS C:\>Invoke-ADCRenameTransformpolicylabel -labelname <string> -newname <string>
+        An example how to rename transformpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameTransformpolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameTransformpolicylabel: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-                newname = $newname
+            $payload = @{ labelname = $labelname
+                newname             = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("transformpolicylabel", "Rename Transform configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type transformpolicylabel -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("transformpolicylabel", "Rename Transform configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type transformpolicylabel -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetTransformpolicylabel -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetTransformpolicylabel -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1504,54 +1494,60 @@ function Invoke-ADCRenameTransformpolicylabel {
 }
 
 function Invoke-ADCGetTransformpolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Get Transform configuration object(s)
+        Get Transform configuration object(s).
     .DESCRIPTION
-        Get Transform configuration object(s)
-    .PARAMETER labelname 
-       Name for the policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the URL Transformation policy label is added. 
+        Configuration for transform policy label resource.
+    .PARAMETER Labelname 
+        Name for the policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the URL Transformation policy label is added. 
     .PARAMETER GetAll 
-        Retreive all transformpolicylabel object(s)
+        Retrieve all transformpolicylabel object(s).
     .PARAMETER Count
-        If specified, the count of the transformpolicylabel object(s) will be returned
+        If specified, the count of the transformpolicylabel object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicylabel
+        PS C:\>Invoke-ADCGetTransformpolicylabel
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTransformpolicylabel -GetAll 
+        PS C:\>Invoke-ADCGetTransformpolicylabel -GetAll 
+        Get all transformpolicylabel data. 
     .EXAMPLE 
-        Invoke-ADCGetTransformpolicylabel -Count
+        PS C:\>Invoke-ADCGetTransformpolicylabel -Count 
+        Get the number of transformpolicylabel objects.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicylabel -name <string>
+        PS C:\>Invoke-ADCGetTransformpolicylabel -name <string>
+        Get transformpolicylabel object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicylabel -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTransformpolicylabel -Filter @{ 'name'='<value>' }
+        Get transformpolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTransformpolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1569,24 +1565,24 @@ function Invoke-ADCGetTransformpolicylabel {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all transformpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for transformpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving transformpolicylabel objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving transformpolicylabel configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving transformpolicylabel configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1600,50 +1596,55 @@ function Invoke-ADCGetTransformpolicylabel {
 }
 
 function Invoke-ADCGetTransformpolicylabelbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Transform configuration object(s)
+        Get Transform configuration object(s).
     .DESCRIPTION
-        Get Transform configuration object(s)
-    .PARAMETER labelname 
-       Name for the policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the URL Transformation policy label is added. 
+        Binding object which returns the resources bound to transformpolicylabel.
+    .PARAMETER Labelname 
+        Name for the policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the URL Transformation policy label is added. 
     .PARAMETER GetAll 
-        Retreive all transformpolicylabel_binding object(s)
+        Retrieve all transformpolicylabel_binding object(s).
     .PARAMETER Count
-        If specified, the count of the transformpolicylabel_binding object(s) will be returned
+        If specified, the count of the transformpolicylabel_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicylabelbinding
+        PS C:\>Invoke-ADCGetTransformpolicylabelbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTransformpolicylabelbinding -GetAll
+        PS C:\>Invoke-ADCGetTransformpolicylabelbinding -GetAll 
+        Get all transformpolicylabel_binding data.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicylabelbinding -name <string>
+        PS C:\>Invoke-ADCGetTransformpolicylabelbinding -name <string>
+        Get transformpolicylabel_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicylabelbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTransformpolicylabelbinding -Filter @{ 'name'='<value>' }
+        Get transformpolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTransformpolicylabelbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 			
         [hashtable]$Filter = @{ },
 
@@ -1655,26 +1656,24 @@ function Invoke-ADCGetTransformpolicylabelbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all transformpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for transformpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving transformpolicylabel_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving transformpolicylabel_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving transformpolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1688,54 +1687,60 @@ function Invoke-ADCGetTransformpolicylabelbinding {
 }
 
 function Invoke-ADCGetTransformpolicylabelpolicybindingbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Transform configuration object(s)
+        Get Transform configuration object(s).
     .DESCRIPTION
-        Get Transform configuration object(s)
-    .PARAMETER labelname 
-       Name of the URL Transformation policy label to which to bind the policy. 
+        Binding object showing the policybinding that can be bound to transformpolicylabel.
+    .PARAMETER Labelname 
+        Name of the URL Transformation policy label to which to bind the policy. 
     .PARAMETER GetAll 
-        Retreive all transformpolicylabel_policybinding_binding object(s)
+        Retrieve all transformpolicylabel_policybinding_binding object(s).
     .PARAMETER Count
-        If specified, the count of the transformpolicylabel_policybinding_binding object(s) will be returned
+        If specified, the count of the transformpolicylabel_policybinding_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicylabelpolicybindingbinding
+        PS C:\>Invoke-ADCGetTransformpolicylabelpolicybindingbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTransformpolicylabelpolicybindingbinding -GetAll 
+        PS C:\>Invoke-ADCGetTransformpolicylabelpolicybindingbinding -GetAll 
+        Get all transformpolicylabel_policybinding_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetTransformpolicylabelpolicybindingbinding -Count
+        PS C:\>Invoke-ADCGetTransformpolicylabelpolicybindingbinding -Count 
+        Get the number of transformpolicylabel_policybinding_binding objects.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicylabelpolicybindingbinding -name <string>
+        PS C:\>Invoke-ADCGetTransformpolicylabelpolicybindingbinding -name <string>
+        Get transformpolicylabel_policybinding_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTransformpolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
+        Get transformpolicylabel_policybinding_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTransformpolicylabelpolicybindingbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1748,26 +1753,24 @@ function Invoke-ADCGetTransformpolicylabelpolicybindingbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all transformpolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for transformpolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving transformpolicylabel_policybinding_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving transformpolicylabel_policybinding_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving transformpolicylabel_policybinding_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1781,94 +1784,92 @@ function Invoke-ADCGetTransformpolicylabelpolicybindingbinding {
 }
 
 function Invoke-ADCAddTransformpolicylabeltransformpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add Transform configuration Object
+        Add Transform configuration Object.
     .DESCRIPTION
-        Add Transform configuration Object 
-    .PARAMETER labelname 
+        Binding object showing the transformpolicy that can be bound to transformpolicylabel.
+    .PARAMETER Labelname 
         Name of the URL Transformation policy label to which to bind the policy. 
-    .PARAMETER policyname 
+    .PARAMETER Policyname 
         Name of the URL Transformation policy to bind to the policy label. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         Specifies the priority of the policy. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Expression specifying the priority of the next policy which will get evaluated if the current policy rule evaluates to TRUE. 
-    .PARAMETER invoke 
+    .PARAMETER Invoke 
         If the current policy evaluates to TRUE, terminate evaluation of policies bound to the current policy label, and then forward the request to the specified virtual server or evaluate the specified policy label. 
-    .PARAMETER labeltype 
-        Type of invocation. Available settings function as follows: * reqvserver - Forward the request to the specified request virtual server. * policylabel - Invoke the specified policy label.  
+    .PARAMETER Labeltype 
+        Type of invocation. Available settings function as follows: * reqvserver - Forward the request to the specified request virtual server. * policylabel - Invoke the specified policy label. 
         Possible values = reqvserver, policylabel 
-    .PARAMETER invoke_labelname 
+    .PARAMETER Invoke_labelname 
         Name of the policy label. 
     .PARAMETER PassThru 
         Return details about the created transformpolicylabel_transformpolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddTransformpolicylabeltransformpolicybinding -labelname <string> -policyname <string> -priority <double>
+        PS C:\>Invoke-ADCAddTransformpolicylabeltransformpolicybinding -labelname <string> -policyname <string> -priority <double>
+        An example how to add transformpolicylabel_transformpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTransformpolicylabeltransformpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicylabel_transformpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [Parameter(Mandatory = $true)]
-        [string]$policyname ,
+        [Parameter(Mandatory)]
+        [string]$Policyname,
 
-        [Parameter(Mandatory = $true)]
-        [double]$priority ,
+        [Parameter(Mandatory)]
+        [double]$Priority,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
-        [boolean]$invoke ,
+        [boolean]$Invoke,
 
         [ValidateSet('reqvserver', 'policylabel')]
-        [string]$labeltype ,
+        [string]$Labeltype,
 
-        [string]$invoke_labelname ,
+        [string]$Invoke_labelname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddTransformpolicylabeltransformpolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-                policyname = $policyname
-                priority = $priority
+            $payload = @{ labelname = $labelname
+                policyname          = $policyname
+                priority            = $priority
             }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
-            if ($PSBoundParameters.ContainsKey('invoke')) { $Payload.Add('invoke', $invoke) }
-            if ($PSBoundParameters.ContainsKey('labeltype')) { $Payload.Add('labeltype', $labeltype) }
-            if ($PSBoundParameters.ContainsKey('invoke_labelname')) { $Payload.Add('invoke_labelname', $invoke_labelname) }
- 
-            if ($PSCmdlet.ShouldProcess("transformpolicylabel_transformpolicy_binding", "Add Transform configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type transformpolicylabel_transformpolicy_binding -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSBoundParameters.ContainsKey('invoke') ) { $payload.Add('invoke', $invoke) }
+            if ( $PSBoundParameters.ContainsKey('labeltype') ) { $payload.Add('labeltype', $labeltype) }
+            if ( $PSBoundParameters.ContainsKey('invoke_labelname') ) { $payload.Add('invoke_labelname', $invoke_labelname) }
+            if ( $PSCmdlet.ShouldProcess("transformpolicylabel_transformpolicy_binding", "Add Transform configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type transformpolicylabel_transformpolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetTransformpolicylabeltransformpolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetTransformpolicylabeltransformpolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1881,53 +1882,56 @@ function Invoke-ADCAddTransformpolicylabeltransformpolicybinding {
 }
 
 function Invoke-ADCDeleteTransformpolicylabeltransformpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Transform configuration Object
+        Delete Transform configuration Object.
     .DESCRIPTION
-        Delete Transform configuration Object
-    .PARAMETER labelname 
-       Name of the URL Transformation policy label to which to bind the policy.    .PARAMETER policyname 
-       Name of the URL Transformation policy to bind to the policy label.    .PARAMETER priority 
-       Specifies the priority of the policy.
+        Binding object showing the transformpolicy that can be bound to transformpolicylabel.
+    .PARAMETER Labelname 
+        Name of the URL Transformation policy label to which to bind the policy. 
+    .PARAMETER Policyname 
+        Name of the URL Transformation policy to bind to the policy label. 
+    .PARAMETER Priority 
+        Specifies the priority of the policy.
     .EXAMPLE
-        Invoke-ADCDeleteTransformpolicylabeltransformpolicybinding -labelname <string>
+        PS C:\>Invoke-ADCDeleteTransformpolicylabeltransformpolicybinding -Labelname <string>
+        An example how to delete transformpolicylabel_transformpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTransformpolicylabeltransformpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicylabel_transformpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [double]$priority 
+        [double]$Priority 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteTransformpolicylabeltransformpolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
-            if ($PSCmdlet.ShouldProcess("$labelname", "Delete Transform configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type transformpolicylabel_transformpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSBoundParameters.ContainsKey('Priority') ) { $arguments.Add('priority', $Priority) }
+            if ( $PSCmdlet.ShouldProcess("$labelname", "Delete Transform configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type transformpolicylabel_transformpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1943,54 +1947,60 @@ function Invoke-ADCDeleteTransformpolicylabeltransformpolicybinding {
 }
 
 function Invoke-ADCGetTransformpolicylabeltransformpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Transform configuration object(s)
+        Get Transform configuration object(s).
     .DESCRIPTION
-        Get Transform configuration object(s)
-    .PARAMETER labelname 
-       Name of the URL Transformation policy label to which to bind the policy. 
+        Binding object showing the transformpolicy that can be bound to transformpolicylabel.
+    .PARAMETER Labelname 
+        Name of the URL Transformation policy label to which to bind the policy. 
     .PARAMETER GetAll 
-        Retreive all transformpolicylabel_transformpolicy_binding object(s)
+        Retrieve all transformpolicylabel_transformpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the transformpolicylabel_transformpolicy_binding object(s) will be returned
+        If specified, the count of the transformpolicylabel_transformpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicylabeltransformpolicybinding
+        PS C:\>Invoke-ADCGetTransformpolicylabeltransformpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTransformpolicylabeltransformpolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetTransformpolicylabeltransformpolicybinding -GetAll 
+        Get all transformpolicylabel_transformpolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetTransformpolicylabeltransformpolicybinding -Count
+        PS C:\>Invoke-ADCGetTransformpolicylabeltransformpolicybinding -Count 
+        Get the number of transformpolicylabel_transformpolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicylabeltransformpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetTransformpolicylabeltransformpolicybinding -name <string>
+        Get transformpolicylabel_transformpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicylabeltransformpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTransformpolicylabeltransformpolicybinding -Filter @{ 'name'='<value>' }
+        Get transformpolicylabel_transformpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTransformpolicylabeltransformpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicylabel_transformpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2003,26 +2013,24 @@ function Invoke-ADCGetTransformpolicylabeltransformpolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all transformpolicylabel_transformpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_transformpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_transformpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for transformpolicylabel_transformpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_transformpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_transformpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving transformpolicylabel_transformpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_transformpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_transformpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving transformpolicylabel_transformpolicy_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_transformpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving transformpolicylabel_transformpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_transformpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicylabel_transformpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2036,51 +2044,56 @@ function Invoke-ADCGetTransformpolicylabeltransformpolicybinding {
 }
 
 function Invoke-ADCGetTransformpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Transform configuration object(s)
+        Get Transform configuration object(s).
     .DESCRIPTION
-        Get Transform configuration object(s)
-    .PARAMETER name 
-       Name of the URL Transformation policy. 
+        Binding object which returns the resources bound to transformpolicy.
+    .PARAMETER Name 
+        Name of the URL Transformation policy. 
     .PARAMETER GetAll 
-        Retreive all transformpolicy_binding object(s)
+        Retrieve all transformpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the transformpolicy_binding object(s) will be returned
+        If specified, the count of the transformpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicybinding
+        PS C:\>Invoke-ADCGetTransformpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTransformpolicybinding -GetAll
+        PS C:\>Invoke-ADCGetTransformpolicybinding -GetAll 
+        Get all transformpolicy_binding data.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetTransformpolicybinding -name <string>
+        Get transformpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTransformpolicybinding -Filter @{ 'name'='<value>' }
+        Get transformpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTransformpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -2092,26 +2105,24 @@ function Invoke-ADCGetTransformpolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all transformpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for transformpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving transformpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving transformpolicy_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving transformpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2125,55 +2136,61 @@ function Invoke-ADCGetTransformpolicybinding {
 }
 
 function Invoke-ADCGetTransformpolicycsvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Transform configuration object(s)
+        Get Transform configuration object(s).
     .DESCRIPTION
-        Get Transform configuration object(s)
-    .PARAMETER name 
-       Name of the URL Transformation policy. 
+        Binding object showing the csvserver that can be bound to transformpolicy.
+    .PARAMETER Name 
+        Name of the URL Transformation policy. 
     .PARAMETER GetAll 
-        Retreive all transformpolicy_csvserver_binding object(s)
+        Retrieve all transformpolicy_csvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the transformpolicy_csvserver_binding object(s) will be returned
+        If specified, the count of the transformpolicy_csvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicycsvserverbinding
+        PS C:\>Invoke-ADCGetTransformpolicycsvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTransformpolicycsvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetTransformpolicycsvserverbinding -GetAll 
+        Get all transformpolicy_csvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetTransformpolicycsvserverbinding -Count
+        PS C:\>Invoke-ADCGetTransformpolicycsvserverbinding -Count 
+        Get the number of transformpolicy_csvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicycsvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetTransformpolicycsvserverbinding -name <string>
+        Get transformpolicy_csvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicycsvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTransformpolicycsvserverbinding -Filter @{ 'name'='<value>' }
+        Get transformpolicy_csvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTransformpolicycsvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2186,26 +2203,24 @@ function Invoke-ADCGetTransformpolicycsvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all transformpolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for transformpolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_csvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving transformpolicy_csvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_csvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_csvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving transformpolicy_csvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_csvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving transformpolicy_csvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_csvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_csvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2219,55 +2234,61 @@ function Invoke-ADCGetTransformpolicycsvserverbinding {
 }
 
 function Invoke-ADCGetTransformpolicylbvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Transform configuration object(s)
+        Get Transform configuration object(s).
     .DESCRIPTION
-        Get Transform configuration object(s)
-    .PARAMETER name 
-       Name of the URL Transformation policy. 
+        Binding object showing the lbvserver that can be bound to transformpolicy.
+    .PARAMETER Name 
+        Name of the URL Transformation policy. 
     .PARAMETER GetAll 
-        Retreive all transformpolicy_lbvserver_binding object(s)
+        Retrieve all transformpolicy_lbvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the transformpolicy_lbvserver_binding object(s) will be returned
+        If specified, the count of the transformpolicy_lbvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicylbvserverbinding
+        PS C:\>Invoke-ADCGetTransformpolicylbvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTransformpolicylbvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetTransformpolicylbvserverbinding -GetAll 
+        Get all transformpolicy_lbvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetTransformpolicylbvserverbinding -Count
+        PS C:\>Invoke-ADCGetTransformpolicylbvserverbinding -Count 
+        Get the number of transformpolicy_lbvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicylbvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetTransformpolicylbvserverbinding -name <string>
+        Get transformpolicy_lbvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicylbvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTransformpolicylbvserverbinding -Filter @{ 'name'='<value>' }
+        Get transformpolicy_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTransformpolicylbvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2280,26 +2301,24 @@ function Invoke-ADCGetTransformpolicylbvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all transformpolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for transformpolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving transformpolicy_lbvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving transformpolicy_lbvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_lbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving transformpolicy_lbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2313,55 +2332,61 @@ function Invoke-ADCGetTransformpolicylbvserverbinding {
 }
 
 function Invoke-ADCGetTransformpolicytransformglobalbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Transform configuration object(s)
+        Get Transform configuration object(s).
     .DESCRIPTION
-        Get Transform configuration object(s)
-    .PARAMETER name 
-       Name of the URL Transformation policy. 
+        Binding object showing the transformglobal that can be bound to transformpolicy.
+    .PARAMETER Name 
+        Name of the URL Transformation policy. 
     .PARAMETER GetAll 
-        Retreive all transformpolicy_transformglobal_binding object(s)
+        Retrieve all transformpolicy_transformglobal_binding object(s).
     .PARAMETER Count
-        If specified, the count of the transformpolicy_transformglobal_binding object(s) will be returned
+        If specified, the count of the transformpolicy_transformglobal_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicytransformglobalbinding
+        PS C:\>Invoke-ADCGetTransformpolicytransformglobalbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTransformpolicytransformglobalbinding -GetAll 
+        PS C:\>Invoke-ADCGetTransformpolicytransformglobalbinding -GetAll 
+        Get all transformpolicy_transformglobal_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetTransformpolicytransformglobalbinding -Count
+        PS C:\>Invoke-ADCGetTransformpolicytransformglobalbinding -Count 
+        Get the number of transformpolicy_transformglobal_binding objects.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicytransformglobalbinding -name <string>
+        PS C:\>Invoke-ADCGetTransformpolicytransformglobalbinding -name <string>
+        Get transformpolicy_transformglobal_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicytransformglobalbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTransformpolicytransformglobalbinding -Filter @{ 'name'='<value>' }
+        Get transformpolicy_transformglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTransformpolicytransformglobalbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicy_transformglobal_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2374,26 +2399,24 @@ function Invoke-ADCGetTransformpolicytransformglobalbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all transformpolicy_transformglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_transformglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_transformglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for transformpolicy_transformglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_transformglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_transformglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving transformpolicy_transformglobal_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_transformglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_transformglobal_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving transformpolicy_transformglobal_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_transformglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving transformpolicy_transformglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_transformglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_transformglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2407,55 +2430,61 @@ function Invoke-ADCGetTransformpolicytransformglobalbinding {
 }
 
 function Invoke-ADCGetTransformpolicytransformpolicylabelbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Transform configuration object(s)
+        Get Transform configuration object(s).
     .DESCRIPTION
-        Get Transform configuration object(s)
-    .PARAMETER name 
-       Name of the URL Transformation policy. 
+        Binding object showing the transformpolicylabel that can be bound to transformpolicy.
+    .PARAMETER Name 
+        Name of the URL Transformation policy. 
     .PARAMETER GetAll 
-        Retreive all transformpolicy_transformpolicylabel_binding object(s)
+        Retrieve all transformpolicy_transformpolicylabel_binding object(s).
     .PARAMETER Count
-        If specified, the count of the transformpolicy_transformpolicylabel_binding object(s) will be returned
+        If specified, the count of the transformpolicy_transformpolicylabel_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicytransformpolicylabelbinding
+        PS C:\>Invoke-ADCGetTransformpolicytransformpolicylabelbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTransformpolicytransformpolicylabelbinding -GetAll 
+        PS C:\>Invoke-ADCGetTransformpolicytransformpolicylabelbinding -GetAll 
+        Get all transformpolicy_transformpolicylabel_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetTransformpolicytransformpolicylabelbinding -Count
+        PS C:\>Invoke-ADCGetTransformpolicytransformpolicylabelbinding -Count 
+        Get the number of transformpolicy_transformpolicylabel_binding objects.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicytransformpolicylabelbinding -name <string>
+        PS C:\>Invoke-ADCGetTransformpolicytransformpolicylabelbinding -name <string>
+        Get transformpolicy_transformpolicylabel_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTransformpolicytransformpolicylabelbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTransformpolicytransformpolicylabelbinding -Filter @{ 'name'='<value>' }
+        Get transformpolicy_transformpolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTransformpolicytransformpolicylabelbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformpolicy_transformpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2468,26 +2497,24 @@ function Invoke-ADCGetTransformpolicytransformpolicylabelbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all transformpolicy_transformpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_transformpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_transformpolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for transformpolicy_transformpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_transformpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_transformpolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving transformpolicy_transformpolicylabel_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_transformpolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_transformpolicylabel_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving transformpolicy_transformpolicylabel_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_transformpolicylabel_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving transformpolicy_transformpolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_transformpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformpolicy_transformpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2501,68 +2528,65 @@ function Invoke-ADCGetTransformpolicytransformpolicylabelbinding {
 }
 
 function Invoke-ADCAddTransformprofile {
-<#
+    <#
     .SYNOPSIS
-        Add Transform configuration Object
+        Add Transform configuration Object.
     .DESCRIPTION
-        Add Transform configuration Object 
-    .PARAMETER name 
+        Configuration for URL Transformation profile resource.
+    .PARAMETER Name 
         Name for the URL transformation profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the URL transformation profile is added. 
-    .PARAMETER type 
-        Type of transformation. Always URL for URL Transformation profiles.  
+    .PARAMETER Type 
+        Type of transformation. Always URL for URL Transformation profiles. 
         Possible values = URL 
     .PARAMETER PassThru 
         Return details about the created transformprofile item.
     .EXAMPLE
-        Invoke-ADCAddTransformprofile -name <string>
+        PS C:\>Invoke-ADCAddTransformprofile -name <string>
+        An example how to add transformprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTransformprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateSet('URL')]
-        [string]$type ,
+        [string]$Type,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddTransformprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
- 
-            if ($PSCmdlet.ShouldProcess("transformprofile", "Add Transform configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type transformprofile -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('type') ) { $payload.Add('type', $type) }
+            if ( $PSCmdlet.ShouldProcess("transformprofile", "Add Transform configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type transformprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetTransformprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetTransformprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2575,46 +2599,47 @@ function Invoke-ADCAddTransformprofile {
 }
 
 function Invoke-ADCDeleteTransformprofile {
-<#
+    <#
     .SYNOPSIS
-        Delete Transform configuration Object
+        Delete Transform configuration Object.
     .DESCRIPTION
-        Delete Transform configuration Object
-    .PARAMETER name 
-       Name for the URL transformation profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the URL transformation profile is added. 
+        Configuration for URL Transformation profile resource.
+    .PARAMETER Name 
+        Name for the URL transformation profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the URL transformation profile is added.
     .EXAMPLE
-        Invoke-ADCDeleteTransformprofile -name <string>
+        PS C:\>Invoke-ADCDeleteTransformprofile -Name <string>
+        An example how to delete transformprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTransformprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteTransformprofile: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Transform configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type transformprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Transform configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type transformprofile -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2630,80 +2655,77 @@ function Invoke-ADCDeleteTransformprofile {
 }
 
 function Invoke-ADCUpdateTransformprofile {
-<#
+    <#
     .SYNOPSIS
-        Update Transform configuration Object
+        Update Transform configuration Object.
     .DESCRIPTION
-        Update Transform configuration Object 
-    .PARAMETER name 
+        Configuration for URL Transformation profile resource.
+    .PARAMETER Name 
         Name for the URL transformation profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the URL transformation profile is added. 
-    .PARAMETER type 
-        Type of transformation. Always URL for URL Transformation profiles.  
+    .PARAMETER Type 
+        Type of transformation. Always URL for URL Transformation profiles. 
         Possible values = URL 
-    .PARAMETER onlytransformabsurlinbody 
-        In the HTTP body, transform only absolute URLs. Relative URLs are ignored.  
+    .PARAMETER Onlytransformabsurlinbody 
+        In the HTTP body, transform only absolute URLs. Relative URLs are ignored. 
         Possible values = ON, OFF 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any comments to preserve information about this URL Transformation profile. 
     .PARAMETER PassThru 
         Return details about the created transformprofile item.
     .EXAMPLE
-        Invoke-ADCUpdateTransformprofile -name <string>
+        PS C:\>Invoke-ADCUpdateTransformprofile -name <string>
+        An example how to update transformprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateTransformprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateSet('URL')]
-        [string]$type ,
+        [string]$Type,
 
         [ValidateSet('ON', 'OFF')]
-        [string]$onlytransformabsurlinbody ,
+        [string]$Onlytransformabsurlinbody,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateTransformprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('onlytransformabsurlinbody')) { $Payload.Add('onlytransformabsurlinbody', $onlytransformabsurlinbody) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("transformprofile", "Update Transform configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type transformprofile -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('type') ) { $payload.Add('type', $type) }
+            if ( $PSBoundParameters.ContainsKey('onlytransformabsurlinbody') ) { $payload.Add('onlytransformabsurlinbody', $onlytransformabsurlinbody) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("transformprofile", "Update Transform configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type transformprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetTransformprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetTransformprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2716,48 +2738,49 @@ function Invoke-ADCUpdateTransformprofile {
 }
 
 function Invoke-ADCUnsetTransformprofile {
-<#
+    <#
     .SYNOPSIS
-        Unset Transform configuration Object
+        Unset Transform configuration Object.
     .DESCRIPTION
-        Unset Transform configuration Object 
-   .PARAMETER name 
-       Name for the URL transformation profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the URL transformation profile is added. 
-   .PARAMETER type 
-       Type of transformation. Always URL for URL Transformation profiles.  
-       Possible values = URL 
-   .PARAMETER onlytransformabsurlinbody 
-       In the HTTP body, transform only absolute URLs. Relative URLs are ignored.  
-       Possible values = ON, OFF 
-   .PARAMETER comment 
-       Any comments to preserve information about this URL Transformation profile.
+        Configuration for URL Transformation profile resource.
+    .PARAMETER Name 
+        Name for the URL transformation profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the URL transformation profile is added. 
+    .PARAMETER Type 
+        Type of transformation. Always URL for URL Transformation profiles. 
+        Possible values = URL 
+    .PARAMETER Onlytransformabsurlinbody 
+        In the HTTP body, transform only absolute URLs. Relative URLs are ignored. 
+        Possible values = ON, OFF 
+    .PARAMETER Comment 
+        Any comments to preserve information about this URL Transformation profile.
     .EXAMPLE
-        Invoke-ADCUnsetTransformprofile -name <string>
+        PS C:\>Invoke-ADCUnsetTransformprofile -name <string>
+        An example how to unset transformprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetTransformprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformprofile
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$type ,
+        [Boolean]$type,
 
-        [Boolean]$onlytransformabsurlinbody ,
+        [Boolean]$onlytransformabsurlinbody,
 
         [Boolean]$comment 
     )
@@ -2766,14 +2789,12 @@ function Invoke-ADCUnsetTransformprofile {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('onlytransformabsurlinbody')) { $Payload.Add('onlytransformabsurlinbody', $onlytransformabsurlinbody) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Transform configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type transformprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('type') ) { $payload.Add('type', $type) }
+            if ( $PSBoundParameters.ContainsKey('onlytransformabsurlinbody') ) { $payload.Add('onlytransformabsurlinbody', $onlytransformabsurlinbody) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Transform configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type transformprofile -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2789,55 +2810,61 @@ function Invoke-ADCUnsetTransformprofile {
 }
 
 function Invoke-ADCGetTransformprofile {
-<#
+    <#
     .SYNOPSIS
-        Get Transform configuration object(s)
+        Get Transform configuration object(s).
     .DESCRIPTION
-        Get Transform configuration object(s)
-    .PARAMETER name 
-       Name for the URL transformation profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the URL transformation profile is added. 
+        Configuration for URL Transformation profile resource.
+    .PARAMETER Name 
+        Name for the URL transformation profile. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the URL transformation profile is added. 
     .PARAMETER GetAll 
-        Retreive all transformprofile object(s)
+        Retrieve all transformprofile object(s).
     .PARAMETER Count
-        If specified, the count of the transformprofile object(s) will be returned
+        If specified, the count of the transformprofile object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTransformprofile
+        PS C:\>Invoke-ADCGetTransformprofile
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTransformprofile -GetAll 
+        PS C:\>Invoke-ADCGetTransformprofile -GetAll 
+        Get all transformprofile data. 
     .EXAMPLE 
-        Invoke-ADCGetTransformprofile -Count
+        PS C:\>Invoke-ADCGetTransformprofile -Count 
+        Get the number of transformprofile objects.
     .EXAMPLE
-        Invoke-ADCGetTransformprofile -name <string>
+        PS C:\>Invoke-ADCGetTransformprofile -name <string>
+        Get transformprofile object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTransformprofile -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTransformprofile -Filter @{ 'name'='<value>' }
+        Get transformprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTransformprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2855,24 +2882,24 @@ function Invoke-ADCGetTransformprofile {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all transformprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for transformprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving transformprofile objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving transformprofile configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving transformprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2886,51 +2913,56 @@ function Invoke-ADCGetTransformprofile {
 }
 
 function Invoke-ADCGetTransformprofilebinding {
-<#
+    <#
     .SYNOPSIS
-        Get Transform configuration object(s)
+        Get Transform configuration object(s).
     .DESCRIPTION
-        Get Transform configuration object(s)
-    .PARAMETER name 
-       Name of the profile. 
+        Binding object which returns the resources bound to transformprofile.
+    .PARAMETER Name 
+        Name of the profile. 
     .PARAMETER GetAll 
-        Retreive all transformprofile_binding object(s)
+        Retrieve all transformprofile_binding object(s).
     .PARAMETER Count
-        If specified, the count of the transformprofile_binding object(s) will be returned
+        If specified, the count of the transformprofile_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTransformprofilebinding
+        PS C:\>Invoke-ADCGetTransformprofilebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTransformprofilebinding -GetAll
+        PS C:\>Invoke-ADCGetTransformprofilebinding -GetAll 
+        Get all transformprofile_binding data.
     .EXAMPLE
-        Invoke-ADCGetTransformprofilebinding -name <string>
+        PS C:\>Invoke-ADCGetTransformprofilebinding -name <string>
+        Get transformprofile_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTransformprofilebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTransformprofilebinding -Filter @{ 'name'='<value>' }
+        Get transformprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTransformprofilebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformprofile_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -2942,26 +2974,24 @@ function Invoke-ADCGetTransformprofilebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all transformprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for transformprofile_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving transformprofile_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving transformprofile_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving transformprofile_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2975,55 +3005,61 @@ function Invoke-ADCGetTransformprofilebinding {
 }
 
 function Invoke-ADCGetTransformprofiletransformactionbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Transform configuration object(s)
+        Get Transform configuration object(s).
     .DESCRIPTION
-        Get Transform configuration object(s)
-    .PARAMETER name 
-       Name of the profile. 
+        Binding object showing the transformaction that can be bound to transformprofile.
+    .PARAMETER Name 
+        Name of the profile. 
     .PARAMETER GetAll 
-        Retreive all transformprofile_transformaction_binding object(s)
+        Retrieve all transformprofile_transformaction_binding object(s).
     .PARAMETER Count
-        If specified, the count of the transformprofile_transformaction_binding object(s) will be returned
+        If specified, the count of the transformprofile_transformaction_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTransformprofiletransformactionbinding
+        PS C:\>Invoke-ADCGetTransformprofiletransformactionbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTransformprofiletransformactionbinding -GetAll 
+        PS C:\>Invoke-ADCGetTransformprofiletransformactionbinding -GetAll 
+        Get all transformprofile_transformaction_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetTransformprofiletransformactionbinding -Count
+        PS C:\>Invoke-ADCGetTransformprofiletransformactionbinding -Count 
+        Get the number of transformprofile_transformaction_binding objects.
     .EXAMPLE
-        Invoke-ADCGetTransformprofiletransformactionbinding -name <string>
+        PS C:\>Invoke-ADCGetTransformprofiletransformactionbinding -name <string>
+        Get transformprofile_transformaction_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTransformprofiletransformactionbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTransformprofiletransformactionbinding -Filter @{ 'name'='<value>' }
+        Get transformprofile_transformaction_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTransformprofiletransformactionbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/transform/transformprofile_transformaction_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3036,26 +3072,24 @@ function Invoke-ADCGetTransformprofiletransformactionbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all transformprofile_transformaction_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile_transformaction_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile_transformaction_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for transformprofile_transformaction_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile_transformaction_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile_transformaction_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving transformprofile_transformaction_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile_transformaction_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile_transformaction_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving transformprofile_transformaction_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile_transformaction_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving transformprofile_transformaction_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile_transformaction_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type transformprofile_transformaction_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

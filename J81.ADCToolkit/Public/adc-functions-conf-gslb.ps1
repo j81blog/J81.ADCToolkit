@@ -1,54 +1,56 @@
 function Invoke-ADCSyncGslbconfig {
-<#
+    <#
     .SYNOPSIS
-        Sync Global Server Load Balancing configuration Object
+        Sync Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Sync Global Server Load Balancing configuration Object 
-    .PARAMETER preview 
+        Configuration for gslb config resource.
+    .PARAMETER Preview 
         Do not synchronize the GSLB sites, but display the commands that would be applied on the slave node upon synchronization. Mutually exclusive with the Save Configuration option. 
-    .PARAMETER debugoutput 
-        Generate verbose output when synchronizing the GSLB sites. The Debug option generates more verbose output than the sync gslb config command in which the option is not used, and is useful for analyzing synchronization issues.  
-        NOTE: The Nitro parameter "debug" cannot be used in PowerShell thus an alternative name was chosen. 
-    .PARAMETER forcesync 
-        Force synchronization of the specified site even if a dependent configuration on the remote site is preventing synchronization or if one or more GSLB entities on the remote site have the same name but are of a different type. You can specify either the name of the remote site that you want to synchronize with the local site, or you can specify All Sites in the configuration utility (the string all-sites in the CLI). If you specify All Sites, all the sites in the GSLB setup are synchronized with the site on the master node.  
+    .PARAMETER Debugoutput 
+        Generate verbose output when synchronizing the GSLB sites. The Debug option generates more verbose output than the sync gslb config command in which the option is not used, and is useful for analyzing synchronization issues. 
+        NOTE: The Nitro parameter 'debug' cannot be used as a PowerShell parameter, therefore an alternative Parameter name was chosen. 
+    .PARAMETER Forcesync 
+        Force synchronization of the specified site even if a dependent configuration on the remote site is preventing synchronization or if one or more GSLB entities on the remote site have the same name but are of a different type. You can specify either the name of the remote site that you want to synchronize with the local site, or you can specify All Sites in the configuration utility (the string all-sites in the CLI). If you specify All Sites, all the sites in the GSLB setup are synchronized with the site on the master node. 
         Note: If you select the Force Sync option, the synchronization starts without displaying the commands that are going to be executed. 
-    .PARAMETER nowarn 
+    .PARAMETER Nowarn 
         Suppress the warning and the confirmation prompt that are displayed before site synchronization begins. This option can be used in automation scripts that must not be interrupted by a prompt. 
-    .PARAMETER saveconfig 
+    .PARAMETER Saveconfig 
         Save the configuration on all the nodes participating in the synchronization process, automatically. The master saves its configuration immediately before synchronization begins. Slave nodes save their configurations after the process of synchronization is complete. A slave node saves its configuration only if the configuration difference was successfully applied to it. Mutually exclusive with the Preview option. 
-    .PARAMETER command 
+    .PARAMETER Command 
         Run the specified command on the master node and then on all the slave nodes. You cannot use this option with the force sync and preview options.
     .EXAMPLE
-        Invoke-ADCSyncGslbconfig 
+        PS C:\>Invoke-ADCSyncGslbconfig 
+        An example how to sync gslbconfig configuration Object(s).
     .NOTES
         File Name : Invoke-ADCSyncGslbconfig
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbconfig/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [boolean]$preview ,
+        [boolean]$Preview,
 
-        [boolean]$debugoutput ,
+        [boolean]$Debugoutput,
 
-        [string]$forcesync ,
+        [string]$Forcesync,
 
-        [boolean]$nowarn ,
+        [boolean]$Nowarn,
 
-        [boolean]$saveconfig ,
+        [boolean]$Saveconfig,
 
-        [string]$command 
+        [string]$Command 
 
     )
     begin {
@@ -56,17 +58,15 @@ function Invoke-ADCSyncGslbconfig {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('preview')) { $Payload.Add('preview', $preview) }
-            if ($PSBoundParameters.ContainsKey('debugoutput')) { $Payload.Add('debug', $debugoutput) }
-            if ($PSBoundParameters.ContainsKey('forcesync')) { $Payload.Add('forcesync', $forcesync) }
-            if ($PSBoundParameters.ContainsKey('nowarn')) { $Payload.Add('nowarn', $nowarn) }
-            if ($PSBoundParameters.ContainsKey('saveconfig')) { $Payload.Add('saveconfig', $saveconfig) }
-            if ($PSBoundParameters.ContainsKey('command')) { $Payload.Add('command', $command) }
-            if ($PSCmdlet.ShouldProcess($Name, "Sync Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbconfig -Action sync -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('preview') ) { $payload.Add('preview', $preview) }
+            if ( $PSBoundParameters.ContainsKey('debugoutput') ) { $payload.Add('debug', $debugoutput) }
+            if ( $PSBoundParameters.ContainsKey('forcesync') ) { $payload.Add('forcesync', $forcesync) }
+            if ( $PSBoundParameters.ContainsKey('nowarn') ) { $payload.Add('nowarn', $nowarn) }
+            if ( $PSBoundParameters.ContainsKey('saveconfig') ) { $payload.Add('saveconfig', $saveconfig) }
+            if ( $PSBoundParameters.ContainsKey('command') ) { $payload.Add('command', $command) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Sync Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbconfig -Action sync -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -82,55 +82,61 @@ function Invoke-ADCSyncGslbconfig {
 }
 
 function Invoke-ADCGetGslbdomain {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER name 
-       Name of the Domain. 
+        Configuration for GSLB domain resource.
+    .PARAMETER Name 
+        Name of the Domain. 
     .PARAMETER GetAll 
-        Retreive all gslbdomain object(s)
+        Retrieve all gslbdomain object(s).
     .PARAMETER Count
-        If specified, the count of the gslbdomain object(s) will be returned
+        If specified, the count of the gslbdomain object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbdomain
+        PS C:\>Invoke-ADCGetGslbdomain
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbdomain -GetAll 
+        PS C:\>Invoke-ADCGetGslbdomain -GetAll 
+        Get all gslbdomain data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbdomain -Count
+        PS C:\>Invoke-ADCGetGslbdomain -Count 
+        Get the number of gslbdomain objects.
     .EXAMPLE
-        Invoke-ADCGetGslbdomain -name <string>
+        PS C:\>Invoke-ADCGetGslbdomain -name <string>
+        Get gslbdomain object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbdomain -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbdomain -Filter @{ 'name'='<value>' }
+        Get gslbdomain data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbdomain
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -148,24 +154,24 @@ function Invoke-ADCGetGslbdomain {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all gslbdomain objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbdomain objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbdomain objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbdomain configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbdomain configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -179,51 +185,56 @@ function Invoke-ADCGetGslbdomain {
 }
 
 function Invoke-ADCGetGslbdomainbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER name 
-       Name of the Domain. 
+        Binding object which returns the resources bound to gslbdomain.
+    .PARAMETER Name 
+        Name of the Domain. 
     .PARAMETER GetAll 
-        Retreive all gslbdomain_binding object(s)
+        Retrieve all gslbdomain_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbdomain_binding object(s) will be returned
+        If specified, the count of the gslbdomain_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbdomainbinding
+        PS C:\>Invoke-ADCGetGslbdomainbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbdomainbinding -GetAll
+        PS C:\>Invoke-ADCGetGslbdomainbinding -GetAll 
+        Get all gslbdomain_binding data.
     .EXAMPLE
-        Invoke-ADCGetGslbdomainbinding -name <string>
+        PS C:\>Invoke-ADCGetGslbdomainbinding -name <string>
+        Get gslbdomain_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbdomainbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbdomainbinding -Filter @{ 'name'='<value>' }
+        Get gslbdomain_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbdomainbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -235,26 +246,24 @@ function Invoke-ADCGetGslbdomainbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbdomain_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbdomain_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbdomain_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbdomain_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbdomain_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -268,55 +277,61 @@ function Invoke-ADCGetGslbdomainbinding {
 }
 
 function Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER name 
-       Name of the Domain. 
+        Binding object showing the gslbservicegroupmember that can be bound to gslbdomain.
+    .PARAMETER Name 
+        Name of the Domain. 
     .PARAMETER GetAll 
-        Retreive all gslbdomain_gslbservicegroupmember_binding object(s)
+        Retrieve all gslbdomain_gslbservicegroupmember_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbdomain_gslbservicegroupmember_binding object(s) will be returned
+        If specified, the count of the gslbdomain_gslbservicegroupmember_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding
+        PS C:\>Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding -GetAll 
+        PS C:\>Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding -GetAll 
+        Get all gslbdomain_gslbservicegroupmember_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding -Count
+        PS C:\>Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding -Count 
+        Get the number of gslbdomain_gslbservicegroupmember_binding objects.
     .EXAMPLE
-        Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding -name <string>
+        PS C:\>Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding -name <string>
+        Get gslbdomain_gslbservicegroupmember_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding -Filter @{ 'name'='<value>' }
+        Get gslbdomain_gslbservicegroupmember_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain_gslbservicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -329,26 +344,24 @@ function Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbdomain_gslbservicegroupmember_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbdomain_gslbservicegroupmember_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbdomain_gslbservicegroupmember_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbdomain_gslbservicegroupmember_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbdomain_gslbservicegroupmember_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -362,55 +375,61 @@ function Invoke-ADCGetGslbdomaingslbservicegroupmemberbinding {
 }
 
 function Invoke-ADCGetGslbdomaingslbservicegroupbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER name 
-       Name of the Domain. 
+        Binding object showing the gslbservicegroup that can be bound to gslbdomain.
+    .PARAMETER Name 
+        Name of the Domain. 
     .PARAMETER GetAll 
-        Retreive all gslbdomain_gslbservicegroup_binding object(s)
+        Retrieve all gslbdomain_gslbservicegroup_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbdomain_gslbservicegroup_binding object(s) will be returned
+        If specified, the count of the gslbdomain_gslbservicegroup_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbdomaingslbservicegroupbinding
+        PS C:\>Invoke-ADCGetGslbdomaingslbservicegroupbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbdomaingslbservicegroupbinding -GetAll 
+        PS C:\>Invoke-ADCGetGslbdomaingslbservicegroupbinding -GetAll 
+        Get all gslbdomain_gslbservicegroup_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbdomaingslbservicegroupbinding -Count
+        PS C:\>Invoke-ADCGetGslbdomaingslbservicegroupbinding -Count 
+        Get the number of gslbdomain_gslbservicegroup_binding objects.
     .EXAMPLE
-        Invoke-ADCGetGslbdomaingslbservicegroupbinding -name <string>
+        PS C:\>Invoke-ADCGetGslbdomaingslbservicegroupbinding -name <string>
+        Get gslbdomain_gslbservicegroup_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbdomaingslbservicegroupbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbdomaingslbservicegroupbinding -Filter @{ 'name'='<value>' }
+        Get gslbdomain_gslbservicegroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbdomaingslbservicegroupbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain_gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -423,26 +442,24 @@ function Invoke-ADCGetGslbdomaingslbservicegroupbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbdomain_gslbservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbdomain_gslbservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbdomain_gslbservicegroup_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroup_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbdomain_gslbservicegroup_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroup_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbdomain_gslbservicegroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservicegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -456,55 +473,61 @@ function Invoke-ADCGetGslbdomaingslbservicegroupbinding {
 }
 
 function Invoke-ADCGetGslbdomaingslbservicebinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER name 
-       Name of the Domain. 
+        Binding object showing the gslbservice that can be bound to gslbdomain.
+    .PARAMETER Name 
+        Name of the Domain. 
     .PARAMETER GetAll 
-        Retreive all gslbdomain_gslbservice_binding object(s)
+        Retrieve all gslbdomain_gslbservice_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbdomain_gslbservice_binding object(s) will be returned
+        If specified, the count of the gslbdomain_gslbservice_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbdomaingslbservicebinding
+        PS C:\>Invoke-ADCGetGslbdomaingslbservicebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbdomaingslbservicebinding -GetAll 
+        PS C:\>Invoke-ADCGetGslbdomaingslbservicebinding -GetAll 
+        Get all gslbdomain_gslbservice_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbdomaingslbservicebinding -Count
+        PS C:\>Invoke-ADCGetGslbdomaingslbservicebinding -Count 
+        Get the number of gslbdomain_gslbservice_binding objects.
     .EXAMPLE
-        Invoke-ADCGetGslbdomaingslbservicebinding -name <string>
+        PS C:\>Invoke-ADCGetGslbdomaingslbservicebinding -name <string>
+        Get gslbdomain_gslbservice_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbdomaingslbservicebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbdomaingslbservicebinding -Filter @{ 'name'='<value>' }
+        Get gslbdomain_gslbservice_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbdomaingslbservicebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain_gslbservice_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -517,26 +540,24 @@ function Invoke-ADCGetGslbdomaingslbservicebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbdomain_gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservice_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbdomain_gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservice_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbdomain_gslbservice_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservice_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservice_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbdomain_gslbservice_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservice_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbdomain_gslbservice_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservice_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbservice_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -550,55 +571,61 @@ function Invoke-ADCGetGslbdomaingslbservicebinding {
 }
 
 function Invoke-ADCGetGslbdomaingslbvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER name 
-       Name of the Domain. 
+        Binding object showing the gslbvserver that can be bound to gslbdomain.
+    .PARAMETER Name 
+        Name of the Domain. 
     .PARAMETER GetAll 
-        Retreive all gslbdomain_gslbvserver_binding object(s)
+        Retrieve all gslbdomain_gslbvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbdomain_gslbvserver_binding object(s) will be returned
+        If specified, the count of the gslbdomain_gslbvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbdomaingslbvserverbinding
+        PS C:\>Invoke-ADCGetGslbdomaingslbvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbdomaingslbvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetGslbdomaingslbvserverbinding -GetAll 
+        Get all gslbdomain_gslbvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbdomaingslbvserverbinding -Count
+        PS C:\>Invoke-ADCGetGslbdomaingslbvserverbinding -Count 
+        Get the number of gslbdomain_gslbvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetGslbdomaingslbvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetGslbdomaingslbvserverbinding -name <string>
+        Get gslbdomain_gslbvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbdomaingslbvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbdomaingslbvserverbinding -Filter @{ 'name'='<value>' }
+        Get gslbdomain_gslbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbdomaingslbvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain_gslbvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -611,26 +638,24 @@ function Invoke-ADCGetGslbdomaingslbvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbdomain_gslbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbdomain_gslbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbdomain_gslbvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbdomain_gslbvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbdomain_gslbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_gslbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -644,55 +669,61 @@ function Invoke-ADCGetGslbdomaingslbvserverbinding {
 }
 
 function Invoke-ADCGetGslbdomainlbmonitorbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER name 
-       Name of the Domain. 
+        Binding object showing the lbmonitor that can be bound to gslbdomain.
+    .PARAMETER Name 
+        Name of the Domain. 
     .PARAMETER GetAll 
-        Retreive all gslbdomain_lbmonitor_binding object(s)
+        Retrieve all gslbdomain_lbmonitor_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbdomain_lbmonitor_binding object(s) will be returned
+        If specified, the count of the gslbdomain_lbmonitor_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbdomainlbmonitorbinding
+        PS C:\>Invoke-ADCGetGslbdomainlbmonitorbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbdomainlbmonitorbinding -GetAll 
+        PS C:\>Invoke-ADCGetGslbdomainlbmonitorbinding -GetAll 
+        Get all gslbdomain_lbmonitor_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbdomainlbmonitorbinding -Count
+        PS C:\>Invoke-ADCGetGslbdomainlbmonitorbinding -Count 
+        Get the number of gslbdomain_lbmonitor_binding objects.
     .EXAMPLE
-        Invoke-ADCGetGslbdomainlbmonitorbinding -name <string>
+        PS C:\>Invoke-ADCGetGslbdomainlbmonitorbinding -name <string>
+        Get gslbdomain_lbmonitor_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbdomainlbmonitorbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbdomainlbmonitorbinding -Filter @{ 'name'='<value>' }
+        Get gslbdomain_lbmonitor_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbdomainlbmonitorbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbdomain_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -705,26 +736,24 @@ function Invoke-ADCGetGslbdomainlbmonitorbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbdomain_lbmonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_lbmonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_lbmonitor_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbdomain_lbmonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_lbmonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_lbmonitor_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbdomain_lbmonitor_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_lbmonitor_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_lbmonitor_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbdomain_lbmonitor_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_lbmonitor_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbdomain_lbmonitor_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_lbmonitor_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbdomain_lbmonitor_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -738,30 +767,32 @@ function Invoke-ADCGetGslbdomainlbmonitorbinding {
 }
 
 function Invoke-ADCClearGslbldnsentries {
-<#
+    <#
     .SYNOPSIS
-        Clear Global Server Load Balancing configuration Object
+        Clear Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Clear Global Server Load Balancing configuration Object 
+        Configuration for LDNS entry resource.
     .EXAMPLE
-        Invoke-ADCClearGslbldnsentries 
+        PS C:\>Invoke-ADCClearGslbldnsentries 
+        An example how to clear gslbldnsentries configuration Object(s).
     .NOTES
         File Name : Invoke-ADCClearGslbldnsentries
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbldnsentries/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession) 
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession) 
 
     )
     begin {
@@ -769,12 +800,10 @@ function Invoke-ADCClearGslbldnsentries {
     }
     process {
         try {
-            $Payload = @{
+            $payload = @{ }
 
-            }
-
-            if ($PSCmdlet.ShouldProcess($Name, "Clear Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbldnsentries -Action clear -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Clear Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbldnsentries -Action clear -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -790,55 +819,61 @@ function Invoke-ADCClearGslbldnsentries {
 }
 
 function Invoke-ADCGetGslbldnsentries {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER nodeid 
-       Unique number that identifies the cluster node. 
+        Configuration for LDNS entry resource.
+    .PARAMETER Nodeid 
+        Unique number that identifies the cluster node. 
     .PARAMETER GetAll 
-        Retreive all gslbldnsentries object(s)
+        Retrieve all gslbldnsentries object(s).
     .PARAMETER Count
-        If specified, the count of the gslbldnsentries object(s) will be returned
+        If specified, the count of the gslbldnsentries object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbldnsentries
+        PS C:\>Invoke-ADCGetGslbldnsentries
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbldnsentries -GetAll 
+        PS C:\>Invoke-ADCGetGslbldnsentries -GetAll 
+        Get all gslbldnsentries data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbldnsentries -Count
+        PS C:\>Invoke-ADCGetGslbldnsentries -Count 
+        Get the number of gslbldnsentries objects.
     .EXAMPLE
-        Invoke-ADCGetGslbldnsentries -name <string>
+        PS C:\>Invoke-ADCGetGslbldnsentries -name <string>
+        Get gslbldnsentries object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbldnsentries -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbldnsentries -Filter @{ 'name'='<value>' }
+        Get gslbldnsentries data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbldnsentries
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbldnsentries/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateRange(0, 31)]
-        [double]$nodeid,
+        [double]$Nodeid,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -855,25 +890,25 @@ function Invoke-ADCGetGslbldnsentries {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all gslbldnsentries objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbldnsentries -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbldnsentries -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbldnsentries objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbldnsentries -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbldnsentries -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbldnsentries objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbldnsentries -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('nodeid') ) { $arguments.Add('nodeid', $nodeid) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbldnsentries -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbldnsentries configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving gslbldnsentries configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbldnsentries -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbldnsentries -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -887,46 +922,46 @@ function Invoke-ADCGetGslbldnsentries {
 }
 
 function Invoke-ADCDeleteGslbldnsentry {
-<#
+    <#
     .SYNOPSIS
-        Delete Global Server Load Balancing configuration Object
+        Delete Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Delete Global Server Load Balancing configuration Object
-     .PARAMETER ipaddress 
-       IP address of the LDNS server.  
-       Minimum length = 1
+        Configuration for LDNS entry resource.
+    .PARAMETER Ipaddress 
+        IP address of the LDNS server.
     .EXAMPLE
-        Invoke-ADCDeleteGslbldnsentry 
+        PS C:\>Invoke-ADCDeleteGslbldnsentry 
+        An example how to delete gslbldnsentry configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteGslbldnsentry
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbldnsentry/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$ipaddress 
+        [string]$Ipaddress 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteGslbldnsentry: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('ipaddress')) { $Arguments.Add('ipaddress', $ipaddress) }
-            if ($PSCmdlet.ShouldProcess("gslbldnsentry", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbldnsentry -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Ipaddress') ) { $arguments.Add('ipaddress', $Ipaddress) }
+            if ( $PSCmdlet.ShouldProcess("gslbldnsentry", "Delete Global Server Load Balancing configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbldnsentry -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -942,114 +977,140 @@ function Invoke-ADCDeleteGslbldnsentry {
 }
 
 function Invoke-ADCUpdateGslbparameter {
-<#
+    <#
     .SYNOPSIS
-        Update Global Server Load Balancing configuration Object
+        Update Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Update Global Server Load Balancing configuration Object 
-    .PARAMETER ldnsentrytimeout 
-        Time, in seconds, after which an inactive LDNS entry is removed.  
-        Default value: 180  
-        Minimum value = 30  
-        Maximum value = 65534 
-    .PARAMETER rtttolerance 
-        Tolerance, in milliseconds, for newly learned round-trip time (RTT) values. If the difference between the old RTT value and the newly computed RTT value is less than or equal to the specified tolerance value, the LDNS entry in the network metric table is not updated with the new RTT value. Prevents the exchange of metrics when variations in RTT values are negligible.  
-        Default value: 5  
-        Minimum value = 1  
-        Maximum value = 100 
-    .PARAMETER ldnsmask 
-        The IPv4 network mask with which to create LDNS entries.  
-        Minimum length = 1 
-    .PARAMETER v6ldnsmasklen 
-        Mask for creating LDNS entries for IPv6 source addresses. The mask is defined as the number of leading bits to consider, in the source IP address, when creating an LDNS entry.  
-        Default value: 128  
-        Minimum value = 1  
-        Maximum value = 128 
-    .PARAMETER ldnsprobeorder 
-        Order in which monitors should be initiated to calculate RTT.  
+        Configuration for GSLB parameter resource.
+    .PARAMETER Ldnsentrytimeout 
+        Time, in seconds, after which an inactive LDNS entry is removed. 
+    .PARAMETER Rtttolerance 
+        Tolerance, in milliseconds, for newly learned round-trip time (RTT) values. If the difference between the old RTT value and the newly computed RTT value is less than or equal to the specified tolerance value, the LDNS entry in the network metric table is not updated with the new RTT value. Prevents the exchange of metrics when variations in RTT values are negligible. 
+    .PARAMETER Ldnsmask 
+        The IPv4 network mask with which to create LDNS entries. 
+    .PARAMETER V6ldnsmasklen 
+        Mask for creating LDNS entries for IPv6 source addresses. The mask is defined as the number of leading bits to consider, in the source IP address, when creating an LDNS entry. 
+    .PARAMETER Ldnsprobeorder 
+        Order in which monitors should be initiated to calculate RTT. 
         Possible values = PING, DNS, TCP 
-    .PARAMETER dropldnsreq 
-        Drop LDNS requests if round-trip time (RTT) information is not available.  
-        Default value: DISABLED  
+    .PARAMETER Dropldnsreq 
+        Drop LDNS requests if round-trip time (RTT) information is not available. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER gslbsvcstatedelaytime 
-        Amount of delay in updating the state of GSLB service to DOWN when MEP goes down.  
-        This parameter is applicable only if monitors are not bound to GSLB services.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 3600 
-    .PARAMETER automaticconfigsync 
-        GSLB configuration will be synced automatically to remote gslb sites if enabled.  
-        Default value: DISABLED  
+    .PARAMETER Gslbsvcstatedelaytime 
+        Amount of delay in updating the state of GSLB service to DOWN when MEP goes down. 
+        This parameter is applicable only if monitors are not bound to GSLB services. 
+    .PARAMETER Svcstatelearningtime 
+        Time (in seconds) within which local or child site services remain in learning phase. GSLB site will enter the learning phase after reboot, HA failover, Cluster GSLB owner node changes or MEP being enabled on local node. Backup parent (if configured) will selectively move the adopted children's GSLB services to learning phase when primary parent goes down. While a service is in learning period, remote site will not honour the state and stats got through MEP for that service. State can be learnt from health monitor if bound explicitly. 
+    .PARAMETER Automaticconfigsync 
+        GSLB configuration will be synced automatically to remote gslb sites if enabled. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Mepkeepalivetimeout 
+        Time duartion (in seconds) during which if no new packets received by Local gslb site from Remote gslb site then mark the MEP connection DOWN. 
+    .PARAMETER Gslbsyncinterval 
+        Time duartion (in seconds) for which the gslb sync process will wait before checking for config changes. 
+    .PARAMETER Gslbsyncmode 
+        Mode in which configuration will be synced from master site to remote sites. 
+        Possible values = IncrementalSync, FullSync 
+    .PARAMETER Gslbsynclocfiles 
+        If disabled, Location files will not be synced to the remote sites as part of automatic sync. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Gslbconfigsyncmonitor 
+        If enabled, remote gslb site's rsync port will be monitored and site is considered for configuration sync only when the monitor is successful. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Gslbsyncsaveconfigcommand 
+        If enabled, 'save ns config' command will be treated as other GSLB commands and synced to GSLB nodes when auto gslb sync option is enabled. 
         Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCUpdateGslbparameter 
+        PS C:\>Invoke-ADCUpdateGslbparameter 
+        An example how to update gslbparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateGslbparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateRange(30, 65534)]
-        [double]$ldnsentrytimeout ,
+        [double]$Ldnsentrytimeout,
 
         [ValidateRange(1, 100)]
-        [double]$rtttolerance ,
+        [double]$Rtttolerance,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$ldnsmask ,
+        [string]$Ldnsmask,
 
         [ValidateRange(1, 128)]
-        [double]$v6ldnsmasklen ,
+        [double]$V6ldnsmasklen,
 
         [ValidateSet('PING', 'DNS', 'TCP')]
-        [string[]]$ldnsprobeorder ,
+        [string[]]$Ldnsprobeorder,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$dropldnsreq ,
+        [string]$Dropldnsreq,
 
         [ValidateRange(0, 3600)]
-        [double]$gslbsvcstatedelaytime ,
+        [double]$Gslbsvcstatedelaytime,
+
+        [ValidateRange(0, 3600)]
+        [double]$Svcstatelearningtime,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$automaticconfigsync 
+        [string]$Automaticconfigsync,
 
+        [double]$Mepkeepalivetimeout,
+
+        [double]$Gslbsyncinterval,
+
+        [ValidateSet('IncrementalSync', 'FullSync')]
+        [string]$Gslbsyncmode,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Gslbsynclocfiles,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Gslbconfigsyncmonitor,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Gslbsyncsaveconfigcommand 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateGslbparameter: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('ldnsentrytimeout')) { $Payload.Add('ldnsentrytimeout', $ldnsentrytimeout) }
-            if ($PSBoundParameters.ContainsKey('rtttolerance')) { $Payload.Add('rtttolerance', $rtttolerance) }
-            if ($PSBoundParameters.ContainsKey('ldnsmask')) { $Payload.Add('ldnsmask', $ldnsmask) }
-            if ($PSBoundParameters.ContainsKey('v6ldnsmasklen')) { $Payload.Add('v6ldnsmasklen', $v6ldnsmasklen) }
-            if ($PSBoundParameters.ContainsKey('ldnsprobeorder')) { $Payload.Add('ldnsprobeorder', $ldnsprobeorder) }
-            if ($PSBoundParameters.ContainsKey('dropldnsreq')) { $Payload.Add('dropldnsreq', $dropldnsreq) }
-            if ($PSBoundParameters.ContainsKey('gslbsvcstatedelaytime')) { $Payload.Add('gslbsvcstatedelaytime', $gslbsvcstatedelaytime) }
-            if ($PSBoundParameters.ContainsKey('automaticconfigsync')) { $Payload.Add('automaticconfigsync', $automaticconfigsync) }
- 
-            if ($PSCmdlet.ShouldProcess("gslbparameter", "Update Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbparameter -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('ldnsentrytimeout') ) { $payload.Add('ldnsentrytimeout', $ldnsentrytimeout) }
+            if ( $PSBoundParameters.ContainsKey('rtttolerance') ) { $payload.Add('rtttolerance', $rtttolerance) }
+            if ( $PSBoundParameters.ContainsKey('ldnsmask') ) { $payload.Add('ldnsmask', $ldnsmask) }
+            if ( $PSBoundParameters.ContainsKey('v6ldnsmasklen') ) { $payload.Add('v6ldnsmasklen', $v6ldnsmasklen) }
+            if ( $PSBoundParameters.ContainsKey('ldnsprobeorder') ) { $payload.Add('ldnsprobeorder', $ldnsprobeorder) }
+            if ( $PSBoundParameters.ContainsKey('dropldnsreq') ) { $payload.Add('dropldnsreq', $dropldnsreq) }
+            if ( $PSBoundParameters.ContainsKey('gslbsvcstatedelaytime') ) { $payload.Add('gslbsvcstatedelaytime', $gslbsvcstatedelaytime) }
+            if ( $PSBoundParameters.ContainsKey('svcstatelearningtime') ) { $payload.Add('svcstatelearningtime', $svcstatelearningtime) }
+            if ( $PSBoundParameters.ContainsKey('automaticconfigsync') ) { $payload.Add('automaticconfigsync', $automaticconfigsync) }
+            if ( $PSBoundParameters.ContainsKey('mepkeepalivetimeout') ) { $payload.Add('mepkeepalivetimeout', $mepkeepalivetimeout) }
+            if ( $PSBoundParameters.ContainsKey('gslbsyncinterval') ) { $payload.Add('gslbsyncinterval', $gslbsyncinterval) }
+            if ( $PSBoundParameters.ContainsKey('gslbsyncmode') ) { $payload.Add('gslbsyncmode', $gslbsyncmode) }
+            if ( $PSBoundParameters.ContainsKey('gslbsynclocfiles') ) { $payload.Add('gslbsynclocfiles', $gslbsynclocfiles) }
+            if ( $PSBoundParameters.ContainsKey('gslbconfigsyncmonitor') ) { $payload.Add('gslbconfigsyncmonitor', $gslbconfigsyncmonitor) }
+            if ( $PSBoundParameters.ContainsKey('gslbsyncsaveconfigcommand') ) { $payload.Add('gslbsyncsaveconfigcommand', $gslbsyncsaveconfigcommand) }
+            if ( $PSCmdlet.ShouldProcess("gslbparameter", "Update Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbparameter -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1062,85 +1123,124 @@ function Invoke-ADCUpdateGslbparameter {
 }
 
 function Invoke-ADCUnsetGslbparameter {
-<#
+    <#
     .SYNOPSIS
-        Unset Global Server Load Balancing configuration Object
+        Unset Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Unset Global Server Load Balancing configuration Object 
-   .PARAMETER ldnsentrytimeout 
-       Time, in seconds, after which an inactive LDNS entry is removed. 
-   .PARAMETER rtttolerance 
-       Tolerance, in milliseconds, for newly learned round-trip time (RTT) values. If the difference between the old RTT value and the newly computed RTT value is less than or equal to the specified tolerance value, the LDNS entry in the network metric table is not updated with the new RTT value. Prevents the exchange of metrics when variations in RTT values are negligible. 
-   .PARAMETER ldnsmask 
-       The IPv4 network mask with which to create LDNS entries. 
-   .PARAMETER v6ldnsmasklen 
-       Mask for creating LDNS entries for IPv6 source addresses. The mask is defined as the number of leading bits to consider, in the source IP address, when creating an LDNS entry. 
-   .PARAMETER ldnsprobeorder 
-       Order in which monitors should be initiated to calculate RTT.  
-       Possible values = PING, DNS, TCP 
-   .PARAMETER dropldnsreq 
-       Drop LDNS requests if round-trip time (RTT) information is not available.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER gslbsvcstatedelaytime 
-       Amount of delay in updating the state of GSLB service to DOWN when MEP goes down.  
-       This parameter is applicable only if monitors are not bound to GSLB services. 
-   .PARAMETER automaticconfigsync 
-       GSLB configuration will be synced automatically to remote gslb sites if enabled.  
-       Possible values = ENABLED, DISABLED
+        Configuration for GSLB parameter resource.
+    .PARAMETER Ldnsentrytimeout 
+        Time, in seconds, after which an inactive LDNS entry is removed. 
+    .PARAMETER Rtttolerance 
+        Tolerance, in milliseconds, for newly learned round-trip time (RTT) values. If the difference between the old RTT value and the newly computed RTT value is less than or equal to the specified tolerance value, the LDNS entry in the network metric table is not updated with the new RTT value. Prevents the exchange of metrics when variations in RTT values are negligible. 
+    .PARAMETER Ldnsmask 
+        The IPv4 network mask with which to create LDNS entries. 
+    .PARAMETER V6ldnsmasklen 
+        Mask for creating LDNS entries for IPv6 source addresses. The mask is defined as the number of leading bits to consider, in the source IP address, when creating an LDNS entry. 
+    .PARAMETER Ldnsprobeorder 
+        Order in which monitors should be initiated to calculate RTT. 
+        Possible values = PING, DNS, TCP 
+    .PARAMETER Dropldnsreq 
+        Drop LDNS requests if round-trip time (RTT) information is not available. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Gslbsvcstatedelaytime 
+        Amount of delay in updating the state of GSLB service to DOWN when MEP goes down. 
+        This parameter is applicable only if monitors are not bound to GSLB services. 
+    .PARAMETER Svcstatelearningtime 
+        Time (in seconds) within which local or child site services remain in learning phase. GSLB site will enter the learning phase after reboot, HA failover, Cluster GSLB owner node changes or MEP being enabled on local node. Backup parent (if configured) will selectively move the adopted children's GSLB services to learning phase when primary parent goes down. While a service is in learning period, remote site will not honour the state and stats got through MEP for that service. State can be learnt from health monitor if bound explicitly. 
+    .PARAMETER Automaticconfigsync 
+        GSLB configuration will be synced automatically to remote gslb sites if enabled. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Mepkeepalivetimeout 
+        Time duartion (in seconds) during which if no new packets received by Local gslb site from Remote gslb site then mark the MEP connection DOWN. 
+    .PARAMETER Gslbsyncinterval 
+        Time duartion (in seconds) for which the gslb sync process will wait before checking for config changes. 
+    .PARAMETER Gslbsyncmode 
+        Mode in which configuration will be synced from master site to remote sites. 
+        Possible values = IncrementalSync, FullSync 
+    .PARAMETER Gslbsynclocfiles 
+        If disabled, Location files will not be synced to the remote sites as part of automatic sync. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Gslbconfigsyncmonitor 
+        If enabled, remote gslb site's rsync port will be monitored and site is considered for configuration sync only when the monitor is successful. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Gslbsyncsaveconfigcommand 
+        If enabled, 'save ns config' command will be treated as other GSLB commands and synced to GSLB nodes when auto gslb sync option is enabled. 
+        Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCUnsetGslbparameter 
+        PS C:\>Invoke-ADCUnsetGslbparameter 
+        An example how to unset gslbparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetGslbparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbparameter
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$ldnsentrytimeout ,
+        [Boolean]$ldnsentrytimeout,
 
-        [Boolean]$rtttolerance ,
+        [Boolean]$rtttolerance,
 
-        [Boolean]$ldnsmask ,
+        [Boolean]$ldnsmask,
 
-        [Boolean]$v6ldnsmasklen ,
+        [Boolean]$v6ldnsmasklen,
 
-        [Boolean]$ldnsprobeorder ,
+        [Boolean]$ldnsprobeorder,
 
-        [Boolean]$dropldnsreq ,
+        [Boolean]$dropldnsreq,
 
-        [Boolean]$gslbsvcstatedelaytime ,
+        [Boolean]$gslbsvcstatedelaytime,
 
-        [Boolean]$automaticconfigsync 
+        [Boolean]$svcstatelearningtime,
+
+        [Boolean]$automaticconfigsync,
+
+        [Boolean]$mepkeepalivetimeout,
+
+        [Boolean]$gslbsyncinterval,
+
+        [Boolean]$gslbsyncmode,
+
+        [Boolean]$gslbsynclocfiles,
+
+        [Boolean]$gslbconfigsyncmonitor,
+
+        [Boolean]$gslbsyncsaveconfigcommand 
     )
     begin {
         Write-Verbose "Invoke-ADCUnsetGslbparameter: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('ldnsentrytimeout')) { $Payload.Add('ldnsentrytimeout', $ldnsentrytimeout) }
-            if ($PSBoundParameters.ContainsKey('rtttolerance')) { $Payload.Add('rtttolerance', $rtttolerance) }
-            if ($PSBoundParameters.ContainsKey('ldnsmask')) { $Payload.Add('ldnsmask', $ldnsmask) }
-            if ($PSBoundParameters.ContainsKey('v6ldnsmasklen')) { $Payload.Add('v6ldnsmasklen', $v6ldnsmasklen) }
-            if ($PSBoundParameters.ContainsKey('ldnsprobeorder')) { $Payload.Add('ldnsprobeorder', $ldnsprobeorder) }
-            if ($PSBoundParameters.ContainsKey('dropldnsreq')) { $Payload.Add('dropldnsreq', $dropldnsreq) }
-            if ($PSBoundParameters.ContainsKey('gslbsvcstatedelaytime')) { $Payload.Add('gslbsvcstatedelaytime', $gslbsvcstatedelaytime) }
-            if ($PSBoundParameters.ContainsKey('automaticconfigsync')) { $Payload.Add('automaticconfigsync', $automaticconfigsync) }
-            if ($PSCmdlet.ShouldProcess("gslbparameter", "Unset Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('ldnsentrytimeout') ) { $payload.Add('ldnsentrytimeout', $ldnsentrytimeout) }
+            if ( $PSBoundParameters.ContainsKey('rtttolerance') ) { $payload.Add('rtttolerance', $rtttolerance) }
+            if ( $PSBoundParameters.ContainsKey('ldnsmask') ) { $payload.Add('ldnsmask', $ldnsmask) }
+            if ( $PSBoundParameters.ContainsKey('v6ldnsmasklen') ) { $payload.Add('v6ldnsmasklen', $v6ldnsmasklen) }
+            if ( $PSBoundParameters.ContainsKey('ldnsprobeorder') ) { $payload.Add('ldnsprobeorder', $ldnsprobeorder) }
+            if ( $PSBoundParameters.ContainsKey('dropldnsreq') ) { $payload.Add('dropldnsreq', $dropldnsreq) }
+            if ( $PSBoundParameters.ContainsKey('gslbsvcstatedelaytime') ) { $payload.Add('gslbsvcstatedelaytime', $gslbsvcstatedelaytime) }
+            if ( $PSBoundParameters.ContainsKey('svcstatelearningtime') ) { $payload.Add('svcstatelearningtime', $svcstatelearningtime) }
+            if ( $PSBoundParameters.ContainsKey('automaticconfigsync') ) { $payload.Add('automaticconfigsync', $automaticconfigsync) }
+            if ( $PSBoundParameters.ContainsKey('mepkeepalivetimeout') ) { $payload.Add('mepkeepalivetimeout', $mepkeepalivetimeout) }
+            if ( $PSBoundParameters.ContainsKey('gslbsyncinterval') ) { $payload.Add('gslbsyncinterval', $gslbsyncinterval) }
+            if ( $PSBoundParameters.ContainsKey('gslbsyncmode') ) { $payload.Add('gslbsyncmode', $gslbsyncmode) }
+            if ( $PSBoundParameters.ContainsKey('gslbsynclocfiles') ) { $payload.Add('gslbsynclocfiles', $gslbsynclocfiles) }
+            if ( $PSBoundParameters.ContainsKey('gslbconfigsyncmonitor') ) { $payload.Add('gslbconfigsyncmonitor', $gslbconfigsyncmonitor) }
+            if ( $PSBoundParameters.ContainsKey('gslbsyncsaveconfigcommand') ) { $payload.Add('gslbsyncsaveconfigcommand', $gslbsyncsaveconfigcommand) }
+            if ( $PSCmdlet.ShouldProcess("gslbparameter", "Unset Global Server Load Balancing configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbparameter -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1156,45 +1256,50 @@ function Invoke-ADCUnsetGslbparameter {
 }
 
 function Invoke-ADCGetGslbparameter {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
+        Configuration for GSLB parameter resource.
     .PARAMETER GetAll 
-        Retreive all gslbparameter object(s)
+        Retrieve all gslbparameter object(s).
     .PARAMETER Count
-        If specified, the count of the gslbparameter object(s) will be returned
+        If specified, the count of the gslbparameter object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbparameter
+        PS C:\>Invoke-ADCGetGslbparameter
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbparameter -GetAll
+        PS C:\>Invoke-ADCGetGslbparameter -GetAll 
+        Get all gslbparameter data.
     .EXAMPLE
-        Invoke-ADCGetGslbparameter -name <string>
+        PS C:\>Invoke-ADCGetGslbparameter -name <string>
+        Get gslbparameter object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbparameter -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbparameter -Filter @{ 'name'='<value>' }
+        Get gslbparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -1206,24 +1311,24 @@ function Invoke-ADCGetGslbparameter {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all gslbparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbparameter objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbparameter -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving gslbparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1237,45 +1342,50 @@ function Invoke-ADCGetGslbparameter {
 }
 
 function Invoke-ADCGetGslbrunningconfig {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
+        Configuration for running GSLB configuration resource.
     .PARAMETER GetAll 
-        Retreive all gslbrunningconfig object(s)
+        Retrieve all gslbrunningconfig object(s).
     .PARAMETER Count
-        If specified, the count of the gslbrunningconfig object(s) will be returned
+        If specified, the count of the gslbrunningconfig object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbrunningconfig
+        PS C:\>Invoke-ADCGetGslbrunningconfig
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbrunningconfig -GetAll
+        PS C:\>Invoke-ADCGetGslbrunningconfig -GetAll 
+        Get all gslbrunningconfig data.
     .EXAMPLE
-        Invoke-ADCGetGslbrunningconfig -name <string>
+        PS C:\>Invoke-ADCGetGslbrunningconfig -name <string>
+        Get gslbrunningconfig object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbrunningconfig -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbrunningconfig -Filter @{ 'name'='<value>' }
+        Get gslbrunningconfig data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbrunningconfig
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbrunningconfig/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -1287,24 +1397,24 @@ function Invoke-ADCGetGslbrunningconfig {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all gslbrunningconfig objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbrunningconfig -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbrunningconfig -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbrunningconfig objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbrunningconfig -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbrunningconfig -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbrunningconfig objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbrunningconfig -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbrunningconfig -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbrunningconfig configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving gslbrunningconfig configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbrunningconfig -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbrunningconfig -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1318,279 +1428,241 @@ function Invoke-ADCGetGslbrunningconfig {
 }
 
 function Invoke-ADCAddGslbservice {
-<#
+    <#
     .SYNOPSIS
-        Add Global Server Load Balancing configuration Object
+        Add Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Add Global Server Load Balancing configuration Object 
-    .PARAMETER servicename 
-        Name for the GSLB service. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the GSLB service is created.  
-        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsvc" or 'my gslbsvc').  
-        Minimum length = 1 
-    .PARAMETER cnameentry 
-        Canonical name of the GSLB service. Used in CNAME-based GSLB.  
-        Minimum length = 1 
-    .PARAMETER ip 
-        IP address for the GSLB service. Should represent a load balancing, content switching, or VPN virtual server on the Citrix ADC, or the IP address of another load balancing device.  
-        Minimum length = 1 
-    .PARAMETER servername 
-        Name of the server hosting the GSLB service.  
-        Minimum length = 1 
-    .PARAMETER servicetype 
-        Type of service to create.  
-        Default value: NSSVC_SERVICE_UNKNOWN  
+        Configuration for GSLB service resource.
+    .PARAMETER Servicename 
+        Name for the GSLB service. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the GSLB service is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsvc" or 'my gslbsvc'). 
+    .PARAMETER Cnameentry 
+        Canonical name of the GSLB service. Used in CNAME-based GSLB. 
+    .PARAMETER Ip 
+        IP address for the GSLB service. Should represent a load balancing, content switching, or VPN virtual server on the Citrix ADC, or the IP address of another load balancing device. 
+    .PARAMETER Servername 
+        Name of the server hosting the GSLB service. 
+    .PARAMETER Servicetype 
+        Type of service to create. 
         Possible values = HTTP, FTP, TCP, UDP, SSL, SSL_BRIDGE, SSL_TCP, NNTP, ANY, SIP_UDP, SIP_TCP, SIP_SSL, RADIUS, RDP, RTSP, MYSQL, MSSQL, ORACLE 
-    .PARAMETER port 
-        Port on which the load balancing entity represented by this GSLB service listens.  
-        Minimum value = 1  
-        Range 1 - 65535  
+    .PARAMETER Port 
+        Port on which the load balancing entity represented by this GSLB service listens. 
         * in CLI is represented as 65535 in NITRO API 
-    .PARAMETER publicip 
+    .PARAMETER Publicip 
         The public IP address that a NAT device translates to the GSLB service's private IP address. Optional. 
-    .PARAMETER publicport 
+    .PARAMETER Publicport 
         The public port associated with the GSLB service's public IP address. The port is mapped to the service's private port number. Applicable to the local GSLB service. Optional. 
-    .PARAMETER maxclient 
-        The maximum number of open connections that the service can support at any given time. A GSLB service whose connection count reaches the maximum is not considered when a GSLB decision is made, until the connection count drops below the maximum.  
-        Minimum value = 0  
-        Maximum value = 4294967294 
-    .PARAMETER healthmonitor 
-        Monitor the health of the GSLB service.  
-        Default value: YES  
+    .PARAMETER Maxclient 
+        The maximum number of open connections that the service can support at any given time. A GSLB service whose connection count reaches the maximum is not considered when a GSLB decision is made, until the connection count drops below the maximum. 
+    .PARAMETER Healthmonitor 
+        Monitor the health of the GSLB service. 
         Possible values = YES, NO 
-    .PARAMETER sitename 
-        Name of the GSLB site to which the service belongs.  
-        Minimum length = 1 
-    .PARAMETER state 
-        Enable or disable the service.  
-        Default value: ENABLED  
+    .PARAMETER Sitename 
+        Name of the GSLB site to which the service belongs. 
+    .PARAMETER State 
+        Enable or disable the service. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER cip 
-        In the request that is forwarded to the GSLB service, insert a header that stores the client's IP address. Client IP header insertion is used in connection-proxy based site persistence.  
-        Default value: DISABLED  
+    .PARAMETER Cip 
+        In the request that is forwarded to the GSLB service, insert a header that stores the client's IP address. Client IP header insertion is used in connection-proxy based site persistence. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER cipheader 
-        Name for the HTTP header that stores the client's IP address. Used with the Client IP option. If client IP header insertion is enabled on the service and a name is not specified for the header, the Citrix ADC uses the name specified by the cipHeader parameter in the set ns param command or, in the GUI, the Client IP Header parameter in the Configure HTTP Parameters dialog box.  
-        Minimum length = 1 
-    .PARAMETER sitepersistence 
-        Use cookie-based site persistence. Applicable only to HTTP and SSL GSLB services.  
+    .PARAMETER Cipheader 
+        Name for the HTTP header that stores the client's IP address. Used with the Client IP option. If client IP header insertion is enabled on the service and a name is not specified for the header, the Citrix ADC uses the name specified by the cipHeader parameter in the set ns param command or, in the GUI, the Client IP Header parameter in the Configure HTTP Parameters dialog box. 
+    .PARAMETER Sitepersistence 
+        Use cookie-based site persistence. Applicable only to HTTP and SSL GSLB services. 
         Possible values = ConnectionProxy, HTTPRedirect, NONE 
-    .PARAMETER cookietimeout 
-        Timeout value, in minutes, for the cookie, when cookie based site persistence is enabled.  
-        Minimum value = 0  
-        Maximum value = 1440 
-    .PARAMETER siteprefix 
+    .PARAMETER Cookietimeout 
+        Timeout value, in minutes, for the cookie, when cookie based site persistence is enabled. 
+    .PARAMETER Siteprefix 
         The site's prefix string. When the service is bound to a GSLB virtual server, a GSLB site domain is generated internally for each bound service-domain pair by concatenating the site prefix of the service and the name of the domain. If the special string NONE is specified, the site-prefix string is unset. When implementing HTTP redirect site persistence, the Citrix ADC redirects GSLB requests to GSLB services by using their site domains. 
-    .PARAMETER clttimeout 
-        Idle time, in seconds, after which a client connection is terminated. Applicable if connection proxy based site persistence is used.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER svrtimeout 
-        Idle time, in seconds, after which a server connection is terminated. Applicable if connection proxy based site persistence is used.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER maxbandwidth 
+    .PARAMETER Clttimeout 
+        Idle time, in seconds, after which a client connection is terminated. Applicable if connection proxy based site persistence is used. 
+    .PARAMETER Svrtimeout 
+        Idle time, in seconds, after which a server connection is terminated. Applicable if connection proxy based site persistence is used. 
+    .PARAMETER Maxbandwidth 
         Integer specifying the maximum bandwidth allowed for the service. A GSLB service whose bandwidth reaches the maximum is not considered when a GSLB decision is made, until its bandwidth consumption drops below the maximum. 
-    .PARAMETER downstateflush 
-        Flush all active transactions associated with the GSLB service when its state transitions from UP to DOWN. Do not enable this option for services that must complete their transactions. Applicable if connection proxy based site persistence is used.  
+    .PARAMETER Downstateflush 
+        Flush all active transactions associated with the GSLB service when its state transitions from UP to DOWN. Do not enable this option for services that must complete their transactions. Applicable if connection proxy based site persistence is used. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER maxaaausers 
-        Maximum number of SSL VPN users that can be logged on concurrently to the VPN virtual server that is represented by this GSLB service. A GSLB service whose user count reaches the maximum is not considered when a GSLB decision is made, until the count drops below the maximum.  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER monthreshold 
-        Monitoring threshold value for the GSLB service. If the sum of the weights of the monitors that are bound to this GSLB service and are in the UP state is not equal to or greater than this threshold value, the service is marked as DOWN.  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER hashid 
-        Unique hash identifier for the GSLB service, used by hash based load balancing methods.  
-        Minimum value = 1 
-    .PARAMETER comment 
+    .PARAMETER Maxaaausers 
+        Maximum number of SSL VPN users that can be logged on concurrently to the VPN virtual server that is represented by this GSLB service. A GSLB service whose user count reaches the maximum is not considered when a GSLB decision is made, until the count drops below the maximum. 
+    .PARAMETER Monthreshold 
+        Monitoring threshold value for the GSLB service. If the sum of the weights of the monitors that are bound to this GSLB service and are in the UP state is not equal to or greater than this threshold value, the service is marked as DOWN. 
+    .PARAMETER Hashid 
+        Unique hash identifier for the GSLB service, used by hash based load balancing methods. 
+    .PARAMETER Comment 
         Any comments that you might want to associate with the GSLB service. 
-    .PARAMETER appflowlog 
-        Enable logging appflow flow information.  
-        Default value: ENABLED  
+    .PARAMETER Appflowlog 
+        Enable logging appflow flow information. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER naptrreplacement 
-        The replacement domain name for this NAPTR.  
-        Maximum length = 255 
-    .PARAMETER naptrorder 
-        An integer specifying the order in which the NAPTR records MUST be processed in order to accurately represent the ordered list of Rules. The ordering is from lowest to highest.  
-        Default value: 1  
-        Minimum value = 1  
-        Maximum value = 65535 
-    .PARAMETER naptrservices 
-        Service Parameters applicable to this delegation path.  
-        Maximum length = 255 
-    .PARAMETER naptrdomainttl 
-        Modify the TTL of the internally created naptr domain.  
-        Default value: 3600  
-        Minimum value = 1 
-    .PARAMETER naptrpreference 
-        An integer specifying the preference of this NAPTR among NAPTR records having same order. lower the number, higher the preference.  
-        Default value: 1  
-        Minimum value = 1  
-        Maximum value = 65535 
+    .PARAMETER Naptrreplacement 
+        The replacement domain name for this NAPTR. 
+    .PARAMETER Naptrorder 
+        An integer specifying the order in which the NAPTR records MUST be processed in order to accurately represent the ordered list of Rules. The ordering is from lowest to highest. 
+    .PARAMETER Naptrservices 
+        Service Parameters applicable to this delegation path. 
+    .PARAMETER Naptrdomainttl 
+        Modify the TTL of the internally created naptr domain. 
+    .PARAMETER Naptrpreference 
+        An integer specifying the preference of this NAPTR among NAPTR records having same order. lower the number, higher the preference. 
     .PARAMETER PassThru 
         Return details about the created gslbservice item.
     .EXAMPLE
-        Invoke-ADCAddGslbservice -servicename <string> -sitename <string>
+        PS C:\>Invoke-ADCAddGslbservice -servicename <string> -sitename <string>
+        An example how to add gslbservice configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddGslbservice
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$servicename ,
+        [string]$Servicename,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$cnameentry ,
+        [string]$Cnameentry,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$ip ,
+        [string]$Ip,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servername ,
+        [string]$Servername,
 
         [ValidateSet('HTTP', 'FTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE', 'SSL_TCP', 'NNTP', 'ANY', 'SIP_UDP', 'SIP_TCP', 'SIP_SSL', 'RADIUS', 'RDP', 'RTSP', 'MYSQL', 'MSSQL', 'ORACLE')]
-        [string]$servicetype = 'NSSVC_SERVICE_UNKNOWN' ,
+        [string]$Servicetype = 'NSSVC_SERVICE_UNKNOWN',
 
         [ValidateRange(1, 65535)]
-        [int]$port ,
+        [int]$Port,
 
-        [string]$publicip ,
+        [string]$Publicip,
 
-        [int]$publicport ,
+        [int]$Publicport,
 
         [ValidateRange(0, 4294967294)]
-        [double]$maxclient ,
+        [double]$Maxclient,
 
         [ValidateSet('YES', 'NO')]
-        [string]$healthmonitor = 'YES' ,
+        [string]$Healthmonitor = 'YES',
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$sitename ,
+        [string]$Sitename,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$state = 'ENABLED' ,
+        [string]$State = 'ENABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$cip = 'DISABLED' ,
+        [string]$Cip = 'DISABLED',
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$cipheader ,
+        [string]$Cipheader,
 
         [ValidateSet('ConnectionProxy', 'HTTPRedirect', 'NONE')]
-        [string]$sitepersistence ,
+        [string]$Sitepersistence,
 
         [ValidateRange(0, 1440)]
-        [double]$cookietimeout ,
+        [double]$Cookietimeout,
 
-        [string]$siteprefix ,
-
-        [ValidateRange(0, 31536000)]
-        [double]$clttimeout ,
+        [string]$Siteprefix,
 
         [ValidateRange(0, 31536000)]
-        [double]$svrtimeout ,
+        [double]$Clttimeout,
 
-        [double]$maxbandwidth ,
+        [ValidateRange(0, 31536000)]
+        [double]$Svrtimeout,
 
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$downstateflush ,
-
-        [ValidateRange(0, 65535)]
-        [double]$maxaaausers ,
-
-        [ValidateRange(0, 65535)]
-        [double]$monthreshold ,
-
-        [double]$hashid ,
-
-        [string]$comment ,
+        [double]$Maxbandwidth,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$appflowlog = 'ENABLED' ,
+        [string]$Downstateflush,
 
-        [string]$naptrreplacement ,
+        [ValidateRange(0, 65535)]
+        [double]$Maxaaausers,
+
+        [ValidateRange(0, 65535)]
+        [double]$Monthreshold,
+
+        [double]$Hashid,
+
+        [string]$Comment,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Appflowlog = 'ENABLED',
+
+        [string]$Naptrreplacement,
 
         [ValidateRange(1, 65535)]
-        [double]$naptrorder = '1' ,
+        [double]$Naptrorder = '1',
 
-        [string]$naptrservices ,
+        [string]$Naptrservices,
 
-        [double]$naptrdomainttl = '3600' ,
+        [double]$Naptrdomainttl = '3600',
 
         [ValidateRange(1, 65535)]
-        [double]$naptrpreference = '1' ,
+        [double]$Naptrpreference = '1',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddGslbservice: Starting"
     }
     process {
         try {
-            $Payload = @{
-                servicename = $servicename
-                sitename = $sitename
+            $payload = @{ servicename = $servicename
+                sitename              = $sitename
             }
-            if ($PSBoundParameters.ContainsKey('cnameentry')) { $Payload.Add('cnameentry', $cnameentry) }
-            if ($PSBoundParameters.ContainsKey('ip')) { $Payload.Add('ip', $ip) }
-            if ($PSBoundParameters.ContainsKey('servername')) { $Payload.Add('servername', $servername) }
-            if ($PSBoundParameters.ContainsKey('servicetype')) { $Payload.Add('servicetype', $servicetype) }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('publicip')) { $Payload.Add('publicip', $publicip) }
-            if ($PSBoundParameters.ContainsKey('publicport')) { $Payload.Add('publicport', $publicport) }
-            if ($PSBoundParameters.ContainsKey('maxclient')) { $Payload.Add('maxclient', $maxclient) }
-            if ($PSBoundParameters.ContainsKey('healthmonitor')) { $Payload.Add('healthmonitor', $healthmonitor) }
-            if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
-            if ($PSBoundParameters.ContainsKey('cip')) { $Payload.Add('cip', $cip) }
-            if ($PSBoundParameters.ContainsKey('cipheader')) { $Payload.Add('cipheader', $cipheader) }
-            if ($PSBoundParameters.ContainsKey('sitepersistence')) { $Payload.Add('sitepersistence', $sitepersistence) }
-            if ($PSBoundParameters.ContainsKey('cookietimeout')) { $Payload.Add('cookietimeout', $cookietimeout) }
-            if ($PSBoundParameters.ContainsKey('siteprefix')) { $Payload.Add('siteprefix', $siteprefix) }
-            if ($PSBoundParameters.ContainsKey('clttimeout')) { $Payload.Add('clttimeout', $clttimeout) }
-            if ($PSBoundParameters.ContainsKey('svrtimeout')) { $Payload.Add('svrtimeout', $svrtimeout) }
-            if ($PSBoundParameters.ContainsKey('maxbandwidth')) { $Payload.Add('maxbandwidth', $maxbandwidth) }
-            if ($PSBoundParameters.ContainsKey('downstateflush')) { $Payload.Add('downstateflush', $downstateflush) }
-            if ($PSBoundParameters.ContainsKey('maxaaausers')) { $Payload.Add('maxaaausers', $maxaaausers) }
-            if ($PSBoundParameters.ContainsKey('monthreshold')) { $Payload.Add('monthreshold', $monthreshold) }
-            if ($PSBoundParameters.ContainsKey('hashid')) { $Payload.Add('hashid', $hashid) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('appflowlog')) { $Payload.Add('appflowlog', $appflowlog) }
-            if ($PSBoundParameters.ContainsKey('naptrreplacement')) { $Payload.Add('naptrreplacement', $naptrreplacement) }
-            if ($PSBoundParameters.ContainsKey('naptrorder')) { $Payload.Add('naptrorder', $naptrorder) }
-            if ($PSBoundParameters.ContainsKey('naptrservices')) { $Payload.Add('naptrservices', $naptrservices) }
-            if ($PSBoundParameters.ContainsKey('naptrdomainttl')) { $Payload.Add('naptrdomainttl', $naptrdomainttl) }
-            if ($PSBoundParameters.ContainsKey('naptrpreference')) { $Payload.Add('naptrpreference', $naptrpreference) }
- 
-            if ($PSCmdlet.ShouldProcess("gslbservice", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbservice -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('cnameentry') ) { $payload.Add('cnameentry', $cnameentry) }
+            if ( $PSBoundParameters.ContainsKey('ip') ) { $payload.Add('ip', $ip) }
+            if ( $PSBoundParameters.ContainsKey('servername') ) { $payload.Add('servername', $servername) }
+            if ( $PSBoundParameters.ContainsKey('servicetype') ) { $payload.Add('servicetype', $servicetype) }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('publicip') ) { $payload.Add('publicip', $publicip) }
+            if ( $PSBoundParameters.ContainsKey('publicport') ) { $payload.Add('publicport', $publicport) }
+            if ( $PSBoundParameters.ContainsKey('maxclient') ) { $payload.Add('maxclient', $maxclient) }
+            if ( $PSBoundParameters.ContainsKey('healthmonitor') ) { $payload.Add('healthmonitor', $healthmonitor) }
+            if ( $PSBoundParameters.ContainsKey('state') ) { $payload.Add('state', $state) }
+            if ( $PSBoundParameters.ContainsKey('cip') ) { $payload.Add('cip', $cip) }
+            if ( $PSBoundParameters.ContainsKey('cipheader') ) { $payload.Add('cipheader', $cipheader) }
+            if ( $PSBoundParameters.ContainsKey('sitepersistence') ) { $payload.Add('sitepersistence', $sitepersistence) }
+            if ( $PSBoundParameters.ContainsKey('cookietimeout') ) { $payload.Add('cookietimeout', $cookietimeout) }
+            if ( $PSBoundParameters.ContainsKey('siteprefix') ) { $payload.Add('siteprefix', $siteprefix) }
+            if ( $PSBoundParameters.ContainsKey('clttimeout') ) { $payload.Add('clttimeout', $clttimeout) }
+            if ( $PSBoundParameters.ContainsKey('svrtimeout') ) { $payload.Add('svrtimeout', $svrtimeout) }
+            if ( $PSBoundParameters.ContainsKey('maxbandwidth') ) { $payload.Add('maxbandwidth', $maxbandwidth) }
+            if ( $PSBoundParameters.ContainsKey('downstateflush') ) { $payload.Add('downstateflush', $downstateflush) }
+            if ( $PSBoundParameters.ContainsKey('maxaaausers') ) { $payload.Add('maxaaausers', $maxaaausers) }
+            if ( $PSBoundParameters.ContainsKey('monthreshold') ) { $payload.Add('monthreshold', $monthreshold) }
+            if ( $PSBoundParameters.ContainsKey('hashid') ) { $payload.Add('hashid', $hashid) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('appflowlog') ) { $payload.Add('appflowlog', $appflowlog) }
+            if ( $PSBoundParameters.ContainsKey('naptrreplacement') ) { $payload.Add('naptrreplacement', $naptrreplacement) }
+            if ( $PSBoundParameters.ContainsKey('naptrorder') ) { $payload.Add('naptrorder', $naptrorder) }
+            if ( $PSBoundParameters.ContainsKey('naptrservices') ) { $payload.Add('naptrservices', $naptrservices) }
+            if ( $PSBoundParameters.ContainsKey('naptrdomainttl') ) { $payload.Add('naptrdomainttl', $naptrdomainttl) }
+            if ( $PSBoundParameters.ContainsKey('naptrpreference') ) { $payload.Add('naptrpreference', $naptrpreference) }
+            if ( $PSCmdlet.ShouldProcess("gslbservice", "Add Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbservice -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetGslbservice -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetGslbservice -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1603,48 +1675,48 @@ function Invoke-ADCAddGslbservice {
 }
 
 function Invoke-ADCDeleteGslbservice {
-<#
+    <#
     .SYNOPSIS
-        Delete Global Server Load Balancing configuration Object
+        Delete Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Delete Global Server Load Balancing configuration Object
-    .PARAMETER servicename 
-       Name for the GSLB service. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the GSLB service is created.  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsvc" or 'my gslbsvc').  
-       Minimum length = 1 
+        Configuration for GSLB service resource.
+    .PARAMETER Servicename 
+        Name for the GSLB service. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the GSLB service is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsvc" or 'my gslbsvc').
     .EXAMPLE
-        Invoke-ADCDeleteGslbservice -servicename <string>
+        PS C:\>Invoke-ADCDeleteGslbservice -Servicename <string>
+        An example how to delete gslbservice configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteGslbservice
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$servicename 
+        [Parameter(Mandatory)]
+        [string]$Servicename 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteGslbservice: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$servicename", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservice -NitroPath nitro/v1/config -Resource $servicename -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$servicename", "Delete Global Server Load Balancing configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservice -NitroPath nitro/v1/config -Resource $servicename -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1660,233 +1732,204 @@ function Invoke-ADCDeleteGslbservice {
 }
 
 function Invoke-ADCUpdateGslbservice {
-<#
+    <#
     .SYNOPSIS
-        Update Global Server Load Balancing configuration Object
+        Update Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Update Global Server Load Balancing configuration Object 
-    .PARAMETER servicename 
-        Name for the GSLB service. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the GSLB service is created.  
-        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsvc" or 'my gslbsvc').  
-        Minimum length = 1 
-    .PARAMETER ipaddress 
+        Configuration for GSLB service resource.
+    .PARAMETER Servicename 
+        Name for the GSLB service. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the GSLB service is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsvc" or 'my gslbsvc'). 
+    .PARAMETER Ipaddress 
         The new IP address of the service. 
-    .PARAMETER publicip 
+    .PARAMETER Publicip 
         The public IP address that a NAT device translates to the GSLB service's private IP address. Optional. 
-    .PARAMETER publicport 
+    .PARAMETER Publicport 
         The public port associated with the GSLB service's public IP address. The port is mapped to the service's private port number. Applicable to the local GSLB service. Optional. 
-    .PARAMETER cip 
-        In the request that is forwarded to the GSLB service, insert a header that stores the client's IP address. Client IP header insertion is used in connection-proxy based site persistence.  
-        Default value: DISABLED  
+    .PARAMETER Cip 
+        In the request that is forwarded to the GSLB service, insert a header that stores the client's IP address. Client IP header insertion is used in connection-proxy based site persistence. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER cipheader 
-        Name for the HTTP header that stores the client's IP address. Used with the Client IP option. If client IP header insertion is enabled on the service and a name is not specified for the header, the Citrix ADC uses the name specified by the cipHeader parameter in the set ns param command or, in the GUI, the Client IP Header parameter in the Configure HTTP Parameters dialog box.  
-        Minimum length = 1 
-    .PARAMETER sitepersistence 
-        Use cookie-based site persistence. Applicable only to HTTP and SSL GSLB services.  
+    .PARAMETER Cipheader 
+        Name for the HTTP header that stores the client's IP address. Used with the Client IP option. If client IP header insertion is enabled on the service and a name is not specified for the header, the Citrix ADC uses the name specified by the cipHeader parameter in the set ns param command or, in the GUI, the Client IP Header parameter in the Configure HTTP Parameters dialog box. 
+    .PARAMETER Sitepersistence 
+        Use cookie-based site persistence. Applicable only to HTTP and SSL GSLB services. 
         Possible values = ConnectionProxy, HTTPRedirect, NONE 
-    .PARAMETER siteprefix 
+    .PARAMETER Siteprefix 
         The site's prefix string. When the service is bound to a GSLB virtual server, a GSLB site domain is generated internally for each bound service-domain pair by concatenating the site prefix of the service and the name of the domain. If the special string NONE is specified, the site-prefix string is unset. When implementing HTTP redirect site persistence, the Citrix ADC redirects GSLB requests to GSLB services by using their site domains. 
-    .PARAMETER maxclient 
-        The maximum number of open connections that the service can support at any given time. A GSLB service whose connection count reaches the maximum is not considered when a GSLB decision is made, until the connection count drops below the maximum.  
-        Minimum value = 0  
-        Maximum value = 4294967294 
-    .PARAMETER healthmonitor 
-        Monitor the health of the GSLB service.  
-        Default value: YES  
+    .PARAMETER Maxclient 
+        The maximum number of open connections that the service can support at any given time. A GSLB service whose connection count reaches the maximum is not considered when a GSLB decision is made, until the connection count drops below the maximum. 
+    .PARAMETER Healthmonitor 
+        Monitor the health of the GSLB service. 
         Possible values = YES, NO 
-    .PARAMETER maxbandwidth 
+    .PARAMETER Maxbandwidth 
         Integer specifying the maximum bandwidth allowed for the service. A GSLB service whose bandwidth reaches the maximum is not considered when a GSLB decision is made, until its bandwidth consumption drops below the maximum. 
-    .PARAMETER downstateflush 
-        Flush all active transactions associated with the GSLB service when its state transitions from UP to DOWN. Do not enable this option for services that must complete their transactions. Applicable if connection proxy based site persistence is used.  
+    .PARAMETER Downstateflush 
+        Flush all active transactions associated with the GSLB service when its state transitions from UP to DOWN. Do not enable this option for services that must complete their transactions. Applicable if connection proxy based site persistence is used. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER maxaaausers 
-        Maximum number of SSL VPN users that can be logged on concurrently to the VPN virtual server that is represented by this GSLB service. A GSLB service whose user count reaches the maximum is not considered when a GSLB decision is made, until the count drops below the maximum.  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER viewname 
-        Name of the DNS view of the service. A DNS view is used in global server load balancing (GSLB) to return a predetermined IP address to a specific group of clients, which are identified by using a DNS policy.  
-        Minimum length = 1 
-    .PARAMETER viewip 
+    .PARAMETER Maxaaausers 
+        Maximum number of SSL VPN users that can be logged on concurrently to the VPN virtual server that is represented by this GSLB service. A GSLB service whose user count reaches the maximum is not considered when a GSLB decision is made, until the count drops below the maximum. 
+    .PARAMETER Viewname 
+        Name of the DNS view of the service. A DNS view is used in global server load balancing (GSLB) to return a predetermined IP address to a specific group of clients, which are identified by using a DNS policy. 
+    .PARAMETER Viewip 
         IP address to be used for the given view. 
-    .PARAMETER monthreshold 
-        Monitoring threshold value for the GSLB service. If the sum of the weights of the monitors that are bound to this GSLB service and are in the UP state is not equal to or greater than this threshold value, the service is marked as DOWN.  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER weight 
-        Weight to assign to the monitor-service binding. A larger number specifies a greater weight. Contributes to the monitoring threshold, which determines the state of the service.  
-        Minimum value = 1  
-        Maximum value = 100 
-    .PARAMETER monitor_name_svc 
-        Name of the monitor to bind to the service.  
-        Minimum length = 1 
-    .PARAMETER hashid 
-        Unique hash identifier for the GSLB service, used by hash based load balancing methods.  
-        Minimum value = 1 
-    .PARAMETER comment 
+    .PARAMETER Monthreshold 
+        Monitoring threshold value for the GSLB service. If the sum of the weights of the monitors that are bound to this GSLB service and are in the UP state is not equal to or greater than this threshold value, the service is marked as DOWN. 
+    .PARAMETER Weight 
+        Weight to assign to the monitor-service binding. A larger number specifies a greater weight. Contributes to the monitoring threshold, which determines the state of the service. 
+    .PARAMETER Monitor_name_svc 
+        Name of the monitor to bind to the service. 
+    .PARAMETER Hashid 
+        Unique hash identifier for the GSLB service, used by hash based load balancing methods. 
+    .PARAMETER Comment 
         Any comments that you might want to associate with the GSLB service. 
-    .PARAMETER appflowlog 
-        Enable logging appflow flow information.  
-        Default value: ENABLED  
+    .PARAMETER Appflowlog 
+        Enable logging appflow flow information. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER naptrorder 
-        An integer specifying the order in which the NAPTR records MUST be processed in order to accurately represent the ordered list of Rules. The ordering is from lowest to highest.  
-        Default value: 1  
-        Minimum value = 1  
-        Maximum value = 65535 
-    .PARAMETER naptrpreference 
-        An integer specifying the preference of this NAPTR among NAPTR records having same order. lower the number, higher the preference.  
-        Default value: 1  
-        Minimum value = 1  
-        Maximum value = 65535 
-    .PARAMETER naptrservices 
-        Service Parameters applicable to this delegation path.  
-        Maximum length = 255 
-    .PARAMETER naptrreplacement 
-        The replacement domain name for this NAPTR.  
-        Maximum length = 255 
-    .PARAMETER naptrdomainttl 
-        Modify the TTL of the internally created naptr domain.  
-        Default value: 3600  
-        Minimum value = 1 
+    .PARAMETER Naptrorder 
+        An integer specifying the order in which the NAPTR records MUST be processed in order to accurately represent the ordered list of Rules. The ordering is from lowest to highest. 
+    .PARAMETER Naptrpreference 
+        An integer specifying the preference of this NAPTR among NAPTR records having same order. lower the number, higher the preference. 
+    .PARAMETER Naptrservices 
+        Service Parameters applicable to this delegation path. 
+    .PARAMETER Naptrreplacement 
+        The replacement domain name for this NAPTR. 
+    .PARAMETER Naptrdomainttl 
+        Modify the TTL of the internally created naptr domain. 
     .PARAMETER PassThru 
         Return details about the created gslbservice item.
     .EXAMPLE
-        Invoke-ADCUpdateGslbservice -servicename <string>
+        PS C:\>Invoke-ADCUpdateGslbservice -servicename <string>
+        An example how to update gslbservice configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateGslbservice
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$servicename ,
+        [string]$Servicename,
 
-        [string]$ipaddress ,
+        [string]$Ipaddress,
 
-        [string]$publicip ,
+        [string]$Publicip,
 
-        [int]$publicport ,
+        [int]$Publicport,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$cip ,
+        [string]$Cip,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$cipheader ,
+        [string]$Cipheader,
 
         [ValidateSet('ConnectionProxy', 'HTTPRedirect', 'NONE')]
-        [string]$sitepersistence ,
+        [string]$Sitepersistence,
 
-        [string]$siteprefix ,
+        [string]$Siteprefix,
 
         [ValidateRange(0, 4294967294)]
-        [double]$maxclient ,
+        [double]$Maxclient,
 
         [ValidateSet('YES', 'NO')]
-        [string]$healthmonitor ,
+        [string]$Healthmonitor,
 
-        [double]$maxbandwidth ,
+        [double]$Maxbandwidth,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$downstateflush ,
+        [string]$Downstateflush,
 
         [ValidateRange(0, 65535)]
-        [double]$maxaaausers ,
+        [double]$Maxaaausers,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$viewname ,
+        [string]$Viewname,
 
-        [string]$viewip ,
+        [string]$Viewip,
 
         [ValidateRange(0, 65535)]
-        [double]$monthreshold ,
+        [double]$Monthreshold,
 
         [ValidateRange(1, 100)]
-        [double]$weight ,
+        [double]$Weight,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$monitor_name_svc ,
+        [string]$Monitor_name_svc,
 
-        [double]$hashid ,
+        [double]$Hashid,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$appflowlog ,
+        [string]$Appflowlog,
 
         [ValidateRange(1, 65535)]
-        [double]$naptrorder ,
+        [double]$Naptrorder,
 
         [ValidateRange(1, 65535)]
-        [double]$naptrpreference ,
+        [double]$Naptrpreference,
 
-        [string]$naptrservices ,
+        [string]$Naptrservices,
 
-        [string]$naptrreplacement ,
+        [string]$Naptrreplacement,
 
-        [double]$naptrdomainttl ,
+        [double]$Naptrdomainttl,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateGslbservice: Starting"
     }
     process {
         try {
-            $Payload = @{
-                servicename = $servicename
-            }
-            if ($PSBoundParameters.ContainsKey('ipaddress')) { $Payload.Add('ipaddress', $ipaddress) }
-            if ($PSBoundParameters.ContainsKey('publicip')) { $Payload.Add('publicip', $publicip) }
-            if ($PSBoundParameters.ContainsKey('publicport')) { $Payload.Add('publicport', $publicport) }
-            if ($PSBoundParameters.ContainsKey('cip')) { $Payload.Add('cip', $cip) }
-            if ($PSBoundParameters.ContainsKey('cipheader')) { $Payload.Add('cipheader', $cipheader) }
-            if ($PSBoundParameters.ContainsKey('sitepersistence')) { $Payload.Add('sitepersistence', $sitepersistence) }
-            if ($PSBoundParameters.ContainsKey('siteprefix')) { $Payload.Add('siteprefix', $siteprefix) }
-            if ($PSBoundParameters.ContainsKey('maxclient')) { $Payload.Add('maxclient', $maxclient) }
-            if ($PSBoundParameters.ContainsKey('healthmonitor')) { $Payload.Add('healthmonitor', $healthmonitor) }
-            if ($PSBoundParameters.ContainsKey('maxbandwidth')) { $Payload.Add('maxbandwidth', $maxbandwidth) }
-            if ($PSBoundParameters.ContainsKey('downstateflush')) { $Payload.Add('downstateflush', $downstateflush) }
-            if ($PSBoundParameters.ContainsKey('maxaaausers')) { $Payload.Add('maxaaausers', $maxaaausers) }
-            if ($PSBoundParameters.ContainsKey('viewname')) { $Payload.Add('viewname', $viewname) }
-            if ($PSBoundParameters.ContainsKey('viewip')) { $Payload.Add('viewip', $viewip) }
-            if ($PSBoundParameters.ContainsKey('monthreshold')) { $Payload.Add('monthreshold', $monthreshold) }
-            if ($PSBoundParameters.ContainsKey('weight')) { $Payload.Add('weight', $weight) }
-            if ($PSBoundParameters.ContainsKey('monitor_name_svc')) { $Payload.Add('monitor_name_svc', $monitor_name_svc) }
-            if ($PSBoundParameters.ContainsKey('hashid')) { $Payload.Add('hashid', $hashid) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('appflowlog')) { $Payload.Add('appflowlog', $appflowlog) }
-            if ($PSBoundParameters.ContainsKey('naptrorder')) { $Payload.Add('naptrorder', $naptrorder) }
-            if ($PSBoundParameters.ContainsKey('naptrpreference')) { $Payload.Add('naptrpreference', $naptrpreference) }
-            if ($PSBoundParameters.ContainsKey('naptrservices')) { $Payload.Add('naptrservices', $naptrservices) }
-            if ($PSBoundParameters.ContainsKey('naptrreplacement')) { $Payload.Add('naptrreplacement', $naptrreplacement) }
-            if ($PSBoundParameters.ContainsKey('naptrdomainttl')) { $Payload.Add('naptrdomainttl', $naptrdomainttl) }
- 
-            if ($PSCmdlet.ShouldProcess("gslbservice", "Update Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbservice -Payload $Payload -GetWarning
+            $payload = @{ servicename = $servicename }
+            if ( $PSBoundParameters.ContainsKey('ipaddress') ) { $payload.Add('ipaddress', $ipaddress) }
+            if ( $PSBoundParameters.ContainsKey('publicip') ) { $payload.Add('publicip', $publicip) }
+            if ( $PSBoundParameters.ContainsKey('publicport') ) { $payload.Add('publicport', $publicport) }
+            if ( $PSBoundParameters.ContainsKey('cip') ) { $payload.Add('cip', $cip) }
+            if ( $PSBoundParameters.ContainsKey('cipheader') ) { $payload.Add('cipheader', $cipheader) }
+            if ( $PSBoundParameters.ContainsKey('sitepersistence') ) { $payload.Add('sitepersistence', $sitepersistence) }
+            if ( $PSBoundParameters.ContainsKey('siteprefix') ) { $payload.Add('siteprefix', $siteprefix) }
+            if ( $PSBoundParameters.ContainsKey('maxclient') ) { $payload.Add('maxclient', $maxclient) }
+            if ( $PSBoundParameters.ContainsKey('healthmonitor') ) { $payload.Add('healthmonitor', $healthmonitor) }
+            if ( $PSBoundParameters.ContainsKey('maxbandwidth') ) { $payload.Add('maxbandwidth', $maxbandwidth) }
+            if ( $PSBoundParameters.ContainsKey('downstateflush') ) { $payload.Add('downstateflush', $downstateflush) }
+            if ( $PSBoundParameters.ContainsKey('maxaaausers') ) { $payload.Add('maxaaausers', $maxaaausers) }
+            if ( $PSBoundParameters.ContainsKey('viewname') ) { $payload.Add('viewname', $viewname) }
+            if ( $PSBoundParameters.ContainsKey('viewip') ) { $payload.Add('viewip', $viewip) }
+            if ( $PSBoundParameters.ContainsKey('monthreshold') ) { $payload.Add('monthreshold', $monthreshold) }
+            if ( $PSBoundParameters.ContainsKey('weight') ) { $payload.Add('weight', $weight) }
+            if ( $PSBoundParameters.ContainsKey('monitor_name_svc') ) { $payload.Add('monitor_name_svc', $monitor_name_svc) }
+            if ( $PSBoundParameters.ContainsKey('hashid') ) { $payload.Add('hashid', $hashid) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('appflowlog') ) { $payload.Add('appflowlog', $appflowlog) }
+            if ( $PSBoundParameters.ContainsKey('naptrorder') ) { $payload.Add('naptrorder', $naptrorder) }
+            if ( $PSBoundParameters.ContainsKey('naptrpreference') ) { $payload.Add('naptrpreference', $naptrpreference) }
+            if ( $PSBoundParameters.ContainsKey('naptrservices') ) { $payload.Add('naptrservices', $naptrservices) }
+            if ( $PSBoundParameters.ContainsKey('naptrreplacement') ) { $payload.Add('naptrreplacement', $naptrreplacement) }
+            if ( $PSBoundParameters.ContainsKey('naptrdomainttl') ) { $payload.Add('naptrdomainttl', $naptrdomainttl) }
+            if ( $PSCmdlet.ShouldProcess("gslbservice", "Update Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbservice -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetGslbservice -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetGslbservice -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1899,121 +1942,122 @@ function Invoke-ADCUpdateGslbservice {
 }
 
 function Invoke-ADCUnsetGslbservice {
-<#
+    <#
     .SYNOPSIS
-        Unset Global Server Load Balancing configuration Object
+        Unset Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Unset Global Server Load Balancing configuration Object 
-   .PARAMETER servicename 
-       Name for the GSLB service. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the GSLB service is created.  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsvc" or 'my gslbsvc'). 
-   .PARAMETER publicip 
-       The public IP address that a NAT device translates to the GSLB service's private IP address. Optional. 
-   .PARAMETER publicport 
-       The public port associated with the GSLB service's public IP address. The port is mapped to the service's private port number. Applicable to the local GSLB service. Optional. 
-   .PARAMETER cip 
-       In the request that is forwarded to the GSLB service, insert a header that stores the client's IP address. Client IP header insertion is used in connection-proxy based site persistence.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER cipheader 
-       Name for the HTTP header that stores the client's IP address. Used with the Client IP option. If client IP header insertion is enabled on the service and a name is not specified for the header, the Citrix ADC uses the name specified by the cipHeader parameter in the set ns param command or, in the GUI, the Client IP Header parameter in the Configure HTTP Parameters dialog box. 
-   .PARAMETER sitepersistence 
-       Use cookie-based site persistence. Applicable only to HTTP and SSL GSLB services.  
-       Possible values = ConnectionProxy, HTTPRedirect, NONE 
-   .PARAMETER siteprefix 
-       The site's prefix string. When the service is bound to a GSLB virtual server, a GSLB site domain is generated internally for each bound service-domain pair by concatenating the site prefix of the service and the name of the domain. If the special string NONE is specified, the site-prefix string is unset. When implementing HTTP redirect site persistence, the Citrix ADC redirects GSLB requests to GSLB services by using their site domains. 
-   .PARAMETER maxclient 
-       The maximum number of open connections that the service can support at any given time. A GSLB service whose connection count reaches the maximum is not considered when a GSLB decision is made, until the connection count drops below the maximum. 
-   .PARAMETER healthmonitor 
-       Monitor the health of the GSLB service.  
-       Possible values = YES, NO 
-   .PARAMETER maxbandwidth 
-       Integer specifying the maximum bandwidth allowed for the service. A GSLB service whose bandwidth reaches the maximum is not considered when a GSLB decision is made, until its bandwidth consumption drops below the maximum. 
-   .PARAMETER downstateflush 
-       Flush all active transactions associated with the GSLB service when its state transitions from UP to DOWN. Do not enable this option for services that must complete their transactions. Applicable if connection proxy based site persistence is used.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER maxaaausers 
-       Maximum number of SSL VPN users that can be logged on concurrently to the VPN virtual server that is represented by this GSLB service. A GSLB service whose user count reaches the maximum is not considered when a GSLB decision is made, until the count drops below the maximum. 
-   .PARAMETER monthreshold 
-       Monitoring threshold value for the GSLB service. If the sum of the weights of the monitors that are bound to this GSLB service and are in the UP state is not equal to or greater than this threshold value, the service is marked as DOWN. 
-   .PARAMETER hashid 
-       Unique hash identifier for the GSLB service, used by hash based load balancing methods. 
-   .PARAMETER comment 
-       Any comments that you might want to associate with the GSLB service. 
-   .PARAMETER appflowlog 
-       Enable logging appflow flow information.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER naptrorder 
-       An integer specifying the order in which the NAPTR records MUST be processed in order to accurately represent the ordered list of Rules. The ordering is from lowest to highest. 
-   .PARAMETER naptrpreference 
-       An integer specifying the preference of this NAPTR among NAPTR records having same order. lower the number, higher the preference. 
-   .PARAMETER naptrservices 
-       Service Parameters applicable to this delegation path. 
-   .PARAMETER naptrreplacement 
-       The replacement domain name for this NAPTR. 
-   .PARAMETER naptrdomainttl 
-       Modify the TTL of the internally created naptr domain.
+        Configuration for GSLB service resource.
+    .PARAMETER Servicename 
+        Name for the GSLB service. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the GSLB service is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsvc" or 'my gslbsvc'). 
+    .PARAMETER Publicip 
+        The public IP address that a NAT device translates to the GSLB service's private IP address. Optional. 
+    .PARAMETER Publicport 
+        The public port associated with the GSLB service's public IP address. The port is mapped to the service's private port number. Applicable to the local GSLB service. Optional. 
+    .PARAMETER Cip 
+        In the request that is forwarded to the GSLB service, insert a header that stores the client's IP address. Client IP header insertion is used in connection-proxy based site persistence. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Cipheader 
+        Name for the HTTP header that stores the client's IP address. Used with the Client IP option. If client IP header insertion is enabled on the service and a name is not specified for the header, the Citrix ADC uses the name specified by the cipHeader parameter in the set ns param command or, in the GUI, the Client IP Header parameter in the Configure HTTP Parameters dialog box. 
+    .PARAMETER Sitepersistence 
+        Use cookie-based site persistence. Applicable only to HTTP and SSL GSLB services. 
+        Possible values = ConnectionProxy, HTTPRedirect, NONE 
+    .PARAMETER Siteprefix 
+        The site's prefix string. When the service is bound to a GSLB virtual server, a GSLB site domain is generated internally for each bound service-domain pair by concatenating the site prefix of the service and the name of the domain. If the special string NONE is specified, the site-prefix string is unset. When implementing HTTP redirect site persistence, the Citrix ADC redirects GSLB requests to GSLB services by using their site domains. 
+    .PARAMETER Maxclient 
+        The maximum number of open connections that the service can support at any given time. A GSLB service whose connection count reaches the maximum is not considered when a GSLB decision is made, until the connection count drops below the maximum. 
+    .PARAMETER Healthmonitor 
+        Monitor the health of the GSLB service. 
+        Possible values = YES, NO 
+    .PARAMETER Maxbandwidth 
+        Integer specifying the maximum bandwidth allowed for the service. A GSLB service whose bandwidth reaches the maximum is not considered when a GSLB decision is made, until its bandwidth consumption drops below the maximum. 
+    .PARAMETER Downstateflush 
+        Flush all active transactions associated with the GSLB service when its state transitions from UP to DOWN. Do not enable this option for services that must complete their transactions. Applicable if connection proxy based site persistence is used. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Maxaaausers 
+        Maximum number of SSL VPN users that can be logged on concurrently to the VPN virtual server that is represented by this GSLB service. A GSLB service whose user count reaches the maximum is not considered when a GSLB decision is made, until the count drops below the maximum. 
+    .PARAMETER Monthreshold 
+        Monitoring threshold value for the GSLB service. If the sum of the weights of the monitors that are bound to this GSLB service and are in the UP state is not equal to or greater than this threshold value, the service is marked as DOWN. 
+    .PARAMETER Hashid 
+        Unique hash identifier for the GSLB service, used by hash based load balancing methods. 
+    .PARAMETER Comment 
+        Any comments that you might want to associate with the GSLB service. 
+    .PARAMETER Appflowlog 
+        Enable logging appflow flow information. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Naptrorder 
+        An integer specifying the order in which the NAPTR records MUST be processed in order to accurately represent the ordered list of Rules. The ordering is from lowest to highest. 
+    .PARAMETER Naptrpreference 
+        An integer specifying the preference of this NAPTR among NAPTR records having same order. lower the number, higher the preference. 
+    .PARAMETER Naptrservices 
+        Service Parameters applicable to this delegation path. 
+    .PARAMETER Naptrreplacement 
+        The replacement domain name for this NAPTR. 
+    .PARAMETER Naptrdomainttl 
+        Modify the TTL of the internally created naptr domain.
     .EXAMPLE
-        Invoke-ADCUnsetGslbservice -servicename <string>
+        PS C:\>Invoke-ADCUnsetGslbservice -servicename <string>
+        An example how to unset gslbservice configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetGslbservice
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$servicename ,
+        [string]$Servicename,
 
-        [Boolean]$publicip ,
+        [Boolean]$publicip,
 
-        [Boolean]$publicport ,
+        [Boolean]$publicport,
 
-        [Boolean]$cip ,
+        [Boolean]$cip,
 
-        [Boolean]$cipheader ,
+        [Boolean]$cipheader,
 
-        [Boolean]$sitepersistence ,
+        [Boolean]$sitepersistence,
 
-        [Boolean]$siteprefix ,
+        [Boolean]$siteprefix,
 
-        [Boolean]$maxclient ,
+        [Boolean]$maxclient,
 
-        [Boolean]$healthmonitor ,
+        [Boolean]$healthmonitor,
 
-        [Boolean]$maxbandwidth ,
+        [Boolean]$maxbandwidth,
 
-        [Boolean]$downstateflush ,
+        [Boolean]$downstateflush,
 
-        [Boolean]$maxaaausers ,
+        [Boolean]$maxaaausers,
 
-        [Boolean]$monthreshold ,
+        [Boolean]$monthreshold,
 
-        [Boolean]$hashid ,
+        [Boolean]$hashid,
 
-        [Boolean]$comment ,
+        [Boolean]$comment,
 
-        [Boolean]$appflowlog ,
+        [Boolean]$appflowlog,
 
-        [Boolean]$naptrorder ,
+        [Boolean]$naptrorder,
 
-        [Boolean]$naptrpreference ,
+        [Boolean]$naptrpreference,
 
-        [Boolean]$naptrservices ,
+        [Boolean]$naptrservices,
 
-        [Boolean]$naptrreplacement ,
+        [Boolean]$naptrreplacement,
 
         [Boolean]$naptrdomainttl 
     )
@@ -2022,31 +2066,29 @@ function Invoke-ADCUnsetGslbservice {
     }
     process {
         try {
-            $Payload = @{
-                servicename = $servicename
-            }
-            if ($PSBoundParameters.ContainsKey('publicip')) { $Payload.Add('publicip', $publicip) }
-            if ($PSBoundParameters.ContainsKey('publicport')) { $Payload.Add('publicport', $publicport) }
-            if ($PSBoundParameters.ContainsKey('cip')) { $Payload.Add('cip', $cip) }
-            if ($PSBoundParameters.ContainsKey('cipheader')) { $Payload.Add('cipheader', $cipheader) }
-            if ($PSBoundParameters.ContainsKey('sitepersistence')) { $Payload.Add('sitepersistence', $sitepersistence) }
-            if ($PSBoundParameters.ContainsKey('siteprefix')) { $Payload.Add('siteprefix', $siteprefix) }
-            if ($PSBoundParameters.ContainsKey('maxclient')) { $Payload.Add('maxclient', $maxclient) }
-            if ($PSBoundParameters.ContainsKey('healthmonitor')) { $Payload.Add('healthmonitor', $healthmonitor) }
-            if ($PSBoundParameters.ContainsKey('maxbandwidth')) { $Payload.Add('maxbandwidth', $maxbandwidth) }
-            if ($PSBoundParameters.ContainsKey('downstateflush')) { $Payload.Add('downstateflush', $downstateflush) }
-            if ($PSBoundParameters.ContainsKey('maxaaausers')) { $Payload.Add('maxaaausers', $maxaaausers) }
-            if ($PSBoundParameters.ContainsKey('monthreshold')) { $Payload.Add('monthreshold', $monthreshold) }
-            if ($PSBoundParameters.ContainsKey('hashid')) { $Payload.Add('hashid', $hashid) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('appflowlog')) { $Payload.Add('appflowlog', $appflowlog) }
-            if ($PSBoundParameters.ContainsKey('naptrorder')) { $Payload.Add('naptrorder', $naptrorder) }
-            if ($PSBoundParameters.ContainsKey('naptrpreference')) { $Payload.Add('naptrpreference', $naptrpreference) }
-            if ($PSBoundParameters.ContainsKey('naptrservices')) { $Payload.Add('naptrservices', $naptrservices) }
-            if ($PSBoundParameters.ContainsKey('naptrreplacement')) { $Payload.Add('naptrreplacement', $naptrreplacement) }
-            if ($PSBoundParameters.ContainsKey('naptrdomainttl')) { $Payload.Add('naptrdomainttl', $naptrdomainttl) }
-            if ($PSCmdlet.ShouldProcess("$servicename", "Unset Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbservice -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ servicename = $servicename }
+            if ( $PSBoundParameters.ContainsKey('publicip') ) { $payload.Add('publicip', $publicip) }
+            if ( $PSBoundParameters.ContainsKey('publicport') ) { $payload.Add('publicport', $publicport) }
+            if ( $PSBoundParameters.ContainsKey('cip') ) { $payload.Add('cip', $cip) }
+            if ( $PSBoundParameters.ContainsKey('cipheader') ) { $payload.Add('cipheader', $cipheader) }
+            if ( $PSBoundParameters.ContainsKey('sitepersistence') ) { $payload.Add('sitepersistence', $sitepersistence) }
+            if ( $PSBoundParameters.ContainsKey('siteprefix') ) { $payload.Add('siteprefix', $siteprefix) }
+            if ( $PSBoundParameters.ContainsKey('maxclient') ) { $payload.Add('maxclient', $maxclient) }
+            if ( $PSBoundParameters.ContainsKey('healthmonitor') ) { $payload.Add('healthmonitor', $healthmonitor) }
+            if ( $PSBoundParameters.ContainsKey('maxbandwidth') ) { $payload.Add('maxbandwidth', $maxbandwidth) }
+            if ( $PSBoundParameters.ContainsKey('downstateflush') ) { $payload.Add('downstateflush', $downstateflush) }
+            if ( $PSBoundParameters.ContainsKey('maxaaausers') ) { $payload.Add('maxaaausers', $maxaaausers) }
+            if ( $PSBoundParameters.ContainsKey('monthreshold') ) { $payload.Add('monthreshold', $monthreshold) }
+            if ( $PSBoundParameters.ContainsKey('hashid') ) { $payload.Add('hashid', $hashid) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('appflowlog') ) { $payload.Add('appflowlog', $appflowlog) }
+            if ( $PSBoundParameters.ContainsKey('naptrorder') ) { $payload.Add('naptrorder', $naptrorder) }
+            if ( $PSBoundParameters.ContainsKey('naptrpreference') ) { $payload.Add('naptrpreference', $naptrpreference) }
+            if ( $PSBoundParameters.ContainsKey('naptrservices') ) { $payload.Add('naptrservices', $naptrservices) }
+            if ( $PSBoundParameters.ContainsKey('naptrreplacement') ) { $payload.Add('naptrreplacement', $naptrreplacement) }
+            if ( $PSBoundParameters.ContainsKey('naptrdomainttl') ) { $payload.Add('naptrdomainttl', $naptrdomainttl) }
+            if ( $PSCmdlet.ShouldProcess("$servicename", "Unset Global Server Load Balancing configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbservice -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2062,73 +2104,69 @@ function Invoke-ADCUnsetGslbservice {
 }
 
 function Invoke-ADCRenameGslbservice {
-<#
+    <#
     .SYNOPSIS
-        Rename Global Server Load Balancing configuration Object
+        Rename Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Rename Global Server Load Balancing configuration Object 
-    .PARAMETER servicename 
-        Name for the GSLB service. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the GSLB service is created.  
-        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsvc" or 'my gslbsvc').  
-        Minimum length = 1 
-    .PARAMETER newname 
-        New name for the GSLB service.  
-        Minimum length = 1 
+        Configuration for GSLB service resource.
+    .PARAMETER Servicename 
+        Name for the GSLB service. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the GSLB service is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsvc" or 'my gslbsvc'). 
+    .PARAMETER Newname 
+        New name for the GSLB service. 
     .PARAMETER PassThru 
         Return details about the created gslbservice item.
     .EXAMPLE
-        Invoke-ADCRenameGslbservice -servicename <string> -newname <string>
+        PS C:\>Invoke-ADCRenameGslbservice -servicename <string> -newname <string>
+        An example how to rename gslbservice configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameGslbservice
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$servicename ,
+        [string]$Servicename,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameGslbservice: Starting"
     }
     process {
         try {
-            $Payload = @{
-                servicename = $servicename
-                newname = $newname
+            $payload = @{ servicename = $servicename
+                newname               = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("gslbservice", "Rename Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbservice -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("gslbservice", "Rename Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbservice -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetGslbservice -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetGslbservice -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2141,57 +2179,63 @@ function Invoke-ADCRenameGslbservice {
 }
 
 function Invoke-ADCGetGslbservice {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER servicename 
-       Name for the GSLB service. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the GSLB service is created.  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsvc" or 'my gslbsvc'). 
+        Configuration for GSLB service resource.
+    .PARAMETER Servicename 
+        Name for the GSLB service. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the GSLB service is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsvc" or 'my gslbsvc'). 
     .PARAMETER GetAll 
-        Retreive all gslbservice object(s)
+        Retrieve all gslbservice object(s).
     .PARAMETER Count
-        If specified, the count of the gslbservice object(s) will be returned
+        If specified, the count of the gslbservice object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbservice
+        PS C:\>Invoke-ADCGetGslbservice
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbservice -GetAll 
+        PS C:\>Invoke-ADCGetGslbservice -GetAll 
+        Get all gslbservice data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbservice -Count
+        PS C:\>Invoke-ADCGetGslbservice -Count 
+        Get the number of gslbservice objects.
     .EXAMPLE
-        Invoke-ADCGetGslbservice -name <string>
+        PS C:\>Invoke-ADCGetGslbservice -name <string>
+        Get gslbservice object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbservice -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbservice -Filter @{ 'name'='<value>' }
+        Get gslbservice data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbservice
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$servicename,
+        [string]$Servicename,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2209,24 +2253,24 @@ function Invoke-ADCGetGslbservice {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all gslbservice objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbservice objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbservice objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbservice configuration for property 'servicename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice -NitroPath nitro/v1/config -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbservice configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2240,187 +2284,167 @@ function Invoke-ADCGetGslbservice {
 }
 
 function Invoke-ADCAddGslbservicegroup {
-<#
+    <#
     .SYNOPSIS
-        Add Global Server Load Balancing configuration Object
+        Add Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Add Global Server Load Balancing configuration Object 
-    .PARAMETER servicegroupname 
-        Name of the GSLB service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created.  
-        Minimum length = 1 
-    .PARAMETER servicetype 
-        Protocol used to exchange data with the GSLB service.  
+        Configuration for GSLB service group resource.
+    .PARAMETER Servicegroupname 
+        Name of the GSLB service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created. 
+    .PARAMETER Servicetype 
+        Protocol used to exchange data with the GSLB service. 
         Possible values = HTTP, FTP, TCP, UDP, SSL, SSL_BRIDGE, SSL_TCP, NNTP, ANY, SIP_UDP, SIP_TCP, SIP_SSL, RADIUS, RDP, RTSP, MYSQL, MSSQL, ORACLE 
-    .PARAMETER maxclient 
-        Maximum number of simultaneous open connections for the GSLB service group.  
-        Minimum value = 0  
-        Maximum value = 4294967294 
-    .PARAMETER cip 
-        Insert the Client IP header in requests forwarded to the GSLB service.  
+    .PARAMETER Maxclient 
+        Maximum number of simultaneous open connections for the GSLB service group. 
+    .PARAMETER Cip 
+        Insert the Client IP header in requests forwarded to the GSLB service. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER cipheader 
-        Name of the HTTP header whose value must be set to the IP address of the client. Used with the Client IP parameter. If client IP insertion is enabled, and the client IP header is not specified, the value of Client IP Header parameter or the value set by the set ns config command is used as client's IP header name.  
-        Minimum length = 1 
-    .PARAMETER healthmonitor 
-        Monitor the health of this GSLB service.Available settings function are as follows:  
-        YES - Send probes to check the health of the GSLB service.  
-        NO - Do not send probes to check the health of the GSLB service. With the NO option, the appliance shows the service as UP at all times.  
-        Default value: YES  
+    .PARAMETER Cipheader 
+        Name of the HTTP header whose value must be set to the IP address of the client. Used with the Client IP parameter. If client IP insertion is enabled, and the client IP header is not specified, the value of Client IP Header parameter or the value set by the set ns config command is used as client's IP header name. 
+    .PARAMETER Healthmonitor 
+        Monitor the health of this GSLB service.Available settings function are as follows: 
+        YES - Send probes to check the health of the GSLB service. 
+        NO - Do not send probes to check the health of the GSLB service. With the NO option, the appliance shows the service as UP at all times. 
         Possible values = YES, NO 
-    .PARAMETER clttimeout 
-        Time, in seconds, after which to terminate an idle client connection.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER svrtimeout 
-        Time, in seconds, after which to terminate an idle server connection.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER maxbandwidth 
-        Maximum bandwidth, in Kbps, allocated for all the services in the GSLB service group.  
-        Minimum value = 0  
-        Maximum value = 4294967287 
-    .PARAMETER monthreshold 
-        Minimum sum of weights of the monitors that are bound to this GSLB service. Used to determine whether to mark a GSLB service as UP or DOWN.  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER state 
-        Initial state of the GSLB service group.  
-        Default value: ENABLED  
+    .PARAMETER Clttimeout 
+        Time, in seconds, after which to terminate an idle client connection. 
+    .PARAMETER Svrtimeout 
+        Time, in seconds, after which to terminate an idle server connection. 
+    .PARAMETER Maxbandwidth 
+        Maximum bandwidth, in Kbps, allocated for all the services in the GSLB service group. 
+    .PARAMETER Monthreshold 
+        Minimum sum of weights of the monitors that are bound to this GSLB service. Used to determine whether to mark a GSLB service as UP or DOWN. 
+    .PARAMETER State 
+        Initial state of the GSLB service group. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER downstateflush 
-        Flush all active transactions associated with all the services in the GSLB service group whose state transitions from UP to DOWN. Do not enable this option for applications that must complete their transactions.  
-        Default value: ENABLED  
+    .PARAMETER Downstateflush 
+        Flush all active transactions associated with all the services in the GSLB service group whose state transitions from UP to DOWN. Do not enable this option for applications that must complete their transactions. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any information about the GSLB service group. 
-    .PARAMETER appflowlog 
-        Enable logging of AppFlow information for the specified GSLB service group.  
-        Default value: ENABLED  
+    .PARAMETER Appflowlog 
+        Enable logging of AppFlow information for the specified GSLB service group. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER autoscale 
-        Auto scale option for a GSLB servicegroup.  
-        Default value: DISABLED  
+    .PARAMETER Autoscale 
+        Auto scale option for a GSLB servicegroup. 
         Possible values = DISABLED, DNS 
-    .PARAMETER sitename 
-        Name of the GSLB site to which the service group belongs.  
-        Minimum length = 1 
-    .PARAMETER sitepersistence 
-        Use cookie-based site persistence. Applicable only to HTTP and SSL non-autoscale enabled GSLB servicegroups.  
+    .PARAMETER Sitename 
+        Name of the GSLB site to which the service group belongs. 
+    .PARAMETER Sitepersistence 
+        Use cookie-based site persistence. Applicable only to HTTP and SSL non-autoscale enabled GSLB servicegroups. 
         Possible values = ConnectionProxy, HTTPRedirect, NONE 
     .PARAMETER PassThru 
         Return details about the created gslbservicegroup item.
     .EXAMPLE
-        Invoke-ADCAddGslbservicegroup -servicegroupname <string> -servicetype <string> -sitename <string>
+        PS C:\>Invoke-ADCAddGslbservicegroup -servicegroupname <string> -servicetype <string> -sitename <string>
+        An example how to add gslbservicegroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddGslbservicegroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$servicegroupname ,
+        [string]$Servicegroupname,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('HTTP', 'FTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE', 'SSL_TCP', 'NNTP', 'ANY', 'SIP_UDP', 'SIP_TCP', 'SIP_SSL', 'RADIUS', 'RDP', 'RTSP', 'MYSQL', 'MSSQL', 'ORACLE')]
-        [string]$servicetype ,
+        [string]$Servicetype,
 
         [ValidateRange(0, 4294967294)]
-        [double]$maxclient ,
+        [double]$Maxclient,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$cip ,
+        [string]$Cip,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$cipheader ,
+        [string]$Cipheader,
 
         [ValidateSet('YES', 'NO')]
-        [string]$healthmonitor = 'YES' ,
+        [string]$Healthmonitor = 'YES',
 
         [ValidateRange(0, 31536000)]
-        [double]$clttimeout ,
+        [double]$Clttimeout,
 
         [ValidateRange(0, 31536000)]
-        [double]$svrtimeout ,
+        [double]$Svrtimeout,
 
         [ValidateRange(0, 4294967287)]
-        [double]$maxbandwidth ,
+        [double]$Maxbandwidth,
 
         [ValidateRange(0, 65535)]
-        [double]$monthreshold ,
+        [double]$Monthreshold,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$state = 'ENABLED' ,
+        [string]$State = 'ENABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$downstateflush = 'ENABLED' ,
+        [string]$Downstateflush = 'ENABLED',
 
-        [string]$comment ,
+        [string]$Comment,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$appflowlog = 'ENABLED' ,
+        [string]$Appflowlog = 'ENABLED',
 
         [ValidateSet('DISABLED', 'DNS')]
-        [string]$autoscale = 'DISABLED' ,
+        [string]$Autoscale = 'DISABLED',
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$sitename ,
+        [string]$Sitename,
 
         [ValidateSet('ConnectionProxy', 'HTTPRedirect', 'NONE')]
-        [string]$sitepersistence ,
+        [string]$Sitepersistence,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddGslbservicegroup: Starting"
     }
     process {
         try {
-            $Payload = @{
-                servicegroupname = $servicegroupname
-                servicetype = $servicetype
-                sitename = $sitename
+            $payload = @{ servicegroupname = $servicegroupname
+                servicetype                = $servicetype
+                sitename                   = $sitename
             }
-            if ($PSBoundParameters.ContainsKey('maxclient')) { $Payload.Add('maxclient', $maxclient) }
-            if ($PSBoundParameters.ContainsKey('cip')) { $Payload.Add('cip', $cip) }
-            if ($PSBoundParameters.ContainsKey('cipheader')) { $Payload.Add('cipheader', $cipheader) }
-            if ($PSBoundParameters.ContainsKey('healthmonitor')) { $Payload.Add('healthmonitor', $healthmonitor) }
-            if ($PSBoundParameters.ContainsKey('clttimeout')) { $Payload.Add('clttimeout', $clttimeout) }
-            if ($PSBoundParameters.ContainsKey('svrtimeout')) { $Payload.Add('svrtimeout', $svrtimeout) }
-            if ($PSBoundParameters.ContainsKey('maxbandwidth')) { $Payload.Add('maxbandwidth', $maxbandwidth) }
-            if ($PSBoundParameters.ContainsKey('monthreshold')) { $Payload.Add('monthreshold', $monthreshold) }
-            if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
-            if ($PSBoundParameters.ContainsKey('downstateflush')) { $Payload.Add('downstateflush', $downstateflush) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('appflowlog')) { $Payload.Add('appflowlog', $appflowlog) }
-            if ($PSBoundParameters.ContainsKey('autoscale')) { $Payload.Add('autoscale', $autoscale) }
-            if ($PSBoundParameters.ContainsKey('sitepersistence')) { $Payload.Add('sitepersistence', $sitepersistence) }
- 
-            if ($PSCmdlet.ShouldProcess("gslbservicegroup", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbservicegroup -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('maxclient') ) { $payload.Add('maxclient', $maxclient) }
+            if ( $PSBoundParameters.ContainsKey('cip') ) { $payload.Add('cip', $cip) }
+            if ( $PSBoundParameters.ContainsKey('cipheader') ) { $payload.Add('cipheader', $cipheader) }
+            if ( $PSBoundParameters.ContainsKey('healthmonitor') ) { $payload.Add('healthmonitor', $healthmonitor) }
+            if ( $PSBoundParameters.ContainsKey('clttimeout') ) { $payload.Add('clttimeout', $clttimeout) }
+            if ( $PSBoundParameters.ContainsKey('svrtimeout') ) { $payload.Add('svrtimeout', $svrtimeout) }
+            if ( $PSBoundParameters.ContainsKey('maxbandwidth') ) { $payload.Add('maxbandwidth', $maxbandwidth) }
+            if ( $PSBoundParameters.ContainsKey('monthreshold') ) { $payload.Add('monthreshold', $monthreshold) }
+            if ( $PSBoundParameters.ContainsKey('state') ) { $payload.Add('state', $state) }
+            if ( $PSBoundParameters.ContainsKey('downstateflush') ) { $payload.Add('downstateflush', $downstateflush) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('appflowlog') ) { $payload.Add('appflowlog', $appflowlog) }
+            if ( $PSBoundParameters.ContainsKey('autoscale') ) { $payload.Add('autoscale', $autoscale) }
+            if ( $PSBoundParameters.ContainsKey('sitepersistence') ) { $payload.Add('sitepersistence', $sitepersistence) }
+            if ( $PSCmdlet.ShouldProcess("gslbservicegroup", "Add Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbservicegroup -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetGslbservicegroup -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetGslbservicegroup -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2433,47 +2457,47 @@ function Invoke-ADCAddGslbservicegroup {
 }
 
 function Invoke-ADCDeleteGslbservicegroup {
-<#
+    <#
     .SYNOPSIS
-        Delete Global Server Load Balancing configuration Object
+        Delete Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Delete Global Server Load Balancing configuration Object
-    .PARAMETER servicegroupname 
-       Name of the GSLB service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created.  
-       Minimum length = 1 
+        Configuration for GSLB service group resource.
+    .PARAMETER Servicegroupname 
+        Name of the GSLB service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created.
     .EXAMPLE
-        Invoke-ADCDeleteGslbservicegroup -servicegroupname <string>
+        PS C:\>Invoke-ADCDeleteGslbservicegroup -Servicegroupname <string>
+        An example how to delete gslbservicegroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteGslbservicegroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$servicegroupname 
+        [Parameter(Mandatory)]
+        [string]$Servicegroupname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteGslbservicegroup: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$servicegroupname", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservicegroup -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$servicegroupname", "Delete Global Server Load Balancing configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservicegroup -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2489,215 +2513,188 @@ function Invoke-ADCDeleteGslbservicegroup {
 }
 
 function Invoke-ADCUpdateGslbservicegroup {
-<#
+    <#
     .SYNOPSIS
-        Update Global Server Load Balancing configuration Object
+        Update Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Update Global Server Load Balancing configuration Object 
-    .PARAMETER servicegroupname 
-        Name of the GSLB service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created.  
-        Minimum length = 1 
-    .PARAMETER servername 
-        Name of the server to which to bind the service group.  
-        Minimum length = 1 
-    .PARAMETER port 
-        Server port number.  
-        Range 1 - 65535  
+        Configuration for GSLB service group resource.
+    .PARAMETER Servicegroupname 
+        Name of the GSLB service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created. 
+    .PARAMETER Servername 
+        Name of the server to which to bind the service group. 
+    .PARAMETER Port 
+        Server port number. 
         * in CLI is represented as 65535 in NITRO API 
-    .PARAMETER weight 
-        Weight to assign to the servers in the service group. Specifies the capacity of the servers relative to the other servers in the load balancing configuration. The higher the weight, the higher the percentage of requests sent to the service.  
-        Minimum value = 1  
-        Maximum value = 100 
-    .PARAMETER hashid 
-        The hash identifier for the service. This must be unique for each service. This parameter is used by hash based load balancing methods.  
-        Minimum value = 1 
-    .PARAMETER publicip 
-        The public IP address that a NAT device translates to the GSLB service's private IP address. Optional.  
-        Minimum length = 1 
-    .PARAMETER publicport 
-        The public port associated with the GSLB service's public IP address. The port is mapped to the service's private port number. Applicable to the local GSLB service. Optional.  
-        Minimum value = 1 
-    .PARAMETER siteprefix 
+    .PARAMETER Weight 
+        Weight to assign to the servers in the service group. Specifies the capacity of the servers relative to the other servers in the load balancing configuration. The higher the weight, the higher the percentage of requests sent to the service. 
+    .PARAMETER Hashid 
+        The hash identifier for the service. This must be unique for each service. This parameter is used by hash based load balancing methods. 
+    .PARAMETER Publicip 
+        The public IP address that a NAT device translates to the GSLB service's private IP address. Optional. 
+    .PARAMETER Publicport 
+        The public port associated with the GSLB service's public IP address. The port is mapped to the service's private port number. Applicable to the local GSLB service. Optional. 
+    .PARAMETER Siteprefix 
         The site's prefix string. When the GSLB service group is bound to a GSLB virtual server, a GSLB site domain is generated internally for each bound serviceitem-domain pair by concatenating the site prefix of the service item and the name of the domain. If the special string NONE is specified, the site-prefix string is unset. When implementing HTTP redirect site persistence, the Citrix ADC redirects GSLB requests to GSLB services by using their site domains. 
-    .PARAMETER monitor_name_svc 
-        Name of the monitor bound to the GSLB service group. Used to assign a weight to the monitor.  
-        Minimum length = 1 
-    .PARAMETER dup_weight 
-        weight of the monitor that is bound to GSLB servicegroup.  
-        Minimum value = 1 
-    .PARAMETER maxclient 
-        Maximum number of simultaneous open connections for the GSLB service group.  
-        Minimum value = 0  
-        Maximum value = 4294967294 
-    .PARAMETER healthmonitor 
-        Monitor the health of this GSLB service.Available settings function are as follows:  
-        YES - Send probes to check the health of the GSLB service.  
-        NO - Do not send probes to check the health of the GSLB service. With the NO option, the appliance shows the service as UP at all times.  
-        Default value: YES  
+    .PARAMETER Monitor_name_svc 
+        Name of the monitor bound to the GSLB service group. Used to assign a weight to the monitor. 
+    .PARAMETER Dup_weight 
+        weight of the monitor that is bound to GSLB servicegroup. 
+    .PARAMETER Maxclient 
+        Maximum number of simultaneous open connections for the GSLB service group. 
+    .PARAMETER Healthmonitor 
+        Monitor the health of this GSLB service.Available settings function are as follows: 
+        YES - Send probes to check the health of the GSLB service. 
+        NO - Do not send probes to check the health of the GSLB service. With the NO option, the appliance shows the service as UP at all times. 
         Possible values = YES, NO 
-    .PARAMETER cip 
-        Insert the Client IP header in requests forwarded to the GSLB service.  
+    .PARAMETER Cip 
+        Insert the Client IP header in requests forwarded to the GSLB service. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER cipheader 
-        Name of the HTTP header whose value must be set to the IP address of the client. Used with the Client IP parameter. If client IP insertion is enabled, and the client IP header is not specified, the value of Client IP Header parameter or the value set by the set ns config command is used as client's IP header name.  
-        Minimum length = 1 
-    .PARAMETER clttimeout 
-        Time, in seconds, after which to terminate an idle client connection.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER svrtimeout 
-        Time, in seconds, after which to terminate an idle server connection.  
-        Minimum value = 0  
-        Maximum value = 31536000 
-    .PARAMETER maxbandwidth 
-        Maximum bandwidth, in Kbps, allocated for all the services in the GSLB service group.  
-        Minimum value = 0  
-        Maximum value = 4294967287 
-    .PARAMETER monthreshold 
-        Minimum sum of weights of the monitors that are bound to this GSLB service. Used to determine whether to mark a GSLB service as UP or DOWN.  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER downstateflush 
-        Flush all active transactions associated with all the services in the GSLB service group whose state transitions from UP to DOWN. Do not enable this option for applications that must complete their transactions.  
-        Default value: ENABLED  
+    .PARAMETER Cipheader 
+        Name of the HTTP header whose value must be set to the IP address of the client. Used with the Client IP parameter. If client IP insertion is enabled, and the client IP header is not specified, the value of Client IP Header parameter or the value set by the set ns config command is used as client's IP header name. 
+    .PARAMETER Clttimeout 
+        Time, in seconds, after which to terminate an idle client connection. 
+    .PARAMETER Svrtimeout 
+        Time, in seconds, after which to terminate an idle server connection. 
+    .PARAMETER Maxbandwidth 
+        Maximum bandwidth, in Kbps, allocated for all the services in the GSLB service group. 
+    .PARAMETER Monthreshold 
+        Minimum sum of weights of the monitors that are bound to this GSLB service. Used to determine whether to mark a GSLB service as UP or DOWN. 
+    .PARAMETER Downstateflush 
+        Flush all active transactions associated with all the services in the GSLB service group whose state transitions from UP to DOWN. Do not enable this option for applications that must complete their transactions. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any information about the GSLB service group. 
-    .PARAMETER appflowlog 
-        Enable logging of AppFlow information for the specified GSLB service group.  
-        Default value: ENABLED  
+    .PARAMETER Appflowlog 
+        Enable logging of AppFlow information for the specified GSLB service group. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER sitepersistence 
-        Use cookie-based site persistence. Applicable only to HTTP and SSL non-autoscale enabled GSLB servicegroups.  
+    .PARAMETER Sitepersistence 
+        Use cookie-based site persistence. Applicable only to HTTP and SSL non-autoscale enabled GSLB servicegroups. 
         Possible values = ConnectionProxy, HTTPRedirect, NONE 
     .PARAMETER PassThru 
         Return details about the created gslbservicegroup item.
     .EXAMPLE
-        Invoke-ADCUpdateGslbservicegroup -servicegroupname <string>
+        PS C:\>Invoke-ADCUpdateGslbservicegroup -servicegroupname <string>
+        An example how to update gslbservicegroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateGslbservicegroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$servicegroupname ,
+        [string]$Servicegroupname,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servername ,
+        [string]$Servername,
 
         [ValidateRange(1, 65535)]
-        [int]$port ,
+        [int]$Port,
 
         [ValidateRange(1, 100)]
-        [double]$weight ,
+        [double]$Weight,
 
-        [double]$hashid ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$publicip ,
-
-        [int]$publicport ,
-
-        [string]$siteprefix ,
+        [double]$Hashid,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$monitor_name_svc ,
+        [string]$Publicip,
 
-        [double]$dup_weight ,
+        [int]$Publicport,
+
+        [string]$Siteprefix,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Monitor_name_svc,
+
+        [double]$Dup_weight,
 
         [ValidateRange(0, 4294967294)]
-        [double]$maxclient ,
+        [double]$Maxclient,
 
         [ValidateSet('YES', 'NO')]
-        [string]$healthmonitor ,
+        [string]$Healthmonitor,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$cip ,
+        [string]$Cip,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$cipheader ,
+        [string]$Cipheader,
 
         [ValidateRange(0, 31536000)]
-        [double]$clttimeout ,
+        [double]$Clttimeout,
 
         [ValidateRange(0, 31536000)]
-        [double]$svrtimeout ,
+        [double]$Svrtimeout,
 
         [ValidateRange(0, 4294967287)]
-        [double]$maxbandwidth ,
+        [double]$Maxbandwidth,
 
         [ValidateRange(0, 65535)]
-        [double]$monthreshold ,
+        [double]$Monthreshold,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$downstateflush ,
+        [string]$Downstateflush,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$appflowlog ,
+        [string]$Appflowlog,
 
         [ValidateSet('ConnectionProxy', 'HTTPRedirect', 'NONE')]
-        [string]$sitepersistence ,
+        [string]$Sitepersistence,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateGslbservicegroup: Starting"
     }
     process {
         try {
-            $Payload = @{
-                servicegroupname = $servicegroupname
-            }
-            if ($PSBoundParameters.ContainsKey('servername')) { $Payload.Add('servername', $servername) }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('weight')) { $Payload.Add('weight', $weight) }
-            if ($PSBoundParameters.ContainsKey('hashid')) { $Payload.Add('hashid', $hashid) }
-            if ($PSBoundParameters.ContainsKey('publicip')) { $Payload.Add('publicip', $publicip) }
-            if ($PSBoundParameters.ContainsKey('publicport')) { $Payload.Add('publicport', $publicport) }
-            if ($PSBoundParameters.ContainsKey('siteprefix')) { $Payload.Add('siteprefix', $siteprefix) }
-            if ($PSBoundParameters.ContainsKey('monitor_name_svc')) { $Payload.Add('monitor_name_svc', $monitor_name_svc) }
-            if ($PSBoundParameters.ContainsKey('dup_weight')) { $Payload.Add('dup_weight', $dup_weight) }
-            if ($PSBoundParameters.ContainsKey('maxclient')) { $Payload.Add('maxclient', $maxclient) }
-            if ($PSBoundParameters.ContainsKey('healthmonitor')) { $Payload.Add('healthmonitor', $healthmonitor) }
-            if ($PSBoundParameters.ContainsKey('cip')) { $Payload.Add('cip', $cip) }
-            if ($PSBoundParameters.ContainsKey('cipheader')) { $Payload.Add('cipheader', $cipheader) }
-            if ($PSBoundParameters.ContainsKey('clttimeout')) { $Payload.Add('clttimeout', $clttimeout) }
-            if ($PSBoundParameters.ContainsKey('svrtimeout')) { $Payload.Add('svrtimeout', $svrtimeout) }
-            if ($PSBoundParameters.ContainsKey('maxbandwidth')) { $Payload.Add('maxbandwidth', $maxbandwidth) }
-            if ($PSBoundParameters.ContainsKey('monthreshold')) { $Payload.Add('monthreshold', $monthreshold) }
-            if ($PSBoundParameters.ContainsKey('downstateflush')) { $Payload.Add('downstateflush', $downstateflush) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('appflowlog')) { $Payload.Add('appflowlog', $appflowlog) }
-            if ($PSBoundParameters.ContainsKey('sitepersistence')) { $Payload.Add('sitepersistence', $sitepersistence) }
- 
-            if ($PSCmdlet.ShouldProcess("gslbservicegroup", "Update Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbservicegroup -Payload $Payload -GetWarning
+            $payload = @{ servicegroupname = $servicegroupname }
+            if ( $PSBoundParameters.ContainsKey('servername') ) { $payload.Add('servername', $servername) }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('weight') ) { $payload.Add('weight', $weight) }
+            if ( $PSBoundParameters.ContainsKey('hashid') ) { $payload.Add('hashid', $hashid) }
+            if ( $PSBoundParameters.ContainsKey('publicip') ) { $payload.Add('publicip', $publicip) }
+            if ( $PSBoundParameters.ContainsKey('publicport') ) { $payload.Add('publicport', $publicport) }
+            if ( $PSBoundParameters.ContainsKey('siteprefix') ) { $payload.Add('siteprefix', $siteprefix) }
+            if ( $PSBoundParameters.ContainsKey('monitor_name_svc') ) { $payload.Add('monitor_name_svc', $monitor_name_svc) }
+            if ( $PSBoundParameters.ContainsKey('dup_weight') ) { $payload.Add('dup_weight', $dup_weight) }
+            if ( $PSBoundParameters.ContainsKey('maxclient') ) { $payload.Add('maxclient', $maxclient) }
+            if ( $PSBoundParameters.ContainsKey('healthmonitor') ) { $payload.Add('healthmonitor', $healthmonitor) }
+            if ( $PSBoundParameters.ContainsKey('cip') ) { $payload.Add('cip', $cip) }
+            if ( $PSBoundParameters.ContainsKey('cipheader') ) { $payload.Add('cipheader', $cipheader) }
+            if ( $PSBoundParameters.ContainsKey('clttimeout') ) { $payload.Add('clttimeout', $clttimeout) }
+            if ( $PSBoundParameters.ContainsKey('svrtimeout') ) { $payload.Add('svrtimeout', $svrtimeout) }
+            if ( $PSBoundParameters.ContainsKey('maxbandwidth') ) { $payload.Add('maxbandwidth', $maxbandwidth) }
+            if ( $PSBoundParameters.ContainsKey('monthreshold') ) { $payload.Add('monthreshold', $monthreshold) }
+            if ( $PSBoundParameters.ContainsKey('downstateflush') ) { $payload.Add('downstateflush', $downstateflush) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('appflowlog') ) { $payload.Add('appflowlog', $appflowlog) }
+            if ( $PSBoundParameters.ContainsKey('sitepersistence') ) { $payload.Add('sitepersistence', $sitepersistence) }
+            if ( $PSCmdlet.ShouldProcess("gslbservicegroup", "Update Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbservicegroup -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetGslbservicegroup -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetGslbservicegroup -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2710,127 +2707,128 @@ function Invoke-ADCUpdateGslbservicegroup {
 }
 
 function Invoke-ADCUnsetGslbservicegroup {
-<#
+    <#
     .SYNOPSIS
-        Unset Global Server Load Balancing configuration Object
+        Unset Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Unset Global Server Load Balancing configuration Object 
-   .PARAMETER servicegroupname 
-       Name of the GSLB service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created. 
-   .PARAMETER servername 
-       Name of the server to which to bind the service group. 
-   .PARAMETER port 
-       Server port number.  
-       * in CLI is represented as 65535 in NITRO API 
-   .PARAMETER weight 
-       Weight to assign to the servers in the service group. Specifies the capacity of the servers relative to the other servers in the load balancing configuration. The higher the weight, the higher the percentage of requests sent to the service. 
-   .PARAMETER hashid 
-       The hash identifier for the service. This must be unique for each service. This parameter is used by hash based load balancing methods. 
-   .PARAMETER publicip 
-       The public IP address that a NAT device translates to the GSLB service's private IP address. Optional. 
-   .PARAMETER publicport 
-       The public port associated with the GSLB service's public IP address. The port is mapped to the service's private port number. Applicable to the local GSLB service. Optional. 
-   .PARAMETER siteprefix 
-       The site's prefix string. When the GSLB service group is bound to a GSLB virtual server, a GSLB site domain is generated internally for each bound serviceitem-domain pair by concatenating the site prefix of the service item and the name of the domain. If the special string NONE is specified, the site-prefix string is unset. When implementing HTTP redirect site persistence, the Citrix ADC redirects GSLB requests to GSLB services by using their site domains. 
-   .PARAMETER maxclient 
-       Maximum number of simultaneous open connections for the GSLB service group. 
-   .PARAMETER cip 
-       Insert the Client IP header in requests forwarded to the GSLB service.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER clttimeout 
-       Time, in seconds, after which to terminate an idle client connection. 
-   .PARAMETER svrtimeout 
-       Time, in seconds, after which to terminate an idle server connection. 
-   .PARAMETER maxbandwidth 
-       Maximum bandwidth, in Kbps, allocated for all the services in the GSLB service group. 
-   .PARAMETER monthreshold 
-       Minimum sum of weights of the monitors that are bound to this GSLB service. Used to determine whether to mark a GSLB service as UP or DOWN. 
-   .PARAMETER appflowlog 
-       Enable logging of AppFlow information for the specified GSLB service group.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER sitepersistence 
-       Use cookie-based site persistence. Applicable only to HTTP and SSL non-autoscale enabled GSLB servicegroups.  
-       Possible values = ConnectionProxy, HTTPRedirect, NONE 
-   .PARAMETER monitor_name_svc 
-       Name of the monitor bound to the GSLB service group. Used to assign a weight to the monitor. 
-   .PARAMETER dup_weight 
-       weight of the monitor that is bound to GSLB servicegroup. 
-   .PARAMETER healthmonitor 
-       Monitor the health of this GSLB service.Available settings function are as follows:  
-       YES - Send probes to check the health of the GSLB service.  
-       NO - Do not send probes to check the health of the GSLB service. With the NO option, the appliance shows the service as UP at all times.  
-       Possible values = YES, NO 
-   .PARAMETER cipheader 
-       Name of the HTTP header whose value must be set to the IP address of the client. Used with the Client IP parameter. If client IP insertion is enabled, and the client IP header is not specified, the value of Client IP Header parameter or the value set by the set ns config command is used as client's IP header name. 
-   .PARAMETER downstateflush 
-       Flush all active transactions associated with all the services in the GSLB service group whose state transitions from UP to DOWN. Do not enable this option for applications that must complete their transactions.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER comment 
-       Any information about the GSLB service group.
+        Configuration for GSLB service group resource.
+    .PARAMETER Servicegroupname 
+        Name of the GSLB service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created. 
+    .PARAMETER Servername 
+        Name of the server to which to bind the service group. 
+    .PARAMETER Port 
+        Server port number. 
+        * in CLI is represented as 65535 in NITRO API 
+    .PARAMETER Weight 
+        Weight to assign to the servers in the service group. Specifies the capacity of the servers relative to the other servers in the load balancing configuration. The higher the weight, the higher the percentage of requests sent to the service. 
+    .PARAMETER Hashid 
+        The hash identifier for the service. This must be unique for each service. This parameter is used by hash based load balancing methods. 
+    .PARAMETER Publicip 
+        The public IP address that a NAT device translates to the GSLB service's private IP address. Optional. 
+    .PARAMETER Publicport 
+        The public port associated with the GSLB service's public IP address. The port is mapped to the service's private port number. Applicable to the local GSLB service. Optional. 
+    .PARAMETER Siteprefix 
+        The site's prefix string. When the GSLB service group is bound to a GSLB virtual server, a GSLB site domain is generated internally for each bound serviceitem-domain pair by concatenating the site prefix of the service item and the name of the domain. If the special string NONE is specified, the site-prefix string is unset. When implementing HTTP redirect site persistence, the Citrix ADC redirects GSLB requests to GSLB services by using their site domains. 
+    .PARAMETER Maxclient 
+        Maximum number of simultaneous open connections for the GSLB service group. 
+    .PARAMETER Cip 
+        Insert the Client IP header in requests forwarded to the GSLB service. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Clttimeout 
+        Time, in seconds, after which to terminate an idle client connection. 
+    .PARAMETER Svrtimeout 
+        Time, in seconds, after which to terminate an idle server connection. 
+    .PARAMETER Maxbandwidth 
+        Maximum bandwidth, in Kbps, allocated for all the services in the GSLB service group. 
+    .PARAMETER Monthreshold 
+        Minimum sum of weights of the monitors that are bound to this GSLB service. Used to determine whether to mark a GSLB service as UP or DOWN. 
+    .PARAMETER Appflowlog 
+        Enable logging of AppFlow information for the specified GSLB service group. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Sitepersistence 
+        Use cookie-based site persistence. Applicable only to HTTP and SSL non-autoscale enabled GSLB servicegroups. 
+        Possible values = ConnectionProxy, HTTPRedirect, NONE 
+    .PARAMETER Monitor_name_svc 
+        Name of the monitor bound to the GSLB service group. Used to assign a weight to the monitor. 
+    .PARAMETER Dup_weight 
+        weight of the monitor that is bound to GSLB servicegroup. 
+    .PARAMETER Healthmonitor 
+        Monitor the health of this GSLB service.Available settings function are as follows: 
+        YES - Send probes to check the health of the GSLB service. 
+        NO - Do not send probes to check the health of the GSLB service. With the NO option, the appliance shows the service as UP at all times. 
+        Possible values = YES, NO 
+    .PARAMETER Cipheader 
+        Name of the HTTP header whose value must be set to the IP address of the client. Used with the Client IP parameter. If client IP insertion is enabled, and the client IP header is not specified, the value of Client IP Header parameter or the value set by the set ns config command is used as client's IP header name. 
+    .PARAMETER Downstateflush 
+        Flush all active transactions associated with all the services in the GSLB service group whose state transitions from UP to DOWN. Do not enable this option for applications that must complete their transactions. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Comment 
+        Any information about the GSLB service group.
     .EXAMPLE
-        Invoke-ADCUnsetGslbservicegroup -servicegroupname <string>
+        PS C:\>Invoke-ADCUnsetGslbservicegroup -servicegroupname <string>
+        An example how to unset gslbservicegroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetGslbservicegroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$servicegroupname ,
+        [string]$Servicegroupname,
 
-        [Boolean]$servername ,
+        [Boolean]$servername,
 
-        [Boolean]$port ,
+        [Boolean]$port,
 
-        [Boolean]$weight ,
+        [Boolean]$weight,
 
-        [Boolean]$hashid ,
+        [Boolean]$hashid,
 
-        [Boolean]$publicip ,
+        [Boolean]$publicip,
 
-        [Boolean]$publicport ,
+        [Boolean]$publicport,
 
-        [Boolean]$siteprefix ,
+        [Boolean]$siteprefix,
 
-        [Boolean]$maxclient ,
+        [Boolean]$maxclient,
 
-        [Boolean]$cip ,
+        [Boolean]$cip,
 
-        [Boolean]$clttimeout ,
+        [Boolean]$clttimeout,
 
-        [Boolean]$svrtimeout ,
+        [Boolean]$svrtimeout,
 
-        [Boolean]$maxbandwidth ,
+        [Boolean]$maxbandwidth,
 
-        [Boolean]$monthreshold ,
+        [Boolean]$monthreshold,
 
-        [Boolean]$appflowlog ,
+        [Boolean]$appflowlog,
 
-        [Boolean]$sitepersistence ,
+        [Boolean]$sitepersistence,
 
-        [Boolean]$monitor_name_svc ,
+        [Boolean]$monitor_name_svc,
 
-        [Boolean]$dup_weight ,
+        [Boolean]$dup_weight,
 
-        [Boolean]$healthmonitor ,
+        [Boolean]$healthmonitor,
 
-        [Boolean]$cipheader ,
+        [Boolean]$cipheader,
 
-        [Boolean]$downstateflush ,
+        [Boolean]$downstateflush,
 
         [Boolean]$comment 
     )
@@ -2839,32 +2837,30 @@ function Invoke-ADCUnsetGslbservicegroup {
     }
     process {
         try {
-            $Payload = @{
-                servicegroupname = $servicegroupname
-            }
-            if ($PSBoundParameters.ContainsKey('servername')) { $Payload.Add('servername', $servername) }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('weight')) { $Payload.Add('weight', $weight) }
-            if ($PSBoundParameters.ContainsKey('hashid')) { $Payload.Add('hashid', $hashid) }
-            if ($PSBoundParameters.ContainsKey('publicip')) { $Payload.Add('publicip', $publicip) }
-            if ($PSBoundParameters.ContainsKey('publicport')) { $Payload.Add('publicport', $publicport) }
-            if ($PSBoundParameters.ContainsKey('siteprefix')) { $Payload.Add('siteprefix', $siteprefix) }
-            if ($PSBoundParameters.ContainsKey('maxclient')) { $Payload.Add('maxclient', $maxclient) }
-            if ($PSBoundParameters.ContainsKey('cip')) { $Payload.Add('cip', $cip) }
-            if ($PSBoundParameters.ContainsKey('clttimeout')) { $Payload.Add('clttimeout', $clttimeout) }
-            if ($PSBoundParameters.ContainsKey('svrtimeout')) { $Payload.Add('svrtimeout', $svrtimeout) }
-            if ($PSBoundParameters.ContainsKey('maxbandwidth')) { $Payload.Add('maxbandwidth', $maxbandwidth) }
-            if ($PSBoundParameters.ContainsKey('monthreshold')) { $Payload.Add('monthreshold', $monthreshold) }
-            if ($PSBoundParameters.ContainsKey('appflowlog')) { $Payload.Add('appflowlog', $appflowlog) }
-            if ($PSBoundParameters.ContainsKey('sitepersistence')) { $Payload.Add('sitepersistence', $sitepersistence) }
-            if ($PSBoundParameters.ContainsKey('monitor_name_svc')) { $Payload.Add('monitor_name_svc', $monitor_name_svc) }
-            if ($PSBoundParameters.ContainsKey('dup_weight')) { $Payload.Add('dup_weight', $dup_weight) }
-            if ($PSBoundParameters.ContainsKey('healthmonitor')) { $Payload.Add('healthmonitor', $healthmonitor) }
-            if ($PSBoundParameters.ContainsKey('cipheader')) { $Payload.Add('cipheader', $cipheader) }
-            if ($PSBoundParameters.ContainsKey('downstateflush')) { $Payload.Add('downstateflush', $downstateflush) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSCmdlet.ShouldProcess("$servicegroupname", "Unset Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbservicegroup -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ servicegroupname = $servicegroupname }
+            if ( $PSBoundParameters.ContainsKey('servername') ) { $payload.Add('servername', $servername) }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('weight') ) { $payload.Add('weight', $weight) }
+            if ( $PSBoundParameters.ContainsKey('hashid') ) { $payload.Add('hashid', $hashid) }
+            if ( $PSBoundParameters.ContainsKey('publicip') ) { $payload.Add('publicip', $publicip) }
+            if ( $PSBoundParameters.ContainsKey('publicport') ) { $payload.Add('publicport', $publicport) }
+            if ( $PSBoundParameters.ContainsKey('siteprefix') ) { $payload.Add('siteprefix', $siteprefix) }
+            if ( $PSBoundParameters.ContainsKey('maxclient') ) { $payload.Add('maxclient', $maxclient) }
+            if ( $PSBoundParameters.ContainsKey('cip') ) { $payload.Add('cip', $cip) }
+            if ( $PSBoundParameters.ContainsKey('clttimeout') ) { $payload.Add('clttimeout', $clttimeout) }
+            if ( $PSBoundParameters.ContainsKey('svrtimeout') ) { $payload.Add('svrtimeout', $svrtimeout) }
+            if ( $PSBoundParameters.ContainsKey('maxbandwidth') ) { $payload.Add('maxbandwidth', $maxbandwidth) }
+            if ( $PSBoundParameters.ContainsKey('monthreshold') ) { $payload.Add('monthreshold', $monthreshold) }
+            if ( $PSBoundParameters.ContainsKey('appflowlog') ) { $payload.Add('appflowlog', $appflowlog) }
+            if ( $PSBoundParameters.ContainsKey('sitepersistence') ) { $payload.Add('sitepersistence', $sitepersistence) }
+            if ( $PSBoundParameters.ContainsKey('monitor_name_svc') ) { $payload.Add('monitor_name_svc', $monitor_name_svc) }
+            if ( $PSBoundParameters.ContainsKey('dup_weight') ) { $payload.Add('dup_weight', $dup_weight) }
+            if ( $PSBoundParameters.ContainsKey('healthmonitor') ) { $payload.Add('healthmonitor', $healthmonitor) }
+            if ( $PSBoundParameters.ContainsKey('cipheader') ) { $payload.Add('cipheader', $cipheader) }
+            if ( $PSBoundParameters.ContainsKey('downstateflush') ) { $payload.Add('downstateflush', $downstateflush) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("$servicegroupname", "Unset Global Server Load Balancing configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbservicegroup -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2880,48 +2876,50 @@ function Invoke-ADCUnsetGslbservicegroup {
 }
 
 function Invoke-ADCEnableGslbservicegroup {
-<#
+    <#
     .SYNOPSIS
-        Enable Global Server Load Balancing configuration Object
+        Enable Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Enable Global Server Load Balancing configuration Object 
-    .PARAMETER servicegroupname 
+        Configuration for GSLB service group resource.
+    .PARAMETER Servicegroupname 
         Name of the GSLB service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created. 
-    .PARAMETER servername 
+    .PARAMETER Servername 
         Name of the server to which to bind the service group. 
-    .PARAMETER port 
-        Server port number.  
+    .PARAMETER Port 
+        Server port number. 
         * in CLI is represented as 65535 in NITRO API
     .EXAMPLE
-        Invoke-ADCEnableGslbservicegroup -servicegroupname <string>
+        PS C:\>Invoke-ADCEnableGslbservicegroup -servicegroupname <string>
+        An example how to enable gslbservicegroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCEnableGslbservicegroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$servicegroupname ,
+        [string]$Servicegroupname,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servername ,
+        [string]$Servername,
 
         [ValidateRange(1, 65535)]
-        [int]$port 
+        [int]$Port 
 
     )
     begin {
@@ -2929,13 +2927,11 @@ function Invoke-ADCEnableGslbservicegroup {
     }
     process {
         try {
-            $Payload = @{
-                servicegroupname = $servicegroupname
-            }
-            if ($PSBoundParameters.ContainsKey('servername')) { $Payload.Add('servername', $servername) }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSCmdlet.ShouldProcess($Name, "Enable Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbservicegroup -Action enable -Payload $Payload -GetWarning
+            $payload = @{ servicegroupname = $servicegroupname }
+            if ( $PSBoundParameters.ContainsKey('servername') ) { $payload.Add('servername', $servername) }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Enable Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbservicegroup -Action enable -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -2951,58 +2947,60 @@ function Invoke-ADCEnableGslbservicegroup {
 }
 
 function Invoke-ADCDisableGslbservicegroup {
-<#
+    <#
     .SYNOPSIS
-        Disable Global Server Load Balancing configuration Object
+        Disable Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Disable Global Server Load Balancing configuration Object 
-    .PARAMETER servicegroupname 
+        Configuration for GSLB service group resource.
+    .PARAMETER Servicegroupname 
         Name of the GSLB service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created. 
-    .PARAMETER servername 
+    .PARAMETER Servername 
         Name of the server to which to bind the service group. 
-    .PARAMETER port 
-        Server port number.  
+    .PARAMETER Port 
+        Server port number. 
         * in CLI is represented as 65535 in NITRO API 
-    .PARAMETER delay 
+    .PARAMETER Delay 
         The time allowed (in seconds) for a graceful shutdown. During this period, new connections or requests will continue to be sent to this service for clients who already have a persistent session on the system. Connections or requests from fresh or new clients who do not yet have a persistence sessions on the system will not be sent to the service. Instead, they will be load balanced among other available services. After the delay time expires, no new requests or connections will be sent to the service. 
-    .PARAMETER graceful 
-        Wait for all existing connections to the service to terminate before shutting down the service.  
+    .PARAMETER Graceful 
+        Wait for all existing connections to the service to terminate before shutting down the service. 
         Possible values = YES, NO
     .EXAMPLE
-        Invoke-ADCDisableGslbservicegroup -servicegroupname <string>
+        PS C:\>Invoke-ADCDisableGslbservicegroup -servicegroupname <string>
+        An example how to disable gslbservicegroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDisableGslbservicegroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$servicegroupname ,
+        [string]$Servicegroupname,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servername ,
+        [string]$Servername,
 
         [ValidateRange(1, 65535)]
-        [int]$port ,
+        [int]$Port,
 
-        [double]$delay ,
+        [double]$Delay,
 
         [ValidateSet('YES', 'NO')]
-        [string]$graceful 
+        [string]$Graceful 
 
     )
     begin {
@@ -3010,15 +3008,13 @@ function Invoke-ADCDisableGslbservicegroup {
     }
     process {
         try {
-            $Payload = @{
-                servicegroupname = $servicegroupname
-            }
-            if ($PSBoundParameters.ContainsKey('servername')) { $Payload.Add('servername', $servername) }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('delay')) { $Payload.Add('delay', $delay) }
-            if ($PSBoundParameters.ContainsKey('graceful')) { $Payload.Add('graceful', $graceful) }
-            if ($PSCmdlet.ShouldProcess($Name, "Disable Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbservicegroup -Action disable -Payload $Payload -GetWarning
+            $payload = @{ servicegroupname = $servicegroupname }
+            if ( $PSBoundParameters.ContainsKey('servername') ) { $payload.Add('servername', $servername) }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('delay') ) { $payload.Add('delay', $delay) }
+            if ( $PSBoundParameters.ContainsKey('graceful') ) { $payload.Add('graceful', $graceful) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Disable Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbservicegroup -Action disable -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -3034,72 +3030,68 @@ function Invoke-ADCDisableGslbservicegroup {
 }
 
 function Invoke-ADCRenameGslbservicegroup {
-<#
+    <#
     .SYNOPSIS
-        Rename Global Server Load Balancing configuration Object
+        Rename Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Rename Global Server Load Balancing configuration Object 
-    .PARAMETER servicegroupname 
-        Name of the GSLB service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created.  
-        Minimum length = 1 
-    .PARAMETER newname 
-        New name for the GSLB service group.  
-        Minimum length = 1 
+        Configuration for GSLB service group resource.
+    .PARAMETER Servicegroupname 
+        Name of the GSLB service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created. 
+    .PARAMETER Newname 
+        New name for the GSLB service group. 
     .PARAMETER PassThru 
         Return details about the created gslbservicegroup item.
     .EXAMPLE
-        Invoke-ADCRenameGslbservicegroup -servicegroupname <string> -newname <string>
+        PS C:\>Invoke-ADCRenameGslbservicegroup -servicegroupname <string> -newname <string>
+        An example how to rename gslbservicegroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameGslbservicegroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$servicegroupname ,
+        [string]$Servicegroupname,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameGslbservicegroup: Starting"
     }
     process {
         try {
-            $Payload = @{
-                servicegroupname = $servicegroupname
-                newname = $newname
+            $payload = @{ servicegroupname = $servicegroupname
+                newname                    = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("gslbservicegroup", "Rename Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbservicegroup -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("gslbservicegroup", "Rename Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbservicegroup -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetGslbservicegroup -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetGslbservicegroup -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3112,56 +3104,62 @@ function Invoke-ADCRenameGslbservicegroup {
 }
 
 function Invoke-ADCGetGslbservicegroup {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER servicegroupname 
-       Name of the GSLB service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created. 
+        Configuration for GSLB service group resource.
+    .PARAMETER Servicegroupname 
+        Name of the GSLB service group. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the name is created. 
     .PARAMETER GetAll 
-        Retreive all gslbservicegroup object(s)
+        Retrieve all gslbservicegroup object(s).
     .PARAMETER Count
-        If specified, the count of the gslbservicegroup object(s) will be returned
+        If specified, the count of the gslbservicegroup object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbservicegroup
+        PS C:\>Invoke-ADCGetGslbservicegroup
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbservicegroup -GetAll 
+        PS C:\>Invoke-ADCGetGslbservicegroup -GetAll 
+        Get all gslbservicegroup data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbservicegroup -Count
+        PS C:\>Invoke-ADCGetGslbservicegroup -Count 
+        Get the number of gslbservicegroup objects.
     .EXAMPLE
-        Invoke-ADCGetGslbservicegroup -name <string>
+        PS C:\>Invoke-ADCGetGslbservicegroup -name <string>
+        Get gslbservicegroup object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbservicegroup -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbservicegroup -Filter @{ 'name'='<value>' }
+        Get gslbservicegroup data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbservicegroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$servicegroupname,
+        [string]$Servicegroupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3179,24 +3177,24 @@ function Invoke-ADCGetGslbservicegroup {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all gslbservicegroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbservicegroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbservicegroup objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbservicegroup configuration for property 'servicegroupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbservicegroup configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3210,51 +3208,56 @@ function Invoke-ADCGetGslbservicegroup {
 }
 
 function Invoke-ADCGetGslbservicegroupbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER servicegroupname 
-       Name of the GSLB service group. 
+        Binding object which returns the resources bound to gslbservicegroup.
+    .PARAMETER Servicegroupname 
+        Name of the GSLB service group. 
     .PARAMETER GetAll 
-        Retreive all gslbservicegroup_binding object(s)
+        Retrieve all gslbservicegroup_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbservicegroup_binding object(s) will be returned
+        If specified, the count of the gslbservicegroup_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbservicegroupbinding
+        PS C:\>Invoke-ADCGetGslbservicegroupbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbservicegroupbinding -GetAll
+        PS C:\>Invoke-ADCGetGslbservicegroupbinding -GetAll 
+        Get all gslbservicegroup_binding data.
     .EXAMPLE
-        Invoke-ADCGetGslbservicegroupbinding -name <string>
+        PS C:\>Invoke-ADCGetGslbservicegroupbinding -name <string>
+        Get gslbservicegroup_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbservicegroupbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbservicegroupbinding -Filter @{ 'name'='<value>' }
+        Get gslbservicegroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbservicegroupbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicegroupname,
+        [string]$Servicegroupname,
 			
         [hashtable]$Filter = @{ },
 
@@ -3266,26 +3269,24 @@ function Invoke-ADCGetGslbservicegroupbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbservicegroup_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbservicegroup_binding configuration for property 'servicegroupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbservicegroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3299,122 +3300,110 @@ function Invoke-ADCGetGslbservicegroupbinding {
 }
 
 function Invoke-ADCAddGslbservicegroupgslbservicegroupmemberbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Global Server Load Balancing configuration Object
+        Add Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Add Global Server Load Balancing configuration Object 
-    .PARAMETER servicegroupname 
-        Name of the GSLB service group.  
-        Minimum length = 1 
-    .PARAMETER ip 
+        Binding object showing the gslbservicegroupmember that can be bound to gslbservicegroup.
+    .PARAMETER Servicegroupname 
+        Name of the GSLB service group. 
+    .PARAMETER Ip 
         IP Address. 
-    .PARAMETER servername 
-        Name of the server to which to bind the service group.  
-        Minimum length = 1 
-    .PARAMETER port 
-        Server port number.  
-        Range 1 - 65535  
+    .PARAMETER Servername 
+        Name of the server to which to bind the service group. 
+    .PARAMETER Port 
+        Server port number. 
         * in CLI is represented as 65535 in NITRO API 
-    .PARAMETER weight 
-        Weight to assign to the servers in the service group. Specifies the capacity of the servers relative to the other servers in the load balancing configuration. The higher the weight, the higher the percentage of requests sent to the service.  
-        Minimum value = 1  
-        Maximum value = 100 
-    .PARAMETER state 
-        Initial state of the GSLB service group.  
-        Default value: ENABLED  
+    .PARAMETER Weight 
+        Weight to assign to the servers in the service group. Specifies the capacity of the servers relative to the other servers in the load balancing configuration. The higher the weight, the higher the percentage of requests sent to the service. 
+    .PARAMETER State 
+        Initial state of the GSLB service group. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER hashid 
-        The hash identifier for the service. This must be unique for each service. This parameter is used by hash based load balancing methods.  
-        Minimum value = 1 
-    .PARAMETER publicip 
-        The public IP address that a NAT device translates to the GSLB service's private IP address. Optional.  
-        Minimum length = 1 
-    .PARAMETER publicport 
-        The public port associated with the GSLB service's public IP address. The port is mapped to the service's private port number. Applicable to the local GSLB service. Optional.  
-        Minimum value = 1 
-    .PARAMETER siteprefix 
+    .PARAMETER Hashid 
+        The hash identifier for the service. This must be unique for each service. This parameter is used by hash based load balancing methods. 
+    .PARAMETER Publicip 
+        The public IP address that a NAT device translates to the GSLB service's private IP address. Optional. 
+    .PARAMETER Publicport 
+        The public port associated with the GSLB service's public IP address. The port is mapped to the service's private port number. Applicable to the local GSLB service. Optional. 
+    .PARAMETER Siteprefix 
         The site's prefix string. When the GSLB service group is bound to a GSLB virtual server, a GSLB site domain is generated internally for each bound serviceitem-domain pair by concatenating the site prefix of the service item and the name of the domain. If the special string NONE is specified, the site-prefix string is unset. When implementing HTTP redirect site persistence, the Citrix ADC redirects GSLB requests to GSLB services by using their site domains. 
     .PARAMETER PassThru 
         Return details about the created gslbservicegroup_gslbservicegroupmember_binding item.
     .EXAMPLE
-        Invoke-ADCAddGslbservicegroupgslbservicegroupmemberbinding -servicegroupname <string>
+        PS C:\>Invoke-ADCAddGslbservicegroupgslbservicegroupmemberbinding -servicegroupname <string>
+        An example how to add gslbservicegroup_gslbservicegroupmember_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddGslbservicegroupgslbservicegroupmemberbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_gslbservicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicegroupname ,
+        [string]$Servicegroupname,
 
-        [string]$ip ,
+        [string]$Ip,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servername ,
+        [string]$Servername,
 
         [ValidateRange(1, 65535)]
-        [int]$port ,
+        [int]$Port,
 
         [ValidateRange(1, 100)]
-        [double]$weight ,
+        [double]$Weight,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$state = 'ENABLED' ,
+        [string]$State = 'ENABLED',
 
-        [double]$hashid ,
+        [double]$Hashid,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$publicip ,
+        [string]$Publicip,
 
-        [int]$publicport ,
+        [int]$Publicport,
 
-        [string]$siteprefix ,
+        [string]$Siteprefix,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddGslbservicegroupgslbservicegroupmemberbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                servicegroupname = $servicegroupname
-            }
-            if ($PSBoundParameters.ContainsKey('ip')) { $Payload.Add('ip', $ip) }
-            if ($PSBoundParameters.ContainsKey('servername')) { $Payload.Add('servername', $servername) }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('weight')) { $Payload.Add('weight', $weight) }
-            if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
-            if ($PSBoundParameters.ContainsKey('hashid')) { $Payload.Add('hashid', $hashid) }
-            if ($PSBoundParameters.ContainsKey('publicip')) { $Payload.Add('publicip', $publicip) }
-            if ($PSBoundParameters.ContainsKey('publicport')) { $Payload.Add('publicport', $publicport) }
-            if ($PSBoundParameters.ContainsKey('siteprefix')) { $Payload.Add('siteprefix', $siteprefix) }
- 
-            if ($PSCmdlet.ShouldProcess("gslbservicegroup_gslbservicegroupmember_binding", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbservicegroup_gslbservicegroupmember_binding -Payload $Payload -GetWarning
+            $payload = @{ servicegroupname = $servicegroupname }
+            if ( $PSBoundParameters.ContainsKey('ip') ) { $payload.Add('ip', $ip) }
+            if ( $PSBoundParameters.ContainsKey('servername') ) { $payload.Add('servername', $servername) }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('weight') ) { $payload.Add('weight', $weight) }
+            if ( $PSBoundParameters.ContainsKey('state') ) { $payload.Add('state', $state) }
+            if ( $PSBoundParameters.ContainsKey('hashid') ) { $payload.Add('hashid', $hashid) }
+            if ( $PSBoundParameters.ContainsKey('publicip') ) { $payload.Add('publicip', $publicip) }
+            if ( $PSBoundParameters.ContainsKey('publicport') ) { $payload.Add('publicport', $publicport) }
+            if ( $PSBoundParameters.ContainsKey('siteprefix') ) { $payload.Add('siteprefix', $siteprefix) }
+            if ( $PSCmdlet.ShouldProcess("gslbservicegroup_gslbservicegroupmember_binding", "Add Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbservicegroup_gslbservicegroupmember_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3427,61 +3416,62 @@ function Invoke-ADCAddGslbservicegroupgslbservicegroupmemberbinding {
 }
 
 function Invoke-ADCDeleteGslbservicegroupgslbservicegroupmemberbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Global Server Load Balancing configuration Object
+        Delete Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Delete Global Server Load Balancing configuration Object
-    .PARAMETER servicegroupname 
-       Name of the GSLB service group.  
-       Minimum length = 1    .PARAMETER ip 
-       IP Address.    .PARAMETER servername 
-       Name of the server to which to bind the service group.  
-       Minimum length = 1    .PARAMETER port 
-       Server port number.  
-       Range 1 - 65535  
-       * in CLI is represented as 65535 in NITRO API
+        Binding object showing the gslbservicegroupmember that can be bound to gslbservicegroup.
+    .PARAMETER Servicegroupname 
+        Name of the GSLB service group. 
+    .PARAMETER Ip 
+        IP Address. 
+    .PARAMETER Servername 
+        Name of the server to which to bind the service group. 
+    .PARAMETER Port 
+        Server port number. 
+        * in CLI is represented as 65535 in NITRO API
     .EXAMPLE
-        Invoke-ADCDeleteGslbservicegroupgslbservicegroupmemberbinding -servicegroupname <string>
+        PS C:\>Invoke-ADCDeleteGslbservicegroupgslbservicegroupmemberbinding -Servicegroupname <string>
+        An example how to delete gslbservicegroup_gslbservicegroupmember_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteGslbservicegroupgslbservicegroupmemberbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_gslbservicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$servicegroupname ,
+        [Parameter(Mandatory)]
+        [string]$Servicegroupname,
 
-        [string]$ip ,
+        [string]$Ip,
 
-        [string]$servername ,
+        [string]$Servername,
 
-        [int]$port 
+        [int]$Port 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteGslbservicegroupgslbservicegroupmemberbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('ip')) { $Arguments.Add('ip', $ip) }
-            if ($PSBoundParameters.ContainsKey('servername')) { $Arguments.Add('servername', $servername) }
-            if ($PSBoundParameters.ContainsKey('port')) { $Arguments.Add('port', $port) }
-            if ($PSCmdlet.ShouldProcess("$servicegroupname", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservicegroup_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Ip') ) { $arguments.Add('ip', $Ip) }
+            if ( $PSBoundParameters.ContainsKey('Servername') ) { $arguments.Add('servername', $Servername) }
+            if ( $PSBoundParameters.ContainsKey('Port') ) { $arguments.Add('port', $Port) }
+            if ( $PSCmdlet.ShouldProcess("$servicegroupname", "Delete Global Server Load Balancing configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservicegroup_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3497,55 +3487,61 @@ function Invoke-ADCDeleteGslbservicegroupgslbservicegroupmemberbinding {
 }
 
 function Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER servicegroupname 
-       Name of the GSLB service group. 
+        Binding object showing the gslbservicegroupmember that can be bound to gslbservicegroup.
+    .PARAMETER Servicegroupname 
+        Name of the GSLB service group. 
     .PARAMETER GetAll 
-        Retreive all gslbservicegroup_gslbservicegroupmember_binding object(s)
+        Retrieve all gslbservicegroup_gslbservicegroupmember_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbservicegroup_gslbservicegroupmember_binding object(s) will be returned
+        If specified, the count of the gslbservicegroup_gslbservicegroupmember_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding
+        PS C:\>Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding -GetAll 
+        PS C:\>Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding -GetAll 
+        Get all gslbservicegroup_gslbservicegroupmember_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding -Count
+        PS C:\>Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding -Count 
+        Get the number of gslbservicegroup_gslbservicegroupmember_binding objects.
     .EXAMPLE
-        Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding -name <string>
+        PS C:\>Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding -name <string>
+        Get gslbservicegroup_gslbservicegroupmember_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding -Filter @{ 'name'='<value>' }
+        Get gslbservicegroup_gslbservicegroupmember_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_gslbservicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicegroupname,
+        [string]$Servicegroupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3558,26 +3554,24 @@ function Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbservicegroup_gslbservicegroupmember_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbservicegroup_gslbservicegroupmember_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbservicegroup_gslbservicegroupmember_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbservicegroup_gslbservicegroupmember_binding configuration for property 'servicegroupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbservicegroup_gslbservicegroupmember_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3591,124 +3585,115 @@ function Invoke-ADCGetGslbservicegroupgslbservicegroupmemberbinding {
 }
 
 function Invoke-ADCAddGslbservicegrouplbmonitorbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Global Server Load Balancing configuration Object
+        Add Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Add Global Server Load Balancing configuration Object 
-    .PARAMETER servicegroupname 
-        Name of the GSLB service group.  
-        Minimum length = 1 
-    .PARAMETER port 
-        Port number of the GSLB service. Each service must have a unique port number.  
-        Range 1 - 65535  
+        Binding object showing the lbmonitor that can be bound to gslbservicegroup.
+    .PARAMETER Servicegroupname 
+        Name of the GSLB service group. 
+    .PARAMETER Port 
+        Port number of the GSLB service. Each service must have a unique port number. 
         * in CLI is represented as 65535 in NITRO API 
-    .PARAMETER monitor_name 
+    .PARAMETER Monitor_name 
         Monitor name. 
-    .PARAMETER monstate 
-        Monitor state.  
+    .PARAMETER Monstate 
+        Monitor state. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER passive 
+    .PARAMETER Passive 
         Indicates if load monitor is passive. A passive load monitor does not remove service from LB decision when threshold is breached. 
-    .PARAMETER weight 
-        Weight to assign to the servers in the service group. Specifies the capacity of the servers relative to the other servers in the load balancing configuration. The higher the weight, the higher the percentage of requests sent to the service.  
-        Minimum value = 1  
-        Maximum value = 100 
-    .PARAMETER state 
-        Initial state of the service after binding.  
-        Default value: ENABLED  
+    .PARAMETER Weight 
+        Weight to assign to the servers in the service group. Specifies the capacity of the servers relative to the other servers in the load balancing configuration. The higher the weight, the higher the percentage of requests sent to the service. 
+    .PARAMETER State 
+        Initial state of the service after binding. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER hashid 
-        Unique numerical identifier used by hash based load balancing methods to identify a service.  
-        Minimum value = 1 
-    .PARAMETER publicip 
+    .PARAMETER Hashid 
+        Unique numerical identifier used by hash based load balancing methods to identify a service. 
+    .PARAMETER Publicip 
         The public IP address that a NAT device translates to the GSLB service's private IP address. Optional. 
-    .PARAMETER publicport 
+    .PARAMETER Publicport 
         The public port associated with the GSLB service's public IP address. The port is mapped to the service's private port number. Applicable to the local GSLB service. Optional. 
-    .PARAMETER siteprefix 
+    .PARAMETER Siteprefix 
         The site's prefix string. When the GSLB service group is bound to a GSLB virtual server, a GSLB site domain is generated internally for each bound serviceitem-domain pair by concatenating the site prefix of the service item and the name of the domain. If the special string NONE is specified, the site-prefix string is unset. When implementing HTTP redirect site persistence, the Citrix ADC redirects GSLB requests to GSLB services by using their site domains. 
     .PARAMETER PassThru 
         Return details about the created gslbservicegroup_lbmonitor_binding item.
     .EXAMPLE
-        Invoke-ADCAddGslbservicegrouplbmonitorbinding -servicegroupname <string>
+        PS C:\>Invoke-ADCAddGslbservicegrouplbmonitorbinding -servicegroupname <string>
+        An example how to add gslbservicegroup_lbmonitor_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddGslbservicegrouplbmonitorbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicegroupname ,
+        [string]$Servicegroupname,
 
         [ValidateRange(1, 65535)]
-        [int]$port ,
+        [int]$Port,
 
-        [string]$monitor_name ,
+        [string]$Monitor_name,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$monstate ,
+        [string]$Monstate,
 
-        [boolean]$passive ,
+        [boolean]$Passive,
 
         [ValidateRange(1, 100)]
-        [double]$weight ,
+        [double]$Weight,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$state = 'ENABLED' ,
+        [string]$State = 'ENABLED',
 
-        [double]$hashid ,
+        [double]$Hashid,
 
-        [string]$publicip ,
+        [string]$Publicip,
 
-        [int]$publicport ,
+        [int]$Publicport,
 
-        [string]$siteprefix ,
+        [string]$Siteprefix,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddGslbservicegrouplbmonitorbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                servicegroupname = $servicegroupname
-            }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('monitor_name')) { $Payload.Add('monitor_name', $monitor_name) }
-            if ($PSBoundParameters.ContainsKey('monstate')) { $Payload.Add('monstate', $monstate) }
-            if ($PSBoundParameters.ContainsKey('passive')) { $Payload.Add('passive', $passive) }
-            if ($PSBoundParameters.ContainsKey('weight')) { $Payload.Add('weight', $weight) }
-            if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
-            if ($PSBoundParameters.ContainsKey('hashid')) { $Payload.Add('hashid', $hashid) }
-            if ($PSBoundParameters.ContainsKey('publicip')) { $Payload.Add('publicip', $publicip) }
-            if ($PSBoundParameters.ContainsKey('publicport')) { $Payload.Add('publicport', $publicport) }
-            if ($PSBoundParameters.ContainsKey('siteprefix')) { $Payload.Add('siteprefix', $siteprefix) }
- 
-            if ($PSCmdlet.ShouldProcess("gslbservicegroup_lbmonitor_binding", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbservicegroup_lbmonitor_binding -Payload $Payload -GetWarning
+            $payload = @{ servicegroupname = $servicegroupname }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('monitor_name') ) { $payload.Add('monitor_name', $monitor_name) }
+            if ( $PSBoundParameters.ContainsKey('monstate') ) { $payload.Add('monstate', $monstate) }
+            if ( $PSBoundParameters.ContainsKey('passive') ) { $payload.Add('passive', $passive) }
+            if ( $PSBoundParameters.ContainsKey('weight') ) { $payload.Add('weight', $weight) }
+            if ( $PSBoundParameters.ContainsKey('state') ) { $payload.Add('state', $state) }
+            if ( $PSBoundParameters.ContainsKey('hashid') ) { $payload.Add('hashid', $hashid) }
+            if ( $PSBoundParameters.ContainsKey('publicip') ) { $payload.Add('publicip', $publicip) }
+            if ( $PSBoundParameters.ContainsKey('publicport') ) { $payload.Add('publicport', $publicport) }
+            if ( $PSBoundParameters.ContainsKey('siteprefix') ) { $payload.Add('siteprefix', $siteprefix) }
+            if ( $PSCmdlet.ShouldProcess("gslbservicegroup_lbmonitor_binding", "Add Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbservicegroup_lbmonitor_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetGslbservicegrouplbmonitorbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetGslbservicegrouplbmonitorbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3721,56 +3706,57 @@ function Invoke-ADCAddGslbservicegrouplbmonitorbinding {
 }
 
 function Invoke-ADCDeleteGslbservicegrouplbmonitorbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Global Server Load Balancing configuration Object
+        Delete Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Delete Global Server Load Balancing configuration Object
-    .PARAMETER servicegroupname 
-       Name of the GSLB service group.  
-       Minimum length = 1    .PARAMETER port 
-       Port number of the GSLB service. Each service must have a unique port number.  
-       Range 1 - 65535  
-       * in CLI is represented as 65535 in NITRO API    .PARAMETER monitor_name 
-       Monitor name.
+        Binding object showing the lbmonitor that can be bound to gslbservicegroup.
+    .PARAMETER Servicegroupname 
+        Name of the GSLB service group. 
+    .PARAMETER Port 
+        Port number of the GSLB service. Each service must have a unique port number. 
+        * in CLI is represented as 65535 in NITRO API 
+    .PARAMETER Monitor_name 
+        Monitor name.
     .EXAMPLE
-        Invoke-ADCDeleteGslbservicegrouplbmonitorbinding -servicegroupname <string>
+        PS C:\>Invoke-ADCDeleteGslbservicegrouplbmonitorbinding -Servicegroupname <string>
+        An example how to delete gslbservicegroup_lbmonitor_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteGslbservicegrouplbmonitorbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$servicegroupname ,
+        [Parameter(Mandatory)]
+        [string]$Servicegroupname,
 
-        [int]$port ,
+        [int]$Port,
 
-        [string]$monitor_name 
+        [string]$Monitor_name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteGslbservicegrouplbmonitorbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('port')) { $Arguments.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('monitor_name')) { $Arguments.Add('monitor_name', $monitor_name) }
-            if ($PSCmdlet.ShouldProcess("$servicegroupname", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Port') ) { $arguments.Add('port', $Port) }
+            if ( $PSBoundParameters.ContainsKey('Monitor_name') ) { $arguments.Add('monitor_name', $Monitor_name) }
+            if ( $PSCmdlet.ShouldProcess("$servicegroupname", "Delete Global Server Load Balancing configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3786,55 +3772,61 @@ function Invoke-ADCDeleteGslbservicegrouplbmonitorbinding {
 }
 
 function Invoke-ADCGetGslbservicegrouplbmonitorbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER servicegroupname 
-       Name of the GSLB service group. 
+        Binding object showing the lbmonitor that can be bound to gslbservicegroup.
+    .PARAMETER Servicegroupname 
+        Name of the GSLB service group. 
     .PARAMETER GetAll 
-        Retreive all gslbservicegroup_lbmonitor_binding object(s)
+        Retrieve all gslbservicegroup_lbmonitor_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbservicegroup_lbmonitor_binding object(s) will be returned
+        If specified, the count of the gslbservicegroup_lbmonitor_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbservicegrouplbmonitorbinding
+        PS C:\>Invoke-ADCGetGslbservicegrouplbmonitorbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbservicegrouplbmonitorbinding -GetAll 
+        PS C:\>Invoke-ADCGetGslbservicegrouplbmonitorbinding -GetAll 
+        Get all gslbservicegroup_lbmonitor_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbservicegrouplbmonitorbinding -Count
+        PS C:\>Invoke-ADCGetGslbservicegrouplbmonitorbinding -Count 
+        Get the number of gslbservicegroup_lbmonitor_binding objects.
     .EXAMPLE
-        Invoke-ADCGetGslbservicegrouplbmonitorbinding -name <string>
+        PS C:\>Invoke-ADCGetGslbservicegrouplbmonitorbinding -name <string>
+        Get gslbservicegroup_lbmonitor_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbservicegrouplbmonitorbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbservicegrouplbmonitorbinding -Filter @{ 'name'='<value>' }
+        Get gslbservicegroup_lbmonitor_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbservicegrouplbmonitorbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicegroupname,
+        [string]$Servicegroupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3847,26 +3839,24 @@ function Invoke-ADCGetGslbservicegrouplbmonitorbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbservicegroup_lbmonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbservicegroup_lbmonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbservicegroup_lbmonitor_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbservicegroup_lbmonitor_binding configuration for property 'servicegroupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbservicegroup_lbmonitor_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_lbmonitor_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3880,55 +3870,61 @@ function Invoke-ADCGetGslbservicegrouplbmonitorbinding {
 }
 
 function Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER servicegroupname 
-       Name of the GSLB service group. 
+        Binding object showing the servicegroupentitymonbindings that can be bound to gslbservicegroup.
+    .PARAMETER Servicegroupname 
+        Name of the GSLB service group. 
     .PARAMETER GetAll 
-        Retreive all gslbservicegroup_servicegroupentitymonbindings_binding object(s)
+        Retrieve all gslbservicegroup_servicegroupentitymonbindings_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbservicegroup_servicegroupentitymonbindings_binding object(s) will be returned
+        If specified, the count of the gslbservicegroup_servicegroupentitymonbindings_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding
+        PS C:\>Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding -GetAll 
+        PS C:\>Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding -GetAll 
+        Get all gslbservicegroup_servicegroupentitymonbindings_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding -Count
+        PS C:\>Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding -Count 
+        Get the number of gslbservicegroup_servicegroupentitymonbindings_binding objects.
     .EXAMPLE
-        Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding -name <string>
+        PS C:\>Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding -name <string>
+        Get gslbservicegroup_servicegroupentitymonbindings_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding -Filter @{ 'name'='<value>' }
+        Get gslbservicegroup_servicegroupentitymonbindings_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservicegroup_servicegroupentitymonbindings_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicegroupname,
+        [string]$Servicegroupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3941,26 +3937,24 @@ function Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbservicegroup_servicegroupentitymonbindings_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbservicegroup_servicegroupentitymonbindings_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbservicegroup_servicegroupentitymonbindings_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbservicegroup_servicegroupentitymonbindings_binding configuration for property 'servicegroupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Resource $servicegroupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbservicegroup_servicegroupentitymonbindings_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservicegroup_servicegroupentitymonbindings_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3974,51 +3968,56 @@ function Invoke-ADCGetGslbservicegroupservicegroupentitymonbindingsbinding {
 }
 
 function Invoke-ADCGetGslbservicebinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER servicename 
-       Name of the GSLB service. 
+        Binding object which returns the resources bound to gslbservice.
+    .PARAMETER Servicename 
+        Name of the GSLB service. 
     .PARAMETER GetAll 
-        Retreive all gslbservice_binding object(s)
+        Retrieve all gslbservice_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbservice_binding object(s) will be returned
+        If specified, the count of the gslbservice_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbservicebinding
+        PS C:\>Invoke-ADCGetGslbservicebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbservicebinding -GetAll
+        PS C:\>Invoke-ADCGetGslbservicebinding -GetAll 
+        Get all gslbservice_binding data.
     .EXAMPLE
-        Invoke-ADCGetGslbservicebinding -name <string>
+        PS C:\>Invoke-ADCGetGslbservicebinding -name <string>
+        Get gslbservice_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbservicebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbservicebinding -Filter @{ 'name'='<value>' }
+        Get gslbservice_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbservicebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicename,
+        [string]$Servicename,
 			
         [hashtable]$Filter = @{ },
 
@@ -4030,26 +4029,24 @@ function Invoke-ADCGetGslbservicebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbservice_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbservice_binding configuration for property 'servicename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_binding -NitroPath nitro/v1/config -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbservice_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4063,74 +4060,69 @@ function Invoke-ADCGetGslbservicebinding {
 }
 
 function Invoke-ADCAddGslbservicednsviewbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Global Server Load Balancing configuration Object
+        Add Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Add Global Server Load Balancing configuration Object 
-    .PARAMETER servicename 
-        Name of the GSLB service.  
-        Minimum length = 1 
-    .PARAMETER viewname 
-        Name of the DNS view of the service. A DNS view is used in global server load balancing (GSLB) to return a predetermined IP address to a specific group of clients, which are identified by using a DNS policy.  
-        Minimum length = 1 
-    .PARAMETER viewip 
+        Binding object showing the dnsview that can be bound to gslbservice.
+    .PARAMETER Servicename 
+        Name of the GSLB service. 
+    .PARAMETER Viewname 
+        Name of the DNS view of the service. A DNS view is used in global server load balancing (GSLB) to return a predetermined IP address to a specific group of clients, which are identified by using a DNS policy. 
+    .PARAMETER Viewip 
         IP address to be used for the given view. 
     .PARAMETER PassThru 
         Return details about the created gslbservice_dnsview_binding item.
     .EXAMPLE
-        Invoke-ADCAddGslbservicednsviewbinding -servicename <string>
+        PS C:\>Invoke-ADCAddGslbservicednsviewbinding -servicename <string>
+        An example how to add gslbservice_dnsview_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddGslbservicednsviewbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_dnsview_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicename ,
+        [string]$Servicename,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$viewname ,
+        [string]$Viewname,
 
-        [string]$viewip ,
+        [string]$Viewip,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddGslbservicednsviewbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                servicename = $servicename
-            }
-            if ($PSBoundParameters.ContainsKey('viewname')) { $Payload.Add('viewname', $viewname) }
-            if ($PSBoundParameters.ContainsKey('viewip')) { $Payload.Add('viewip', $viewip) }
- 
-            if ($PSCmdlet.ShouldProcess("gslbservice_dnsview_binding", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbservice_dnsview_binding -Payload $Payload -GetWarning
+            $payload = @{ servicename = $servicename }
+            if ( $PSBoundParameters.ContainsKey('viewname') ) { $payload.Add('viewname', $viewname) }
+            if ( $PSBoundParameters.ContainsKey('viewip') ) { $payload.Add('viewip', $viewip) }
+            if ( $PSCmdlet.ShouldProcess("gslbservice_dnsview_binding", "Add Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbservice_dnsview_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetGslbservicednsviewbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetGslbservicednsviewbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4143,51 +4135,51 @@ function Invoke-ADCAddGslbservicednsviewbinding {
 }
 
 function Invoke-ADCDeleteGslbservicednsviewbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Global Server Load Balancing configuration Object
+        Delete Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Delete Global Server Load Balancing configuration Object
-    .PARAMETER servicename 
-       Name of the GSLB service.  
-       Minimum length = 1    .PARAMETER viewname 
-       Name of the DNS view of the service. A DNS view is used in global server load balancing (GSLB) to return a predetermined IP address to a specific group of clients, which are identified by using a DNS policy.  
-       Minimum length = 1
+        Binding object showing the dnsview that can be bound to gslbservice.
+    .PARAMETER Servicename 
+        Name of the GSLB service. 
+    .PARAMETER Viewname 
+        Name of the DNS view of the service. A DNS view is used in global server load balancing (GSLB) to return a predetermined IP address to a specific group of clients, which are identified by using a DNS policy.
     .EXAMPLE
-        Invoke-ADCDeleteGslbservicednsviewbinding -servicename <string>
+        PS C:\>Invoke-ADCDeleteGslbservicednsviewbinding -Servicename <string>
+        An example how to delete gslbservice_dnsview_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteGslbservicednsviewbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_dnsview_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$servicename ,
+        [Parameter(Mandatory)]
+        [string]$Servicename,
 
-        [string]$viewname 
+        [string]$Viewname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteGslbservicednsviewbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('viewname')) { $Arguments.Add('viewname', $viewname) }
-            if ($PSCmdlet.ShouldProcess("$servicename", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservice_dnsview_binding -NitroPath nitro/v1/config -Resource $servicename -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Viewname') ) { $arguments.Add('viewname', $Viewname) }
+            if ( $PSCmdlet.ShouldProcess("$servicename", "Delete Global Server Load Balancing configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservice_dnsview_binding -NitroPath nitro/v1/config -Resource $servicename -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4203,55 +4195,61 @@ function Invoke-ADCDeleteGslbservicednsviewbinding {
 }
 
 function Invoke-ADCGetGslbservicednsviewbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER servicename 
-       Name of the GSLB service. 
+        Binding object showing the dnsview that can be bound to gslbservice.
+    .PARAMETER Servicename 
+        Name of the GSLB service. 
     .PARAMETER GetAll 
-        Retreive all gslbservice_dnsview_binding object(s)
+        Retrieve all gslbservice_dnsview_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbservice_dnsview_binding object(s) will be returned
+        If specified, the count of the gslbservice_dnsview_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbservicednsviewbinding
+        PS C:\>Invoke-ADCGetGslbservicednsviewbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbservicednsviewbinding -GetAll 
+        PS C:\>Invoke-ADCGetGslbservicednsviewbinding -GetAll 
+        Get all gslbservice_dnsview_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbservicednsviewbinding -Count
+        PS C:\>Invoke-ADCGetGslbservicednsviewbinding -Count 
+        Get the number of gslbservice_dnsview_binding objects.
     .EXAMPLE
-        Invoke-ADCGetGslbservicednsviewbinding -name <string>
+        PS C:\>Invoke-ADCGetGslbservicednsviewbinding -name <string>
+        Get gslbservice_dnsview_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbservicednsviewbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbservicednsviewbinding -Filter @{ 'name'='<value>' }
+        Get gslbservice_dnsview_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbservicednsviewbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_dnsview_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicename,
+        [string]$Servicename,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4264,26 +4262,24 @@ function Invoke-ADCGetGslbservicednsviewbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbservice_dnsview_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_dnsview_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_dnsview_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbservice_dnsview_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_dnsview_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_dnsview_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbservice_dnsview_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_dnsview_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_dnsview_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbservice_dnsview_binding configuration for property 'servicename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_dnsview_binding -NitroPath nitro/v1/config -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbservice_dnsview_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_dnsview_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_dnsview_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4297,82 +4293,76 @@ function Invoke-ADCGetGslbservicednsviewbinding {
 }
 
 function Invoke-ADCAddGslbservicelbmonitorbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Global Server Load Balancing configuration Object
+        Add Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Add Global Server Load Balancing configuration Object 
-    .PARAMETER servicename 
-        Name of the GSLB service.  
-        Minimum length = 1 
-    .PARAMETER monitor_name 
+        Binding object showing the lbmonitor that can be bound to gslbservice.
+    .PARAMETER Servicename 
+        Name of the GSLB service. 
+    .PARAMETER Monitor_name 
         Monitor name. 
-    .PARAMETER monstate 
-        State of the monitor bound to gslb service.  
+    .PARAMETER Monstate 
+        State of the monitor bound to gslb service. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER weight 
-        Weight to assign to the monitor-service binding. A larger number specifies a greater weight. Contributes to the monitoring threshold, which determines the state of the service.  
-        Minimum value = 1  
-        Maximum value = 100 
+    .PARAMETER Weight 
+        Weight to assign to the monitor-service binding. A larger number specifies a greater weight. Contributes to the monitoring threshold, which determines the state of the service. 
     .PARAMETER PassThru 
         Return details about the created gslbservice_lbmonitor_binding item.
     .EXAMPLE
-        Invoke-ADCAddGslbservicelbmonitorbinding -servicename <string>
+        PS C:\>Invoke-ADCAddGslbservicelbmonitorbinding -servicename <string>
+        An example how to add gslbservice_lbmonitor_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddGslbservicelbmonitorbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicename ,
+        [string]$Servicename,
 
-        [string]$monitor_name ,
+        [string]$Monitor_name,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$monstate ,
+        [string]$Monstate,
 
         [ValidateRange(1, 100)]
-        [double]$weight ,
+        [double]$Weight,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddGslbservicelbmonitorbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                servicename = $servicename
-            }
-            if ($PSBoundParameters.ContainsKey('monitor_name')) { $Payload.Add('monitor_name', $monitor_name) }
-            if ($PSBoundParameters.ContainsKey('monstate')) { $Payload.Add('monstate', $monstate) }
-            if ($PSBoundParameters.ContainsKey('weight')) { $Payload.Add('weight', $weight) }
- 
-            if ($PSCmdlet.ShouldProcess("gslbservice_lbmonitor_binding", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbservice_lbmonitor_binding -Payload $Payload -GetWarning
+            $payload = @{ servicename = $servicename }
+            if ( $PSBoundParameters.ContainsKey('monitor_name') ) { $payload.Add('monitor_name', $monitor_name) }
+            if ( $PSBoundParameters.ContainsKey('monstate') ) { $payload.Add('monstate', $monstate) }
+            if ( $PSBoundParameters.ContainsKey('weight') ) { $payload.Add('weight', $weight) }
+            if ( $PSCmdlet.ShouldProcess("gslbservice_lbmonitor_binding", "Add Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbservice_lbmonitor_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetGslbservicelbmonitorbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetGslbservicelbmonitorbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4385,50 +4375,51 @@ function Invoke-ADCAddGslbservicelbmonitorbinding {
 }
 
 function Invoke-ADCDeleteGslbservicelbmonitorbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Global Server Load Balancing configuration Object
+        Delete Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Delete Global Server Load Balancing configuration Object
-    .PARAMETER servicename 
-       Name of the GSLB service.  
-       Minimum length = 1    .PARAMETER monitor_name 
-       Monitor name.
+        Binding object showing the lbmonitor that can be bound to gslbservice.
+    .PARAMETER Servicename 
+        Name of the GSLB service. 
+    .PARAMETER Monitor_name 
+        Monitor name.
     .EXAMPLE
-        Invoke-ADCDeleteGslbservicelbmonitorbinding -servicename <string>
+        PS C:\>Invoke-ADCDeleteGslbservicelbmonitorbinding -Servicename <string>
+        An example how to delete gslbservice_lbmonitor_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteGslbservicelbmonitorbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$servicename ,
+        [Parameter(Mandatory)]
+        [string]$Servicename,
 
-        [string]$monitor_name 
+        [string]$Monitor_name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteGslbservicelbmonitorbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('monitor_name')) { $Arguments.Add('monitor_name', $monitor_name) }
-            if ($PSCmdlet.ShouldProcess("$servicename", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservice_lbmonitor_binding -NitroPath nitro/v1/config -Resource $servicename -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Monitor_name') ) { $arguments.Add('monitor_name', $Monitor_name) }
+            if ( $PSCmdlet.ShouldProcess("$servicename", "Delete Global Server Load Balancing configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbservice_lbmonitor_binding -NitroPath nitro/v1/config -Resource $servicename -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4444,55 +4435,61 @@ function Invoke-ADCDeleteGslbservicelbmonitorbinding {
 }
 
 function Invoke-ADCGetGslbservicelbmonitorbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER servicename 
-       Name of the GSLB service. 
+        Binding object showing the lbmonitor that can be bound to gslbservice.
+    .PARAMETER Servicename 
+        Name of the GSLB service. 
     .PARAMETER GetAll 
-        Retreive all gslbservice_lbmonitor_binding object(s)
+        Retrieve all gslbservice_lbmonitor_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbservice_lbmonitor_binding object(s) will be returned
+        If specified, the count of the gslbservice_lbmonitor_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbservicelbmonitorbinding
+        PS C:\>Invoke-ADCGetGslbservicelbmonitorbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbservicelbmonitorbinding -GetAll 
+        PS C:\>Invoke-ADCGetGslbservicelbmonitorbinding -GetAll 
+        Get all gslbservice_lbmonitor_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbservicelbmonitorbinding -Count
+        PS C:\>Invoke-ADCGetGslbservicelbmonitorbinding -Count 
+        Get the number of gslbservice_lbmonitor_binding objects.
     .EXAMPLE
-        Invoke-ADCGetGslbservicelbmonitorbinding -name <string>
+        PS C:\>Invoke-ADCGetGslbservicelbmonitorbinding -name <string>
+        Get gslbservice_lbmonitor_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbservicelbmonitorbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbservicelbmonitorbinding -Filter @{ 'name'='<value>' }
+        Get gslbservice_lbmonitor_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbservicelbmonitorbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbservice_lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicename,
+        [string]$Servicename,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4505,26 +4502,24 @@ function Invoke-ADCGetGslbservicelbmonitorbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbservice_lbmonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_lbmonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_lbmonitor_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbservice_lbmonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_lbmonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_lbmonitor_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbservice_lbmonitor_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_lbmonitor_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_lbmonitor_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbservice_lbmonitor_binding configuration for property 'servicename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_lbmonitor_binding -NitroPath nitro/v1/config -Resource $servicename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbservice_lbmonitor_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_lbmonitor_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbservice_lbmonitor_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4538,153 +4533,141 @@ function Invoke-ADCGetGslbservicelbmonitorbinding {
 }
 
 function Invoke-ADCAddGslbsite {
-<#
+    <#
     .SYNOPSIS
-        Add Global Server Load Balancing configuration Object
+        Add Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Add Global Server Load Balancing configuration Object 
-    .PARAMETER sitename 
-        Name for the GSLB site. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the virtual server is created.  
-        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsite" or 'my gslbsite').  
-        Minimum length = 1 
-    .PARAMETER sitetype 
-        Type of site to create. If the type is not specified, the appliance automatically detects and sets the type on the basis of the IP address being assigned to the site. If the specified site IP address is owned by the appliance (for example, a MIP address or SNIP address), the site is a local site. Otherwise, it is a remote site.  
-        Default value: NONE  
+        Configuration for GSLB site resource.
+    .PARAMETER Sitename 
+        Name for the GSLB site. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the virtual server is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsite" or 'my gslbsite'). 
+    .PARAMETER Sitetype 
+        Type of site to create. If the type is not specified, the appliance automatically detects and sets the type on the basis of the IP address being assigned to the site. If the specified site IP address is owned by the appliance (for example, a MIP address or SNIP address), the site is a local site. Otherwise, it is a remote site. 
         Possible values = REMOTE, LOCAL 
-    .PARAMETER siteipaddress 
-        IP address for the GSLB site. The GSLB site uses this IP address to communicate with other GSLB sites. For a local site, use any IP address that is owned by the appliance (for example, a SNIP or MIP address, or the IP address of the ADNS service).  
-        Minimum length = 1 
-    .PARAMETER publicip 
-        Public IP address for the local site. Required only if the appliance is deployed in a private address space and the site has a public IP address hosted on an external firewall or a NAT device.  
-        Minimum length = 1 
-    .PARAMETER metricexchange 
-        Exchange metrics with other sites. Metrics are exchanged by using Metric Exchange Protocol (MEP). The appliances in the GSLB setup exchange health information once every second.  
-        If you disable metrics exchange, you can use only static load balancing methods (such as round robin, static proximity, or the hash-based methods), and if you disable metrics exchange when a dynamic load balancing method (such as least connection) is in operation, the appliance falls back to round robin. Also, if you disable metrics exchange, you must use a monitor to determine the state of GSLB services. Otherwise, the service is marked as DOWN.  
-        Default value: ENABLED  
+    .PARAMETER Siteipaddress 
+        IP address for the GSLB site. The GSLB site uses this IP address to communicate with other GSLB sites. For a local site, use any IP address that is owned by the appliance (for example, a SNIP or MIP address, or the IP address of the ADNS service). 
+    .PARAMETER Publicip 
+        Public IP address for the local site. Required only if the appliance is deployed in a private address space and the site has a public IP address hosted on an external firewall or a NAT device. 
+    .PARAMETER Metricexchange 
+        Exchange metrics with other sites. Metrics are exchanged by using Metric Exchange Protocol (MEP). The appliances in the GSLB setup exchange health information once every second. 
+        If you disable metrics exchange, you can use only static load balancing methods (such as round robin, static proximity, or the hash-based methods), and if you disable metrics exchange when a dynamic load balancing method (such as least connection) is in operation, the appliance falls back to round robin. Also, if you disable metrics exchange, you must use a monitor to determine the state of GSLB services. Otherwise, the service is marked as DOWN. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER nwmetricexchange 
-        Exchange, with other GSLB sites, network metrics such as round-trip time (RTT), learned from communications with various local DNS (LDNS) servers used by clients. RTT information is used in the dynamic RTT load balancing method, and is exchanged every 5 seconds.  
-        Default value: ENABLED  
+    .PARAMETER Nwmetricexchange 
+        Exchange, with other GSLB sites, network metrics such as round-trip time (RTT), learned from communications with various local DNS (LDNS) servers used by clients. RTT information is used in the dynamic RTT load balancing method, and is exchanged every 5 seconds. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER sessionexchange 
-        Exchange persistent session entries with other GSLB sites every five seconds.  
-        Default value: ENABLED  
+    .PARAMETER Sessionexchange 
+        Exchange persistent session entries with other GSLB sites every five seconds. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER triggermonitor 
-        Specify the conditions under which the GSLB service must be monitored by a monitor, if one is bound. Available settings function as follows:  
-        * ALWAYS - Monitor the GSLB service at all times.  
-        * MEPDOWN - Monitor the GSLB service only when the exchange of metrics through the Metrics Exchange Protocol (MEP) is disabled.  
-        MEPDOWN_SVCDOWN - Monitor the service in either of the following situations:  
-        * The exchange of metrics through MEP is disabled.  
-        * The exchange of metrics through MEP is enabled but the status of the service, learned through metrics exchange, is DOWN.  
-        Default value: ALWAYS  
+    .PARAMETER Triggermonitor 
+        Specify the conditions under which the GSLB service must be monitored by a monitor, if one is bound. Available settings function as follows: 
+        * ALWAYS - Monitor the GSLB service at all times. 
+        * MEPDOWN - Monitor the GSLB service only when the exchange of metrics through the Metrics Exchange Protocol (MEP) is disabled. 
+        MEPDOWN_SVCDOWN - Monitor the service in either of the following situations: 
+        * The exchange of metrics through MEP is disabled. 
+        * The exchange of metrics through MEP is enabled but the status of the service, learned through metrics exchange, is DOWN. 
         Possible values = ALWAYS, MEPDOWN, MEPDOWN_SVCDOWN 
-    .PARAMETER parentsite 
+    .PARAMETER Parentsite 
         Parent site of the GSLB site, in a parent-child topology. 
-    .PARAMETER clip 
+    .PARAMETER Clip 
         Cluster IP address. Specify this parameter to connect to the remote cluster site for GSLB auto-sync. Note: The cluster IP address is defined when creating the cluster. 
-    .PARAMETER publicclip 
+    .PARAMETER Publicclip 
         IP address to be used to globally access the remote cluster when it is deployed behind a NAT. It can be same as the normal cluster IP address. 
-    .PARAMETER naptrreplacementsuffix 
-        The naptr replacement suffix configured here will be used to construct the naptr replacement field in NAPTR record.  
-        Minimum length = 1 
-    .PARAMETER backupparentlist 
-        The list of backup gslb sites configured in preferred order. Need to be parent gsb sites.  
-        Default value: "None" 
+    .PARAMETER Naptrreplacementsuffix 
+        The naptr replacement suffix configured here will be used to construct the naptr replacement field in NAPTR record. 
+    .PARAMETER Backupparentlist 
+        The list of backup gslb sites configured in preferred order. Need to be parent gsb sites. 
     .PARAMETER PassThru 
         Return details about the created gslbsite item.
     .EXAMPLE
-        Invoke-ADCAddGslbsite -sitename <string> -siteipaddress <string>
+        PS C:\>Invoke-ADCAddGslbsite -sitename <string> -siteipaddress <string>
+        An example how to add gslbsite configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddGslbsite
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$sitename ,
+        [string]$Sitename,
 
         [ValidateSet('REMOTE', 'LOCAL')]
-        [string]$sitetype = 'NONE' ,
+        [string]$Sitetype = 'NONE',
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$siteipaddress ,
+        [string]$Siteipaddress,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$publicip ,
+        [string]$Publicip,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$metricexchange = 'ENABLED' ,
+        [string]$Metricexchange = 'ENABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$nwmetricexchange = 'ENABLED' ,
+        [string]$Nwmetricexchange = 'ENABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$sessionexchange = 'ENABLED' ,
+        [string]$Sessionexchange = 'ENABLED',
 
         [ValidateSet('ALWAYS', 'MEPDOWN', 'MEPDOWN_SVCDOWN')]
-        [string]$triggermonitor = 'ALWAYS' ,
+        [string]$Triggermonitor = 'ALWAYS',
 
-        [string]$parentsite ,
+        [string]$Parentsite,
 
-        [string]$clip ,
+        [string]$Clip,
 
-        [string]$publicclip ,
+        [string]$Publicclip,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$naptrreplacementsuffix ,
+        [string]$Naptrreplacementsuffix,
 
-        [string[]]$backupparentlist = '"None"' ,
+        [string[]]$Backupparentlist = '"None"',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddGslbsite: Starting"
     }
     process {
         try {
-            $Payload = @{
-                sitename = $sitename
-                siteipaddress = $siteipaddress
+            $payload = @{ sitename = $sitename
+                siteipaddress      = $siteipaddress
             }
-            if ($PSBoundParameters.ContainsKey('sitetype')) { $Payload.Add('sitetype', $sitetype) }
-            if ($PSBoundParameters.ContainsKey('publicip')) { $Payload.Add('publicip', $publicip) }
-            if ($PSBoundParameters.ContainsKey('metricexchange')) { $Payload.Add('metricexchange', $metricexchange) }
-            if ($PSBoundParameters.ContainsKey('nwmetricexchange')) { $Payload.Add('nwmetricexchange', $nwmetricexchange) }
-            if ($PSBoundParameters.ContainsKey('sessionexchange')) { $Payload.Add('sessionexchange', $sessionexchange) }
-            if ($PSBoundParameters.ContainsKey('triggermonitor')) { $Payload.Add('triggermonitor', $triggermonitor) }
-            if ($PSBoundParameters.ContainsKey('parentsite')) { $Payload.Add('parentsite', $parentsite) }
-            if ($PSBoundParameters.ContainsKey('clip')) { $Payload.Add('clip', $clip) }
-            if ($PSBoundParameters.ContainsKey('publicclip')) { $Payload.Add('publicclip', $publicclip) }
-            if ($PSBoundParameters.ContainsKey('naptrreplacementsuffix')) { $Payload.Add('naptrreplacementsuffix', $naptrreplacementsuffix) }
-            if ($PSBoundParameters.ContainsKey('backupparentlist')) { $Payload.Add('backupparentlist', $backupparentlist) }
- 
-            if ($PSCmdlet.ShouldProcess("gslbsite", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbsite -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('sitetype') ) { $payload.Add('sitetype', $sitetype) }
+            if ( $PSBoundParameters.ContainsKey('publicip') ) { $payload.Add('publicip', $publicip) }
+            if ( $PSBoundParameters.ContainsKey('metricexchange') ) { $payload.Add('metricexchange', $metricexchange) }
+            if ( $PSBoundParameters.ContainsKey('nwmetricexchange') ) { $payload.Add('nwmetricexchange', $nwmetricexchange) }
+            if ( $PSBoundParameters.ContainsKey('sessionexchange') ) { $payload.Add('sessionexchange', $sessionexchange) }
+            if ( $PSBoundParameters.ContainsKey('triggermonitor') ) { $payload.Add('triggermonitor', $triggermonitor) }
+            if ( $PSBoundParameters.ContainsKey('parentsite') ) { $payload.Add('parentsite', $parentsite) }
+            if ( $PSBoundParameters.ContainsKey('clip') ) { $payload.Add('clip', $clip) }
+            if ( $PSBoundParameters.ContainsKey('publicclip') ) { $payload.Add('publicclip', $publicclip) }
+            if ( $PSBoundParameters.ContainsKey('naptrreplacementsuffix') ) { $payload.Add('naptrreplacementsuffix', $naptrreplacementsuffix) }
+            if ( $PSBoundParameters.ContainsKey('backupparentlist') ) { $payload.Add('backupparentlist', $backupparentlist) }
+            if ( $PSCmdlet.ShouldProcess("gslbsite", "Add Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbsite -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetGslbsite -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetGslbsite -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4697,48 +4680,48 @@ function Invoke-ADCAddGslbsite {
 }
 
 function Invoke-ADCDeleteGslbsite {
-<#
+    <#
     .SYNOPSIS
-        Delete Global Server Load Balancing configuration Object
+        Delete Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Delete Global Server Load Balancing configuration Object
-    .PARAMETER sitename 
-       Name for the GSLB site. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the virtual server is created.  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsite" or 'my gslbsite').  
-       Minimum length = 1 
+        Configuration for GSLB site resource.
+    .PARAMETER Sitename 
+        Name for the GSLB site. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the virtual server is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsite" or 'my gslbsite').
     .EXAMPLE
-        Invoke-ADCDeleteGslbsite -sitename <string>
+        PS C:\>Invoke-ADCDeleteGslbsite -Sitename <string>
+        An example how to delete gslbsite configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteGslbsite
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$sitename 
+        [Parameter(Mandatory)]
+        [string]$Sitename 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteGslbsite: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$sitename", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbsite -NitroPath nitro/v1/config -Resource $sitename -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$sitename", "Delete Global Server Load Balancing configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbsite -NitroPath nitro/v1/config -Resource $sitename -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4754,115 +4737,105 @@ function Invoke-ADCDeleteGslbsite {
 }
 
 function Invoke-ADCUpdateGslbsite {
-<#
+    <#
     .SYNOPSIS
-        Update Global Server Load Balancing configuration Object
+        Update Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Update Global Server Load Balancing configuration Object 
-    .PARAMETER sitename 
-        Name for the GSLB site. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the virtual server is created.  
-        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsite" or 'my gslbsite').  
-        Minimum length = 1 
-    .PARAMETER metricexchange 
-        Exchange metrics with other sites. Metrics are exchanged by using Metric Exchange Protocol (MEP). The appliances in the GSLB setup exchange health information once every second.  
-        If you disable metrics exchange, you can use only static load balancing methods (such as round robin, static proximity, or the hash-based methods), and if you disable metrics exchange when a dynamic load balancing method (such as least connection) is in operation, the appliance falls back to round robin. Also, if you disable metrics exchange, you must use a monitor to determine the state of GSLB services. Otherwise, the service is marked as DOWN.  
-        Default value: ENABLED  
+        Configuration for GSLB site resource.
+    .PARAMETER Sitename 
+        Name for the GSLB site. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the virtual server is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsite" or 'my gslbsite'). 
+    .PARAMETER Metricexchange 
+        Exchange metrics with other sites. Metrics are exchanged by using Metric Exchange Protocol (MEP). The appliances in the GSLB setup exchange health information once every second. 
+        If you disable metrics exchange, you can use only static load balancing methods (such as round robin, static proximity, or the hash-based methods), and if you disable metrics exchange when a dynamic load balancing method (such as least connection) is in operation, the appliance falls back to round robin. Also, if you disable metrics exchange, you must use a monitor to determine the state of GSLB services. Otherwise, the service is marked as DOWN. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER nwmetricexchange 
-        Exchange, with other GSLB sites, network metrics such as round-trip time (RTT), learned from communications with various local DNS (LDNS) servers used by clients. RTT information is used in the dynamic RTT load balancing method, and is exchanged every 5 seconds.  
-        Default value: ENABLED  
+    .PARAMETER Nwmetricexchange 
+        Exchange, with other GSLB sites, network metrics such as round-trip time (RTT), learned from communications with various local DNS (LDNS) servers used by clients. RTT information is used in the dynamic RTT load balancing method, and is exchanged every 5 seconds. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER sessionexchange 
-        Exchange persistent session entries with other GSLB sites every five seconds.  
-        Default value: ENABLED  
+    .PARAMETER Sessionexchange 
+        Exchange persistent session entries with other GSLB sites every five seconds. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER triggermonitor 
-        Specify the conditions under which the GSLB service must be monitored by a monitor, if one is bound. Available settings function as follows:  
-        * ALWAYS - Monitor the GSLB service at all times.  
-        * MEPDOWN - Monitor the GSLB service only when the exchange of metrics through the Metrics Exchange Protocol (MEP) is disabled.  
-        MEPDOWN_SVCDOWN - Monitor the service in either of the following situations:  
-        * The exchange of metrics through MEP is disabled.  
-        * The exchange of metrics through MEP is enabled but the status of the service, learned through metrics exchange, is DOWN.  
-        Default value: ALWAYS  
+    .PARAMETER Triggermonitor 
+        Specify the conditions under which the GSLB service must be monitored by a monitor, if one is bound. Available settings function as follows: 
+        * ALWAYS - Monitor the GSLB service at all times. 
+        * MEPDOWN - Monitor the GSLB service only when the exchange of metrics through the Metrics Exchange Protocol (MEP) is disabled. 
+        MEPDOWN_SVCDOWN - Monitor the service in either of the following situations: 
+        * The exchange of metrics through MEP is disabled. 
+        * The exchange of metrics through MEP is enabled but the status of the service, learned through metrics exchange, is DOWN. 
         Possible values = ALWAYS, MEPDOWN, MEPDOWN_SVCDOWN 
-    .PARAMETER naptrreplacementsuffix 
-        The naptr replacement suffix configured here will be used to construct the naptr replacement field in NAPTR record.  
-        Minimum length = 1 
-    .PARAMETER backupparentlist 
-        The list of backup gslb sites configured in preferred order. Need to be parent gsb sites.  
-        Default value: "None" 
+    .PARAMETER Naptrreplacementsuffix 
+        The naptr replacement suffix configured here will be used to construct the naptr replacement field in NAPTR record. 
+    .PARAMETER Backupparentlist 
+        The list of backup gslb sites configured in preferred order. Need to be parent gsb sites. 
     .PARAMETER PassThru 
         Return details about the created gslbsite item.
     .EXAMPLE
-        Invoke-ADCUpdateGslbsite -sitename <string>
+        PS C:\>Invoke-ADCUpdateGslbsite -sitename <string>
+        An example how to update gslbsite configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateGslbsite
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$sitename ,
+        [string]$Sitename,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$metricexchange ,
+        [string]$Metricexchange,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$nwmetricexchange ,
+        [string]$Nwmetricexchange,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$sessionexchange ,
+        [string]$Sessionexchange,
 
         [ValidateSet('ALWAYS', 'MEPDOWN', 'MEPDOWN_SVCDOWN')]
-        [string]$triggermonitor ,
+        [string]$Triggermonitor,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$naptrreplacementsuffix ,
+        [string]$Naptrreplacementsuffix,
 
-        [string[]]$backupparentlist ,
+        [string[]]$Backupparentlist,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateGslbsite: Starting"
     }
     process {
         try {
-            $Payload = @{
-                sitename = $sitename
-            }
-            if ($PSBoundParameters.ContainsKey('metricexchange')) { $Payload.Add('metricexchange', $metricexchange) }
-            if ($PSBoundParameters.ContainsKey('nwmetricexchange')) { $Payload.Add('nwmetricexchange', $nwmetricexchange) }
-            if ($PSBoundParameters.ContainsKey('sessionexchange')) { $Payload.Add('sessionexchange', $sessionexchange) }
-            if ($PSBoundParameters.ContainsKey('triggermonitor')) { $Payload.Add('triggermonitor', $triggermonitor) }
-            if ($PSBoundParameters.ContainsKey('naptrreplacementsuffix')) { $Payload.Add('naptrreplacementsuffix', $naptrreplacementsuffix) }
-            if ($PSBoundParameters.ContainsKey('backupparentlist')) { $Payload.Add('backupparentlist', $backupparentlist) }
- 
-            if ($PSCmdlet.ShouldProcess("gslbsite", "Update Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbsite -Payload $Payload -GetWarning
+            $payload = @{ sitename = $sitename }
+            if ( $PSBoundParameters.ContainsKey('metricexchange') ) { $payload.Add('metricexchange', $metricexchange) }
+            if ( $PSBoundParameters.ContainsKey('nwmetricexchange') ) { $payload.Add('nwmetricexchange', $nwmetricexchange) }
+            if ( $PSBoundParameters.ContainsKey('sessionexchange') ) { $payload.Add('sessionexchange', $sessionexchange) }
+            if ( $PSBoundParameters.ContainsKey('triggermonitor') ) { $payload.Add('triggermonitor', $triggermonitor) }
+            if ( $PSBoundParameters.ContainsKey('naptrreplacementsuffix') ) { $payload.Add('naptrreplacementsuffix', $naptrreplacementsuffix) }
+            if ( $PSBoundParameters.ContainsKey('backupparentlist') ) { $payload.Add('backupparentlist', $backupparentlist) }
+            if ( $PSCmdlet.ShouldProcess("gslbsite", "Update Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbsite -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetGslbsite -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetGslbsite -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4875,70 +4848,71 @@ function Invoke-ADCUpdateGslbsite {
 }
 
 function Invoke-ADCUnsetGslbsite {
-<#
+    <#
     .SYNOPSIS
-        Unset Global Server Load Balancing configuration Object
+        Unset Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Unset Global Server Load Balancing configuration Object 
-   .PARAMETER sitename 
-       Name for the GSLB site. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the virtual server is created.  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsite" or 'my gslbsite'). 
-   .PARAMETER metricexchange 
-       Exchange metrics with other sites. Metrics are exchanged by using Metric Exchange Protocol (MEP). The appliances in the GSLB setup exchange health information once every second.  
-       If you disable metrics exchange, you can use only static load balancing methods (such as round robin, static proximity, or the hash-based methods), and if you disable metrics exchange when a dynamic load balancing method (such as least connection) is in operation, the appliance falls back to round robin. Also, if you disable metrics exchange, you must use a monitor to determine the state of GSLB services. Otherwise, the service is marked as DOWN.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER nwmetricexchange 
-       Exchange, with other GSLB sites, network metrics such as round-trip time (RTT), learned from communications with various local DNS (LDNS) servers used by clients. RTT information is used in the dynamic RTT load balancing method, and is exchanged every 5 seconds.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER sessionexchange 
-       Exchange persistent session entries with other GSLB sites every five seconds.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER triggermonitor 
-       Specify the conditions under which the GSLB service must be monitored by a monitor, if one is bound. Available settings function as follows:  
-       * ALWAYS - Monitor the GSLB service at all times.  
-       * MEPDOWN - Monitor the GSLB service only when the exchange of metrics through the Metrics Exchange Protocol (MEP) is disabled.  
-       MEPDOWN_SVCDOWN - Monitor the service in either of the following situations:  
-       * The exchange of metrics through MEP is disabled.  
-       * The exchange of metrics through MEP is enabled but the status of the service, learned through metrics exchange, is DOWN.  
-       Possible values = ALWAYS, MEPDOWN, MEPDOWN_SVCDOWN 
-   .PARAMETER naptrreplacementsuffix 
-       The naptr replacement suffix configured here will be used to construct the naptr replacement field in NAPTR record. 
-   .PARAMETER backupparentlist 
-       The list of backup gslb sites configured in preferred order. Need to be parent gsb sites.
+        Configuration for GSLB site resource.
+    .PARAMETER Sitename 
+        Name for the GSLB site. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the virtual server is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsite" or 'my gslbsite'). 
+    .PARAMETER Metricexchange 
+        Exchange metrics with other sites. Metrics are exchanged by using Metric Exchange Protocol (MEP). The appliances in the GSLB setup exchange health information once every second. 
+        If you disable metrics exchange, you can use only static load balancing methods (such as round robin, static proximity, or the hash-based methods), and if you disable metrics exchange when a dynamic load balancing method (such as least connection) is in operation, the appliance falls back to round robin. Also, if you disable metrics exchange, you must use a monitor to determine the state of GSLB services. Otherwise, the service is marked as DOWN. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Nwmetricexchange 
+        Exchange, with other GSLB sites, network metrics such as round-trip time (RTT), learned from communications with various local DNS (LDNS) servers used by clients. RTT information is used in the dynamic RTT load balancing method, and is exchanged every 5 seconds. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Sessionexchange 
+        Exchange persistent session entries with other GSLB sites every five seconds. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Triggermonitor 
+        Specify the conditions under which the GSLB service must be monitored by a monitor, if one is bound. Available settings function as follows: 
+        * ALWAYS - Monitor the GSLB service at all times. 
+        * MEPDOWN - Monitor the GSLB service only when the exchange of metrics through the Metrics Exchange Protocol (MEP) is disabled. 
+        MEPDOWN_SVCDOWN - Monitor the service in either of the following situations: 
+        * The exchange of metrics through MEP is disabled. 
+        * The exchange of metrics through MEP is enabled but the status of the service, learned through metrics exchange, is DOWN. 
+        Possible values = ALWAYS, MEPDOWN, MEPDOWN_SVCDOWN 
+    .PARAMETER Naptrreplacementsuffix 
+        The naptr replacement suffix configured here will be used to construct the naptr replacement field in NAPTR record. 
+    .PARAMETER Backupparentlist 
+        The list of backup gslb sites configured in preferred order. Need to be parent gsb sites.
     .EXAMPLE
-        Invoke-ADCUnsetGslbsite -sitename <string>
+        PS C:\>Invoke-ADCUnsetGslbsite -sitename <string>
+        An example how to unset gslbsite configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetGslbsite
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$sitename ,
+        [string]$Sitename,
 
-        [Boolean]$metricexchange ,
+        [Boolean]$metricexchange,
 
-        [Boolean]$nwmetricexchange ,
+        [Boolean]$nwmetricexchange,
 
-        [Boolean]$sessionexchange ,
+        [Boolean]$sessionexchange,
 
-        [Boolean]$triggermonitor ,
+        [Boolean]$triggermonitor,
 
-        [Boolean]$naptrreplacementsuffix ,
+        [Boolean]$naptrreplacementsuffix,
 
         [Boolean]$backupparentlist 
     )
@@ -4947,17 +4921,15 @@ function Invoke-ADCUnsetGslbsite {
     }
     process {
         try {
-            $Payload = @{
-                sitename = $sitename
-            }
-            if ($PSBoundParameters.ContainsKey('metricexchange')) { $Payload.Add('metricexchange', $metricexchange) }
-            if ($PSBoundParameters.ContainsKey('nwmetricexchange')) { $Payload.Add('nwmetricexchange', $nwmetricexchange) }
-            if ($PSBoundParameters.ContainsKey('sessionexchange')) { $Payload.Add('sessionexchange', $sessionexchange) }
-            if ($PSBoundParameters.ContainsKey('triggermonitor')) { $Payload.Add('triggermonitor', $triggermonitor) }
-            if ($PSBoundParameters.ContainsKey('naptrreplacementsuffix')) { $Payload.Add('naptrreplacementsuffix', $naptrreplacementsuffix) }
-            if ($PSBoundParameters.ContainsKey('backupparentlist')) { $Payload.Add('backupparentlist', $backupparentlist) }
-            if ($PSCmdlet.ShouldProcess("$sitename", "Unset Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbsite -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ sitename = $sitename }
+            if ( $PSBoundParameters.ContainsKey('metricexchange') ) { $payload.Add('metricexchange', $metricexchange) }
+            if ( $PSBoundParameters.ContainsKey('nwmetricexchange') ) { $payload.Add('nwmetricexchange', $nwmetricexchange) }
+            if ( $PSBoundParameters.ContainsKey('sessionexchange') ) { $payload.Add('sessionexchange', $sessionexchange) }
+            if ( $PSBoundParameters.ContainsKey('triggermonitor') ) { $payload.Add('triggermonitor', $triggermonitor) }
+            if ( $PSBoundParameters.ContainsKey('naptrreplacementsuffix') ) { $payload.Add('naptrreplacementsuffix', $naptrreplacementsuffix) }
+            if ( $PSBoundParameters.ContainsKey('backupparentlist') ) { $payload.Add('backupparentlist', $backupparentlist) }
+            if ( $PSCmdlet.ShouldProcess("$sitename", "Unset Global Server Load Balancing configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbsite -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4973,57 +4945,63 @@ function Invoke-ADCUnsetGslbsite {
 }
 
 function Invoke-ADCGetGslbsite {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER sitename 
-       Name for the GSLB site. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the virtual server is created.  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsite" or 'my gslbsite'). 
+        Configuration for GSLB site resource.
+    .PARAMETER Sitename 
+        Name for the GSLB site. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the virtual server is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my gslbsite" or 'my gslbsite'). 
     .PARAMETER GetAll 
-        Retreive all gslbsite object(s)
+        Retrieve all gslbsite object(s).
     .PARAMETER Count
-        If specified, the count of the gslbsite object(s) will be returned
+        If specified, the count of the gslbsite object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbsite
+        PS C:\>Invoke-ADCGetGslbsite
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbsite -GetAll 
+        PS C:\>Invoke-ADCGetGslbsite -GetAll 
+        Get all gslbsite data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbsite -Count
+        PS C:\>Invoke-ADCGetGslbsite -Count 
+        Get the number of gslbsite objects.
     .EXAMPLE
-        Invoke-ADCGetGslbsite -name <string>
+        PS C:\>Invoke-ADCGetGslbsite -name <string>
+        Get gslbsite object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbsite -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbsite -Filter @{ 'name'='<value>' }
+        Get gslbsite data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbsite
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$sitename,
+        [string]$Sitename,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -5041,24 +5019,24 @@ function Invoke-ADCGetGslbsite {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all gslbsite objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbsite objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbsite objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbsite configuration for property 'sitename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite -NitroPath nitro/v1/config -Resource $sitename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbsite configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5072,51 +5050,56 @@ function Invoke-ADCGetGslbsite {
 }
 
 function Invoke-ADCGetGslbsitebinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER sitename 
-       Name of the GSLB site. If you specify a site name, details of all the site's constituent services are also displayed. 
+        Binding object which returns the resources bound to gslbsite.
+    .PARAMETER Sitename 
+        Name of the GSLB site. If you specify a site name, details of all the site's constituent services are also displayed. 
     .PARAMETER GetAll 
-        Retreive all gslbsite_binding object(s)
+        Retrieve all gslbsite_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbsite_binding object(s) will be returned
+        If specified, the count of the gslbsite_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbsitebinding
+        PS C:\>Invoke-ADCGetGslbsitebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbsitebinding -GetAll
+        PS C:\>Invoke-ADCGetGslbsitebinding -GetAll 
+        Get all gslbsite_binding data.
     .EXAMPLE
-        Invoke-ADCGetGslbsitebinding -name <string>
+        PS C:\>Invoke-ADCGetGslbsitebinding -name <string>
+        Get gslbsite_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbsitebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbsitebinding -Filter @{ 'name'='<value>' }
+        Get gslbsite_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbsitebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$sitename,
+        [string]$Sitename,
 			
         [hashtable]$Filter = @{ },
 
@@ -5128,26 +5111,24 @@ function Invoke-ADCGetGslbsitebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbsite_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbsite_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbsite_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbsite_binding configuration for property 'sitename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_binding -NitroPath nitro/v1/config -Resource $sitename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbsite_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5161,55 +5142,61 @@ function Invoke-ADCGetGslbsitebinding {
 }
 
 function Invoke-ADCGetGslbsitegslbservicegroupmemberbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER sitename 
-       Name of the GSLB site. If you specify a site name, details of all the site's constituent services are also displayed. 
+        Binding object showing the gslbservicegroupmember that can be bound to gslbsite.
+    .PARAMETER Sitename 
+        Name of the GSLB site. If you specify a site name, details of all the site's constituent services are also displayed. 
     .PARAMETER GetAll 
-        Retreive all gslbsite_gslbservicegroupmember_binding object(s)
+        Retrieve all gslbsite_gslbservicegroupmember_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbsite_gslbservicegroupmember_binding object(s) will be returned
+        If specified, the count of the gslbsite_gslbservicegroupmember_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbsitegslbservicegroupmemberbinding
+        PS C:\>Invoke-ADCGetGslbsitegslbservicegroupmemberbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbsitegslbservicegroupmemberbinding -GetAll 
+        PS C:\>Invoke-ADCGetGslbsitegslbservicegroupmemberbinding -GetAll 
+        Get all gslbsite_gslbservicegroupmember_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbsitegslbservicegroupmemberbinding -Count
+        PS C:\>Invoke-ADCGetGslbsitegslbservicegroupmemberbinding -Count 
+        Get the number of gslbsite_gslbservicegroupmember_binding objects.
     .EXAMPLE
-        Invoke-ADCGetGslbsitegslbservicegroupmemberbinding -name <string>
+        PS C:\>Invoke-ADCGetGslbsitegslbservicegroupmemberbinding -name <string>
+        Get gslbsite_gslbservicegroupmember_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbsitegslbservicegroupmemberbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbsitegslbservicegroupmemberbinding -Filter @{ 'name'='<value>' }
+        Get gslbsite_gslbservicegroupmember_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbsitegslbservicegroupmemberbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite_gslbservicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$sitename,
+        [string]$Sitename,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -5222,26 +5209,24 @@ function Invoke-ADCGetGslbsitegslbservicegroupmemberbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbsite_gslbservicegroupmember_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbsite_gslbservicegroupmember_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbsite_gslbservicegroupmember_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbsite_gslbservicegroupmember_binding configuration for property 'sitename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Resource $sitename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbsite_gslbservicegroupmember_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5255,55 +5240,61 @@ function Invoke-ADCGetGslbsitegslbservicegroupmemberbinding {
 }
 
 function Invoke-ADCGetGslbsitegslbservicegroupbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER sitename 
-       Name of the GSLB site. If you specify a site name, details of all the site's constituent services are also displayed. 
+        Binding object showing the gslbservicegroup that can be bound to gslbsite.
+    .PARAMETER Sitename 
+        Name of the GSLB site. If you specify a site name, details of all the site's constituent services are also displayed. 
     .PARAMETER GetAll 
-        Retreive all gslbsite_gslbservicegroup_binding object(s)
+        Retrieve all gslbsite_gslbservicegroup_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbsite_gslbservicegroup_binding object(s) will be returned
+        If specified, the count of the gslbsite_gslbservicegroup_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbsitegslbservicegroupbinding
+        PS C:\>Invoke-ADCGetGslbsitegslbservicegroupbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbsitegslbservicegroupbinding -GetAll 
+        PS C:\>Invoke-ADCGetGslbsitegslbservicegroupbinding -GetAll 
+        Get all gslbsite_gslbservicegroup_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbsitegslbservicegroupbinding -Count
+        PS C:\>Invoke-ADCGetGslbsitegslbservicegroupbinding -Count 
+        Get the number of gslbsite_gslbservicegroup_binding objects.
     .EXAMPLE
-        Invoke-ADCGetGslbsitegslbservicegroupbinding -name <string>
+        PS C:\>Invoke-ADCGetGslbsitegslbservicegroupbinding -name <string>
+        Get gslbsite_gslbservicegroup_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbsitegslbservicegroupbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbsitegslbservicegroupbinding -Filter @{ 'name'='<value>' }
+        Get gslbsite_gslbservicegroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbsitegslbservicegroupbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite_gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$sitename,
+        [string]$Sitename,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -5316,26 +5307,24 @@ function Invoke-ADCGetGslbsitegslbservicegroupbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbsite_gslbservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbsite_gslbservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbsite_gslbservicegroup_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroup_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbsite_gslbservicegroup_binding configuration for property 'sitename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroup_binding -NitroPath nitro/v1/config -Resource $sitename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbsite_gslbservicegroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservicegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5349,55 +5338,61 @@ function Invoke-ADCGetGslbsitegslbservicegroupbinding {
 }
 
 function Invoke-ADCGetGslbsitegslbservicebinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER sitename 
-       Name of the GSLB site. If you specify a site name, details of all the site's constituent services are also displayed. 
+        Binding object showing the gslbservice that can be bound to gslbsite.
+    .PARAMETER Sitename 
+        Name of the GSLB site. If you specify a site name, details of all the site's constituent services are also displayed. 
     .PARAMETER GetAll 
-        Retreive all gslbsite_gslbservice_binding object(s)
+        Retrieve all gslbsite_gslbservice_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbsite_gslbservice_binding object(s) will be returned
+        If specified, the count of the gslbsite_gslbservice_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbsitegslbservicebinding
+        PS C:\>Invoke-ADCGetGslbsitegslbservicebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbsitegslbservicebinding -GetAll 
+        PS C:\>Invoke-ADCGetGslbsitegslbservicebinding -GetAll 
+        Get all gslbsite_gslbservice_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbsitegslbservicebinding -Count
+        PS C:\>Invoke-ADCGetGslbsitegslbservicebinding -Count 
+        Get the number of gslbsite_gslbservice_binding objects.
     .EXAMPLE
-        Invoke-ADCGetGslbsitegslbservicebinding -name <string>
+        PS C:\>Invoke-ADCGetGslbsitegslbservicebinding -name <string>
+        Get gslbsite_gslbservice_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbsitegslbservicebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbsitegslbservicebinding -Filter @{ 'name'='<value>' }
+        Get gslbsite_gslbservice_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbsitegslbservicebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsite_gslbservice_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$sitename,
+        [string]$Sitename,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -5410,26 +5405,24 @@ function Invoke-ADCGetGslbsitegslbservicebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbsite_gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservice_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbsite_gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservice_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbsite_gslbservice_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservice_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservice_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbsite_gslbservice_binding configuration for property 'sitename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservice_binding -NitroPath nitro/v1/config -Resource $sitename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbsite_gslbservice_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservice_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsite_gslbservice_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5443,50 +5436,55 @@ function Invoke-ADCGetGslbsitegslbservicebinding {
 }
 
 function Invoke-ADCGetGslbsyncstatus {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER summary 
-       sync status summary to be displayed in one line (Success/Failure), in case of Failure stating reason for failure. 
+        Configuration for sync status resource.
+    .PARAMETER Summary 
+        sync status summary to be displayed in one line (Success/Failure), in case of Failure stating reason for failure. 
     .PARAMETER GetAll 
-        Retreive all gslbsyncstatus object(s)
+        Retrieve all gslbsyncstatus object(s).
     .PARAMETER Count
-        If specified, the count of the gslbsyncstatus object(s) will be returned
+        If specified, the count of the gslbsyncstatus object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbsyncstatus
+        PS C:\>Invoke-ADCGetGslbsyncstatus
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbsyncstatus -GetAll
+        PS C:\>Invoke-ADCGetGslbsyncstatus -GetAll 
+        Get all gslbsyncstatus data.
     .EXAMPLE
-        Invoke-ADCGetGslbsyncstatus -name <string>
+        PS C:\>Invoke-ADCGetGslbsyncstatus -name <string>
+        Get gslbsyncstatus object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbsyncstatus -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbsyncstatus -Filter @{ 'name'='<value>' }
+        Get gslbsyncstatus data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbsyncstatus
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbsyncstatus/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [boolean]$summary,
+        [boolean]$Summary,
 			
         [hashtable]$Filter = @{ },
 
@@ -5498,25 +5496,25 @@ function Invoke-ADCGetGslbsyncstatus {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all gslbsyncstatus objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsyncstatus -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsyncstatus -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbsyncstatus objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsyncstatus -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsyncstatus -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbsyncstatus objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('summary')) { $Arguments.Add('summary', $summary) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsyncstatus -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('summary') ) { $arguments.Add('summary', $summary) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsyncstatus -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbsyncstatus configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving gslbsyncstatus configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsyncstatus -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbsyncstatus -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5530,310 +5528,271 @@ function Invoke-ADCGetGslbsyncstatus {
 }
 
 function Invoke-ADCAddGslbvserver {
-<#
+    <#
     .SYNOPSIS
-        Add Global Server Load Balancing configuration Object
+        Add Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Add Global Server Load Balancing configuration Object 
-    .PARAMETER name 
-        Name for the GSLB virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the virtual server is created.  
-        CLI Users:  
-        If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my vserver" or 'my vserver').  
-        Minimum length = 1 
-    .PARAMETER servicetype 
-        Protocol used by services bound to the virtual server.  
+        Configuration for Global Server Load Balancing Virtual Server resource.
+    .PARAMETER Name 
+        Name for the GSLB virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the virtual server is created. 
+        CLI Users: 
+        If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my vserver" or 'my vserver'). 
+    .PARAMETER Servicetype 
+        Protocol used by services bound to the virtual server. 
         Possible values = HTTP, FTP, TCP, UDP, SSL, SSL_BRIDGE, SSL_TCP, NNTP, ANY, SIP_UDP, SIP_TCP, SIP_SSL, RADIUS, RDP, RTSP, MYSQL, MSSQL, ORACLE 
-    .PARAMETER iptype 
-        The IP type for this GSLB vserver.  
-        Default value: IPV4  
+    .PARAMETER Iptype 
+        The IP type for this GSLB vserver. 
         Possible values = IPV4, IPV6 
-    .PARAMETER dnsrecordtype 
-        DNS record type to associate with the GSLB virtual server's domain name.  
-        Default value: A  
+    .PARAMETER Dnsrecordtype 
+        DNS record type to associate with the GSLB virtual server's domain name. 
         Possible values = A, AAAA, CNAME, NAPTR 
-    .PARAMETER lbmethod 
-        Load balancing method for the GSLB virtual server.  
-        Default value: LEASTCONNECTION  
+    .PARAMETER Lbmethod 
+        Load balancing method for the GSLB virtual server. 
         Possible values = ROUNDROBIN, LEASTCONNECTION, LEASTRESPONSETIME, SOURCEIPHASH, LEASTBANDWIDTH, LEASTPACKETS, STATICPROXIMITY, RTT, CUSTOMLOAD, API 
-    .PARAMETER backupsessiontimeout 
-        A non zero value enables the feature whose minimum value is 2 minutes. The feature can be disabled by setting the value to zero. The created session is in effect for a specific client per domain.  
-        Minimum value = 0  
-        Maximum value = 1440 
-    .PARAMETER backuplbmethod 
-        Backup load balancing method. Becomes operational if the primary load balancing method fails or cannot be used. Valid only if the primary method is based on either round-trip time (RTT) or static proximity.  
+    .PARAMETER Backupsessiontimeout 
+        A non zero value enables the feature whose minimum value is 2 minutes. The feature can be disabled by setting the value to zero. The created session is in effect for a specific client per domain. 
+    .PARAMETER Backuplbmethod 
+        Backup load balancing method. Becomes operational if the primary load balancing method fails or cannot be used. Valid only if the primary method is based on either round-trip time (RTT) or static proximity. 
         Possible values = ROUNDROBIN, LEASTCONNECTION, LEASTRESPONSETIME, SOURCEIPHASH, LEASTBANDWIDTH, LEASTPACKETS, STATICPROXIMITY, RTT, CUSTOMLOAD, API 
-    .PARAMETER netmask 
-        IPv4 network mask for use in the SOURCEIPHASH load balancing method.  
-        Minimum length = 1 
-    .PARAMETER v6netmasklen 
-        Number of bits to consider, in an IPv6 source IP address, for creating the hash that is required by the SOURCEIPHASH load balancing method.  
-        Default value: 128  
-        Minimum value = 1  
-        Maximum value = 128 
-    .PARAMETER rule 
-        Expression, or name of a named expression, against which traffic is evaluated.  
-        This field is applicable only if gslb method or gslb backup method are set to API.  
-        The following requirements apply only to the Citrix ADC CLI:  
-        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks.  
-        * If the expression itself includes double quotation marks, escape the quotations by using the \ character.  
-        * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks.  
-        Default value: "none" 
-    .PARAMETER tolerance 
-        Site selection tolerance, in milliseconds, for implementing the RTT load balancing method. If a site's RTT deviates from the lowest RTT by more than the specified tolerance, the site is not considered when the Citrix ADC makes a GSLB decision. The appliance implements the round robin method of global server load balancing between sites whose RTT values are within the specified tolerance. If the tolerance is 0 (zero), the appliance always sends clients the IP address of the site with the lowest RTT.  
-        Minimum value = 0  
-        Maximum value = 100 
-    .PARAMETER persistencetype 
-        Use source IP address based persistence for the virtual server.  
-        After the load balancing method selects a service for the first packet, the IP address received in response to the DNS query is used for subsequent requests from the same client.  
+    .PARAMETER Netmask 
+        IPv4 network mask for use in the SOURCEIPHASH load balancing method. 
+    .PARAMETER V6netmasklen 
+        Number of bits to consider, in an IPv6 source IP address, for creating the hash that is required by the SOURCEIPHASH load balancing method. 
+    .PARAMETER Rule 
+        Expression, or name of a named expression, against which traffic is evaluated. 
+        This field is applicable only if gslb method or gslb backup method are set to API. 
+        The following requirements apply only to the Citrix ADC CLI: 
+        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks. 
+        * If the expression itself includes double quotation marks, escape the quotations by using the \ character. 
+        * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks. 
+    .PARAMETER Tolerance 
+        Site selection tolerance, in milliseconds, for implementing the RTT load balancing method. If a site's RTT deviates from the lowest RTT by more than the specified tolerance, the site is not considered when the Citrix ADC makes a GSLB decision. The appliance implements the round robin method of global server load balancing between sites whose RTT values are within the specified tolerance. If the tolerance is 0 (zero), the appliance always sends clients the IP address of the site with the lowest RTT. 
+    .PARAMETER Persistencetype 
+        Use source IP address based persistence for the virtual server. 
+        After the load balancing method selects a service for the first packet, the IP address received in response to the DNS query is used for subsequent requests from the same client. 
         Possible values = SOURCEIP, NONE 
-    .PARAMETER persistenceid 
-        The persistence ID for the GSLB virtual server. The ID is a positive integer that enables GSLB sites to identify the GSLB virtual server, and is required if source IP address based or spill over based persistence is enabled on the virtual server.  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER persistmask 
-        The optional IPv4 network mask applied to IPv4 addresses to establish source IP address based persistence.  
-        Minimum length = 1 
-    .PARAMETER v6persistmasklen 
-        Number of bits to consider in an IPv6 source IP address when creating source IP address based persistence sessions.  
-        Default value: 128  
-        Minimum value = 1  
-        Maximum value = 128 
-    .PARAMETER timeout 
-        Idle time, in minutes, after which a persistence entry is cleared.  
-        Default value: 2  
-        Minimum value = 2  
-        Maximum value = 1440 
-    .PARAMETER edr 
-        Send clients an empty DNS response when the GSLB virtual server is DOWN.  
-        Default value: DISABLED  
+    .PARAMETER Persistenceid 
+        The persistence ID for the GSLB virtual server. The ID is a positive integer that enables GSLB sites to identify the GSLB virtual server, and is required if source IP address based or spill over based persistence is enabled on the virtual server. 
+    .PARAMETER Persistmask 
+        The optional IPv4 network mask applied to IPv4 addresses to establish source IP address based persistence. 
+    .PARAMETER V6persistmasklen 
+        Number of bits to consider in an IPv6 source IP address when creating source IP address based persistence sessions. 
+    .PARAMETER Timeout 
+        Idle time, in minutes, after which a persistence entry is cleared. 
+    .PARAMETER Edr 
+        Send clients an empty DNS response when the GSLB virtual server is DOWN. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER ecs 
-        If enabled, respond with EDNS Client Subnet (ECS) option in the response for a DNS query with ECS. The ECS address will be used for persistence and spillover persistence (if enabled) instead of the LDNS address. Persistence mask is ignored if ECS is enabled.  
-        Default value: DISABLED  
+    .PARAMETER Ecs 
+        If enabled, respond with EDNS Client Subnet (ECS) option in the response for a DNS query with ECS. The ECS address will be used for persistence and spillover persistence (if enabled) instead of the LDNS address. Persistence mask is ignored if ECS is enabled. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER ecsaddrvalidation 
-        Validate if ECS address is a private or unroutable address and in such cases, use the LDNS IP.  
-        Default value: DISABLED  
+    .PARAMETER Ecsaddrvalidation 
+        Validate if ECS address is a private or unroutable address and in such cases, use the LDNS IP. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER mir 
-        Include multiple IP addresses in the DNS responses sent to clients.  
-        Default value: DISABLED  
+    .PARAMETER Mir 
+        Include multiple IP addresses in the DNS responses sent to clients. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER disableprimaryondown 
-        Continue to direct traffic to the backup chain even after the primary GSLB virtual server returns to the UP state. Used when spillover is configured for the virtual server.  
-        Default value: DISABLED  
+    .PARAMETER Disableprimaryondown 
+        Continue to direct traffic to the backup chain even after the primary GSLB virtual server returns to the UP state. Used when spillover is configured for the virtual server. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER dynamicweight 
-        Specify if the appliance should consider the service count, service weights, or ignore both when using weight-based load balancing methods. The state of the number of services bound to the virtual server help the appliance to select the service.  
-        Default value: DISABLED  
+    .PARAMETER Dynamicweight 
+        Specify if the appliance should consider the service count, service weights, or ignore both when using weight-based load balancing methods. The state of the number of services bound to the virtual server help the appliance to select the service. 
         Possible values = SERVICECOUNT, SERVICEWEIGHT, DISABLED 
-    .PARAMETER state 
-        State of the GSLB virtual server.  
-        Default value: ENABLED  
+    .PARAMETER State 
+        State of the GSLB virtual server. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER considereffectivestate 
-        If the primary state of all bound GSLB services is DOWN, consider the effective states of all the GSLB services, obtained through the Metrics Exchange Protocol (MEP), when determining the state of the GSLB virtual server. To consider the effective state, set the parameter to STATE_ONLY. To disregard the effective state, set the parameter to NONE.  
-        The effective state of a GSLB service is the ability of the corresponding virtual server to serve traffic. The effective state of the load balancing virtual server, which is transferred to the GSLB service, is UP even if only one virtual server in the backup chain of virtual servers is in the UP state.  
-        Default value: NONE  
+    .PARAMETER Considereffectivestate 
+        If the primary state of all bound GSLB services is DOWN, consider the effective states of all the GSLB services, obtained through the Metrics Exchange Protocol (MEP), when determining the state of the GSLB virtual server. To consider the effective state, set the parameter to STATE_ONLY. To disregard the effective state, set the parameter to NONE. 
+        The effective state of a GSLB service is the ability of the corresponding virtual server to serve traffic. The effective state of the load balancing virtual server, which is transferred to the GSLB service, is UP even if only one virtual server in the backup chain of virtual servers is in the UP state. 
         Possible values = NONE, STATE_ONLY 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any comments that you might want to associate with the GSLB virtual server. 
-    .PARAMETER somethod 
-        Type of threshold that, when exceeded, triggers spillover. Available settings function as follows:  
-        * CONNECTION - Spillover occurs when the number of client connections exceeds the threshold.  
-        * DYNAMICCONNECTION - Spillover occurs when the number of client connections at the GSLB virtual server exceeds the sum of the maximum client (Max Clients) settings for bound GSLB services. Do not specify a spillover threshold for this setting, because the threshold is implied by the Max Clients settings of the bound GSLB services.  
-        * BANDWIDTH - Spillover occurs when the bandwidth consumed by the GSLB virtual server's incoming and outgoing traffic exceeds the threshold.  
-        * HEALTH - Spillover occurs when the percentage of weights of the GSLB services that are UP drops below the threshold. For example, if services gslbSvc1, gslbSvc2, and gslbSvc3 are bound to a virtual server, with weights 1, 2, and 3, and the spillover threshold is 50%, spillover occurs if gslbSvc1 and gslbSvc3 or gslbSvc2 and gslbSvc3 transition to DOWN.  
-        * NONE - Spillover does not occur.  
+    .PARAMETER Somethod 
+        Type of threshold that, when exceeded, triggers spillover. Available settings function as follows: 
+        * CONNECTION - Spillover occurs when the number of client connections exceeds the threshold. 
+        * DYNAMICCONNECTION - Spillover occurs when the number of client connections at the GSLB virtual server exceeds the sum of the maximum client (Max Clients) settings for bound GSLB services. Do not specify a spillover threshold for this setting, because the threshold is implied by the Max Clients settings of the bound GSLB services. 
+        * BANDWIDTH - Spillover occurs when the bandwidth consumed by the GSLB virtual server's incoming and outgoing traffic exceeds the threshold. 
+        * HEALTH - Spillover occurs when the percentage of weights of the GSLB services that are UP drops below the threshold. For example, if services gslbSvc1, gslbSvc2, and gslbSvc3 are bound to a virtual server, with weights 1, 2, and 3, and the spillover threshold is 50%, spillover occurs if gslbSvc1 and gslbSvc3 or gslbSvc2 and gslbSvc3 transition to DOWN. 
+        * NONE - Spillover does not occur. 
         Possible values = CONNECTION, DYNAMICCONNECTION, BANDWIDTH, HEALTH, NONE 
-    .PARAMETER sopersistence 
-        If spillover occurs, maintain source IP address based persistence for both primary and backup GSLB virtual servers.  
-        Default value: DISABLED  
+    .PARAMETER Sopersistence 
+        If spillover occurs, maintain source IP address based persistence for both primary and backup GSLB virtual servers. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER sopersistencetimeout 
-        Timeout for spillover persistence, in minutes.  
-        Default value: 2  
-        Minimum value = 2  
-        Maximum value = 1440 
-    .PARAMETER sothreshold 
-        Threshold at which spillover occurs. Specify an integer for the CONNECTION spillover method, a bandwidth value in kilobits per second for the BANDWIDTH method (do not enter the units), or a percentage for the HEALTH method (do not enter the percentage symbol).  
-        Minimum value = 1  
-        Maximum value = 4294967287 
-    .PARAMETER sobackupaction 
-        Action to be performed if spillover is to take effect, but no backup chain to spillover is usable or exists.  
+    .PARAMETER Sopersistencetimeout 
+        Timeout for spillover persistence, in minutes. 
+    .PARAMETER Sothreshold 
+        Threshold at which spillover occurs. Specify an integer for the CONNECTION spillover method, a bandwidth value in kilobits per second for the BANDWIDTH method (do not enter the units), or a percentage for the HEALTH method (do not enter the percentage symbol). 
+    .PARAMETER Sobackupaction 
+        Action to be performed if spillover is to take effect, but no backup chain to spillover is usable or exists. 
         Possible values = DROP, ACCEPT, REDIRECT 
-    .PARAMETER appflowlog 
-        Enable logging appflow flow information.  
-        Default value: ENABLED  
+    .PARAMETER Appflowlog 
+        Enable logging appflow flow information. 
         Possible values = ENABLED, DISABLED 
     .PARAMETER PassThru 
         Return details about the created gslbvserver item.
     .EXAMPLE
-        Invoke-ADCAddGslbvserver -name <string> -servicetype <string>
+        PS C:\>Invoke-ADCAddGslbvserver -name <string> -servicetype <string>
+        An example how to add gslbvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddGslbvserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('HTTP', 'FTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE', 'SSL_TCP', 'NNTP', 'ANY', 'SIP_UDP', 'SIP_TCP', 'SIP_SSL', 'RADIUS', 'RDP', 'RTSP', 'MYSQL', 'MSSQL', 'ORACLE')]
-        [string]$servicetype ,
+        [string]$Servicetype,
 
         [ValidateSet('IPV4', 'IPV6')]
-        [string]$iptype = 'IPV4' ,
+        [string]$Iptype = 'IPV4',
 
         [ValidateSet('A', 'AAAA', 'CNAME', 'NAPTR')]
-        [string]$dnsrecordtype = 'A' ,
+        [string]$Dnsrecordtype = 'A',
 
         [ValidateSet('ROUNDROBIN', 'LEASTCONNECTION', 'LEASTRESPONSETIME', 'SOURCEIPHASH', 'LEASTBANDWIDTH', 'LEASTPACKETS', 'STATICPROXIMITY', 'RTT', 'CUSTOMLOAD', 'API')]
-        [string]$lbmethod = 'LEASTCONNECTION' ,
+        [string]$Lbmethod = 'LEASTCONNECTION',
 
         [ValidateRange(0, 1440)]
-        [double]$backupsessiontimeout ,
+        [double]$Backupsessiontimeout,
 
         [ValidateSet('ROUNDROBIN', 'LEASTCONNECTION', 'LEASTRESPONSETIME', 'SOURCEIPHASH', 'LEASTBANDWIDTH', 'LEASTPACKETS', 'STATICPROXIMITY', 'RTT', 'CUSTOMLOAD', 'API')]
-        [string]$backuplbmethod ,
+        [string]$Backuplbmethod,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$netmask ,
+        [string]$Netmask,
 
         [ValidateRange(1, 128)]
-        [double]$v6netmasklen = '128' ,
+        [double]$V6netmasklen = '128',
 
-        [string]$rule = '"none"' ,
+        [string]$Rule = '"none"',
 
         [ValidateRange(0, 100)]
-        [double]$tolerance ,
+        [double]$Tolerance,
 
         [ValidateSet('SOURCEIP', 'NONE')]
-        [string]$persistencetype ,
+        [string]$Persistencetype,
 
         [ValidateRange(0, 65535)]
-        [double]$persistenceid ,
+        [double]$Persistenceid,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$persistmask ,
+        [string]$Persistmask,
 
         [ValidateRange(1, 128)]
-        [double]$v6persistmasklen = '128' ,
+        [double]$V6persistmasklen = '128',
 
         [ValidateRange(2, 1440)]
-        [double]$timeout = '2' ,
+        [double]$Timeout = '2',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$edr = 'DISABLED' ,
+        [string]$Edr = 'DISABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$ecs = 'DISABLED' ,
+        [string]$Ecs = 'DISABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$ecsaddrvalidation = 'DISABLED' ,
+        [string]$Ecsaddrvalidation = 'DISABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$mir = 'DISABLED' ,
+        [string]$Mir = 'DISABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$disableprimaryondown = 'DISABLED' ,
+        [string]$Disableprimaryondown = 'DISABLED',
 
         [ValidateSet('SERVICECOUNT', 'SERVICEWEIGHT', 'DISABLED')]
-        [string]$dynamicweight = 'DISABLED' ,
+        [string]$Dynamicweight = 'DISABLED',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$state = 'ENABLED' ,
+        [string]$State = 'ENABLED',
 
         [ValidateSet('NONE', 'STATE_ONLY')]
-        [string]$considereffectivestate = 'NONE' ,
+        [string]$Considereffectivestate = 'NONE',
 
-        [string]$comment ,
+        [string]$Comment,
 
         [ValidateSet('CONNECTION', 'DYNAMICCONNECTION', 'BANDWIDTH', 'HEALTH', 'NONE')]
-        [string]$somethod ,
+        [string]$Somethod,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$sopersistence = 'DISABLED' ,
+        [string]$Sopersistence = 'DISABLED',
 
         [ValidateRange(2, 1440)]
-        [double]$sopersistencetimeout = '2' ,
+        [double]$Sopersistencetimeout = '2',
 
         [ValidateRange(1, 4294967287)]
-        [double]$sothreshold ,
+        [double]$Sothreshold,
 
         [ValidateSet('DROP', 'ACCEPT', 'REDIRECT')]
-        [string]$sobackupaction ,
+        [string]$Sobackupaction,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$appflowlog = 'ENABLED' ,
+        [string]$Appflowlog = 'ENABLED',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddGslbvserver: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                servicetype = $servicetype
+            $payload = @{ name = $name
+                servicetype    = $servicetype
             }
-            if ($PSBoundParameters.ContainsKey('iptype')) { $Payload.Add('iptype', $iptype) }
-            if ($PSBoundParameters.ContainsKey('dnsrecordtype')) { $Payload.Add('dnsrecordtype', $dnsrecordtype) }
-            if ($PSBoundParameters.ContainsKey('lbmethod')) { $Payload.Add('lbmethod', $lbmethod) }
-            if ($PSBoundParameters.ContainsKey('backupsessiontimeout')) { $Payload.Add('backupsessiontimeout', $backupsessiontimeout) }
-            if ($PSBoundParameters.ContainsKey('backuplbmethod')) { $Payload.Add('backuplbmethod', $backuplbmethod) }
-            if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
-            if ($PSBoundParameters.ContainsKey('v6netmasklen')) { $Payload.Add('v6netmasklen', $v6netmasklen) }
-            if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
-            if ($PSBoundParameters.ContainsKey('tolerance')) { $Payload.Add('tolerance', $tolerance) }
-            if ($PSBoundParameters.ContainsKey('persistencetype')) { $Payload.Add('persistencetype', $persistencetype) }
-            if ($PSBoundParameters.ContainsKey('persistenceid')) { $Payload.Add('persistenceid', $persistenceid) }
-            if ($PSBoundParameters.ContainsKey('persistmask')) { $Payload.Add('persistmask', $persistmask) }
-            if ($PSBoundParameters.ContainsKey('v6persistmasklen')) { $Payload.Add('v6persistmasklen', $v6persistmasklen) }
-            if ($PSBoundParameters.ContainsKey('timeout')) { $Payload.Add('timeout', $timeout) }
-            if ($PSBoundParameters.ContainsKey('edr')) { $Payload.Add('edr', $edr) }
-            if ($PSBoundParameters.ContainsKey('ecs')) { $Payload.Add('ecs', $ecs) }
-            if ($PSBoundParameters.ContainsKey('ecsaddrvalidation')) { $Payload.Add('ecsaddrvalidation', $ecsaddrvalidation) }
-            if ($PSBoundParameters.ContainsKey('mir')) { $Payload.Add('mir', $mir) }
-            if ($PSBoundParameters.ContainsKey('disableprimaryondown')) { $Payload.Add('disableprimaryondown', $disableprimaryondown) }
-            if ($PSBoundParameters.ContainsKey('dynamicweight')) { $Payload.Add('dynamicweight', $dynamicweight) }
-            if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
-            if ($PSBoundParameters.ContainsKey('considereffectivestate')) { $Payload.Add('considereffectivestate', $considereffectivestate) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('somethod')) { $Payload.Add('somethod', $somethod) }
-            if ($PSBoundParameters.ContainsKey('sopersistence')) { $Payload.Add('sopersistence', $sopersistence) }
-            if ($PSBoundParameters.ContainsKey('sopersistencetimeout')) { $Payload.Add('sopersistencetimeout', $sopersistencetimeout) }
-            if ($PSBoundParameters.ContainsKey('sothreshold')) { $Payload.Add('sothreshold', $sothreshold) }
-            if ($PSBoundParameters.ContainsKey('sobackupaction')) { $Payload.Add('sobackupaction', $sobackupaction) }
-            if ($PSBoundParameters.ContainsKey('appflowlog')) { $Payload.Add('appflowlog', $appflowlog) }
- 
-            if ($PSCmdlet.ShouldProcess("gslbvserver", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbvserver -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('iptype') ) { $payload.Add('iptype', $iptype) }
+            if ( $PSBoundParameters.ContainsKey('dnsrecordtype') ) { $payload.Add('dnsrecordtype', $dnsrecordtype) }
+            if ( $PSBoundParameters.ContainsKey('lbmethod') ) { $payload.Add('lbmethod', $lbmethod) }
+            if ( $PSBoundParameters.ContainsKey('backupsessiontimeout') ) { $payload.Add('backupsessiontimeout', $backupsessiontimeout) }
+            if ( $PSBoundParameters.ContainsKey('backuplbmethod') ) { $payload.Add('backuplbmethod', $backuplbmethod) }
+            if ( $PSBoundParameters.ContainsKey('netmask') ) { $payload.Add('netmask', $netmask) }
+            if ( $PSBoundParameters.ContainsKey('v6netmasklen') ) { $payload.Add('v6netmasklen', $v6netmasklen) }
+            if ( $PSBoundParameters.ContainsKey('rule') ) { $payload.Add('rule', $rule) }
+            if ( $PSBoundParameters.ContainsKey('tolerance') ) { $payload.Add('tolerance', $tolerance) }
+            if ( $PSBoundParameters.ContainsKey('persistencetype') ) { $payload.Add('persistencetype', $persistencetype) }
+            if ( $PSBoundParameters.ContainsKey('persistenceid') ) { $payload.Add('persistenceid', $persistenceid) }
+            if ( $PSBoundParameters.ContainsKey('persistmask') ) { $payload.Add('persistmask', $persistmask) }
+            if ( $PSBoundParameters.ContainsKey('v6persistmasklen') ) { $payload.Add('v6persistmasklen', $v6persistmasklen) }
+            if ( $PSBoundParameters.ContainsKey('timeout') ) { $payload.Add('timeout', $timeout) }
+            if ( $PSBoundParameters.ContainsKey('edr') ) { $payload.Add('edr', $edr) }
+            if ( $PSBoundParameters.ContainsKey('ecs') ) { $payload.Add('ecs', $ecs) }
+            if ( $PSBoundParameters.ContainsKey('ecsaddrvalidation') ) { $payload.Add('ecsaddrvalidation', $ecsaddrvalidation) }
+            if ( $PSBoundParameters.ContainsKey('mir') ) { $payload.Add('mir', $mir) }
+            if ( $PSBoundParameters.ContainsKey('disableprimaryondown') ) { $payload.Add('disableprimaryondown', $disableprimaryondown) }
+            if ( $PSBoundParameters.ContainsKey('dynamicweight') ) { $payload.Add('dynamicweight', $dynamicweight) }
+            if ( $PSBoundParameters.ContainsKey('state') ) { $payload.Add('state', $state) }
+            if ( $PSBoundParameters.ContainsKey('considereffectivestate') ) { $payload.Add('considereffectivestate', $considereffectivestate) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('somethod') ) { $payload.Add('somethod', $somethod) }
+            if ( $PSBoundParameters.ContainsKey('sopersistence') ) { $payload.Add('sopersistence', $sopersistence) }
+            if ( $PSBoundParameters.ContainsKey('sopersistencetimeout') ) { $payload.Add('sopersistencetimeout', $sopersistencetimeout) }
+            if ( $PSBoundParameters.ContainsKey('sothreshold') ) { $payload.Add('sothreshold', $sothreshold) }
+            if ( $PSBoundParameters.ContainsKey('sobackupaction') ) { $payload.Add('sobackupaction', $sobackupaction) }
+            if ( $PSBoundParameters.ContainsKey('appflowlog') ) { $payload.Add('appflowlog', $appflowlog) }
+            if ( $PSCmdlet.ShouldProcess("gslbvserver", "Add Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbvserver -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetGslbvserver -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetGslbvserver -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5846,49 +5805,49 @@ function Invoke-ADCAddGslbvserver {
 }
 
 function Invoke-ADCDeleteGslbvserver {
-<#
+    <#
     .SYNOPSIS
-        Delete Global Server Load Balancing configuration Object
+        Delete Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Delete Global Server Load Balancing configuration Object
-    .PARAMETER name 
-       Name for the GSLB virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the virtual server is created.  
-       CLI Users:  
-       If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my vserver" or 'my vserver').  
-       Minimum length = 1 
+        Configuration for Global Server Load Balancing Virtual Server resource.
+    .PARAMETER Name 
+        Name for the GSLB virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the virtual server is created. 
+        CLI Users: 
+        If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my vserver" or 'my vserver').
     .EXAMPLE
-        Invoke-ADCDeleteGslbvserver -name <string>
+        PS C:\>Invoke-ADCDeleteGslbvserver -Name <string>
+        An example how to delete gslbvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteGslbvserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteGslbvserver: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Global Server Load Balancing configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5904,357 +5863,307 @@ function Invoke-ADCDeleteGslbvserver {
 }
 
 function Invoke-ADCUpdateGslbvserver {
-<#
+    <#
     .SYNOPSIS
-        Update Global Server Load Balancing configuration Object
+        Update Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Update Global Server Load Balancing configuration Object 
-    .PARAMETER name 
-        Name for the GSLB virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the virtual server is created.  
-        CLI Users:  
-        If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my vserver" or 'my vserver').  
-        Minimum length = 1 
-    .PARAMETER iptype 
-        The IP type for this GSLB vserver.  
-        Default value: IPV4  
+        Configuration for Global Server Load Balancing Virtual Server resource.
+    .PARAMETER Name 
+        Name for the GSLB virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the virtual server is created. 
+        CLI Users: 
+        If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my vserver" or 'my vserver'). 
+    .PARAMETER Iptype 
+        The IP type for this GSLB vserver. 
         Possible values = IPV4, IPV6 
-    .PARAMETER dnsrecordtype 
-        DNS record type to associate with the GSLB virtual server's domain name.  
-        Default value: A  
+    .PARAMETER Dnsrecordtype 
+        DNS record type to associate with the GSLB virtual server's domain name. 
         Possible values = A, AAAA, CNAME, NAPTR 
-    .PARAMETER backupvserver 
-        Name of the backup GSLB virtual server to which the appliance should to forward requests if the status of the primary GSLB virtual server is down or exceeds its spillover threshold.  
-        Minimum length = 1 
-    .PARAMETER backupsessiontimeout 
-        A non zero value enables the feature whose minimum value is 2 minutes. The feature can be disabled by setting the value to zero. The created session is in effect for a specific client per domain.  
-        Minimum value = 0  
-        Maximum value = 1440 
-    .PARAMETER lbmethod 
-        Load balancing method for the GSLB virtual server.  
-        Default value: LEASTCONNECTION  
+    .PARAMETER Backupvserver 
+        Name of the backup GSLB virtual server to which the appliance should to forward requests if the status of the primary GSLB virtual server is down or exceeds its spillover threshold. 
+    .PARAMETER Backupsessiontimeout 
+        A non zero value enables the feature whose minimum value is 2 minutes. The feature can be disabled by setting the value to zero. The created session is in effect for a specific client per domain. 
+    .PARAMETER Lbmethod 
+        Load balancing method for the GSLB virtual server. 
         Possible values = ROUNDROBIN, LEASTCONNECTION, LEASTRESPONSETIME, SOURCEIPHASH, LEASTBANDWIDTH, LEASTPACKETS, STATICPROXIMITY, RTT, CUSTOMLOAD, API 
-    .PARAMETER backuplbmethod 
-        Backup load balancing method. Becomes operational if the primary load balancing method fails or cannot be used. Valid only if the primary method is based on either round-trip time (RTT) or static proximity.  
+    .PARAMETER Backuplbmethod 
+        Backup load balancing method. Becomes operational if the primary load balancing method fails or cannot be used. Valid only if the primary method is based on either round-trip time (RTT) or static proximity. 
         Possible values = ROUNDROBIN, LEASTCONNECTION, LEASTRESPONSETIME, SOURCEIPHASH, LEASTBANDWIDTH, LEASTPACKETS, STATICPROXIMITY, RTT, CUSTOMLOAD, API 
-    .PARAMETER netmask 
-        IPv4 network mask for use in the SOURCEIPHASH load balancing method.  
-        Minimum length = 1 
-    .PARAMETER v6netmasklen 
-        Number of bits to consider, in an IPv6 source IP address, for creating the hash that is required by the SOURCEIPHASH load balancing method.  
-        Default value: 128  
-        Minimum value = 1  
-        Maximum value = 128 
-    .PARAMETER tolerance 
-        Site selection tolerance, in milliseconds, for implementing the RTT load balancing method. If a site's RTT deviates from the lowest RTT by more than the specified tolerance, the site is not considered when the Citrix ADC makes a GSLB decision. The appliance implements the round robin method of global server load balancing between sites whose RTT values are within the specified tolerance. If the tolerance is 0 (zero), the appliance always sends clients the IP address of the site with the lowest RTT.  
-        Minimum value = 0  
-        Maximum value = 100 
-    .PARAMETER persistencetype 
-        Use source IP address based persistence for the virtual server.  
-        After the load balancing method selects a service for the first packet, the IP address received in response to the DNS query is used for subsequent requests from the same client.  
+    .PARAMETER Netmask 
+        IPv4 network mask for use in the SOURCEIPHASH load balancing method. 
+    .PARAMETER V6netmasklen 
+        Number of bits to consider, in an IPv6 source IP address, for creating the hash that is required by the SOURCEIPHASH load balancing method. 
+    .PARAMETER Tolerance 
+        Site selection tolerance, in milliseconds, for implementing the RTT load balancing method. If a site's RTT deviates from the lowest RTT by more than the specified tolerance, the site is not considered when the Citrix ADC makes a GSLB decision. The appliance implements the round robin method of global server load balancing between sites whose RTT values are within the specified tolerance. If the tolerance is 0 (zero), the appliance always sends clients the IP address of the site with the lowest RTT. 
+    .PARAMETER Persistencetype 
+        Use source IP address based persistence for the virtual server. 
+        After the load balancing method selects a service for the first packet, the IP address received in response to the DNS query is used for subsequent requests from the same client. 
         Possible values = SOURCEIP, NONE 
-    .PARAMETER persistenceid 
-        The persistence ID for the GSLB virtual server. The ID is a positive integer that enables GSLB sites to identify the GSLB virtual server, and is required if source IP address based or spill over based persistence is enabled on the virtual server.  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER persistmask 
-        The optional IPv4 network mask applied to IPv4 addresses to establish source IP address based persistence.  
-        Minimum length = 1 
-    .PARAMETER v6persistmasklen 
-        Number of bits to consider in an IPv6 source IP address when creating source IP address based persistence sessions.  
-        Default value: 128  
-        Minimum value = 1  
-        Maximum value = 128 
-    .PARAMETER timeout 
-        Idle time, in minutes, after which a persistence entry is cleared.  
-        Default value: 2  
-        Minimum value = 2  
-        Maximum value = 1440 
-    .PARAMETER edr 
-        Send clients an empty DNS response when the GSLB virtual server is DOWN.  
-        Default value: DISABLED  
+    .PARAMETER Persistenceid 
+        The persistence ID for the GSLB virtual server. The ID is a positive integer that enables GSLB sites to identify the GSLB virtual server, and is required if source IP address based or spill over based persistence is enabled on the virtual server. 
+    .PARAMETER Persistmask 
+        The optional IPv4 network mask applied to IPv4 addresses to establish source IP address based persistence. 
+    .PARAMETER V6persistmasklen 
+        Number of bits to consider in an IPv6 source IP address when creating source IP address based persistence sessions. 
+    .PARAMETER Timeout 
+        Idle time, in minutes, after which a persistence entry is cleared. 
+    .PARAMETER Edr 
+        Send clients an empty DNS response when the GSLB virtual server is DOWN. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER ecs 
-        If enabled, respond with EDNS Client Subnet (ECS) option in the response for a DNS query with ECS. The ECS address will be used for persistence and spillover persistence (if enabled) instead of the LDNS address. Persistence mask is ignored if ECS is enabled.  
-        Default value: DISABLED  
+    .PARAMETER Ecs 
+        If enabled, respond with EDNS Client Subnet (ECS) option in the response for a DNS query with ECS. The ECS address will be used for persistence and spillover persistence (if enabled) instead of the LDNS address. Persistence mask is ignored if ECS is enabled. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER ecsaddrvalidation 
-        Validate if ECS address is a private or unroutable address and in such cases, use the LDNS IP.  
-        Default value: DISABLED  
+    .PARAMETER Ecsaddrvalidation 
+        Validate if ECS address is a private or unroutable address and in such cases, use the LDNS IP. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER mir 
-        Include multiple IP addresses in the DNS responses sent to clients.  
-        Default value: DISABLED  
+    .PARAMETER Mir 
+        Include multiple IP addresses in the DNS responses sent to clients. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER disableprimaryondown 
-        Continue to direct traffic to the backup chain even after the primary GSLB virtual server returns to the UP state. Used when spillover is configured for the virtual server.  
-        Default value: DISABLED  
+    .PARAMETER Disableprimaryondown 
+        Continue to direct traffic to the backup chain even after the primary GSLB virtual server returns to the UP state. Used when spillover is configured for the virtual server. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER dynamicweight 
-        Specify if the appliance should consider the service count, service weights, or ignore both when using weight-based load balancing methods. The state of the number of services bound to the virtual server help the appliance to select the service.  
-        Default value: DISABLED  
+    .PARAMETER Dynamicweight 
+        Specify if the appliance should consider the service count, service weights, or ignore both when using weight-based load balancing methods. The state of the number of services bound to the virtual server help the appliance to select the service. 
         Possible values = SERVICECOUNT, SERVICEWEIGHT, DISABLED 
-    .PARAMETER considereffectivestate 
-        If the primary state of all bound GSLB services is DOWN, consider the effective states of all the GSLB services, obtained through the Metrics Exchange Protocol (MEP), when determining the state of the GSLB virtual server. To consider the effective state, set the parameter to STATE_ONLY. To disregard the effective state, set the parameter to NONE.  
-        The effective state of a GSLB service is the ability of the corresponding virtual server to serve traffic. The effective state of the load balancing virtual server, which is transferred to the GSLB service, is UP even if only one virtual server in the backup chain of virtual servers is in the UP state.  
-        Default value: NONE  
+    .PARAMETER Considereffectivestate 
+        If the primary state of all bound GSLB services is DOWN, consider the effective states of all the GSLB services, obtained through the Metrics Exchange Protocol (MEP), when determining the state of the GSLB virtual server. To consider the effective state, set the parameter to STATE_ONLY. To disregard the effective state, set the parameter to NONE. 
+        The effective state of a GSLB service is the ability of the corresponding virtual server to serve traffic. The effective state of the load balancing virtual server, which is transferred to the GSLB service, is UP even if only one virtual server in the backup chain of virtual servers is in the UP state. 
         Possible values = NONE, STATE_ONLY 
-    .PARAMETER somethod 
-        Type of threshold that, when exceeded, triggers spillover. Available settings function as follows:  
-        * CONNECTION - Spillover occurs when the number of client connections exceeds the threshold.  
-        * DYNAMICCONNECTION - Spillover occurs when the number of client connections at the GSLB virtual server exceeds the sum of the maximum client (Max Clients) settings for bound GSLB services. Do not specify a spillover threshold for this setting, because the threshold is implied by the Max Clients settings of the bound GSLB services.  
-        * BANDWIDTH - Spillover occurs when the bandwidth consumed by the GSLB virtual server's incoming and outgoing traffic exceeds the threshold.  
-        * HEALTH - Spillover occurs when the percentage of weights of the GSLB services that are UP drops below the threshold. For example, if services gslbSvc1, gslbSvc2, and gslbSvc3 are bound to a virtual server, with weights 1, 2, and 3, and the spillover threshold is 50%, spillover occurs if gslbSvc1 and gslbSvc3 or gslbSvc2 and gslbSvc3 transition to DOWN.  
-        * NONE - Spillover does not occur.  
+    .PARAMETER Somethod 
+        Type of threshold that, when exceeded, triggers spillover. Available settings function as follows: 
+        * CONNECTION - Spillover occurs when the number of client connections exceeds the threshold. 
+        * DYNAMICCONNECTION - Spillover occurs when the number of client connections at the GSLB virtual server exceeds the sum of the maximum client (Max Clients) settings for bound GSLB services. Do not specify a spillover threshold for this setting, because the threshold is implied by the Max Clients settings of the bound GSLB services. 
+        * BANDWIDTH - Spillover occurs when the bandwidth consumed by the GSLB virtual server's incoming and outgoing traffic exceeds the threshold. 
+        * HEALTH - Spillover occurs when the percentage of weights of the GSLB services that are UP drops below the threshold. For example, if services gslbSvc1, gslbSvc2, and gslbSvc3 are bound to a virtual server, with weights 1, 2, and 3, and the spillover threshold is 50%, spillover occurs if gslbSvc1 and gslbSvc3 or gslbSvc2 and gslbSvc3 transition to DOWN. 
+        * NONE - Spillover does not occur. 
         Possible values = CONNECTION, DYNAMICCONNECTION, BANDWIDTH, HEALTH, NONE 
-    .PARAMETER sopersistence 
-        If spillover occurs, maintain source IP address based persistence for both primary and backup GSLB virtual servers.  
-        Default value: DISABLED  
+    .PARAMETER Sopersistence 
+        If spillover occurs, maintain source IP address based persistence for both primary and backup GSLB virtual servers. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER sopersistencetimeout 
-        Timeout for spillover persistence, in minutes.  
-        Default value: 2  
-        Minimum value = 2  
-        Maximum value = 1440 
-    .PARAMETER sothreshold 
-        Threshold at which spillover occurs. Specify an integer for the CONNECTION spillover method, a bandwidth value in kilobits per second for the BANDWIDTH method (do not enter the units), or a percentage for the HEALTH method (do not enter the percentage symbol).  
-        Minimum value = 1  
-        Maximum value = 4294967287 
-    .PARAMETER sobackupaction 
-        Action to be performed if spillover is to take effect, but no backup chain to spillover is usable or exists.  
+    .PARAMETER Sopersistencetimeout 
+        Timeout for spillover persistence, in minutes. 
+    .PARAMETER Sothreshold 
+        Threshold at which spillover occurs. Specify an integer for the CONNECTION spillover method, a bandwidth value in kilobits per second for the BANDWIDTH method (do not enter the units), or a percentage for the HEALTH method (do not enter the percentage symbol). 
+    .PARAMETER Sobackupaction 
+        Action to be performed if spillover is to take effect, but no backup chain to spillover is usable or exists. 
         Possible values = DROP, ACCEPT, REDIRECT 
-    .PARAMETER servicename 
-        Name of the GSLB service for which to change the weight.  
-        Minimum length = 1 
-    .PARAMETER weight 
-        Weight to assign to the GSLB service.  
-        Minimum value = 1  
-        Maximum value = 100 
-    .PARAMETER domainname 
-        Domain name for which to change the time to live (TTL) and/or backup service IP address.  
-        Minimum length = 1 
-    .PARAMETER ttl 
-        Time to live (TTL) for the domain.  
-        Minimum value = 1 
-    .PARAMETER backupip 
-        The IP address of the backup service for the specified domain name. Used when all the services bound to the domain are down, or when the backup chain of virtual servers is down.  
-        Minimum length = 1 
-    .PARAMETER cookie_domain 
-        The cookie domain for the GSLB site. Used when inserting the GSLB site cookie in the HTTP response.  
-        Minimum length = 1 
-    .PARAMETER cookietimeout 
-        Timeout, in minutes, for the GSLB site cookie.  
-        Minimum value = 0  
-        Maximum value = 1440 
-    .PARAMETER sitedomainttl 
-        TTL, in seconds, for all internally created site domains (created when a site prefix is configured on a GSLB service) that are associated with this virtual server.  
-        Minimum value = 1 
-    .PARAMETER comment 
+    .PARAMETER Servicename 
+        Name of the GSLB service for which to change the weight. 
+    .PARAMETER Weight 
+        Weight to assign to the GSLB service. 
+    .PARAMETER Domainname 
+        Domain name for which to change the time to live (TTL) and/or backup service IP address. 
+    .PARAMETER Ttl 
+        Time to live (TTL) for the domain. 
+    .PARAMETER Backupip 
+        The IP address of the backup service for the specified domain name. Used when all the services bound to the domain are down, or when the backup chain of virtual servers is down. 
+    .PARAMETER Cookie_domain 
+        The cookie domain for the GSLB site. Used when inserting the GSLB site cookie in the HTTP response. 
+    .PARAMETER Cookietimeout 
+        Timeout, in minutes, for the GSLB site cookie. 
+    .PARAMETER Sitedomainttl 
+        TTL, in seconds, for all internally created site domains (created when a site prefix is configured on a GSLB service) that are associated with this virtual server. 
+    .PARAMETER Comment 
         Any comments that you might want to associate with the GSLB virtual server. 
-    .PARAMETER appflowlog 
-        Enable logging appflow flow information.  
-        Default value: ENABLED  
+    .PARAMETER Appflowlog 
+        Enable logging appflow flow information. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER rule 
-        Expression, or name of a named expression, against which traffic is evaluated.  
-        This field is applicable only if gslb method or gslb backup method are set to API.  
-        The following requirements apply only to the Citrix ADC CLI:  
-        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks.  
-        * If the expression itself includes double quotation marks, escape the quotations by using the \ character.  
-        * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks.  
-        Default value: "none" 
+    .PARAMETER Rule 
+        Expression, or name of a named expression, against which traffic is evaluated. 
+        This field is applicable only if gslb method or gslb backup method are set to API. 
+        The following requirements apply only to the Citrix ADC CLI: 
+        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks. 
+        * If the expression itself includes double quotation marks, escape the quotations by using the \ character. 
+        * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks. 
     .PARAMETER PassThru 
         Return details about the created gslbvserver item.
     .EXAMPLE
-        Invoke-ADCUpdateGslbvserver -name <string>
+        PS C:\>Invoke-ADCUpdateGslbvserver -name <string>
+        An example how to update gslbvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateGslbvserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateSet('IPV4', 'IPV6')]
-        [string]$iptype ,
+        [string]$Iptype,
 
         [ValidateSet('A', 'AAAA', 'CNAME', 'NAPTR')]
-        [string]$dnsrecordtype ,
+        [string]$Dnsrecordtype,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$backupvserver ,
+        [string]$Backupvserver,
 
         [ValidateRange(0, 1440)]
-        [double]$backupsessiontimeout ,
+        [double]$Backupsessiontimeout,
 
         [ValidateSet('ROUNDROBIN', 'LEASTCONNECTION', 'LEASTRESPONSETIME', 'SOURCEIPHASH', 'LEASTBANDWIDTH', 'LEASTPACKETS', 'STATICPROXIMITY', 'RTT', 'CUSTOMLOAD', 'API')]
-        [string]$lbmethod ,
+        [string]$Lbmethod,
 
         [ValidateSet('ROUNDROBIN', 'LEASTCONNECTION', 'LEASTRESPONSETIME', 'SOURCEIPHASH', 'LEASTBANDWIDTH', 'LEASTPACKETS', 'STATICPROXIMITY', 'RTT', 'CUSTOMLOAD', 'API')]
-        [string]$backuplbmethod ,
+        [string]$Backuplbmethod,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$netmask ,
+        [string]$Netmask,
 
         [ValidateRange(1, 128)]
-        [double]$v6netmasklen ,
+        [double]$V6netmasklen,
 
         [ValidateRange(0, 100)]
-        [double]$tolerance ,
+        [double]$Tolerance,
 
         [ValidateSet('SOURCEIP', 'NONE')]
-        [string]$persistencetype ,
+        [string]$Persistencetype,
 
         [ValidateRange(0, 65535)]
-        [double]$persistenceid ,
+        [double]$Persistenceid,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$persistmask ,
+        [string]$Persistmask,
 
         [ValidateRange(1, 128)]
-        [double]$v6persistmasklen ,
+        [double]$V6persistmasklen,
 
         [ValidateRange(2, 1440)]
-        [double]$timeout ,
+        [double]$Timeout,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$edr ,
+        [string]$Edr,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$ecs ,
+        [string]$Ecs,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$ecsaddrvalidation ,
+        [string]$Ecsaddrvalidation,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$mir ,
+        [string]$Mir,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$disableprimaryondown ,
+        [string]$Disableprimaryondown,
 
         [ValidateSet('SERVICECOUNT', 'SERVICEWEIGHT', 'DISABLED')]
-        [string]$dynamicweight ,
+        [string]$Dynamicweight,
 
         [ValidateSet('NONE', 'STATE_ONLY')]
-        [string]$considereffectivestate ,
+        [string]$Considereffectivestate,
 
         [ValidateSet('CONNECTION', 'DYNAMICCONNECTION', 'BANDWIDTH', 'HEALTH', 'NONE')]
-        [string]$somethod ,
+        [string]$Somethod,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$sopersistence ,
+        [string]$Sopersistence,
 
         [ValidateRange(2, 1440)]
-        [double]$sopersistencetimeout ,
+        [double]$Sopersistencetimeout,
 
         [ValidateRange(1, 4294967287)]
-        [double]$sothreshold ,
+        [double]$Sothreshold,
 
         [ValidateSet('DROP', 'ACCEPT', 'REDIRECT')]
-        [string]$sobackupaction ,
+        [string]$Sobackupaction,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicename ,
+        [string]$Servicename,
 
         [ValidateRange(1, 100)]
-        [double]$weight ,
+        [double]$Weight,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$domainname ,
+        [string]$Domainname,
 
-        [double]$ttl ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$backupip ,
+        [double]$Ttl,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$cookie_domain ,
+        [string]$Backupip,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Cookie_domain,
 
         [ValidateRange(0, 1440)]
-        [double]$cookietimeout ,
+        [double]$Cookietimeout,
 
-        [double]$sitedomainttl ,
+        [double]$Sitedomainttl,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$appflowlog ,
+        [string]$Appflowlog,
 
-        [string]$rule ,
+        [string]$Rule,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateGslbvserver: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('iptype')) { $Payload.Add('iptype', $iptype) }
-            if ($PSBoundParameters.ContainsKey('dnsrecordtype')) { $Payload.Add('dnsrecordtype', $dnsrecordtype) }
-            if ($PSBoundParameters.ContainsKey('backupvserver')) { $Payload.Add('backupvserver', $backupvserver) }
-            if ($PSBoundParameters.ContainsKey('backupsessiontimeout')) { $Payload.Add('backupsessiontimeout', $backupsessiontimeout) }
-            if ($PSBoundParameters.ContainsKey('lbmethod')) { $Payload.Add('lbmethod', $lbmethod) }
-            if ($PSBoundParameters.ContainsKey('backuplbmethod')) { $Payload.Add('backuplbmethod', $backuplbmethod) }
-            if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
-            if ($PSBoundParameters.ContainsKey('v6netmasklen')) { $Payload.Add('v6netmasklen', $v6netmasklen) }
-            if ($PSBoundParameters.ContainsKey('tolerance')) { $Payload.Add('tolerance', $tolerance) }
-            if ($PSBoundParameters.ContainsKey('persistencetype')) { $Payload.Add('persistencetype', $persistencetype) }
-            if ($PSBoundParameters.ContainsKey('persistenceid')) { $Payload.Add('persistenceid', $persistenceid) }
-            if ($PSBoundParameters.ContainsKey('persistmask')) { $Payload.Add('persistmask', $persistmask) }
-            if ($PSBoundParameters.ContainsKey('v6persistmasklen')) { $Payload.Add('v6persistmasklen', $v6persistmasklen) }
-            if ($PSBoundParameters.ContainsKey('timeout')) { $Payload.Add('timeout', $timeout) }
-            if ($PSBoundParameters.ContainsKey('edr')) { $Payload.Add('edr', $edr) }
-            if ($PSBoundParameters.ContainsKey('ecs')) { $Payload.Add('ecs', $ecs) }
-            if ($PSBoundParameters.ContainsKey('ecsaddrvalidation')) { $Payload.Add('ecsaddrvalidation', $ecsaddrvalidation) }
-            if ($PSBoundParameters.ContainsKey('mir')) { $Payload.Add('mir', $mir) }
-            if ($PSBoundParameters.ContainsKey('disableprimaryondown')) { $Payload.Add('disableprimaryondown', $disableprimaryondown) }
-            if ($PSBoundParameters.ContainsKey('dynamicweight')) { $Payload.Add('dynamicweight', $dynamicweight) }
-            if ($PSBoundParameters.ContainsKey('considereffectivestate')) { $Payload.Add('considereffectivestate', $considereffectivestate) }
-            if ($PSBoundParameters.ContainsKey('somethod')) { $Payload.Add('somethod', $somethod) }
-            if ($PSBoundParameters.ContainsKey('sopersistence')) { $Payload.Add('sopersistence', $sopersistence) }
-            if ($PSBoundParameters.ContainsKey('sopersistencetimeout')) { $Payload.Add('sopersistencetimeout', $sopersistencetimeout) }
-            if ($PSBoundParameters.ContainsKey('sothreshold')) { $Payload.Add('sothreshold', $sothreshold) }
-            if ($PSBoundParameters.ContainsKey('sobackupaction')) { $Payload.Add('sobackupaction', $sobackupaction) }
-            if ($PSBoundParameters.ContainsKey('servicename')) { $Payload.Add('servicename', $servicename) }
-            if ($PSBoundParameters.ContainsKey('weight')) { $Payload.Add('weight', $weight) }
-            if ($PSBoundParameters.ContainsKey('domainname')) { $Payload.Add('domainname', $domainname) }
-            if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
-            if ($PSBoundParameters.ContainsKey('backupip')) { $Payload.Add('backupip', $backupip) }
-            if ($PSBoundParameters.ContainsKey('cookie_domain')) { $Payload.Add('cookie_domain', $cookie_domain) }
-            if ($PSBoundParameters.ContainsKey('cookietimeout')) { $Payload.Add('cookietimeout', $cookietimeout) }
-            if ($PSBoundParameters.ContainsKey('sitedomainttl')) { $Payload.Add('sitedomainttl', $sitedomainttl) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('appflowlog')) { $Payload.Add('appflowlog', $appflowlog) }
-            if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
- 
-            if ($PSCmdlet.ShouldProcess("gslbvserver", "Update Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbvserver -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('iptype') ) { $payload.Add('iptype', $iptype) }
+            if ( $PSBoundParameters.ContainsKey('dnsrecordtype') ) { $payload.Add('dnsrecordtype', $dnsrecordtype) }
+            if ( $PSBoundParameters.ContainsKey('backupvserver') ) { $payload.Add('backupvserver', $backupvserver) }
+            if ( $PSBoundParameters.ContainsKey('backupsessiontimeout') ) { $payload.Add('backupsessiontimeout', $backupsessiontimeout) }
+            if ( $PSBoundParameters.ContainsKey('lbmethod') ) { $payload.Add('lbmethod', $lbmethod) }
+            if ( $PSBoundParameters.ContainsKey('backuplbmethod') ) { $payload.Add('backuplbmethod', $backuplbmethod) }
+            if ( $PSBoundParameters.ContainsKey('netmask') ) { $payload.Add('netmask', $netmask) }
+            if ( $PSBoundParameters.ContainsKey('v6netmasklen') ) { $payload.Add('v6netmasklen', $v6netmasklen) }
+            if ( $PSBoundParameters.ContainsKey('tolerance') ) { $payload.Add('tolerance', $tolerance) }
+            if ( $PSBoundParameters.ContainsKey('persistencetype') ) { $payload.Add('persistencetype', $persistencetype) }
+            if ( $PSBoundParameters.ContainsKey('persistenceid') ) { $payload.Add('persistenceid', $persistenceid) }
+            if ( $PSBoundParameters.ContainsKey('persistmask') ) { $payload.Add('persistmask', $persistmask) }
+            if ( $PSBoundParameters.ContainsKey('v6persistmasklen') ) { $payload.Add('v6persistmasklen', $v6persistmasklen) }
+            if ( $PSBoundParameters.ContainsKey('timeout') ) { $payload.Add('timeout', $timeout) }
+            if ( $PSBoundParameters.ContainsKey('edr') ) { $payload.Add('edr', $edr) }
+            if ( $PSBoundParameters.ContainsKey('ecs') ) { $payload.Add('ecs', $ecs) }
+            if ( $PSBoundParameters.ContainsKey('ecsaddrvalidation') ) { $payload.Add('ecsaddrvalidation', $ecsaddrvalidation) }
+            if ( $PSBoundParameters.ContainsKey('mir') ) { $payload.Add('mir', $mir) }
+            if ( $PSBoundParameters.ContainsKey('disableprimaryondown') ) { $payload.Add('disableprimaryondown', $disableprimaryondown) }
+            if ( $PSBoundParameters.ContainsKey('dynamicweight') ) { $payload.Add('dynamicweight', $dynamicweight) }
+            if ( $PSBoundParameters.ContainsKey('considereffectivestate') ) { $payload.Add('considereffectivestate', $considereffectivestate) }
+            if ( $PSBoundParameters.ContainsKey('somethod') ) { $payload.Add('somethod', $somethod) }
+            if ( $PSBoundParameters.ContainsKey('sopersistence') ) { $payload.Add('sopersistence', $sopersistence) }
+            if ( $PSBoundParameters.ContainsKey('sopersistencetimeout') ) { $payload.Add('sopersistencetimeout', $sopersistencetimeout) }
+            if ( $PSBoundParameters.ContainsKey('sothreshold') ) { $payload.Add('sothreshold', $sothreshold) }
+            if ( $PSBoundParameters.ContainsKey('sobackupaction') ) { $payload.Add('sobackupaction', $sobackupaction) }
+            if ( $PSBoundParameters.ContainsKey('servicename') ) { $payload.Add('servicename', $servicename) }
+            if ( $PSBoundParameters.ContainsKey('weight') ) { $payload.Add('weight', $weight) }
+            if ( $PSBoundParameters.ContainsKey('domainname') ) { $payload.Add('domainname', $domainname) }
+            if ( $PSBoundParameters.ContainsKey('ttl') ) { $payload.Add('ttl', $ttl) }
+            if ( $PSBoundParameters.ContainsKey('backupip') ) { $payload.Add('backupip', $backupip) }
+            if ( $PSBoundParameters.ContainsKey('cookie_domain') ) { $payload.Add('cookie_domain', $cookie_domain) }
+            if ( $PSBoundParameters.ContainsKey('cookietimeout') ) { $payload.Add('cookietimeout', $cookietimeout) }
+            if ( $PSBoundParameters.ContainsKey('sitedomainttl') ) { $payload.Add('sitedomainttl', $sitedomainttl) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('appflowlog') ) { $payload.Add('appflowlog', $appflowlog) }
+            if ( $PSBoundParameters.ContainsKey('rule') ) { $payload.Add('rule', $rule) }
+            if ( $PSCmdlet.ShouldProcess("gslbvserver", "Update Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbvserver -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetGslbvserver -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetGslbvserver -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6267,189 +6176,190 @@ function Invoke-ADCUpdateGslbvserver {
 }
 
 function Invoke-ADCUnsetGslbvserver {
-<#
+    <#
     .SYNOPSIS
-        Unset Global Server Load Balancing configuration Object
+        Unset Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Unset Global Server Load Balancing configuration Object 
-   .PARAMETER name 
-       Name for the GSLB virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the virtual server is created.  
-       CLI Users:  
-       If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my vserver" or 'my vserver'). 
-   .PARAMETER backupvserver 
-       Name of the backup GSLB virtual server to which the appliance should to forward requests if the status of the primary GSLB virtual server is down or exceeds its spillover threshold. 
-   .PARAMETER sothreshold 
-       Threshold at which spillover occurs. Specify an integer for the CONNECTION spillover method, a bandwidth value in kilobits per second for the BANDWIDTH method (do not enter the units), or a percentage for the HEALTH method (do not enter the percentage symbol). 
-   .PARAMETER iptype 
-       The IP type for this GSLB vserver.  
-       Possible values = IPV4, IPV6 
-   .PARAMETER dnsrecordtype 
-       DNS record type to associate with the GSLB virtual server's domain name.  
-       Possible values = A, AAAA, CNAME, NAPTR 
-   .PARAMETER backupsessiontimeout 
-       A non zero value enables the feature whose minimum value is 2 minutes. The feature can be disabled by setting the value to zero. The created session is in effect for a specific client per domain. 
-   .PARAMETER lbmethod 
-       Load balancing method for the GSLB virtual server.  
-       Possible values = ROUNDROBIN, LEASTCONNECTION, LEASTRESPONSETIME, SOURCEIPHASH, LEASTBANDWIDTH, LEASTPACKETS, STATICPROXIMITY, RTT, CUSTOMLOAD, API 
-   .PARAMETER backuplbmethod 
-       Backup load balancing method. Becomes operational if the primary load balancing method fails or cannot be used. Valid only if the primary method is based on either round-trip time (RTT) or static proximity.  
-       Possible values = ROUNDROBIN, LEASTCONNECTION, LEASTRESPONSETIME, SOURCEIPHASH, LEASTBANDWIDTH, LEASTPACKETS, STATICPROXIMITY, RTT, CUSTOMLOAD, API 
-   .PARAMETER netmask 
-       IPv4 network mask for use in the SOURCEIPHASH load balancing method. 
-   .PARAMETER v6netmasklen 
-       Number of bits to consider, in an IPv6 source IP address, for creating the hash that is required by the SOURCEIPHASH load balancing method. 
-   .PARAMETER tolerance 
-       Site selection tolerance, in milliseconds, for implementing the RTT load balancing method. If a site's RTT deviates from the lowest RTT by more than the specified tolerance, the site is not considered when the Citrix ADC makes a GSLB decision. The appliance implements the round robin method of global server load balancing between sites whose RTT values are within the specified tolerance. If the tolerance is 0 (zero), the appliance always sends clients the IP address of the site with the lowest RTT. 
-   .PARAMETER persistencetype 
-       Use source IP address based persistence for the virtual server.  
-       After the load balancing method selects a service for the first packet, the IP address received in response to the DNS query is used for subsequent requests from the same client.  
-       Possible values = SOURCEIP, NONE 
-   .PARAMETER persistenceid 
-       The persistence ID for the GSLB virtual server. The ID is a positive integer that enables GSLB sites to identify the GSLB virtual server, and is required if source IP address based or spill over based persistence is enabled on the virtual server. 
-   .PARAMETER persistmask 
-       The optional IPv4 network mask applied to IPv4 addresses to establish source IP address based persistence. 
-   .PARAMETER v6persistmasklen 
-       Number of bits to consider in an IPv6 source IP address when creating source IP address based persistence sessions. 
-   .PARAMETER timeout 
-       Idle time, in minutes, after which a persistence entry is cleared. 
-   .PARAMETER edr 
-       Send clients an empty DNS response when the GSLB virtual server is DOWN.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER ecs 
-       If enabled, respond with EDNS Client Subnet (ECS) option in the response for a DNS query with ECS. The ECS address will be used for persistence and spillover persistence (if enabled) instead of the LDNS address. Persistence mask is ignored if ECS is enabled.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER ecsaddrvalidation 
-       Validate if ECS address is a private or unroutable address and in such cases, use the LDNS IP.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER mir 
-       Include multiple IP addresses in the DNS responses sent to clients.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER disableprimaryondown 
-       Continue to direct traffic to the backup chain even after the primary GSLB virtual server returns to the UP state. Used when spillover is configured for the virtual server.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER dynamicweight 
-       Specify if the appliance should consider the service count, service weights, or ignore both when using weight-based load balancing methods. The state of the number of services bound to the virtual server help the appliance to select the service.  
-       Possible values = SERVICECOUNT, SERVICEWEIGHT, DISABLED 
-   .PARAMETER considereffectivestate 
-       If the primary state of all bound GSLB services is DOWN, consider the effective states of all the GSLB services, obtained through the Metrics Exchange Protocol (MEP), when determining the state of the GSLB virtual server. To consider the effective state, set the parameter to STATE_ONLY. To disregard the effective state, set the parameter to NONE.  
-       The effective state of a GSLB service is the ability of the corresponding virtual server to serve traffic. The effective state of the load balancing virtual server, which is transferred to the GSLB service, is UP even if only one virtual server in the backup chain of virtual servers is in the UP state.  
-       Possible values = NONE, STATE_ONLY 
-   .PARAMETER somethod 
-       Type of threshold that, when exceeded, triggers spillover. Available settings function as follows:  
-       * CONNECTION - Spillover occurs when the number of client connections exceeds the threshold.  
-       * DYNAMICCONNECTION - Spillover occurs when the number of client connections at the GSLB virtual server exceeds the sum of the maximum client (Max Clients) settings for bound GSLB services. Do not specify a spillover threshold for this setting, because the threshold is implied by the Max Clients settings of the bound GSLB services.  
-       * BANDWIDTH - Spillover occurs when the bandwidth consumed by the GSLB virtual server's incoming and outgoing traffic exceeds the threshold.  
-       * HEALTH - Spillover occurs when the percentage of weights of the GSLB services that are UP drops below the threshold. For example, if services gslbSvc1, gslbSvc2, and gslbSvc3 are bound to a virtual server, with weights 1, 2, and 3, and the spillover threshold is 50%, spillover occurs if gslbSvc1 and gslbSvc3 or gslbSvc2 and gslbSvc3 transition to DOWN.  
-       * NONE - Spillover does not occur.  
-       Possible values = CONNECTION, DYNAMICCONNECTION, BANDWIDTH, HEALTH, NONE 
-   .PARAMETER sopersistence 
-       If spillover occurs, maintain source IP address based persistence for both primary and backup GSLB virtual servers.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER sopersistencetimeout 
-       Timeout for spillover persistence, in minutes. 
-   .PARAMETER sobackupaction 
-       Action to be performed if spillover is to take effect, but no backup chain to spillover is usable or exists.  
-       Possible values = DROP, ACCEPT, REDIRECT 
-   .PARAMETER servicename 
-       Name of the GSLB service for which to change the weight. 
-   .PARAMETER weight 
-       Weight to assign to the GSLB service. 
-   .PARAMETER comment 
-       Any comments that you might want to associate with the GSLB virtual server. 
-   .PARAMETER appflowlog 
-       Enable logging appflow flow information.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER rule 
-       Expression, or name of a named expression, against which traffic is evaluated.  
-       This field is applicable only if gslb method or gslb backup method are set to API.  
-       The following requirements apply only to the Citrix ADC CLI:  
-       * If the expression includes one or more spaces, enclose the entire expression in double quotation marks.  
-       * If the expression itself includes double quotation marks, escape the quotations by using the \ character.  
-       * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks.
+        Configuration for Global Server Load Balancing Virtual Server resource.
+    .PARAMETER Name 
+        Name for the GSLB virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the virtual server is created. 
+        CLI Users: 
+        If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my vserver" or 'my vserver'). 
+    .PARAMETER Backupvserver 
+        Name of the backup GSLB virtual server to which the appliance should to forward requests if the status of the primary GSLB virtual server is down or exceeds its spillover threshold. 
+    .PARAMETER Sothreshold 
+        Threshold at which spillover occurs. Specify an integer for the CONNECTION spillover method, a bandwidth value in kilobits per second for the BANDWIDTH method (do not enter the units), or a percentage for the HEALTH method (do not enter the percentage symbol). 
+    .PARAMETER Iptype 
+        The IP type for this GSLB vserver. 
+        Possible values = IPV4, IPV6 
+    .PARAMETER Dnsrecordtype 
+        DNS record type to associate with the GSLB virtual server's domain name. 
+        Possible values = A, AAAA, CNAME, NAPTR 
+    .PARAMETER Backupsessiontimeout 
+        A non zero value enables the feature whose minimum value is 2 minutes. The feature can be disabled by setting the value to zero. The created session is in effect for a specific client per domain. 
+    .PARAMETER Lbmethod 
+        Load balancing method for the GSLB virtual server. 
+        Possible values = ROUNDROBIN, LEASTCONNECTION, LEASTRESPONSETIME, SOURCEIPHASH, LEASTBANDWIDTH, LEASTPACKETS, STATICPROXIMITY, RTT, CUSTOMLOAD, API 
+    .PARAMETER Backuplbmethod 
+        Backup load balancing method. Becomes operational if the primary load balancing method fails or cannot be used. Valid only if the primary method is based on either round-trip time (RTT) or static proximity. 
+        Possible values = ROUNDROBIN, LEASTCONNECTION, LEASTRESPONSETIME, SOURCEIPHASH, LEASTBANDWIDTH, LEASTPACKETS, STATICPROXIMITY, RTT, CUSTOMLOAD, API 
+    .PARAMETER Netmask 
+        IPv4 network mask for use in the SOURCEIPHASH load balancing method. 
+    .PARAMETER V6netmasklen 
+        Number of bits to consider, in an IPv6 source IP address, for creating the hash that is required by the SOURCEIPHASH load balancing method. 
+    .PARAMETER Tolerance 
+        Site selection tolerance, in milliseconds, for implementing the RTT load balancing method. If a site's RTT deviates from the lowest RTT by more than the specified tolerance, the site is not considered when the Citrix ADC makes a GSLB decision. The appliance implements the round robin method of global server load balancing between sites whose RTT values are within the specified tolerance. If the tolerance is 0 (zero), the appliance always sends clients the IP address of the site with the lowest RTT. 
+    .PARAMETER Persistencetype 
+        Use source IP address based persistence for the virtual server. 
+        After the load balancing method selects a service for the first packet, the IP address received in response to the DNS query is used for subsequent requests from the same client. 
+        Possible values = SOURCEIP, NONE 
+    .PARAMETER Persistenceid 
+        The persistence ID for the GSLB virtual server. The ID is a positive integer that enables GSLB sites to identify the GSLB virtual server, and is required if source IP address based or spill over based persistence is enabled on the virtual server. 
+    .PARAMETER Persistmask 
+        The optional IPv4 network mask applied to IPv4 addresses to establish source IP address based persistence. 
+    .PARAMETER V6persistmasklen 
+        Number of bits to consider in an IPv6 source IP address when creating source IP address based persistence sessions. 
+    .PARAMETER Timeout 
+        Idle time, in minutes, after which a persistence entry is cleared. 
+    .PARAMETER Edr 
+        Send clients an empty DNS response when the GSLB virtual server is DOWN. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Ecs 
+        If enabled, respond with EDNS Client Subnet (ECS) option in the response for a DNS query with ECS. The ECS address will be used for persistence and spillover persistence (if enabled) instead of the LDNS address. Persistence mask is ignored if ECS is enabled. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Ecsaddrvalidation 
+        Validate if ECS address is a private or unroutable address and in such cases, use the LDNS IP. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Mir 
+        Include multiple IP addresses in the DNS responses sent to clients. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Disableprimaryondown 
+        Continue to direct traffic to the backup chain even after the primary GSLB virtual server returns to the UP state. Used when spillover is configured for the virtual server. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Dynamicweight 
+        Specify if the appliance should consider the service count, service weights, or ignore both when using weight-based load balancing methods. The state of the number of services bound to the virtual server help the appliance to select the service. 
+        Possible values = SERVICECOUNT, SERVICEWEIGHT, DISABLED 
+    .PARAMETER Considereffectivestate 
+        If the primary state of all bound GSLB services is DOWN, consider the effective states of all the GSLB services, obtained through the Metrics Exchange Protocol (MEP), when determining the state of the GSLB virtual server. To consider the effective state, set the parameter to STATE_ONLY. To disregard the effective state, set the parameter to NONE. 
+        The effective state of a GSLB service is the ability of the corresponding virtual server to serve traffic. The effective state of the load balancing virtual server, which is transferred to the GSLB service, is UP even if only one virtual server in the backup chain of virtual servers is in the UP state. 
+        Possible values = NONE, STATE_ONLY 
+    .PARAMETER Somethod 
+        Type of threshold that, when exceeded, triggers spillover. Available settings function as follows: 
+        * CONNECTION - Spillover occurs when the number of client connections exceeds the threshold. 
+        * DYNAMICCONNECTION - Spillover occurs when the number of client connections at the GSLB virtual server exceeds the sum of the maximum client (Max Clients) settings for bound GSLB services. Do not specify a spillover threshold for this setting, because the threshold is implied by the Max Clients settings of the bound GSLB services. 
+        * BANDWIDTH - Spillover occurs when the bandwidth consumed by the GSLB virtual server's incoming and outgoing traffic exceeds the threshold. 
+        * HEALTH - Spillover occurs when the percentage of weights of the GSLB services that are UP drops below the threshold. For example, if services gslbSvc1, gslbSvc2, and gslbSvc3 are bound to a virtual server, with weights 1, 2, and 3, and the spillover threshold is 50%, spillover occurs if gslbSvc1 and gslbSvc3 or gslbSvc2 and gslbSvc3 transition to DOWN. 
+        * NONE - Spillover does not occur. 
+        Possible values = CONNECTION, DYNAMICCONNECTION, BANDWIDTH, HEALTH, NONE 
+    .PARAMETER Sopersistence 
+        If spillover occurs, maintain source IP address based persistence for both primary and backup GSLB virtual servers. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Sopersistencetimeout 
+        Timeout for spillover persistence, in minutes. 
+    .PARAMETER Sobackupaction 
+        Action to be performed if spillover is to take effect, but no backup chain to spillover is usable or exists. 
+        Possible values = DROP, ACCEPT, REDIRECT 
+    .PARAMETER Servicename 
+        Name of the GSLB service for which to change the weight. 
+    .PARAMETER Weight 
+        Weight to assign to the GSLB service. 
+    .PARAMETER Comment 
+        Any comments that you might want to associate with the GSLB virtual server. 
+    .PARAMETER Appflowlog 
+        Enable logging appflow flow information. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Rule 
+        Expression, or name of a named expression, against which traffic is evaluated. 
+        This field is applicable only if gslb method or gslb backup method are set to API. 
+        The following requirements apply only to the Citrix ADC CLI: 
+        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks. 
+        * If the expression itself includes double quotation marks, escape the quotations by using the \ character. 
+        * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks.
     .EXAMPLE
-        Invoke-ADCUnsetGslbvserver -name <string>
+        PS C:\>Invoke-ADCUnsetGslbvserver -name <string>
+        An example how to unset gslbvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetGslbvserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$backupvserver ,
+        [Boolean]$backupvserver,
 
-        [Boolean]$sothreshold ,
+        [Boolean]$sothreshold,
 
-        [Boolean]$iptype ,
+        [Boolean]$iptype,
 
-        [Boolean]$dnsrecordtype ,
+        [Boolean]$dnsrecordtype,
 
-        [Boolean]$backupsessiontimeout ,
+        [Boolean]$backupsessiontimeout,
 
-        [Boolean]$lbmethod ,
+        [Boolean]$lbmethod,
 
-        [Boolean]$backuplbmethod ,
+        [Boolean]$backuplbmethod,
 
-        [Boolean]$netmask ,
+        [Boolean]$netmask,
 
-        [Boolean]$v6netmasklen ,
+        [Boolean]$v6netmasklen,
 
-        [Boolean]$tolerance ,
+        [Boolean]$tolerance,
 
-        [Boolean]$persistencetype ,
+        [Boolean]$persistencetype,
 
-        [Boolean]$persistenceid ,
+        [Boolean]$persistenceid,
 
-        [Boolean]$persistmask ,
+        [Boolean]$persistmask,
 
-        [Boolean]$v6persistmasklen ,
+        [Boolean]$v6persistmasklen,
 
-        [Boolean]$timeout ,
+        [Boolean]$timeout,
 
-        [Boolean]$edr ,
+        [Boolean]$edr,
 
-        [Boolean]$ecs ,
+        [Boolean]$ecs,
 
-        [Boolean]$ecsaddrvalidation ,
+        [Boolean]$ecsaddrvalidation,
 
-        [Boolean]$mir ,
+        [Boolean]$mir,
 
-        [Boolean]$disableprimaryondown ,
+        [Boolean]$disableprimaryondown,
 
-        [Boolean]$dynamicweight ,
+        [Boolean]$dynamicweight,
 
-        [Boolean]$considereffectivestate ,
+        [Boolean]$considereffectivestate,
 
-        [Boolean]$somethod ,
+        [Boolean]$somethod,
 
-        [Boolean]$sopersistence ,
+        [Boolean]$sopersistence,
 
-        [Boolean]$sopersistencetimeout ,
+        [Boolean]$sopersistencetimeout,
 
-        [Boolean]$sobackupaction ,
+        [Boolean]$sobackupaction,
 
-        [Boolean]$servicename ,
+        [Boolean]$servicename,
 
-        [Boolean]$weight ,
+        [Boolean]$weight,
 
-        [Boolean]$comment ,
+        [Boolean]$comment,
 
-        [Boolean]$appflowlog ,
+        [Boolean]$appflowlog,
 
         [Boolean]$rule 
     )
@@ -6458,42 +6368,40 @@ function Invoke-ADCUnsetGslbvserver {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('backupvserver')) { $Payload.Add('backupvserver', $backupvserver) }
-            if ($PSBoundParameters.ContainsKey('sothreshold')) { $Payload.Add('sothreshold', $sothreshold) }
-            if ($PSBoundParameters.ContainsKey('iptype')) { $Payload.Add('iptype', $iptype) }
-            if ($PSBoundParameters.ContainsKey('dnsrecordtype')) { $Payload.Add('dnsrecordtype', $dnsrecordtype) }
-            if ($PSBoundParameters.ContainsKey('backupsessiontimeout')) { $Payload.Add('backupsessiontimeout', $backupsessiontimeout) }
-            if ($PSBoundParameters.ContainsKey('lbmethod')) { $Payload.Add('lbmethod', $lbmethod) }
-            if ($PSBoundParameters.ContainsKey('backuplbmethod')) { $Payload.Add('backuplbmethod', $backuplbmethod) }
-            if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
-            if ($PSBoundParameters.ContainsKey('v6netmasklen')) { $Payload.Add('v6netmasklen', $v6netmasklen) }
-            if ($PSBoundParameters.ContainsKey('tolerance')) { $Payload.Add('tolerance', $tolerance) }
-            if ($PSBoundParameters.ContainsKey('persistencetype')) { $Payload.Add('persistencetype', $persistencetype) }
-            if ($PSBoundParameters.ContainsKey('persistenceid')) { $Payload.Add('persistenceid', $persistenceid) }
-            if ($PSBoundParameters.ContainsKey('persistmask')) { $Payload.Add('persistmask', $persistmask) }
-            if ($PSBoundParameters.ContainsKey('v6persistmasklen')) { $Payload.Add('v6persistmasklen', $v6persistmasklen) }
-            if ($PSBoundParameters.ContainsKey('timeout')) { $Payload.Add('timeout', $timeout) }
-            if ($PSBoundParameters.ContainsKey('edr')) { $Payload.Add('edr', $edr) }
-            if ($PSBoundParameters.ContainsKey('ecs')) { $Payload.Add('ecs', $ecs) }
-            if ($PSBoundParameters.ContainsKey('ecsaddrvalidation')) { $Payload.Add('ecsaddrvalidation', $ecsaddrvalidation) }
-            if ($PSBoundParameters.ContainsKey('mir')) { $Payload.Add('mir', $mir) }
-            if ($PSBoundParameters.ContainsKey('disableprimaryondown')) { $Payload.Add('disableprimaryondown', $disableprimaryondown) }
-            if ($PSBoundParameters.ContainsKey('dynamicweight')) { $Payload.Add('dynamicweight', $dynamicweight) }
-            if ($PSBoundParameters.ContainsKey('considereffectivestate')) { $Payload.Add('considereffectivestate', $considereffectivestate) }
-            if ($PSBoundParameters.ContainsKey('somethod')) { $Payload.Add('somethod', $somethod) }
-            if ($PSBoundParameters.ContainsKey('sopersistence')) { $Payload.Add('sopersistence', $sopersistence) }
-            if ($PSBoundParameters.ContainsKey('sopersistencetimeout')) { $Payload.Add('sopersistencetimeout', $sopersistencetimeout) }
-            if ($PSBoundParameters.ContainsKey('sobackupaction')) { $Payload.Add('sobackupaction', $sobackupaction) }
-            if ($PSBoundParameters.ContainsKey('servicename')) { $Payload.Add('servicename', $servicename) }
-            if ($PSBoundParameters.ContainsKey('weight')) { $Payload.Add('weight', $weight) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('appflowlog')) { $Payload.Add('appflowlog', $appflowlog) }
-            if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbvserver -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('backupvserver') ) { $payload.Add('backupvserver', $backupvserver) }
+            if ( $PSBoundParameters.ContainsKey('sothreshold') ) { $payload.Add('sothreshold', $sothreshold) }
+            if ( $PSBoundParameters.ContainsKey('iptype') ) { $payload.Add('iptype', $iptype) }
+            if ( $PSBoundParameters.ContainsKey('dnsrecordtype') ) { $payload.Add('dnsrecordtype', $dnsrecordtype) }
+            if ( $PSBoundParameters.ContainsKey('backupsessiontimeout') ) { $payload.Add('backupsessiontimeout', $backupsessiontimeout) }
+            if ( $PSBoundParameters.ContainsKey('lbmethod') ) { $payload.Add('lbmethod', $lbmethod) }
+            if ( $PSBoundParameters.ContainsKey('backuplbmethod') ) { $payload.Add('backuplbmethod', $backuplbmethod) }
+            if ( $PSBoundParameters.ContainsKey('netmask') ) { $payload.Add('netmask', $netmask) }
+            if ( $PSBoundParameters.ContainsKey('v6netmasklen') ) { $payload.Add('v6netmasklen', $v6netmasklen) }
+            if ( $PSBoundParameters.ContainsKey('tolerance') ) { $payload.Add('tolerance', $tolerance) }
+            if ( $PSBoundParameters.ContainsKey('persistencetype') ) { $payload.Add('persistencetype', $persistencetype) }
+            if ( $PSBoundParameters.ContainsKey('persistenceid') ) { $payload.Add('persistenceid', $persistenceid) }
+            if ( $PSBoundParameters.ContainsKey('persistmask') ) { $payload.Add('persistmask', $persistmask) }
+            if ( $PSBoundParameters.ContainsKey('v6persistmasklen') ) { $payload.Add('v6persistmasklen', $v6persistmasklen) }
+            if ( $PSBoundParameters.ContainsKey('timeout') ) { $payload.Add('timeout', $timeout) }
+            if ( $PSBoundParameters.ContainsKey('edr') ) { $payload.Add('edr', $edr) }
+            if ( $PSBoundParameters.ContainsKey('ecs') ) { $payload.Add('ecs', $ecs) }
+            if ( $PSBoundParameters.ContainsKey('ecsaddrvalidation') ) { $payload.Add('ecsaddrvalidation', $ecsaddrvalidation) }
+            if ( $PSBoundParameters.ContainsKey('mir') ) { $payload.Add('mir', $mir) }
+            if ( $PSBoundParameters.ContainsKey('disableprimaryondown') ) { $payload.Add('disableprimaryondown', $disableprimaryondown) }
+            if ( $PSBoundParameters.ContainsKey('dynamicweight') ) { $payload.Add('dynamicweight', $dynamicweight) }
+            if ( $PSBoundParameters.ContainsKey('considereffectivestate') ) { $payload.Add('considereffectivestate', $considereffectivestate) }
+            if ( $PSBoundParameters.ContainsKey('somethod') ) { $payload.Add('somethod', $somethod) }
+            if ( $PSBoundParameters.ContainsKey('sopersistence') ) { $payload.Add('sopersistence', $sopersistence) }
+            if ( $PSBoundParameters.ContainsKey('sopersistencetimeout') ) { $payload.Add('sopersistencetimeout', $sopersistencetimeout) }
+            if ( $PSBoundParameters.ContainsKey('sobackupaction') ) { $payload.Add('sobackupaction', $sobackupaction) }
+            if ( $PSBoundParameters.ContainsKey('servicename') ) { $payload.Add('servicename', $servicename) }
+            if ( $PSBoundParameters.ContainsKey('weight') ) { $payload.Add('weight', $weight) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('appflowlog') ) { $payload.Add('appflowlog', $appflowlog) }
+            if ( $PSBoundParameters.ContainsKey('rule') ) { $payload.Add('rule', $rule) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Global Server Load Balancing configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type gslbvserver -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6509,39 +6417,41 @@ function Invoke-ADCUnsetGslbvserver {
 }
 
 function Invoke-ADCEnableGslbvserver {
-<#
+    <#
     .SYNOPSIS
-        Enable Global Server Load Balancing configuration Object
+        Enable Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Enable Global Server Load Balancing configuration Object 
-    .PARAMETER name 
-        Name for the GSLB virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the virtual server is created.  
-        CLI Users:  
+        Configuration for Global Server Load Balancing Virtual Server resource.
+    .PARAMETER Name 
+        Name for the GSLB virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the virtual server is created. 
+        CLI Users: 
         If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my vserver" or 'my vserver').
     .EXAMPLE
-        Invoke-ADCEnableGslbvserver -name <string>
+        PS C:\>Invoke-ADCEnableGslbvserver -name <string>
+        An example how to enable gslbvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCEnableGslbvserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name 
+        [string]$Name 
 
     )
     begin {
@@ -6549,12 +6459,10 @@ function Invoke-ADCEnableGslbvserver {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
+            $payload = @{ name = $name }
 
-            if ($PSCmdlet.ShouldProcess($Name, "Enable Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbvserver -Action enable -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Enable Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbvserver -Action enable -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -6570,39 +6478,41 @@ function Invoke-ADCEnableGslbvserver {
 }
 
 function Invoke-ADCDisableGslbvserver {
-<#
+    <#
     .SYNOPSIS
-        Disable Global Server Load Balancing configuration Object
+        Disable Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Disable Global Server Load Balancing configuration Object 
-    .PARAMETER name 
-        Name for the GSLB virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the virtual server is created.  
-        CLI Users:  
+        Configuration for Global Server Load Balancing Virtual Server resource.
+    .PARAMETER Name 
+        Name for the GSLB virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the virtual server is created. 
+        CLI Users: 
         If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my vserver" or 'my vserver').
     .EXAMPLE
-        Invoke-ADCDisableGslbvserver -name <string>
+        PS C:\>Invoke-ADCDisableGslbvserver -name <string>
+        An example how to disable gslbvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDisableGslbvserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name 
+        [string]$Name 
 
     )
     begin {
@@ -6610,12 +6520,10 @@ function Invoke-ADCDisableGslbvserver {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
+            $payload = @{ name = $name }
 
-            if ($PSCmdlet.ShouldProcess($Name, "Disable Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbvserver -Action disable -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Disable Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbvserver -Action disable -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -6631,74 +6539,70 @@ function Invoke-ADCDisableGslbvserver {
 }
 
 function Invoke-ADCRenameGslbvserver {
-<#
+    <#
     .SYNOPSIS
-        Rename Global Server Load Balancing configuration Object
+        Rename Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Rename Global Server Load Balancing configuration Object 
-    .PARAMETER name 
-        Name for the GSLB virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the virtual server is created.  
-        CLI Users:  
-        If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my vserver" or 'my vserver').  
-        Minimum length = 1 
-    .PARAMETER newname 
-        New name for the GSLB virtual server.  
-        Minimum length = 1 
+        Configuration for Global Server Load Balancing Virtual Server resource.
+    .PARAMETER Name 
+        Name for the GSLB virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the virtual server is created. 
+        CLI Users: 
+        If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my vserver" or 'my vserver'). 
+    .PARAMETER Newname 
+        New name for the GSLB virtual server. 
     .PARAMETER PassThru 
         Return details about the created gslbvserver item.
     .EXAMPLE
-        Invoke-ADCRenameGslbvserver -name <string> -newname <string>
+        PS C:\>Invoke-ADCRenameGslbvserver -name <string> -newname <string>
+        An example how to rename gslbvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameGslbvserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameGslbvserver: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                newname = $newname
+            $payload = @{ name = $name
+                newname        = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("gslbvserver", "Rename Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbvserver -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("gslbvserver", "Rename Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type gslbvserver -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetGslbvserver -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetGslbvserver -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6711,58 +6615,64 @@ function Invoke-ADCRenameGslbvserver {
 }
 
 function Invoke-ADCGetGslbvserver {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER name 
-       Name for the GSLB virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the virtual server is created.  
-       CLI Users:  
-       If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my vserver" or 'my vserver'). 
+        Configuration for Global Server Load Balancing Virtual Server resource.
+    .PARAMETER Name 
+        Name for the GSLB virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the virtual server is created. 
+        CLI Users: 
+        If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my vserver" or 'my vserver'). 
     .PARAMETER GetAll 
-        Retreive all gslbvserver object(s)
+        Retrieve all gslbvserver object(s).
     .PARAMETER Count
-        If specified, the count of the gslbvserver object(s) will be returned
+        If specified, the count of the gslbvserver object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbvserver
+        PS C:\>Invoke-ADCGetGslbvserver
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbvserver -GetAll 
+        PS C:\>Invoke-ADCGetGslbvserver -GetAll 
+        Get all gslbvserver data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbvserver -Count
+        PS C:\>Invoke-ADCGetGslbvserver -Count 
+        Get the number of gslbvserver objects.
     .EXAMPLE
-        Invoke-ADCGetGslbvserver -name <string>
+        PS C:\>Invoke-ADCGetGslbvserver -name <string>
+        Get gslbvserver object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbvserver -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbvserver -Filter @{ 'name'='<value>' }
+        Get gslbvserver data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbvserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -6780,24 +6690,24 @@ function Invoke-ADCGetGslbvserver {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all gslbvserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbvserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbvserver objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbvserver configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbvserver configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6811,51 +6721,56 @@ function Invoke-ADCGetGslbvserver {
 }
 
 function Invoke-ADCGetGslbvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER name 
-       Name of the GSLB virtual server. 
+        Binding object which returns the resources bound to gslbvserver.
+    .PARAMETER Name 
+        Name of the GSLB virtual server. 
     .PARAMETER GetAll 
-        Retreive all gslbvserver_binding object(s)
+        Retrieve all gslbvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbvserver_binding object(s) will be returned
+        If specified, the count of the gslbvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbvserverbinding
+        PS C:\>Invoke-ADCGetGslbvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbvserverbinding -GetAll
+        PS C:\>Invoke-ADCGetGslbvserverbinding -GetAll 
+        Get all gslbvserver_binding data.
     .EXAMPLE
-        Invoke-ADCGetGslbvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetGslbvserverbinding -name <string>
+        Get gslbvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbvserverbinding -Filter @{ 'name'='<value>' }
+        Get gslbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -6867,26 +6782,24 @@ function Invoke-ADCGetGslbvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6900,103 +6813,92 @@ function Invoke-ADCGetGslbvserverbinding {
 }
 
 function Invoke-ADCAddGslbvserverdomainbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Global Server Load Balancing configuration Object
+        Add Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Add Global Server Load Balancing configuration Object 
-    .PARAMETER name 
-        Name of the virtual server on which to perform the binding operation.  
-        Minimum length = 1 
-    .PARAMETER domainname 
-        Domain name for which to change the time to live (TTL) and/or backup service IP address.  
-        Minimum length = 1 
-    .PARAMETER ttl 
-        Time to live (TTL) for the domain.  
-        Minimum value = 1 
-    .PARAMETER backupip 
-        The IP address of the backup service for the specified domain name. Used when all the services bound to the domain are down, or when the backup chain of virtual servers is down.  
-        Minimum length = 1 
-    .PARAMETER cookie_domain 
-        The cookie domain for the GSLB site. Used when inserting the GSLB site cookie in the HTTP response.  
-        Minimum length = 1 
-    .PARAMETER cookietimeout 
-        Timeout, in minutes, for the GSLB site cookie.  
-        Minimum value = 0  
-        Maximum value = 1440 
-    .PARAMETER sitedomainttl 
-        TTL, in seconds, for all internally created site domains (created when a site prefix is configured on a GSLB service) that are associated with this virtual server.  
-        Minimum value = 1 
+        Binding object showing the domain that can be bound to gslbvserver.
+    .PARAMETER Name 
+        Name of the virtual server on which to perform the binding operation. 
+    .PARAMETER Domainname 
+        Domain name for which to change the time to live (TTL) and/or backup service IP address. 
+    .PARAMETER Ttl 
+        Time to live (TTL) for the domain. 
+    .PARAMETER Backupip 
+        The IP address of the backup service for the specified domain name. Used when all the services bound to the domain are down, or when the backup chain of virtual servers is down. 
+    .PARAMETER Cookie_domain 
+        The cookie domain for the GSLB site. Used when inserting the GSLB site cookie in the HTTP response. 
+    .PARAMETER Cookietimeout 
+        Timeout, in minutes, for the GSLB site cookie. 
+    .PARAMETER Sitedomainttl 
+        TTL, in seconds, for all internally created site domains (created when a site prefix is configured on a GSLB service) that are associated with this virtual server. 
     .PARAMETER PassThru 
         Return details about the created gslbvserver_domain_binding item.
     .EXAMPLE
-        Invoke-ADCAddGslbvserverdomainbinding -name <string>
+        PS C:\>Invoke-ADCAddGslbvserverdomainbinding -name <string>
+        An example how to add gslbvserver_domain_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddGslbvserverdomainbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_domain_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$domainname ,
-
-        [double]$ttl ,
+        [string]$Name,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$backupip ,
+        [string]$Domainname,
+
+        [double]$Ttl,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$cookie_domain ,
+        [string]$Backupip,
+
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Cookie_domain,
 
         [ValidateRange(0, 1440)]
-        [double]$cookietimeout ,
+        [double]$Cookietimeout,
 
-        [double]$sitedomainttl ,
+        [double]$Sitedomainttl,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddGslbvserverdomainbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('domainname')) { $Payload.Add('domainname', $domainname) }
-            if ($PSBoundParameters.ContainsKey('ttl')) { $Payload.Add('ttl', $ttl) }
-            if ($PSBoundParameters.ContainsKey('backupip')) { $Payload.Add('backupip', $backupip) }
-            if ($PSBoundParameters.ContainsKey('cookie_domain')) { $Payload.Add('cookie_domain', $cookie_domain) }
-            if ($PSBoundParameters.ContainsKey('cookietimeout')) { $Payload.Add('cookietimeout', $cookietimeout) }
-            if ($PSBoundParameters.ContainsKey('sitedomainttl')) { $Payload.Add('sitedomainttl', $sitedomainttl) }
- 
-            if ($PSCmdlet.ShouldProcess("gslbvserver_domain_binding", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbvserver_domain_binding -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('domainname') ) { $payload.Add('domainname', $domainname) }
+            if ( $PSBoundParameters.ContainsKey('ttl') ) { $payload.Add('ttl', $ttl) }
+            if ( $PSBoundParameters.ContainsKey('backupip') ) { $payload.Add('backupip', $backupip) }
+            if ( $PSBoundParameters.ContainsKey('cookie_domain') ) { $payload.Add('cookie_domain', $cookie_domain) }
+            if ( $PSBoundParameters.ContainsKey('cookietimeout') ) { $payload.Add('cookietimeout', $cookietimeout) }
+            if ( $PSBoundParameters.ContainsKey('sitedomainttl') ) { $payload.Add('sitedomainttl', $sitedomainttl) }
+            if ( $PSCmdlet.ShouldProcess("gslbvserver_domain_binding", "Add Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbvserver_domain_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetGslbvserverdomainbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetGslbvserverdomainbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7009,59 +6911,61 @@ function Invoke-ADCAddGslbvserverdomainbinding {
 }
 
 function Invoke-ADCDeleteGslbvserverdomainbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Global Server Load Balancing configuration Object
+        Delete Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Delete Global Server Load Balancing configuration Object
-    .PARAMETER name 
-       Name of the virtual server on which to perform the binding operation.  
-       Minimum length = 1    .PARAMETER domainname 
-       Domain name for which to change the time to live (TTL) and/or backup service IP address.  
-       Minimum length = 1    .PARAMETER backupipflag 
-       The IP address of the backup service for the specified domain name. Used when all the services bound to the domain are down, or when the backup chain of virtual servers is down.    .PARAMETER cookie_domainflag 
-       The cookie domain for the GSLB site. Used when inserting the GSLB site cookie in the HTTP response.
+        Binding object showing the domain that can be bound to gslbvserver.
+    .PARAMETER Name 
+        Name of the virtual server on which to perform the binding operation. 
+    .PARAMETER Domainname 
+        Domain name for which to change the time to live (TTL) and/or backup service IP address. 
+    .PARAMETER Backupipflag 
+        The IP address of the backup service for the specified domain name. Used when all the services bound to the domain are down, or when the backup chain of virtual servers is down. 
+    .PARAMETER Cookie_domainflag 
+        The cookie domain for the GSLB site. Used when inserting the GSLB site cookie in the HTTP response.
     .EXAMPLE
-        Invoke-ADCDeleteGslbvserverdomainbinding -name <string>
+        PS C:\>Invoke-ADCDeleteGslbvserverdomainbinding -Name <string>
+        An example how to delete gslbvserver_domain_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteGslbvserverdomainbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_domain_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [string]$domainname ,
+        [string]$Domainname,
 
-        [boolean]$backupipflag ,
+        [boolean]$Backupipflag,
 
-        [boolean]$cookie_domainflag 
+        [boolean]$Cookie_domainflag 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteGslbvserverdomainbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('domainname')) { $Arguments.Add('domainname', $domainname) }
-            if ($PSBoundParameters.ContainsKey('backupipflag')) { $Arguments.Add('backupipflag', $backupipflag) }
-            if ($PSBoundParameters.ContainsKey('cookie_domainflag')) { $Arguments.Add('cookie_domainflag', $cookie_domainflag) }
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver_domain_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Domainname') ) { $arguments.Add('domainname', $Domainname) }
+            if ( $PSBoundParameters.ContainsKey('Backupipflag') ) { $arguments.Add('backupipflag', $Backupipflag) }
+            if ( $PSBoundParameters.ContainsKey('Cookie_domainflag') ) { $arguments.Add('cookie_domainflag', $Cookie_domainflag) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Global Server Load Balancing configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver_domain_binding -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7077,55 +6981,61 @@ function Invoke-ADCDeleteGslbvserverdomainbinding {
 }
 
 function Invoke-ADCGetGslbvserverdomainbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER name 
-       Name of the virtual server on which to perform the binding operation. 
+        Binding object showing the domain that can be bound to gslbvserver.
+    .PARAMETER Name 
+        Name of the virtual server on which to perform the binding operation. 
     .PARAMETER GetAll 
-        Retreive all gslbvserver_domain_binding object(s)
+        Retrieve all gslbvserver_domain_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbvserver_domain_binding object(s) will be returned
+        If specified, the count of the gslbvserver_domain_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbvserverdomainbinding
+        PS C:\>Invoke-ADCGetGslbvserverdomainbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbvserverdomainbinding -GetAll 
+        PS C:\>Invoke-ADCGetGslbvserverdomainbinding -GetAll 
+        Get all gslbvserver_domain_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbvserverdomainbinding -Count
+        PS C:\>Invoke-ADCGetGslbvserverdomainbinding -Count 
+        Get the number of gslbvserver_domain_binding objects.
     .EXAMPLE
-        Invoke-ADCGetGslbvserverdomainbinding -name <string>
+        PS C:\>Invoke-ADCGetGslbvserverdomainbinding -name <string>
+        Get gslbvserver_domain_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbvserverdomainbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbvserverdomainbinding -Filter @{ 'name'='<value>' }
+        Get gslbvserver_domain_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbvserverdomainbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_domain_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -7138,26 +7048,24 @@ function Invoke-ADCGetGslbvserverdomainbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbvserver_domain_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_domain_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_domain_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbvserver_domain_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_domain_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_domain_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbvserver_domain_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_domain_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_domain_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbvserver_domain_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_domain_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbvserver_domain_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_domain_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_domain_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7171,55 +7079,61 @@ function Invoke-ADCGetGslbvserverdomainbinding {
 }
 
 function Invoke-ADCGetGslbvservergslbservicegroupmemberbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER name 
-       Name of the virtual server on which to perform the binding operation. 
+        Binding object showing the gslbservicegroupmember that can be bound to gslbvserver.
+    .PARAMETER Name 
+        Name of the virtual server on which to perform the binding operation. 
     .PARAMETER GetAll 
-        Retreive all gslbvserver_gslbservicegroupmember_binding object(s)
+        Retrieve all gslbvserver_gslbservicegroupmember_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbvserver_gslbservicegroupmember_binding object(s) will be returned
+        If specified, the count of the gslbvserver_gslbservicegroupmember_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbvservergslbservicegroupmemberbinding
+        PS C:\>Invoke-ADCGetGslbvservergslbservicegroupmemberbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbvservergslbservicegroupmemberbinding -GetAll 
+        PS C:\>Invoke-ADCGetGslbvservergslbservicegroupmemberbinding -GetAll 
+        Get all gslbvserver_gslbservicegroupmember_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbvservergslbservicegroupmemberbinding -Count
+        PS C:\>Invoke-ADCGetGslbvservergslbservicegroupmemberbinding -Count 
+        Get the number of gslbvserver_gslbservicegroupmember_binding objects.
     .EXAMPLE
-        Invoke-ADCGetGslbvservergslbservicegroupmemberbinding -name <string>
+        PS C:\>Invoke-ADCGetGslbvservergslbservicegroupmemberbinding -name <string>
+        Get gslbvserver_gslbservicegroupmember_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbvservergslbservicegroupmemberbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbvservergslbservicegroupmemberbinding -Filter @{ 'name'='<value>' }
+        Get gslbvserver_gslbservicegroupmember_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbvservergslbservicegroupmemberbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -7232,26 +7146,24 @@ function Invoke-ADCGetGslbvservergslbservicegroupmemberbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbvserver_gslbservicegroupmember_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbvserver_gslbservicegroupmember_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbvserver_gslbservicegroupmember_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbvserver_gslbservicegroupmember_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbvserver_gslbservicegroupmember_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroupmember_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7265,67 +7177,63 @@ function Invoke-ADCGetGslbvservergslbservicegroupmemberbinding {
 }
 
 function Invoke-ADCAddGslbvservergslbservicegroupbinding {
-<#
+    <#
     .SYNOPSIS
-        Add Global Server Load Balancing configuration Object
+        Add Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Add Global Server Load Balancing configuration Object 
-    .PARAMETER name 
-        Name of the virtual server on which to perform the binding operation.  
-        Minimum length = 1 
-    .PARAMETER servicegroupname 
+        Binding object showing the gslbservicegroup that can be bound to gslbvserver.
+    .PARAMETER Name 
+        Name of the virtual server on which to perform the binding operation. 
+    .PARAMETER Servicegroupname 
         The GSLB service group name bound to the selected GSLB virtual server. 
     .PARAMETER PassThru 
         Return details about the created gslbvserver_gslbservicegroup_binding item.
     .EXAMPLE
-        Invoke-ADCAddGslbvservergslbservicegroupbinding -name <string>
+        PS C:\>Invoke-ADCAddGslbvservergslbservicegroupbinding -name <string>
+        An example how to add gslbvserver_gslbservicegroup_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddGslbvservergslbservicegroupbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$servicegroupname ,
+        [string]$Servicegroupname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddGslbvservergslbservicegroupbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('servicegroupname')) { $Payload.Add('servicegroupname', $servicegroupname) }
- 
-            if ($PSCmdlet.ShouldProcess("gslbvserver_gslbservicegroup_binding", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbvserver_gslbservicegroup_binding -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('servicegroupname') ) { $payload.Add('servicegroupname', $servicegroupname) }
+            if ( $PSCmdlet.ShouldProcess("gslbvserver_gslbservicegroup_binding", "Add Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbvserver_gslbservicegroup_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetGslbvservergslbservicegroupbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetGslbvservergslbservicegroupbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7338,50 +7246,51 @@ function Invoke-ADCAddGslbvservergslbservicegroupbinding {
 }
 
 function Invoke-ADCDeleteGslbvservergslbservicegroupbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Global Server Load Balancing configuration Object
+        Delete Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Delete Global Server Load Balancing configuration Object
-    .PARAMETER name 
-       Name of the virtual server on which to perform the binding operation.  
-       Minimum length = 1    .PARAMETER servicegroupname 
-       The GSLB service group name bound to the selected GSLB virtual server.
+        Binding object showing the gslbservicegroup that can be bound to gslbvserver.
+    .PARAMETER Name 
+        Name of the virtual server on which to perform the binding operation. 
+    .PARAMETER Servicegroupname 
+        The GSLB service group name bound to the selected GSLB virtual server.
     .EXAMPLE
-        Invoke-ADCDeleteGslbvservergslbservicegroupbinding -name <string>
+        PS C:\>Invoke-ADCDeleteGslbvservergslbservicegroupbinding -Name <string>
+        An example how to delete gslbvserver_gslbservicegroup_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteGslbvservergslbservicegroupbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [string]$servicegroupname 
+        [string]$Servicegroupname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteGslbvservergslbservicegroupbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('servicegroupname')) { $Arguments.Add('servicegroupname', $servicegroupname) }
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver_gslbservicegroup_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Servicegroupname') ) { $arguments.Add('servicegroupname', $Servicegroupname) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Global Server Load Balancing configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver_gslbservicegroup_binding -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7397,55 +7306,61 @@ function Invoke-ADCDeleteGslbvservergslbservicegroupbinding {
 }
 
 function Invoke-ADCGetGslbvservergslbservicegroupbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER name 
-       Name of the virtual server on which to perform the binding operation. 
+        Binding object showing the gslbservicegroup that can be bound to gslbvserver.
+    .PARAMETER Name 
+        Name of the virtual server on which to perform the binding operation. 
     .PARAMETER GetAll 
-        Retreive all gslbvserver_gslbservicegroup_binding object(s)
+        Retrieve all gslbvserver_gslbservicegroup_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbvserver_gslbservicegroup_binding object(s) will be returned
+        If specified, the count of the gslbvserver_gslbservicegroup_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbvservergslbservicegroupbinding
+        PS C:\>Invoke-ADCGetGslbvservergslbservicegroupbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbvservergslbservicegroupbinding -GetAll 
+        PS C:\>Invoke-ADCGetGslbvservergslbservicegroupbinding -GetAll 
+        Get all gslbvserver_gslbservicegroup_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbvservergslbservicegroupbinding -Count
+        PS C:\>Invoke-ADCGetGslbvservergslbservicegroupbinding -Count 
+        Get the number of gslbvserver_gslbservicegroup_binding objects.
     .EXAMPLE
-        Invoke-ADCGetGslbvservergslbservicegroupbinding -name <string>
+        PS C:\>Invoke-ADCGetGslbvservergslbservicegroupbinding -name <string>
+        Get gslbvserver_gslbservicegroup_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbvservergslbservicegroupbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbvservergslbservicegroupbinding -Filter @{ 'name'='<value>' }
+        Get gslbvserver_gslbservicegroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbvservergslbservicegroupbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -7458,26 +7373,24 @@ function Invoke-ADCGetGslbvservergslbservicegroupbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbvserver_gslbservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbvserver_gslbservicegroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbvserver_gslbservicegroup_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroup_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbvserver_gslbservicegroup_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroup_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbvserver_gslbservicegroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservicegroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7491,84 +7404,76 @@ function Invoke-ADCGetGslbvservergslbservicegroupbinding {
 }
 
 function Invoke-ADCAddGslbvservergslbservicebinding {
-<#
+    <#
     .SYNOPSIS
-        Add Global Server Load Balancing configuration Object
+        Add Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Add Global Server Load Balancing configuration Object 
-    .PARAMETER name 
-        Name of the virtual server on which to perform the binding operation.  
-        Minimum length = 1 
-    .PARAMETER servicename 
-        Name of the GSLB service for which to change the weight.  
-        Minimum length = 1 
-    .PARAMETER weight 
-        Weight to assign to the GSLB service.  
-        Minimum value = 1  
-        Maximum value = 100 
-    .PARAMETER domainname 
-        Domain name for which to change the time to live (TTL) and/or backup service IP address.  
-        Minimum length = 1 
+        Binding object showing the gslbservice that can be bound to gslbvserver.
+    .PARAMETER Name 
+        Name of the virtual server on which to perform the binding operation. 
+    .PARAMETER Servicename 
+        Name of the GSLB service for which to change the weight. 
+    .PARAMETER Weight 
+        Weight to assign to the GSLB service. 
+    .PARAMETER Domainname 
+        Domain name for which to change the time to live (TTL) and/or backup service IP address. 
     .PARAMETER PassThru 
         Return details about the created gslbvserver_gslbservice_binding item.
     .EXAMPLE
-        Invoke-ADCAddGslbvservergslbservicebinding -name <string>
+        PS C:\>Invoke-ADCAddGslbvservergslbservicebinding -name <string>
+        An example how to add gslbvserver_gslbservice_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddGslbvservergslbservicebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservice_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$servicename ,
+        [string]$Servicename,
 
         [ValidateRange(1, 100)]
-        [double]$weight ,
+        [double]$Weight,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$domainname ,
+        [string]$Domainname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddGslbvservergslbservicebinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('servicename')) { $Payload.Add('servicename', $servicename) }
-            if ($PSBoundParameters.ContainsKey('weight')) { $Payload.Add('weight', $weight) }
-            if ($PSBoundParameters.ContainsKey('domainname')) { $Payload.Add('domainname', $domainname) }
- 
-            if ($PSCmdlet.ShouldProcess("gslbvserver_gslbservice_binding", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbvserver_gslbservice_binding -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('servicename') ) { $payload.Add('servicename', $servicename) }
+            if ( $PSBoundParameters.ContainsKey('weight') ) { $payload.Add('weight', $weight) }
+            if ( $PSBoundParameters.ContainsKey('domainname') ) { $payload.Add('domainname', $domainname) }
+            if ( $PSCmdlet.ShouldProcess("gslbvserver_gslbservice_binding", "Add Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbvserver_gslbservice_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetGslbvservergslbservicebinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetGslbvservergslbservicebinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7581,56 +7486,56 @@ function Invoke-ADCAddGslbvservergslbservicebinding {
 }
 
 function Invoke-ADCDeleteGslbvservergslbservicebinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Global Server Load Balancing configuration Object
+        Delete Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Delete Global Server Load Balancing configuration Object
-    .PARAMETER name 
-       Name of the virtual server on which to perform the binding operation.  
-       Minimum length = 1    .PARAMETER servicename 
-       Name of the GSLB service for which to change the weight.  
-       Minimum length = 1    .PARAMETER domainname 
-       Domain name for which to change the time to live (TTL) and/or backup service IP address.  
-       Minimum length = 1
+        Binding object showing the gslbservice that can be bound to gslbvserver.
+    .PARAMETER Name 
+        Name of the virtual server on which to perform the binding operation. 
+    .PARAMETER Servicename 
+        Name of the GSLB service for which to change the weight. 
+    .PARAMETER Domainname 
+        Domain name for which to change the time to live (TTL) and/or backup service IP address.
     .EXAMPLE
-        Invoke-ADCDeleteGslbvservergslbservicebinding -name <string>
+        PS C:\>Invoke-ADCDeleteGslbvservergslbservicebinding -Name <string>
+        An example how to delete gslbvserver_gslbservice_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteGslbvservergslbservicebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservice_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [string]$servicename ,
+        [string]$Servicename,
 
-        [string]$domainname 
+        [string]$Domainname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteGslbvservergslbservicebinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('servicename')) { $Arguments.Add('servicename', $servicename) }
-            if ($PSBoundParameters.ContainsKey('domainname')) { $Arguments.Add('domainname', $domainname) }
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver_gslbservice_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Servicename') ) { $arguments.Add('servicename', $Servicename) }
+            if ( $PSBoundParameters.ContainsKey('Domainname') ) { $arguments.Add('domainname', $Domainname) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Global Server Load Balancing configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver_gslbservice_binding -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7646,55 +7551,61 @@ function Invoke-ADCDeleteGslbvservergslbservicebinding {
 }
 
 function Invoke-ADCGetGslbvservergslbservicebinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER name 
-       Name of the virtual server on which to perform the binding operation. 
+        Binding object showing the gslbservice that can be bound to gslbvserver.
+    .PARAMETER Name 
+        Name of the virtual server on which to perform the binding operation. 
     .PARAMETER GetAll 
-        Retreive all gslbvserver_gslbservice_binding object(s)
+        Retrieve all gslbvserver_gslbservice_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbvserver_gslbservice_binding object(s) will be returned
+        If specified, the count of the gslbvserver_gslbservice_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbvservergslbservicebinding
+        PS C:\>Invoke-ADCGetGslbvservergslbservicebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbvservergslbservicebinding -GetAll 
+        PS C:\>Invoke-ADCGetGslbvservergslbservicebinding -GetAll 
+        Get all gslbvserver_gslbservice_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbvservergslbservicebinding -Count
+        PS C:\>Invoke-ADCGetGslbvservergslbservicebinding -Count 
+        Get the number of gslbvserver_gslbservice_binding objects.
     .EXAMPLE
-        Invoke-ADCGetGslbvservergslbservicebinding -name <string>
+        PS C:\>Invoke-ADCGetGslbvservergslbservicebinding -name <string>
+        Get gslbvserver_gslbservice_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbvservergslbservicebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbvservergslbservicebinding -Filter @{ 'name'='<value>' }
+        Get gslbvserver_gslbservice_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbvservergslbservicebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_gslbservice_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -7707,26 +7618,24 @@ function Invoke-ADCGetGslbvservergslbservicebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbvserver_gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservice_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbvserver_gslbservice_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservice_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservice_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbvserver_gslbservice_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservice_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservice_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbvserver_gslbservice_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservice_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbvserver_gslbservice_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservice_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_gslbservice_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7740,87 +7649,81 @@ function Invoke-ADCGetGslbvservergslbservicebinding {
 }
 
 function Invoke-ADCAddGslbvserverspilloverpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add Global Server Load Balancing configuration Object
+        Add Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Add Global Server Load Balancing configuration Object 
-    .PARAMETER name 
-        Name of the virtual server on which to perform the binding operation.  
-        Minimum length = 1 
-    .PARAMETER policyname 
+        Binding object showing the spilloverpolicy that can be bound to gslbvserver.
+    .PARAMETER Name 
+        Name of the virtual server on which to perform the binding operation. 
+    .PARAMETER Policyname 
         Name of the policy bound to the GSLB vserver. 
-    .PARAMETER priority 
-        Priority.  
-        Minimum value = 1  
-        Maximum value = 2147483647 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Priority 
+        Priority. 
+    .PARAMETER Gotopriorityexpression 
         Expression specifying the priority of the next policy which will get evaluated if the current policy rule evaluates to TRUE. o If gotoPriorityExpression is not present or if it is equal to END then the policy bank evaluation ends here o Else if the gotoPriorityExpression is equal to NEXT then the next policy in the priority order is evaluated. o Else gotoPriorityExpression is evaluated. The result of gotoPriorityExpression (which has to be a number) is processed as follows: - An UNDEF event is triggered if . gotoPriorityExpression cannot be evaluated . gotoPriorityExpression evaluates to number which is smaller than the maximum priority in the policy bank but is not same as any policy's priority . gotoPriorityExpression evaluates to a priority that is smaller than the current policy's priority - If the gotoPriorityExpression evaluates to the priority of the current policy then the next policy in the priority order is evaluated. - If the gotoPriorityExpression evaluates to the priority of a policy further ahead in the list then that policy will be evaluated next. This field is applicable only to rewrite and responder policies. 
-    .PARAMETER type 
-        The bindpoint to which the policy is bound.  
-        Possible values = REQUEST, RESPONSE 
+    .PARAMETER Type 
+        The bindpoint to which the policy is bound. 
+        Possible values = REQUEST, RESPONSE, MQTT_JUMBO_REQ 
     .PARAMETER PassThru 
         Return details about the created gslbvserver_spilloverpolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddGslbvserverspilloverpolicybinding -name <string>
+        PS C:\>Invoke-ADCAddGslbvserverspilloverpolicybinding -name <string>
+        An example how to add gslbvserver_spilloverpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddGslbvserverspilloverpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$policyname ,
+        [string]$Policyname,
 
         [ValidateRange(1, 2147483647)]
-        [double]$priority ,
+        [double]$Priority,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
-        [ValidateSet('REQUEST', 'RESPONSE')]
-        [string]$type ,
+        [ValidateSet('REQUEST', 'RESPONSE', 'MQTT_JUMBO_REQ')]
+        [string]$Type,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddGslbvserverspilloverpolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Payload.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
- 
-            if ($PSCmdlet.ShouldProcess("gslbvserver_spilloverpolicy_binding", "Add Global Server Load Balancing configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbvserver_spilloverpolicy_binding -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('policyname') ) { $payload.Add('policyname', $policyname) }
+            if ( $PSBoundParameters.ContainsKey('priority') ) { $payload.Add('priority', $priority) }
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSBoundParameters.ContainsKey('type') ) { $payload.Add('type', $type) }
+            if ( $PSCmdlet.ShouldProcess("gslbvserver_spilloverpolicy_binding", "Add Global Server Load Balancing configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type gslbvserver_spilloverpolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetGslbvserverspilloverpolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetGslbvserverspilloverpolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7833,50 +7736,51 @@ function Invoke-ADCAddGslbvserverspilloverpolicybinding {
 }
 
 function Invoke-ADCDeleteGslbvserverspilloverpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Global Server Load Balancing configuration Object
+        Delete Global Server Load Balancing configuration Object.
     .DESCRIPTION
-        Delete Global Server Load Balancing configuration Object
-    .PARAMETER name 
-       Name of the virtual server on which to perform the binding operation.  
-       Minimum length = 1    .PARAMETER policyname 
-       Name of the policy bound to the GSLB vserver.
+        Binding object showing the spilloverpolicy that can be bound to gslbvserver.
+    .PARAMETER Name 
+        Name of the virtual server on which to perform the binding operation. 
+    .PARAMETER Policyname 
+        Name of the policy bound to the GSLB vserver.
     .EXAMPLE
-        Invoke-ADCDeleteGslbvserverspilloverpolicybinding -name <string>
+        PS C:\>Invoke-ADCDeleteGslbvserverspilloverpolicybinding -Name <string>
+        An example how to delete gslbvserver_spilloverpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteGslbvserverspilloverpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [string]$policyname 
+        [string]$Policyname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteGslbvserverspilloverpolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Global Server Load Balancing configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Global Server Load Balancing configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type gslbvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7892,55 +7796,61 @@ function Invoke-ADCDeleteGslbvserverspilloverpolicybinding {
 }
 
 function Invoke-ADCGetGslbvserverspilloverpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Global Server Load Balancing configuration object(s)
+        Get Global Server Load Balancing configuration object(s).
     .DESCRIPTION
-        Get Global Server Load Balancing configuration object(s)
-    .PARAMETER name 
-       Name of the virtual server on which to perform the binding operation. 
+        Binding object showing the spilloverpolicy that can be bound to gslbvserver.
+    .PARAMETER Name 
+        Name of the virtual server on which to perform the binding operation. 
     .PARAMETER GetAll 
-        Retreive all gslbvserver_spilloverpolicy_binding object(s)
+        Retrieve all gslbvserver_spilloverpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the gslbvserver_spilloverpolicy_binding object(s) will be returned
+        If specified, the count of the gslbvserver_spilloverpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetGslbvserverspilloverpolicybinding
+        PS C:\>Invoke-ADCGetGslbvserverspilloverpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetGslbvserverspilloverpolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetGslbvserverspilloverpolicybinding -GetAll 
+        Get all gslbvserver_spilloverpolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetGslbvserverspilloverpolicybinding -Count
+        PS C:\>Invoke-ADCGetGslbvserverspilloverpolicybinding -Count 
+        Get the number of gslbvserver_spilloverpolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetGslbvserverspilloverpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetGslbvserverspilloverpolicybinding -name <string>
+        Get gslbvserver_spilloverpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetGslbvserverspilloverpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetGslbvserverspilloverpolicybinding -Filter @{ 'name'='<value>' }
+        Get gslbvserver_spilloverpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbvserverspilloverpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/gslb/gslbvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -7953,26 +7863,24 @@ function Invoke-ADCGetGslbvserverspilloverpolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all gslbvserver_spilloverpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for gslbvserver_spilloverpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving gslbvserver_spilloverpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving gslbvserver_spilloverpolicy_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving gslbvserver_spilloverpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type gslbvserver_spilloverpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

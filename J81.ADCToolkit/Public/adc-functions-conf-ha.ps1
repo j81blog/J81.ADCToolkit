@@ -1,32 +1,34 @@
 function Invoke-ADCForceHafailover {
-<#
+    <#
     .SYNOPSIS
-        Force High Availability configuration Object
+        Force High Availability configuration Object.
     .DESCRIPTION
-        Force High Availability configuration Object 
-    .PARAMETER force 
+        Configuration for failover resource.
+    .PARAMETER Force 
         Force a failover without prompting for confirmation.
     .EXAMPLE
-        Invoke-ADCForceHafailover 
+        PS C:\>Invoke-ADCForceHafailover 
+        An example how to force hafailover configuration Object(s).
     .NOTES
         File Name : Invoke-ADCForceHafailover
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hafailover/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [boolean]$force 
+        [boolean]$Force 
 
     )
     begin {
@@ -34,12 +36,10 @@ function Invoke-ADCForceHafailover {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('force')) { $Payload.Add('force', $force) }
-            if ($PSCmdlet.ShouldProcess($Name, "Force High Availability configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type hafailover -Action force -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('force') ) { $payload.Add('force', $force) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Force High Availability configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type hafailover -Action force -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -55,43 +55,45 @@ function Invoke-ADCForceHafailover {
 }
 
 function Invoke-ADCSyncHafiles {
-<#
+    <#
     .SYNOPSIS
-        Sync High Availability configuration Object
+        Sync High Availability configuration Object.
     .DESCRIPTION
-        Sync High Availability configuration Object 
-    .PARAMETER mode 
-        Specify one of the following modes of synchronization.  
-        * all - Synchronize files related to system configuration, Access Gateway bookmarks, SSL certificates, SSL CRL lists, HTML injection scripts, and Application Firewall XML objects.  
-        * bookmarks - Synchronize all Access Gateway bookmarks.  
-        * ssl - Synchronize all certificates, keys, and CRLs for the SSL feature.  
-        * htmlinjection. Synchronize all scripts configured for the HTML injection feature.  
-        * imports. Synchronize all XML objects (for example, WSDLs, schemas, error pages) configured for the application firewall.  
-        * misc - Synchronize all license files and the rc.conf file.  
-        * all_plus_misc - Synchronize files related to system configuration, Access Gateway bookmarks, SSL certificates, SSL CRL lists, HTML injection scripts, application firewall XML objects, licenses, and the rc.conf file.  
+        Configuration for files resource.
+    .PARAMETER Mode 
+        Specify one of the following modes of synchronization. 
+        * all - Synchronize files related to system configuration, Access Gateway bookmarks, SSL certificates, SSL CRL lists, HTML injection scripts, and Application Firewall XML objects. 
+        * bookmarks - Synchronize all Access Gateway bookmarks. 
+        * ssl - Synchronize all certificates, keys, and CRLs for the SSL feature. 
+        * htmlinjection. Synchronize all scripts configured for the HTML injection feature. 
+        * imports. Synchronize all XML objects (for example, WSDLs, schemas, error pages) configured for the application firewall. 
+        * misc - Synchronize all license files and the rc.conf file. 
+        * all_plus_misc - Synchronize files related to system configuration, Access Gateway bookmarks, SSL certificates, SSL CRL lists, HTML injection scripts, application firewall XML objects, licenses, and the rc.conf file. 
         Possible values = all, bookmarks, ssl, htmlinjection, imports, misc, dns, krb, AAA, app_catalog, all_plus_misc, all_minus_misc
     .EXAMPLE
-        Invoke-ADCSyncHafiles 
+        PS C:\>Invoke-ADCSyncHafiles 
+        An example how to sync hafiles configuration Object(s).
     .NOTES
         File Name : Invoke-ADCSyncHafiles
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hafiles/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateSet('all', 'bookmarks', 'ssl', 'htmlinjection', 'imports', 'misc', 'dns', 'krb', 'AAA', 'app_catalog', 'all_plus_misc', 'all_minus_misc')]
-        [string[]]$mode 
+        [string[]]$Mode 
 
     )
     begin {
@@ -99,12 +101,10 @@ function Invoke-ADCSyncHafiles {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('mode')) { $Payload.Add('mode', $mode) }
-            if ($PSCmdlet.ShouldProcess($Name, "Sync High Availability configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type hafiles -Action sync -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('mode') ) { $payload.Add('mode', $mode) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Sync High Availability configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type hafiles -Action sync -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -120,79 +120,73 @@ function Invoke-ADCSyncHafiles {
 }
 
 function Invoke-ADCAddHanode {
-<#
+    <#
     .SYNOPSIS
-        Add High Availability configuration Object
+        Add High Availability configuration Object.
     .DESCRIPTION
-        Add High Availability configuration Object 
-    .PARAMETER id 
-        Number that uniquely identifies the node. For self node, it will always be 0. Peer node values can range from 1-64.  
-        Minimum value = 1  
-        Maximum value = 64 
-    .PARAMETER ipaddress 
-        The NSIP or NSIP6 address of the node to be added for an HA configuration. This setting is neither propagated nor synchronized.  
-        Minimum length = 1 
-    .PARAMETER inc 
-        This option is required if the HA nodes reside on different networks. When this mode is enabled, the following independent network entities and configurations are neither propagated nor synced to the other node: MIPs, SNIPs, VLANs, routes (except LLB routes), route monitors, RNAT rules (except any RNAT rule with a VIP as the NAT IP), and dynamic routing configurations. They are maintained independently on each node.  
-        Default value: DISABLED  
+        Configuration for node resource.
+    .PARAMETER Id 
+        Number that uniquely identifies the node. For self node, it will always be 0. Peer node values can range from 1-64. 
+    .PARAMETER Ipaddress 
+        The NSIP or NSIP6 address of the node to be added for an HA configuration. This setting is neither propagated nor synchronized. 
+    .PARAMETER Inc 
+        This option is required if the HA nodes reside on different networks. When this mode is enabled, the following independent network entities and configurations are neither propagated nor synced to the other node: MIPs, SNIPs, VLANs, routes (except LLB routes), route monitors, RNAT rules (except any RNAT rule with a VIP as the NAT IP), and dynamic routing configurations. They are maintained independently on each node. 
         Possible values = ENABLED, DISABLED 
     .PARAMETER PassThru 
         Return details about the created hanode item.
     .EXAMPLE
-        Invoke-ADCAddHanode -id <double> -ipaddress <string>
+        PS C:\>Invoke-ADCAddHanode -id <double> -ipaddress <string>
+        An example how to add hanode configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddHanode
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateRange(1, 64)]
-        [double]$id ,
+        [double]$Id,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$ipaddress ,
+        [string]$Ipaddress,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$inc = 'DISABLED' ,
+        [string]$Inc = 'DISABLED',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddHanode: Starting"
     }
     process {
         try {
-            $Payload = @{
-                id = $id
-                ipaddress = $ipaddress
+            $payload = @{ id = $id
+                ipaddress    = $ipaddress
             }
-            if ($PSBoundParameters.ContainsKey('inc')) { $Payload.Add('inc', $inc) }
- 
-            if ($PSCmdlet.ShouldProcess("hanode", "Add High Availability configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type hanode -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('inc') ) { $payload.Add('inc', $inc) }
+            if ( $PSCmdlet.ShouldProcess("hanode", "Add High Availability configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type hanode -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetHanode -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetHanode -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -205,48 +199,47 @@ function Invoke-ADCAddHanode {
 }
 
 function Invoke-ADCDeleteHanode {
-<#
+    <#
     .SYNOPSIS
-        Delete High Availability configuration Object
+        Delete High Availability configuration Object.
     .DESCRIPTION
-        Delete High Availability configuration Object
-    .PARAMETER id 
-       Number that uniquely identifies the node. For self node, it will always be 0. Peer node values can range from 1-64.  
-       Minimum value = 1  
-       Maximum value = 64 
+        Configuration for node resource.
+    .PARAMETER Id 
+        Number that uniquely identifies the node. For self node, it will always be 0. Peer node values can range from 1-64.
     .EXAMPLE
-        Invoke-ADCDeleteHanode -id <double>
+        PS C:\>Invoke-ADCDeleteHanode -Id <double>
+        An example how to delete hanode configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteHanode
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [double]$id 
+        [Parameter(Mandatory)]
+        [double]$Id 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteHanode: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$id", "Delete High Availability configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type hanode -NitroPath nitro/v1/config -Resource $id -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$id", "Delete High Availability configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type hanode -NitroPath nitro/v1/config -Resource $id -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -262,146 +255,127 @@ function Invoke-ADCDeleteHanode {
 }
 
 function Invoke-ADCUpdateHanode {
-<#
+    <#
     .SYNOPSIS
-        Update High Availability configuration Object
+        Update High Availability configuration Object.
     .DESCRIPTION
-        Update High Availability configuration Object 
-    .PARAMETER id 
-        Number that uniquely identifies the node. For self node, it will always be 0. Peer node values can range from 1-64.  
-        Minimum value = 1  
-        Maximum value = 64 
-    .PARAMETER hastatus 
-        The HA status of the node. The HA status STAYSECONDARY is used to force the secondary device stay as secondary independent of the state of the Primary device. For example, in an existing HA setup, the Primary node has to be upgraded and this process would take few seconds. During the upgradation, it is possible that the Primary node may suffer from a downtime for a few seconds. However, the Secondary should not take over as the Primary node. Thus, the Secondary node should remain as Secondary even if there is a failure in the Primary node.  
-        STAYPRIMARY configuration keeps the node in primary state in case if it is healthy, even if the peer node was the primary node initially. If the node with STAYPRIMARY setting (and no peer node) is added to a primary node (which has this node as the peer) then this node takes over as the new primary and the older node becomes secondary. ENABLED state means normal HA operation without any constraints/preferences. DISABLED state disables the normal HA operation of the node.  
+        Configuration for node resource.
+    .PARAMETER Id 
+        Number that uniquely identifies the node. For self node, it will always be 0. Peer node values can range from 1-64. 
+    .PARAMETER Hastatus 
+        The HA status of the node. The HA status STAYSECONDARY is used to force the secondary device stay as secondary independent of the state of the Primary device. For example, in an existing HA setup, the Primary node has to be upgraded and this process would take few seconds. During the upgradation, it is possible that the Primary node may suffer from a downtime for a few seconds. However, the Secondary should not take over as the Primary node. Thus, the Secondary node should remain as Secondary even if there is a failure in the Primary node. 
+        STAYPRIMARY configuration keeps the node in primary state in case if it is healthy, even if the peer node was the primary node initially. If the node with STAYPRIMARY setting (and no peer node) is added to a primary node (which has this node as the peer) then this node takes over as the new primary and the older node becomes secondary. ENABLED state means normal HA operation without any constraints/preferences. DISABLED state disables the normal HA operation of the node. 
         Possible values = ENABLED, STAYSECONDARY, DISABLED, STAYPRIMARY 
-    .PARAMETER hasync 
-        Automatically maintain synchronization by duplicating the configuration of the primary node on the secondary node. This setting is not propagated. Automatic synchronization requires that this setting be enabled (the default) on the current secondary node. Synchronization uses TCP port 3010.  
-        Default value: ENABLED  
+    .PARAMETER Hasync 
+        Automatically maintain synchronization by duplicating the configuration of the primary node on the secondary node. This setting is not propagated. Automatic synchronization requires that this setting be enabled (the default) on the current secondary node. Synchronization uses TCP port 3010. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER haprop 
-        Automatically propagate all commands from the primary to the secondary node, except the following:  
-        * All HA configuration related commands. For example, add ha node, set ha node, and bind ha node.  
-        * All Interface related commands. For example, set interface and unset interface.  
-        * All channels related commands. For example, add channel, set channel, and bind channel.  
-        The propagated command is executed on the secondary node before it is executed on the primary. If command propagation fails, or if command execution fails on the secondary, the primary node executes the command and logs an error. Command propagation uses port 3010.  
-        Note: After enabling propagation, run force synchronization on either node.  
-        Default value: ENABLED  
+    .PARAMETER Haprop 
+        Automatically propagate all commands from the primary to the secondary node, except the following: 
+        * All HA configuration related commands. For example, add ha node, set ha node, and bind ha node. 
+        * All Interface related commands. For example, set interface and unset interface. 
+        * All channels related commands. For example, add channel, set channel, and bind channel. 
+        The propagated command is executed on the secondary node before it is executed on the primary. If command propagation fails, or if command execution fails on the secondary, the primary node executes the command and logs an error. Command propagation uses port 3010. 
+        Note: After enabling propagation, run force synchronization on either node. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER hellointerval 
-        Interval, in milliseconds, between heartbeat messages sent to the peer node. The heartbeat messages are UDP packets sent to port 3003 of the peer node.  
-        Default value: 200  
-        Minimum value = 200  
-        Maximum value = 1000 
-    .PARAMETER deadinterval 
-        Number of seconds after which a peer node is marked DOWN if heartbeat messages are not received from the peer node.  
-        Default value: 3  
-        Minimum value = 3  
-        Maximum value = 60 
-    .PARAMETER failsafe 
-        Keep one node primary if both nodes fail the health check, so that a partially available node can back up data and handle traffic. This mode is set independently on each node.  
-        Default value: OFF  
+    .PARAMETER Hellointerval 
+        Interval, in milliseconds, between heartbeat messages sent to the peer node. The heartbeat messages are UDP packets sent to port 3003 of the peer node. 
+    .PARAMETER Deadinterval 
+        Number of seconds after which a peer node is marked DOWN if heartbeat messages are not received from the peer node. 
+    .PARAMETER Failsafe 
+        Keep one node primary if both nodes fail the health check, so that a partially available node can back up data and handle traffic. This mode is set independently on each node. 
         Possible values = ON, OFF 
-    .PARAMETER maxflips 
-        Max number of flips allowed before becoming sticky primary.  
-        Default value: 0 
-    .PARAMETER maxfliptime 
-        Interval after which flipping of node states can again start.  
-        Default value: 0 
-    .PARAMETER syncvlan 
-        Vlan on which HA related communication is sent. This include sync, propagation , connection mirroring , LB persistency config sync, persistent session sync and session state sync. However HA heartbeats can go all interfaces.  
-        Minimum value = 1  
-        Maximum value = 4094 
-    .PARAMETER syncstatusstrictmode 
-        strict mode flag for sync status.  
-        Default value: DISABLED  
+    .PARAMETER Maxflips 
+        Max number of flips allowed before becoming sticky primary. 
+    .PARAMETER Maxfliptime 
+        Interval after which flipping of node states can again start. 
+    .PARAMETER Syncvlan 
+        Vlan on which HA related communication is sent. This include sync, propagation, connection mirroring, LB persistency config sync, persistent session sync and session state sync. However HA heartbeats can go all interfaces. 
+    .PARAMETER Syncstatusstrictmode 
+        strict mode flag for sync status. 
         Possible values = ENABLED, DISABLED 
     .PARAMETER PassThru 
         Return details about the created hanode item.
     .EXAMPLE
-        Invoke-ADCUpdateHanode 
+        PS C:\>Invoke-ADCUpdateHanode 
+        An example how to update hanode configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateHanode
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateRange(1, 64)]
-        [double]$id ,
+        [double]$Id,
 
         [ValidateSet('ENABLED', 'STAYSECONDARY', 'DISABLED', 'STAYPRIMARY')]
-        [string]$hastatus ,
+        [string]$Hastatus,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$hasync ,
+        [string]$Hasync,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$haprop ,
+        [string]$Haprop,
 
         [ValidateRange(200, 1000)]
-        [double]$hellointerval ,
+        [double]$Hellointerval,
 
         [ValidateRange(3, 60)]
-        [double]$deadinterval ,
+        [double]$Deadinterval,
 
         [ValidateSet('ON', 'OFF')]
-        [string]$failsafe ,
+        [string]$Failsafe,
 
-        [double]$maxflips ,
+        [double]$Maxflips,
 
-        [double]$maxfliptime ,
+        [double]$Maxfliptime,
 
         [ValidateRange(1, 4094)]
-        [double]$syncvlan ,
+        [double]$Syncvlan,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$syncstatusstrictmode ,
+        [string]$Syncstatusstrictmode,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateHanode: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('id')) { $Payload.Add('id', $id) }
-            if ($PSBoundParameters.ContainsKey('hastatus')) { $Payload.Add('hastatus', $hastatus) }
-            if ($PSBoundParameters.ContainsKey('hasync')) { $Payload.Add('hasync', $hasync) }
-            if ($PSBoundParameters.ContainsKey('haprop')) { $Payload.Add('haprop', $haprop) }
-            if ($PSBoundParameters.ContainsKey('hellointerval')) { $Payload.Add('hellointerval', $hellointerval) }
-            if ($PSBoundParameters.ContainsKey('deadinterval')) { $Payload.Add('deadinterval', $deadinterval) }
-            if ($PSBoundParameters.ContainsKey('failsafe')) { $Payload.Add('failsafe', $failsafe) }
-            if ($PSBoundParameters.ContainsKey('maxflips')) { $Payload.Add('maxflips', $maxflips) }
-            if ($PSBoundParameters.ContainsKey('maxfliptime')) { $Payload.Add('maxfliptime', $maxfliptime) }
-            if ($PSBoundParameters.ContainsKey('syncvlan')) { $Payload.Add('syncvlan', $syncvlan) }
-            if ($PSBoundParameters.ContainsKey('syncstatusstrictmode')) { $Payload.Add('syncstatusstrictmode', $syncstatusstrictmode) }
- 
-            if ($PSCmdlet.ShouldProcess("hanode", "Update High Availability configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type hanode -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('id') ) { $payload.Add('id', $id) }
+            if ( $PSBoundParameters.ContainsKey('hastatus') ) { $payload.Add('hastatus', $hastatus) }
+            if ( $PSBoundParameters.ContainsKey('hasync') ) { $payload.Add('hasync', $hasync) }
+            if ( $PSBoundParameters.ContainsKey('haprop') ) { $payload.Add('haprop', $haprop) }
+            if ( $PSBoundParameters.ContainsKey('hellointerval') ) { $payload.Add('hellointerval', $hellointerval) }
+            if ( $PSBoundParameters.ContainsKey('deadinterval') ) { $payload.Add('deadinterval', $deadinterval) }
+            if ( $PSBoundParameters.ContainsKey('failsafe') ) { $payload.Add('failsafe', $failsafe) }
+            if ( $PSBoundParameters.ContainsKey('maxflips') ) { $payload.Add('maxflips', $maxflips) }
+            if ( $PSBoundParameters.ContainsKey('maxfliptime') ) { $payload.Add('maxfliptime', $maxfliptime) }
+            if ( $PSBoundParameters.ContainsKey('syncvlan') ) { $payload.Add('syncvlan', $syncvlan) }
+            if ( $PSBoundParameters.ContainsKey('syncstatusstrictmode') ) { $payload.Add('syncstatusstrictmode', $syncstatusstrictmode) }
+            if ( $PSCmdlet.ShouldProcess("hanode", "Update High Availability configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type hanode -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetHanode -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetHanode -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -414,83 +388,85 @@ function Invoke-ADCUpdateHanode {
 }
 
 function Invoke-ADCUnsetHanode {
-<#
+    <#
     .SYNOPSIS
-        Unset High Availability configuration Object
+        Unset High Availability configuration Object.
     .DESCRIPTION
-        Unset High Availability configuration Object 
-   .PARAMETER id 
-       Number that uniquely identifies the node. For self node, it will always be 0. Peer node values can . 
-   .PARAMETER hastatus 
-       The HA status of the node. The HA status STAYSECONDARY is used to force the secondary device stay as secondary independent of the state of the Primary device. For example, in an existing HA setup, the Primary node has to be upgraded and this process would take few seconds. During the upgradation, it is possible that the Primary node may suffer from a downtime for a few seconds. However, the Secondary should not take over as the Primary node. Thus, the Secondary node should remain as Secondary even if there is a failure in the Primary node.  
-       STAYPRIMARY configuration keeps the node in primary state in case if it is healthy, even if the peer node was the primary node initially. If the node with STAYPRIMARY setting (and no peer node) is added to a primary node (which has this node as the peer) then this node takes over as the new primary and the older node becomes secondary. ENABLED state means normal HA operation without any constraints/preferences. DISABLED state disables the normal HA operation of the node.  
-       Possible values = ENABLED, STAYSECONDARY, DISABLED, STAYPRIMARY 
-   .PARAMETER hasync 
-       Automatically maintain synchronization by duplicating the configuration of the primary node on the secondary node. This setting is not propagated. Automatic synchronization requires that this setting be enabled (the default) on the current secondary node. Synchronization uses TCP port 3010.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER haprop 
-       Automatically propagate all commands from the primary to the secondary node, except the following:  
-       * All HA configuration related commands. For example, add ha node, set ha node, and bind ha node.  
-       * All Interface related commands. For example, set interface and unset interface.  
-       * All channels related commands. For example, add channel, set channel, and bind channel.  
-       The propagated command is executed on the secondary node before it is executed on the primary. If command propagation fails, or if command execution fails on the secondary, the primary node executes the command and logs an error. Command propagation uses port 3010.  
-       Note: After enabling propagation, run force synchronization on either node.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER hellointerval 
-       Interval, in milliseconds, between heartbeat messages sent to the peer node. The heartbeat messages are UDP packets sent to port 3003 of the peer node. 
-   .PARAMETER deadinterval 
-       Number of seconds after which a peer node is marked DOWN if heartbeat messages are not received from the peer node. 
-   .PARAMETER failsafe 
-       Keep one node primary if both nodes fail the health check, so that a partially available node can back up data and handle traffic. This mode is set independently on each node.  
-       Possible values = ON, OFF 
-   .PARAMETER maxflips 
-       Max number of flips allowed before becoming sticky primary. 
-   .PARAMETER maxfliptime 
-       Interval after which flipping of node states can again start. 
-   .PARAMETER syncvlan 
-       Vlan on which HA related communication is sent. This include sync, propagation , connection mirroring , LB persistency config sync, persistent session sync and session state sync. However HA heartbeats can go all interfaces. 
-   .PARAMETER syncstatusstrictmode 
-       strict mode flag for sync status.  
-       Possible values = ENABLED, DISABLED
+        Configuration for node resource.
+    .PARAMETER Id 
+        Number that uniquely identifies the node. For self node, it will always be 0. Peer node values can range from 1-64. 
+    .PARAMETER Hastatus 
+        The HA status of the node. The HA status STAYSECONDARY is used to force the secondary device stay as secondary independent of the state of the Primary device. For example, in an existing HA setup, the Primary node has to be upgraded and this process would take few seconds. During the upgradation, it is possible that the Primary node may suffer from a downtime for a few seconds. However, the Secondary should not take over as the Primary node. Thus, the Secondary node should remain as Secondary even if there is a failure in the Primary node. 
+        STAYPRIMARY configuration keeps the node in primary state in case if it is healthy, even if the peer node was the primary node initially. If the node with STAYPRIMARY setting (and no peer node) is added to a primary node (which has this node as the peer) then this node takes over as the new primary and the older node becomes secondary. ENABLED state means normal HA operation without any constraints/preferences. DISABLED state disables the normal HA operation of the node. 
+        Possible values = ENABLED, STAYSECONDARY, DISABLED, STAYPRIMARY 
+    .PARAMETER Hasync 
+        Automatically maintain synchronization by duplicating the configuration of the primary node on the secondary node. This setting is not propagated. Automatic synchronization requires that this setting be enabled (the default) on the current secondary node. Synchronization uses TCP port 3010. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Haprop 
+        Automatically propagate all commands from the primary to the secondary node, except the following: 
+        * All HA configuration related commands. For example, add ha node, set ha node, and bind ha node. 
+        * All Interface related commands. For example, set interface and unset interface. 
+        * All channels related commands. For example, add channel, set channel, and bind channel. 
+        The propagated command is executed on the secondary node before it is executed on the primary. If command propagation fails, or if command execution fails on the secondary, the primary node executes the command and logs an error. Command propagation uses port 3010. 
+        Note: After enabling propagation, run force synchronization on either node. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Hellointerval 
+        Interval, in milliseconds, between heartbeat messages sent to the peer node. The heartbeat messages are UDP packets sent to port 3003 of the peer node. 
+    .PARAMETER Deadinterval 
+        Number of seconds after which a peer node is marked DOWN if heartbeat messages are not received from the peer node. 
+    .PARAMETER Failsafe 
+        Keep one node primary if both nodes fail the health check, so that a partially available node can back up data and handle traffic. This mode is set independently on each node. 
+        Possible values = ON, OFF 
+    .PARAMETER Maxflips 
+        Max number of flips allowed before becoming sticky primary. 
+    .PARAMETER Maxfliptime 
+        Interval after which flipping of node states can again start. 
+    .PARAMETER Syncvlan 
+        Vlan on which HA related communication is sent. This include sync, propagation, connection mirroring, LB persistency config sync, persistent session sync and session state sync. However HA heartbeats can go all interfaces. 
+    .PARAMETER Syncstatusstrictmode 
+        strict mode flag for sync status. 
+        Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCUnsetHanode 
+        PS C:\>Invoke-ADCUnsetHanode 
+        An example how to unset hanode configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetHanode
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$id ,
+        [Boolean]$id,
 
-        [Boolean]$hastatus ,
+        [Boolean]$hastatus,
 
-        [Boolean]$hasync ,
+        [Boolean]$hasync,
 
-        [Boolean]$haprop ,
+        [Boolean]$haprop,
 
-        [Boolean]$hellointerval ,
+        [Boolean]$hellointerval,
 
-        [Boolean]$deadinterval ,
+        [Boolean]$deadinterval,
 
-        [Boolean]$failsafe ,
+        [Boolean]$failsafe,
 
-        [Boolean]$maxflips ,
+        [Boolean]$maxflips,
 
-        [Boolean]$maxfliptime ,
+        [Boolean]$maxfliptime,
 
-        [Boolean]$syncvlan ,
+        [Boolean]$syncvlan,
 
         [Boolean]$syncstatusstrictmode 
     )
@@ -499,22 +475,20 @@ function Invoke-ADCUnsetHanode {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('id')) { $Payload.Add('id', $id) }
-            if ($PSBoundParameters.ContainsKey('hastatus')) { $Payload.Add('hastatus', $hastatus) }
-            if ($PSBoundParameters.ContainsKey('hasync')) { $Payload.Add('hasync', $hasync) }
-            if ($PSBoundParameters.ContainsKey('haprop')) { $Payload.Add('haprop', $haprop) }
-            if ($PSBoundParameters.ContainsKey('hellointerval')) { $Payload.Add('hellointerval', $hellointerval) }
-            if ($PSBoundParameters.ContainsKey('deadinterval')) { $Payload.Add('deadinterval', $deadinterval) }
-            if ($PSBoundParameters.ContainsKey('failsafe')) { $Payload.Add('failsafe', $failsafe) }
-            if ($PSBoundParameters.ContainsKey('maxflips')) { $Payload.Add('maxflips', $maxflips) }
-            if ($PSBoundParameters.ContainsKey('maxfliptime')) { $Payload.Add('maxfliptime', $maxfliptime) }
-            if ($PSBoundParameters.ContainsKey('syncvlan')) { $Payload.Add('syncvlan', $syncvlan) }
-            if ($PSBoundParameters.ContainsKey('syncstatusstrictmode')) { $Payload.Add('syncstatusstrictmode', $syncstatusstrictmode) }
-            if ($PSCmdlet.ShouldProcess("hanode", "Unset High Availability configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type hanode -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('id') ) { $payload.Add('id', $id) }
+            if ( $PSBoundParameters.ContainsKey('hastatus') ) { $payload.Add('hastatus', $hastatus) }
+            if ( $PSBoundParameters.ContainsKey('hasync') ) { $payload.Add('hasync', $hasync) }
+            if ( $PSBoundParameters.ContainsKey('haprop') ) { $payload.Add('haprop', $haprop) }
+            if ( $PSBoundParameters.ContainsKey('hellointerval') ) { $payload.Add('hellointerval', $hellointerval) }
+            if ( $PSBoundParameters.ContainsKey('deadinterval') ) { $payload.Add('deadinterval', $deadinterval) }
+            if ( $PSBoundParameters.ContainsKey('failsafe') ) { $payload.Add('failsafe', $failsafe) }
+            if ( $PSBoundParameters.ContainsKey('maxflips') ) { $payload.Add('maxflips', $maxflips) }
+            if ( $PSBoundParameters.ContainsKey('maxfliptime') ) { $payload.Add('maxfliptime', $maxfliptime) }
+            if ( $PSBoundParameters.ContainsKey('syncvlan') ) { $payload.Add('syncvlan', $syncvlan) }
+            if ( $PSBoundParameters.ContainsKey('syncstatusstrictmode') ) { $payload.Add('syncstatusstrictmode', $syncstatusstrictmode) }
+            if ( $PSCmdlet.ShouldProcess("hanode", "Unset High Availability configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type hanode -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -530,55 +504,61 @@ function Invoke-ADCUnsetHanode {
 }
 
 function Invoke-ADCGetHanode {
-<#
+    <#
     .SYNOPSIS
-        Get High Availability configuration object(s)
+        Get High Availability configuration object(s).
     .DESCRIPTION
-        Get High Availability configuration object(s)
-    .PARAMETER id 
-       Number that uniquely identifies the node. For self node, it will always be 0. Peer node values can . 
+        Configuration for node resource.
+    .PARAMETER Id 
+        Number that uniquely identifies the node. For self node, it will always be 0. Peer node values can range from 1-64. 
     .PARAMETER GetAll 
-        Retreive all hanode object(s)
+        Retrieve all hanode object(s).
     .PARAMETER Count
-        If specified, the count of the hanode object(s) will be returned
+        If specified, the count of the hanode object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetHanode
+        PS C:\>Invoke-ADCGetHanode
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetHanode -GetAll 
+        PS C:\>Invoke-ADCGetHanode -GetAll 
+        Get all hanode data. 
     .EXAMPLE 
-        Invoke-ADCGetHanode -Count
+        PS C:\>Invoke-ADCGetHanode -Count 
+        Get the number of hanode objects.
     .EXAMPLE
-        Invoke-ADCGetHanode -name <string>
+        PS C:\>Invoke-ADCGetHanode -name <string>
+        Get hanode object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetHanode -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetHanode -Filter @{ 'name'='<value>' }
+        Get hanode data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanode
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateRange(1, 64)]
-        [double]$id,
+        [double]$Id,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -596,24 +576,24 @@ function Invoke-ADCGetHanode {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all hanode objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for hanode objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving hanode objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving hanode configuration for property 'id'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -NitroPath nitro/v1/config -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving hanode configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -627,51 +607,56 @@ function Invoke-ADCGetHanode {
 }
 
 function Invoke-ADCGetHanodebinding {
-<#
+    <#
     .SYNOPSIS
-        Get High Availability configuration object(s)
+        Get High Availability configuration object(s).
     .DESCRIPTION
-        Get High Availability configuration object(s)
-    .PARAMETER id 
-       ID of the node whose HA settings you want to display. (The ID of the local node is always 0.). 
+        Binding object which returns the resources bound to hanode.
+    .PARAMETER Id 
+        ID of the node whose HA settings you want to display. (The ID of the local node is always 0.). 
     .PARAMETER GetAll 
-        Retreive all hanode_binding object(s)
+        Retrieve all hanode_binding object(s).
     .PARAMETER Count
-        If specified, the count of the hanode_binding object(s) will be returned
+        If specified, the count of the hanode_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetHanodebinding
+        PS C:\>Invoke-ADCGetHanodebinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetHanodebinding -GetAll
+        PS C:\>Invoke-ADCGetHanodebinding -GetAll 
+        Get all hanode_binding data.
     .EXAMPLE
-        Invoke-ADCGetHanodebinding -name <string>
+        PS C:\>Invoke-ADCGetHanodebinding -name <string>
+        Get hanode_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetHanodebinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetHanodebinding -Filter @{ 'name'='<value>' }
+        Get hanode_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanodebinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateRange(0, 64)]
-        [double]$id,
+        [double]$Id,
 			
         [hashtable]$Filter = @{ },
 
@@ -683,26 +668,24 @@ function Invoke-ADCGetHanodebinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all hanode_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for hanode_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving hanode_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving hanode_binding configuration for property 'id'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_binding -NitroPath nitro/v1/config -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving hanode_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -716,55 +699,61 @@ function Invoke-ADCGetHanodebinding {
 }
 
 function Invoke-ADCGetHanodecibinding {
-<#
+    <#
     .SYNOPSIS
-        Get High Availability configuration object(s)
+        Get High Availability configuration object(s).
     .DESCRIPTION
-        Get High Availability configuration object(s)
-    .PARAMETER id 
-       Number that uniquely identifies the local node. The ID of the local node is always 0. 
+        Binding object showing the ci that can be bound to hanode.
+    .PARAMETER Id 
+        Number that uniquely identifies the local node. The ID of the local node is always 0. 
     .PARAMETER GetAll 
-        Retreive all hanode_ci_binding object(s)
+        Retrieve all hanode_ci_binding object(s).
     .PARAMETER Count
-        If specified, the count of the hanode_ci_binding object(s) will be returned
+        If specified, the count of the hanode_ci_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetHanodecibinding
+        PS C:\>Invoke-ADCGetHanodecibinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetHanodecibinding -GetAll 
+        PS C:\>Invoke-ADCGetHanodecibinding -GetAll 
+        Get all hanode_ci_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetHanodecibinding -Count
+        PS C:\>Invoke-ADCGetHanodecibinding -Count 
+        Get the number of hanode_ci_binding objects.
     .EXAMPLE
-        Invoke-ADCGetHanodecibinding -name <string>
+        PS C:\>Invoke-ADCGetHanodecibinding -name <string>
+        Get hanode_ci_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetHanodecibinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetHanodecibinding -Filter @{ 'name'='<value>' }
+        Get hanode_ci_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanodecibinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_ci_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateRange(0, 64)]
-        [double]$id,
+        [double]$Id,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -777,26 +766,24 @@ function Invoke-ADCGetHanodecibinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all hanode_ci_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_ci_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_ci_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for hanode_ci_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_ci_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_ci_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving hanode_ci_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_ci_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_ci_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving hanode_ci_binding configuration for property 'id'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_ci_binding -NitroPath nitro/v1/config -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving hanode_ci_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_ci_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_ci_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -810,55 +797,61 @@ function Invoke-ADCGetHanodecibinding {
 }
 
 function Invoke-ADCGetHanodefisbinding {
-<#
+    <#
     .SYNOPSIS
-        Get High Availability configuration object(s)
+        Get High Availability configuration object(s).
     .DESCRIPTION
-        Get High Availability configuration object(s)
-    .PARAMETER id 
-       Number that uniquely identifies the local node. The ID of the local node is always 0. 
+        Binding object showing the fis that can be bound to hanode.
+    .PARAMETER Id 
+        Number that uniquely identifies the local node. The ID of the local node is always 0. 
     .PARAMETER GetAll 
-        Retreive all hanode_fis_binding object(s)
+        Retrieve all hanode_fis_binding object(s).
     .PARAMETER Count
-        If specified, the count of the hanode_fis_binding object(s) will be returned
+        If specified, the count of the hanode_fis_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetHanodefisbinding
+        PS C:\>Invoke-ADCGetHanodefisbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetHanodefisbinding -GetAll 
+        PS C:\>Invoke-ADCGetHanodefisbinding -GetAll 
+        Get all hanode_fis_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetHanodefisbinding -Count
+        PS C:\>Invoke-ADCGetHanodefisbinding -Count 
+        Get the number of hanode_fis_binding objects.
     .EXAMPLE
-        Invoke-ADCGetHanodefisbinding -name <string>
+        PS C:\>Invoke-ADCGetHanodefisbinding -name <string>
+        Get hanode_fis_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetHanodefisbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetHanodefisbinding -Filter @{ 'name'='<value>' }
+        Get hanode_fis_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanodefisbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_fis_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateRange(0, 64)]
-        [double]$id,
+        [double]$Id,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -871,26 +864,24 @@ function Invoke-ADCGetHanodefisbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all hanode_fis_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_fis_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_fis_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for hanode_fis_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_fis_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_fis_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving hanode_fis_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_fis_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_fis_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving hanode_fis_binding configuration for property 'id'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_fis_binding -NitroPath nitro/v1/config -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving hanode_fis_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_fis_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_fis_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -904,55 +895,61 @@ function Invoke-ADCGetHanodefisbinding {
 }
 
 function Invoke-ADCGetHanodepartialfailureinterfacesbinding {
-<#
+    <#
     .SYNOPSIS
-        Get High Availability configuration object(s)
+        Get High Availability configuration object(s).
     .DESCRIPTION
-        Get High Availability configuration object(s)
-    .PARAMETER id 
-       Number that uniquely identifies the local node. The ID of the local node is always 0. 
+        Binding object showing the partialfailureinterfaces that can be bound to hanode.
+    .PARAMETER Id 
+        Number that uniquely identifies the local node. The ID of the local node is always 0. 
     .PARAMETER GetAll 
-        Retreive all hanode_partialfailureinterfaces_binding object(s)
+        Retrieve all hanode_partialfailureinterfaces_binding object(s).
     .PARAMETER Count
-        If specified, the count of the hanode_partialfailureinterfaces_binding object(s) will be returned
+        If specified, the count of the hanode_partialfailureinterfaces_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetHanodepartialfailureinterfacesbinding
+        PS C:\>Invoke-ADCGetHanodepartialfailureinterfacesbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetHanodepartialfailureinterfacesbinding -GetAll 
+        PS C:\>Invoke-ADCGetHanodepartialfailureinterfacesbinding -GetAll 
+        Get all hanode_partialfailureinterfaces_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetHanodepartialfailureinterfacesbinding -Count
+        PS C:\>Invoke-ADCGetHanodepartialfailureinterfacesbinding -Count 
+        Get the number of hanode_partialfailureinterfaces_binding objects.
     .EXAMPLE
-        Invoke-ADCGetHanodepartialfailureinterfacesbinding -name <string>
+        PS C:\>Invoke-ADCGetHanodepartialfailureinterfacesbinding -name <string>
+        Get hanode_partialfailureinterfaces_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetHanodepartialfailureinterfacesbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetHanodepartialfailureinterfacesbinding -Filter @{ 'name'='<value>' }
+        Get hanode_partialfailureinterfaces_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanodepartialfailureinterfacesbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_partialfailureinterfaces_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateRange(0, 64)]
-        [double]$id,
+        [double]$Id,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -965,26 +962,24 @@ function Invoke-ADCGetHanodepartialfailureinterfacesbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all hanode_partialfailureinterfaces_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_partialfailureinterfaces_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_partialfailureinterfaces_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for hanode_partialfailureinterfaces_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_partialfailureinterfaces_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_partialfailureinterfaces_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving hanode_partialfailureinterfaces_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_partialfailureinterfaces_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_partialfailureinterfaces_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving hanode_partialfailureinterfaces_binding configuration for property 'id'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_partialfailureinterfaces_binding -NitroPath nitro/v1/config -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving hanode_partialfailureinterfaces_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_partialfailureinterfaces_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_partialfailureinterfaces_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -998,73 +993,68 @@ function Invoke-ADCGetHanodepartialfailureinterfacesbinding {
 }
 
 function Invoke-ADCAddHanoderoutemonitor6binding {
-<#
+    <#
     .SYNOPSIS
-        Add High Availability configuration Object
+        Add High Availability configuration Object.
     .DESCRIPTION
-        Add High Availability configuration Object 
-    .PARAMETER id 
-        Number that uniquely identifies the local node. The ID of the local node is always 0.  
-        Minimum value = 0  
-        Maximum value = 64 
-    .PARAMETER routemonitor 
+        Binding object showing the routemonitor6 that can be bound to hanode.
+    .PARAMETER Id 
+        Number that uniquely identifies the local node. The ID of the local node is always 0. 
+    .PARAMETER Routemonitor 
         The IP address (IPv4 or IPv6). 
-    .PARAMETER netmask 
+    .PARAMETER Netmask 
         The netmask. 
     .PARAMETER PassThru 
         Return details about the created hanode_routemonitor6_binding item.
     .EXAMPLE
-        Invoke-ADCAddHanoderoutemonitor6binding -routemonitor <string>
+        PS C:\>Invoke-ADCAddHanoderoutemonitor6binding -routemonitor <string>
+        An example how to add hanode_routemonitor6_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddHanoderoutemonitor6binding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor6_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateRange(0, 64)]
-        [double]$id ,
+        [double]$Id,
 
-        [Parameter(Mandatory = $true)]
-        [string]$routemonitor ,
+        [Parameter(Mandatory)]
+        [string]$Routemonitor,
 
-        [string]$netmask ,
+        [string]$Netmask,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddHanoderoutemonitor6binding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                routemonitor = $routemonitor
-            }
-            if ($PSBoundParameters.ContainsKey('id')) { $Payload.Add('id', $id) }
-            if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
- 
-            if ($PSCmdlet.ShouldProcess("hanode_routemonitor6_binding", "Add High Availability configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type hanode_routemonitor6_binding -Payload $Payload -GetWarning
+            $payload = @{ routemonitor = $routemonitor }
+            if ( $PSBoundParameters.ContainsKey('id') ) { $payload.Add('id', $id) }
+            if ( $PSBoundParameters.ContainsKey('netmask') ) { $payload.Add('netmask', $netmask) }
+            if ( $PSCmdlet.ShouldProcess("hanode_routemonitor6_binding", "Add High Availability configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type hanode_routemonitor6_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetHanoderoutemonitor6binding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetHanoderoutemonitor6binding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1077,55 +1067,56 @@ function Invoke-ADCAddHanoderoutemonitor6binding {
 }
 
 function Invoke-ADCDeleteHanoderoutemonitor6binding {
-<#
+    <#
     .SYNOPSIS
-        Delete High Availability configuration Object
+        Delete High Availability configuration Object.
     .DESCRIPTION
-        Delete High Availability configuration Object
-    .PARAMETER id 
-       Number that uniquely identifies the local node. The ID of the local node is always 0.  
-       Minimum value = 0  
-       Maximum value = 64    .PARAMETER routemonitor 
-       The IP address (IPv4 or IPv6).    .PARAMETER netmask 
-       The netmask.
+        Binding object showing the routemonitor6 that can be bound to hanode.
+    .PARAMETER Id 
+        Number that uniquely identifies the local node. The ID of the local node is always 0. 
+    .PARAMETER Routemonitor 
+        The IP address (IPv4 or IPv6). 
+    .PARAMETER Netmask 
+        The netmask.
     .EXAMPLE
-        Invoke-ADCDeleteHanoderoutemonitor6binding -id <double>
+        PS C:\>Invoke-ADCDeleteHanoderoutemonitor6binding -Id <double>
+        An example how to delete hanode_routemonitor6_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteHanoderoutemonitor6binding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor6_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [double]$id ,
+        [Parameter(Mandatory)]
+        [double]$Id,
 
-        [string]$routemonitor ,
+        [string]$Routemonitor,
 
-        [string]$netmask 
+        [string]$Netmask 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteHanoderoutemonitor6binding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('routemonitor')) { $Arguments.Add('routemonitor', $routemonitor) }
-            if ($PSBoundParameters.ContainsKey('netmask')) { $Arguments.Add('netmask', $netmask) }
-            if ($PSCmdlet.ShouldProcess("$id", "Delete High Availability configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type hanode_routemonitor6_binding -NitroPath nitro/v1/config -Resource $id -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Routemonitor') ) { $arguments.Add('routemonitor', $Routemonitor) }
+            if ( $PSBoundParameters.ContainsKey('Netmask') ) { $arguments.Add('netmask', $Netmask) }
+            if ( $PSCmdlet.ShouldProcess("$id", "Delete High Availability configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type hanode_routemonitor6_binding -NitroPath nitro/v1/config -Resource $id -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1141,55 +1132,61 @@ function Invoke-ADCDeleteHanoderoutemonitor6binding {
 }
 
 function Invoke-ADCGetHanoderoutemonitor6binding {
-<#
+    <#
     .SYNOPSIS
-        Get High Availability configuration object(s)
+        Get High Availability configuration object(s).
     .DESCRIPTION
-        Get High Availability configuration object(s)
-    .PARAMETER id 
-       Number that uniquely identifies the local node. The ID of the local node is always 0. 
+        Binding object showing the routemonitor6 that can be bound to hanode.
+    .PARAMETER Id 
+        Number that uniquely identifies the local node. The ID of the local node is always 0. 
     .PARAMETER GetAll 
-        Retreive all hanode_routemonitor6_binding object(s)
+        Retrieve all hanode_routemonitor6_binding object(s).
     .PARAMETER Count
-        If specified, the count of the hanode_routemonitor6_binding object(s) will be returned
+        If specified, the count of the hanode_routemonitor6_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetHanoderoutemonitor6binding
+        PS C:\>Invoke-ADCGetHanoderoutemonitor6binding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetHanoderoutemonitor6binding -GetAll 
+        PS C:\>Invoke-ADCGetHanoderoutemonitor6binding -GetAll 
+        Get all hanode_routemonitor6_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetHanoderoutemonitor6binding -Count
+        PS C:\>Invoke-ADCGetHanoderoutemonitor6binding -Count 
+        Get the number of hanode_routemonitor6_binding objects.
     .EXAMPLE
-        Invoke-ADCGetHanoderoutemonitor6binding -name <string>
+        PS C:\>Invoke-ADCGetHanoderoutemonitor6binding -name <string>
+        Get hanode_routemonitor6_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetHanoderoutemonitor6binding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetHanoderoutemonitor6binding -Filter @{ 'name'='<value>' }
+        Get hanode_routemonitor6_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanoderoutemonitor6binding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor6_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateRange(0, 64)]
-        [double]$id,
+        [double]$Id,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1202,26 +1199,24 @@ function Invoke-ADCGetHanoderoutemonitor6binding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all hanode_routemonitor6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor6_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for hanode_routemonitor6_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor6_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor6_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving hanode_routemonitor6_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor6_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor6_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving hanode_routemonitor6_binding configuration for property 'id'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor6_binding -NitroPath nitro/v1/config -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving hanode_routemonitor6_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor6_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor6_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1235,73 +1230,68 @@ function Invoke-ADCGetHanoderoutemonitor6binding {
 }
 
 function Invoke-ADCAddHanoderoutemonitorbinding {
-<#
+    <#
     .SYNOPSIS
-        Add High Availability configuration Object
+        Add High Availability configuration Object.
     .DESCRIPTION
-        Add High Availability configuration Object 
-    .PARAMETER id 
-        Number that uniquely identifies the local node. The ID of the local node is always 0.  
-        Minimum value = 0  
-        Maximum value = 64 
-    .PARAMETER routemonitor 
+        Binding object showing the routemonitor that can be bound to hanode.
+    .PARAMETER Id 
+        Number that uniquely identifies the local node. The ID of the local node is always 0. 
+    .PARAMETER Routemonitor 
         The IP address (IPv4 or IPv6). 
-    .PARAMETER netmask 
+    .PARAMETER Netmask 
         The netmask. 
     .PARAMETER PassThru 
         Return details about the created hanode_routemonitor_binding item.
     .EXAMPLE
-        Invoke-ADCAddHanoderoutemonitorbinding -routemonitor <string>
+        PS C:\>Invoke-ADCAddHanoderoutemonitorbinding -routemonitor <string>
+        An example how to add hanode_routemonitor_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddHanoderoutemonitorbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateRange(0, 64)]
-        [double]$id ,
+        [double]$Id,
 
-        [Parameter(Mandatory = $true)]
-        [string]$routemonitor ,
+        [Parameter(Mandatory)]
+        [string]$Routemonitor,
 
-        [string]$netmask ,
+        [string]$Netmask,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddHanoderoutemonitorbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                routemonitor = $routemonitor
-            }
-            if ($PSBoundParameters.ContainsKey('id')) { $Payload.Add('id', $id) }
-            if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
- 
-            if ($PSCmdlet.ShouldProcess("hanode_routemonitor_binding", "Add High Availability configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type hanode_routemonitor_binding -Payload $Payload -GetWarning
+            $payload = @{ routemonitor = $routemonitor }
+            if ( $PSBoundParameters.ContainsKey('id') ) { $payload.Add('id', $id) }
+            if ( $PSBoundParameters.ContainsKey('netmask') ) { $payload.Add('netmask', $netmask) }
+            if ( $PSCmdlet.ShouldProcess("hanode_routemonitor_binding", "Add High Availability configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type hanode_routemonitor_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetHanoderoutemonitorbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetHanoderoutemonitorbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1314,55 +1304,56 @@ function Invoke-ADCAddHanoderoutemonitorbinding {
 }
 
 function Invoke-ADCDeleteHanoderoutemonitorbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete High Availability configuration Object
+        Delete High Availability configuration Object.
     .DESCRIPTION
-        Delete High Availability configuration Object
-    .PARAMETER id 
-       Number that uniquely identifies the local node. The ID of the local node is always 0.  
-       Minimum value = 0  
-       Maximum value = 64    .PARAMETER routemonitor 
-       The IP address (IPv4 or IPv6).    .PARAMETER netmask 
-       The netmask.
+        Binding object showing the routemonitor that can be bound to hanode.
+    .PARAMETER Id 
+        Number that uniquely identifies the local node. The ID of the local node is always 0. 
+    .PARAMETER Routemonitor 
+        The IP address (IPv4 or IPv6). 
+    .PARAMETER Netmask 
+        The netmask.
     .EXAMPLE
-        Invoke-ADCDeleteHanoderoutemonitorbinding -id <double>
+        PS C:\>Invoke-ADCDeleteHanoderoutemonitorbinding -Id <double>
+        An example how to delete hanode_routemonitor_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteHanoderoutemonitorbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [double]$id ,
+        [Parameter(Mandatory)]
+        [double]$Id,
 
-        [string]$routemonitor ,
+        [string]$Routemonitor,
 
-        [string]$netmask 
+        [string]$Netmask 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteHanoderoutemonitorbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('routemonitor')) { $Arguments.Add('routemonitor', $routemonitor) }
-            if ($PSBoundParameters.ContainsKey('netmask')) { $Arguments.Add('netmask', $netmask) }
-            if ($PSCmdlet.ShouldProcess("$id", "Delete High Availability configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type hanode_routemonitor_binding -NitroPath nitro/v1/config -Resource $id -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Routemonitor') ) { $arguments.Add('routemonitor', $Routemonitor) }
+            if ( $PSBoundParameters.ContainsKey('Netmask') ) { $arguments.Add('netmask', $Netmask) }
+            if ( $PSCmdlet.ShouldProcess("$id", "Delete High Availability configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type hanode_routemonitor_binding -NitroPath nitro/v1/config -Resource $id -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1378,55 +1369,61 @@ function Invoke-ADCDeleteHanoderoutemonitorbinding {
 }
 
 function Invoke-ADCGetHanoderoutemonitorbinding {
-<#
+    <#
     .SYNOPSIS
-        Get High Availability configuration object(s)
+        Get High Availability configuration object(s).
     .DESCRIPTION
-        Get High Availability configuration object(s)
-    .PARAMETER id 
-       Number that uniquely identifies the local node. The ID of the local node is always 0. 
+        Binding object showing the routemonitor that can be bound to hanode.
+    .PARAMETER Id 
+        Number that uniquely identifies the local node. The ID of the local node is always 0. 
     .PARAMETER GetAll 
-        Retreive all hanode_routemonitor_binding object(s)
+        Retrieve all hanode_routemonitor_binding object(s).
     .PARAMETER Count
-        If specified, the count of the hanode_routemonitor_binding object(s) will be returned
+        If specified, the count of the hanode_routemonitor_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetHanoderoutemonitorbinding
+        PS C:\>Invoke-ADCGetHanoderoutemonitorbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetHanoderoutemonitorbinding -GetAll 
+        PS C:\>Invoke-ADCGetHanoderoutemonitorbinding -GetAll 
+        Get all hanode_routemonitor_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetHanoderoutemonitorbinding -Count
+        PS C:\>Invoke-ADCGetHanoderoutemonitorbinding -Count 
+        Get the number of hanode_routemonitor_binding objects.
     .EXAMPLE
-        Invoke-ADCGetHanoderoutemonitorbinding -name <string>
+        PS C:\>Invoke-ADCGetHanoderoutemonitorbinding -name <string>
+        Get hanode_routemonitor_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetHanoderoutemonitorbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetHanoderoutemonitorbinding -Filter @{ 'name'='<value>' }
+        Get hanode_routemonitor_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanoderoutemonitorbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateRange(0, 64)]
-        [double]$id,
+        [double]$Id,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1439,26 +1436,24 @@ function Invoke-ADCGetHanoderoutemonitorbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all hanode_routemonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for hanode_routemonitor_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving hanode_routemonitor_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving hanode_routemonitor_binding configuration for property 'id'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor_binding -NitroPath nitro/v1/config -Resource $id -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving hanode_routemonitor_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hanode_routemonitor_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1472,40 +1467,42 @@ function Invoke-ADCGetHanoderoutemonitorbinding {
 }
 
 function Invoke-ADCForceHasync {
-<#
+    <#
     .SYNOPSIS
-        Force High Availability configuration Object
+        Force High Availability configuration Object.
     .DESCRIPTION
-        Force High Availability configuration Object 
-    .PARAMETER force 
+        Configuration for sync resource.
+    .PARAMETER Force 
         Force synchronization regardless of the state of HA propagation and HA synchronization on either node. 
-    .PARAMETER save 
-        After synchronization, automatically save the configuration in the secondary node configuration file (ns.conf) without prompting for confirmation.  
+    .PARAMETER Save 
+        After synchronization, automatically save the configuration in the secondary node configuration file (ns.conf) without prompting for confirmation. 
         Possible values = YES, NO
     .EXAMPLE
-        Invoke-ADCForceHasync 
+        PS C:\>Invoke-ADCForceHasync 
+        An example how to force hasync configuration Object(s).
     .NOTES
         File Name : Invoke-ADCForceHasync
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hasync/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [boolean]$force ,
+        [boolean]$Force,
 
         [ValidateSet('YES', 'NO')]
-        [string]$save 
+        [string]$Save 
 
     )
     begin {
@@ -1513,13 +1510,11 @@ function Invoke-ADCForceHasync {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('force')) { $Payload.Add('force', $force) }
-            if ($PSBoundParameters.ContainsKey('save')) { $Payload.Add('save', $save) }
-            if ($PSCmdlet.ShouldProcess($Name, "Force High Availability configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type hasync -Action force -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('force') ) { $payload.Add('force', $force) }
+            if ( $PSBoundParameters.ContainsKey('save') ) { $payload.Add('save', $save) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Force High Availability configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type hasync -Action force -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -1535,45 +1530,50 @@ function Invoke-ADCForceHasync {
 }
 
 function Invoke-ADCGetHasyncfailures {
-<#
+    <#
     .SYNOPSIS
-        Get High Availability configuration object(s)
+        Get High Availability configuration object(s).
     .DESCRIPTION
-        Get High Availability configuration object(s)
+        Configuration for HA sync failures resource.
     .PARAMETER GetAll 
-        Retreive all hasyncfailures object(s)
+        Retrieve all hasyncfailures object(s).
     .PARAMETER Count
-        If specified, the count of the hasyncfailures object(s) will be returned
+        If specified, the count of the hasyncfailures object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetHasyncfailures
+        PS C:\>Invoke-ADCGetHasyncfailures
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetHasyncfailures -GetAll
+        PS C:\>Invoke-ADCGetHasyncfailures -GetAll 
+        Get all hasyncfailures data.
     .EXAMPLE
-        Invoke-ADCGetHasyncfailures -name <string>
+        PS C:\>Invoke-ADCGetHasyncfailures -name <string>
+        Get hasyncfailures object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetHasyncfailures -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetHasyncfailures -Filter @{ 'name'='<value>' }
+        Get hasyncfailures data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHasyncfailures
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hasyncfailures/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -1585,24 +1585,24 @@ function Invoke-ADCGetHasyncfailures {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all hasyncfailures objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hasyncfailures -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hasyncfailures -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for hasyncfailures objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hasyncfailures -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hasyncfailures -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving hasyncfailures objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hasyncfailures -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hasyncfailures -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving hasyncfailures configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving hasyncfailures configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hasyncfailures -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type hasyncfailures -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

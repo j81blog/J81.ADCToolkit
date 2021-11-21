@@ -1,76 +1,74 @@
 function Invoke-ADCAddVideooptimizationdetectionaction {
-<#
+    <#
     .SYNOPSIS
-        Add VideoOptimization configuration Object
+        Add VideoOptimization configuration Object.
     .DESCRIPTION
-        Add VideoOptimization configuration Object 
-    .PARAMETER name 
+        Configuration for videooptimization detectionaction resource.
+    .PARAMETER Name 
         Name for the video optimization detection action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
-    .PARAMETER type 
-        Type of video optimization action. Available settings function as follows:  
-        * clear_text_pd - Cleartext PD type is detected.  
-        * clear_text_abr - Cleartext ABR is detected.  
-        * encrypted_abr - Encrypted ABR is detected.  
-        * trigger_enc_abr - Possible encrypted ABR is detected.  
-        * trigger_body_detection - Possible cleartext ABR is detected. Triggers body content detection.  
+    .PARAMETER Type 
+        Type of video optimization action. Available settings function as follows: 
+        * clear_text_pd - Cleartext PD type is detected. 
+        * clear_text_abr - Cleartext ABR is detected. 
+        * encrypted_abr - Encrypted ABR is detected. 
+        * trigger_enc_abr - Possible encrypted ABR is detected. 
+        * trigger_body_detection - Possible cleartext ABR is detected. Triggers body content detection. 
         Possible values = clear_text_pd, clear_text_abr, encrypted_abr, trigger_enc_abr, trigger_body_detection 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Comment. Any type of information about this video optimization detection action. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationdetectionaction item.
     .EXAMPLE
-        Invoke-ADCAddVideooptimizationdetectionaction -name <string> -type <string>
+        PS C:\>Invoke-ADCAddVideooptimizationdetectionaction -name <string> -type <string>
+        An example how to add videooptimizationdetectionaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationdetectionaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('clear_text_pd', 'clear_text_abr', 'encrypted_abr', 'trigger_enc_abr', 'trigger_body_detection')]
-        [string]$type ,
+        [string]$Type,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddVideooptimizationdetectionaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                type = $type
+            $payload = @{ name = $name
+                type           = $type
             }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationdetectionaction", "Add VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationdetectionaction -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("videooptimizationdetectionaction", "Add VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationdetectionaction -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationdetectionaction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationdetectionaction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -83,46 +81,47 @@ function Invoke-ADCAddVideooptimizationdetectionaction {
 }
 
 function Invoke-ADCDeleteVideooptimizationdetectionaction {
-<#
+    <#
     .SYNOPSIS
-        Delete VideoOptimization configuration Object
+        Delete VideoOptimization configuration Object.
     .DESCRIPTION
-        Delete VideoOptimization configuration Object
-    .PARAMETER name 
-       Name for the video optimization detection action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
+        Configuration for videooptimization detectionaction resource.
+    .PARAMETER Name 
+        Name for the video optimization detection action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters.
     .EXAMPLE
-        Invoke-ADCDeleteVideooptimizationdetectionaction -name <string>
+        PS C:\>Invoke-ADCDeleteVideooptimizationdetectionaction -Name <string>
+        An example how to delete videooptimizationdetectionaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationdetectionaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteVideooptimizationdetectionaction: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete VideoOptimization configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationdetectionaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete VideoOptimization configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationdetectionaction -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -138,77 +137,74 @@ function Invoke-ADCDeleteVideooptimizationdetectionaction {
 }
 
 function Invoke-ADCUpdateVideooptimizationdetectionaction {
-<#
+    <#
     .SYNOPSIS
-        Update VideoOptimization configuration Object
+        Update VideoOptimization configuration Object.
     .DESCRIPTION
-        Update VideoOptimization configuration Object 
-    .PARAMETER name 
+        Configuration for videooptimization detectionaction resource.
+    .PARAMETER Name 
         Name for the video optimization detection action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
-    .PARAMETER type 
-        Type of video optimization action. Available settings function as follows:  
-        * clear_text_pd - Cleartext PD type is detected.  
-        * clear_text_abr - Cleartext ABR is detected.  
-        * encrypted_abr - Encrypted ABR is detected.  
-        * trigger_enc_abr - Possible encrypted ABR is detected.  
-        * trigger_body_detection - Possible cleartext ABR is detected. Triggers body content detection.  
+    .PARAMETER Type 
+        Type of video optimization action. Available settings function as follows: 
+        * clear_text_pd - Cleartext PD type is detected. 
+        * clear_text_abr - Cleartext ABR is detected. 
+        * encrypted_abr - Encrypted ABR is detected. 
+        * trigger_enc_abr - Possible encrypted ABR is detected. 
+        * trigger_body_detection - Possible cleartext ABR is detected. Triggers body content detection. 
         Possible values = clear_text_pd, clear_text_abr, encrypted_abr, trigger_enc_abr, trigger_body_detection 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Comment. Any type of information about this video optimization detection action. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationdetectionaction item.
     .EXAMPLE
-        Invoke-ADCUpdateVideooptimizationdetectionaction -name <string>
+        PS C:\>Invoke-ADCUpdateVideooptimizationdetectionaction -name <string>
+        An example how to update videooptimizationdetectionaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVideooptimizationdetectionaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
         [ValidateSet('clear_text_pd', 'clear_text_abr', 'encrypted_abr', 'trigger_enc_abr', 'trigger_body_detection')]
-        [string]$type ,
+        [string]$Type,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateVideooptimizationdetectionaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationdetectionaction", "Update VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type videooptimizationdetectionaction -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('type') ) { $payload.Add('type', $type) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("videooptimizationdetectionaction", "Update VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type videooptimizationdetectionaction -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationdetectionaction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationdetectionaction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -221,37 +217,38 @@ function Invoke-ADCUpdateVideooptimizationdetectionaction {
 }
 
 function Invoke-ADCUnsetVideooptimizationdetectionaction {
-<#
+    <#
     .SYNOPSIS
-        Unset VideoOptimization configuration Object
+        Unset VideoOptimization configuration Object.
     .DESCRIPTION
-        Unset VideoOptimization configuration Object 
-   .PARAMETER name 
-       Name for the video optimization detection action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
-   .PARAMETER comment 
-       Comment. Any type of information about this video optimization detection action.
+        Configuration for videooptimization detectionaction resource.
+    .PARAMETER Name 
+        Name for the video optimization detection action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
+    .PARAMETER Comment 
+        Comment. Any type of information about this video optimization detection action.
     .EXAMPLE
-        Invoke-ADCUnsetVideooptimizationdetectionaction -name <string>
+        PS C:\>Invoke-ADCUnsetVideooptimizationdetectionaction -name <string>
+        An example how to unset videooptimizationdetectionaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVideooptimizationdetectionaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionaction
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [string]$Name,
 
         [Boolean]$comment 
     )
@@ -260,12 +257,10 @@ function Invoke-ADCUnsetVideooptimizationdetectionaction {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset VideoOptimization configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type videooptimizationdetectionaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset VideoOptimization configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type videooptimizationdetectionaction -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -281,70 +276,67 @@ function Invoke-ADCUnsetVideooptimizationdetectionaction {
 }
 
 function Invoke-ADCRenameVideooptimizationdetectionaction {
-<#
+    <#
     .SYNOPSIS
-        Rename VideoOptimization configuration Object
+        Rename VideoOptimization configuration Object.
     .DESCRIPTION
-        Rename VideoOptimization configuration Object 
-    .PARAMETER name 
+        Configuration for videooptimization detectionaction resource.
+    .PARAMETER Name 
         Name for the video optimization detection action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
-    .PARAMETER newname 
-        New name for the videooptimization detection action.  
-        Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters.  
-        Minimum length = 1 
+    .PARAMETER Newname 
+        New name for the videooptimization detection action. 
+        Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationdetectionaction item.
     .EXAMPLE
-        Invoke-ADCRenameVideooptimizationdetectionaction -name <string> -newname <string>
+        PS C:\>Invoke-ADCRenameVideooptimizationdetectionaction -name <string> -newname <string>
+        An example how to rename videooptimizationdetectionaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameVideooptimizationdetectionaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameVideooptimizationdetectionaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                newname = $newname
+            $payload = @{ name = $name
+                newname        = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationdetectionaction", "Rename VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationdetectionaction -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("videooptimizationdetectionaction", "Rename VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationdetectionaction -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationdetectionaction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationdetectionaction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -357,54 +349,60 @@ function Invoke-ADCRenameVideooptimizationdetectionaction {
 }
 
 function Invoke-ADCGetVideooptimizationdetectionaction {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
-    .PARAMETER name 
-       Name for the video optimization detection action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
+        Configuration for videooptimization detectionaction resource.
+    .PARAMETER Name 
+        Name for the video optimization detection action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationdetectionaction object(s)
+        Retrieve all videooptimizationdetectionaction object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationdetectionaction object(s) will be returned
+        If specified, the count of the videooptimizationdetectionaction object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionaction
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionaction
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationdetectionaction -GetAll 
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionaction -GetAll 
+        Get all videooptimizationdetectionaction data. 
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationdetectionaction -Count
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionaction -Count 
+        Get the number of videooptimizationdetectionaction objects.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionaction -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionaction -name <string>
+        Get videooptimizationdetectionaction object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionaction -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionaction -Filter @{ 'name'='<value>' }
+        Get videooptimizationdetectionaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -422,24 +420,24 @@ function Invoke-ADCGetVideooptimizationdetectionaction {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all videooptimizationdetectionaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionaction -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationdetectionaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionaction -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionaction objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionaction -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionaction configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationdetectionaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -453,98 +451,96 @@ function Invoke-ADCGetVideooptimizationdetectionaction {
 }
 
 function Invoke-ADCAddVideooptimizationdetectionpolicy {
-<#
+    <#
     .SYNOPSIS
-        Add VideoOptimization configuration Object
+        Add VideoOptimization configuration Object.
     .DESCRIPTION
-        Add VideoOptimization configuration Object 
-    .PARAMETER name 
+        Configuration for videooptimization detectionpolicy resource.
+    .PARAMETER Name 
         Name for the videooptimization detection policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters.Can be modified, removed or renamed. 
-    .PARAMETER rule 
-        Expression that determines which request or response match the video optimization detection policy.  
-        The following requirements apply only to the Citrix ADC CLI:  
-        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks.  
-        * If the expression itself includes double quotation marks, escape the quotations by using the \ character.  
+    .PARAMETER Rule 
+        Expression that determines which request or response match the video optimization detection policy. 
+        The following requirements apply only to the Citrix ADC CLI: 
+        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks. 
+        * If the expression itself includes double quotation marks, escape the quotations by using the \ character. 
         * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks. 
-    .PARAMETER action 
-        Name of the videooptimization detection action to perform if the request matches this videooptimization detection policy. Built-in actions should be used. These are:  
-        * DETECT_CLEARTEXT_PD - Cleartext PD is detected and increment related counters.  
-        * DETECT_CLEARTEXT_ABR - Cleartext ABR is detected and increment related counters.  
-        * DETECT_ENCRYPTED_ABR - Encrypted ABR is detected and increment related counters.  
-        * TRIGGER_ENC_ABR_DETECTION - This is potentially encrypted ABR. Internal traffic heuristics algorithms will further process traffic to confirm detection.  
-        * TRIGGER_CT_ABR_BODY_DETECTION - This is potentially cleartext ABR. Internal traffic heuristics algorithms will further process traffic to confirm detection.  
-        * RESET - Reset the client connection by closing it.  
+    .PARAMETER Action 
+        Name of the videooptimization detection action to perform if the request matches this videooptimization detection policy. Built-in actions should be used. These are: 
+        * DETECT_CLEARTEXT_PD - Cleartext PD is detected and increment related counters. 
+        * DETECT_CLEARTEXT_ABR - Cleartext ABR is detected and increment related counters. 
+        * DETECT_ENCRYPTED_ABR - Encrypted ABR is detected and increment related counters. 
+        * TRIGGER_ENC_ABR_DETECTION - This is potentially encrypted ABR. Internal traffic heuristics algorithms will further process traffic to confirm detection. 
+        * TRIGGER_CT_ABR_BODY_DETECTION - This is potentially cleartext ABR. Internal traffic heuristics algorithms will further process traffic to confirm detection. 
+        * RESET - Reset the client connection by closing it. 
         * DROP - Drop the connection without sending a response. 
-    .PARAMETER undefaction 
+    .PARAMETER Undefaction 
         Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an internal error condition. Only the above built-in actions can be used. 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any type of information about this videooptimization detection policy. 
-    .PARAMETER logaction 
+    .PARAMETER Logaction 
         Name of the messagelog action to use for requests that match this policy. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationdetectionpolicy item.
     .EXAMPLE
-        Invoke-ADCAddVideooptimizationdetectionpolicy -name <string> -rule <string> -action <string>
+        PS C:\>Invoke-ADCAddVideooptimizationdetectionpolicy -name <string> -rule <string> -action <string>
+        An example how to add videooptimizationdetectionpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationdetectionpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
-        [string]$rule ,
+        [Parameter(Mandatory)]
+        [string]$Rule,
 
-        [Parameter(Mandatory = $true)]
-        [string]$action ,
+        [Parameter(Mandatory)]
+        [string]$Action,
 
-        [string]$undefaction ,
+        [string]$Undefaction,
 
-        [string]$comment ,
+        [string]$Comment,
 
-        [string]$logaction ,
+        [string]$Logaction,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddVideooptimizationdetectionpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                rule = $rule
-                action = $action
+            $payload = @{ name = $name
+                rule           = $rule
+                action         = $action
             }
-            if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationdetectionpolicy", "Add VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationdetectionpolicy -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('undefaction') ) { $payload.Add('undefaction', $undefaction) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("videooptimizationdetectionpolicy", "Add VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationdetectionpolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationdetectionpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationdetectionpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -557,46 +553,47 @@ function Invoke-ADCAddVideooptimizationdetectionpolicy {
 }
 
 function Invoke-ADCDeleteVideooptimizationdetectionpolicy {
-<#
+    <#
     .SYNOPSIS
-        Delete VideoOptimization configuration Object
+        Delete VideoOptimization configuration Object.
     .DESCRIPTION
-        Delete VideoOptimization configuration Object
-    .PARAMETER name 
-       Name for the videooptimization detection policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters.Can be modified, removed or renamed. 
+        Configuration for videooptimization detectionpolicy resource.
+    .PARAMETER Name 
+        Name for the videooptimization detection policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters.Can be modified, removed or renamed.
     .EXAMPLE
-        Invoke-ADCDeleteVideooptimizationdetectionpolicy -name <string>
+        PS C:\>Invoke-ADCDeleteVideooptimizationdetectionpolicy -Name <string>
+        An example how to delete videooptimizationdetectionpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationdetectionpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteVideooptimizationdetectionpolicy: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete VideoOptimization configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete VideoOptimization configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -612,96 +609,93 @@ function Invoke-ADCDeleteVideooptimizationdetectionpolicy {
 }
 
 function Invoke-ADCUpdateVideooptimizationdetectionpolicy {
-<#
+    <#
     .SYNOPSIS
-        Update VideoOptimization configuration Object
+        Update VideoOptimization configuration Object.
     .DESCRIPTION
-        Update VideoOptimization configuration Object 
-    .PARAMETER name 
+        Configuration for videooptimization detectionpolicy resource.
+    .PARAMETER Name 
         Name for the videooptimization detection policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters.Can be modified, removed or renamed. 
-    .PARAMETER rule 
-        Expression that determines which request or response match the video optimization detection policy.  
-        The following requirements apply only to the Citrix ADC CLI:  
-        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks.  
-        * If the expression itself includes double quotation marks, escape the quotations by using the \ character.  
+    .PARAMETER Rule 
+        Expression that determines which request or response match the video optimization detection policy. 
+        The following requirements apply only to the Citrix ADC CLI: 
+        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks. 
+        * If the expression itself includes double quotation marks, escape the quotations by using the \ character. 
         * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks. 
-    .PARAMETER action 
-        Name of the videooptimization detection action to perform if the request matches this videooptimization detection policy. Built-in actions should be used. These are:  
-        * DETECT_CLEARTEXT_PD - Cleartext PD is detected and increment related counters.  
-        * DETECT_CLEARTEXT_ABR - Cleartext ABR is detected and increment related counters.  
-        * DETECT_ENCRYPTED_ABR - Encrypted ABR is detected and increment related counters.  
-        * TRIGGER_ENC_ABR_DETECTION - This is potentially encrypted ABR. Internal traffic heuristics algorithms will further process traffic to confirm detection.  
-        * TRIGGER_CT_ABR_BODY_DETECTION - This is potentially cleartext ABR. Internal traffic heuristics algorithms will further process traffic to confirm detection.  
-        * RESET - Reset the client connection by closing it.  
+    .PARAMETER Action 
+        Name of the videooptimization detection action to perform if the request matches this videooptimization detection policy. Built-in actions should be used. These are: 
+        * DETECT_CLEARTEXT_PD - Cleartext PD is detected and increment related counters. 
+        * DETECT_CLEARTEXT_ABR - Cleartext ABR is detected and increment related counters. 
+        * DETECT_ENCRYPTED_ABR - Encrypted ABR is detected and increment related counters. 
+        * TRIGGER_ENC_ABR_DETECTION - This is potentially encrypted ABR. Internal traffic heuristics algorithms will further process traffic to confirm detection. 
+        * TRIGGER_CT_ABR_BODY_DETECTION - This is potentially cleartext ABR. Internal traffic heuristics algorithms will further process traffic to confirm detection. 
+        * RESET - Reset the client connection by closing it. 
         * DROP - Drop the connection without sending a response. 
-    .PARAMETER undefaction 
+    .PARAMETER Undefaction 
         Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an internal error condition. Only the above built-in actions can be used. 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any type of information about this videooptimization detection policy. 
-    .PARAMETER logaction 
+    .PARAMETER Logaction 
         Name of the messagelog action to use for requests that match this policy. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationdetectionpolicy item.
     .EXAMPLE
-        Invoke-ADCUpdateVideooptimizationdetectionpolicy -name <string>
+        PS C:\>Invoke-ADCUpdateVideooptimizationdetectionpolicy -name <string>
+        An example how to update videooptimizationdetectionpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVideooptimizationdetectionpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [string]$rule ,
+        [string]$Rule,
 
-        [string]$action ,
+        [string]$Action,
 
-        [string]$undefaction ,
+        [string]$Undefaction,
 
-        [string]$comment ,
+        [string]$Comment,
 
-        [string]$logaction ,
+        [string]$Logaction,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateVideooptimizationdetectionpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
-            if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
-            if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationdetectionpolicy", "Update VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type videooptimizationdetectionpolicy -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('rule') ) { $payload.Add('rule', $rule) }
+            if ( $PSBoundParameters.ContainsKey('action') ) { $payload.Add('action', $action) }
+            if ( $PSBoundParameters.ContainsKey('undefaction') ) { $payload.Add('undefaction', $undefaction) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("videooptimizationdetectionpolicy", "Update VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type videooptimizationdetectionpolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationdetectionpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationdetectionpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -714,45 +708,46 @@ function Invoke-ADCUpdateVideooptimizationdetectionpolicy {
 }
 
 function Invoke-ADCUnsetVideooptimizationdetectionpolicy {
-<#
+    <#
     .SYNOPSIS
-        Unset VideoOptimization configuration Object
+        Unset VideoOptimization configuration Object.
     .DESCRIPTION
-        Unset VideoOptimization configuration Object 
-   .PARAMETER name 
-       Name for the videooptimization detection policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters.Can be modified, removed or renamed. 
-   .PARAMETER undefaction 
-       Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an internal error condition. Only the above built-in actions can be used. 
-   .PARAMETER comment 
-       Any type of information about this videooptimization detection policy. 
-   .PARAMETER logaction 
-       Name of the messagelog action to use for requests that match this policy.
+        Configuration for videooptimization detectionpolicy resource.
+    .PARAMETER Name 
+        Name for the videooptimization detection policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters.Can be modified, removed or renamed. 
+    .PARAMETER Undefaction 
+        Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an internal error condition. Only the above built-in actions can be used. 
+    .PARAMETER Comment 
+        Any type of information about this videooptimization detection policy. 
+    .PARAMETER Logaction 
+        Name of the messagelog action to use for requests that match this policy.
     .EXAMPLE
-        Invoke-ADCUnsetVideooptimizationdetectionpolicy -name <string>
+        PS C:\>Invoke-ADCUnsetVideooptimizationdetectionpolicy -name <string>
+        An example how to unset videooptimizationdetectionpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVideooptimizationdetectionpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicy
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$undefaction ,
+        [Boolean]$undefaction,
 
-        [Boolean]$comment ,
+        [Boolean]$comment,
 
         [Boolean]$logaction 
     )
@@ -761,14 +756,12 @@ function Invoke-ADCUnsetVideooptimizationdetectionpolicy {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset VideoOptimization configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('undefaction') ) { $payload.Add('undefaction', $undefaction) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset VideoOptimization configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -784,69 +777,66 @@ function Invoke-ADCUnsetVideooptimizationdetectionpolicy {
 }
 
 function Invoke-ADCRenameVideooptimizationdetectionpolicy {
-<#
+    <#
     .SYNOPSIS
-        Rename VideoOptimization configuration Object
+        Rename VideoOptimization configuration Object.
     .DESCRIPTION
-        Rename VideoOptimization configuration Object 
-    .PARAMETER name 
+        Configuration for videooptimization detectionpolicy resource.
+    .PARAMETER Name 
         Name for the videooptimization detection policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters.Can be modified, removed or renamed. 
-    .PARAMETER newname 
-        New name for the videooptimization detection policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters.  
-        Minimum length = 1 
+    .PARAMETER Newname 
+        New name for the videooptimization detection policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationdetectionpolicy item.
     .EXAMPLE
-        Invoke-ADCRenameVideooptimizationdetectionpolicy -name <string> -newname <string>
+        PS C:\>Invoke-ADCRenameVideooptimizationdetectionpolicy -name <string> -newname <string>
+        An example how to rename videooptimizationdetectionpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameVideooptimizationdetectionpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameVideooptimizationdetectionpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                newname = $newname
+            $payload = @{ name = $name
+                newname        = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationdetectionpolicy", "Rename VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationdetectionpolicy -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("videooptimizationdetectionpolicy", "Rename VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationdetectionpolicy -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationdetectionpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationdetectionpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -859,54 +849,60 @@ function Invoke-ADCRenameVideooptimizationdetectionpolicy {
 }
 
 function Invoke-ADCGetVideooptimizationdetectionpolicy {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
-    .PARAMETER name 
-       Name for the videooptimization detection policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters.Can be modified, removed or renamed. 
+        Configuration for videooptimization detectionpolicy resource.
+    .PARAMETER Name 
+        Name for the videooptimization detection policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters.Can be modified, removed or renamed. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationdetectionpolicy object(s)
+        Retrieve all videooptimizationdetectionpolicy object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationdetectionpolicy object(s) will be returned
+        If specified, the count of the videooptimizationdetectionpolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicy
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicy
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationdetectionpolicy -GetAll 
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicy -GetAll 
+        Get all videooptimizationdetectionpolicy data. 
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationdetectionpolicy -Count
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicy -Count 
+        Get the number of videooptimizationdetectionpolicy objects.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicy -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicy -name <string>
+        Get videooptimizationdetectionpolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicy -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicy -Filter @{ 'name'='<value>' }
+        Get videooptimizationdetectionpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -924,24 +920,24 @@ function Invoke-ADCGetVideooptimizationdetectionpolicy {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all videooptimizationdetectionpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationdetectionpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicy configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -955,76 +951,72 @@ function Invoke-ADCGetVideooptimizationdetectionpolicy {
 }
 
 function Invoke-ADCAddVideooptimizationdetectionpolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Add VideoOptimization configuration Object
+        Add VideoOptimization configuration Object.
     .DESCRIPTION
-        Add VideoOptimization configuration Object 
-    .PARAMETER labelname 
-        Name for the Video optimization detection policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (  
+        Configuration for videooptimization detection policy label resource.
+    .PARAMETER Labelname 
+        Name for the Video optimization detection policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period ( 
         .) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the videooptimization detection policy label is added. 
-    .PARAMETER policylabeltype 
-        Type of responses sent by the policies bound to this policy label. Types are:  
-        * HTTP - HTTP responses.  
-        * OTHERTCP - NON-HTTP TCP responses.  
-        Default value: NS_PLTMAP_RSP_REQ  
+    .PARAMETER Policylabeltype 
+        Type of responses sent by the policies bound to this policy label. Types are: 
+        * HTTP - HTTP responses. 
+        * OTHERTCP - NON-HTTP TCP responses. 
         Possible values = videoopt_req, videoopt_res 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any comments to preserve information about this videooptimization detection policy label. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationdetectionpolicylabel item.
     .EXAMPLE
-        Invoke-ADCAddVideooptimizationdetectionpolicylabel -labelname <string>
+        PS C:\>Invoke-ADCAddVideooptimizationdetectionpolicylabel -labelname <string>
+        An example how to add videooptimizationdetectionpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationdetectionpolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
         [ValidateSet('videoopt_req', 'videoopt_res')]
-        [string]$policylabeltype = 'NS_PLTMAP_RSP_REQ' ,
+        [string]$Policylabeltype = 'NS_PLTMAP_RSP_REQ',
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddVideooptimizationdetectionpolicylabel: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-            }
-            if ($PSBoundParameters.ContainsKey('policylabeltype')) { $Payload.Add('policylabeltype', $policylabeltype) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationdetectionpolicylabel", "Add VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationdetectionpolicylabel -Payload $Payload -GetWarning
+            $payload = @{ labelname = $labelname }
+            if ( $PSBoundParameters.ContainsKey('policylabeltype') ) { $payload.Add('policylabeltype', $policylabeltype) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("videooptimizationdetectionpolicylabel", "Add VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationdetectionpolicylabel -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationdetectionpolicylabel -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationdetectionpolicylabel -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1037,47 +1029,48 @@ function Invoke-ADCAddVideooptimizationdetectionpolicylabel {
 }
 
 function Invoke-ADCDeleteVideooptimizationdetectionpolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Delete VideoOptimization configuration Object
+        Delete VideoOptimization configuration Object.
     .DESCRIPTION
-        Delete VideoOptimization configuration Object
-    .PARAMETER labelname 
-       Name for the Video optimization detection policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (  
-       .) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the videooptimization detection policy label is added. 
+        Configuration for videooptimization detection policy label resource.
+    .PARAMETER Labelname 
+        Name for the Video optimization detection policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period ( 
+        .) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the videooptimization detection policy label is added.
     .EXAMPLE
-        Invoke-ADCDeleteVideooptimizationdetectionpolicylabel -labelname <string>
+        PS C:\>Invoke-ADCDeleteVideooptimizationdetectionpolicylabel -Labelname <string>
+        An example how to delete videooptimizationdetectionpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationdetectionpolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname 
+        [Parameter(Mandatory)]
+        [string]$Labelname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteVideooptimizationdetectionpolicylabel: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$labelname", "Delete VideoOptimization configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$labelname", "Delete VideoOptimization configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1093,71 +1086,68 @@ function Invoke-ADCDeleteVideooptimizationdetectionpolicylabel {
 }
 
 function Invoke-ADCRenameVideooptimizationdetectionpolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Rename VideoOptimization configuration Object
+        Rename VideoOptimization configuration Object.
     .DESCRIPTION
-        Rename VideoOptimization configuration Object 
-    .PARAMETER labelname 
-        Name for the Video optimization detection policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (  
+        Configuration for videooptimization detection policy label resource.
+    .PARAMETER Labelname 
+        Name for the Video optimization detection policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period ( 
         .) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the videooptimization detection policy label is added. 
-    .PARAMETER newname 
-        New name for the videooptimization detection policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (  
-        -), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters.  
-        Minimum length = 1 
+    .PARAMETER Newname 
+        New name for the videooptimization detection policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen ( 
+        -), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationdetectionpolicylabel item.
     .EXAMPLE
-        Invoke-ADCRenameVideooptimizationdetectionpolicylabel -labelname <string> -newname <string>
+        PS C:\>Invoke-ADCRenameVideooptimizationdetectionpolicylabel -labelname <string> -newname <string>
+        An example how to rename videooptimizationdetectionpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameVideooptimizationdetectionpolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameVideooptimizationdetectionpolicylabel: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-                newname = $newname
+            $payload = @{ labelname = $labelname
+                newname             = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationdetectionpolicylabel", "Rename VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationdetectionpolicylabel -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("videooptimizationdetectionpolicylabel", "Rename VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationdetectionpolicylabel -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationdetectionpolicylabel -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationdetectionpolicylabel -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1170,55 +1160,61 @@ function Invoke-ADCRenameVideooptimizationdetectionpolicylabel {
 }
 
 function Invoke-ADCGetVideooptimizationdetectionpolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
-    .PARAMETER labelname 
-       Name for the Video optimization detection policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (  
-       .) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the videooptimization detection policy label is added. 
+        Configuration for videooptimization detection policy label resource.
+    .PARAMETER Labelname 
+        Name for the Video optimization detection policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period ( 
+        .) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the videooptimization detection policy label is added. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationdetectionpolicylabel object(s)
+        Retrieve all videooptimizationdetectionpolicylabel object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationdetectionpolicylabel object(s) will be returned
+        If specified, the count of the videooptimizationdetectionpolicylabel object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicylabel
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabel
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationdetectionpolicylabel -GetAll 
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabel -GetAll 
+        Get all videooptimizationdetectionpolicylabel data. 
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationdetectionpolicylabel -Count
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabel -Count 
+        Get the number of videooptimizationdetectionpolicylabel objects.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicylabel -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabel -name <string>
+        Get videooptimizationdetectionpolicylabel object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicylabel -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabel -Filter @{ 'name'='<value>' }
+        Get videooptimizationdetectionpolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionpolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1236,24 +1232,24 @@ function Invoke-ADCGetVideooptimizationdetectionpolicylabel {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all videooptimizationdetectionpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationdetectionpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicylabel objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicylabel configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicylabel configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1267,50 +1263,55 @@ function Invoke-ADCGetVideooptimizationdetectionpolicylabel {
 }
 
 function Invoke-ADCGetVideooptimizationdetectionpolicylabelbinding {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
-    .PARAMETER labelname 
-       Name of the videooptimization detection policy label. 
+        Binding object which returns the resources bound to videooptimizationdetectionpolicylabel.
+    .PARAMETER Labelname 
+        Name of the videooptimization detection policy label. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationdetectionpolicylabel_binding object(s)
+        Retrieve all videooptimizationdetectionpolicylabel_binding object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationdetectionpolicylabel_binding object(s) will be returned
+        If specified, the count of the videooptimizationdetectionpolicylabel_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicylabelbinding
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabelbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationdetectionpolicylabelbinding -GetAll
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabelbinding -GetAll 
+        Get all videooptimizationdetectionpolicylabel_binding data.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicylabelbinding -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabelbinding -name <string>
+        Get videooptimizationdetectionpolicylabel_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicylabelbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabelbinding -Filter @{ 'name'='<value>' }
+        Get videooptimizationdetectionpolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionpolicylabelbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 			
         [hashtable]$Filter = @{ },
 
@@ -1322,26 +1323,24 @@ function Invoke-ADCGetVideooptimizationdetectionpolicylabelbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all videooptimizationdetectionpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationdetectionpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicylabel_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicylabel_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1355,54 +1354,60 @@ function Invoke-ADCGetVideooptimizationdetectionpolicylabelbinding {
 }
 
 function Invoke-ADCGetVideooptimizationdetectionpolicylabelpolicybindingbinding {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
-    .PARAMETER labelname 
-       Name of the videooptimization detection policy label to which to bind the policy. 
+        Binding object showing the policybinding that can be bound to videooptimizationdetectionpolicylabel.
+    .PARAMETER Labelname 
+        Name of the videooptimization detection policy label to which to bind the policy. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationdetectionpolicylabel_policybinding_binding object(s)
+        Retrieve all videooptimizationdetectionpolicylabel_policybinding_binding object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationdetectionpolicylabel_policybinding_binding object(s) will be returned
+        If specified, the count of the videooptimizationdetectionpolicylabel_policybinding_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicylabelpolicybindingbinding
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabelpolicybindingbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationdetectionpolicylabelpolicybindingbinding -GetAll 
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabelpolicybindingbinding -GetAll 
+        Get all videooptimizationdetectionpolicylabel_policybinding_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationdetectionpolicylabelpolicybindingbinding -Count
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabelpolicybindingbinding -Count 
+        Get the number of videooptimizationdetectionpolicylabel_policybinding_binding objects.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicylabelpolicybindingbinding -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabelpolicybindingbinding -name <string>
+        Get videooptimizationdetectionpolicylabel_policybinding_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
+        Get videooptimizationdetectionpolicylabel_policybinding_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionpolicylabelpolicybindingbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1415,26 +1420,24 @@ function Invoke-ADCGetVideooptimizationdetectionpolicylabelpolicybindingbinding 
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all videooptimizationdetectionpolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationdetectionpolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicylabel_policybinding_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicylabel_policybinding_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicylabel_policybinding_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1448,94 +1451,92 @@ function Invoke-ADCGetVideooptimizationdetectionpolicylabelpolicybindingbinding 
 }
 
 function Invoke-ADCAddVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add VideoOptimization configuration Object
+        Add VideoOptimization configuration Object.
     .DESCRIPTION
-        Add VideoOptimization configuration Object 
-    .PARAMETER labelname 
+        Binding object showing the videooptimizationdetectionpolicy that can be bound to videooptimizationdetectionpolicylabel.
+    .PARAMETER Labelname 
         Name of the videooptimization detection policy label to which to bind the policy. 
-    .PARAMETER policyname 
+    .PARAMETER Policyname 
         Name of the videooptimization policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         Specifies the priority of the policy. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Expression specifying the priority of the next policy which will get evaluated if the current policy rule evaluates to TRUE. 
-    .PARAMETER invoke 
+    .PARAMETER Invoke 
         If the current policy evaluates to TRUE, terminate evaluation of policies bound to the current policy label and evaluate the specified policy label. 
-    .PARAMETER labeltype 
-        Type of policy label to invoke. Available settings function as follows: * vserver - Invoke an unnamed policy label associated with a virtual server. * policylabel - Invoke a user-defined policy label.  
+    .PARAMETER Labeltype 
+        Type of policy label to invoke. Available settings function as follows: * vserver - Invoke an unnamed policy label associated with a virtual server. * policylabel - Invoke a user-defined policy label. 
         Possible values = vserver, policylabel 
-    .PARAMETER invoke_labelname 
+    .PARAMETER Invoke_labelname 
         * If labelType is policylabel, name of the policy label to invoke. * If labelType is reqvserver or resvserver, name of the virtual server. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding -labelname <string> -policyname <string> -priority <double>
+        PS C:\>Invoke-ADCAddVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding -labelname <string> -policyname <string> -priority <double>
+        An example how to add videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [Parameter(Mandatory = $true)]
-        [string]$policyname ,
+        [Parameter(Mandatory)]
+        [string]$Policyname,
 
-        [Parameter(Mandatory = $true)]
-        [double]$priority ,
+        [Parameter(Mandatory)]
+        [double]$Priority,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
-        [boolean]$invoke ,
+        [boolean]$Invoke,
 
         [ValidateSet('vserver', 'policylabel')]
-        [string]$labeltype ,
+        [string]$Labeltype,
 
-        [string]$invoke_labelname ,
+        [string]$Invoke_labelname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-                policyname = $policyname
-                priority = $priority
+            $payload = @{ labelname = $labelname
+                policyname          = $policyname
+                priority            = $priority
             }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
-            if ($PSBoundParameters.ContainsKey('invoke')) { $Payload.Add('invoke', $invoke) }
-            if ($PSBoundParameters.ContainsKey('labeltype')) { $Payload.Add('labeltype', $labeltype) }
-            if ($PSBoundParameters.ContainsKey('invoke_labelname')) { $Payload.Add('invoke_labelname', $invoke_labelname) }
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding", "Add VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSBoundParameters.ContainsKey('invoke') ) { $payload.Add('invoke', $invoke) }
+            if ( $PSBoundParameters.ContainsKey('labeltype') ) { $payload.Add('labeltype', $labeltype) }
+            if ( $PSBoundParameters.ContainsKey('invoke_labelname') ) { $payload.Add('invoke_labelname', $invoke_labelname) }
+            if ( $PSCmdlet.ShouldProcess("videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding", "Add VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1548,53 +1549,56 @@ function Invoke-ADCAddVideooptimizationdetectionpolicylabelvideooptimizationdete
 }
 
 function Invoke-ADCDeleteVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete VideoOptimization configuration Object
+        Delete VideoOptimization configuration Object.
     .DESCRIPTION
-        Delete VideoOptimization configuration Object
-    .PARAMETER labelname 
-       Name of the videooptimization detection policy label to which to bind the policy.    .PARAMETER policyname 
-       Name of the videooptimization policy.    .PARAMETER priority 
-       Specifies the priority of the policy.
+        Binding object showing the videooptimizationdetectionpolicy that can be bound to videooptimizationdetectionpolicylabel.
+    .PARAMETER Labelname 
+        Name of the videooptimization detection policy label to which to bind the policy. 
+    .PARAMETER Policyname 
+        Name of the videooptimization policy. 
+    .PARAMETER Priority 
+        Specifies the priority of the policy.
     .EXAMPLE
-        Invoke-ADCDeleteVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding -labelname <string>
+        PS C:\>Invoke-ADCDeleteVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding -Labelname <string>
+        An example how to delete videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [double]$priority 
+        [double]$Priority 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
-            if ($PSCmdlet.ShouldProcess("$labelname", "Delete VideoOptimization configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSBoundParameters.ContainsKey('Priority') ) { $arguments.Add('priority', $Priority) }
+            if ( $PSCmdlet.ShouldProcess("$labelname", "Delete VideoOptimization configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1610,54 +1614,60 @@ function Invoke-ADCDeleteVideooptimizationdetectionpolicylabelvideooptimizationd
 }
 
 function Invoke-ADCGetVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
-    .PARAMETER labelname 
-       Name of the videooptimization detection policy label to which to bind the policy. 
+        Binding object showing the videooptimizationdetectionpolicy that can be bound to videooptimizationdetectionpolicylabel.
+    .PARAMETER Labelname 
+        Name of the videooptimization detection policy label to which to bind the policy. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding object(s)
+        Retrieve all videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding object(s) will be returned
+        If specified, the count of the videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding -GetAll 
+        Get all videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding -Count
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding -Count 
+        Get the number of videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding -name <string>
+        Get videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding -Filter @{ 'name'='<value>' }
+        Get videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1670,26 +1680,24 @@ function Invoke-ADCGetVideooptimizationdetectionpolicylabelvideooptimizationdete
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1703,50 +1711,55 @@ function Invoke-ADCGetVideooptimizationdetectionpolicylabelvideooptimizationdete
 }
 
 function Invoke-ADCGetVideooptimizationdetectionpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
-    .PARAMETER name 
-       Name of the videooptimization detection policy for which to display settings.Must provide policy name. 
+        Binding object which returns the resources bound to videooptimizationdetectionpolicy.
+    .PARAMETER Name 
+        Name of the videooptimization detection policy for which to display settings.Must provide policy name. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationdetectionpolicy_binding object(s)
+        Retrieve all videooptimizationdetectionpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationdetectionpolicy_binding object(s) will be returned
+        If specified, the count of the videooptimizationdetectionpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicybinding
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationdetectionpolicybinding -GetAll
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicybinding -GetAll 
+        Get all videooptimizationdetectionpolicy_binding data.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicybinding -name <string>
+        Get videooptimizationdetectionpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicybinding -Filter @{ 'name'='<value>' }
+        Get videooptimizationdetectionpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -1758,26 +1771,24 @@ function Invoke-ADCGetVideooptimizationdetectionpolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all videooptimizationdetectionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationdetectionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicy_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1791,54 +1802,60 @@ function Invoke-ADCGetVideooptimizationdetectionpolicybinding {
 }
 
 function Invoke-ADCGetVideooptimizationdetectionpolicylbvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
-    .PARAMETER name 
-       Name of the videooptimization detection policy for which to display settings.Must provide policy name. 
+        Binding object showing the lbvserver that can be bound to videooptimizationdetectionpolicy.
+    .PARAMETER Name 
+        Name of the videooptimization detection policy for which to display settings.Must provide policy name. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationdetectionpolicy_lbvserver_binding object(s)
+        Retrieve all videooptimizationdetectionpolicy_lbvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationdetectionpolicy_lbvserver_binding object(s) will be returned
+        If specified, the count of the videooptimizationdetectionpolicy_lbvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicylbvserverbinding
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylbvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationdetectionpolicylbvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylbvserverbinding -GetAll 
+        Get all videooptimizationdetectionpolicy_lbvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationdetectionpolicylbvserverbinding -Count
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylbvserverbinding -Count 
+        Get the number of videooptimizationdetectionpolicy_lbvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicylbvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylbvserverbinding -name <string>
+        Get videooptimizationdetectionpolicy_lbvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicylbvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicylbvserverbinding -Filter @{ 'name'='<value>' }
+        Get videooptimizationdetectionpolicy_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionpolicylbvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1851,26 +1868,24 @@ function Invoke-ADCGetVideooptimizationdetectionpolicylbvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all videooptimizationdetectionpolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationdetectionpolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicy_lbvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicy_lbvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_lbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicy_lbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1884,54 +1899,60 @@ function Invoke-ADCGetVideooptimizationdetectionpolicylbvserverbinding {
 }
 
 function Invoke-ADCGetVideooptimizationdetectionpolicyvideooptimizationglobaldetectionbinding {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
-    .PARAMETER name 
-       Name of the videooptimization detection policy for which to display settings.Must provide policy name. 
+        Binding object showing the videooptimizationglobaldetection that can be bound to videooptimizationdetectionpolicy.
+    .PARAMETER Name 
+        Name of the videooptimization detection policy for which to display settings.Must provide policy name. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding object(s)
+        Retrieve all videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding object(s) will be returned
+        If specified, the count of the videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicyvideooptimizationglobaldetectionbinding
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicyvideooptimizationglobaldetectionbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationdetectionpolicyvideooptimizationglobaldetectionbinding -GetAll 
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicyvideooptimizationglobaldetectionbinding -GetAll 
+        Get all videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationdetectionpolicyvideooptimizationglobaldetectionbinding -Count
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicyvideooptimizationglobaldetectionbinding -Count 
+        Get the number of videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding objects.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicyvideooptimizationglobaldetectionbinding -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicyvideooptimizationglobaldetectionbinding -name <string>
+        Get videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationdetectionpolicyvideooptimizationglobaldetectionbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationdetectionpolicyvideooptimizationglobaldetectionbinding -Filter @{ 'name'='<value>' }
+        Get videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionpolicyvideooptimizationglobaldetectionbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1944,26 +1965,24 @@ function Invoke-ADCGetVideooptimizationdetectionpolicyvideooptimizationglobaldet
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1977,45 +1996,50 @@ function Invoke-ADCGetVideooptimizationdetectionpolicyvideooptimizationglobaldet
 }
 
 function Invoke-ADCGetVideooptimizationglobaldetectionbinding {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
+        Binding object which returns the resources bound to videooptimizationglobaldetection.
     .PARAMETER GetAll 
-        Retreive all videooptimizationglobaldetection_binding object(s)
+        Retrieve all videooptimizationglobaldetection_binding object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationglobaldetection_binding object(s) will be returned
+        If specified, the count of the videooptimizationglobaldetection_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationglobaldetectionbinding
+        PS C:\>Invoke-ADCGetVideooptimizationglobaldetectionbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationglobaldetectionbinding -GetAll
+        PS C:\>Invoke-ADCGetVideooptimizationglobaldetectionbinding -GetAll 
+        Get all videooptimizationglobaldetection_binding data.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationglobaldetectionbinding -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationglobaldetectionbinding -name <string>
+        Get videooptimizationglobaldetection_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationglobaldetectionbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationglobaldetectionbinding -Filter @{ 'name'='<value>' }
+        Get videooptimizationglobaldetection_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationglobaldetectionbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationglobaldetection_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -2027,26 +2051,24 @@ function Invoke-ADCGetVideooptimizationglobaldetectionbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all videooptimizationglobaldetection_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobaldetection_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobaldetection_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationglobaldetection_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobaldetection_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobaldetection_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationglobaldetection_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobaldetection_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobaldetection_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationglobaldetection_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving videooptimizationglobaldetection_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobaldetection_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobaldetection_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2060,95 +2082,93 @@ function Invoke-ADCGetVideooptimizationglobaldetectionbinding {
 }
 
 function Invoke-ADCAddVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add VideoOptimization configuration Object
+        Add VideoOptimization configuration Object.
     .DESCRIPTION
-        Add VideoOptimization configuration Object 
-    .PARAMETER policyname 
+        Binding object showing the videooptimizationdetectionpolicy that can be bound to videooptimizationglobaldetection.
+    .PARAMETER Policyname 
         Name of the videooptimization detection policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         Specifies the priority of the policy. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Expression specifying the priority of the next policy which will get evaluated if the current policy rule evaluates to TRUE. 
-    .PARAMETER type 
-        Specifies the bind point whose policies you want to display.  
+    .PARAMETER Type 
+        Specifies the bind point whose policies you want to display. 
         Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT 
-    .PARAMETER invoke 
+    .PARAMETER Invoke 
         If the current policy evaluates to TRUE, terminate evaluation of policies bound to the current policy label, and then forward the request to the specified virtual server or evaluate the specified policy label. 
-    .PARAMETER labeltype 
-        Type of invocation, Available settings function as follows: * vserver - Forward the request to the specified virtual server. * policylabel - Invoke the specified policy label.  
+    .PARAMETER Labeltype 
+        Type of invocation, Available settings function as follows: * vserver - Forward the request to the specified virtual server. * policylabel - Invoke the specified policy label. 
         Possible values = vserver, policylabel 
-    .PARAMETER labelname 
+    .PARAMETER Labelname 
         Name of the policy label to invoke. If the current policy evaluates to TRUE, the invoke parameter is set, and Label Type is policylabel. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding -policyname <string> -priority <double>
+        PS C:\>Invoke-ADCAddVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding -policyname <string> -priority <double>
+        An example how to add videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$policyname ,
+        [Parameter(Mandatory)]
+        [string]$Policyname,
 
-        [Parameter(Mandatory = $true)]
-        [double]$priority ,
+        [Parameter(Mandatory)]
+        [double]$Priority,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
         [ValidateSet('REQ_OVERRIDE', 'REQ_DEFAULT', 'RES_OVERRIDE', 'RES_DEFAULT')]
-        [string]$type ,
+        [string]$Type,
 
-        [boolean]$invoke ,
+        [boolean]$Invoke,
 
         [ValidateSet('vserver', 'policylabel')]
-        [string]$labeltype ,
+        [string]$Labeltype,
 
-        [string]$labelname ,
+        [string]$Labelname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                policyname = $policyname
-                priority = $priority
+            $payload = @{ policyname = $policyname
+                priority             = $priority
             }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('invoke')) { $Payload.Add('invoke', $invoke) }
-            if ($PSBoundParameters.ContainsKey('labeltype')) { $Payload.Add('labeltype', $labeltype) }
-            if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding", "Add VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSBoundParameters.ContainsKey('type') ) { $payload.Add('type', $type) }
+            if ( $PSBoundParameters.ContainsKey('invoke') ) { $payload.Add('invoke', $invoke) }
+            if ( $PSBoundParameters.ContainsKey('labeltype') ) { $payload.Add('labeltype', $labeltype) }
+            if ( $PSBoundParameters.ContainsKey('labelname') ) { $payload.Add('labelname', $labelname) }
+            if ( $PSCmdlet.ShouldProcess("videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding", "Add VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2161,54 +2181,57 @@ function Invoke-ADCAddVideooptimizationglobaldetectionvideooptimizationdetection
 }
 
 function Invoke-ADCDeleteVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete VideoOptimization configuration Object
+        Delete VideoOptimization configuration Object.
     .DESCRIPTION
-        Delete VideoOptimization configuration Object
-     .PARAMETER policyname 
-       Name of the videooptimization detection policy.    .PARAMETER type 
-       Specifies the bind point whose policies you want to display.  
-       Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT    .PARAMETER priority 
-       Specifies the priority of the policy.
+        Binding object showing the videooptimizationdetectionpolicy that can be bound to videooptimizationglobaldetection.
+    .PARAMETER Policyname 
+        Name of the videooptimization detection policy. 
+    .PARAMETER Type 
+        Specifies the bind point whose policies you want to display. 
+        Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT 
+    .PARAMETER Priority 
+        Specifies the priority of the policy.
     .EXAMPLE
-        Invoke-ADCDeleteVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding 
+        PS C:\>Invoke-ADCDeleteVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding 
+        An example how to delete videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [string]$type ,
+        [string]$Type,
 
-        [double]$priority 
+        [double]$Priority 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
-            if ($PSCmdlet.ShouldProcess("videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding", "Delete VideoOptimization configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSBoundParameters.ContainsKey('Type') ) { $arguments.Add('type', $Type) }
+            if ( $PSBoundParameters.ContainsKey('Priority') ) { $arguments.Add('priority', $Priority) }
+            if ( $PSCmdlet.ShouldProcess("videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding", "Delete VideoOptimization configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2224,49 +2247,55 @@ function Invoke-ADCDeleteVideooptimizationglobaldetectionvideooptimizationdetect
 }
 
 function Invoke-ADCGetVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
+        Binding object showing the videooptimizationdetectionpolicy that can be bound to videooptimizationglobaldetection.
     .PARAMETER GetAll 
-        Retreive all videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding object(s)
+        Retrieve all videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding object(s) will be returned
+        If specified, the count of the videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding
+        PS C:\>Invoke-ADCGetVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding -GetAll 
+        Get all videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding -Count
+        PS C:\>Invoke-ADCGetVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding -Count 
+        Get the number of videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding -name <string>
+        Get videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding -Filter @{ 'name'='<value>' }
+        Get videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2279,26 +2308,24 @@ function Invoke-ADCGetVideooptimizationglobaldetectionvideooptimizationdetection
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2312,45 +2339,50 @@ function Invoke-ADCGetVideooptimizationglobaldetectionvideooptimizationdetection
 }
 
 function Invoke-ADCGetVideooptimizationglobalpacingbinding {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
+        Binding object which returns the resources bound to videooptimizationglobalpacing.
     .PARAMETER GetAll 
-        Retreive all videooptimizationglobalpacing_binding object(s)
+        Retrieve all videooptimizationglobalpacing_binding object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationglobalpacing_binding object(s) will be returned
+        If specified, the count of the videooptimizationglobalpacing_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationglobalpacingbinding
+        PS C:\>Invoke-ADCGetVideooptimizationglobalpacingbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationglobalpacingbinding -GetAll
+        PS C:\>Invoke-ADCGetVideooptimizationglobalpacingbinding -GetAll 
+        Get all videooptimizationglobalpacing_binding data.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationglobalpacingbinding -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationglobalpacingbinding -name <string>
+        Get videooptimizationglobalpacing_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationglobalpacingbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationglobalpacingbinding -Filter @{ 'name'='<value>' }
+        Get videooptimizationglobalpacing_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationglobalpacingbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationglobalpacing_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -2362,26 +2394,24 @@ function Invoke-ADCGetVideooptimizationglobalpacingbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all videooptimizationglobalpacing_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobalpacing_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobalpacing_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationglobalpacing_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobalpacing_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobalpacing_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationglobalpacing_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobalpacing_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobalpacing_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationglobalpacing_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving videooptimizationglobalpacing_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobalpacing_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobalpacing_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2395,95 +2425,93 @@ function Invoke-ADCGetVideooptimizationglobalpacingbinding {
 }
 
 function Invoke-ADCAddVideooptimizationglobalpacingvideooptimizationpacingpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add VideoOptimization configuration Object
+        Add VideoOptimization configuration Object.
     .DESCRIPTION
-        Add VideoOptimization configuration Object 
-    .PARAMETER policyname 
+        Binding object showing the videooptimizationpacingpolicy that can be bound to videooptimizationglobalpacing.
+    .PARAMETER Policyname 
         Name of the videooptimization pacing policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         Specifies the priority of the policy. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Expression specifying the priority of the next policy which will get evaluated if the current policy rule evaluates to TRUE. 
-    .PARAMETER type 
-        Specifies the bind point whose policies you want to display.  
+    .PARAMETER Type 
+        Specifies the bind point whose policies you want to display. 
         Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT 
-    .PARAMETER invoke 
+    .PARAMETER Invoke 
         If the current policy evaluates to TRUE, terminate evaluation of policies bound to the current policy label, and then forward the request to the specified virtual server or evaluate the specified policy label. 
-    .PARAMETER labeltype 
-        Type of invocation, Available settings function as follows: * vserver - Forward the request to the specified virtual server. * policylabel - Invoke the specified policy label.  
+    .PARAMETER Labeltype 
+        Type of invocation, Available settings function as follows: * vserver - Forward the request to the specified virtual server. * policylabel - Invoke the specified policy label. 
         Possible values = vserver, policylabel 
-    .PARAMETER labelname 
+    .PARAMETER Labelname 
         Name of the policy label to invoke. If the current policy evaluates to TRUE, the invoke parameter is set, and Label Type is policylabel. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationglobalpacing_videooptimizationpacingpolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddVideooptimizationglobalpacingvideooptimizationpacingpolicybinding -policyname <string> -priority <double>
+        PS C:\>Invoke-ADCAddVideooptimizationglobalpacingvideooptimizationpacingpolicybinding -policyname <string> -priority <double>
+        An example how to add videooptimizationglobalpacing_videooptimizationpacingpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationglobalpacingvideooptimizationpacingpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationglobalpacing_videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$policyname ,
+        [Parameter(Mandatory)]
+        [string]$Policyname,
 
-        [Parameter(Mandatory = $true)]
-        [double]$priority ,
+        [Parameter(Mandatory)]
+        [double]$Priority,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
         [ValidateSet('REQ_OVERRIDE', 'REQ_DEFAULT', 'RES_OVERRIDE', 'RES_DEFAULT')]
-        [string]$type ,
+        [string]$Type,
 
-        [boolean]$invoke ,
+        [boolean]$Invoke,
 
         [ValidateSet('vserver', 'policylabel')]
-        [string]$labeltype ,
+        [string]$Labeltype,
 
-        [string]$labelname ,
+        [string]$Labelname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddVideooptimizationglobalpacingvideooptimizationpacingpolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                policyname = $policyname
-                priority = $priority
+            $payload = @{ policyname = $policyname
+                priority             = $priority
             }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('invoke')) { $Payload.Add('invoke', $invoke) }
-            if ($PSBoundParameters.ContainsKey('labeltype')) { $Payload.Add('labeltype', $labeltype) }
-            if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationglobalpacing_videooptimizationpacingpolicy_binding", "Add VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type videooptimizationglobalpacing_videooptimizationpacingpolicy_binding -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSBoundParameters.ContainsKey('type') ) { $payload.Add('type', $type) }
+            if ( $PSBoundParameters.ContainsKey('invoke') ) { $payload.Add('invoke', $invoke) }
+            if ( $PSBoundParameters.ContainsKey('labeltype') ) { $payload.Add('labeltype', $labeltype) }
+            if ( $PSBoundParameters.ContainsKey('labelname') ) { $payload.Add('labelname', $labelname) }
+            if ( $PSCmdlet.ShouldProcess("videooptimizationglobalpacing_videooptimizationpacingpolicy_binding", "Add VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type videooptimizationglobalpacing_videooptimizationpacingpolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationglobalpacingvideooptimizationpacingpolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationglobalpacingvideooptimizationpacingpolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2496,54 +2524,57 @@ function Invoke-ADCAddVideooptimizationglobalpacingvideooptimizationpacingpolicy
 }
 
 function Invoke-ADCDeleteVideooptimizationglobalpacingvideooptimizationpacingpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete VideoOptimization configuration Object
+        Delete VideoOptimization configuration Object.
     .DESCRIPTION
-        Delete VideoOptimization configuration Object
-     .PARAMETER policyname 
-       Name of the videooptimization pacing policy.    .PARAMETER type 
-       Specifies the bind point whose policies you want to display.  
-       Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT    .PARAMETER priority 
-       Specifies the priority of the policy.
+        Binding object showing the videooptimizationpacingpolicy that can be bound to videooptimizationglobalpacing.
+    .PARAMETER Policyname 
+        Name of the videooptimization pacing policy. 
+    .PARAMETER Type 
+        Specifies the bind point whose policies you want to display. 
+        Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT 
+    .PARAMETER Priority 
+        Specifies the priority of the policy.
     .EXAMPLE
-        Invoke-ADCDeleteVideooptimizationglobalpacingvideooptimizationpacingpolicybinding 
+        PS C:\>Invoke-ADCDeleteVideooptimizationglobalpacingvideooptimizationpacingpolicybinding 
+        An example how to delete videooptimizationglobalpacing_videooptimizationpacingpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationglobalpacingvideooptimizationpacingpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationglobalpacing_videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [string]$type ,
+        [string]$Type,
 
-        [double]$priority 
+        [double]$Priority 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteVideooptimizationglobalpacingvideooptimizationpacingpolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
-            if ($PSCmdlet.ShouldProcess("videooptimizationglobalpacing_videooptimizationpacingpolicy_binding", "Delete VideoOptimization configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationglobalpacing_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSBoundParameters.ContainsKey('Type') ) { $arguments.Add('type', $Type) }
+            if ( $PSBoundParameters.ContainsKey('Priority') ) { $arguments.Add('priority', $Priority) }
+            if ( $PSCmdlet.ShouldProcess("videooptimizationglobalpacing_videooptimizationpacingpolicy_binding", "Delete VideoOptimization configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationglobalpacing_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2559,49 +2590,55 @@ function Invoke-ADCDeleteVideooptimizationglobalpacingvideooptimizationpacingpol
 }
 
 function Invoke-ADCGetVideooptimizationglobalpacingvideooptimizationpacingpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
+        Binding object showing the videooptimizationpacingpolicy that can be bound to videooptimizationglobalpacing.
     .PARAMETER GetAll 
-        Retreive all videooptimizationglobalpacing_videooptimizationpacingpolicy_binding object(s)
+        Retrieve all videooptimizationglobalpacing_videooptimizationpacingpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationglobalpacing_videooptimizationpacingpolicy_binding object(s) will be returned
+        If specified, the count of the videooptimizationglobalpacing_videooptimizationpacingpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationglobalpacingvideooptimizationpacingpolicybinding
+        PS C:\>Invoke-ADCGetVideooptimizationglobalpacingvideooptimizationpacingpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationglobalpacingvideooptimizationpacingpolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetVideooptimizationglobalpacingvideooptimizationpacingpolicybinding -GetAll 
+        Get all videooptimizationglobalpacing_videooptimizationpacingpolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationglobalpacingvideooptimizationpacingpolicybinding -Count
+        PS C:\>Invoke-ADCGetVideooptimizationglobalpacingvideooptimizationpacingpolicybinding -Count 
+        Get the number of videooptimizationglobalpacing_videooptimizationpacingpolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationglobalpacingvideooptimizationpacingpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationglobalpacingvideooptimizationpacingpolicybinding -name <string>
+        Get videooptimizationglobalpacing_videooptimizationpacingpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationglobalpacingvideooptimizationpacingpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationglobalpacingvideooptimizationpacingpolicybinding -Filter @{ 'name'='<value>' }
+        Get videooptimizationglobalpacing_videooptimizationpacingpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationglobalpacingvideooptimizationpacingpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationglobalpacing_videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2614,26 +2651,24 @@ function Invoke-ADCGetVideooptimizationglobalpacingvideooptimizationpacingpolicy
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all videooptimizationglobalpacing_videooptimizationpacingpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobalpacing_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobalpacing_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationglobalpacing_videooptimizationpacingpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobalpacing_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobalpacing_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationglobalpacing_videooptimizationpacingpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobalpacing_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobalpacing_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationglobalpacing_videooptimizationpacingpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving videooptimizationglobalpacing_videooptimizationpacingpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobalpacing_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationglobalpacing_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2647,75 +2682,70 @@ function Invoke-ADCGetVideooptimizationglobalpacingvideooptimizationpacingpolicy
 }
 
 function Invoke-ADCAddVideooptimizationpacingaction {
-<#
+    <#
     .SYNOPSIS
-        Add VideoOptimization configuration Object
+        Add VideoOptimization configuration Object.
     .DESCRIPTION
-        Add VideoOptimization configuration Object 
-    .PARAMETER name 
+        Configuration for videooptimization pacingaction resource.
+    .PARAMETER Name 
         Name for the video optimization pacing action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
-    .PARAMETER rate 
-        ABR Video Optimization Pacing Rate (in Kbps).  
-        Default value: 1000  
-        Minimum value = 1  
-        Maximum value = 2147483647 
-    .PARAMETER comment 
+    .PARAMETER Rate 
+        ABR Video Optimization Pacing Rate (in Kbps). 
+    .PARAMETER Comment 
         Comment. Any type of information about this video optimization detection action. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationpacingaction item.
     .EXAMPLE
-        Invoke-ADCAddVideooptimizationpacingaction -name <string> -rate <int>
+        PS C:\>Invoke-ADCAddVideooptimizationpacingaction -name <string> -rate <int>
+        An example how to add videooptimizationpacingaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationpacingaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateRange(1, 2147483647)]
-        [int]$rate = '1000' ,
+        [int]$Rate = '1000',
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddVideooptimizationpacingaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                rate = $rate
+            $payload = @{ name = $name
+                rate           = $rate
             }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationpacingaction", "Add VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationpacingaction -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("videooptimizationpacingaction", "Add VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationpacingaction -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationpacingaction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationpacingaction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2728,46 +2758,47 @@ function Invoke-ADCAddVideooptimizationpacingaction {
 }
 
 function Invoke-ADCDeleteVideooptimizationpacingaction {
-<#
+    <#
     .SYNOPSIS
-        Delete VideoOptimization configuration Object
+        Delete VideoOptimization configuration Object.
     .DESCRIPTION
-        Delete VideoOptimization configuration Object
-    .PARAMETER name 
-       Name for the video optimization pacing action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
+        Configuration for videooptimization pacingaction resource.
+    .PARAMETER Name 
+        Name for the video optimization pacing action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters.
     .EXAMPLE
-        Invoke-ADCDeleteVideooptimizationpacingaction -name <string>
+        PS C:\>Invoke-ADCDeleteVideooptimizationpacingaction -Name <string>
+        An example how to delete videooptimizationpacingaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationpacingaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteVideooptimizationpacingaction: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete VideoOptimization configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationpacingaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete VideoOptimization configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationpacingaction -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2783,74 +2814,68 @@ function Invoke-ADCDeleteVideooptimizationpacingaction {
 }
 
 function Invoke-ADCUpdateVideooptimizationpacingaction {
-<#
+    <#
     .SYNOPSIS
-        Update VideoOptimization configuration Object
+        Update VideoOptimization configuration Object.
     .DESCRIPTION
-        Update VideoOptimization configuration Object 
-    .PARAMETER name 
+        Configuration for videooptimization pacingaction resource.
+    .PARAMETER Name 
         Name for the video optimization pacing action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
-    .PARAMETER rate 
-        ABR Video Optimization Pacing Rate (in Kbps).  
-        Default value: 1000  
-        Minimum value = 1  
-        Maximum value = 2147483647 
-    .PARAMETER comment 
+    .PARAMETER Rate 
+        ABR Video Optimization Pacing Rate (in Kbps). 
+    .PARAMETER Comment 
         Comment. Any type of information about this video optimization detection action. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationpacingaction item.
     .EXAMPLE
-        Invoke-ADCUpdateVideooptimizationpacingaction -name <string>
+        PS C:\>Invoke-ADCUpdateVideooptimizationpacingaction -name <string>
+        An example how to update videooptimizationpacingaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVideooptimizationpacingaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
         [ValidateRange(1, 2147483647)]
-        [int]$rate ,
+        [int]$Rate,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateVideooptimizationpacingaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('rate')) { $Payload.Add('rate', $rate) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationpacingaction", "Update VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type videooptimizationpacingaction -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('rate') ) { $payload.Add('rate', $rate) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("videooptimizationpacingaction", "Update VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type videooptimizationpacingaction -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationpacingaction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationpacingaction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2863,41 +2888,42 @@ function Invoke-ADCUpdateVideooptimizationpacingaction {
 }
 
 function Invoke-ADCUnsetVideooptimizationpacingaction {
-<#
+    <#
     .SYNOPSIS
-        Unset VideoOptimization configuration Object
+        Unset VideoOptimization configuration Object.
     .DESCRIPTION
-        Unset VideoOptimization configuration Object 
-   .PARAMETER name 
-       Name for the video optimization pacing action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
-   .PARAMETER rate 
-       ABR Video Optimization Pacing Rate (in Kbps). 
-   .PARAMETER comment 
-       Comment. Any type of information about this video optimization detection action.
+        Configuration for videooptimization pacingaction resource.
+    .PARAMETER Name 
+        Name for the video optimization pacing action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
+    .PARAMETER Rate 
+        ABR Video Optimization Pacing Rate (in Kbps). 
+    .PARAMETER Comment 
+        Comment. Any type of information about this video optimization detection action.
     .EXAMPLE
-        Invoke-ADCUnsetVideooptimizationpacingaction -name <string>
+        PS C:\>Invoke-ADCUnsetVideooptimizationpacingaction -name <string>
+        An example how to unset videooptimizationpacingaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVideooptimizationpacingaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingaction
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$rate ,
+        [Boolean]$rate,
 
         [Boolean]$comment 
     )
@@ -2906,13 +2932,11 @@ function Invoke-ADCUnsetVideooptimizationpacingaction {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('rate')) { $Payload.Add('rate', $rate) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset VideoOptimization configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type videooptimizationpacingaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('rate') ) { $payload.Add('rate', $rate) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset VideoOptimization configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type videooptimizationpacingaction -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2928,70 +2952,67 @@ function Invoke-ADCUnsetVideooptimizationpacingaction {
 }
 
 function Invoke-ADCRenameVideooptimizationpacingaction {
-<#
+    <#
     .SYNOPSIS
-        Rename VideoOptimization configuration Object
+        Rename VideoOptimization configuration Object.
     .DESCRIPTION
-        Rename VideoOptimization configuration Object 
-    .PARAMETER name 
+        Configuration for videooptimization pacingaction resource.
+    .PARAMETER Name 
         Name for the video optimization pacing action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
-    .PARAMETER newname 
-        New name for the videooptimization pacing action.  
-        Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters.  
-        Minimum length = 1 
+    .PARAMETER Newname 
+        New name for the videooptimization pacing action. 
+        Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationpacingaction item.
     .EXAMPLE
-        Invoke-ADCRenameVideooptimizationpacingaction -name <string> -newname <string>
+        PS C:\>Invoke-ADCRenameVideooptimizationpacingaction -name <string> -newname <string>
+        An example how to rename videooptimizationpacingaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameVideooptimizationpacingaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameVideooptimizationpacingaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                newname = $newname
+            $payload = @{ name = $name
+                newname        = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationpacingaction", "Rename VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationpacingaction -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("videooptimizationpacingaction", "Rename VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationpacingaction -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationpacingaction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationpacingaction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3004,54 +3025,60 @@ function Invoke-ADCRenameVideooptimizationpacingaction {
 }
 
 function Invoke-ADCGetVideooptimizationpacingaction {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
-    .PARAMETER name 
-       Name for the video optimization pacing action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
+        Configuration for videooptimization pacingaction resource.
+    .PARAMETER Name 
+        Name for the video optimization pacing action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationpacingaction object(s)
+        Retrieve all videooptimizationpacingaction object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationpacingaction object(s) will be returned
+        If specified, the count of the videooptimizationpacingaction object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingaction
+        PS C:\>Invoke-ADCGetVideooptimizationpacingaction
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationpacingaction -GetAll 
+        PS C:\>Invoke-ADCGetVideooptimizationpacingaction -GetAll 
+        Get all videooptimizationpacingaction data. 
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationpacingaction -Count
+        PS C:\>Invoke-ADCGetVideooptimizationpacingaction -Count 
+        Get the number of videooptimizationpacingaction objects.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingaction -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationpacingaction -name <string>
+        Get videooptimizationpacingaction object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingaction -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationpacingaction -Filter @{ 'name'='<value>' }
+        Get videooptimizationpacingaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3069,24 +3096,24 @@ function Invoke-ADCGetVideooptimizationpacingaction {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all videooptimizationpacingaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingaction -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationpacingaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingaction -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationpacingaction objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingaction -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationpacingaction configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationpacingaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3100,91 +3127,89 @@ function Invoke-ADCGetVideooptimizationpacingaction {
 }
 
 function Invoke-ADCAddVideooptimizationpacingpolicy {
-<#
+    <#
     .SYNOPSIS
-        Add VideoOptimization configuration Object
+        Add VideoOptimization configuration Object.
     .DESCRIPTION
-        Add VideoOptimization configuration Object 
-    .PARAMETER name 
+        Configuration for videooptimization pacingpolicy resource.
+    .PARAMETER Name 
         Name for the videooptimization pacing policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters.Can be modified, removed or renamed. 
-    .PARAMETER rule 
-        Expression that determines which request or response match the video optimization pacing policy.  
-        The following requirements apply only to the Citrix ADC CLI:  
-        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks.  
-        * If the expression itself includes double quotation marks, escape the quotations by using the \ character.  
+    .PARAMETER Rule 
+        Expression that determines which request or response match the video optimization pacing policy. 
+        The following requirements apply only to the Citrix ADC CLI: 
+        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks. 
+        * If the expression itself includes double quotation marks, escape the quotations by using the \ character. 
         * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks. 
-    .PARAMETER action 
+    .PARAMETER Action 
         Name of the videooptimization pacing action to perform if the request matches this videooptimization pacing policy. 
-    .PARAMETER undefaction 
+    .PARAMETER Undefaction 
         Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an internal error condition. Only the above built-in actions can be used. 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any type of information about this videooptimization pacing policy. 
-    .PARAMETER logaction 
+    .PARAMETER Logaction 
         Name of the messagelog action to use for requests that match this policy. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationpacingpolicy item.
     .EXAMPLE
-        Invoke-ADCAddVideooptimizationpacingpolicy -name <string> -rule <string> -action <string>
+        PS C:\>Invoke-ADCAddVideooptimizationpacingpolicy -name <string> -rule <string> -action <string>
+        An example how to add videooptimizationpacingpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationpacingpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
-        [string]$rule ,
+        [Parameter(Mandatory)]
+        [string]$Rule,
 
-        [Parameter(Mandatory = $true)]
-        [string]$action ,
+        [Parameter(Mandatory)]
+        [string]$Action,
 
-        [string]$undefaction ,
+        [string]$Undefaction,
 
-        [string]$comment ,
+        [string]$Comment,
 
-        [string]$logaction ,
+        [string]$Logaction,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddVideooptimizationpacingpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                rule = $rule
-                action = $action
+            $payload = @{ name = $name
+                rule           = $rule
+                action         = $action
             }
-            if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationpacingpolicy", "Add VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationpacingpolicy -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('undefaction') ) { $payload.Add('undefaction', $undefaction) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("videooptimizationpacingpolicy", "Add VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationpacingpolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationpacingpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationpacingpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3197,46 +3222,47 @@ function Invoke-ADCAddVideooptimizationpacingpolicy {
 }
 
 function Invoke-ADCDeleteVideooptimizationpacingpolicy {
-<#
+    <#
     .SYNOPSIS
-        Delete VideoOptimization configuration Object
+        Delete VideoOptimization configuration Object.
     .DESCRIPTION
-        Delete VideoOptimization configuration Object
-    .PARAMETER name 
-       Name for the videooptimization pacing policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters.Can be modified, removed or renamed. 
+        Configuration for videooptimization pacingpolicy resource.
+    .PARAMETER Name 
+        Name for the videooptimization pacing policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters.Can be modified, removed or renamed.
     .EXAMPLE
-        Invoke-ADCDeleteVideooptimizationpacingpolicy -name <string>
+        PS C:\>Invoke-ADCDeleteVideooptimizationpacingpolicy -Name <string>
+        An example how to delete videooptimizationpacingpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationpacingpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteVideooptimizationpacingpolicy: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete VideoOptimization configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationpacingpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete VideoOptimization configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationpacingpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3252,89 +3278,86 @@ function Invoke-ADCDeleteVideooptimizationpacingpolicy {
 }
 
 function Invoke-ADCUpdateVideooptimizationpacingpolicy {
-<#
+    <#
     .SYNOPSIS
-        Update VideoOptimization configuration Object
+        Update VideoOptimization configuration Object.
     .DESCRIPTION
-        Update VideoOptimization configuration Object 
-    .PARAMETER name 
+        Configuration for videooptimization pacingpolicy resource.
+    .PARAMETER Name 
         Name for the videooptimization pacing policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters.Can be modified, removed or renamed. 
-    .PARAMETER rule 
-        Expression that determines which request or response match the video optimization pacing policy.  
-        The following requirements apply only to the Citrix ADC CLI:  
-        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks.  
-        * If the expression itself includes double quotation marks, escape the quotations by using the \ character.  
+    .PARAMETER Rule 
+        Expression that determines which request or response match the video optimization pacing policy. 
+        The following requirements apply only to the Citrix ADC CLI: 
+        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks. 
+        * If the expression itself includes double quotation marks, escape the quotations by using the \ character. 
         * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks. 
-    .PARAMETER action 
+    .PARAMETER Action 
         Name of the videooptimization pacing action to perform if the request matches this videooptimization pacing policy. 
-    .PARAMETER undefaction 
+    .PARAMETER Undefaction 
         Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an internal error condition. Only the above built-in actions can be used. 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any type of information about this videooptimization pacing policy. 
-    .PARAMETER logaction 
+    .PARAMETER Logaction 
         Name of the messagelog action to use for requests that match this policy. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationpacingpolicy item.
     .EXAMPLE
-        Invoke-ADCUpdateVideooptimizationpacingpolicy -name <string>
+        PS C:\>Invoke-ADCUpdateVideooptimizationpacingpolicy -name <string>
+        An example how to update videooptimizationpacingpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVideooptimizationpacingpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [string]$rule ,
+        [string]$Rule,
 
-        [string]$action ,
+        [string]$Action,
 
-        [string]$undefaction ,
+        [string]$Undefaction,
 
-        [string]$comment ,
+        [string]$Comment,
 
-        [string]$logaction ,
+        [string]$Logaction,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateVideooptimizationpacingpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
-            if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
-            if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationpacingpolicy", "Update VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type videooptimizationpacingpolicy -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('rule') ) { $payload.Add('rule', $rule) }
+            if ( $PSBoundParameters.ContainsKey('action') ) { $payload.Add('action', $action) }
+            if ( $PSBoundParameters.ContainsKey('undefaction') ) { $payload.Add('undefaction', $undefaction) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("videooptimizationpacingpolicy", "Update VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type videooptimizationpacingpolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationpacingpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationpacingpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3347,45 +3370,46 @@ function Invoke-ADCUpdateVideooptimizationpacingpolicy {
 }
 
 function Invoke-ADCUnsetVideooptimizationpacingpolicy {
-<#
+    <#
     .SYNOPSIS
-        Unset VideoOptimization configuration Object
+        Unset VideoOptimization configuration Object.
     .DESCRIPTION
-        Unset VideoOptimization configuration Object 
-   .PARAMETER name 
-       Name for the videooptimization pacing policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters.Can be modified, removed or renamed. 
-   .PARAMETER undefaction 
-       Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an internal error condition. Only the above built-in actions can be used. 
-   .PARAMETER comment 
-       Any type of information about this videooptimization pacing policy. 
-   .PARAMETER logaction 
-       Name of the messagelog action to use for requests that match this policy.
+        Configuration for videooptimization pacingpolicy resource.
+    .PARAMETER Name 
+        Name for the videooptimization pacing policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters.Can be modified, removed or renamed. 
+    .PARAMETER Undefaction 
+        Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an internal error condition. Only the above built-in actions can be used. 
+    .PARAMETER Comment 
+        Any type of information about this videooptimization pacing policy. 
+    .PARAMETER Logaction 
+        Name of the messagelog action to use for requests that match this policy.
     .EXAMPLE
-        Invoke-ADCUnsetVideooptimizationpacingpolicy -name <string>
+        PS C:\>Invoke-ADCUnsetVideooptimizationpacingpolicy -name <string>
+        An example how to unset videooptimizationpacingpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVideooptimizationpacingpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicy
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$undefaction ,
+        [Boolean]$undefaction,
 
-        [Boolean]$comment ,
+        [Boolean]$comment,
 
         [Boolean]$logaction 
     )
@@ -3394,14 +3418,12 @@ function Invoke-ADCUnsetVideooptimizationpacingpolicy {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset VideoOptimization configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type videooptimizationpacingpolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('undefaction') ) { $payload.Add('undefaction', $undefaction) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset VideoOptimization configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type videooptimizationpacingpolicy -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3417,69 +3439,66 @@ function Invoke-ADCUnsetVideooptimizationpacingpolicy {
 }
 
 function Invoke-ADCRenameVideooptimizationpacingpolicy {
-<#
+    <#
     .SYNOPSIS
-        Rename VideoOptimization configuration Object
+        Rename VideoOptimization configuration Object.
     .DESCRIPTION
-        Rename VideoOptimization configuration Object 
-    .PARAMETER name 
+        Configuration for videooptimization pacingpolicy resource.
+    .PARAMETER Name 
         Name for the videooptimization pacing policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters.Can be modified, removed or renamed. 
-    .PARAMETER newname 
-        New name for the videooptimization pacing policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters.  
-        Minimum length = 1 
+    .PARAMETER Newname 
+        New name for the videooptimization pacing policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationpacingpolicy item.
     .EXAMPLE
-        Invoke-ADCRenameVideooptimizationpacingpolicy -name <string> -newname <string>
+        PS C:\>Invoke-ADCRenameVideooptimizationpacingpolicy -name <string> -newname <string>
+        An example how to rename videooptimizationpacingpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameVideooptimizationpacingpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameVideooptimizationpacingpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                newname = $newname
+            $payload = @{ name = $name
+                newname        = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationpacingpolicy", "Rename VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationpacingpolicy -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("videooptimizationpacingpolicy", "Rename VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationpacingpolicy -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationpacingpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationpacingpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3492,54 +3511,60 @@ function Invoke-ADCRenameVideooptimizationpacingpolicy {
 }
 
 function Invoke-ADCGetVideooptimizationpacingpolicy {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
-    .PARAMETER name 
-       Name for the videooptimization pacing policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters.Can be modified, removed or renamed. 
+        Configuration for videooptimization pacingpolicy resource.
+    .PARAMETER Name 
+        Name for the videooptimization pacing policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore characters.Can be modified, removed or renamed. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationpacingpolicy object(s)
+        Retrieve all videooptimizationpacingpolicy object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationpacingpolicy object(s) will be returned
+        If specified, the count of the videooptimizationpacingpolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicy
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicy
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationpacingpolicy -GetAll 
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicy -GetAll 
+        Get all videooptimizationpacingpolicy data. 
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationpacingpolicy -Count
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicy -Count 
+        Get the number of videooptimizationpacingpolicy objects.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicy -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicy -name <string>
+        Get videooptimizationpacingpolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicy -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicy -Filter @{ 'name'='<value>' }
+        Get videooptimizationpacingpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3557,24 +3582,24 @@ function Invoke-ADCGetVideooptimizationpacingpolicy {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all videooptimizationpacingpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationpacingpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicy configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationpacingpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3588,76 +3613,72 @@ function Invoke-ADCGetVideooptimizationpacingpolicy {
 }
 
 function Invoke-ADCAddVideooptimizationpacingpolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Add VideoOptimization configuration Object
+        Add VideoOptimization configuration Object.
     .DESCRIPTION
-        Add VideoOptimization configuration Object 
-    .PARAMETER labelname 
-        Name for the Video optimization pacing policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (  
+        Configuration for videooptimization pacing policy label resource.
+    .PARAMETER Labelname 
+        Name for the Video optimization pacing policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period ( 
         .) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the videooptimization pacing policy label is added. 
-    .PARAMETER policylabeltype 
-        Type of responses sent by the policies bound to this policy label. Types are:  
-        * HTTP - HTTP responses.  
-        * OTHERTCP - NON-HTTP TCP responses.  
-        Default value: NS_PLTMAP_RSP_REQ  
+    .PARAMETER Policylabeltype 
+        Type of responses sent by the policies bound to this policy label. Types are: 
+        * HTTP - HTTP responses. 
+        * OTHERTCP - NON-HTTP TCP responses. 
         Possible values = videoopt_req, videoopt_res 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any comments to preserve information about this videooptimization pacing policy label. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationpacingpolicylabel item.
     .EXAMPLE
-        Invoke-ADCAddVideooptimizationpacingpolicylabel -labelname <string>
+        PS C:\>Invoke-ADCAddVideooptimizationpacingpolicylabel -labelname <string>
+        An example how to add videooptimizationpacingpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationpacingpolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
         [ValidateSet('videoopt_req', 'videoopt_res')]
-        [string]$policylabeltype = 'NS_PLTMAP_RSP_REQ' ,
+        [string]$Policylabeltype = 'NS_PLTMAP_RSP_REQ',
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddVideooptimizationpacingpolicylabel: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-            }
-            if ($PSBoundParameters.ContainsKey('policylabeltype')) { $Payload.Add('policylabeltype', $policylabeltype) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationpacingpolicylabel", "Add VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationpacingpolicylabel -Payload $Payload -GetWarning
+            $payload = @{ labelname = $labelname }
+            if ( $PSBoundParameters.ContainsKey('policylabeltype') ) { $payload.Add('policylabeltype', $policylabeltype) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("videooptimizationpacingpolicylabel", "Add VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationpacingpolicylabel -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationpacingpolicylabel -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationpacingpolicylabel -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3670,47 +3691,48 @@ function Invoke-ADCAddVideooptimizationpacingpolicylabel {
 }
 
 function Invoke-ADCDeleteVideooptimizationpacingpolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Delete VideoOptimization configuration Object
+        Delete VideoOptimization configuration Object.
     .DESCRIPTION
-        Delete VideoOptimization configuration Object
-    .PARAMETER labelname 
-       Name for the Video optimization pacing policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (  
-       .) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the videooptimization pacing policy label is added. 
+        Configuration for videooptimization pacing policy label resource.
+    .PARAMETER Labelname 
+        Name for the Video optimization pacing policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period ( 
+        .) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the videooptimization pacing policy label is added.
     .EXAMPLE
-        Invoke-ADCDeleteVideooptimizationpacingpolicylabel -labelname <string>
+        PS C:\>Invoke-ADCDeleteVideooptimizationpacingpolicylabel -Labelname <string>
+        An example how to delete videooptimizationpacingpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationpacingpolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname 
+        [Parameter(Mandatory)]
+        [string]$Labelname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteVideooptimizationpacingpolicylabel: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$labelname", "Delete VideoOptimization configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$labelname", "Delete VideoOptimization configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3726,71 +3748,68 @@ function Invoke-ADCDeleteVideooptimizationpacingpolicylabel {
 }
 
 function Invoke-ADCRenameVideooptimizationpacingpolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Rename VideoOptimization configuration Object
+        Rename VideoOptimization configuration Object.
     .DESCRIPTION
-        Rename VideoOptimization configuration Object 
-    .PARAMETER labelname 
-        Name for the Video optimization pacing policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (  
+        Configuration for videooptimization pacing policy label resource.
+    .PARAMETER Labelname 
+        Name for the Video optimization pacing policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period ( 
         .) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the videooptimization pacing policy label is added. 
-    .PARAMETER newname 
-        New name for the videooptimization pacing policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (  
-        -), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters.  
-        Minimum length = 1 
+    .PARAMETER Newname 
+        New name for the videooptimization pacing policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen ( 
+        -), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationpacingpolicylabel item.
     .EXAMPLE
-        Invoke-ADCRenameVideooptimizationpacingpolicylabel -labelname <string> -newname <string>
+        PS C:\>Invoke-ADCRenameVideooptimizationpacingpolicylabel -labelname <string> -newname <string>
+        An example how to rename videooptimizationpacingpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameVideooptimizationpacingpolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameVideooptimizationpacingpolicylabel: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-                newname = $newname
+            $payload = @{ labelname = $labelname
+                newname             = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationpacingpolicylabel", "Rename VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationpacingpolicylabel -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("videooptimizationpacingpolicylabel", "Rename VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type videooptimizationpacingpolicylabel -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationpacingpolicylabel -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationpacingpolicylabel -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3803,55 +3822,61 @@ function Invoke-ADCRenameVideooptimizationpacingpolicylabel {
 }
 
 function Invoke-ADCGetVideooptimizationpacingpolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
-    .PARAMETER labelname 
-       Name for the Video optimization pacing policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (  
-       .) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the videooptimization pacing policy label is added. 
+        Configuration for videooptimization pacing policy label resource.
+    .PARAMETER Labelname 
+        Name for the Video optimization pacing policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period ( 
+        .) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the videooptimization pacing policy label is added. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationpacingpolicylabel object(s)
+        Retrieve all videooptimizationpacingpolicylabel object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationpacingpolicylabel object(s) will be returned
+        If specified, the count of the videooptimizationpacingpolicylabel object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicylabel
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabel
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationpacingpolicylabel -GetAll 
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabel -GetAll 
+        Get all videooptimizationpacingpolicylabel data. 
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationpacingpolicylabel -Count
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabel -Count 
+        Get the number of videooptimizationpacingpolicylabel objects.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicylabel -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabel -name <string>
+        Get videooptimizationpacingpolicylabel object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicylabel -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabel -Filter @{ 'name'='<value>' }
+        Get videooptimizationpacingpolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingpolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3869,24 +3894,24 @@ function Invoke-ADCGetVideooptimizationpacingpolicylabel {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all videooptimizationpacingpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationpacingpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicylabel objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicylabel configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationpacingpolicylabel configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3900,50 +3925,55 @@ function Invoke-ADCGetVideooptimizationpacingpolicylabel {
 }
 
 function Invoke-ADCGetVideooptimizationpacingpolicylabelbinding {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
-    .PARAMETER labelname 
-       Name of the videooptimization pacing policy label. 
+        Binding object which returns the resources bound to videooptimizationpacingpolicylabel.
+    .PARAMETER Labelname 
+        Name of the videooptimization pacing policy label. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationpacingpolicylabel_binding object(s)
+        Retrieve all videooptimizationpacingpolicylabel_binding object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationpacingpolicylabel_binding object(s) will be returned
+        If specified, the count of the videooptimizationpacingpolicylabel_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicylabelbinding
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabelbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationpacingpolicylabelbinding -GetAll
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabelbinding -GetAll 
+        Get all videooptimizationpacingpolicylabel_binding data.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicylabelbinding -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabelbinding -name <string>
+        Get videooptimizationpacingpolicylabel_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicylabelbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabelbinding -Filter @{ 'name'='<value>' }
+        Get videooptimizationpacingpolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingpolicylabelbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 			
         [hashtable]$Filter = @{ },
 
@@ -3955,26 +3985,24 @@ function Invoke-ADCGetVideooptimizationpacingpolicylabelbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all videooptimizationpacingpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationpacingpolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicylabel_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicylabel_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationpacingpolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3988,54 +4016,60 @@ function Invoke-ADCGetVideooptimizationpacingpolicylabelbinding {
 }
 
 function Invoke-ADCGetVideooptimizationpacingpolicylabelpolicybindingbinding {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
-    .PARAMETER labelname 
-       Name of the videooptimization pacing policy label to which to bind the policy. 
+        Binding object showing the policybinding that can be bound to videooptimizationpacingpolicylabel.
+    .PARAMETER Labelname 
+        Name of the videooptimization pacing policy label to which to bind the policy. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationpacingpolicylabel_policybinding_binding object(s)
+        Retrieve all videooptimizationpacingpolicylabel_policybinding_binding object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationpacingpolicylabel_policybinding_binding object(s) will be returned
+        If specified, the count of the videooptimizationpacingpolicylabel_policybinding_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicylabelpolicybindingbinding
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabelpolicybindingbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationpacingpolicylabelpolicybindingbinding -GetAll 
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabelpolicybindingbinding -GetAll 
+        Get all videooptimizationpacingpolicylabel_policybinding_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationpacingpolicylabelpolicybindingbinding -Count
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabelpolicybindingbinding -Count 
+        Get the number of videooptimizationpacingpolicylabel_policybinding_binding objects.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicylabelpolicybindingbinding -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabelpolicybindingbinding -name <string>
+        Get videooptimizationpacingpolicylabel_policybinding_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
+        Get videooptimizationpacingpolicylabel_policybinding_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingpolicylabelpolicybindingbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4048,26 +4082,24 @@ function Invoke-ADCGetVideooptimizationpacingpolicylabelpolicybindingbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all videooptimizationpacingpolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationpacingpolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicylabel_policybinding_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicylabel_policybinding_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationpacingpolicylabel_policybinding_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_policybinding_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4081,94 +4113,92 @@ function Invoke-ADCGetVideooptimizationpacingpolicylabelpolicybindingbinding {
 }
 
 function Invoke-ADCAddVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add VideoOptimization configuration Object
+        Add VideoOptimization configuration Object.
     .DESCRIPTION
-        Add VideoOptimization configuration Object 
-    .PARAMETER labelname 
+        Binding object showing the videooptimizationpacingpolicy that can be bound to videooptimizationpacingpolicylabel.
+    .PARAMETER Labelname 
         Name of the videooptimization pacing policy label to which to bind the policy. 
-    .PARAMETER policyname 
+    .PARAMETER Policyname 
         Name of the videooptimization policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         Specifies the priority of the policy. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Expression specifying the priority of the next policy which will get evaluated if the current policy rule evaluates to TRUE. 
-    .PARAMETER invoke 
+    .PARAMETER Invoke 
         If the current policy evaluates to TRUE, terminate evaluation of policies bound to the current policy label and evaluate the specified policy label. 
-    .PARAMETER labeltype 
-        Type of policy label to invoke. Available settings function as follows: * vserver - Invoke an unnamed policy label associated with a virtual server. * policylabel - Invoke a user-defined policy label.  
+    .PARAMETER Labeltype 
+        Type of policy label to invoke. Available settings function as follows: * vserver - Invoke an unnamed policy label associated with a virtual server. * policylabel - Invoke a user-defined policy label. 
         Possible values = vserver, policylabel 
-    .PARAMETER invoke_labelname 
+    .PARAMETER Invoke_labelname 
         * If labelType is policylabel, name of the policy label to invoke. * If labelType is reqvserver or resvserver, name of the virtual server. 
     .PARAMETER PassThru 
         Return details about the created videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding -labelname <string> -policyname <string> -priority <double>
+        PS C:\>Invoke-ADCAddVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding -labelname <string> -policyname <string> -priority <double>
+        An example how to add videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [Parameter(Mandatory = $true)]
-        [string]$policyname ,
+        [Parameter(Mandatory)]
+        [string]$Policyname,
 
-        [Parameter(Mandatory = $true)]
-        [double]$priority ,
+        [Parameter(Mandatory)]
+        [double]$Priority,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
-        [boolean]$invoke ,
+        [boolean]$Invoke,
 
         [ValidateSet('vserver', 'policylabel')]
-        [string]$labeltype ,
+        [string]$Labeltype,
 
-        [string]$invoke_labelname ,
+        [string]$Invoke_labelname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-                policyname = $policyname
-                priority = $priority
+            $payload = @{ labelname = $labelname
+                policyname          = $policyname
+                priority            = $priority
             }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
-            if ($PSBoundParameters.ContainsKey('invoke')) { $Payload.Add('invoke', $invoke) }
-            if ($PSBoundParameters.ContainsKey('labeltype')) { $Payload.Add('labeltype', $labeltype) }
-            if ($PSBoundParameters.ContainsKey('invoke_labelname')) { $Payload.Add('invoke_labelname', $invoke_labelname) }
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding", "Add VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSBoundParameters.ContainsKey('invoke') ) { $payload.Add('invoke', $invoke) }
+            if ( $PSBoundParameters.ContainsKey('labeltype') ) { $payload.Add('labeltype', $labeltype) }
+            if ( $PSBoundParameters.ContainsKey('invoke_labelname') ) { $payload.Add('invoke_labelname', $invoke_labelname) }
+            if ( $PSCmdlet.ShouldProcess("videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding", "Add VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4181,53 +4211,56 @@ function Invoke-ADCAddVideooptimizationpacingpolicylabelvideooptimizationpacingp
 }
 
 function Invoke-ADCDeleteVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete VideoOptimization configuration Object
+        Delete VideoOptimization configuration Object.
     .DESCRIPTION
-        Delete VideoOptimization configuration Object
-    .PARAMETER labelname 
-       Name of the videooptimization pacing policy label to which to bind the policy.    .PARAMETER policyname 
-       Name of the videooptimization policy.    .PARAMETER priority 
-       Specifies the priority of the policy.
+        Binding object showing the videooptimizationpacingpolicy that can be bound to videooptimizationpacingpolicylabel.
+    .PARAMETER Labelname 
+        Name of the videooptimization pacing policy label to which to bind the policy. 
+    .PARAMETER Policyname 
+        Name of the videooptimization policy. 
+    .PARAMETER Priority 
+        Specifies the priority of the policy.
     .EXAMPLE
-        Invoke-ADCDeleteVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding -labelname <string>
+        PS C:\>Invoke-ADCDeleteVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding -Labelname <string>
+        An example how to delete videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [double]$priority 
+        [double]$Priority 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
-            if ($PSCmdlet.ShouldProcess("$labelname", "Delete VideoOptimization configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSBoundParameters.ContainsKey('Priority') ) { $arguments.Add('priority', $Priority) }
+            if ( $PSCmdlet.ShouldProcess("$labelname", "Delete VideoOptimization configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4243,54 +4276,60 @@ function Invoke-ADCDeleteVideooptimizationpacingpolicylabelvideooptimizationpaci
 }
 
 function Invoke-ADCGetVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
-    .PARAMETER labelname 
-       Name of the videooptimization pacing policy label to which to bind the policy. 
+        Binding object showing the videooptimizationpacingpolicy that can be bound to videooptimizationpacingpolicylabel.
+    .PARAMETER Labelname 
+        Name of the videooptimization pacing policy label to which to bind the policy. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding object(s)
+        Retrieve all videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding object(s) will be returned
+        If specified, the count of the videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding -GetAll 
+        Get all videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding -Count
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding -Count 
+        Get the number of videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding -name <string>
+        Get videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding -Filter @{ 'name'='<value>' }
+        Get videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4303,26 +4342,24 @@ function Invoke-ADCGetVideooptimizationpacingpolicylabelvideooptimizationpacingp
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4336,50 +4373,55 @@ function Invoke-ADCGetVideooptimizationpacingpolicylabelvideooptimizationpacingp
 }
 
 function Invoke-ADCGetVideooptimizationpacingpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
-    .PARAMETER name 
-       Name of the videooptimization pacing policy for which to display settings.Must provide policy name. 
+        Binding object which returns the resources bound to videooptimizationpacingpolicy.
+    .PARAMETER Name 
+        Name of the videooptimization pacing policy for which to display settings.Must provide policy name. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationpacingpolicy_binding object(s)
+        Retrieve all videooptimizationpacingpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationpacingpolicy_binding object(s) will be returned
+        If specified, the count of the videooptimizationpacingpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicybinding
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationpacingpolicybinding -GetAll
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicybinding -GetAll 
+        Get all videooptimizationpacingpolicy_binding data.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicybinding -name <string>
+        Get videooptimizationpacingpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicybinding -Filter @{ 'name'='<value>' }
+        Get videooptimizationpacingpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -4391,26 +4433,24 @@ function Invoke-ADCGetVideooptimizationpacingpolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all videooptimizationpacingpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationpacingpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicy_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationpacingpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4424,54 +4464,60 @@ function Invoke-ADCGetVideooptimizationpacingpolicybinding {
 }
 
 function Invoke-ADCGetVideooptimizationpacingpolicylbvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
-    .PARAMETER name 
-       Name of the videooptimization pacing policy for which to display settings.Must provide policy name. 
+        Binding object showing the lbvserver that can be bound to videooptimizationpacingpolicy.
+    .PARAMETER Name 
+        Name of the videooptimization pacing policy for which to display settings.Must provide policy name. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationpacingpolicy_lbvserver_binding object(s)
+        Retrieve all videooptimizationpacingpolicy_lbvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationpacingpolicy_lbvserver_binding object(s) will be returned
+        If specified, the count of the videooptimizationpacingpolicy_lbvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicylbvserverbinding
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylbvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationpacingpolicylbvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylbvserverbinding -GetAll 
+        Get all videooptimizationpacingpolicy_lbvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationpacingpolicylbvserverbinding -Count
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylbvserverbinding -Count 
+        Get the number of videooptimizationpacingpolicy_lbvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicylbvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylbvserverbinding -name <string>
+        Get videooptimizationpacingpolicy_lbvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicylbvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicylbvserverbinding -Filter @{ 'name'='<value>' }
+        Get videooptimizationpacingpolicy_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingpolicylbvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4484,26 +4530,24 @@ function Invoke-ADCGetVideooptimizationpacingpolicylbvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all videooptimizationpacingpolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationpacingpolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicy_lbvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicy_lbvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_lbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationpacingpolicy_lbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4517,54 +4561,60 @@ function Invoke-ADCGetVideooptimizationpacingpolicylbvserverbinding {
 }
 
 function Invoke-ADCGetVideooptimizationpacingpolicyvideooptimizationglobalpacingbinding {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
-    .PARAMETER name 
-       Name of the videooptimization pacing policy for which to display settings.Must provide policy name. 
+        Binding object showing the videooptimizationglobalpacing that can be bound to videooptimizationpacingpolicy.
+    .PARAMETER Name 
+        Name of the videooptimization pacing policy for which to display settings.Must provide policy name. 
     .PARAMETER GetAll 
-        Retreive all videooptimizationpacingpolicy_videooptimizationglobalpacing_binding object(s)
+        Retrieve all videooptimizationpacingpolicy_videooptimizationglobalpacing_binding object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationpacingpolicy_videooptimizationglobalpacing_binding object(s) will be returned
+        If specified, the count of the videooptimizationpacingpolicy_videooptimizationglobalpacing_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicyvideooptimizationglobalpacingbinding
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicyvideooptimizationglobalpacingbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationpacingpolicyvideooptimizationglobalpacingbinding -GetAll 
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicyvideooptimizationglobalpacingbinding -GetAll 
+        Get all videooptimizationpacingpolicy_videooptimizationglobalpacing_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationpacingpolicyvideooptimizationglobalpacingbinding -Count
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicyvideooptimizationglobalpacingbinding -Count 
+        Get the number of videooptimizationpacingpolicy_videooptimizationglobalpacing_binding objects.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicyvideooptimizationglobalpacingbinding -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicyvideooptimizationglobalpacingbinding -name <string>
+        Get videooptimizationpacingpolicy_videooptimizationglobalpacing_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationpacingpolicyvideooptimizationglobalpacingbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationpacingpolicyvideooptimizationglobalpacingbinding -Filter @{ 'name'='<value>' }
+        Get videooptimizationpacingpolicy_videooptimizationglobalpacing_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingpolicyvideooptimizationglobalpacingbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicy_videooptimizationglobalpacing_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4577,26 +4627,24 @@ function Invoke-ADCGetVideooptimizationpacingpolicyvideooptimizationglobalpacing
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all videooptimizationpacingpolicy_videooptimizationglobalpacing_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_videooptimizationglobalpacing_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_videooptimizationglobalpacing_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationpacingpolicy_videooptimizationglobalpacing_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_videooptimizationglobalpacing_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_videooptimizationglobalpacing_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicy_videooptimizationglobalpacing_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_videooptimizationglobalpacing_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_videooptimizationglobalpacing_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationpacingpolicy_videooptimizationglobalpacing_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_videooptimizationglobalpacing_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving videooptimizationpacingpolicy_videooptimizationglobalpacing_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_videooptimizationglobalpacing_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationpacingpolicy_videooptimizationglobalpacing_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4610,64 +4658,56 @@ function Invoke-ADCGetVideooptimizationpacingpolicyvideooptimizationglobalpacing
 }
 
 function Invoke-ADCUpdateVideooptimizationparameter {
-<#
+    <#
     .SYNOPSIS
-        Update VideoOptimization configuration Object
+        Update VideoOptimization configuration Object.
     .DESCRIPTION
-        Update VideoOptimization configuration Object 
-    .PARAMETER randomsamplingpercentage 
-        Random Sampling Percentage.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 100 
-    .PARAMETER quicpacingrate 
-        QUIC Video Pacing Rate (Kbps).  
-        Minimum value = 0  
-        Maximum value = 2147483647
+        Configuration for VideoOptimization parameter resource.
+    .PARAMETER Randomsamplingpercentage 
+        Random Sampling Percentage. 
+    .PARAMETER Quicpacingrate 
+        QUIC Video Pacing Rate (Kbps).
     .EXAMPLE
-        Invoke-ADCUpdateVideooptimizationparameter 
+        PS C:\>Invoke-ADCUpdateVideooptimizationparameter 
+        An example how to update videooptimizationparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVideooptimizationparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateRange(0, 100)]
-        [double]$randomsamplingpercentage ,
+        [double]$Randomsamplingpercentage,
 
         [ValidateRange(0, 2147483647)]
-        [double]$quicpacingrate 
-
+        [double]$Quicpacingrate 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateVideooptimizationparameter: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('randomsamplingpercentage')) { $Payload.Add('randomsamplingpercentage', $randomsamplingpercentage) }
-            if ($PSBoundParameters.ContainsKey('quicpacingrate')) { $Payload.Add('quicpacingrate', $quicpacingrate) }
- 
-            if ($PSCmdlet.ShouldProcess("videooptimizationparameter", "Update VideoOptimization configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type videooptimizationparameter -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('randomsamplingpercentage') ) { $payload.Add('randomsamplingpercentage', $randomsamplingpercentage) }
+            if ( $PSBoundParameters.ContainsKey('quicpacingrate') ) { $payload.Add('quicpacingrate', $quicpacingrate) }
+            if ( $PSCmdlet.ShouldProcess("videooptimizationparameter", "Update VideoOptimization configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type videooptimizationparameter -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4680,36 +4720,38 @@ function Invoke-ADCUpdateVideooptimizationparameter {
 }
 
 function Invoke-ADCUnsetVideooptimizationparameter {
-<#
+    <#
     .SYNOPSIS
-        Unset VideoOptimization configuration Object
+        Unset VideoOptimization configuration Object.
     .DESCRIPTION
-        Unset VideoOptimization configuration Object 
-   .PARAMETER randomsamplingpercentage 
-       Random Sampling Percentage. 
-   .PARAMETER quicpacingrate 
-       QUIC Video Pacing Rate (Kbps).
+        Configuration for VideoOptimization parameter resource.
+    .PARAMETER Randomsamplingpercentage 
+        Random Sampling Percentage. 
+    .PARAMETER Quicpacingrate 
+        QUIC Video Pacing Rate (Kbps).
     .EXAMPLE
-        Invoke-ADCUnsetVideooptimizationparameter 
+        PS C:\>Invoke-ADCUnsetVideooptimizationparameter 
+        An example how to unset videooptimizationparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVideooptimizationparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationparameter
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$randomsamplingpercentage ,
+        [Boolean]$randomsamplingpercentage,
 
         [Boolean]$quicpacingrate 
     )
@@ -4718,13 +4760,11 @@ function Invoke-ADCUnsetVideooptimizationparameter {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('randomsamplingpercentage')) { $Payload.Add('randomsamplingpercentage', $randomsamplingpercentage) }
-            if ($PSBoundParameters.ContainsKey('quicpacingrate')) { $Payload.Add('quicpacingrate', $quicpacingrate) }
-            if ($PSCmdlet.ShouldProcess("videooptimizationparameter", "Unset VideoOptimization configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type videooptimizationparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('randomsamplingpercentage') ) { $payload.Add('randomsamplingpercentage', $randomsamplingpercentage) }
+            if ( $PSBoundParameters.ContainsKey('quicpacingrate') ) { $payload.Add('quicpacingrate', $quicpacingrate) }
+            if ( $PSCmdlet.ShouldProcess("videooptimizationparameter", "Unset VideoOptimization configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type videooptimizationparameter -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4740,45 +4780,50 @@ function Invoke-ADCUnsetVideooptimizationparameter {
 }
 
 function Invoke-ADCGetVideooptimizationparameter {
-<#
+    <#
     .SYNOPSIS
-        Get VideoOptimization configuration object(s)
+        Get VideoOptimization configuration object(s).
     .DESCRIPTION
-        Get VideoOptimization configuration object(s)
+        Configuration for VideoOptimization parameter resource.
     .PARAMETER GetAll 
-        Retreive all videooptimizationparameter object(s)
+        Retrieve all videooptimizationparameter object(s).
     .PARAMETER Count
-        If specified, the count of the videooptimizationparameter object(s) will be returned
+        If specified, the count of the videooptimizationparameter object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationparameter
+        PS C:\>Invoke-ADCGetVideooptimizationparameter
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVideooptimizationparameter -GetAll
+        PS C:\>Invoke-ADCGetVideooptimizationparameter -GetAll 
+        Get all videooptimizationparameter data.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationparameter -name <string>
+        PS C:\>Invoke-ADCGetVideooptimizationparameter -name <string>
+        Get videooptimizationparameter object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVideooptimizationparameter -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVideooptimizationparameter -Filter @{ 'name'='<value>' }
+        Get videooptimizationparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -4790,24 +4835,24 @@ function Invoke-ADCGetVideooptimizationparameter {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all videooptimizationparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for videooptimizationparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving videooptimizationparameter objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationparameter -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving videooptimizationparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving videooptimizationparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type videooptimizationparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

@@ -1,49 +1,54 @@
 function Invoke-ADCGetAuthenticationloginschemapolicyStats {
-<#
+    <#
     .SYNOPSIS
-        Get Authentication statistics object(s)
+        Get Authentication statistics object(s).
     .DESCRIPTION
-        Get Authentication statistics object(s)
-    .PARAMETER name 
-       The name of the LoginSchema policy for which statistics will be displayed. If not given statistics are shown for all policies. 
+        Read/write properties
+    .PARAMETER Name 
+        The name of the LoginSchema policy for which statistics will be displayed. If not given statistics are shown for all policies. 
     .PARAMETER GetAll 
-        Retreive all authenticationloginschemapolicy object(s)
+        Retrieve all authenticationloginschemapolicy object(s).
     .PARAMETER Count
-        If specified, the count of the authenticationloginschemapolicy object(s) will be returned
+        If specified, the count of the authenticationloginschemapolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetAuthenticationloginschemapolicyStats
+        PS C:\>Invoke-ADCGetAuthenticationloginschemapolicyStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetAuthenticationloginschemapolicyStats -GetAll
+        PS C:\>Invoke-ADCGetAuthenticationloginschemapolicyStats -GetAll 
+        Get all authenticationloginschemapolicy data.
     .EXAMPLE
-        Invoke-ADCGetAuthenticationloginschemapolicyStats -name <string>
+        PS C:\>Invoke-ADCGetAuthenticationloginschemapolicyStats -name <string>
+        Get authenticationloginschemapolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetAuthenticationloginschemapolicyStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetAuthenticationloginschemapolicyStats -Filter @{ 'name'='<value>' }
+        Get authenticationloginschemapolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuthenticationloginschemapolicyStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/authentication/authenticationloginschemapolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -55,24 +60,24 @@ function Invoke-ADCGetAuthenticationloginschemapolicyStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all authenticationloginschemapolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationloginschemapolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationloginschemapolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationloginschemapolicy configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy -NitroPath nitro/v1/stat -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationloginschemapolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationloginschemapolicy -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -86,51 +91,56 @@ function Invoke-ADCGetAuthenticationloginschemapolicyStats {
 }
 
 function Invoke-ADCGetAuthenticationoauthidppolicyStats {
-<#
+    <#
     .SYNOPSIS
-        Get Authentication statistics object(s)
+        Get Authentication statistics object(s).
     .DESCRIPTION
-        Get Authentication statistics object(s)
-    .PARAMETER name 
-       The name of the OAuth Identity Provider (IdP) policy for which statistics will be displayed. If not given statistics are shown for all policies. 
+        Statistics for AAA OAuth IdentityProvider (IdP) policy resource.
+    .PARAMETER Name 
+        The name of the OAuth Identity Provider (IdP) policy for which statistics will be displayed. If not given statistics are shown for all policies. 
     .PARAMETER GetAll 
-        Retreive all authenticationoauthidppolicy object(s)
+        Retrieve all authenticationoauthidppolicy object(s).
     .PARAMETER Count
-        If specified, the count of the authenticationoauthidppolicy object(s) will be returned
+        If specified, the count of the authenticationoauthidppolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetAuthenticationoauthidppolicyStats
+        PS C:\>Invoke-ADCGetAuthenticationoauthidppolicyStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetAuthenticationoauthidppolicyStats -GetAll
+        PS C:\>Invoke-ADCGetAuthenticationoauthidppolicyStats -GetAll 
+        Get all authenticationoauthidppolicy data.
     .EXAMPLE
-        Invoke-ADCGetAuthenticationoauthidppolicyStats -name <string>
+        PS C:\>Invoke-ADCGetAuthenticationoauthidppolicyStats -name <string>
+        Get authenticationoauthidppolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetAuthenticationoauthidppolicyStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetAuthenticationoauthidppolicyStats -Filter @{ 'name'='<value>' }
+        Get authenticationoauthidppolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuthenticationoauthidppolicyStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/authentication/authenticationoauthidppolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -142,24 +152,24 @@ function Invoke-ADCGetAuthenticationoauthidppolicyStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all authenticationoauthidppolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationoauthidppolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationoauthidppolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationoauthidppolicy configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy -NitroPath nitro/v1/stat -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationoauthidppolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationoauthidppolicy -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -173,51 +183,56 @@ function Invoke-ADCGetAuthenticationoauthidppolicyStats {
 }
 
 function Invoke-ADCGetAuthenticationpolicyStats {
-<#
+    <#
     .SYNOPSIS
-        Get Authentication statistics object(s)
+        Get Authentication statistics object(s).
     .DESCRIPTION
-        Get Authentication statistics object(s)
-    .PARAMETER name 
-       Name of the advanced authentication policy for which to display statistics. If no name is specified, statistics for all advanced authentication polices are shown. 
+        Statistics for Authentication Policy resource.
+    .PARAMETER Name 
+        Name of the advanced authentication policy for which to display statistics. If no name is specified, statistics for all advanced authentication polices are shown. 
     .PARAMETER GetAll 
-        Retreive all authenticationpolicy object(s)
+        Retrieve all authenticationpolicy object(s).
     .PARAMETER Count
-        If specified, the count of the authenticationpolicy object(s) will be returned
+        If specified, the count of the authenticationpolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetAuthenticationpolicyStats
+        PS C:\>Invoke-ADCGetAuthenticationpolicyStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetAuthenticationpolicyStats -GetAll
+        PS C:\>Invoke-ADCGetAuthenticationpolicyStats -GetAll 
+        Get all authenticationpolicy data.
     .EXAMPLE
-        Invoke-ADCGetAuthenticationpolicyStats -name <string>
+        PS C:\>Invoke-ADCGetAuthenticationpolicyStats -name <string>
+        Get authenticationpolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetAuthenticationpolicyStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetAuthenticationpolicyStats -Filter @{ 'name'='<value>' }
+        Get authenticationpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicyStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/authentication/authenticationpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -229,24 +244,24 @@ function Invoke-ADCGetAuthenticationpolicyStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all authenticationpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationpolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationpolicy configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy -NitroPath nitro/v1/stat -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicy -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -260,51 +275,56 @@ function Invoke-ADCGetAuthenticationpolicyStats {
 }
 
 function Invoke-ADCGetAuthenticationpolicylabelStats {
-<#
+    <#
     .SYNOPSIS
-        Get Authentication statistics object(s)
+        Get Authentication statistics object(s).
     .DESCRIPTION
-        Get Authentication statistics object(s)
-    .PARAMETER labelname 
-       Name of the authentication policy label. 
+        Statistics for authentication policy label resource.
+    .PARAMETER Labelname 
+        Name of the authentication policy label. 
     .PARAMETER GetAll 
-        Retreive all authenticationpolicylabel object(s)
+        Retrieve all authenticationpolicylabel object(s).
     .PARAMETER Count
-        If specified, the count of the authenticationpolicylabel object(s) will be returned
+        If specified, the count of the authenticationpolicylabel object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetAuthenticationpolicylabelStats
+        PS C:\>Invoke-ADCGetAuthenticationpolicylabelStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetAuthenticationpolicylabelStats -GetAll
+        PS C:\>Invoke-ADCGetAuthenticationpolicylabelStats -GetAll 
+        Get all authenticationpolicylabel data.
     .EXAMPLE
-        Invoke-ADCGetAuthenticationpolicylabelStats -name <string>
+        PS C:\>Invoke-ADCGetAuthenticationpolicylabelStats -name <string>
+        Get authenticationpolicylabel object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetAuthenticationpolicylabelStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetAuthenticationpolicylabelStats -Filter @{ 'name'='<value>' }
+        Get authenticationpolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicylabelStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/authentication/authenticationpolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$labelname,
+        [string]$Labelname,
 			
         [hashtable]$Filter = @{ },
 
@@ -316,24 +336,24 @@ function Invoke-ADCGetAuthenticationpolicylabelStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all authenticationpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationpolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationpolicylabel objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationpolicylabel configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel -NitroPath nitro/v1/stat -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationpolicylabel configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationpolicylabel -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -347,51 +367,56 @@ function Invoke-ADCGetAuthenticationpolicylabelStats {
 }
 
 function Invoke-ADCGetAuthenticationsamlidppolicyStats {
-<#
+    <#
     .SYNOPSIS
-        Get Authentication statistics object(s)
+        Get Authentication statistics object(s).
     .DESCRIPTION
-        Get Authentication statistics object(s)
-    .PARAMETER name 
-       The name of the SAML Identity Provider (IdP) policy for which statistics will be displayed. If not given statistics are shown for all policies. 
+        Statistics for AAA Saml IdentityProvider (IdP) policy resource.
+    .PARAMETER Name 
+        The name of the SAML Identity Provider (IdP) policy for which statistics will be displayed. If not given statistics are shown for all policies. 
     .PARAMETER GetAll 
-        Retreive all authenticationsamlidppolicy object(s)
+        Retrieve all authenticationsamlidppolicy object(s).
     .PARAMETER Count
-        If specified, the count of the authenticationsamlidppolicy object(s) will be returned
+        If specified, the count of the authenticationsamlidppolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetAuthenticationsamlidppolicyStats
+        PS C:\>Invoke-ADCGetAuthenticationsamlidppolicyStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetAuthenticationsamlidppolicyStats -GetAll
+        PS C:\>Invoke-ADCGetAuthenticationsamlidppolicyStats -GetAll 
+        Get all authenticationsamlidppolicy data.
     .EXAMPLE
-        Invoke-ADCGetAuthenticationsamlidppolicyStats -name <string>
+        PS C:\>Invoke-ADCGetAuthenticationsamlidppolicyStats -name <string>
+        Get authenticationsamlidppolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetAuthenticationsamlidppolicyStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetAuthenticationsamlidppolicyStats -Filter @{ 'name'='<value>' }
+        Get authenticationsamlidppolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlidppolicyStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/authentication/authenticationsamlidppolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -403,24 +428,24 @@ function Invoke-ADCGetAuthenticationsamlidppolicyStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all authenticationsamlidppolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationsamlidppolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationsamlidppolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationsamlidppolicy configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy -NitroPath nitro/v1/stat -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationsamlidppolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationsamlidppolicy -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -434,51 +459,56 @@ function Invoke-ADCGetAuthenticationsamlidppolicyStats {
 }
 
 function Invoke-ADCGetAuthenticationvserverStats {
-<#
+    <#
     .SYNOPSIS
-        Get Authentication statistics object(s)
+        Get Authentication statistics object(s).
     .DESCRIPTION
-        Get Authentication statistics object(s)
-    .PARAMETER name 
-       Name of the authentication virtual server. 
+        Statistics for authentication virtual server resource.
+    .PARAMETER Name 
+        Name of the authentication virtual server. 
     .PARAMETER GetAll 
-        Retreive all authenticationvserver object(s)
+        Retrieve all authenticationvserver object(s).
     .PARAMETER Count
-        If specified, the count of the authenticationvserver object(s) will be returned
+        If specified, the count of the authenticationvserver object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetAuthenticationvserverStats
+        PS C:\>Invoke-ADCGetAuthenticationvserverStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetAuthenticationvserverStats -GetAll
+        PS C:\>Invoke-ADCGetAuthenticationvserverStats -GetAll 
+        Get all authenticationvserver data.
     .EXAMPLE
-        Invoke-ADCGetAuthenticationvserverStats -name <string>
+        PS C:\>Invoke-ADCGetAuthenticationvserverStats -name <string>
+        Get authenticationvserver object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetAuthenticationvserverStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetAuthenticationvserverStats -Filter @{ 'name'='<value>' }
+        Get authenticationvserver data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/authentication/authenticationvserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -490,24 +520,24 @@ function Invoke-ADCGetAuthenticationvserverStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all authenticationvserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for authenticationvserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving authenticationvserver objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving authenticationvserver configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver -NitroPath nitro/v1/stat -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving authenticationvserver configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type authenticationvserver -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

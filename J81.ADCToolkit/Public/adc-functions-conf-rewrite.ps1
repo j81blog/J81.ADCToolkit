@@ -1,138 +1,122 @@
 function Invoke-ADCAddRewriteaction {
-<#
+    <#
     .SYNOPSIS
-        Add Rewrite configuration Object
+        Add Rewrite configuration Object.
     .DESCRIPTION
-        Add Rewrite configuration Object 
-    .PARAMETER name 
+        Configuration for rewrite action resource.
+    .PARAMETER Name 
         Name for the user-defined rewrite action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the rewrite policy is added. 
-    .PARAMETER type 
-        Type of user-defined rewrite action. The information that you provide for, and the effect of, each type are as follows::  
-        * REPLACE <target> <string_builder_expr>. Replaces the string with the string-builder expression.  
-        * REPLACE_ALL <target> <string_builder_expr1> -(pattern|search) <string_builder_expr2>. In the request or response specified by <target>, replaces all occurrences of the string defined by <string_builder_expr1> with the string defined by <string_builder_expr2>. You can use a PCRE-format pattern or the search facility to find the strings to be replaced.  
-        * REPLACE_HTTP_RES <string_builder_expr>. Replaces the complete HTTP response with the string defined by the string-builder expression.  
-        * REPLACE_SIP_RES <target> - Replaces the complete SIP response with the string specified by <target>.  
-        * INSERT_HTTP_HEADER <header_string_builder_expr> <contents_string_builder_expr>. Inserts the HTTP header specified by <header_string_builder_expr> and header contents specified by <contents_string_builder_expr>.  
-        * DELETE_HTTP_HEADER <target>. Deletes the HTTP header specified by <target>.  
-        * CORRUPT_HTTP_HEADER <target>. Replaces the header name of all occurrences of the HTTP header specified by <target> with a corrupted name, so that it will not be recognized by the receiver Example: MY_HEADER is changed to MHEY_ADER.  
-        * INSERT_BEFORE <string_builder_expr1> <string_builder_expr1>. Finds the string specified in <string_builder_expr1> and inserts the string in <string_builder_expr2> before it.  
-        * INSERT_BEFORE_ALL <target> <string_builder_expr1> -(pattern|search) <string_builder_expr2>. In the request or response specified by <target>, locates all occurrences of the string specified in <string_builder_expr1> and inserts the string specified in <string_builder_expr2> before each. You can use a PCRE-format pattern or the search facility to find the strings.  
-        * INSERT_AFTER <string_builder_expr1> <string_builder_expr2>. Finds the string specified in <string_builder_expr1>, and inserts the string specified in <string_builder_expr2> after it.  
-        * INSERT_AFTER_ALL <target> <string_builder_expr1> -(pattern|search) <string_builder_expr>. In the request or response specified by <target>, locates all occurrences of the string specified by <string_builder_expr1> and inserts the string specified by <string_builder_expr2> after each. You can use a PCRE-format pattern or the search facility to find the strings.  
-        * DELETE <target>. Finds and deletes the specified target.  
-        * DELETE_ALL <target> -(pattern|search) <string_builder_expr>. In the request or response specified by <target>, locates and deletes all occurrences of the string specified by <string_builder_expr>. You can use a PCRE-format pattern or the search facility to find the strings.  
-        * REPLACE_DIAMETER_HEADER_FIELD <target> <field value>. In the request or response modify the header field specified by <target>. Use Diameter.req.flags.SET(<flag>) or Diameter.req.flags.UNSET<flag> as 'stringbuilderexpression' to set or unset flags.  
-        * REPLACE_DNS_HEADER_FIELD <target>. In the request or response modify the header field specified by <target>.  
-        * REPLACE_DNS_ANSWER_SECTION <target>. Replace the DNS answer section in the response. This is currently applicable for A and AAAA records only. Use DNS.NEW_RRSET_A ; DNS.NEW_RRSET_AAAA expressions to configure the new answer section .  
+    .PARAMETER Type 
+        Type of user-defined rewrite action. The information that you provide for, and the effect of, each type are as follows:: 
+        * REPLACE <target> <string_builder_expr>. Replaces the string with the string-builder expression. 
+        * REPLACE_ALL <target> <string_builder_expr> -search <search_expr>. In the request or response specified by <target>, replaces all occurrences of the string defined by <string_builder_expr> with the string defined by <search_expr>. 
+        * REPLACE_HTTP_RES <string_builder_expr>. Replaces the complete HTTP response with the string defined by the string-builder expression. 
+        * REPLACE_SIP_RES <target> - Replaces the complete SIP response with the string specified by <target>. 
+        * INSERT_HTTP_HEADER <header_string_builder_expr> <contents_string_builder_expr>. Inserts the HTTP header specified by <header_string_builder_expr> and header contents specified by <contents_string_builder_expr>. 
+        * DELETE_HTTP_HEADER <target>. Deletes the HTTP header specified by <target>. 
+        * CORRUPT_HTTP_HEADER <target>. Replaces the header name of all occurrences of the HTTP header specified by <target> with a corrupted name, so that it will not be recognized by the receiver Example: MY_HEADER is changed to MHEY_ADER. 
+        * INSERT_BEFORE <target_expr> <string_builder_expr>. Finds the string specified in <target_expr> and inserts the string in <string_builder_expr> before it. 
+        * INSERT_BEFORE_ALL <target> <string_builder_expr> -search <search_expr>. In the request or response specified by <target>, locates all occurrences of the string specified in <string_builder_expr> and inserts the string specified in <search_expr> before each. 
+        * INSERT_AFTER <target_expr> <string_builder_expr>. Finds the string specified in <target_expr>, and inserts the string specified in <string_builder_expr> after it. 
+        * INSERT_AFTER_ALL <target> <string_builder_expr> -search <search_expr>. In the request or response specified by <target>, locates all occurrences of the string specified by <string_builder_expr> and inserts the string specified by <search_expr> after each. 
+        * DELETE <target>. Finds and deletes the specified target. 
+        * DELETE_ALL <target> -search <string_builder_expr>. In the request or response specified by <target>, locates and deletes all occurrences of the string specified by <string_builder_expr>. 
+        * REPLACE_DIAMETER_HEADER_FIELD <target> <field value>. In the request or response modify the header field specified by <target>. Use Diameter.req.flags.SET(<flag>) or Diameter.req.flags.UNSET<flag> as 'stringbuilderexpression' to set or unset flags. 
+        * REPLACE_DNS_HEADER_FIELD <target>. In the request or response modify the header field specified by <target>. 
+        * REPLACE_DNS_ANSWER_SECTION <target>. Replace the DNS answer section in the response. This is currently applicable for A and AAAA records only. Use DNS.NEW_RRSET_A ; DNS.NEW_RRSET_AAAA expressions to configure the new answer section . 
         Possible values = noop, delete, insert_http_header, delete_http_header, corrupt_http_header, insert_before, insert_after, replace, replace_http_res, delete_all, replace_all, insert_before_all, insert_after_all, clientless_vpn_encode, clientless_vpn_encode_all, clientless_vpn_decode, clientless_vpn_decode_all, insert_sip_header, delete_sip_header, corrupt_sip_header, replace_sip_res, replace_diameter_header_field, replace_dns_header_field, replace_dns_answer_section 
-    .PARAMETER target 
-        Expression that specifies which part of the request or response to rewrite.  
-        Minimum length = 1 
-    .PARAMETER stringbuilderexpr 
+    .PARAMETER Target 
+        Expression that specifies which part of the request or response to rewrite. 
+    .PARAMETER Stringbuilderexpr 
         Expression that specifies the content to insert into the request or response at the specified location, or that replaces the specified string. 
-    .PARAMETER pattern 
-        DEPRECATED in favor of -search: Pattern that is used to match multiple strings in the request or response. The pattern may be a string literal (without quotes) or a PCRE-format regular expression with a delimiter that consists of any printable ASCII non-alphanumeric character except for the underscore (_) and space ( ) that is not otherwise used in the expression. Example: re~https?://|HTTPS?://~ The preceding regular expression can use the tilde (~) as the delimiter because that character does not appear in the regular expression itself. Used in the INSERT_BEFORE_ALL, INSERT_AFTER_ALL, REPLACE_ALL, and DELETE_ALL action types. 
-    .PARAMETER search 
-        Search facility that is used to match multiple strings in the request or response. Used in the INSERT_BEFORE_ALL, INSERT_AFTER_ALL, REPLACE_ALL, and DELETE_ALL action types. The following search types are supported:  
-        * Text ("text(string)") - A literal string. Example: -search text("hello")  
-        * Regular expression ("regex(re<delimiter>regular exp<delimiter>)") - Pattern that is used to match multiple strings in the request or response. The pattern may be a PCRE-format regular expression with a delimiter that consists of any printable ASCII non-alphanumeric character except for the underscore (_) and space ( ) that is not otherwise used in the expression. Example: -search regex(re~^hello*~) The preceding regular expression can use the tilde (~) as the delimiter because that character does not appear in the regular expression itself.  
-        * XPath ("xpath(xp<delimiter>xpath expression<delimiter>)") - An XPath expression to search XML. The delimiter has the same rules as for regex. Example: -search xpath(xp%/a/b%)  
-        * JSON ("xpath_json(xp<delimiter>xpath expression<delimiter>)") - An XPath expression to search JSON. The delimiter has the same rules as for regex. Example: -search xpath_json(xp%/a/b%)  
-        NOTE: JSON searches use the same syntax as XPath searches, but operate on JSON files instead of standard XML files.  
-        * HTML ("xpath_html(xp<delimiter>xpath expression<delimiter>)") - An XPath expression to search HTML. The delimiter has the same rules as for regex. Example: -search xpath_html(xp%/html/body%)  
-        NOTE: HTML searches use the same syntax as XPath searches, but operate on HTML files instead of standard XML files; HTML 5 rules for the file syntax are used; HTML 4 and later are supported.  
-        * Patset ("patset(patset)") - A predefined pattern set. Example: -search patset("patset1").  
-        * Datset ("dataset(dataset)") - A predefined dataset. Example: -search dataset("dataset1").  
-        * AVP ("avp(avp number)") - AVP number that is used to match multiple AVPs in a Diameter/Radius Message. Example: -search avp(999)  
-        Note: for all these the TARGET prefix can be used in the replacement expression to specify the text that was selected by the -search parameter, optionally adjusted by the -refineSearch parameter.  
+    .PARAMETER Search 
+        Search facility that is used to match multiple strings in the request or response. Used in the INSERT_BEFORE_ALL, INSERT_AFTER_ALL, REPLACE_ALL, and DELETE_ALL action types. The following search types are supported: 
+        * Text ("text(string)") - A literal string. Example: -search text("hello") 
+        * Regular expression ("regex(re<delimiter>regular exp<delimiter>)") - Pattern that is used to match multiple strings in the request or response. The pattern may be a PCRE-format regular expression with a delimiter that consists of any printable ASCII non-alphanumeric character except for the underscore (_) and space ( ) that is not otherwise used in the expression. Example: -search regex(re~^hello*~) The preceding regular expression can use the tilde (~) as the delimiter because that character does not appear in the regular expression itself. 
+        * XPath ("xpath(xp<delimiter>xpath expression<delimiter>)") - An XPath expression to search XML. The delimiter has the same rules as for regex. Example: -search xpath(xp%/a/b%) 
+        * JSON ("xpath_json(xp<delimiter>xpath expression<delimiter>)") - An XPath expression to search JSON. The delimiter has the same rules as for regex. Example: -search xpath_json(xp%/a/b%) 
+        NOTE: JSON searches use the same syntax as XPath searches, but operate on JSON files instead of standard XML files. 
+        * HTML ("xpath_html(xp<delimiter>xpath expression<delimiter>)") - An XPath expression to search HTML. The delimiter has the same rules as for regex. Example: -search xpath_html(xp%/html/body%) 
+        NOTE: HTML searches use the same syntax as XPath searches, but operate on HTML files instead of standard XML files; HTML 5 rules for the file syntax are used; HTML 4 and later are supported. 
+        * Patset ("patset(patset)") - A predefined pattern set. Example: -search patset("patset1"). 
+        * Datset ("dataset(dataset)") - A predefined dataset. Example: -search dataset("dataset1"). 
+        * AVP ("avp(avp number)") - AVP number that is used to match multiple AVPs in a Diameter/Radius Message. Example: -search avp(999) 
+        Note: for all these the TARGET prefix can be used in the replacement expression to specify the text that was selected by the -search parameter, optionally adjusted by the -refineSearch parameter. 
         Example: TARGET.BEFORE_STR(","). 
-    .PARAMETER bypasssafetycheck 
-        Bypass the safety check and allow unsafe expressions. An unsafe expression is one that contains references to message elements that might not be present in all messages. If an expression refers to a missing request element, an empty string is used instead.  
-        Default value: NO  
-        Possible values = YES, NO 
-    .PARAMETER refinesearch 
-        Specify additional criteria to refine the results of the search.  
-        Always starts with the "extend(m,n)" operation, where 'm' specifies number of bytes to the left of selected data and 'n' specifies number of bytes to the right of selected data to extend the selected area.  
-        You can use refineSearch only on body expressions, and for the INSERT_BEFORE_ALL, INSERT_AFTER_ALL, REPLACE_ALL, and DELETE_ALL action types.  
+    .PARAMETER Refinesearch 
+        Specify additional criteria to refine the results of the search. 
+        Always starts with the "extend(m,n)" operation, where 'm' specifies number of bytes to the left of selected data and 'n' specifies number of bytes to the right of selected data to extend the selected area. 
+        You can use refineSearch only on body expressions, and for the INSERT_BEFORE_ALL, INSERT_AFTER_ALL, REPLACE_ALL, and DELETE_ALL action types. 
         Example: -refineSearch 'EXTEND(10, 20).REGEX_SELECT(re~0x[0-9a-zA-Z]+~). 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Comment. Can be used to preserve information about this rewrite action. 
     .PARAMETER PassThru 
         Return details about the created rewriteaction item.
     .EXAMPLE
-        Invoke-ADCAddRewriteaction -name <string> -type <string> -target <string>
+        PS C:\>Invoke-ADCAddRewriteaction -name <string> -type <string> -target <string>
+        An example how to add rewriteaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddRewriteaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('noop', 'delete', 'insert_http_header', 'delete_http_header', 'corrupt_http_header', 'insert_before', 'insert_after', 'replace', 'replace_http_res', 'delete_all', 'replace_all', 'insert_before_all', 'insert_after_all', 'clientless_vpn_encode', 'clientless_vpn_encode_all', 'clientless_vpn_decode', 'clientless_vpn_decode_all', 'insert_sip_header', 'delete_sip_header', 'corrupt_sip_header', 'replace_sip_res', 'replace_diameter_header_field', 'replace_dns_header_field', 'replace_dns_answer_section')]
-        [string]$type ,
+        [string]$Type,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$target ,
+        [string]$Target,
 
-        [string]$stringbuilderexpr ,
+        [string]$Stringbuilderexpr,
 
-        [string]$pattern ,
+        [string]$Search,
 
-        [string]$search ,
+        [string]$Refinesearch,
 
-        [ValidateSet('YES', 'NO')]
-        [string]$bypasssafetycheck = 'NO' ,
-
-        [string]$refinesearch ,
-
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddRewriteaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                type = $type
-                target = $target
+            $payload = @{ name = $name
+                type           = $type
+                target         = $target
             }
-            if ($PSBoundParameters.ContainsKey('stringbuilderexpr')) { $Payload.Add('stringbuilderexpr', $stringbuilderexpr) }
-            if ($PSBoundParameters.ContainsKey('pattern')) { $Payload.Add('pattern', $pattern) }
-            if ($PSBoundParameters.ContainsKey('search')) { $Payload.Add('search', $search) }
-            if ($PSBoundParameters.ContainsKey('bypasssafetycheck')) { $Payload.Add('bypasssafetycheck', $bypasssafetycheck) }
-            if ($PSBoundParameters.ContainsKey('refinesearch')) { $Payload.Add('refinesearch', $refinesearch) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("rewriteaction", "Add Rewrite configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type rewriteaction -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('stringbuilderexpr') ) { $payload.Add('stringbuilderexpr', $stringbuilderexpr) }
+            if ( $PSBoundParameters.ContainsKey('search') ) { $payload.Add('search', $search) }
+            if ( $PSBoundParameters.ContainsKey('refinesearch') ) { $payload.Add('refinesearch', $refinesearch) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("rewriteaction", "Add Rewrite configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type rewriteaction -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetRewriteaction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetRewriteaction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -145,46 +129,47 @@ function Invoke-ADCAddRewriteaction {
 }
 
 function Invoke-ADCDeleteRewriteaction {
-<#
+    <#
     .SYNOPSIS
-        Delete Rewrite configuration Object
+        Delete Rewrite configuration Object.
     .DESCRIPTION
-        Delete Rewrite configuration Object
-    .PARAMETER name 
-       Name for the user-defined rewrite action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the rewrite policy is added. 
+        Configuration for rewrite action resource.
+    .PARAMETER Name 
+        Name for the user-defined rewrite action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the rewrite policy is added.
     .EXAMPLE
-        Invoke-ADCDeleteRewriteaction -name <string>
+        PS C:\>Invoke-ADCDeleteRewriteaction -Name <string>
+        An example how to delete rewriteaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteRewriteaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteRewriteaction: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Rewrite configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type rewriteaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Rewrite configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type rewriteaction -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -200,115 +185,98 @@ function Invoke-ADCDeleteRewriteaction {
 }
 
 function Invoke-ADCUpdateRewriteaction {
-<#
+    <#
     .SYNOPSIS
-        Update Rewrite configuration Object
+        Update Rewrite configuration Object.
     .DESCRIPTION
-        Update Rewrite configuration Object 
-    .PARAMETER name 
+        Configuration for rewrite action resource.
+    .PARAMETER Name 
         Name for the user-defined rewrite action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the rewrite policy is added. 
-    .PARAMETER target 
-        Expression that specifies which part of the request or response to rewrite.  
-        Minimum length = 1 
-    .PARAMETER stringbuilderexpr 
+    .PARAMETER Target 
+        Expression that specifies which part of the request or response to rewrite. 
+    .PARAMETER Stringbuilderexpr 
         Expression that specifies the content to insert into the request or response at the specified location, or that replaces the specified string. 
-    .PARAMETER bypasssafetycheck 
-        Bypass the safety check and allow unsafe expressions. An unsafe expression is one that contains references to message elements that might not be present in all messages. If an expression refers to a missing request element, an empty string is used instead.  
-        Default value: NO  
-        Possible values = YES, NO 
-    .PARAMETER pattern 
-        DEPRECATED in favor of -search: Pattern that is used to match multiple strings in the request or response. The pattern may be a string literal (without quotes) or a PCRE-format regular expression with a delimiter that consists of any printable ASCII non-alphanumeric character except for the underscore (_) and space ( ) that is not otherwise used in the expression. Example: re~https?://|HTTPS?://~ The preceding regular expression can use the tilde (~) as the delimiter because that character does not appear in the regular expression itself. Used in the INSERT_BEFORE_ALL, INSERT_AFTER_ALL, REPLACE_ALL, and DELETE_ALL action types. 
-    .PARAMETER search 
-        Search facility that is used to match multiple strings in the request or response. Used in the INSERT_BEFORE_ALL, INSERT_AFTER_ALL, REPLACE_ALL, and DELETE_ALL action types. The following search types are supported:  
-        * Text ("text(string)") - A literal string. Example: -search text("hello")  
-        * Regular expression ("regex(re<delimiter>regular exp<delimiter>)") - Pattern that is used to match multiple strings in the request or response. The pattern may be a PCRE-format regular expression with a delimiter that consists of any printable ASCII non-alphanumeric character except for the underscore (_) and space ( ) that is not otherwise used in the expression. Example: -search regex(re~^hello*~) The preceding regular expression can use the tilde (~) as the delimiter because that character does not appear in the regular expression itself.  
-        * XPath ("xpath(xp<delimiter>xpath expression<delimiter>)") - An XPath expression to search XML. The delimiter has the same rules as for regex. Example: -search xpath(xp%/a/b%)  
-        * JSON ("xpath_json(xp<delimiter>xpath expression<delimiter>)") - An XPath expression to search JSON. The delimiter has the same rules as for regex. Example: -search xpath_json(xp%/a/b%)  
-        NOTE: JSON searches use the same syntax as XPath searches, but operate on JSON files instead of standard XML files.  
-        * HTML ("xpath_html(xp<delimiter>xpath expression<delimiter>)") - An XPath expression to search HTML. The delimiter has the same rules as for regex. Example: -search xpath_html(xp%/html/body%)  
-        NOTE: HTML searches use the same syntax as XPath searches, but operate on HTML files instead of standard XML files; HTML 5 rules for the file syntax are used; HTML 4 and later are supported.  
-        * Patset ("patset(patset)") - A predefined pattern set. Example: -search patset("patset1").  
-        * Datset ("dataset(dataset)") - A predefined dataset. Example: -search dataset("dataset1").  
-        * AVP ("avp(avp number)") - AVP number that is used to match multiple AVPs in a Diameter/Radius Message. Example: -search avp(999)  
-        Note: for all these the TARGET prefix can be used in the replacement expression to specify the text that was selected by the -search parameter, optionally adjusted by the -refineSearch parameter.  
+    .PARAMETER Search 
+        Search facility that is used to match multiple strings in the request or response. Used in the INSERT_BEFORE_ALL, INSERT_AFTER_ALL, REPLACE_ALL, and DELETE_ALL action types. The following search types are supported: 
+        * Text ("text(string)") - A literal string. Example: -search text("hello") 
+        * Regular expression ("regex(re<delimiter>regular exp<delimiter>)") - Pattern that is used to match multiple strings in the request or response. The pattern may be a PCRE-format regular expression with a delimiter that consists of any printable ASCII non-alphanumeric character except for the underscore (_) and space ( ) that is not otherwise used in the expression. Example: -search regex(re~^hello*~) The preceding regular expression can use the tilde (~) as the delimiter because that character does not appear in the regular expression itself. 
+        * XPath ("xpath(xp<delimiter>xpath expression<delimiter>)") - An XPath expression to search XML. The delimiter has the same rules as for regex. Example: -search xpath(xp%/a/b%) 
+        * JSON ("xpath_json(xp<delimiter>xpath expression<delimiter>)") - An XPath expression to search JSON. The delimiter has the same rules as for regex. Example: -search xpath_json(xp%/a/b%) 
+        NOTE: JSON searches use the same syntax as XPath searches, but operate on JSON files instead of standard XML files. 
+        * HTML ("xpath_html(xp<delimiter>xpath expression<delimiter>)") - An XPath expression to search HTML. The delimiter has the same rules as for regex. Example: -search xpath_html(xp%/html/body%) 
+        NOTE: HTML searches use the same syntax as XPath searches, but operate on HTML files instead of standard XML files; HTML 5 rules for the file syntax are used; HTML 4 and later are supported. 
+        * Patset ("patset(patset)") - A predefined pattern set. Example: -search patset("patset1"). 
+        * Datset ("dataset(dataset)") - A predefined dataset. Example: -search dataset("dataset1"). 
+        * AVP ("avp(avp number)") - AVP number that is used to match multiple AVPs in a Diameter/Radius Message. Example: -search avp(999) 
+        Note: for all these the TARGET prefix can be used in the replacement expression to specify the text that was selected by the -search parameter, optionally adjusted by the -refineSearch parameter. 
         Example: TARGET.BEFORE_STR(","). 
-    .PARAMETER refinesearch 
-        Specify additional criteria to refine the results of the search.  
-        Always starts with the "extend(m,n)" operation, where 'm' specifies number of bytes to the left of selected data and 'n' specifies number of bytes to the right of selected data to extend the selected area.  
-        You can use refineSearch only on body expressions, and for the INSERT_BEFORE_ALL, INSERT_AFTER_ALL, REPLACE_ALL, and DELETE_ALL action types.  
+    .PARAMETER Refinesearch 
+        Specify additional criteria to refine the results of the search. 
+        Always starts with the "extend(m,n)" operation, where 'm' specifies number of bytes to the left of selected data and 'n' specifies number of bytes to the right of selected data to extend the selected area. 
+        You can use refineSearch only on body expressions, and for the INSERT_BEFORE_ALL, INSERT_AFTER_ALL, REPLACE_ALL, and DELETE_ALL action types. 
         Example: -refineSearch 'EXTEND(10, 20).REGEX_SELECT(re~0x[0-9a-zA-Z]+~). 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Comment. Can be used to preserve information about this rewrite action. 
     .PARAMETER PassThru 
         Return details about the created rewriteaction item.
     .EXAMPLE
-        Invoke-ADCUpdateRewriteaction -name <string>
+        PS C:\>Invoke-ADCUpdateRewriteaction -name <string>
+        An example how to update rewriteaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateRewriteaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$target ,
+        [string]$Target,
 
-        [string]$stringbuilderexpr ,
+        [string]$Stringbuilderexpr,
 
-        [ValidateSet('YES', 'NO')]
-        [string]$bypasssafetycheck ,
+        [string]$Search,
 
-        [string]$pattern ,
+        [string]$Refinesearch,
 
-        [string]$search ,
-
-        [string]$refinesearch ,
-
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateRewriteaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('target')) { $Payload.Add('target', $target) }
-            if ($PSBoundParameters.ContainsKey('stringbuilderexpr')) { $Payload.Add('stringbuilderexpr', $stringbuilderexpr) }
-            if ($PSBoundParameters.ContainsKey('bypasssafetycheck')) { $Payload.Add('bypasssafetycheck', $bypasssafetycheck) }
-            if ($PSBoundParameters.ContainsKey('pattern')) { $Payload.Add('pattern', $pattern) }
-            if ($PSBoundParameters.ContainsKey('search')) { $Payload.Add('search', $search) }
-            if ($PSBoundParameters.ContainsKey('refinesearch')) { $Payload.Add('refinesearch', $refinesearch) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("rewriteaction", "Update Rewrite configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type rewriteaction -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('target') ) { $payload.Add('target', $target) }
+            if ( $PSBoundParameters.ContainsKey('stringbuilderexpr') ) { $payload.Add('stringbuilderexpr', $stringbuilderexpr) }
+            if ( $PSBoundParameters.ContainsKey('search') ) { $payload.Add('search', $search) }
+            if ( $PSBoundParameters.ContainsKey('refinesearch') ) { $payload.Add('refinesearch', $refinesearch) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("rewriteaction", "Update Rewrite configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type rewriteaction -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetRewriteaction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetRewriteaction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -321,48 +289,49 @@ function Invoke-ADCUpdateRewriteaction {
 }
 
 function Invoke-ADCUnsetRewriteaction {
-<#
+    <#
     .SYNOPSIS
-        Unset Rewrite configuration Object
+        Unset Rewrite configuration Object.
     .DESCRIPTION
-        Unset Rewrite configuration Object 
-   .PARAMETER name 
-       Name for the user-defined rewrite action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the rewrite policy is added. 
-   .PARAMETER stringbuilderexpr 
-       Expression that specifies the content to insert into the request or response at the specified location, or that replaces the specified string. 
-   .PARAMETER refinesearch 
-       Specify additional criteria to refine the results of the search.  
-       Always starts with the "extend(m,n)" operation, where 'm' specifies number of bytes to the left of selected data and 'n' specifies number of bytes to the right of selected data to extend the selected area.  
-       You can use refineSearch only on body expressions, and for the INSERT_BEFORE_ALL, INSERT_AFTER_ALL, REPLACE_ALL, and DELETE_ALL action types.  
-       Example: -refineSearch 'EXTEND(10, 20).REGEX_SELECT(re~0x[0-9a-zA-Z]+~). 
-   .PARAMETER comment 
-       Comment. Can be used to preserve information about this rewrite action.
+        Configuration for rewrite action resource.
+    .PARAMETER Name 
+        Name for the user-defined rewrite action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the rewrite policy is added. 
+    .PARAMETER Stringbuilderexpr 
+        Expression that specifies the content to insert into the request or response at the specified location, or that replaces the specified string. 
+    .PARAMETER Refinesearch 
+        Specify additional criteria to refine the results of the search. 
+        Always starts with the "extend(m,n)" operation, where 'm' specifies number of bytes to the left of selected data and 'n' specifies number of bytes to the right of selected data to extend the selected area. 
+        You can use refineSearch only on body expressions, and for the INSERT_BEFORE_ALL, INSERT_AFTER_ALL, REPLACE_ALL, and DELETE_ALL action types. 
+        Example: -refineSearch 'EXTEND(10, 20).REGEX_SELECT(re~0x[0-9a-zA-Z]+~). 
+    .PARAMETER Comment 
+        Comment. Can be used to preserve information about this rewrite action.
     .EXAMPLE
-        Invoke-ADCUnsetRewriteaction -name <string>
+        PS C:\>Invoke-ADCUnsetRewriteaction -name <string>
+        An example how to unset rewriteaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetRewriteaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteaction
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$stringbuilderexpr ,
+        [Boolean]$stringbuilderexpr,
 
-        [Boolean]$refinesearch ,
+        [Boolean]$refinesearch,
 
         [Boolean]$comment 
     )
@@ -371,14 +340,12 @@ function Invoke-ADCUnsetRewriteaction {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('stringbuilderexpr')) { $Payload.Add('stringbuilderexpr', $stringbuilderexpr) }
-            if ($PSBoundParameters.ContainsKey('refinesearch')) { $Payload.Add('refinesearch', $refinesearch) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Rewrite configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type rewriteaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('stringbuilderexpr') ) { $payload.Add('stringbuilderexpr', $stringbuilderexpr) }
+            if ( $PSBoundParameters.ContainsKey('refinesearch') ) { $payload.Add('refinesearch', $refinesearch) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Rewrite configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type rewriteaction -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -394,69 +361,67 @@ function Invoke-ADCUnsetRewriteaction {
 }
 
 function Invoke-ADCRenameRewriteaction {
-<#
+    <#
     .SYNOPSIS
-        Rename Rewrite configuration Object
+        Rename Rewrite configuration Object.
     .DESCRIPTION
-        Rename Rewrite configuration Object 
-    .PARAMETER name 
+        Configuration for rewrite action resource.
+    .PARAMETER Name 
         Name for the user-defined rewrite action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the rewrite policy is added. 
-    .PARAMETER newname 
-        New name for the rewrite action.  
+    .PARAMETER Newname 
+        New name for the rewrite action. 
         Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the rewrite policy is added. 
     .PARAMETER PassThru 
         Return details about the created rewriteaction item.
     .EXAMPLE
-        Invoke-ADCRenameRewriteaction -name <string> -newname <string>
+        PS C:\>Invoke-ADCRenameRewriteaction -name <string> -newname <string>
+        An example how to rename rewriteaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameRewriteaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameRewriteaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                newname = $newname
+            $payload = @{ name = $name
+                newname        = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("rewriteaction", "Rename Rewrite configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type rewriteaction -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("rewriteaction", "Rename Rewrite configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type rewriteaction -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetRewriteaction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetRewriteaction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -469,54 +434,60 @@ function Invoke-ADCRenameRewriteaction {
 }
 
 function Invoke-ADCGetRewriteaction {
-<#
+    <#
     .SYNOPSIS
-        Get Rewrite configuration object(s)
+        Get Rewrite configuration object(s).
     .DESCRIPTION
-        Get Rewrite configuration object(s)
-    .PARAMETER name 
-       Name for the user-defined rewrite action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the rewrite policy is added. 
+        Configuration for rewrite action resource.
+    .PARAMETER Name 
+        Name for the user-defined rewrite action. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the rewrite policy is added. 
     .PARAMETER GetAll 
-        Retreive all rewriteaction object(s)
+        Retrieve all rewriteaction object(s).
     .PARAMETER Count
-        If specified, the count of the rewriteaction object(s) will be returned
+        If specified, the count of the rewriteaction object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetRewriteaction
+        PS C:\>Invoke-ADCGetRewriteaction
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetRewriteaction -GetAll 
+        PS C:\>Invoke-ADCGetRewriteaction -GetAll 
+        Get all rewriteaction data. 
     .EXAMPLE 
-        Invoke-ADCGetRewriteaction -Count
+        PS C:\>Invoke-ADCGetRewriteaction -Count 
+        Get the number of rewriteaction objects.
     .EXAMPLE
-        Invoke-ADCGetRewriteaction -name <string>
+        PS C:\>Invoke-ADCGetRewriteaction -name <string>
+        Get rewriteaction object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetRewriteaction -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetRewriteaction -Filter @{ 'name'='<value>' }
+        Get rewriteaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRewriteaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -534,24 +505,24 @@ function Invoke-ADCGetRewriteaction {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all rewriteaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteaction -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for rewriteaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteaction -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving rewriteaction objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteaction -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving rewriteaction configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving rewriteaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -565,45 +536,50 @@ function Invoke-ADCGetRewriteaction {
 }
 
 function Invoke-ADCGetRewriteglobalbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Rewrite configuration object(s)
+        Get Rewrite configuration object(s).
     .DESCRIPTION
-        Get Rewrite configuration object(s)
+        Binding object which returns the resources bound to rewriteglobal.
     .PARAMETER GetAll 
-        Retreive all rewriteglobal_binding object(s)
+        Retrieve all rewriteglobal_binding object(s).
     .PARAMETER Count
-        If specified, the count of the rewriteglobal_binding object(s) will be returned
+        If specified, the count of the rewriteglobal_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetRewriteglobalbinding
+        PS C:\>Invoke-ADCGetRewriteglobalbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetRewriteglobalbinding -GetAll
+        PS C:\>Invoke-ADCGetRewriteglobalbinding -GetAll 
+        Get all rewriteglobal_binding data.
     .EXAMPLE
-        Invoke-ADCGetRewriteglobalbinding -name <string>
+        PS C:\>Invoke-ADCGetRewriteglobalbinding -name <string>
+        Get rewriteglobal_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetRewriteglobalbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetRewriteglobalbinding -Filter @{ 'name'='<value>' }
+        Get rewriteglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRewriteglobalbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteglobal_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -615,26 +591,24 @@ function Invoke-ADCGetRewriteglobalbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all rewriteglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for rewriteglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving rewriteglobal_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteglobal_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving rewriteglobal_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving rewriteglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -648,95 +622,93 @@ function Invoke-ADCGetRewriteglobalbinding {
 }
 
 function Invoke-ADCAddRewriteglobalrewritepolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add Rewrite configuration Object
+        Add Rewrite configuration Object.
     .DESCRIPTION
-        Add Rewrite configuration Object 
-    .PARAMETER policyname 
+        Binding object showing the rewritepolicy that can be bound to rewriteglobal.
+    .PARAMETER Policyname 
         Name of the rewrite policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         Specifies the priority of the policy. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Expression specifying the priority of the next policy which will get evaluated if the current policy rule evaluates to TRUE. 
-    .PARAMETER type 
-        The bindpoint to which to policy is bound.  
-        Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT, OTHERTCP_REQ_OVERRIDE, OTHERTCP_REQ_DEFAULT, OTHERTCP_RES_OVERRIDE, OTHERTCP_RES_DEFAULT, SIPUDP_REQ_OVERRIDE, SIPUDP_REQ_DEFAULT, SIPUDP_RES_OVERRIDE, SIPUDP_RES_DEFAULT, SIPTCP_REQ_OVERRIDE, SIPTCP_REQ_DEFAULT, SIPTCP_RES_OVERRIDE, SIPTCP_RES_DEFAULT, DIAMETER_REQ_OVERRIDE, DIAMETER_REQ_DEFAULT, DIAMETER_RES_OVERRIDE, DIAMETER_RES_DEFAULT, RADIUS_REQ_OVERRIDE, RADIUS_REQ_DEFAULT, RADIUS_RES_OVERRIDE, RADIUS_RES_DEFAULT, DNS_REQ_OVERRIDE, DNS_REQ_DEFAULT, DNS_RES_OVERRIDE, DNS_RES_DEFAULT 
-    .PARAMETER invoke 
+    .PARAMETER Type 
+        The bindpoint to which to policy is bound. 
+        Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT, OTHERTCP_REQ_OVERRIDE, OTHERTCP_REQ_DEFAULT, OTHERTCP_RES_OVERRIDE, OTHERTCP_RES_DEFAULT, SIPUDP_REQ_OVERRIDE, SIPUDP_REQ_DEFAULT, SIPUDP_RES_OVERRIDE, SIPUDP_RES_DEFAULT, SIPTCP_REQ_OVERRIDE, SIPTCP_REQ_DEFAULT, SIPTCP_RES_OVERRIDE, SIPTCP_RES_DEFAULT, DIAMETER_REQ_OVERRIDE, DIAMETER_REQ_DEFAULT, DIAMETER_RES_OVERRIDE, DIAMETER_RES_DEFAULT, RADIUS_REQ_OVERRIDE, RADIUS_REQ_DEFAULT, RADIUS_RES_OVERRIDE, RADIUS_RES_DEFAULT, DNS_REQ_OVERRIDE, DNS_REQ_DEFAULT, DNS_RES_OVERRIDE, DNS_RES_DEFAULT, HTTPQUIC_REQ_OVERRIDE, HTTPQUIC_REQ_DEFAULT, HTTPQUIC_RES_OVERRIDE, HTTPQUIC_RES_DEFAULT 
+    .PARAMETER Invoke 
         Terminate evaluation of policies bound to the current policy label, and then forward the request to the specified virtual server or evaluate the specified policy label. 
-    .PARAMETER labeltype 
-        Type of invocation. Available settings function as follows: * reqvserver - Forward the request to the specified request virtual server. * resvserver - Forward the response to the specified response virtual server. * policylabel - Invoke the specified policy label.  
+    .PARAMETER Labeltype 
+        Type of invocation. Available settings function as follows: * reqvserver - Forward the request to the specified request virtual server. * resvserver - Forward the response to the specified response virtual server. * policylabel - Invoke the specified policy label. 
         Possible values = reqvserver, resvserver, policylabel 
-    .PARAMETER labelname 
+    .PARAMETER Labelname 
         * If labelType is policylabel, name of the policy label to invoke. * If labelType is reqvserver or resvserver, name of the virtual server to which to forward the request of response. 
     .PARAMETER PassThru 
         Return details about the created rewriteglobal_rewritepolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddRewriteglobalrewritepolicybinding -policyname <string> -priority <double>
+        PS C:\>Invoke-ADCAddRewriteglobalrewritepolicybinding -policyname <string> -priority <double>
+        An example how to add rewriteglobal_rewritepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddRewriteglobalrewritepolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteglobal_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$policyname ,
+        [Parameter(Mandatory)]
+        [string]$Policyname,
 
-        [Parameter(Mandatory = $true)]
-        [double]$priority ,
+        [Parameter(Mandatory)]
+        [double]$Priority,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
-        [ValidateSet('REQ_OVERRIDE', 'REQ_DEFAULT', 'RES_OVERRIDE', 'RES_DEFAULT', 'OTHERTCP_REQ_OVERRIDE', 'OTHERTCP_REQ_DEFAULT', 'OTHERTCP_RES_OVERRIDE', 'OTHERTCP_RES_DEFAULT', 'SIPUDP_REQ_OVERRIDE', 'SIPUDP_REQ_DEFAULT', 'SIPUDP_RES_OVERRIDE', 'SIPUDP_RES_DEFAULT', 'SIPTCP_REQ_OVERRIDE', 'SIPTCP_REQ_DEFAULT', 'SIPTCP_RES_OVERRIDE', 'SIPTCP_RES_DEFAULT', 'DIAMETER_REQ_OVERRIDE', 'DIAMETER_REQ_DEFAULT', 'DIAMETER_RES_OVERRIDE', 'DIAMETER_RES_DEFAULT', 'RADIUS_REQ_OVERRIDE', 'RADIUS_REQ_DEFAULT', 'RADIUS_RES_OVERRIDE', 'RADIUS_RES_DEFAULT', 'DNS_REQ_OVERRIDE', 'DNS_REQ_DEFAULT', 'DNS_RES_OVERRIDE', 'DNS_RES_DEFAULT')]
-        [string]$type ,
+        [ValidateSet('REQ_OVERRIDE', 'REQ_DEFAULT', 'RES_OVERRIDE', 'RES_DEFAULT', 'OTHERTCP_REQ_OVERRIDE', 'OTHERTCP_REQ_DEFAULT', 'OTHERTCP_RES_OVERRIDE', 'OTHERTCP_RES_DEFAULT', 'SIPUDP_REQ_OVERRIDE', 'SIPUDP_REQ_DEFAULT', 'SIPUDP_RES_OVERRIDE', 'SIPUDP_RES_DEFAULT', 'SIPTCP_REQ_OVERRIDE', 'SIPTCP_REQ_DEFAULT', 'SIPTCP_RES_OVERRIDE', 'SIPTCP_RES_DEFAULT', 'DIAMETER_REQ_OVERRIDE', 'DIAMETER_REQ_DEFAULT', 'DIAMETER_RES_OVERRIDE', 'DIAMETER_RES_DEFAULT', 'RADIUS_REQ_OVERRIDE', 'RADIUS_REQ_DEFAULT', 'RADIUS_RES_OVERRIDE', 'RADIUS_RES_DEFAULT', 'DNS_REQ_OVERRIDE', 'DNS_REQ_DEFAULT', 'DNS_RES_OVERRIDE', 'DNS_RES_DEFAULT', 'HTTPQUIC_REQ_OVERRIDE', 'HTTPQUIC_REQ_DEFAULT', 'HTTPQUIC_RES_OVERRIDE', 'HTTPQUIC_RES_DEFAULT')]
+        [string]$Type,
 
-        [boolean]$invoke ,
+        [boolean]$Invoke,
 
         [ValidateSet('reqvserver', 'resvserver', 'policylabel')]
-        [string]$labeltype ,
+        [string]$Labeltype,
 
-        [string]$labelname ,
+        [string]$Labelname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddRewriteglobalrewritepolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                policyname = $policyname
-                priority = $priority
+            $payload = @{ policyname = $policyname
+                priority             = $priority
             }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('invoke')) { $Payload.Add('invoke', $invoke) }
-            if ($PSBoundParameters.ContainsKey('labeltype')) { $Payload.Add('labeltype', $labeltype) }
-            if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
- 
-            if ($PSCmdlet.ShouldProcess("rewriteglobal_rewritepolicy_binding", "Add Rewrite configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type rewriteglobal_rewritepolicy_binding -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSBoundParameters.ContainsKey('type') ) { $payload.Add('type', $type) }
+            if ( $PSBoundParameters.ContainsKey('invoke') ) { $payload.Add('invoke', $invoke) }
+            if ( $PSBoundParameters.ContainsKey('labeltype') ) { $payload.Add('labeltype', $labeltype) }
+            if ( $PSBoundParameters.ContainsKey('labelname') ) { $payload.Add('labelname', $labelname) }
+            if ( $PSCmdlet.ShouldProcess("rewriteglobal_rewritepolicy_binding", "Add Rewrite configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type rewriteglobal_rewritepolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetRewriteglobalrewritepolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetRewriteglobalrewritepolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -749,54 +721,57 @@ function Invoke-ADCAddRewriteglobalrewritepolicybinding {
 }
 
 function Invoke-ADCDeleteRewriteglobalrewritepolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Rewrite configuration Object
+        Delete Rewrite configuration Object.
     .DESCRIPTION
-        Delete Rewrite configuration Object
-     .PARAMETER policyname 
-       Name of the rewrite policy.    .PARAMETER type 
-       The bindpoint to which to policy is bound.  
-       Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT, OTHERTCP_REQ_OVERRIDE, OTHERTCP_REQ_DEFAULT, OTHERTCP_RES_OVERRIDE, OTHERTCP_RES_DEFAULT, SIPUDP_REQ_OVERRIDE, SIPUDP_REQ_DEFAULT, SIPUDP_RES_OVERRIDE, SIPUDP_RES_DEFAULT, SIPTCP_REQ_OVERRIDE, SIPTCP_REQ_DEFAULT, SIPTCP_RES_OVERRIDE, SIPTCP_RES_DEFAULT, DIAMETER_REQ_OVERRIDE, DIAMETER_REQ_DEFAULT, DIAMETER_RES_OVERRIDE, DIAMETER_RES_DEFAULT, RADIUS_REQ_OVERRIDE, RADIUS_REQ_DEFAULT, RADIUS_RES_OVERRIDE, RADIUS_RES_DEFAULT, DNS_REQ_OVERRIDE, DNS_REQ_DEFAULT, DNS_RES_OVERRIDE, DNS_RES_DEFAULT    .PARAMETER priority 
-       Specifies the priority of the policy.
+        Binding object showing the rewritepolicy that can be bound to rewriteglobal.
+    .PARAMETER Policyname 
+        Name of the rewrite policy. 
+    .PARAMETER Type 
+        The bindpoint to which to policy is bound. 
+        Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT, OTHERTCP_REQ_OVERRIDE, OTHERTCP_REQ_DEFAULT, OTHERTCP_RES_OVERRIDE, OTHERTCP_RES_DEFAULT, SIPUDP_REQ_OVERRIDE, SIPUDP_REQ_DEFAULT, SIPUDP_RES_OVERRIDE, SIPUDP_RES_DEFAULT, SIPTCP_REQ_OVERRIDE, SIPTCP_REQ_DEFAULT, SIPTCP_RES_OVERRIDE, SIPTCP_RES_DEFAULT, DIAMETER_REQ_OVERRIDE, DIAMETER_REQ_DEFAULT, DIAMETER_RES_OVERRIDE, DIAMETER_RES_DEFAULT, RADIUS_REQ_OVERRIDE, RADIUS_REQ_DEFAULT, RADIUS_RES_OVERRIDE, RADIUS_RES_DEFAULT, DNS_REQ_OVERRIDE, DNS_REQ_DEFAULT, DNS_RES_OVERRIDE, DNS_RES_DEFAULT, HTTPQUIC_REQ_OVERRIDE, HTTPQUIC_REQ_DEFAULT, HTTPQUIC_RES_OVERRIDE, HTTPQUIC_RES_DEFAULT 
+    .PARAMETER Priority 
+        Specifies the priority of the policy.
     .EXAMPLE
-        Invoke-ADCDeleteRewriteglobalrewritepolicybinding 
+        PS C:\>Invoke-ADCDeleteRewriteglobalrewritepolicybinding 
+        An example how to delete rewriteglobal_rewritepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteRewriteglobalrewritepolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteglobal_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [string]$type ,
+        [string]$Type,
 
-        [double]$priority 
+        [double]$Priority 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteRewriteglobalrewritepolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
-            if ($PSCmdlet.ShouldProcess("rewriteglobal_rewritepolicy_binding", "Delete Rewrite configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type rewriteglobal_rewritepolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSBoundParameters.ContainsKey('Type') ) { $arguments.Add('type', $Type) }
+            if ( $PSBoundParameters.ContainsKey('Priority') ) { $arguments.Add('priority', $Priority) }
+            if ( $PSCmdlet.ShouldProcess("rewriteglobal_rewritepolicy_binding", "Delete Rewrite configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type rewriteglobal_rewritepolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -812,49 +787,55 @@ function Invoke-ADCDeleteRewriteglobalrewritepolicybinding {
 }
 
 function Invoke-ADCGetRewriteglobalrewritepolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Rewrite configuration object(s)
+        Get Rewrite configuration object(s).
     .DESCRIPTION
-        Get Rewrite configuration object(s)
+        Binding object showing the rewritepolicy that can be bound to rewriteglobal.
     .PARAMETER GetAll 
-        Retreive all rewriteglobal_rewritepolicy_binding object(s)
+        Retrieve all rewriteglobal_rewritepolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the rewriteglobal_rewritepolicy_binding object(s) will be returned
+        If specified, the count of the rewriteglobal_rewritepolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetRewriteglobalrewritepolicybinding
+        PS C:\>Invoke-ADCGetRewriteglobalrewritepolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetRewriteglobalrewritepolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetRewriteglobalrewritepolicybinding -GetAll 
+        Get all rewriteglobal_rewritepolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetRewriteglobalrewritepolicybinding -Count
+        PS C:\>Invoke-ADCGetRewriteglobalrewritepolicybinding -Count 
+        Get the number of rewriteglobal_rewritepolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetRewriteglobalrewritepolicybinding -name <string>
+        PS C:\>Invoke-ADCGetRewriteglobalrewritepolicybinding -name <string>
+        Get rewriteglobal_rewritepolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetRewriteglobalrewritepolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetRewriteglobalrewritepolicybinding -Filter @{ 'name'='<value>' }
+        Get rewriteglobal_rewritepolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRewriteglobalrewritepolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteglobal_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -867,26 +848,24 @@ function Invoke-ADCGetRewriteglobalrewritepolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all rewriteglobal_rewritepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteglobal_rewritepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteglobal_rewritepolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for rewriteglobal_rewritepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteglobal_rewritepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteglobal_rewritepolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving rewriteglobal_rewritepolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteglobal_rewritepolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteglobal_rewritepolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving rewriteglobal_rewritepolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving rewriteglobal_rewritepolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteglobal_rewritepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteglobal_rewritepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -900,66 +879,59 @@ function Invoke-ADCGetRewriteglobalrewritepolicybinding {
 }
 
 function Invoke-ADCUpdateRewriteparam {
-<#
+    <#
     .SYNOPSIS
-        Update Rewrite configuration Object
+        Update Rewrite configuration Object.
     .DESCRIPTION
-        Update Rewrite configuration Object 
-    .PARAMETER undefaction 
-        Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an error condition in evaluating the expression.  
-        Available settings function as follows:  
-        * NOREWRITE - Do not modify the message.  
-        * RESET - Reset the connection and notify the user's browser, so that the user can resend the request.  
-        * DROP - Drop the message without sending a response to the user.  
-        Default value: "NOREWRITE" 
-    .PARAMETER timeout 
-        Maximum time in milliseconds to allow for processing all the policies and their selected actions without interruption. If the timeout is reached then the evaluation causes an UNDEF to be raised and no further processing is performed. Note that some rewrites may have already been performed.  
-        Default value: 3900  
-        Minimum value = 1  
-        Maximum value = 5000
+        Configuration for rewrite parameter resource.
+    .PARAMETER Undefaction 
+        Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an error condition in evaluating the expression. 
+        Available settings function as follows: 
+        * NOREWRITE - Do not modify the message. 
+        * RESET - Reset the connection and notify the user's browser, so that the user can resend the request. 
+        * DROP - Drop the message without sending a response to the user. 
+    .PARAMETER Timeout 
+        Maximum time in milliseconds to allow for processing all the policies and their selected actions without interruption. If the timeout is reached then the evaluation causes an UNDEF to be raised and no further processing is performed. Note that some rewrites may have already been performed.
     .EXAMPLE
-        Invoke-ADCUpdateRewriteparam 
+        PS C:\>Invoke-ADCUpdateRewriteparam 
+        An example how to update rewriteparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateRewriteparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteparam/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$undefaction ,
+        [string]$Undefaction,
 
         [ValidateRange(1, 5000)]
-        [double]$timeout 
-
+        [double]$Timeout 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateRewriteparam: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
-            if ($PSBoundParameters.ContainsKey('timeout')) { $Payload.Add('timeout', $timeout) }
- 
-            if ($PSCmdlet.ShouldProcess("rewriteparam", "Update Rewrite configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type rewriteparam -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('undefaction') ) { $payload.Add('undefaction', $undefaction) }
+            if ( $PSBoundParameters.ContainsKey('timeout') ) { $payload.Add('timeout', $timeout) }
+            if ( $PSCmdlet.ShouldProcess("rewriteparam", "Update Rewrite configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type rewriteparam -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -972,40 +944,42 @@ function Invoke-ADCUpdateRewriteparam {
 }
 
 function Invoke-ADCUnsetRewriteparam {
-<#
+    <#
     .SYNOPSIS
-        Unset Rewrite configuration Object
+        Unset Rewrite configuration Object.
     .DESCRIPTION
-        Unset Rewrite configuration Object 
-   .PARAMETER undefaction 
-       Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an error condition in evaluating the expression.  
-       Available settings function as follows:  
-       * NOREWRITE - Do not modify the message.  
-       * RESET - Reset the connection and notify the user's browser, so that the user can resend the request.  
-       * DROP - Drop the message without sending a response to the user. 
-   .PARAMETER timeout 
-       Maximum time in milliseconds to allow for processing all the policies and their selected actions without interruption. If the timeout is reached then the evaluation causes an UNDEF to be raised and no further processing is performed. Note that some rewrites may have already been performed.
+        Configuration for rewrite parameter resource.
+    .PARAMETER Undefaction 
+        Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an error condition in evaluating the expression. 
+        Available settings function as follows: 
+        * NOREWRITE - Do not modify the message. 
+        * RESET - Reset the connection and notify the user's browser, so that the user can resend the request. 
+        * DROP - Drop the message without sending a response to the user. 
+    .PARAMETER Timeout 
+        Maximum time in milliseconds to allow for processing all the policies and their selected actions without interruption. If the timeout is reached then the evaluation causes an UNDEF to be raised and no further processing is performed. Note that some rewrites may have already been performed.
     .EXAMPLE
-        Invoke-ADCUnsetRewriteparam 
+        PS C:\>Invoke-ADCUnsetRewriteparam 
+        An example how to unset rewriteparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetRewriteparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteparam
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$undefaction ,
+        [Boolean]$undefaction,
 
         [Boolean]$timeout 
     )
@@ -1014,13 +988,11 @@ function Invoke-ADCUnsetRewriteparam {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
-            if ($PSBoundParameters.ContainsKey('timeout')) { $Payload.Add('timeout', $timeout) }
-            if ($PSCmdlet.ShouldProcess("rewriteparam", "Unset Rewrite configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type rewriteparam -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('undefaction') ) { $payload.Add('undefaction', $undefaction) }
+            if ( $PSBoundParameters.ContainsKey('timeout') ) { $payload.Add('timeout', $timeout) }
+            if ( $PSCmdlet.ShouldProcess("rewriteparam", "Unset Rewrite configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type rewriteparam -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1036,45 +1008,50 @@ function Invoke-ADCUnsetRewriteparam {
 }
 
 function Invoke-ADCGetRewriteparam {
-<#
+    <#
     .SYNOPSIS
-        Get Rewrite configuration object(s)
+        Get Rewrite configuration object(s).
     .DESCRIPTION
-        Get Rewrite configuration object(s)
+        Configuration for rewrite parameter resource.
     .PARAMETER GetAll 
-        Retreive all rewriteparam object(s)
+        Retrieve all rewriteparam object(s).
     .PARAMETER Count
-        If specified, the count of the rewriteparam object(s) will be returned
+        If specified, the count of the rewriteparam object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetRewriteparam
+        PS C:\>Invoke-ADCGetRewriteparam
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetRewriteparam -GetAll
+        PS C:\>Invoke-ADCGetRewriteparam -GetAll 
+        Get all rewriteparam data.
     .EXAMPLE
-        Invoke-ADCGetRewriteparam -name <string>
+        PS C:\>Invoke-ADCGetRewriteparam -name <string>
+        Get rewriteparam object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetRewriteparam -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetRewriteparam -Filter @{ 'name'='<value>' }
+        Get rewriteparam data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRewriteparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewriteparam/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -1086,24 +1063,24 @@ function Invoke-ADCGetRewriteparam {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all rewriteparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteparam -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for rewriteparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteparam -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving rewriteparam objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteparam -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteparam -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving rewriteparam configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving rewriteparam configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteparam -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewriteparam -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1117,95 +1094,93 @@ function Invoke-ADCGetRewriteparam {
 }
 
 function Invoke-ADCAddRewritepolicy {
-<#
+    <#
     .SYNOPSIS
-        Add Rewrite configuration Object
+        Add Rewrite configuration Object.
     .DESCRIPTION
-        Add Rewrite configuration Object 
-    .PARAMETER name 
+        Configuration for rewrite policy resource.
+    .PARAMETER Name 
         Name for the rewrite policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the rewrite policy is added. 
-    .PARAMETER rule 
-        Expression against which traffic is evaluated.  
-        The following requirements apply only to the Citrix ADC CLI:  
-        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks.  
-        * If the expression itself includes double quotation marks, escape the quotations by using the \ character.  
+    .PARAMETER Rule 
+        Expression against which traffic is evaluated. 
+        The following requirements apply only to the Citrix ADC CLI: 
+        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks. 
+        * If the expression itself includes double quotation marks, escape the quotations by using the \ character. 
         * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks. 
-    .PARAMETER action 
-        Name of the rewrite action to perform if the request or response matches this rewrite policy.  
-        There are also some built-in actions which can be used. These are:  
-        * NOREWRITE - Send the request from the client to the server or response from the server to the client without making any changes in the message.  
-        * RESET - Resets the client connection by closing it. The client program, such as a browser, will handle this and may inform the user. The client may then resend the request if desired.  
+    .PARAMETER Action 
+        Name of the rewrite action to perform if the request or response matches this rewrite policy. 
+        There are also some built-in actions which can be used. These are: 
+        * NOREWRITE - Send the request from the client to the server or response from the server to the client without making any changes in the message. 
+        * RESET - Resets the client connection by closing it. The client program, such as a browser, will handle this and may inform the user. The client may then resend the request if desired. 
         * DROP - Drop the request without sending a response to the user. 
-    .PARAMETER undefaction 
+    .PARAMETER Undefaction 
         Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an internal error condition. Only the above built-in actions can be used. 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any comments to preserve information about this rewrite policy. 
-    .PARAMETER logaction 
+    .PARAMETER Logaction 
         Name of messagelog action to use when a request matches this policy. 
     .PARAMETER PassThru 
         Return details about the created rewritepolicy item.
     .EXAMPLE
-        Invoke-ADCAddRewritepolicy -name <string> -rule <string> -action <string>
+        PS C:\>Invoke-ADCAddRewritepolicy -name <string> -rule <string> -action <string>
+        An example how to add rewritepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddRewritepolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
-        [string]$rule ,
+        [Parameter(Mandatory)]
+        [string]$Rule,
 
-        [Parameter(Mandatory = $true)]
-        [string]$action ,
+        [Parameter(Mandatory)]
+        [string]$Action,
 
-        [string]$undefaction ,
+        [string]$Undefaction,
 
-        [string]$comment ,
+        [string]$Comment,
 
-        [string]$logaction ,
+        [string]$Logaction,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddRewritepolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                rule = $rule
-                action = $action
+            $payload = @{ name = $name
+                rule           = $rule
+                action         = $action
             }
-            if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
- 
-            if ($PSCmdlet.ShouldProcess("rewritepolicy", "Add Rewrite configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type rewritepolicy -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('undefaction') ) { $payload.Add('undefaction', $undefaction) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("rewritepolicy", "Add Rewrite configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type rewritepolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetRewritepolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetRewritepolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1218,46 +1193,47 @@ function Invoke-ADCAddRewritepolicy {
 }
 
 function Invoke-ADCDeleteRewritepolicy {
-<#
+    <#
     .SYNOPSIS
-        Delete Rewrite configuration Object
+        Delete Rewrite configuration Object.
     .DESCRIPTION
-        Delete Rewrite configuration Object
-    .PARAMETER name 
-       Name for the rewrite policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the rewrite policy is added. 
+        Configuration for rewrite policy resource.
+    .PARAMETER Name 
+        Name for the rewrite policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the rewrite policy is added.
     .EXAMPLE
-        Invoke-ADCDeleteRewritepolicy -name <string>
+        PS C:\>Invoke-ADCDeleteRewritepolicy -Name <string>
+        An example how to delete rewritepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteRewritepolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteRewritepolicy: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Rewrite configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type rewritepolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Rewrite configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type rewritepolicy -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1273,93 +1249,90 @@ function Invoke-ADCDeleteRewritepolicy {
 }
 
 function Invoke-ADCUpdateRewritepolicy {
-<#
+    <#
     .SYNOPSIS
-        Update Rewrite configuration Object
+        Update Rewrite configuration Object.
     .DESCRIPTION
-        Update Rewrite configuration Object 
-    .PARAMETER name 
+        Configuration for rewrite policy resource.
+    .PARAMETER Name 
         Name for the rewrite policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the rewrite policy is added. 
-    .PARAMETER rule 
-        Expression against which traffic is evaluated.  
-        The following requirements apply only to the Citrix ADC CLI:  
-        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks.  
-        * If the expression itself includes double quotation marks, escape the quotations by using the \ character.  
+    .PARAMETER Rule 
+        Expression against which traffic is evaluated. 
+        The following requirements apply only to the Citrix ADC CLI: 
+        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks. 
+        * If the expression itself includes double quotation marks, escape the quotations by using the \ character. 
         * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks. 
-    .PARAMETER action 
-        Name of the rewrite action to perform if the request or response matches this rewrite policy.  
-        There are also some built-in actions which can be used. These are:  
-        * NOREWRITE - Send the request from the client to the server or response from the server to the client without making any changes in the message.  
-        * RESET - Resets the client connection by closing it. The client program, such as a browser, will handle this and may inform the user. The client may then resend the request if desired.  
+    .PARAMETER Action 
+        Name of the rewrite action to perform if the request or response matches this rewrite policy. 
+        There are also some built-in actions which can be used. These are: 
+        * NOREWRITE - Send the request from the client to the server or response from the server to the client without making any changes in the message. 
+        * RESET - Resets the client connection by closing it. The client program, such as a browser, will handle this and may inform the user. The client may then resend the request if desired. 
         * DROP - Drop the request without sending a response to the user. 
-    .PARAMETER undefaction 
+    .PARAMETER Undefaction 
         Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an internal error condition. Only the above built-in actions can be used. 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Any comments to preserve information about this rewrite policy. 
-    .PARAMETER logaction 
+    .PARAMETER Logaction 
         Name of messagelog action to use when a request matches this policy. 
     .PARAMETER PassThru 
         Return details about the created rewritepolicy item.
     .EXAMPLE
-        Invoke-ADCUpdateRewritepolicy -name <string>
+        PS C:\>Invoke-ADCUpdateRewritepolicy -name <string>
+        An example how to update rewritepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateRewritepolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [string]$rule ,
+        [string]$Rule,
 
-        [string]$action ,
+        [string]$Action,
 
-        [string]$undefaction ,
+        [string]$Undefaction,
 
-        [string]$comment ,
+        [string]$Comment,
 
-        [string]$logaction ,
+        [string]$Logaction,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateRewritepolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
-            if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
-            if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
- 
-            if ($PSCmdlet.ShouldProcess("rewritepolicy", "Update Rewrite configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type rewritepolicy -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('rule') ) { $payload.Add('rule', $rule) }
+            if ( $PSBoundParameters.ContainsKey('action') ) { $payload.Add('action', $action) }
+            if ( $PSBoundParameters.ContainsKey('undefaction') ) { $payload.Add('undefaction', $undefaction) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("rewritepolicy", "Update Rewrite configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type rewritepolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetRewritepolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetRewritepolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1372,45 +1345,46 @@ function Invoke-ADCUpdateRewritepolicy {
 }
 
 function Invoke-ADCUnsetRewritepolicy {
-<#
+    <#
     .SYNOPSIS
-        Unset Rewrite configuration Object
+        Unset Rewrite configuration Object.
     .DESCRIPTION
-        Unset Rewrite configuration Object 
-   .PARAMETER name 
-       Name for the rewrite policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the rewrite policy is added. 
-   .PARAMETER undefaction 
-       Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an internal error condition. Only the above built-in actions can be used. 
-   .PARAMETER comment 
-       Any comments to preserve information about this rewrite policy. 
-   .PARAMETER logaction 
-       Name of messagelog action to use when a request matches this policy.
+        Configuration for rewrite policy resource.
+    .PARAMETER Name 
+        Name for the rewrite policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the rewrite policy is added. 
+    .PARAMETER Undefaction 
+        Action to perform if the result of policy evaluation is undefined (UNDEF). An UNDEF event indicates an internal error condition. Only the above built-in actions can be used. 
+    .PARAMETER Comment 
+        Any comments to preserve information about this rewrite policy. 
+    .PARAMETER Logaction 
+        Name of messagelog action to use when a request matches this policy.
     .EXAMPLE
-        Invoke-ADCUnsetRewritepolicy -name <string>
+        PS C:\>Invoke-ADCUnsetRewritepolicy -name <string>
+        An example how to unset rewritepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetRewritepolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$undefaction ,
+        [Boolean]$undefaction,
 
-        [Boolean]$comment ,
+        [Boolean]$comment,
 
         [Boolean]$logaction 
     )
@@ -1419,14 +1393,12 @@ function Invoke-ADCUnsetRewritepolicy {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('undefaction')) { $Payload.Add('undefaction', $undefaction) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Rewrite configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type rewritepolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('undefaction') ) { $payload.Add('undefaction', $undefaction) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Rewrite configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type rewritepolicy -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1442,69 +1414,67 @@ function Invoke-ADCUnsetRewritepolicy {
 }
 
 function Invoke-ADCRenameRewritepolicy {
-<#
+    <#
     .SYNOPSIS
-        Rename Rewrite configuration Object
+        Rename Rewrite configuration Object.
     .DESCRIPTION
-        Rename Rewrite configuration Object 
-    .PARAMETER name 
+        Configuration for rewrite policy resource.
+    .PARAMETER Name 
         Name for the rewrite policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the rewrite policy is added. 
-    .PARAMETER newname 
-        New name for the rewrite policy.  
+    .PARAMETER Newname 
+        New name for the rewrite policy. 
         Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
     .PARAMETER PassThru 
         Return details about the created rewritepolicy item.
     .EXAMPLE
-        Invoke-ADCRenameRewritepolicy -name <string> -newname <string>
+        PS C:\>Invoke-ADCRenameRewritepolicy -name <string> -newname <string>
+        An example how to rename rewritepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameRewritepolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameRewritepolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                newname = $newname
+            $payload = @{ name = $name
+                newname        = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("rewritepolicy", "Rename Rewrite configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type rewritepolicy -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("rewritepolicy", "Rename Rewrite configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type rewritepolicy -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetRewritepolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetRewritepolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1517,54 +1487,60 @@ function Invoke-ADCRenameRewritepolicy {
 }
 
 function Invoke-ADCGetRewritepolicy {
-<#
+    <#
     .SYNOPSIS
-        Get Rewrite configuration object(s)
+        Get Rewrite configuration object(s).
     .DESCRIPTION
-        Get Rewrite configuration object(s)
-    .PARAMETER name 
-       Name for the rewrite policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the rewrite policy is added. 
+        Configuration for rewrite policy resource.
+    .PARAMETER Name 
+        Name for the rewrite policy. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Can be changed after the rewrite policy is added. 
     .PARAMETER GetAll 
-        Retreive all rewritepolicy object(s)
+        Retrieve all rewritepolicy object(s).
     .PARAMETER Count
-        If specified, the count of the rewritepolicy object(s) will be returned
+        If specified, the count of the rewritepolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicy
+        PS C:\>Invoke-ADCGetRewritepolicy
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicy -GetAll 
+        PS C:\>Invoke-ADCGetRewritepolicy -GetAll 
+        Get all rewritepolicy data. 
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicy -Count
+        PS C:\>Invoke-ADCGetRewritepolicy -Count 
+        Get the number of rewritepolicy objects.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicy -name <string>
+        PS C:\>Invoke-ADCGetRewritepolicy -name <string>
+        Get rewritepolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicy -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetRewritepolicy -Filter @{ 'name'='<value>' }
+        Get rewritepolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRewritepolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1582,24 +1558,24 @@ function Invoke-ADCGetRewritepolicy {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all rewritepolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for rewritepolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving rewritepolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving rewritepolicy configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving rewritepolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1613,89 +1589,87 @@ function Invoke-ADCGetRewritepolicy {
 }
 
 function Invoke-ADCAddRewritepolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Add Rewrite configuration Object
+        Add Rewrite configuration Object.
     .DESCRIPTION
-        Add Rewrite configuration Object 
-    .PARAMETER labelname 
+        Configuration for rewrite policy label resource.
+    .PARAMETER Labelname 
         Name for the rewrite policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the rewrite policy label is added. 
-    .PARAMETER transform 
-        Types of transformations allowed by the policies bound to the label. For Rewrite, the following types are supported:  
-        * http_req - HTTP requests  
-        * http_res - HTTP responses  
-        * othertcp_req - Non-HTTP TCP requests  
-        * othertcp_res - Non-HTTP TCP responses  
-        * url - URLs  
-        * text - Text strings  
-        * clientless_vpn_req - Citrix ADC clientless VPN requests  
-        * clientless_vpn_res - Citrix ADC clientless VPN responses  
-        * sipudp_req - SIP requests  
-        * sipudp_res - SIP responses  
-        * diameter_req - DIAMETER requests  
-        * diameter_res - DIAMETER responses  
-        * radius_req - RADIUS requests  
-        * radius_res - RADIUS responses  
-        * dns_req - DNS requests  
-        * dns_res - DNS responses.  
-        Possible values = http_req, http_res, othertcp_req, othertcp_res, url, text, clientless_vpn_req, clientless_vpn_res, sipudp_req, sipudp_res, siptcp_req, siptcp_res, diameter_req, diameter_res, radius_req, radius_res, dns_req, dns_res 
-    .PARAMETER comment 
+    .PARAMETER Transform 
+        Types of transformations allowed by the policies bound to the label. For Rewrite, the following types are supported: 
+        * http_req - HTTP requests 
+        * http_res - HTTP responses 
+        * othertcp_req - Non-HTTP TCP requests 
+        * othertcp_res - Non-HTTP TCP responses 
+        * url - URLs 
+        * text - Text strings 
+        * clientless_vpn_req - Citrix ADC clientless VPN requests 
+        * clientless_vpn_res - Citrix ADC clientless VPN responses 
+        * sipudp_req - SIP requests 
+        * sipudp_res - SIP responses 
+        * diameter_req - DIAMETER requests 
+        * diameter_res - DIAMETER responses 
+        * radius_req - RADIUS requests 
+        * radius_res - RADIUS responses 
+        * dns_req - DNS requests 
+        * dns_res - DNS responses. 
+        Possible values = http_req, http_res, othertcp_req, othertcp_res, url, text, clientless_vpn_req, clientless_vpn_res, sipudp_req, sipudp_res, siptcp_req, siptcp_res, diameter_req, diameter_res, radius_req, radius_res, dns_req, dns_res, httpquic_req, httpquic_res 
+    .PARAMETER Comment 
         Any comments to preserve information about this rewrite policy label. 
     .PARAMETER PassThru 
         Return details about the created rewritepolicylabel item.
     .EXAMPLE
-        Invoke-ADCAddRewritepolicylabel -labelname <string> -transform <string>
+        PS C:\>Invoke-ADCAddRewritepolicylabel -labelname <string> -transform <string>
+        An example how to add rewritepolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddRewritepolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [Parameter(Mandatory = $true)]
-        [ValidateSet('http_req', 'http_res', 'othertcp_req', 'othertcp_res', 'url', 'text', 'clientless_vpn_req', 'clientless_vpn_res', 'sipudp_req', 'sipudp_res', 'siptcp_req', 'siptcp_res', 'diameter_req', 'diameter_res', 'radius_req', 'radius_res', 'dns_req', 'dns_res')]
-        [string]$transform ,
+        [Parameter(Mandatory)]
+        [ValidateSet('http_req', 'http_res', 'othertcp_req', 'othertcp_res', 'url', 'text', 'clientless_vpn_req', 'clientless_vpn_res', 'sipudp_req', 'sipudp_res', 'siptcp_req', 'siptcp_res', 'diameter_req', 'diameter_res', 'radius_req', 'radius_res', 'dns_req', 'dns_res', 'httpquic_req', 'httpquic_res')]
+        [string]$Transform,
 
-        [string]$comment ,
+        [string]$Comment,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddRewritepolicylabel: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-                transform = $transform
+            $payload = @{ labelname = $labelname
+                transform           = $transform
             }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
- 
-            if ($PSCmdlet.ShouldProcess("rewritepolicylabel", "Add Rewrite configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type rewritepolicylabel -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess("rewritepolicylabel", "Add Rewrite configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type rewritepolicylabel -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetRewritepolicylabel -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetRewritepolicylabel -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1708,46 +1682,47 @@ function Invoke-ADCAddRewritepolicylabel {
 }
 
 function Invoke-ADCDeleteRewritepolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Delete Rewrite configuration Object
+        Delete Rewrite configuration Object.
     .DESCRIPTION
-        Delete Rewrite configuration Object
-    .PARAMETER labelname 
-       Name for the rewrite policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the rewrite policy label is added. 
+        Configuration for rewrite policy label resource.
+    .PARAMETER Labelname 
+        Name for the rewrite policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the rewrite policy label is added.
     .EXAMPLE
-        Invoke-ADCDeleteRewritepolicylabel -labelname <string>
+        PS C:\>Invoke-ADCDeleteRewritepolicylabel -Labelname <string>
+        An example how to delete rewritepolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteRewritepolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname 
+        [Parameter(Mandatory)]
+        [string]$Labelname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteRewritepolicylabel: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$labelname", "Delete Rewrite configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type rewritepolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$labelname", "Delete Rewrite configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type rewritepolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1763,69 +1738,67 @@ function Invoke-ADCDeleteRewritepolicylabel {
 }
 
 function Invoke-ADCRenameRewritepolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Rename Rewrite configuration Object
+        Rename Rewrite configuration Object.
     .DESCRIPTION
-        Rename Rewrite configuration Object 
-    .PARAMETER labelname 
+        Configuration for rewrite policy label resource.
+    .PARAMETER Labelname 
         Name for the rewrite policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the rewrite policy label is added. 
-    .PARAMETER newname 
-        New name for the rewrite policy label.  
+    .PARAMETER Newname 
+        New name for the rewrite policy label. 
         Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. 
     .PARAMETER PassThru 
         Return details about the created rewritepolicylabel item.
     .EXAMPLE
-        Invoke-ADCRenameRewritepolicylabel -labelname <string> -newname <string>
+        PS C:\>Invoke-ADCRenameRewritepolicylabel -labelname <string> -newname <string>
+        An example how to rename rewritepolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameRewritepolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameRewritepolicylabel: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-                newname = $newname
+            $payload = @{ labelname = $labelname
+                newname             = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("rewritepolicylabel", "Rename Rewrite configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type rewritepolicylabel -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("rewritepolicylabel", "Rename Rewrite configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type rewritepolicylabel -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetRewritepolicylabel -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetRewritepolicylabel -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1838,54 +1811,60 @@ function Invoke-ADCRenameRewritepolicylabel {
 }
 
 function Invoke-ADCGetRewritepolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Get Rewrite configuration object(s)
+        Get Rewrite configuration object(s).
     .DESCRIPTION
-        Get Rewrite configuration object(s)
-    .PARAMETER labelname 
-       Name for the rewrite policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the rewrite policy label is added. 
+        Configuration for rewrite policy label resource.
+    .PARAMETER Labelname 
+        Name for the rewrite policy label. Must begin with a letter, number, or the underscore character (_), and must contain only letters, numbers, and the hyphen (-), period (.) hash (#), space ( ), at (@), equals (=), colon (:), and underscore characters. Cannot be changed after the rewrite policy label is added. 
     .PARAMETER GetAll 
-        Retreive all rewritepolicylabel object(s)
+        Retrieve all rewritepolicylabel object(s).
     .PARAMETER Count
-        If specified, the count of the rewritepolicylabel object(s) will be returned
+        If specified, the count of the rewritepolicylabel object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicylabel
+        PS C:\>Invoke-ADCGetRewritepolicylabel
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicylabel -GetAll 
+        PS C:\>Invoke-ADCGetRewritepolicylabel -GetAll 
+        Get all rewritepolicylabel data. 
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicylabel -Count
+        PS C:\>Invoke-ADCGetRewritepolicylabel -Count 
+        Get the number of rewritepolicylabel objects.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicylabel -name <string>
+        PS C:\>Invoke-ADCGetRewritepolicylabel -name <string>
+        Get rewritepolicylabel object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicylabel -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetRewritepolicylabel -Filter @{ 'name'='<value>' }
+        Get rewritepolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRewritepolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1903,24 +1882,24 @@ function Invoke-ADCGetRewritepolicylabel {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all rewritepolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for rewritepolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving rewritepolicylabel objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving rewritepolicylabel configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving rewritepolicylabel configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1934,50 +1913,55 @@ function Invoke-ADCGetRewritepolicylabel {
 }
 
 function Invoke-ADCGetRewritepolicylabelbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Rewrite configuration object(s)
+        Get Rewrite configuration object(s).
     .DESCRIPTION
-        Get Rewrite configuration object(s)
-    .PARAMETER labelname 
-       Name of the rewrite policy label. 
+        Binding object which returns the resources bound to rewritepolicylabel.
+    .PARAMETER Labelname 
+        Name of the rewrite policy label. 
     .PARAMETER GetAll 
-        Retreive all rewritepolicylabel_binding object(s)
+        Retrieve all rewritepolicylabel_binding object(s).
     .PARAMETER Count
-        If specified, the count of the rewritepolicylabel_binding object(s) will be returned
+        If specified, the count of the rewritepolicylabel_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicylabelbinding
+        PS C:\>Invoke-ADCGetRewritepolicylabelbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicylabelbinding -GetAll
+        PS C:\>Invoke-ADCGetRewritepolicylabelbinding -GetAll 
+        Get all rewritepolicylabel_binding data.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicylabelbinding -name <string>
+        PS C:\>Invoke-ADCGetRewritepolicylabelbinding -name <string>
+        Get rewritepolicylabel_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicylabelbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetRewritepolicylabelbinding -Filter @{ 'name'='<value>' }
+        Get rewritepolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRewritepolicylabelbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicylabel_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 			
         [hashtable]$Filter = @{ },
 
@@ -1989,26 +1973,24 @@ function Invoke-ADCGetRewritepolicylabelbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all rewritepolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for rewritepolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving rewritepolicylabel_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving rewritepolicylabel_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving rewritepolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2022,54 +2004,60 @@ function Invoke-ADCGetRewritepolicylabelbinding {
 }
 
 function Invoke-ADCGetRewritepolicylabelpolicybindingbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Rewrite configuration object(s)
+        Get Rewrite configuration object(s).
     .DESCRIPTION
-        Get Rewrite configuration object(s)
-    .PARAMETER labelname 
-       Name of the rewrite policy label to which to bind the policy. 
+        Binding object showing the policybinding that can be bound to rewritepolicylabel.
+    .PARAMETER Labelname 
+        Name of the rewrite policy label to which to bind the policy. 
     .PARAMETER GetAll 
-        Retreive all rewritepolicylabel_policybinding_binding object(s)
+        Retrieve all rewritepolicylabel_policybinding_binding object(s).
     .PARAMETER Count
-        If specified, the count of the rewritepolicylabel_policybinding_binding object(s) will be returned
+        If specified, the count of the rewritepolicylabel_policybinding_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicylabelpolicybindingbinding
+        PS C:\>Invoke-ADCGetRewritepolicylabelpolicybindingbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicylabelpolicybindingbinding -GetAll 
+        PS C:\>Invoke-ADCGetRewritepolicylabelpolicybindingbinding -GetAll 
+        Get all rewritepolicylabel_policybinding_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicylabelpolicybindingbinding -Count
+        PS C:\>Invoke-ADCGetRewritepolicylabelpolicybindingbinding -Count 
+        Get the number of rewritepolicylabel_policybinding_binding objects.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicylabelpolicybindingbinding -name <string>
+        PS C:\>Invoke-ADCGetRewritepolicylabelpolicybindingbinding -name <string>
+        Get rewritepolicylabel_policybinding_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetRewritepolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
+        Get rewritepolicylabel_policybinding_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRewritepolicylabelpolicybindingbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2082,26 +2070,24 @@ function Invoke-ADCGetRewritepolicylabelpolicybindingbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all rewritepolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for rewritepolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving rewritepolicylabel_policybinding_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_policybinding_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_policybinding_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving rewritepolicylabel_policybinding_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_policybinding_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving rewritepolicylabel_policybinding_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_policybinding_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_policybinding_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2115,94 +2101,92 @@ function Invoke-ADCGetRewritepolicylabelpolicybindingbinding {
 }
 
 function Invoke-ADCAddRewritepolicylabelrewritepolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add Rewrite configuration Object
+        Add Rewrite configuration Object.
     .DESCRIPTION
-        Add Rewrite configuration Object 
-    .PARAMETER labelname 
+        Binding object showing the rewritepolicy that can be bound to rewritepolicylabel.
+    .PARAMETER Labelname 
         Name of the rewrite policy label to which to bind the policy. 
-    .PARAMETER policyname 
+    .PARAMETER Policyname 
         Name of the rewrite policy to bind to the policy label. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         Specifies the priority of the policy. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Expression specifying the priority of the next policy which will get evaluated if the current policy rule evaluates to TRUE. 
-    .PARAMETER invoke 
+    .PARAMETER Invoke 
         Suspend evaluation of policies bound to the current policy label, and then forward the request to the specified virtual server or evaluate the specified policy label. 
-    .PARAMETER labeltype 
-        Type of invocation. Available settings function as follows: * reqvserver - Forward the request to the specified request virtual server. * resvserver - Forward the response to the specified response virtual server. * policylabel - Invoke the specified policy label.  
+    .PARAMETER Labeltype 
+        Type of invocation. Available settings function as follows: * reqvserver - Forward the request to the specified request virtual server. * resvserver - Forward the response to the specified response virtual server. * policylabel - Invoke the specified policy label. 
         Possible values = reqvserver, resvserver, policylabel 
-    .PARAMETER invoke_labelname 
+    .PARAMETER Invoke_labelname 
         * If labelType is policylabel, name of the policy label to invoke. * If labelType is reqvserver or resvserver, name of the virtual server to which to forward the request or response. 
     .PARAMETER PassThru 
         Return details about the created rewritepolicylabel_rewritepolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddRewritepolicylabelrewritepolicybinding -labelname <string> -policyname <string> -priority <double>
+        PS C:\>Invoke-ADCAddRewritepolicylabelrewritepolicybinding -labelname <string> -policyname <string> -priority <double>
+        An example how to add rewritepolicylabel_rewritepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddRewritepolicylabelrewritepolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicylabel_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [Parameter(Mandatory = $true)]
-        [string]$policyname ,
+        [Parameter(Mandatory)]
+        [string]$Policyname,
 
-        [Parameter(Mandatory = $true)]
-        [double]$priority ,
+        [Parameter(Mandatory)]
+        [double]$Priority,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
-        [boolean]$invoke ,
+        [boolean]$Invoke,
 
         [ValidateSet('reqvserver', 'resvserver', 'policylabel')]
-        [string]$labeltype ,
+        [string]$Labeltype,
 
-        [string]$invoke_labelname ,
+        [string]$Invoke_labelname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddRewritepolicylabelrewritepolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-                policyname = $policyname
-                priority = $priority
+            $payload = @{ labelname = $labelname
+                policyname          = $policyname
+                priority            = $priority
             }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
-            if ($PSBoundParameters.ContainsKey('invoke')) { $Payload.Add('invoke', $invoke) }
-            if ($PSBoundParameters.ContainsKey('labeltype')) { $Payload.Add('labeltype', $labeltype) }
-            if ($PSBoundParameters.ContainsKey('invoke_labelname')) { $Payload.Add('invoke_labelname', $invoke_labelname) }
- 
-            if ($PSCmdlet.ShouldProcess("rewritepolicylabel_rewritepolicy_binding", "Add Rewrite configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type rewritepolicylabel_rewritepolicy_binding -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSBoundParameters.ContainsKey('invoke') ) { $payload.Add('invoke', $invoke) }
+            if ( $PSBoundParameters.ContainsKey('labeltype') ) { $payload.Add('labeltype', $labeltype) }
+            if ( $PSBoundParameters.ContainsKey('invoke_labelname') ) { $payload.Add('invoke_labelname', $invoke_labelname) }
+            if ( $PSCmdlet.ShouldProcess("rewritepolicylabel_rewritepolicy_binding", "Add Rewrite configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type rewritepolicylabel_rewritepolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetRewritepolicylabelrewritepolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetRewritepolicylabelrewritepolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2215,53 +2199,56 @@ function Invoke-ADCAddRewritepolicylabelrewritepolicybinding {
 }
 
 function Invoke-ADCDeleteRewritepolicylabelrewritepolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Rewrite configuration Object
+        Delete Rewrite configuration Object.
     .DESCRIPTION
-        Delete Rewrite configuration Object
-    .PARAMETER labelname 
-       Name of the rewrite policy label to which to bind the policy.    .PARAMETER policyname 
-       Name of the rewrite policy to bind to the policy label.    .PARAMETER priority 
-       Specifies the priority of the policy.
+        Binding object showing the rewritepolicy that can be bound to rewritepolicylabel.
+    .PARAMETER Labelname 
+        Name of the rewrite policy label to which to bind the policy. 
+    .PARAMETER Policyname 
+        Name of the rewrite policy to bind to the policy label. 
+    .PARAMETER Priority 
+        Specifies the priority of the policy.
     .EXAMPLE
-        Invoke-ADCDeleteRewritepolicylabelrewritepolicybinding -labelname <string>
+        PS C:\>Invoke-ADCDeleteRewritepolicylabelrewritepolicybinding -Labelname <string>
+        An example how to delete rewritepolicylabel_rewritepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteRewritepolicylabelrewritepolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicylabel_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [double]$priority 
+        [double]$Priority 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteRewritepolicylabelrewritepolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
-            if ($PSCmdlet.ShouldProcess("$labelname", "Delete Rewrite configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type rewritepolicylabel_rewritepolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSBoundParameters.ContainsKey('Priority') ) { $arguments.Add('priority', $Priority) }
+            if ( $PSCmdlet.ShouldProcess("$labelname", "Delete Rewrite configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type rewritepolicylabel_rewritepolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2277,54 +2264,60 @@ function Invoke-ADCDeleteRewritepolicylabelrewritepolicybinding {
 }
 
 function Invoke-ADCGetRewritepolicylabelrewritepolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Rewrite configuration object(s)
+        Get Rewrite configuration object(s).
     .DESCRIPTION
-        Get Rewrite configuration object(s)
-    .PARAMETER labelname 
-       Name of the rewrite policy label to which to bind the policy. 
+        Binding object showing the rewritepolicy that can be bound to rewritepolicylabel.
+    .PARAMETER Labelname 
+        Name of the rewrite policy label to which to bind the policy. 
     .PARAMETER GetAll 
-        Retreive all rewritepolicylabel_rewritepolicy_binding object(s)
+        Retrieve all rewritepolicylabel_rewritepolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the rewritepolicylabel_rewritepolicy_binding object(s) will be returned
+        If specified, the count of the rewritepolicylabel_rewritepolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicylabelrewritepolicybinding
+        PS C:\>Invoke-ADCGetRewritepolicylabelrewritepolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicylabelrewritepolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetRewritepolicylabelrewritepolicybinding -GetAll 
+        Get all rewritepolicylabel_rewritepolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicylabelrewritepolicybinding -Count
+        PS C:\>Invoke-ADCGetRewritepolicylabelrewritepolicybinding -Count 
+        Get the number of rewritepolicylabel_rewritepolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicylabelrewritepolicybinding -name <string>
+        PS C:\>Invoke-ADCGetRewritepolicylabelrewritepolicybinding -name <string>
+        Get rewritepolicylabel_rewritepolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicylabelrewritepolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetRewritepolicylabelrewritepolicybinding -Filter @{ 'name'='<value>' }
+        Get rewritepolicylabel_rewritepolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRewritepolicylabelrewritepolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicylabel_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2337,26 +2330,24 @@ function Invoke-ADCGetRewritepolicylabelrewritepolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all rewritepolicylabel_rewritepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_rewritepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_rewritepolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for rewritepolicylabel_rewritepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_rewritepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_rewritepolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving rewritepolicylabel_rewritepolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_rewritepolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_rewritepolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving rewritepolicylabel_rewritepolicy_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_rewritepolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving rewritepolicylabel_rewritepolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_rewritepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicylabel_rewritepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2370,50 +2361,55 @@ function Invoke-ADCGetRewritepolicylabelrewritepolicybinding {
 }
 
 function Invoke-ADCGetRewritepolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Rewrite configuration object(s)
+        Get Rewrite configuration object(s).
     .DESCRIPTION
-        Get Rewrite configuration object(s)
-    .PARAMETER name 
-       Name of the rewrite policy. 
+        Binding object which returns the resources bound to rewritepolicy.
+    .PARAMETER Name 
+        Name of the rewrite policy. 
     .PARAMETER GetAll 
-        Retreive all rewritepolicy_binding object(s)
+        Retrieve all rewritepolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the rewritepolicy_binding object(s) will be returned
+        If specified, the count of the rewritepolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicybinding
+        PS C:\>Invoke-ADCGetRewritepolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicybinding -GetAll
+        PS C:\>Invoke-ADCGetRewritepolicybinding -GetAll 
+        Get all rewritepolicy_binding data.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicybinding -name <string>
+        PS C:\>Invoke-ADCGetRewritepolicybinding -name <string>
+        Get rewritepolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetRewritepolicybinding -Filter @{ 'name'='<value>' }
+        Get rewritepolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRewritepolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -2425,26 +2421,24 @@ function Invoke-ADCGetRewritepolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all rewritepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for rewritepolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving rewritepolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving rewritepolicy_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving rewritepolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2458,54 +2452,60 @@ function Invoke-ADCGetRewritepolicybinding {
 }
 
 function Invoke-ADCGetRewritepolicycsvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Rewrite configuration object(s)
+        Get Rewrite configuration object(s).
     .DESCRIPTION
-        Get Rewrite configuration object(s)
-    .PARAMETER name 
-       Name of the rewrite policy. 
+        Binding object showing the csvserver that can be bound to rewritepolicy.
+    .PARAMETER Name 
+        Name of the rewrite policy. 
     .PARAMETER GetAll 
-        Retreive all rewritepolicy_csvserver_binding object(s)
+        Retrieve all rewritepolicy_csvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the rewritepolicy_csvserver_binding object(s) will be returned
+        If specified, the count of the rewritepolicy_csvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicycsvserverbinding
+        PS C:\>Invoke-ADCGetRewritepolicycsvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicycsvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetRewritepolicycsvserverbinding -GetAll 
+        Get all rewritepolicy_csvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicycsvserverbinding -Count
+        PS C:\>Invoke-ADCGetRewritepolicycsvserverbinding -Count 
+        Get the number of rewritepolicy_csvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicycsvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetRewritepolicycsvserverbinding -name <string>
+        Get rewritepolicy_csvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicycsvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetRewritepolicycsvserverbinding -Filter @{ 'name'='<value>' }
+        Get rewritepolicy_csvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRewritepolicycsvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2518,26 +2518,24 @@ function Invoke-ADCGetRewritepolicycsvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all rewritepolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_csvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for rewritepolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_csvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving rewritepolicy_csvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_csvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_csvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving rewritepolicy_csvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_csvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving rewritepolicy_csvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_csvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_csvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2551,54 +2549,60 @@ function Invoke-ADCGetRewritepolicycsvserverbinding {
 }
 
 function Invoke-ADCGetRewritepolicylbvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Rewrite configuration object(s)
+        Get Rewrite configuration object(s).
     .DESCRIPTION
-        Get Rewrite configuration object(s)
-    .PARAMETER name 
-       Name of the rewrite policy. 
+        Binding object showing the lbvserver that can be bound to rewritepolicy.
+    .PARAMETER Name 
+        Name of the rewrite policy. 
     .PARAMETER GetAll 
-        Retreive all rewritepolicy_lbvserver_binding object(s)
+        Retrieve all rewritepolicy_lbvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the rewritepolicy_lbvserver_binding object(s) will be returned
+        If specified, the count of the rewritepolicy_lbvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicylbvserverbinding
+        PS C:\>Invoke-ADCGetRewritepolicylbvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicylbvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetRewritepolicylbvserverbinding -GetAll 
+        Get all rewritepolicy_lbvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicylbvserverbinding -Count
+        PS C:\>Invoke-ADCGetRewritepolicylbvserverbinding -Count 
+        Get the number of rewritepolicy_lbvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicylbvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetRewritepolicylbvserverbinding -name <string>
+        Get rewritepolicy_lbvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicylbvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetRewritepolicylbvserverbinding -Filter @{ 'name'='<value>' }
+        Get rewritepolicy_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRewritepolicylbvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2611,26 +2615,24 @@ function Invoke-ADCGetRewritepolicylbvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all rewritepolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for rewritepolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving rewritepolicy_lbvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving rewritepolicy_lbvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_lbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving rewritepolicy_lbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2644,54 +2646,60 @@ function Invoke-ADCGetRewritepolicylbvserverbinding {
 }
 
 function Invoke-ADCGetRewritepolicyrewriteglobalbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Rewrite configuration object(s)
+        Get Rewrite configuration object(s).
     .DESCRIPTION
-        Get Rewrite configuration object(s)
-    .PARAMETER name 
-       Name of the rewrite policy. 
+        Binding object showing the rewriteglobal that can be bound to rewritepolicy.
+    .PARAMETER Name 
+        Name of the rewrite policy. 
     .PARAMETER GetAll 
-        Retreive all rewritepolicy_rewriteglobal_binding object(s)
+        Retrieve all rewritepolicy_rewriteglobal_binding object(s).
     .PARAMETER Count
-        If specified, the count of the rewritepolicy_rewriteglobal_binding object(s) will be returned
+        If specified, the count of the rewritepolicy_rewriteglobal_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicyrewriteglobalbinding
+        PS C:\>Invoke-ADCGetRewritepolicyrewriteglobalbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicyrewriteglobalbinding -GetAll 
+        PS C:\>Invoke-ADCGetRewritepolicyrewriteglobalbinding -GetAll 
+        Get all rewritepolicy_rewriteglobal_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicyrewriteglobalbinding -Count
+        PS C:\>Invoke-ADCGetRewritepolicyrewriteglobalbinding -Count 
+        Get the number of rewritepolicy_rewriteglobal_binding objects.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicyrewriteglobalbinding -name <string>
+        PS C:\>Invoke-ADCGetRewritepolicyrewriteglobalbinding -name <string>
+        Get rewritepolicy_rewriteglobal_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicyrewriteglobalbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetRewritepolicyrewriteglobalbinding -Filter @{ 'name'='<value>' }
+        Get rewritepolicy_rewriteglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRewritepolicyrewriteglobalbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy_rewriteglobal_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2704,26 +2712,24 @@ function Invoke-ADCGetRewritepolicyrewriteglobalbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all rewritepolicy_rewriteglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_rewriteglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_rewriteglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for rewritepolicy_rewriteglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_rewriteglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_rewriteglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving rewritepolicy_rewriteglobal_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_rewriteglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_rewriteglobal_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving rewritepolicy_rewriteglobal_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_rewriteglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving rewritepolicy_rewriteglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_rewriteglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_rewriteglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2737,54 +2743,60 @@ function Invoke-ADCGetRewritepolicyrewriteglobalbinding {
 }
 
 function Invoke-ADCGetRewritepolicyrewritepolicylabelbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Rewrite configuration object(s)
+        Get Rewrite configuration object(s).
     .DESCRIPTION
-        Get Rewrite configuration object(s)
-    .PARAMETER name 
-       Name of the rewrite policy. 
+        Binding object showing the rewritepolicylabel that can be bound to rewritepolicy.
+    .PARAMETER Name 
+        Name of the rewrite policy. 
     .PARAMETER GetAll 
-        Retreive all rewritepolicy_rewritepolicylabel_binding object(s)
+        Retrieve all rewritepolicy_rewritepolicylabel_binding object(s).
     .PARAMETER Count
-        If specified, the count of the rewritepolicy_rewritepolicylabel_binding object(s) will be returned
+        If specified, the count of the rewritepolicy_rewritepolicylabel_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicyrewritepolicylabelbinding
+        PS C:\>Invoke-ADCGetRewritepolicyrewritepolicylabelbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicyrewritepolicylabelbinding -GetAll 
+        PS C:\>Invoke-ADCGetRewritepolicyrewritepolicylabelbinding -GetAll 
+        Get all rewritepolicy_rewritepolicylabel_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicyrewritepolicylabelbinding -Count
+        PS C:\>Invoke-ADCGetRewritepolicyrewritepolicylabelbinding -Count 
+        Get the number of rewritepolicy_rewritepolicylabel_binding objects.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicyrewritepolicylabelbinding -name <string>
+        PS C:\>Invoke-ADCGetRewritepolicyrewritepolicylabelbinding -name <string>
+        Get rewritepolicy_rewritepolicylabel_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicyrewritepolicylabelbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetRewritepolicyrewritepolicylabelbinding -Filter @{ 'name'='<value>' }
+        Get rewritepolicy_rewritepolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRewritepolicyrewritepolicylabelbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy_rewritepolicylabel_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2797,26 +2809,24 @@ function Invoke-ADCGetRewritepolicyrewritepolicylabelbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all rewritepolicy_rewritepolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_rewritepolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_rewritepolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for rewritepolicy_rewritepolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_rewritepolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_rewritepolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving rewritepolicy_rewritepolicylabel_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_rewritepolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_rewritepolicylabel_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving rewritepolicy_rewritepolicylabel_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_rewritepolicylabel_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving rewritepolicy_rewritepolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_rewritepolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_rewritepolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2830,54 +2840,60 @@ function Invoke-ADCGetRewritepolicyrewritepolicylabelbinding {
 }
 
 function Invoke-ADCGetRewritepolicyvpnvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Rewrite configuration object(s)
+        Get Rewrite configuration object(s).
     .DESCRIPTION
-        Get Rewrite configuration object(s)
-    .PARAMETER name 
-       Name of the rewrite policy. 
+        Binding object showing the vpnvserver that can be bound to rewritepolicy.
+    .PARAMETER Name 
+        Name of the rewrite policy. 
     .PARAMETER GetAll 
-        Retreive all rewritepolicy_vpnvserver_binding object(s)
+        Retrieve all rewritepolicy_vpnvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the rewritepolicy_vpnvserver_binding object(s) will be returned
+        If specified, the count of the rewritepolicy_vpnvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicyvpnvserverbinding
+        PS C:\>Invoke-ADCGetRewritepolicyvpnvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicyvpnvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetRewritepolicyvpnvserverbinding -GetAll 
+        Get all rewritepolicy_vpnvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetRewritepolicyvpnvserverbinding -Count
+        PS C:\>Invoke-ADCGetRewritepolicyvpnvserverbinding -Count 
+        Get the number of rewritepolicy_vpnvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicyvpnvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetRewritepolicyvpnvserverbinding -name <string>
+        Get rewritepolicy_vpnvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetRewritepolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetRewritepolicyvpnvserverbinding -Filter @{ 'name'='<value>' }
+        Get rewritepolicy_vpnvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRewritepolicyvpnvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rewrite/rewritepolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2890,26 +2906,24 @@ function Invoke-ADCGetRewritepolicyvpnvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all rewritepolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for rewritepolicy_vpnvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_vpnvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving rewritepolicy_vpnvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_vpnvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving rewritepolicy_vpnvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_vpnvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving rewritepolicy_vpnvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type rewritepolicy_vpnvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

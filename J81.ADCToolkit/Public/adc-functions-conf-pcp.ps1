@@ -1,54 +1,60 @@
 function Invoke-ADCGetPcpmap {
-<#
+    <#
     .SYNOPSIS
-        Get Pcp configuration object(s)
+        Get Pcp configuration object(s).
     .DESCRIPTION
-        Get Pcp configuration object(s)
-    .PARAMETER nattype 
-       Type of sessions to be displayed.  
-       Possible values = NAT44, DS-Lite, NAT64 
+        Configuration for server resource.
+    .PARAMETER Nattype 
+        Type of sessions to be displayed. 
+        Possible values = NAT44, DS-Lite, NAT64 
     .PARAMETER GetAll 
-        Retreive all pcpmap object(s)
+        Retrieve all pcpmap object(s).
     .PARAMETER Count
-        If specified, the count of the pcpmap object(s) will be returned
+        If specified, the count of the pcpmap object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetPcpmap
+        PS C:\>Invoke-ADCGetPcpmap
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetPcpmap -GetAll 
+        PS C:\>Invoke-ADCGetPcpmap -GetAll 
+        Get all pcpmap data. 
     .EXAMPLE 
-        Invoke-ADCGetPcpmap -Count
+        PS C:\>Invoke-ADCGetPcpmap -Count 
+        Get the number of pcpmap objects.
     .EXAMPLE
-        Invoke-ADCGetPcpmap -name <string>
+        PS C:\>Invoke-ADCGetPcpmap -name <string>
+        Get pcpmap object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetPcpmap -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetPcpmap -Filter @{ 'name'='<value>' }
+        Get pcpmap data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPcpmap
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpmap/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('NAT44', 'DS-Lite', 'NAT64')]
-        [string]$nattype,
+        [string]$Nattype,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -65,25 +71,25 @@ function Invoke-ADCGetPcpmap {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all pcpmap objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpmap -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpmap -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for pcpmap objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpmap -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpmap -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving pcpmap objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('nattype')) { $Arguments.Add('nattype', $nattype) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpmap -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('nattype') ) { $arguments.Add('nattype', $nattype) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpmap -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving pcpmap configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving pcpmap configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpmap -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpmap -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -97,109 +103,96 @@ function Invoke-ADCGetPcpmap {
 }
 
 function Invoke-ADCAddPcpprofile {
-<#
+    <#
     .SYNOPSIS
-        Add Pcp configuration Object
+        Add Pcp configuration Object.
     .DESCRIPTION
-        Add Pcp configuration Object 
-    .PARAMETER name 
+        Configuration for PCP Profile resource.
+    .PARAMETER Name 
         Name for the PCP Profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my pcpProfile" or my pcpProfile). 
-    .PARAMETER mapping 
-        This argument is for enabling/disabling the MAP opcode of current PCP Profile.  
-        Default value: ENABLED  
+    .PARAMETER Mapping 
+        This argument is for enabling/disabling the MAP opcode of current PCP Profile. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER peer 
-        This argument is for enabling/disabling the PEER opcode of current PCP Profile.  
-        Default value: ENABLED  
+    .PARAMETER Peer 
+        This argument is for enabling/disabling the PEER opcode of current PCP Profile. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER minmaplife 
-        Integer value that identify the minimum mapping lifetime (in seconds) for a pcp profile. default(120s).  
-        Minimum value = 1  
-        Maximum value = 2147483647 
-    .PARAMETER maxmaplife 
-        Integer value that identify the maximum mapping lifetime (in seconds) for a pcp profile. default(86400s = 24Hours).  
-        Minimum value = 1  
-        Maximum value = 2147483647 
-    .PARAMETER announcemulticount 
-        Integer value that identify the number announce message to be send.  
-        Default value: 10  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER thirdparty 
-        This argument is for enabling/disabling the THIRD PARTY opcode of current PCP Profile.  
-        Default value: DISABLED  
+    .PARAMETER Minmaplife 
+        Integer value that identify the minimum mapping lifetime (in seconds) for a pcp profile. default(120s). 
+    .PARAMETER Maxmaplife 
+        Integer value that identify the maximum mapping lifetime (in seconds) for a pcp profile. default(86400s = 24Hours). 
+    .PARAMETER Announcemulticount 
+        Integer value that identify the number announce message to be send. 
+    .PARAMETER Thirdparty 
+        This argument is for enabling/disabling the THIRD PARTY opcode of current PCP Profile. 
         Possible values = ENABLED, DISABLED 
     .PARAMETER PassThru 
         Return details about the created pcpprofile item.
     .EXAMPLE
-        Invoke-ADCAddPcpprofile -name <string>
+        PS C:\>Invoke-ADCAddPcpprofile -name <string>
+        An example how to add pcpprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddPcpprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$mapping = 'ENABLED' ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$peer = 'ENABLED' ,
+        [string]$Mapping = 'ENABLED',
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Peer = 'ENABLED',
 
         [ValidateRange(1, 2147483647)]
-        [double]$minmaplife ,
+        [double]$Minmaplife,
 
         [ValidateRange(1, 2147483647)]
-        [double]$maxmaplife ,
+        [double]$Maxmaplife,
 
         [ValidateRange(0, 65535)]
-        [double]$announcemulticount = '10' ,
+        [double]$Announcemulticount = '10',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$thirdparty = 'DISABLED' ,
+        [string]$Thirdparty = 'DISABLED',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddPcpprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('mapping')) { $Payload.Add('mapping', $mapping) }
-            if ($PSBoundParameters.ContainsKey('peer')) { $Payload.Add('peer', $peer) }
-            if ($PSBoundParameters.ContainsKey('minmaplife')) { $Payload.Add('minmaplife', $minmaplife) }
-            if ($PSBoundParameters.ContainsKey('maxmaplife')) { $Payload.Add('maxmaplife', $maxmaplife) }
-            if ($PSBoundParameters.ContainsKey('announcemulticount')) { $Payload.Add('announcemulticount', $announcemulticount) }
-            if ($PSBoundParameters.ContainsKey('thirdparty')) { $Payload.Add('thirdparty', $thirdparty) }
- 
-            if ($PSCmdlet.ShouldProcess("pcpprofile", "Add Pcp configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type pcpprofile -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('mapping') ) { $payload.Add('mapping', $mapping) }
+            if ( $PSBoundParameters.ContainsKey('peer') ) { $payload.Add('peer', $peer) }
+            if ( $PSBoundParameters.ContainsKey('minmaplife') ) { $payload.Add('minmaplife', $minmaplife) }
+            if ( $PSBoundParameters.ContainsKey('maxmaplife') ) { $payload.Add('maxmaplife', $maxmaplife) }
+            if ( $PSBoundParameters.ContainsKey('announcemulticount') ) { $payload.Add('announcemulticount', $announcemulticount) }
+            if ( $PSBoundParameters.ContainsKey('thirdparty') ) { $payload.Add('thirdparty', $thirdparty) }
+            if ( $PSCmdlet.ShouldProcess("pcpprofile", "Add Pcp configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type pcpprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetPcpprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetPcpprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -212,46 +205,47 @@ function Invoke-ADCAddPcpprofile {
 }
 
 function Invoke-ADCDeletePcpprofile {
-<#
+    <#
     .SYNOPSIS
-        Delete Pcp configuration Object
+        Delete Pcp configuration Object.
     .DESCRIPTION
-        Delete Pcp configuration Object
-    .PARAMETER name 
-       Name for the PCP Profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my pcpProfile" or my pcpProfile). 
+        Configuration for PCP Profile resource.
+    .PARAMETER Name 
+        Name for the PCP Profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my pcpProfile" or my pcpProfile).
     .EXAMPLE
-        Invoke-ADCDeletePcpprofile -name <string>
+        PS C:\>Invoke-ADCDeletePcpprofile -Name <string>
+        An example how to delete pcpprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeletePcpprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeletePcpprofile: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Pcp configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type pcpprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Pcp configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type pcpprofile -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -267,109 +261,96 @@ function Invoke-ADCDeletePcpprofile {
 }
 
 function Invoke-ADCUpdatePcpprofile {
-<#
+    <#
     .SYNOPSIS
-        Update Pcp configuration Object
+        Update Pcp configuration Object.
     .DESCRIPTION
-        Update Pcp configuration Object 
-    .PARAMETER name 
+        Configuration for PCP Profile resource.
+    .PARAMETER Name 
         Name for the PCP Profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my pcpProfile" or my pcpProfile). 
-    .PARAMETER mapping 
-        This argument is for enabling/disabling the MAP opcode of current PCP Profile.  
-        Default value: ENABLED  
+    .PARAMETER Mapping 
+        This argument is for enabling/disabling the MAP opcode of current PCP Profile. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER peer 
-        This argument is for enabling/disabling the PEER opcode of current PCP Profile.  
-        Default value: ENABLED  
+    .PARAMETER Peer 
+        This argument is for enabling/disabling the PEER opcode of current PCP Profile. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER minmaplife 
-        Integer value that identify the minimum mapping lifetime (in seconds) for a pcp profile. default(120s).  
-        Minimum value = 1  
-        Maximum value = 2147483647 
-    .PARAMETER maxmaplife 
-        Integer value that identify the maximum mapping lifetime (in seconds) for a pcp profile. default(86400s = 24Hours).  
-        Minimum value = 1  
-        Maximum value = 2147483647 
-    .PARAMETER announcemulticount 
-        Integer value that identify the number announce message to be send.  
-        Default value: 10  
-        Minimum value = 0  
-        Maximum value = 65535 
-    .PARAMETER thirdparty 
-        This argument is for enabling/disabling the THIRD PARTY opcode of current PCP Profile.  
-        Default value: DISABLED  
+    .PARAMETER Minmaplife 
+        Integer value that identify the minimum mapping lifetime (in seconds) for a pcp profile. default(120s). 
+    .PARAMETER Maxmaplife 
+        Integer value that identify the maximum mapping lifetime (in seconds) for a pcp profile. default(86400s = 24Hours). 
+    .PARAMETER Announcemulticount 
+        Integer value that identify the number announce message to be send. 
+    .PARAMETER Thirdparty 
+        This argument is for enabling/disabling the THIRD PARTY opcode of current PCP Profile. 
         Possible values = ENABLED, DISABLED 
     .PARAMETER PassThru 
         Return details about the created pcpprofile item.
     .EXAMPLE
-        Invoke-ADCUpdatePcpprofile -name <string>
+        PS C:\>Invoke-ADCUpdatePcpprofile -name <string>
+        An example how to update pcpprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdatePcpprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$mapping ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$peer ,
+        [string]$Mapping,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Peer,
 
         [ValidateRange(1, 2147483647)]
-        [double]$minmaplife ,
+        [double]$Minmaplife,
 
         [ValidateRange(1, 2147483647)]
-        [double]$maxmaplife ,
+        [double]$Maxmaplife,
 
         [ValidateRange(0, 65535)]
-        [double]$announcemulticount ,
+        [double]$Announcemulticount,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$thirdparty ,
+        [string]$Thirdparty,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdatePcpprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('mapping')) { $Payload.Add('mapping', $mapping) }
-            if ($PSBoundParameters.ContainsKey('peer')) { $Payload.Add('peer', $peer) }
-            if ($PSBoundParameters.ContainsKey('minmaplife')) { $Payload.Add('minmaplife', $minmaplife) }
-            if ($PSBoundParameters.ContainsKey('maxmaplife')) { $Payload.Add('maxmaplife', $maxmaplife) }
-            if ($PSBoundParameters.ContainsKey('announcemulticount')) { $Payload.Add('announcemulticount', $announcemulticount) }
-            if ($PSBoundParameters.ContainsKey('thirdparty')) { $Payload.Add('thirdparty', $thirdparty) }
- 
-            if ($PSCmdlet.ShouldProcess("pcpprofile", "Update Pcp configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type pcpprofile -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('mapping') ) { $payload.Add('mapping', $mapping) }
+            if ( $PSBoundParameters.ContainsKey('peer') ) { $payload.Add('peer', $peer) }
+            if ( $PSBoundParameters.ContainsKey('minmaplife') ) { $payload.Add('minmaplife', $minmaplife) }
+            if ( $PSBoundParameters.ContainsKey('maxmaplife') ) { $payload.Add('maxmaplife', $maxmaplife) }
+            if ( $PSBoundParameters.ContainsKey('announcemulticount') ) { $payload.Add('announcemulticount', $announcemulticount) }
+            if ( $PSBoundParameters.ContainsKey('thirdparty') ) { $payload.Add('thirdparty', $thirdparty) }
+            if ( $PSCmdlet.ShouldProcess("pcpprofile", "Update Pcp configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type pcpprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetPcpprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetPcpprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -382,60 +363,61 @@ function Invoke-ADCUpdatePcpprofile {
 }
 
 function Invoke-ADCUnsetPcpprofile {
-<#
+    <#
     .SYNOPSIS
-        Unset Pcp configuration Object
+        Unset Pcp configuration Object.
     .DESCRIPTION
-        Unset Pcp configuration Object 
-   .PARAMETER name 
-       Name for the PCP Profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my pcpProfile" or my pcpProfile). 
-   .PARAMETER mapping 
-       This argument is for enabling/disabling the MAP opcode of current PCP Profile.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER peer 
-       This argument is for enabling/disabling the PEER opcode of current PCP Profile.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER minmaplife 
-       Integer value that identify the minimum mapping lifetime (in seconds) for a pcp profile. default(120s). 
-   .PARAMETER maxmaplife 
-       Integer value that identify the maximum mapping lifetime (in seconds) for a pcp profile. default(86400s = 24Hours). 
-   .PARAMETER announcemulticount 
-       Integer value that identify the number announce message to be send. 
-   .PARAMETER thirdparty 
-       This argument is for enabling/disabling the THIRD PARTY opcode of current PCP Profile.  
-       Possible values = ENABLED, DISABLED
+        Configuration for PCP Profile resource.
+    .PARAMETER Name 
+        Name for the PCP Profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my pcpProfile" or my pcpProfile). 
+    .PARAMETER Mapping 
+        This argument is for enabling/disabling the MAP opcode of current PCP Profile. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Peer 
+        This argument is for enabling/disabling the PEER opcode of current PCP Profile. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Minmaplife 
+        Integer value that identify the minimum mapping lifetime (in seconds) for a pcp profile. default(120s). 
+    .PARAMETER Maxmaplife 
+        Integer value that identify the maximum mapping lifetime (in seconds) for a pcp profile. default(86400s = 24Hours). 
+    .PARAMETER Announcemulticount 
+        Integer value that identify the number announce message to be send. 
+    .PARAMETER Thirdparty 
+        This argument is for enabling/disabling the THIRD PARTY opcode of current PCP Profile. 
+        Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCUnsetPcpprofile -name <string>
+        PS C:\>Invoke-ADCUnsetPcpprofile -name <string>
+        An example how to unset pcpprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetPcpprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpprofile
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$mapping ,
+        [Boolean]$mapping,
 
-        [Boolean]$peer ,
+        [Boolean]$peer,
 
-        [Boolean]$minmaplife ,
+        [Boolean]$minmaplife,
 
-        [Boolean]$maxmaplife ,
+        [Boolean]$maxmaplife,
 
-        [Boolean]$announcemulticount ,
+        [Boolean]$announcemulticount,
 
         [Boolean]$thirdparty 
     )
@@ -444,17 +426,15 @@ function Invoke-ADCUnsetPcpprofile {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('mapping')) { $Payload.Add('mapping', $mapping) }
-            if ($PSBoundParameters.ContainsKey('peer')) { $Payload.Add('peer', $peer) }
-            if ($PSBoundParameters.ContainsKey('minmaplife')) { $Payload.Add('minmaplife', $minmaplife) }
-            if ($PSBoundParameters.ContainsKey('maxmaplife')) { $Payload.Add('maxmaplife', $maxmaplife) }
-            if ($PSBoundParameters.ContainsKey('announcemulticount')) { $Payload.Add('announcemulticount', $announcemulticount) }
-            if ($PSBoundParameters.ContainsKey('thirdparty')) { $Payload.Add('thirdparty', $thirdparty) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Pcp configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type pcpprofile -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('mapping') ) { $payload.Add('mapping', $mapping) }
+            if ( $PSBoundParameters.ContainsKey('peer') ) { $payload.Add('peer', $peer) }
+            if ( $PSBoundParameters.ContainsKey('minmaplife') ) { $payload.Add('minmaplife', $minmaplife) }
+            if ( $PSBoundParameters.ContainsKey('maxmaplife') ) { $payload.Add('maxmaplife', $maxmaplife) }
+            if ( $PSBoundParameters.ContainsKey('announcemulticount') ) { $payload.Add('announcemulticount', $announcemulticount) }
+            if ( $PSBoundParameters.ContainsKey('thirdparty') ) { $payload.Add('thirdparty', $thirdparty) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Pcp configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type pcpprofile -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -470,54 +450,60 @@ function Invoke-ADCUnsetPcpprofile {
 }
 
 function Invoke-ADCGetPcpprofile {
-<#
+    <#
     .SYNOPSIS
-        Get Pcp configuration object(s)
+        Get Pcp configuration object(s).
     .DESCRIPTION
-        Get Pcp configuration object(s)
-    .PARAMETER name 
-       Name for the PCP Profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my pcpProfile" or my pcpProfile). 
+        Configuration for PCP Profile resource.
+    .PARAMETER Name 
+        Name for the PCP Profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my pcpProfile" or my pcpProfile). 
     .PARAMETER GetAll 
-        Retreive all pcpprofile object(s)
+        Retrieve all pcpprofile object(s).
     .PARAMETER Count
-        If specified, the count of the pcpprofile object(s) will be returned
+        If specified, the count of the pcpprofile object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetPcpprofile
+        PS C:\>Invoke-ADCGetPcpprofile
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetPcpprofile -GetAll 
+        PS C:\>Invoke-ADCGetPcpprofile -GetAll 
+        Get all pcpprofile data. 
     .EXAMPLE 
-        Invoke-ADCGetPcpprofile -Count
+        PS C:\>Invoke-ADCGetPcpprofile -Count 
+        Get the number of pcpprofile objects.
     .EXAMPLE
-        Invoke-ADCGetPcpprofile -name <string>
+        PS C:\>Invoke-ADCGetPcpprofile -name <string>
+        Get pcpprofile object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetPcpprofile -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetPcpprofile -Filter @{ 'name'='<value>' }
+        Get pcpprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPcpprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -535,24 +521,24 @@ function Invoke-ADCGetPcpprofile {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all pcpprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for pcpprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving pcpprofile objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpprofile -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving pcpprofile configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving pcpprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -566,80 +552,76 @@ function Invoke-ADCGetPcpprofile {
 }
 
 function Invoke-ADCAddPcpserver {
-<#
+    <#
     .SYNOPSIS
-        Add Pcp configuration Object
+        Add Pcp configuration Object.
     .DESCRIPTION
-        Add Pcp configuration Object 
-    .PARAMETER name 
+        Configuration for server resource.
+    .PARAMETER Name 
         Name for the PCP server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my pcpServer" or my pcpServer). 
-    .PARAMETER ipaddress 
+    .PARAMETER Ipaddress 
         The IP address of the PCP server. 
-    .PARAMETER port 
-        Port number for the PCP server.  
-        Default value: 5351  
-        Range 1 - 65535  
+    .PARAMETER Port 
+        Port number for the PCP server. 
         * in CLI is represented as 65535 in NITRO API 
-    .PARAMETER pcpprofile 
+    .PARAMETER Pcpprofile 
         pcp profile name. 
     .PARAMETER PassThru 
         Return details about the created pcpserver item.
     .EXAMPLE
-        Invoke-ADCAddPcpserver -name <string> -ipaddress <string>
+        PS C:\>Invoke-ADCAddPcpserver -name <string> -ipaddress <string>
+        An example how to add pcpserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddPcpserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
-        [string]$ipaddress ,
+        [Parameter(Mandatory)]
+        [string]$Ipaddress,
 
         [ValidateRange(1, 65535)]
-        [int]$port = '5351' ,
+        [int]$Port = '5351',
 
-        [string]$pcpprofile ,
+        [string]$Pcpprofile,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddPcpserver: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                ipaddress = $ipaddress
+            $payload = @{ name = $name
+                ipaddress      = $ipaddress
             }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('pcpprofile')) { $Payload.Add('pcpprofile', $pcpprofile) }
- 
-            if ($PSCmdlet.ShouldProcess("pcpserver", "Add Pcp configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type pcpserver -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('pcpprofile') ) { $payload.Add('pcpprofile', $pcpprofile) }
+            if ( $PSCmdlet.ShouldProcess("pcpserver", "Add Pcp configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type pcpserver -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetPcpserver -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetPcpserver -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -652,46 +634,47 @@ function Invoke-ADCAddPcpserver {
 }
 
 function Invoke-ADCDeletePcpserver {
-<#
+    <#
     .SYNOPSIS
-        Delete Pcp configuration Object
+        Delete Pcp configuration Object.
     .DESCRIPTION
-        Delete Pcp configuration Object
-    .PARAMETER name 
-       Name for the PCP server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my pcpServer" or my pcpServer). 
+        Configuration for server resource.
+    .PARAMETER Name 
+        Name for the PCP server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my pcpServer" or my pcpServer).
     .EXAMPLE
-        Invoke-ADCDeletePcpserver -name <string>
+        PS C:\>Invoke-ADCDeletePcpserver -Name <string>
+        An example how to delete pcpserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeletePcpserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeletePcpserver: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Pcp configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type pcpserver -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Pcp configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type pcpserver -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -707,74 +690,69 @@ function Invoke-ADCDeletePcpserver {
 }
 
 function Invoke-ADCUpdatePcpserver {
-<#
+    <#
     .SYNOPSIS
-        Update Pcp configuration Object
+        Update Pcp configuration Object.
     .DESCRIPTION
-        Update Pcp configuration Object 
-    .PARAMETER name 
+        Configuration for server resource.
+    .PARAMETER Name 
         Name for the PCP server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my pcpServer" or my pcpServer). 
-    .PARAMETER port 
-        Port number for the PCP server.  
-        Default value: 5351  
-        Range 1 - 65535  
+    .PARAMETER Port 
+        Port number for the PCP server. 
         * in CLI is represented as 65535 in NITRO API 
-    .PARAMETER pcpprofile 
+    .PARAMETER Pcpprofile 
         pcp profile name. 
     .PARAMETER PassThru 
         Return details about the created pcpserver item.
     .EXAMPLE
-        Invoke-ADCUpdatePcpserver -name <string>
+        PS C:\>Invoke-ADCUpdatePcpserver -name <string>
+        An example how to update pcpserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdatePcpserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
         [ValidateRange(1, 65535)]
-        [int]$port ,
+        [int]$Port,
 
-        [string]$pcpprofile ,
+        [string]$Pcpprofile,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdatePcpserver: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('pcpprofile')) { $Payload.Add('pcpprofile', $pcpprofile) }
- 
-            if ($PSCmdlet.ShouldProcess("pcpserver", "Update Pcp configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type pcpserver -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('pcpprofile') ) { $payload.Add('pcpprofile', $pcpprofile) }
+            if ( $PSCmdlet.ShouldProcess("pcpserver", "Update Pcp configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type pcpserver -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetPcpserver -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetPcpserver -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -787,42 +765,43 @@ function Invoke-ADCUpdatePcpserver {
 }
 
 function Invoke-ADCUnsetPcpserver {
-<#
+    <#
     .SYNOPSIS
-        Unset Pcp configuration Object
+        Unset Pcp configuration Object.
     .DESCRIPTION
-        Unset Pcp configuration Object 
-   .PARAMETER name 
-       Name for the PCP server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my pcpServer" or my pcpServer). 
-   .PARAMETER port 
-       Port number for the PCP server.  
-       * in CLI is represented as 65535 in NITRO API 
-   .PARAMETER pcpprofile 
-       pcp profile name.
+        Configuration for server resource.
+    .PARAMETER Name 
+        Name for the PCP server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my pcpServer" or my pcpServer). 
+    .PARAMETER Port 
+        Port number for the PCP server. 
+        * in CLI is represented as 65535 in NITRO API 
+    .PARAMETER Pcpprofile 
+        pcp profile name.
     .EXAMPLE
-        Invoke-ADCUnsetPcpserver -name <string>
+        PS C:\>Invoke-ADCUnsetPcpserver -name <string>
+        An example how to unset pcpserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetPcpserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpserver
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$port ,
+        [Boolean]$port,
 
         [Boolean]$pcpprofile 
     )
@@ -831,13 +810,11 @@ function Invoke-ADCUnsetPcpserver {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('port')) { $Payload.Add('port', $port) }
-            if ($PSBoundParameters.ContainsKey('pcpprofile')) { $Payload.Add('pcpprofile', $pcpprofile) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Pcp configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type pcpserver -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('port') ) { $payload.Add('port', $port) }
+            if ( $PSBoundParameters.ContainsKey('pcpprofile') ) { $payload.Add('pcpprofile', $pcpprofile) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Pcp configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type pcpserver -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -853,54 +830,60 @@ function Invoke-ADCUnsetPcpserver {
 }
 
 function Invoke-ADCGetPcpserver {
-<#
+    <#
     .SYNOPSIS
-        Get Pcp configuration object(s)
+        Get Pcp configuration object(s).
     .DESCRIPTION
-        Get Pcp configuration object(s)
-    .PARAMETER name 
-       Name for the PCP server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my pcpServer" or my pcpServer). 
+        Configuration for server resource.
+    .PARAMETER Name 
+        Name for the PCP server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my pcpServer" or my pcpServer). 
     .PARAMETER GetAll 
-        Retreive all pcpserver object(s)
+        Retrieve all pcpserver object(s).
     .PARAMETER Count
-        If specified, the count of the pcpserver object(s) will be returned
+        If specified, the count of the pcpserver object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetPcpserver
+        PS C:\>Invoke-ADCGetPcpserver
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetPcpserver -GetAll 
+        PS C:\>Invoke-ADCGetPcpserver -GetAll 
+        Get all pcpserver data. 
     .EXAMPLE 
-        Invoke-ADCGetPcpserver -Count
+        PS C:\>Invoke-ADCGetPcpserver -Count 
+        Get the number of pcpserver objects.
     .EXAMPLE
-        Invoke-ADCGetPcpserver -name <string>
+        PS C:\>Invoke-ADCGetPcpserver -name <string>
+        Get pcpserver object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetPcpserver -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetPcpserver -Filter @{ 'name'='<value>' }
+        Get pcpserver data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPcpserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pcp/pcpserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -918,24 +901,24 @@ function Invoke-ADCGetPcpserver {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all pcpserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpserver -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for pcpserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpserver -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving pcpserver objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpserver -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpserver -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving pcpserver configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpserver -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving pcpserver configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpserver -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type pcpserver -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

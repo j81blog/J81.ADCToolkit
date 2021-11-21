@@ -1,156 +1,54 @@
-function Invoke-ADCEnableSystemautorestorefeature {
-<#
-    .SYNOPSIS
-        Enable System configuration Object
-    .DESCRIPTION
-        Enable System configuration Object 
-    .EXAMPLE
-        Invoke-ADCEnableSystemautorestorefeature 
-    .NOTES
-        File Name : Invoke-ADCEnableSystemautorestorefeature
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemautorestorefeature/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession) 
-
-    )
-    begin {
-        Write-Verbose "Invoke-ADCEnableSystemautorestorefeature: Starting"
-    }
-    process {
-        try {
-            $Payload = @{
-
-            }
-
-            if ($PSCmdlet.ShouldProcess($Name, "Enable System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemautorestorefeature -Action enable -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                Write-Output $result
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCEnableSystemautorestorefeature: Finished"
-    }
-}
-
-function Invoke-ADCDisableSystemautorestorefeature {
-<#
-    .SYNOPSIS
-        Disable System configuration Object
-    .DESCRIPTION
-        Disable System configuration Object 
-    .EXAMPLE
-        Invoke-ADCDisableSystemautorestorefeature 
-    .NOTES
-        File Name : Invoke-ADCDisableSystemautorestorefeature
-        Version   : v2106.2309
-        Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemautorestorefeature/
-        Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
-    .LINK
-        https://blog.j81.nl
-#>
-    [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
-    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
-    param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession) 
-
-    )
-    begin {
-        Write-Verbose "Invoke-ADCDisableSystemautorestorefeature: Starting"
-    }
-    process {
-        try {
-            $Payload = @{
-
-            }
-
-            if ($PSCmdlet.ShouldProcess($Name, "Disable System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemautorestorefeature -Action disable -Payload $Payload -GetWarning
-                #HTTP Status Code on Success: 200 OK
-                #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                Write-Output $result
-            }
-        } catch {
-            Write-Verbose "ERROR: $($_.Exception.Message)"
-            throw $_
-        }
-    }
-    end {
-        Write-Verbose "Invoke-ADCDisableSystemautorestorefeature: Finished"
-    }
-}
-
 function Invoke-ADCCreateSystembackup {
-<#
+    <#
     .SYNOPSIS
-        Create System configuration Object
+        Create System configuration Object.
     .DESCRIPTION
-        Create System configuration Object 
-    .PARAMETER filename 
+        Configuration for Backup Data for ns backup and restore resource.
+    .PARAMETER Filename 
         Name of the backup file(*.tgz) to be restored. 
-    .PARAMETER uselocaltimezone 
+    .PARAMETER Uselocaltimezone 
         This option will create backup file with local timezone timestamp. 
-    .PARAMETER level 
-        Level of data to be backed up.  
+    .PARAMETER Level 
+        Level of data to be backed up. 
         Possible values = basic, full 
-    .PARAMETER includekernel 
-        Use this option to add kernel in the backup file.  
+    .PARAMETER Includekernel 
+        Use this option to add kernel in the backup file. 
         Possible values = NO, YES 
-    .PARAMETER comment 
+    .PARAMETER Comment 
         Comment specified at the time of creation of the backup file(*.tgz).
     .EXAMPLE
-        Invoke-ADCCreateSystembackup 
+        PS C:\>Invoke-ADCCreateSystembackup 
+        An example how to create systembackup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCCreateSystembackup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systembackup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$filename ,
+        [string]$Filename,
 
-        [boolean]$uselocaltimezone ,
+        [boolean]$Uselocaltimezone,
 
         [ValidateSet('basic', 'full')]
-        [string]$level ,
+        [string]$Level,
 
         [ValidateSet('NO', 'YES')]
-        [string]$includekernel ,
+        [string]$Includekernel,
 
-        [string]$comment 
+        [string]$Comment 
 
     )
     begin {
@@ -158,16 +56,14 @@ function Invoke-ADCCreateSystembackup {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('filename')) { $Payload.Add('filename', $filename) }
-            if ($PSBoundParameters.ContainsKey('uselocaltimezone')) { $Payload.Add('uselocaltimezone', $uselocaltimezone) }
-            if ($PSBoundParameters.ContainsKey('level')) { $Payload.Add('level', $level) }
-            if ($PSBoundParameters.ContainsKey('includekernel')) { $Payload.Add('includekernel', $includekernel) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSCmdlet.ShouldProcess($Name, "Create System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systembackup -Action create -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('filename') ) { $payload.Add('filename', $filename) }
+            if ( $PSBoundParameters.ContainsKey('uselocaltimezone') ) { $payload.Add('uselocaltimezone', $uselocaltimezone) }
+            if ( $PSBoundParameters.ContainsKey('level') ) { $payload.Add('level', $level) }
+            if ( $PSBoundParameters.ContainsKey('includekernel') ) { $payload.Add('includekernel', $includekernel) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Create System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systembackup -Action create -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -183,39 +79,41 @@ function Invoke-ADCCreateSystembackup {
 }
 
 function Invoke-ADCRestoreSystembackup {
-<#
+    <#
     .SYNOPSIS
-        Restore System configuration Object
+        Restore System configuration Object.
     .DESCRIPTION
-        Restore System configuration Object 
-    .PARAMETER filename 
+        Configuration for Backup Data for ns backup and restore resource.
+    .PARAMETER Filename 
         Name of the backup file(*.tgz) to be restored. 
-    .PARAMETER skipbackup 
+    .PARAMETER Skipbackup 
         Use this option to skip taking backup during restore operation.
     .EXAMPLE
-        Invoke-ADCRestoreSystembackup -filename <string>
+        PS C:\>Invoke-ADCRestoreSystembackup -filename <string>
+        An example how to restore systembackup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRestoreSystembackup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systembackup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$filename ,
+        [Parameter(Mandatory)]
+        [string]$Filename,
 
-        [boolean]$skipbackup 
+        [boolean]$Skipbackup 
 
     )
     begin {
@@ -223,12 +121,10 @@ function Invoke-ADCRestoreSystembackup {
     }
     process {
         try {
-            $Payload = @{
-                filename = $filename
-            }
-            if ($PSBoundParameters.ContainsKey('skipbackup')) { $Payload.Add('skipbackup', $skipbackup) }
-            if ($PSCmdlet.ShouldProcess($Name, "Restore System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systembackup -Action restore -Payload $Payload -GetWarning
+            $payload = @{ filename = $filename }
+            if ( $PSBoundParameters.ContainsKey('skipbackup') ) { $payload.Add('skipbackup', $skipbackup) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Restore System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systembackup -Action restore -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -244,62 +140,58 @@ function Invoke-ADCRestoreSystembackup {
 }
 
 function Invoke-ADCAddSystembackup {
-<#
+    <#
     .SYNOPSIS
-        Add System configuration Object
+        Add System configuration Object.
     .DESCRIPTION
-        Add System configuration Object 
-    .PARAMETER filename 
-        Name of the backup file(*.tgz) to be restored.  
-        Maximum length = 63 
+        Configuration for Backup Data for ns backup and restore resource.
+    .PARAMETER Filename 
+        Name of the backup file(*.tgz) to be restored. 
     .PARAMETER PassThru 
         Return details about the created systembackup item.
     .EXAMPLE
-        Invoke-ADCAddSystembackup -filename <string>
+        PS C:\>Invoke-ADCAddSystembackup -filename <string>
+        An example how to add systembackup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSystembackup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systembackup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$filename ,
+        [Parameter(Mandatory)]
+        [string]$Filename,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSystembackup: Starting"
     }
     process {
         try {
-            $Payload = @{
-                filename = $filename
-            }
+            $payload = @{ filename = $filename }
 
- 
-            if ($PSCmdlet.ShouldProcess("systembackup", "Add System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systembackup -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("systembackup", "Add System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systembackup -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSystembackup -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSystembackup -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -312,47 +204,47 @@ function Invoke-ADCAddSystembackup {
 }
 
 function Invoke-ADCDeleteSystembackup {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-    .PARAMETER filename 
-       Name of the backup file(*.tgz) to be restored.  
-       Maximum length = 63 
+        Configuration for Backup Data for ns backup and restore resource.
+    .PARAMETER Filename 
+        Name of the backup file(*.tgz) to be restored.
     .EXAMPLE
-        Invoke-ADCDeleteSystembackup -filename <string>
+        PS C:\>Invoke-ADCDeleteSystembackup -Filename <string>
+        An example how to delete systembackup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystembackup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systembackup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$filename 
+        [Parameter(Mandatory)]
+        [string]$Filename 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystembackup: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$filename", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systembackup -NitroPath nitro/v1/config -Resource $filename -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$filename", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systembackup -NitroPath nitro/v1/config -Resource $filename -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -368,54 +260,60 @@ function Invoke-ADCDeleteSystembackup {
 }
 
 function Invoke-ADCGetSystembackup {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER filename 
-       Name of the backup file(*.tgz) to be restored. 
+        Configuration for Backup Data for ns backup and restore resource.
+    .PARAMETER Filename 
+        Name of the backup file(*.tgz) to be restored. 
     .PARAMETER GetAll 
-        Retreive all systembackup object(s)
+        Retrieve all systembackup object(s).
     .PARAMETER Count
-        If specified, the count of the systembackup object(s) will be returned
+        If specified, the count of the systembackup object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystembackup
+        PS C:\>Invoke-ADCGetSystembackup
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystembackup -GetAll 
+        PS C:\>Invoke-ADCGetSystembackup -GetAll 
+        Get all systembackup data. 
     .EXAMPLE 
-        Invoke-ADCGetSystembackup -Count
+        PS C:\>Invoke-ADCGetSystembackup -Count 
+        Get the number of systembackup objects.
     .EXAMPLE
-        Invoke-ADCGetSystembackup -name <string>
+        PS C:\>Invoke-ADCGetSystembackup -name <string>
+        Get systembackup object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystembackup -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystembackup -Filter @{ 'name'='<value>' }
+        Get systembackup data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystembackup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systembackup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$filename,
+        [string]$Filename,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -433,24 +331,24 @@ function Invoke-ADCGetSystembackup {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systembackup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systembackup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systembackup -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systembackup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systembackup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systembackup -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systembackup objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systembackup -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systembackup -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systembackup configuration for property 'filename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systembackup -NitroPath nitro/v1/config -Resource $filename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving systembackup configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systembackup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systembackup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -464,81 +362,77 @@ function Invoke-ADCGetSystembackup {
 }
 
 function Invoke-ADCAddSystemcmdpolicy {
-<#
+    <#
     .SYNOPSIS
-        Add System configuration Object
+        Add System configuration Object.
     .DESCRIPTION
-        Add System configuration Object 
-    .PARAMETER policyname 
-        Name for a command policy. Must begin with a letter, number, or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the policy is created.  
-        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my policy" or 'my policy').  
-        Minimum length = 1 
-    .PARAMETER action 
-        Action to perform when a request matches the policy.  
+        Configuration for command policy resource.
+    .PARAMETER Policyname 
+        Name for a command policy. Must begin with a letter, number, or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the policy is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my policy" or 'my policy'). 
+    .PARAMETER Action 
+        Action to perform when a request matches the policy. 
         Possible values = ALLOW, DENY 
-    .PARAMETER cmdspec 
-        Regular expression specifying the data that matches the policy.  
-        Minimum length = 1 
+    .PARAMETER Cmdspec 
+        Regular expression specifying the data that matches the policy. 
     .PARAMETER PassThru 
         Return details about the created systemcmdpolicy item.
     .EXAMPLE
-        Invoke-ADCAddSystemcmdpolicy -policyname <string> -action <string> -cmdspec <string>
+        PS C:\>Invoke-ADCAddSystemcmdpolicy -policyname <string> -action <string> -cmdspec <string>
+        An example how to add systemcmdpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSystemcmdpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcmdpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('ALLOW', 'DENY')]
-        [string]$action ,
+        [string]$Action,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$cmdspec ,
+        [string]$Cmdspec,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSystemcmdpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                policyname = $policyname
-                action = $action
-                cmdspec = $cmdspec
+            $payload = @{ policyname = $policyname
+                action               = $action
+                cmdspec              = $cmdspec
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("systemcmdpolicy", "Add System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemcmdpolicy -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("systemcmdpolicy", "Add System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemcmdpolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSystemcmdpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSystemcmdpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -551,48 +445,48 @@ function Invoke-ADCAddSystemcmdpolicy {
 }
 
 function Invoke-ADCDeleteSystemcmdpolicy {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-    .PARAMETER policyname 
-       Name for a command policy. Must begin with a letter, number, or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the policy is created.  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my policy" or 'my policy').  
-       Minimum length = 1 
+        Configuration for command policy resource.
+    .PARAMETER Policyname 
+        Name for a command policy. Must begin with a letter, number, or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the policy is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my policy" or 'my policy').
     .EXAMPLE
-        Invoke-ADCDeleteSystemcmdpolicy -policyname <string>
+        PS C:\>Invoke-ADCDeleteSystemcmdpolicy -Policyname <string>
+        An example how to delete systemcmdpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystemcmdpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcmdpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$policyname 
+        [Parameter(Mandatory)]
+        [string]$Policyname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystemcmdpolicy: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$policyname", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemcmdpolicy -NitroPath nitro/v1/config -Resource $policyname -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$policyname", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemcmdpolicy -NitroPath nitro/v1/config -Resource $policyname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -608,81 +502,77 @@ function Invoke-ADCDeleteSystemcmdpolicy {
 }
 
 function Invoke-ADCUpdateSystemcmdpolicy {
-<#
+    <#
     .SYNOPSIS
-        Update System configuration Object
+        Update System configuration Object.
     .DESCRIPTION
-        Update System configuration Object 
-    .PARAMETER policyname 
-        Name for a command policy. Must begin with a letter, number, or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the policy is created.  
-        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my policy" or 'my policy').  
-        Minimum length = 1 
-    .PARAMETER action 
-        Action to perform when a request matches the policy.  
+        Configuration for command policy resource.
+    .PARAMETER Policyname 
+        Name for a command policy. Must begin with a letter, number, or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the policy is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my policy" or 'my policy'). 
+    .PARAMETER Action 
+        Action to perform when a request matches the policy. 
         Possible values = ALLOW, DENY 
-    .PARAMETER cmdspec 
-        Regular expression specifying the data that matches the policy.  
-        Minimum length = 1 
+    .PARAMETER Cmdspec 
+        Regular expression specifying the data that matches the policy. 
     .PARAMETER PassThru 
         Return details about the created systemcmdpolicy item.
     .EXAMPLE
-        Invoke-ADCUpdateSystemcmdpolicy -policyname <string> -action <string> -cmdspec <string>
+        PS C:\>Invoke-ADCUpdateSystemcmdpolicy -policyname <string> -action <string> -cmdspec <string>
+        An example how to update systemcmdpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSystemcmdpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcmdpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('ALLOW', 'DENY')]
-        [string]$action ,
+        [string]$Action,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$cmdspec ,
+        [string]$Cmdspec,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSystemcmdpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                policyname = $policyname
-                action = $action
-                cmdspec = $cmdspec
+            $payload = @{ policyname = $policyname
+                action               = $action
+                cmdspec              = $cmdspec
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("systemcmdpolicy", "Update System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemcmdpolicy -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("systemcmdpolicy", "Update System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemcmdpolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSystemcmdpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSystemcmdpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -695,57 +585,63 @@ function Invoke-ADCUpdateSystemcmdpolicy {
 }
 
 function Invoke-ADCGetSystemcmdpolicy {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER policyname 
-       Name for a command policy. Must begin with a letter, number, or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the policy is created.  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my policy" or 'my policy'). 
+        Configuration for command policy resource.
+    .PARAMETER Policyname 
+        Name for a command policy. Must begin with a letter, number, or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the policy is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my policy" or 'my policy'). 
     .PARAMETER GetAll 
-        Retreive all systemcmdpolicy object(s)
+        Retrieve all systemcmdpolicy object(s).
     .PARAMETER Count
-        If specified, the count of the systemcmdpolicy object(s) will be returned
+        If specified, the count of the systemcmdpolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemcmdpolicy
+        PS C:\>Invoke-ADCGetSystemcmdpolicy
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemcmdpolicy -GetAll 
+        PS C:\>Invoke-ADCGetSystemcmdpolicy -GetAll 
+        Get all systemcmdpolicy data. 
     .EXAMPLE 
-        Invoke-ADCGetSystemcmdpolicy -Count
+        PS C:\>Invoke-ADCGetSystemcmdpolicy -Count 
+        Get the number of systemcmdpolicy objects.
     .EXAMPLE
-        Invoke-ADCGetSystemcmdpolicy -name <string>
+        PS C:\>Invoke-ADCGetSystemcmdpolicy -name <string>
+        Get systemcmdpolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemcmdpolicy -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemcmdpolicy -Filter @{ 'name'='<value>' }
+        Get systemcmdpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemcmdpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcmdpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$policyname,
+        [string]$Policyname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -763,24 +659,24 @@ function Invoke-ADCGetSystemcmdpolicy {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systemcmdpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcmdpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcmdpolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemcmdpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcmdpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcmdpolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemcmdpolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcmdpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcmdpolicy -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemcmdpolicy configuration for property 'policyname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcmdpolicy -NitroPath nitro/v1/config -Resource $policyname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving systemcmdpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcmdpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcmdpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -794,66 +690,61 @@ function Invoke-ADCGetSystemcmdpolicy {
 }
 
 function Invoke-ADCUpdateSystemcollectionparam {
-<#
+    <#
     .SYNOPSIS
-        Update System configuration Object
+        Update System configuration Object.
     .DESCRIPTION
-        Update System configuration Object 
-    .PARAMETER communityname 
+        Configuration for collection parameter resource.
+    .PARAMETER Communityname 
         SNMPv1 community name for authentication. 
-    .PARAMETER loglevel 
-        specify the log level. Possible values CRITICAL,WARNING,INFO,DEBUG1,DEBUG2.  
-        Minimum length = 1 
-    .PARAMETER datapath 
-        specify the data path to the database.  
-        Minimum length = 1
+    .PARAMETER Loglevel 
+        specify the log level. Possible values CRITICAL,WARNING,INFO,DEBUG1,DEBUG2. 
+    .PARAMETER Datapath 
+        specify the data path to the database.
     .EXAMPLE
-        Invoke-ADCUpdateSystemcollectionparam 
+        PS C:\>Invoke-ADCUpdateSystemcollectionparam 
+        An example how to update systemcollectionparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSystemcollectionparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcollectionparam/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$communityname ,
-
-        [ValidateScript({ $_.Length -gt 1 })]
-        [string]$loglevel ,
+        [string]$Communityname,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$datapath 
+        [string]$Loglevel,
 
+        [ValidateScript({ $_.Length -gt 1 })]
+        [string]$Datapath 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSystemcollectionparam: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('communityname')) { $Payload.Add('communityname', $communityname) }
-            if ($PSBoundParameters.ContainsKey('loglevel')) { $Payload.Add('loglevel', $loglevel) }
-            if ($PSBoundParameters.ContainsKey('datapath')) { $Payload.Add('datapath', $datapath) }
- 
-            if ($PSCmdlet.ShouldProcess("systemcollectionparam", "Update System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemcollectionparam -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('communityname') ) { $payload.Add('communityname', $communityname) }
+            if ( $PSBoundParameters.ContainsKey('loglevel') ) { $payload.Add('loglevel', $loglevel) }
+            if ( $PSBoundParameters.ContainsKey('datapath') ) { $payload.Add('datapath', $datapath) }
+            if ( $PSCmdlet.ShouldProcess("systemcollectionparam", "Update System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemcollectionparam -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -866,40 +757,42 @@ function Invoke-ADCUpdateSystemcollectionparam {
 }
 
 function Invoke-ADCUnsetSystemcollectionparam {
-<#
+    <#
     .SYNOPSIS
-        Unset System configuration Object
+        Unset System configuration Object.
     .DESCRIPTION
-        Unset System configuration Object 
-   .PARAMETER communityname 
-       SNMPv1 community name for authentication. 
-   .PARAMETER loglevel 
-       specify the log level. Possible values CRITICAL,WARNING,INFO,DEBUG1,DEBUG2. 
-   .PARAMETER datapath 
-       specify the data path to the database.
+        Configuration for collection parameter resource.
+    .PARAMETER Communityname 
+        SNMPv1 community name for authentication. 
+    .PARAMETER Loglevel 
+        specify the log level. Possible values CRITICAL,WARNING,INFO,DEBUG1,DEBUG2. 
+    .PARAMETER Datapath 
+        specify the data path to the database.
     .EXAMPLE
-        Invoke-ADCUnsetSystemcollectionparam 
+        PS C:\>Invoke-ADCUnsetSystemcollectionparam 
+        An example how to unset systemcollectionparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSystemcollectionparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcollectionparam
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$communityname ,
+        [Boolean]$communityname,
 
-        [Boolean]$loglevel ,
+        [Boolean]$loglevel,
 
         [Boolean]$datapath 
     )
@@ -908,14 +801,12 @@ function Invoke-ADCUnsetSystemcollectionparam {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('communityname')) { $Payload.Add('communityname', $communityname) }
-            if ($PSBoundParameters.ContainsKey('loglevel')) { $Payload.Add('loglevel', $loglevel) }
-            if ($PSBoundParameters.ContainsKey('datapath')) { $Payload.Add('datapath', $datapath) }
-            if ($PSCmdlet.ShouldProcess("systemcollectionparam", "Unset System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type systemcollectionparam -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('communityname') ) { $payload.Add('communityname', $communityname) }
+            if ( $PSBoundParameters.ContainsKey('loglevel') ) { $payload.Add('loglevel', $loglevel) }
+            if ( $PSBoundParameters.ContainsKey('datapath') ) { $payload.Add('datapath', $datapath) }
+            if ( $PSCmdlet.ShouldProcess("systemcollectionparam", "Unset System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type systemcollectionparam -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -931,45 +822,50 @@ function Invoke-ADCUnsetSystemcollectionparam {
 }
 
 function Invoke-ADCGetSystemcollectionparam {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
+        Configuration for collection parameter resource.
     .PARAMETER GetAll 
-        Retreive all systemcollectionparam object(s)
+        Retrieve all systemcollectionparam object(s).
     .PARAMETER Count
-        If specified, the count of the systemcollectionparam object(s) will be returned
+        If specified, the count of the systemcollectionparam object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemcollectionparam
+        PS C:\>Invoke-ADCGetSystemcollectionparam
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemcollectionparam -GetAll
+        PS C:\>Invoke-ADCGetSystemcollectionparam -GetAll 
+        Get all systemcollectionparam data.
     .EXAMPLE
-        Invoke-ADCGetSystemcollectionparam -name <string>
+        PS C:\>Invoke-ADCGetSystemcollectionparam -name <string>
+        Get systemcollectionparam object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemcollectionparam -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemcollectionparam -Filter @{ 'name'='<value>' }
+        Get systemcollectionparam data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemcollectionparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcollectionparam/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -981,24 +877,24 @@ function Invoke-ADCGetSystemcollectionparam {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systemcollectionparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcollectionparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcollectionparam -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemcollectionparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcollectionparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcollectionparam -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemcollectionparam objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcollectionparam -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcollectionparam -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemcollectionparam configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systemcollectionparam configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcollectionparam -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcollectionparam -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1012,50 +908,55 @@ function Invoke-ADCGetSystemcollectionparam {
 }
 
 function Invoke-ADCGetSystemcore {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER datasource 
-       Specifies the source which contains all the stored counter values. 
+        Configuration for core resource.
+    .PARAMETER Datasource 
+        Specifies the source which contains all the stored counter values. 
     .PARAMETER GetAll 
-        Retreive all systemcore object(s)
+        Retrieve all systemcore object(s).
     .PARAMETER Count
-        If specified, the count of the systemcore object(s) will be returned
+        If specified, the count of the systemcore object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemcore
+        PS C:\>Invoke-ADCGetSystemcore
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemcore -GetAll
+        PS C:\>Invoke-ADCGetSystemcore -GetAll 
+        Get all systemcore data.
     .EXAMPLE
-        Invoke-ADCGetSystemcore -name <string>
+        PS C:\>Invoke-ADCGetSystemcore -name <string>
+        Get systemcore object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemcore -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemcore -Filter @{ 'name'='<value>' }
+        Get systemcore data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemcore
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcore/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$datasource,
+        [string]$Datasource,
 			
         [hashtable]$Filter = @{ },
 
@@ -1067,25 +968,25 @@ function Invoke-ADCGetSystemcore {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systemcore objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcore -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcore -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemcore objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcore -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcore -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemcore objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('datasource')) { $Arguments.Add('datasource', $datasource) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcore -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('datasource') ) { $arguments.Add('datasource', $datasource) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcore -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemcore configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systemcore configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcore -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcore -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1099,50 +1000,55 @@ function Invoke-ADCGetSystemcore {
 }
 
 function Invoke-ADCGetSystemcountergroup {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER datasource 
-       Specifies the source which contains all the stored counter values. 
+        Configuration for counter group resource.
+    .PARAMETER Datasource 
+        Specifies the source which contains all the stored counter values. 
     .PARAMETER GetAll 
-        Retreive all systemcountergroup object(s)
+        Retrieve all systemcountergroup object(s).
     .PARAMETER Count
-        If specified, the count of the systemcountergroup object(s) will be returned
+        If specified, the count of the systemcountergroup object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemcountergroup
+        PS C:\>Invoke-ADCGetSystemcountergroup
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemcountergroup -GetAll
+        PS C:\>Invoke-ADCGetSystemcountergroup -GetAll 
+        Get all systemcountergroup data.
     .EXAMPLE
-        Invoke-ADCGetSystemcountergroup -name <string>
+        PS C:\>Invoke-ADCGetSystemcountergroup -name <string>
+        Get systemcountergroup object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemcountergroup -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemcountergroup -Filter @{ 'name'='<value>' }
+        Get systemcountergroup data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemcountergroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcountergroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$datasource,
+        [string]$Datasource,
 			
         [hashtable]$Filter = @{ },
 
@@ -1154,25 +1060,25 @@ function Invoke-ADCGetSystemcountergroup {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systemcountergroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcountergroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcountergroup -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemcountergroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcountergroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcountergroup -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemcountergroup objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('datasource')) { $Arguments.Add('datasource', $datasource) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcountergroup -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('datasource') ) { $arguments.Add('datasource', $datasource) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcountergroup -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemcountergroup configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systemcountergroup configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcountergroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcountergroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1186,55 +1092,60 @@ function Invoke-ADCGetSystemcountergroup {
 }
 
 function Invoke-ADCGetSystemcounters {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER countergroup 
-       Specify the (counter) group name which contains all the counters specific tot his particular group. 
-    .PARAMETER datasource 
-       Specifies the source which contains all the stored counter values. 
+        Configuration for counters resource.
+    .PARAMETER Countergroup 
+        Specify the (counter) group name which contains all the counters specific tot his particular group. 
+    .PARAMETER Datasource 
+        Specifies the source which contains all the stored counter values. 
     .PARAMETER GetAll 
-        Retreive all systemcounters object(s)
+        Retrieve all systemcounters object(s).
     .PARAMETER Count
-        If specified, the count of the systemcounters object(s) will be returned
+        If specified, the count of the systemcounters object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemcounters
+        PS C:\>Invoke-ADCGetSystemcounters
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemcounters -GetAll
+        PS C:\>Invoke-ADCGetSystemcounters -GetAll 
+        Get all systemcounters data.
     .EXAMPLE
-        Invoke-ADCGetSystemcounters -name <string>
+        PS C:\>Invoke-ADCGetSystemcounters -name <string>
+        Get systemcounters object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemcounters -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemcounters -Filter @{ 'name'='<value>' }
+        Get systemcounters data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemcounters
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemcounters/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$countergroup ,
+        [string]$Countergroup,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$datasource,
+        [string]$Datasource,
 			
         [hashtable]$Filter = @{ },
 
@@ -1246,26 +1157,26 @@ function Invoke-ADCGetSystemcounters {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systemcounters objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcounters -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcounters -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemcounters objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcounters -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcounters -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemcounters objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('countergroup')) { $Arguments.Add('countergroup', $countergroup) } 
-                if ($PSBoundParameters.ContainsKey('datasource')) { $Arguments.Add('datasource', $datasource) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcounters -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('countergroup') ) { $arguments.Add('countergroup', $countergroup) } 
+                if ( $PSBoundParameters.ContainsKey('datasource') ) { $arguments.Add('datasource', $datasource) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcounters -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemcounters configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systemcounters configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcounters -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemcounters -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1279,50 +1190,55 @@ function Invoke-ADCGetSystemcounters {
 }
 
 function Invoke-ADCGetSystemdatasource {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER datasource 
-       Specifies the source which contains all the stored counter values. 
+        Configuration for historical datasource resource.
+    .PARAMETER Datasource 
+        Specifies the source which contains all the stored counter values. 
     .PARAMETER GetAll 
-        Retreive all systemdatasource object(s)
+        Retrieve all systemdatasource object(s).
     .PARAMETER Count
-        If specified, the count of the systemdatasource object(s) will be returned
+        If specified, the count of the systemdatasource object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemdatasource
+        PS C:\>Invoke-ADCGetSystemdatasource
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemdatasource -GetAll
+        PS C:\>Invoke-ADCGetSystemdatasource -GetAll 
+        Get all systemdatasource data.
     .EXAMPLE
-        Invoke-ADCGetSystemdatasource -name <string>
+        PS C:\>Invoke-ADCGetSystemdatasource -name <string>
+        Get systemdatasource object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemdatasource -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemdatasource -Filter @{ 'name'='<value>' }
+        Get systemdatasource data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemdatasource
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemdatasource/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$datasource,
+        [string]$Datasource,
 			
         [hashtable]$Filter = @{ },
 
@@ -1334,25 +1250,25 @@ function Invoke-ADCGetSystemdatasource {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systemdatasource objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemdatasource -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemdatasource -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemdatasource objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemdatasource -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemdatasource -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemdatasource objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('datasource')) { $Arguments.Add('datasource', $datasource) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemdatasource -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('datasource') ) { $arguments.Add('datasource', $datasource) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemdatasource -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemdatasource configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systemdatasource configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemdatasource -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemdatasource -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1366,60 +1282,65 @@ function Invoke-ADCGetSystemdatasource {
 }
 
 function Invoke-ADCGetSystementity {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER type 
-       Specify the entity type. 
-    .PARAMETER datasource 
-       Specifies the source which contains all the stored counter values. 
-    .PARAMETER core 
-       Specify core ID of the PE in nCore. 
+        Configuration for entity resource.
+    .PARAMETER Type 
+        Specify the entity type. 
+    .PARAMETER Datasource 
+        Specifies the source which contains all the stored counter values. 
+    .PARAMETER Core 
+        Specify core ID of the PE in nCore. 
     .PARAMETER GetAll 
-        Retreive all systementity object(s)
+        Retrieve all systementity object(s).
     .PARAMETER Count
-        If specified, the count of the systementity object(s) will be returned
+        If specified, the count of the systementity object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystementity
+        PS C:\>Invoke-ADCGetSystementity
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystementity -GetAll
+        PS C:\>Invoke-ADCGetSystementity -GetAll 
+        Get all systementity data.
     .EXAMPLE
-        Invoke-ADCGetSystementity -name <string>
+        PS C:\>Invoke-ADCGetSystementity -name <string>
+        Get systementity object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystementity -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystementity -Filter @{ 'name'='<value>' }
+        Get systementity data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystementity
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systementity/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$type ,
+        [string]$Type,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$datasource ,
+        [string]$Datasource,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [int]$core,
+        [int]$Core,
 			
         [hashtable]$Filter = @{ },
 
@@ -1431,27 +1352,27 @@ function Invoke-ADCGetSystementity {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systementity objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementity -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementity -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systementity objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementity -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementity -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systementity objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) } 
-                if ($PSBoundParameters.ContainsKey('datasource')) { $Arguments.Add('datasource', $datasource) } 
-                if ($PSBoundParameters.ContainsKey('core')) { $Arguments.Add('core', $core) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementity -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('type') ) { $arguments.Add('type', $type) } 
+                if ( $PSBoundParameters.ContainsKey('datasource') ) { $arguments.Add('datasource', $datasource) } 
+                if ( $PSBoundParameters.ContainsKey('core') ) { $arguments.Add('core', $core) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementity -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systementity configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systementity configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementity -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementity -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1465,65 +1386,71 @@ function Invoke-ADCGetSystementity {
 }
 
 function Invoke-ADCDeleteSystementitydata {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-     .PARAMETER type 
-       Specify the entity type.    .PARAMETER name 
-       Specify the entity name.    .PARAMETER alldeleted 
-       Specify this if you would like to delete information about all deleted entities from the database.    .PARAMETER allinactive 
-       Specify this if you would like to delete information about all inactive entities from the database.    .PARAMETER datasource 
-       Specifies the source which contains all the stored counter values.    .PARAMETER core 
-       Specify core ID of the PE in nCore.
+        Configuration for entity data resource.
+    .PARAMETER Type 
+        Specify the entity type. 
+    .PARAMETER Name 
+        Specify the entity name. 
+    .PARAMETER Alldeleted 
+        Specify this if you would like to delete information about all deleted entities from the database. 
+    .PARAMETER Allinactive 
+        Specify this if you would like to delete information about all inactive entities from the database. 
+    .PARAMETER Datasource 
+        Specifies the source which contains all the stored counter values. 
+    .PARAMETER Core 
+        Specify core ID of the PE in nCore.
     .EXAMPLE
-        Invoke-ADCDeleteSystementitydata 
+        PS C:\>Invoke-ADCDeleteSystementitydata 
+        An example how to delete systementitydata configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystementitydata
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systementitydata/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$type ,
+        [string]$Type,
 
-        [string]$name ,
+        [string]$Name,
 
-        [boolean]$alldeleted ,
+        [boolean]$Alldeleted,
 
-        [boolean]$allinactive ,
+        [boolean]$Allinactive,
 
-        [string]$datasource ,
+        [string]$Datasource,
 
-        [int]$core 
+        [int]$Core 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystementitydata: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('name')) { $Arguments.Add('name', $name) }
-            if ($PSBoundParameters.ContainsKey('alldeleted')) { $Arguments.Add('alldeleted', $alldeleted) }
-            if ($PSBoundParameters.ContainsKey('allinactive')) { $Arguments.Add('allinactive', $allinactive) }
-            if ($PSBoundParameters.ContainsKey('datasource')) { $Arguments.Add('datasource', $datasource) }
-            if ($PSBoundParameters.ContainsKey('core')) { $Arguments.Add('core', $core) }
-            if ($PSCmdlet.ShouldProcess("systementitydata", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systementitydata -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Type') ) { $arguments.Add('type', $Type) }
+            if ( $PSBoundParameters.ContainsKey('Name') ) { $arguments.Add('name', $Name) }
+            if ( $PSBoundParameters.ContainsKey('Alldeleted') ) { $arguments.Add('alldeleted', $Alldeleted) }
+            if ( $PSBoundParameters.ContainsKey('Allinactive') ) { $arguments.Add('allinactive', $Allinactive) }
+            if ( $PSBoundParameters.ContainsKey('Datasource') ) { $arguments.Add('datasource', $Datasource) }
+            if ( $PSBoundParameters.ContainsKey('Core') ) { $arguments.Add('core', $Core) }
+            if ( $PSCmdlet.ShouldProcess("systementitydata", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systementitydata -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1539,92 +1466,97 @@ function Invoke-ADCDeleteSystementitydata {
 }
 
 function Invoke-ADCGetSystementitydata {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER type 
-       Specify the entity type. 
-    .PARAMETER name 
-       Specify the entity name. 
-    .PARAMETER counters 
-       Specify the counters to be collected. 
-    .PARAMETER starttime 
-       Specify start time in mmddyyyyhhmm to start collecting values from that timestamp. 
-    .PARAMETER endtime 
-       Specify end time in mmddyyyyhhmm upto which values have to be collected. 
-    .PARAMETER last 
-       Last is literal way of saying a certain time period from the current moment. Example: -last 1 hour, -last 1 day, et cetera. 
-    .PARAMETER unit 
-       Specify the time period from current moment. Example 1 x where x = hours/ days/ years.  
-       Possible values = HOURS, DAYS, MONTHS 
-    .PARAMETER datasource 
-       Specifies the source which contains all the stored counter values. 
-    .PARAMETER core 
-       Specify core ID of the PE in nCore. 
+        Configuration for entity data resource.
+    .PARAMETER Type 
+        Specify the entity type. 
+    .PARAMETER Name 
+        Specify the entity name. 
+    .PARAMETER Counters 
+        Specify the counters to be collected. 
+    .PARAMETER Starttime 
+        Specify start time in mmddyyyyhhmm to start collecting values from that timestamp. 
+    .PARAMETER Endtime 
+        Specify end time in mmddyyyyhhmm upto which values have to be collected. 
+    .PARAMETER Last 
+        Last is literal way of saying a certain time period from the current moment. Example: -last 1 hour, -last 1 day, et cetera. 
+    .PARAMETER Unit 
+        Specify the time period from current moment. Example 1 x where x = hours/ days/ years. 
+        Possible values = HOURS, DAYS, MONTHS 
+    .PARAMETER Datasource 
+        Specifies the source which contains all the stored counter values. 
+    .PARAMETER Core 
+        Specify core ID of the PE in nCore. 
     .PARAMETER GetAll 
-        Retreive all systementitydata object(s)
+        Retrieve all systementitydata object(s).
     .PARAMETER Count
-        If specified, the count of the systementitydata object(s) will be returned
+        If specified, the count of the systementitydata object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystementitydata
+        PS C:\>Invoke-ADCGetSystementitydata
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystementitydata -GetAll
+        PS C:\>Invoke-ADCGetSystementitydata -GetAll 
+        Get all systementitydata data.
     .EXAMPLE
-        Invoke-ADCGetSystementitydata -name <string>
+        PS C:\>Invoke-ADCGetSystementitydata -name <string>
+        Get systementitydata object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystementitydata -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystementitydata -Filter @{ 'name'='<value>' }
+        Get systementitydata data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystementitydata
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systementitydata/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$type ,
+        [string]$Type,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$name ,
+        [string]$Name,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$counters ,
+        [string]$Counters,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$starttime ,
+        [string]$Starttime,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$endtime ,
+        [string]$Endtime,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [int]$last ,
+        [int]$Last,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('HOURS', 'DAYS', 'MONTHS')]
-        [string]$unit ,
+        [string]$Unit,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$datasource ,
+        [string]$Datasource,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [int]$core,
+        [int]$Core,
 			
         [hashtable]$Filter = @{ },
 
@@ -1636,33 +1568,33 @@ function Invoke-ADCGetSystementitydata {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systementitydata objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementitydata -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementitydata -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systementitydata objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementitydata -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementitydata -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systementitydata objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) } 
-                if ($PSBoundParameters.ContainsKey('name')) { $Arguments.Add('name', $name) } 
-                if ($PSBoundParameters.ContainsKey('counters')) { $Arguments.Add('counters', $counters) } 
-                if ($PSBoundParameters.ContainsKey('starttime')) { $Arguments.Add('starttime', $starttime) } 
-                if ($PSBoundParameters.ContainsKey('endtime')) { $Arguments.Add('endtime', $endtime) } 
-                if ($PSBoundParameters.ContainsKey('last')) { $Arguments.Add('last', $last) } 
-                if ($PSBoundParameters.ContainsKey('unit')) { $Arguments.Add('unit', $unit) } 
-                if ($PSBoundParameters.ContainsKey('datasource')) { $Arguments.Add('datasource', $datasource) } 
-                if ($PSBoundParameters.ContainsKey('core')) { $Arguments.Add('core', $core) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementitydata -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('type') ) { $arguments.Add('type', $type) } 
+                if ( $PSBoundParameters.ContainsKey('name') ) { $arguments.Add('name', $name) } 
+                if ( $PSBoundParameters.ContainsKey('counters') ) { $arguments.Add('counters', $counters) } 
+                if ( $PSBoundParameters.ContainsKey('starttime') ) { $arguments.Add('starttime', $starttime) } 
+                if ( $PSBoundParameters.ContainsKey('endtime') ) { $arguments.Add('endtime', $endtime) } 
+                if ( $PSBoundParameters.ContainsKey('last') ) { $arguments.Add('last', $last) } 
+                if ( $PSBoundParameters.ContainsKey('unit') ) { $arguments.Add('unit', $unit) } 
+                if ( $PSBoundParameters.ContainsKey('datasource') ) { $arguments.Add('datasource', $datasource) } 
+                if ( $PSBoundParameters.ContainsKey('core') ) { $arguments.Add('core', $core) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementitydata -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systementitydata configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systementitydata configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementitydata -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementitydata -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1676,50 +1608,55 @@ function Invoke-ADCGetSystementitydata {
 }
 
 function Invoke-ADCGetSystementitytype {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER datasource 
-       Specifies the source which contains all the stored counter values. 
+        Configuration for entity type resource.
+    .PARAMETER Datasource 
+        Specifies the source which contains all the stored counter values. 
     .PARAMETER GetAll 
-        Retreive all systementitytype object(s)
+        Retrieve all systementitytype object(s).
     .PARAMETER Count
-        If specified, the count of the systementitytype object(s) will be returned
+        If specified, the count of the systementitytype object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystementitytype
+        PS C:\>Invoke-ADCGetSystementitytype
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystementitytype -GetAll
+        PS C:\>Invoke-ADCGetSystementitytype -GetAll 
+        Get all systementitytype data.
     .EXAMPLE
-        Invoke-ADCGetSystementitytype -name <string>
+        PS C:\>Invoke-ADCGetSystementitytype -name <string>
+        Get systementitytype object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystementitytype -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystementitytype -Filter @{ 'name'='<value>' }
+        Get systementitytype data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystementitytype
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systementitytype/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$datasource,
+        [string]$Datasource,
 			
         [hashtable]$Filter = @{ },
 
@@ -1731,25 +1668,25 @@ function Invoke-ADCGetSystementitytype {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systementitytype objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementitytype -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementitytype -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systementitytype objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementitytype -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementitytype -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systementitytype objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('datasource')) { $Arguments.Add('datasource', $datasource) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementitytype -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('datasource') ) { $arguments.Add('datasource', $datasource) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementitytype -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systementitytype configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systementitytype configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementitytype -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systementitytype -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1763,72 +1700,77 @@ function Invoke-ADCGetSystementitytype {
 }
 
 function Invoke-ADCGetSystemeventhistory {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER starttime 
-       Specify start time in mmddyyyyhhmm to start collecting values from that timestamp. 
-    .PARAMETER endtime 
-       Specify end time in mmddyyyyhhmm upto which values have to be collected. 
-    .PARAMETER last 
-       Last is literal way of saying a certain time period from the current moment. Example: -last 1 hour, -last 1 day, et cetera. 
-    .PARAMETER unit 
-       Specify the time period from current moment. Example 1 x where x = hours/ days/ years.  
-       Possible values = HOURS, DAYS, MONTHS 
-    .PARAMETER datasource 
-       Specifies the source which contains all the stored counter values. 
+        Configuration for event history resource.
+    .PARAMETER Starttime 
+        Specify start time in mmddyyyyhhmm to start collecting values from that timestamp. 
+    .PARAMETER Endtime 
+        Specify end time in mmddyyyyhhmm upto which values have to be collected. 
+    .PARAMETER Last 
+        Last is literal way of saying a certain time period from the current moment. Example: -last 1 hour, -last 1 day, et cetera. 
+    .PARAMETER Unit 
+        Specify the time period from current moment. Example 1 x where x = hours/ days/ years. 
+        Possible values = HOURS, DAYS, MONTHS 
+    .PARAMETER Datasource 
+        Specifies the source which contains all the stored counter values. 
     .PARAMETER GetAll 
-        Retreive all systemeventhistory object(s)
+        Retrieve all systemeventhistory object(s).
     .PARAMETER Count
-        If specified, the count of the systemeventhistory object(s) will be returned
+        If specified, the count of the systemeventhistory object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemeventhistory
+        PS C:\>Invoke-ADCGetSystemeventhistory
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemeventhistory -GetAll
+        PS C:\>Invoke-ADCGetSystemeventhistory -GetAll 
+        Get all systemeventhistory data.
     .EXAMPLE
-        Invoke-ADCGetSystemeventhistory -name <string>
+        PS C:\>Invoke-ADCGetSystemeventhistory -name <string>
+        Get systemeventhistory object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemeventhistory -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemeventhistory -Filter @{ 'name'='<value>' }
+        Get systemeventhistory data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemeventhistory
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemeventhistory/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$starttime ,
+        [string]$Starttime,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$endtime ,
+        [string]$Endtime,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [int]$last ,
+        [int]$Last,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('HOURS', 'DAYS', 'MONTHS')]
-        [string]$unit ,
+        [string]$Unit,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$datasource,
+        [string]$Datasource,
 			
         [hashtable]$Filter = @{ },
 
@@ -1840,29 +1782,29 @@ function Invoke-ADCGetSystemeventhistory {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systemeventhistory objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemeventhistory -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemeventhistory -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemeventhistory objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemeventhistory -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemeventhistory -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemeventhistory objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('starttime')) { $Arguments.Add('starttime', $starttime) } 
-                if ($PSBoundParameters.ContainsKey('endtime')) { $Arguments.Add('endtime', $endtime) } 
-                if ($PSBoundParameters.ContainsKey('last')) { $Arguments.Add('last', $last) } 
-                if ($PSBoundParameters.ContainsKey('unit')) { $Arguments.Add('unit', $unit) } 
-                if ($PSBoundParameters.ContainsKey('datasource')) { $Arguments.Add('datasource', $datasource) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemeventhistory -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('starttime') ) { $arguments.Add('starttime', $starttime) } 
+                if ( $PSBoundParameters.ContainsKey('endtime') ) { $arguments.Add('endtime', $endtime) } 
+                if ( $PSBoundParameters.ContainsKey('last') ) { $arguments.Add('last', $last) } 
+                if ( $PSBoundParameters.ContainsKey('unit') ) { $arguments.Add('unit', $unit) } 
+                if ( $PSBoundParameters.ContainsKey('datasource') ) { $arguments.Add('datasource', $datasource) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemeventhistory -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemeventhistory configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systemeventhistory configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemeventhistory -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemeventhistory -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1876,30 +1818,32 @@ function Invoke-ADCGetSystemeventhistory {
 }
 
 function Invoke-ADCEnableSystemextramgmtcpu {
-<#
+    <#
     .SYNOPSIS
-        Enable System configuration Object
+        Enable System configuration Object.
     .DESCRIPTION
-        Enable System configuration Object 
+        Configuration for 0 resource.
     .EXAMPLE
-        Invoke-ADCEnableSystemextramgmtcpu 
+        PS C:\>Invoke-ADCEnableSystemextramgmtcpu 
+        An example how to enable systemextramgmtcpu configuration Object(s).
     .NOTES
         File Name : Invoke-ADCEnableSystemextramgmtcpu
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemextramgmtcpu/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession) 
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession) 
 
     )
     begin {
@@ -1907,12 +1851,10 @@ function Invoke-ADCEnableSystemextramgmtcpu {
     }
     process {
         try {
-            $Payload = @{
+            $payload = @{ }
 
-            }
-
-            if ($PSCmdlet.ShouldProcess($Name, "Enable System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemextramgmtcpu -Action enable -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Enable System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemextramgmtcpu -Action enable -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -1928,30 +1870,32 @@ function Invoke-ADCEnableSystemextramgmtcpu {
 }
 
 function Invoke-ADCDisableSystemextramgmtcpu {
-<#
+    <#
     .SYNOPSIS
-        Disable System configuration Object
+        Disable System configuration Object.
     .DESCRIPTION
-        Disable System configuration Object 
+        Configuration for 0 resource.
     .EXAMPLE
-        Invoke-ADCDisableSystemextramgmtcpu 
+        PS C:\>Invoke-ADCDisableSystemextramgmtcpu 
+        An example how to disable systemextramgmtcpu configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDisableSystemextramgmtcpu
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemextramgmtcpu/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession) 
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession) 
 
     )
     begin {
@@ -1959,12 +1903,10 @@ function Invoke-ADCDisableSystemextramgmtcpu {
     }
     process {
         try {
-            $Payload = @{
+            $payload = @{ }
 
-            }
-
-            if ($PSCmdlet.ShouldProcess($Name, "Disable System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemextramgmtcpu -Action disable -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Disable System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemextramgmtcpu -Action disable -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -1980,51 +1922,56 @@ function Invoke-ADCDisableSystemextramgmtcpu {
 }
 
 function Invoke-ADCGetSystemextramgmtcpu {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER nodeid 
-       Unique number that identifies the cluster node. 
+        Configuration for 0 resource.
+    .PARAMETER Nodeid 
+        Unique number that identifies the cluster node. 
     .PARAMETER GetAll 
-        Retreive all systemextramgmtcpu object(s)
+        Retrieve all systemextramgmtcpu object(s).
     .PARAMETER Count
-        If specified, the count of the systemextramgmtcpu object(s) will be returned
+        If specified, the count of the systemextramgmtcpu object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemextramgmtcpu
+        PS C:\>Invoke-ADCGetSystemextramgmtcpu
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemextramgmtcpu -GetAll
+        PS C:\>Invoke-ADCGetSystemextramgmtcpu -GetAll 
+        Get all systemextramgmtcpu data.
     .EXAMPLE
-        Invoke-ADCGetSystemextramgmtcpu -name <string>
+        PS C:\>Invoke-ADCGetSystemextramgmtcpu -name <string>
+        Get systemextramgmtcpu object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemextramgmtcpu -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemextramgmtcpu -Filter @{ 'name'='<value>' }
+        Get systemextramgmtcpu data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemextramgmtcpu
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemextramgmtcpu/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateRange(0, 31)]
-        [double]$nodeid,
+        [double]$Nodeid,
 			
         [hashtable]$Filter = @{ },
 
@@ -2036,25 +1983,25 @@ function Invoke-ADCGetSystemextramgmtcpu {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systemextramgmtcpu objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemextramgmtcpu -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemextramgmtcpu -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemextramgmtcpu objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemextramgmtcpu -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemextramgmtcpu -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemextramgmtcpu objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('nodeid')) { $Arguments.Add('nodeid', $nodeid) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemextramgmtcpu -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('nodeid') ) { $arguments.Add('nodeid', $nodeid) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemextramgmtcpu -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemextramgmtcpu configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systemextramgmtcpu configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemextramgmtcpu -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemextramgmtcpu -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2068,72 +2015,67 @@ function Invoke-ADCGetSystemextramgmtcpu {
 }
 
 function Invoke-ADCAddSystemfile {
-<#
+    <#
     .SYNOPSIS
-        Add System configuration Object
+        Add System configuration Object.
     .DESCRIPTION
-        Add System configuration Object 
-    .PARAMETER filename 
-        Name of the file. It should not include filepath.  
-        Maximum length = 63 
-    .PARAMETER filecontent 
+        Configuration for file resource.
+    .PARAMETER Filename 
+        Name of the file. It should not include filepath. 
+    .PARAMETER Filecontent 
         file content in Base64 format. 
-    .PARAMETER filelocation 
-        location of the file on Citrix ADC.  
-        Maximum length = 127 
-    .PARAMETER fileencoding 
-        encoding type of the file content.  
-        Default value: "BASE64"
+    .PARAMETER Filelocation 
+        location of the file on Citrix ADC. 
+    .PARAMETER Fileencoding 
+        encoding type of the file content.
     .EXAMPLE
-        Invoke-ADCAddSystemfile -filename <string> -filecontent <string> -filelocation <string>
+        PS C:\>Invoke-ADCAddSystemfile -filename <string> -filecontent <string> -filelocation <string>
+        An example how to add systemfile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSystemfile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemfile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$filename ,
+        [Parameter(Mandatory)]
+        [string]$Filename,
 
-        [Parameter(Mandatory = $true)]
-        [string]$filecontent ,
+        [Parameter(Mandatory)]
+        [string]$Filecontent,
 
-        [Parameter(Mandatory = $true)]
-        [string]$filelocation ,
+        [Parameter(Mandatory)]
+        [string]$Filelocation,
 
-        [string]$fileencoding = '"BASE64"' 
-
+        [string]$Fileencoding = '"BASE64"' 
     )
     begin {
         Write-Verbose "Invoke-ADCAddSystemfile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                filename = $filename
-                filecontent = $filecontent
-                filelocation = $filelocation
+            $payload = @{ filename = $filename
+                filecontent        = $filecontent
+                filelocation       = $filelocation
             }
-            if ($PSBoundParameters.ContainsKey('fileencoding')) { $Payload.Add('fileencoding', $fileencoding) }
- 
-            if ($PSCmdlet.ShouldProcess("systemfile", "Add System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemfile -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('fileencoding') ) { $payload.Add('fileencoding', $fileencoding) }
+            if ( $PSCmdlet.ShouldProcess("systemfile", "Add System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemfile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2146,51 +2088,51 @@ function Invoke-ADCAddSystemfile {
 }
 
 function Invoke-ADCDeleteSystemfile {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-    .PARAMETER filename 
-       Name of the file. It should not include filepath.  
-       Maximum length = 63    .PARAMETER filelocation 
-       location of the file on Citrix ADC.  
-       Maximum length = 127
+        Configuration for file resource.
+    .PARAMETER Filename 
+        Name of the file. It should not include filepath. 
+    .PARAMETER Filelocation 
+        location of the file on Citrix ADC.
     .EXAMPLE
-        Invoke-ADCDeleteSystemfile -filename <string>
+        PS C:\>Invoke-ADCDeleteSystemfile -Filename <string>
+        An example how to delete systemfile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystemfile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemfile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$filename ,
+        [Parameter(Mandatory)]
+        [string]$Filename,
 
-        [string]$filelocation 
+        [string]$Filelocation 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystemfile: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('filelocation')) { $Arguments.Add('filelocation', $filelocation) }
-            if ($PSCmdlet.ShouldProcess("$filename", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemfile -NitroPath nitro/v1/config -Resource $filename -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Filelocation') ) { $arguments.Add('filelocation', $Filelocation) }
+            if ( $PSCmdlet.ShouldProcess("$filename", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemfile -NitroPath nitro/v1/config -Resource $filename -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2206,55 +2148,60 @@ function Invoke-ADCDeleteSystemfile {
 }
 
 function Invoke-ADCGetSystemfile {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER filename 
-       Name of the file. It should not include filepath. 
-    .PARAMETER filelocation 
-       location of the file on Citrix ADC. 
+        Configuration for file resource.
+    .PARAMETER Filename 
+        Name of the file. It should not include filepath. 
+    .PARAMETER Filelocation 
+        location of the file on Citrix ADC. 
     .PARAMETER GetAll 
-        Retreive all systemfile object(s)
+        Retrieve all systemfile object(s).
     .PARAMETER Count
-        If specified, the count of the systemfile object(s) will be returned
+        If specified, the count of the systemfile object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemfile
+        PS C:\>Invoke-ADCGetSystemfile
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemfile -GetAll
+        PS C:\>Invoke-ADCGetSystemfile -GetAll 
+        Get all systemfile data.
     .EXAMPLE
-        Invoke-ADCGetSystemfile -name <string>
+        PS C:\>Invoke-ADCGetSystemfile -name <string>
+        Get systemfile object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemfile -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemfile -Filter @{ 'name'='<value>' }
+        Get systemfile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemfile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemfile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$filename ,
+        [string]$Filename,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$filelocation,
+        [string]$Filelocation,
 			
         [hashtable]$Filter = @{ },
 
@@ -2266,26 +2213,26 @@ function Invoke-ADCGetSystemfile {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systemfile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemfile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemfile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemfile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemfile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemfile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemfile objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('filename')) { $Arguments.Add('filename', $filename) } 
-                if ($PSBoundParameters.ContainsKey('filelocation')) { $Arguments.Add('filelocation', $filelocation) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemfile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('filename') ) { $arguments.Add('filename', $filename) } 
+                if ( $PSBoundParameters.ContainsKey('filelocation') ) { $arguments.Add('filelocation', $filelocation) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemfile -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemfile configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systemfile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemfile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemfile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2299,87 +2246,92 @@ function Invoke-ADCGetSystemfile {
 }
 
 function Invoke-ADCGetSystemglobaldata {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER counters 
-       Specify the counters to be collected. 
-    .PARAMETER countergroup 
-       Specify the (counter) group name which contains all the counters specific to this particular group. 
-    .PARAMETER starttime 
-       Specify start time in mmddyyyyhhmm to start collecting values from that timestamp. 
-    .PARAMETER endtime 
-       Specify end time in mmddyyyyhhmm upto which values have to be collected. 
-    .PARAMETER last 
-       Last is literal way of saying a certain time period from the current moment. Example: -last 1 hour, -last 1 day, et cetera. 
-    .PARAMETER unit 
-       Specify the time period from current moment. Example 1 x where x = hours/ days/ years.  
-       Possible values = HOURS, DAYS, MONTHS 
-    .PARAMETER datasource 
-       Specifies the source which contains all the stored counter values. 
-    .PARAMETER core 
-       Specify core ID of the PE in nCore. 
+        Configuration for global counter data resource.
+    .PARAMETER Counters 
+        Specify the counters to be collected. 
+    .PARAMETER Countergroup 
+        Specify the (counter) group name which contains all the counters specific to this particular group. 
+    .PARAMETER Starttime 
+        Specify start time in mmddyyyyhhmm to start collecting values from that timestamp. 
+    .PARAMETER Endtime 
+        Specify end time in mmddyyyyhhmm upto which values have to be collected. 
+    .PARAMETER Last 
+        Last is literal way of saying a certain time period from the current moment. Example: -last 1 hour, -last 1 day, et cetera. 
+    .PARAMETER Unit 
+        Specify the time period from current moment. Example 1 x where x = hours/ days/ years. 
+        Possible values = HOURS, DAYS, MONTHS 
+    .PARAMETER Datasource 
+        Specifies the source which contains all the stored counter values. 
+    .PARAMETER Core 
+        Specify core ID of the PE in nCore. 
     .PARAMETER GetAll 
-        Retreive all systemglobaldata object(s)
+        Retrieve all systemglobaldata object(s).
     .PARAMETER Count
-        If specified, the count of the systemglobaldata object(s) will be returned
+        If specified, the count of the systemglobaldata object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemglobaldata
+        PS C:\>Invoke-ADCGetSystemglobaldata
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemglobaldata -GetAll
+        PS C:\>Invoke-ADCGetSystemglobaldata -GetAll 
+        Get all systemglobaldata data.
     .EXAMPLE
-        Invoke-ADCGetSystemglobaldata -name <string>
+        PS C:\>Invoke-ADCGetSystemglobaldata -name <string>
+        Get systemglobaldata object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemglobaldata -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemglobaldata -Filter @{ 'name'='<value>' }
+        Get systemglobaldata data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemglobaldata
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobaldata/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$counters ,
+        [string]$Counters,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$countergroup ,
+        [string]$Countergroup,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$starttime ,
+        [string]$Starttime,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$endtime ,
+        [string]$Endtime,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [int]$last ,
+        [int]$Last,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('HOURS', 'DAYS', 'MONTHS')]
-        [string]$unit ,
+        [string]$Unit,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [string]$datasource ,
+        [string]$Datasource,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
-        [int]$core,
+        [int]$Core,
 			
         [hashtable]$Filter = @{ },
 
@@ -2391,32 +2343,32 @@ function Invoke-ADCGetSystemglobaldata {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systemglobaldata objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobaldata -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobaldata -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemglobaldata objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobaldata -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobaldata -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemglobaldata objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('counters')) { $Arguments.Add('counters', $counters) } 
-                if ($PSBoundParameters.ContainsKey('countergroup')) { $Arguments.Add('countergroup', $countergroup) } 
-                if ($PSBoundParameters.ContainsKey('starttime')) { $Arguments.Add('starttime', $starttime) } 
-                if ($PSBoundParameters.ContainsKey('endtime')) { $Arguments.Add('endtime', $endtime) } 
-                if ($PSBoundParameters.ContainsKey('last')) { $Arguments.Add('last', $last) } 
-                if ($PSBoundParameters.ContainsKey('unit')) { $Arguments.Add('unit', $unit) } 
-                if ($PSBoundParameters.ContainsKey('datasource')) { $Arguments.Add('datasource', $datasource) } 
-                if ($PSBoundParameters.ContainsKey('core')) { $Arguments.Add('core', $core) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobaldata -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('counters') ) { $arguments.Add('counters', $counters) } 
+                if ( $PSBoundParameters.ContainsKey('countergroup') ) { $arguments.Add('countergroup', $countergroup) } 
+                if ( $PSBoundParameters.ContainsKey('starttime') ) { $arguments.Add('starttime', $starttime) } 
+                if ( $PSBoundParameters.ContainsKey('endtime') ) { $arguments.Add('endtime', $endtime) } 
+                if ( $PSBoundParameters.ContainsKey('last') ) { $arguments.Add('last', $last) } 
+                if ( $PSBoundParameters.ContainsKey('unit') ) { $arguments.Add('unit', $unit) } 
+                if ( $PSBoundParameters.ContainsKey('datasource') ) { $arguments.Add('datasource', $datasource) } 
+                if ( $PSBoundParameters.ContainsKey('core') ) { $arguments.Add('core', $core) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobaldata -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemglobaldata configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systemglobaldata configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobaldata -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobaldata -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2430,75 +2382,72 @@ function Invoke-ADCGetSystemglobaldata {
 }
 
 function Invoke-ADCAddSystemglobalauditnslogpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add System configuration Object
+        Add System configuration Object.
     .DESCRIPTION
-        Add System configuration Object 
-    .PARAMETER policyname 
+        Binding object showing the auditnslogpolicy that can be bound to systemglobal.
+    .PARAMETER Policyname 
         The name of the command policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         The priority of the command policy. 
-    .PARAMETER nextfactor 
+    .PARAMETER Nextfactor 
         On success invoke label. Applicable for advanced authentication policy binding. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Applicable only to advance authentication policy. Expression or other value specifying the next policy to be evaluated if the current policy evaluates to TRUE. Specify one of the following values: * NEXT - Evaluate the policy with the next higher priority number. * END - End policy evaluation. 
     .PARAMETER PassThru 
         Return details about the created systemglobal_auditnslogpolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddSystemglobalauditnslogpolicybinding 
+        PS C:\>Invoke-ADCAddSystemglobalauditnslogpolicybinding 
+        An example how to add systemglobal_auditnslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSystemglobalauditnslogpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [double]$priority ,
+        [double]$Priority,
 
-        [string]$nextfactor ,
+        [string]$Nextfactor,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSystemglobalauditnslogpolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Payload.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
-            if ($PSBoundParameters.ContainsKey('nextfactor')) { $Payload.Add('nextfactor', $nextfactor) }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
- 
-            if ($PSCmdlet.ShouldProcess("systemglobal_auditnslogpolicy_binding", "Add System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemglobal_auditnslogpolicy_binding -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('policyname') ) { $payload.Add('policyname', $policyname) }
+            if ( $PSBoundParameters.ContainsKey('priority') ) { $payload.Add('priority', $priority) }
+            if ( $PSBoundParameters.ContainsKey('nextfactor') ) { $payload.Add('nextfactor', $nextfactor) }
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSCmdlet.ShouldProcess("systemglobal_auditnslogpolicy_binding", "Add System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemglobal_auditnslogpolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSystemglobalauditnslogpolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSystemglobalauditnslogpolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2511,45 +2460,46 @@ function Invoke-ADCAddSystemglobalauditnslogpolicybinding {
 }
 
 function Invoke-ADCDeleteSystemglobalauditnslogpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-     .PARAMETER policyname 
-       The name of the command policy.
+        Binding object showing the auditnslogpolicy that can be bound to systemglobal.
+    .PARAMETER Policyname 
+        The name of the command policy.
     .EXAMPLE
-        Invoke-ADCDeleteSystemglobalauditnslogpolicybinding 
+        PS C:\>Invoke-ADCDeleteSystemglobalauditnslogpolicybinding 
+        An example how to delete systemglobal_auditnslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystemglobalauditnslogpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname 
+        [string]$Policyname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystemglobalauditnslogpolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSCmdlet.ShouldProcess("systemglobal_auditnslogpolicy_binding", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSCmdlet.ShouldProcess("systemglobal_auditnslogpolicy_binding", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2565,49 +2515,55 @@ function Invoke-ADCDeleteSystemglobalauditnslogpolicybinding {
 }
 
 function Invoke-ADCGetSystemglobalauditnslogpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
+        Binding object showing the auditnslogpolicy that can be bound to systemglobal.
     .PARAMETER GetAll 
-        Retreive all systemglobal_auditnslogpolicy_binding object(s)
+        Retrieve all systemglobal_auditnslogpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the systemglobal_auditnslogpolicy_binding object(s) will be returned
+        If specified, the count of the systemglobal_auditnslogpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauditnslogpolicybinding
+        PS C:\>Invoke-ADCGetSystemglobalauditnslogpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemglobalauditnslogpolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetSystemglobalauditnslogpolicybinding -GetAll 
+        Get all systemglobal_auditnslogpolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetSystemglobalauditnslogpolicybinding -Count
+        PS C:\>Invoke-ADCGetSystemglobalauditnslogpolicybinding -Count 
+        Get the number of systemglobal_auditnslogpolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauditnslogpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetSystemglobalauditnslogpolicybinding -name <string>
+        Get systemglobal_auditnslogpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauditnslogpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemglobalauditnslogpolicybinding -Filter @{ 'name'='<value>' }
+        Get systemglobal_auditnslogpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemglobalauditnslogpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2620,26 +2576,24 @@ function Invoke-ADCGetSystemglobalauditnslogpolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all systemglobal_auditnslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemglobal_auditnslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemglobal_auditnslogpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemglobal_auditnslogpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systemglobal_auditnslogpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_auditnslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2653,75 +2607,72 @@ function Invoke-ADCGetSystemglobalauditnslogpolicybinding {
 }
 
 function Invoke-ADCAddSystemglobalauditsyslogpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add System configuration Object
+        Add System configuration Object.
     .DESCRIPTION
-        Add System configuration Object 
-    .PARAMETER policyname 
+        Binding object showing the auditsyslogpolicy that can be bound to systemglobal.
+    .PARAMETER Policyname 
         The name of the command policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         The priority of the command policy. 
-    .PARAMETER nextfactor 
+    .PARAMETER Nextfactor 
         On success invoke label. Applicable for advanced authentication policy binding. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Applicable only to advance authentication policy. Expression or other value specifying the next policy to be evaluated if the current policy evaluates to TRUE. Specify one of the following values: * NEXT - Evaluate the policy with the next higher priority number. * END - End policy evaluation. 
     .PARAMETER PassThru 
         Return details about the created systemglobal_auditsyslogpolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddSystemglobalauditsyslogpolicybinding 
+        PS C:\>Invoke-ADCAddSystemglobalauditsyslogpolicybinding 
+        An example how to add systemglobal_auditsyslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSystemglobalauditsyslogpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [double]$priority ,
+        [double]$Priority,
 
-        [string]$nextfactor ,
+        [string]$Nextfactor,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSystemglobalauditsyslogpolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Payload.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
-            if ($PSBoundParameters.ContainsKey('nextfactor')) { $Payload.Add('nextfactor', $nextfactor) }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
- 
-            if ($PSCmdlet.ShouldProcess("systemglobal_auditsyslogpolicy_binding", "Add System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemglobal_auditsyslogpolicy_binding -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('policyname') ) { $payload.Add('policyname', $policyname) }
+            if ( $PSBoundParameters.ContainsKey('priority') ) { $payload.Add('priority', $priority) }
+            if ( $PSBoundParameters.ContainsKey('nextfactor') ) { $payload.Add('nextfactor', $nextfactor) }
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSCmdlet.ShouldProcess("systemglobal_auditsyslogpolicy_binding", "Add System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemglobal_auditsyslogpolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSystemglobalauditsyslogpolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSystemglobalauditsyslogpolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2734,45 +2685,46 @@ function Invoke-ADCAddSystemglobalauditsyslogpolicybinding {
 }
 
 function Invoke-ADCDeleteSystemglobalauditsyslogpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-     .PARAMETER policyname 
-       The name of the command policy.
+        Binding object showing the auditsyslogpolicy that can be bound to systemglobal.
+    .PARAMETER Policyname 
+        The name of the command policy.
     .EXAMPLE
-        Invoke-ADCDeleteSystemglobalauditsyslogpolicybinding 
+        PS C:\>Invoke-ADCDeleteSystemglobalauditsyslogpolicybinding 
+        An example how to delete systemglobal_auditsyslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystemglobalauditsyslogpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname 
+        [string]$Policyname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystemglobalauditsyslogpolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSCmdlet.ShouldProcess("systemglobal_auditsyslogpolicy_binding", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSCmdlet.ShouldProcess("systemglobal_auditsyslogpolicy_binding", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2788,49 +2740,55 @@ function Invoke-ADCDeleteSystemglobalauditsyslogpolicybinding {
 }
 
 function Invoke-ADCGetSystemglobalauditsyslogpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
+        Binding object showing the auditsyslogpolicy that can be bound to systemglobal.
     .PARAMETER GetAll 
-        Retreive all systemglobal_auditsyslogpolicy_binding object(s)
+        Retrieve all systemglobal_auditsyslogpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the systemglobal_auditsyslogpolicy_binding object(s) will be returned
+        If specified, the count of the systemglobal_auditsyslogpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauditsyslogpolicybinding
+        PS C:\>Invoke-ADCGetSystemglobalauditsyslogpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemglobalauditsyslogpolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetSystemglobalauditsyslogpolicybinding -GetAll 
+        Get all systemglobal_auditsyslogpolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetSystemglobalauditsyslogpolicybinding -Count
+        PS C:\>Invoke-ADCGetSystemglobalauditsyslogpolicybinding -Count 
+        Get the number of systemglobal_auditsyslogpolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauditsyslogpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetSystemglobalauditsyslogpolicybinding -name <string>
+        Get systemglobal_auditsyslogpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauditsyslogpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemglobalauditsyslogpolicybinding -Filter @{ 'name'='<value>' }
+        Get systemglobal_auditsyslogpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemglobalauditsyslogpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2843,26 +2801,24 @@ function Invoke-ADCGetSystemglobalauditsyslogpolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all systemglobal_auditsyslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemglobal_auditsyslogpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemglobal_auditsyslogpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemglobal_auditsyslogpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systemglobal_auditsyslogpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_auditsyslogpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2876,75 +2832,72 @@ function Invoke-ADCGetSystemglobalauditsyslogpolicybinding {
 }
 
 function Invoke-ADCAddSystemglobalauthenticationldappolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add System configuration Object
+        Add System configuration Object.
     .DESCRIPTION
-        Add System configuration Object 
-    .PARAMETER policyname 
+        Binding object showing the authenticationldappolicy that can be bound to systemglobal.
+    .PARAMETER Policyname 
         The name of the command policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         The priority of the command policy. 
-    .PARAMETER nextfactor 
+    .PARAMETER Nextfactor 
         On success invoke label. Applicable for advanced authentication policy binding. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Applicable only to advance authentication policy. Expression or other value specifying the next policy to be evaluated if the current policy evaluates to TRUE. Specify one of the following values: * NEXT - Evaluate the policy with the next higher priority number. * END - End policy evaluation. 
     .PARAMETER PassThru 
         Return details about the created systemglobal_authenticationldappolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddSystemglobalauthenticationldappolicybinding 
+        PS C:\>Invoke-ADCAddSystemglobalauthenticationldappolicybinding 
+        An example how to add systemglobal_authenticationldappolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSystemglobalauthenticationldappolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [double]$priority ,
+        [double]$Priority,
 
-        [string]$nextfactor ,
+        [string]$Nextfactor,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSystemglobalauthenticationldappolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Payload.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
-            if ($PSBoundParameters.ContainsKey('nextfactor')) { $Payload.Add('nextfactor', $nextfactor) }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
- 
-            if ($PSCmdlet.ShouldProcess("systemglobal_authenticationldappolicy_binding", "Add System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemglobal_authenticationldappolicy_binding -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('policyname') ) { $payload.Add('policyname', $policyname) }
+            if ( $PSBoundParameters.ContainsKey('priority') ) { $payload.Add('priority', $priority) }
+            if ( $PSBoundParameters.ContainsKey('nextfactor') ) { $payload.Add('nextfactor', $nextfactor) }
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSCmdlet.ShouldProcess("systemglobal_authenticationldappolicy_binding", "Add System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemglobal_authenticationldappolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSystemglobalauthenticationldappolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSystemglobalauthenticationldappolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2957,45 +2910,46 @@ function Invoke-ADCAddSystemglobalauthenticationldappolicybinding {
 }
 
 function Invoke-ADCDeleteSystemglobalauthenticationldappolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-     .PARAMETER policyname 
-       The name of the command policy.
+        Binding object showing the authenticationldappolicy that can be bound to systemglobal.
+    .PARAMETER Policyname 
+        The name of the command policy.
     .EXAMPLE
-        Invoke-ADCDeleteSystemglobalauthenticationldappolicybinding 
+        PS C:\>Invoke-ADCDeleteSystemglobalauthenticationldappolicybinding 
+        An example how to delete systemglobal_authenticationldappolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystemglobalauthenticationldappolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname 
+        [string]$Policyname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystemglobalauthenticationldappolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSCmdlet.ShouldProcess("systemglobal_authenticationldappolicy_binding", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemglobal_authenticationldappolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSCmdlet.ShouldProcess("systemglobal_authenticationldappolicy_binding", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemglobal_authenticationldappolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3011,49 +2965,55 @@ function Invoke-ADCDeleteSystemglobalauthenticationldappolicybinding {
 }
 
 function Invoke-ADCGetSystemglobalauthenticationldappolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
+        Binding object showing the authenticationldappolicy that can be bound to systemglobal.
     .PARAMETER GetAll 
-        Retreive all systemglobal_authenticationldappolicy_binding object(s)
+        Retrieve all systemglobal_authenticationldappolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the systemglobal_authenticationldappolicy_binding object(s) will be returned
+        If specified, the count of the systemglobal_authenticationldappolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauthenticationldappolicybinding
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationldappolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemglobalauthenticationldappolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationldappolicybinding -GetAll 
+        Get all systemglobal_authenticationldappolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetSystemglobalauthenticationldappolicybinding -Count
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationldappolicybinding -Count 
+        Get the number of systemglobal_authenticationldappolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauthenticationldappolicybinding -name <string>
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationldappolicybinding -name <string>
+        Get systemglobal_authenticationldappolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauthenticationldappolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationldappolicybinding -Filter @{ 'name'='<value>' }
+        Get systemglobal_authenticationldappolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemglobalauthenticationldappolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3066,26 +3026,24 @@ function Invoke-ADCGetSystemglobalauthenticationldappolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all systemglobal_authenticationldappolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationldappolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationldappolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemglobal_authenticationldappolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationldappolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationldappolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemglobal_authenticationldappolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationldappolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationldappolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemglobal_authenticationldappolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systemglobal_authenticationldappolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationldappolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationldappolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3099,75 +3057,72 @@ function Invoke-ADCGetSystemglobalauthenticationldappolicybinding {
 }
 
 function Invoke-ADCAddSystemglobalauthenticationlocalpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add System configuration Object
+        Add System configuration Object.
     .DESCRIPTION
-        Add System configuration Object 
-    .PARAMETER policyname 
+        Binding object showing the authenticationlocalpolicy that can be bound to systemglobal.
+    .PARAMETER Policyname 
         The name of the command policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         The priority of the command policy. 
-    .PARAMETER nextfactor 
+    .PARAMETER Nextfactor 
         On success invoke label. Applicable for advanced authentication policy binding. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Applicable only to advance authentication policy. Expression or other value specifying the next policy to be evaluated if the current policy evaluates to TRUE. Specify one of the following values: * NEXT - Evaluate the policy with the next higher priority number. * END - End policy evaluation. 
     .PARAMETER PassThru 
         Return details about the created systemglobal_authenticationlocalpolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddSystemglobalauthenticationlocalpolicybinding 
+        PS C:\>Invoke-ADCAddSystemglobalauthenticationlocalpolicybinding 
+        An example how to add systemglobal_authenticationlocalpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSystemglobalauthenticationlocalpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [double]$priority ,
+        [double]$Priority,
 
-        [string]$nextfactor ,
+        [string]$Nextfactor,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSystemglobalauthenticationlocalpolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Payload.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
-            if ($PSBoundParameters.ContainsKey('nextfactor')) { $Payload.Add('nextfactor', $nextfactor) }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
- 
-            if ($PSCmdlet.ShouldProcess("systemglobal_authenticationlocalpolicy_binding", "Add System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemglobal_authenticationlocalpolicy_binding -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('policyname') ) { $payload.Add('policyname', $policyname) }
+            if ( $PSBoundParameters.ContainsKey('priority') ) { $payload.Add('priority', $priority) }
+            if ( $PSBoundParameters.ContainsKey('nextfactor') ) { $payload.Add('nextfactor', $nextfactor) }
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSCmdlet.ShouldProcess("systemglobal_authenticationlocalpolicy_binding", "Add System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemglobal_authenticationlocalpolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSystemglobalauthenticationlocalpolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSystemglobalauthenticationlocalpolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3180,45 +3135,46 @@ function Invoke-ADCAddSystemglobalauthenticationlocalpolicybinding {
 }
 
 function Invoke-ADCDeleteSystemglobalauthenticationlocalpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-     .PARAMETER policyname 
-       The name of the command policy.
+        Binding object showing the authenticationlocalpolicy that can be bound to systemglobal.
+    .PARAMETER Policyname 
+        The name of the command policy.
     .EXAMPLE
-        Invoke-ADCDeleteSystemglobalauthenticationlocalpolicybinding 
+        PS C:\>Invoke-ADCDeleteSystemglobalauthenticationlocalpolicybinding 
+        An example how to delete systemglobal_authenticationlocalpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystemglobalauthenticationlocalpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname 
+        [string]$Policyname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystemglobalauthenticationlocalpolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSCmdlet.ShouldProcess("systemglobal_authenticationlocalpolicy_binding", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemglobal_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSCmdlet.ShouldProcess("systemglobal_authenticationlocalpolicy_binding", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemglobal_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3234,49 +3190,55 @@ function Invoke-ADCDeleteSystemglobalauthenticationlocalpolicybinding {
 }
 
 function Invoke-ADCGetSystemglobalauthenticationlocalpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
+        Binding object showing the authenticationlocalpolicy that can be bound to systemglobal.
     .PARAMETER GetAll 
-        Retreive all systemglobal_authenticationlocalpolicy_binding object(s)
+        Retrieve all systemglobal_authenticationlocalpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the systemglobal_authenticationlocalpolicy_binding object(s) will be returned
+        If specified, the count of the systemglobal_authenticationlocalpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauthenticationlocalpolicybinding
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationlocalpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemglobalauthenticationlocalpolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationlocalpolicybinding -GetAll 
+        Get all systemglobal_authenticationlocalpolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetSystemglobalauthenticationlocalpolicybinding -Count
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationlocalpolicybinding -Count 
+        Get the number of systemglobal_authenticationlocalpolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauthenticationlocalpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationlocalpolicybinding -name <string>
+        Get systemglobal_authenticationlocalpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauthenticationlocalpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationlocalpolicybinding -Filter @{ 'name'='<value>' }
+        Get systemglobal_authenticationlocalpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemglobalauthenticationlocalpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3289,26 +3251,24 @@ function Invoke-ADCGetSystemglobalauthenticationlocalpolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all systemglobal_authenticationlocalpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemglobal_authenticationlocalpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemglobal_authenticationlocalpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemglobal_authenticationlocalpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systemglobal_authenticationlocalpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationlocalpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3322,75 +3282,72 @@ function Invoke-ADCGetSystemglobalauthenticationlocalpolicybinding {
 }
 
 function Invoke-ADCAddSystemglobalauthenticationpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add System configuration Object
+        Add System configuration Object.
     .DESCRIPTION
-        Add System configuration Object 
-    .PARAMETER policyname 
+        Binding object showing the authenticationpolicy that can be bound to systemglobal.
+    .PARAMETER Policyname 
         The name of the command policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         The priority of the command policy. 
-    .PARAMETER nextfactor 
+    .PARAMETER Nextfactor 
         On success invoke label. Applicable for advanced authentication policy binding. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Expression specifying the priority of the next policy which will get evaluated if the current policy rule evaluates to TRUE. Applicable only for advanced authentication policies. 
     .PARAMETER PassThru 
         Return details about the created systemglobal_authenticationpolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddSystemglobalauthenticationpolicybinding 
+        PS C:\>Invoke-ADCAddSystemglobalauthenticationpolicybinding 
+        An example how to add systemglobal_authenticationpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSystemglobalauthenticationpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [double]$priority ,
+        [double]$Priority,
 
-        [string]$nextfactor ,
+        [string]$Nextfactor,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSystemglobalauthenticationpolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Payload.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
-            if ($PSBoundParameters.ContainsKey('nextfactor')) { $Payload.Add('nextfactor', $nextfactor) }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
- 
-            if ($PSCmdlet.ShouldProcess("systemglobal_authenticationpolicy_binding", "Add System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemglobal_authenticationpolicy_binding -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('policyname') ) { $payload.Add('policyname', $policyname) }
+            if ( $PSBoundParameters.ContainsKey('priority') ) { $payload.Add('priority', $priority) }
+            if ( $PSBoundParameters.ContainsKey('nextfactor') ) { $payload.Add('nextfactor', $nextfactor) }
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSCmdlet.ShouldProcess("systemglobal_authenticationpolicy_binding", "Add System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemglobal_authenticationpolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSystemglobalauthenticationpolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSystemglobalauthenticationpolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3403,45 +3360,46 @@ function Invoke-ADCAddSystemglobalauthenticationpolicybinding {
 }
 
 function Invoke-ADCDeleteSystemglobalauthenticationpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-     .PARAMETER policyname 
-       The name of the command policy.
+        Binding object showing the authenticationpolicy that can be bound to systemglobal.
+    .PARAMETER Policyname 
+        The name of the command policy.
     .EXAMPLE
-        Invoke-ADCDeleteSystemglobalauthenticationpolicybinding 
+        PS C:\>Invoke-ADCDeleteSystemglobalauthenticationpolicybinding 
+        An example how to delete systemglobal_authenticationpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystemglobalauthenticationpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname 
+        [string]$Policyname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystemglobalauthenticationpolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSCmdlet.ShouldProcess("systemglobal_authenticationpolicy_binding", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemglobal_authenticationpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSCmdlet.ShouldProcess("systemglobal_authenticationpolicy_binding", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemglobal_authenticationpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3457,49 +3415,55 @@ function Invoke-ADCDeleteSystemglobalauthenticationpolicybinding {
 }
 
 function Invoke-ADCGetSystemglobalauthenticationpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
+        Binding object showing the authenticationpolicy that can be bound to systemglobal.
     .PARAMETER GetAll 
-        Retreive all systemglobal_authenticationpolicy_binding object(s)
+        Retrieve all systemglobal_authenticationpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the systemglobal_authenticationpolicy_binding object(s) will be returned
+        If specified, the count of the systemglobal_authenticationpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauthenticationpolicybinding
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemglobalauthenticationpolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationpolicybinding -GetAll 
+        Get all systemglobal_authenticationpolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetSystemglobalauthenticationpolicybinding -Count
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationpolicybinding -Count 
+        Get the number of systemglobal_authenticationpolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauthenticationpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationpolicybinding -name <string>
+        Get systemglobal_authenticationpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauthenticationpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationpolicybinding -Filter @{ 'name'='<value>' }
+        Get systemglobal_authenticationpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemglobalauthenticationpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3512,26 +3476,24 @@ function Invoke-ADCGetSystemglobalauthenticationpolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all systemglobal_authenticationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemglobal_authenticationpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemglobal_authenticationpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemglobal_authenticationpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systemglobal_authenticationpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3545,75 +3507,72 @@ function Invoke-ADCGetSystemglobalauthenticationpolicybinding {
 }
 
 function Invoke-ADCAddSystemglobalauthenticationradiuspolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add System configuration Object
+        Add System configuration Object.
     .DESCRIPTION
-        Add System configuration Object 
-    .PARAMETER policyname 
+        Binding object showing the authenticationradiuspolicy that can be bound to systemglobal.
+    .PARAMETER Policyname 
         The name of the command policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         The priority of the command policy. 
-    .PARAMETER nextfactor 
+    .PARAMETER Nextfactor 
         On success invoke label. Applicable for advanced authentication policy binding. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Applicable only to advance authentication policy. Expression or other value specifying the next policy to be evaluated if the current policy evaluates to TRUE. Specify one of the following values: * NEXT - Evaluate the policy with the next higher priority number. * END - End policy evaluation. 
     .PARAMETER PassThru 
         Return details about the created systemglobal_authenticationradiuspolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddSystemglobalauthenticationradiuspolicybinding 
+        PS C:\>Invoke-ADCAddSystemglobalauthenticationradiuspolicybinding 
+        An example how to add systemglobal_authenticationradiuspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSystemglobalauthenticationradiuspolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [double]$priority ,
+        [double]$Priority,
 
-        [string]$nextfactor ,
+        [string]$Nextfactor,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSystemglobalauthenticationradiuspolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Payload.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
-            if ($PSBoundParameters.ContainsKey('nextfactor')) { $Payload.Add('nextfactor', $nextfactor) }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
- 
-            if ($PSCmdlet.ShouldProcess("systemglobal_authenticationradiuspolicy_binding", "Add System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemglobal_authenticationradiuspolicy_binding -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('policyname') ) { $payload.Add('policyname', $policyname) }
+            if ( $PSBoundParameters.ContainsKey('priority') ) { $payload.Add('priority', $priority) }
+            if ( $PSBoundParameters.ContainsKey('nextfactor') ) { $payload.Add('nextfactor', $nextfactor) }
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSCmdlet.ShouldProcess("systemglobal_authenticationradiuspolicy_binding", "Add System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemglobal_authenticationradiuspolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSystemglobalauthenticationradiuspolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSystemglobalauthenticationradiuspolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3626,45 +3585,46 @@ function Invoke-ADCAddSystemglobalauthenticationradiuspolicybinding {
 }
 
 function Invoke-ADCDeleteSystemglobalauthenticationradiuspolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-     .PARAMETER policyname 
-       The name of the command policy.
+        Binding object showing the authenticationradiuspolicy that can be bound to systemglobal.
+    .PARAMETER Policyname 
+        The name of the command policy.
     .EXAMPLE
-        Invoke-ADCDeleteSystemglobalauthenticationradiuspolicybinding 
+        PS C:\>Invoke-ADCDeleteSystemglobalauthenticationradiuspolicybinding 
+        An example how to delete systemglobal_authenticationradiuspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystemglobalauthenticationradiuspolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname 
+        [string]$Policyname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystemglobalauthenticationradiuspolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSCmdlet.ShouldProcess("systemglobal_authenticationradiuspolicy_binding", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemglobal_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSCmdlet.ShouldProcess("systemglobal_authenticationradiuspolicy_binding", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemglobal_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3680,49 +3640,55 @@ function Invoke-ADCDeleteSystemglobalauthenticationradiuspolicybinding {
 }
 
 function Invoke-ADCGetSystemglobalauthenticationradiuspolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
+        Binding object showing the authenticationradiuspolicy that can be bound to systemglobal.
     .PARAMETER GetAll 
-        Retreive all systemglobal_authenticationradiuspolicy_binding object(s)
+        Retrieve all systemglobal_authenticationradiuspolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the systemglobal_authenticationradiuspolicy_binding object(s) will be returned
+        If specified, the count of the systemglobal_authenticationradiuspolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauthenticationradiuspolicybinding
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationradiuspolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemglobalauthenticationradiuspolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationradiuspolicybinding -GetAll 
+        Get all systemglobal_authenticationradiuspolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetSystemglobalauthenticationradiuspolicybinding -Count
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationradiuspolicybinding -Count 
+        Get the number of systemglobal_authenticationradiuspolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauthenticationradiuspolicybinding -name <string>
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationradiuspolicybinding -name <string>
+        Get systemglobal_authenticationradiuspolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauthenticationradiuspolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationradiuspolicybinding -Filter @{ 'name'='<value>' }
+        Get systemglobal_authenticationradiuspolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemglobalauthenticationradiuspolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3735,26 +3701,24 @@ function Invoke-ADCGetSystemglobalauthenticationradiuspolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all systemglobal_authenticationradiuspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemglobal_authenticationradiuspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemglobal_authenticationradiuspolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemglobal_authenticationradiuspolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systemglobal_authenticationradiuspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationradiuspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3768,75 +3732,72 @@ function Invoke-ADCGetSystemglobalauthenticationradiuspolicybinding {
 }
 
 function Invoke-ADCAddSystemglobalauthenticationtacacspolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add System configuration Object
+        Add System configuration Object.
     .DESCRIPTION
-        Add System configuration Object 
-    .PARAMETER policyname 
+        Binding object showing the authenticationtacacspolicy that can be bound to systemglobal.
+    .PARAMETER Policyname 
         The name of the command policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         The priority of the command policy. 
-    .PARAMETER nextfactor 
+    .PARAMETER Nextfactor 
         On success invoke label. Applicable for advanced authentication policy binding. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Applicable only to advance authentication policy. Expression or other value specifying the next policy to be evaluated if the current policy evaluates to TRUE. Specify one of the following values: * NEXT - Evaluate the policy with the next higher priority number. * END - End policy evaluation. 
     .PARAMETER PassThru 
         Return details about the created systemglobal_authenticationtacacspolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddSystemglobalauthenticationtacacspolicybinding 
+        PS C:\>Invoke-ADCAddSystemglobalauthenticationtacacspolicybinding 
+        An example how to add systemglobal_authenticationtacacspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSystemglobalauthenticationtacacspolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [double]$priority ,
+        [double]$Priority,
 
-        [string]$nextfactor ,
+        [string]$Nextfactor,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSystemglobalauthenticationtacacspolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Payload.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
-            if ($PSBoundParameters.ContainsKey('nextfactor')) { $Payload.Add('nextfactor', $nextfactor) }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
- 
-            if ($PSCmdlet.ShouldProcess("systemglobal_authenticationtacacspolicy_binding", "Add System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemglobal_authenticationtacacspolicy_binding -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('policyname') ) { $payload.Add('policyname', $policyname) }
+            if ( $PSBoundParameters.ContainsKey('priority') ) { $payload.Add('priority', $priority) }
+            if ( $PSBoundParameters.ContainsKey('nextfactor') ) { $payload.Add('nextfactor', $nextfactor) }
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSCmdlet.ShouldProcess("systemglobal_authenticationtacacspolicy_binding", "Add System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemglobal_authenticationtacacspolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSystemglobalauthenticationtacacspolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSystemglobalauthenticationtacacspolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3849,45 +3810,46 @@ function Invoke-ADCAddSystemglobalauthenticationtacacspolicybinding {
 }
 
 function Invoke-ADCDeleteSystemglobalauthenticationtacacspolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-     .PARAMETER policyname 
-       The name of the command policy.
+        Binding object showing the authenticationtacacspolicy that can be bound to systemglobal.
+    .PARAMETER Policyname 
+        The name of the command policy.
     .EXAMPLE
-        Invoke-ADCDeleteSystemglobalauthenticationtacacspolicybinding 
+        PS C:\>Invoke-ADCDeleteSystemglobalauthenticationtacacspolicybinding 
+        An example how to delete systemglobal_authenticationtacacspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystemglobalauthenticationtacacspolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname 
+        [string]$Policyname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystemglobalauthenticationtacacspolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSCmdlet.ShouldProcess("systemglobal_authenticationtacacspolicy_binding", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemglobal_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSCmdlet.ShouldProcess("systemglobal_authenticationtacacspolicy_binding", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemglobal_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3903,49 +3865,55 @@ function Invoke-ADCDeleteSystemglobalauthenticationtacacspolicybinding {
 }
 
 function Invoke-ADCGetSystemglobalauthenticationtacacspolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
+        Binding object showing the authenticationtacacspolicy that can be bound to systemglobal.
     .PARAMETER GetAll 
-        Retreive all systemglobal_authenticationtacacspolicy_binding object(s)
+        Retrieve all systemglobal_authenticationtacacspolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the systemglobal_authenticationtacacspolicy_binding object(s) will be returned
+        If specified, the count of the systemglobal_authenticationtacacspolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauthenticationtacacspolicybinding
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationtacacspolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemglobalauthenticationtacacspolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationtacacspolicybinding -GetAll 
+        Get all systemglobal_authenticationtacacspolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetSystemglobalauthenticationtacacspolicybinding -Count
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationtacacspolicybinding -Count 
+        Get the number of systemglobal_authenticationtacacspolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauthenticationtacacspolicybinding -name <string>
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationtacacspolicybinding -name <string>
+        Get systemglobal_authenticationtacacspolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalauthenticationtacacspolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemglobalauthenticationtacacspolicybinding -Filter @{ 'name'='<value>' }
+        Get systemglobal_authenticationtacacspolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemglobalauthenticationtacacspolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3958,26 +3926,24 @@ function Invoke-ADCGetSystemglobalauthenticationtacacspolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all systemglobal_authenticationtacacspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemglobal_authenticationtacacspolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemglobal_authenticationtacacspolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemglobal_authenticationtacacspolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systemglobal_authenticationtacacspolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_authenticationtacacspolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3991,45 +3957,50 @@ function Invoke-ADCGetSystemglobalauthenticationtacacspolicybinding {
 }
 
 function Invoke-ADCGetSystemglobalbinding {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
+        Binding object which returns the resources bound to systemglobal.
     .PARAMETER GetAll 
-        Retreive all systemglobal_binding object(s)
+        Retrieve all systemglobal_binding object(s).
     .PARAMETER Count
-        If specified, the count of the systemglobal_binding object(s) will be returned
+        If specified, the count of the systemglobal_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalbinding
+        PS C:\>Invoke-ADCGetSystemglobalbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemglobalbinding -GetAll
+        PS C:\>Invoke-ADCGetSystemglobalbinding -GetAll 
+        Get all systemglobal_binding data.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalbinding -name <string>
+        PS C:\>Invoke-ADCGetSystemglobalbinding -name <string>
+        Get systemglobal_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemglobalbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemglobalbinding -Filter @{ 'name'='<value>' }
+        Get systemglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemglobalbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemglobal_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -4041,26 +4012,24 @@ function Invoke-ADCGetSystemglobalbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all systemglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemglobal_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemglobal_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systemglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4074,92 +4043,85 @@ function Invoke-ADCGetSystemglobalbinding {
 }
 
 function Invoke-ADCAddSystemgroup {
-<#
+    <#
     .SYNOPSIS
-        Add System configuration Object
+        Add System configuration Object.
     .DESCRIPTION
-        Add System configuration Object 
-    .PARAMETER groupname 
-        Name for the group. Must begin with a letter, number, hash(#) or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the group is created.  
-        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my group" or 'my group').  
-        Minimum length = 1 
-    .PARAMETER promptstring 
-        String to display at the command-line prompt. Can consist of letters, numbers, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), underscore (_), and the following variables:  
-        * %u - Will be replaced by the user name.  
-        * %h - Will be replaced by the hostname of the Citrix ADC.  
-        * %t - Will be replaced by the current time in 12-hour format.  
-        * %T - Will be replaced by the current time in 24-hour format.  
-        * %d - Will be replaced by the current date.  
-        * %s - Will be replaced by the state of the Citrix ADC.  
-        Note: The 63-character limit for the length of the string does not apply to the characters that replace the variables.  
-        Minimum length = 1 
-    .PARAMETER timeout 
+        Configuration for system group resource.
+    .PARAMETER Groupname 
+        Name for the group. Must begin with a letter, number, hash(#) or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the group is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my group" or 'my group'). 
+    .PARAMETER Promptstring 
+        String to display at the command-line prompt. Can consist of letters, numbers, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), underscore (_), and the following variables: 
+        * %u - Will be replaced by the user name. 
+        * %h - Will be replaced by the hostname of the Citrix ADC. 
+        * %t - Will be replaced by the current time in 12-hour format. 
+        * %T - Will be replaced by the current time in 24-hour format. 
+        * %d - Will be replaced by the current date. 
+        * %s - Will be replaced by the state of the Citrix ADC. 
+        Note: The 63-character limit for the length of the string does not apply to the characters that replace the variables. 
+    .PARAMETER Timeout 
         CLI session inactivity timeout, in seconds. If Restrictedtimeout argument of system parameter is enabled, Timeout can have values in the range [300-86400] seconds.If Restrictedtimeout argument of system parameter is disabled, Timeout can have values in the range [0, 10-100000000] seconds. Default value is 900 seconds. 
-    .PARAMETER allowedmanagementinterface 
-        Allowed Management interfaces of the system users in the group. By default allowed from both API and CLI interfaces. If management interface for a group is set to API, then all users under this group will not allowed to access NS through CLI. GUI interface will come under API interface.  
-        Default value: NS_INTERFACE_ALL  
+    .PARAMETER Allowedmanagementinterface 
+        Allowed Management interfaces of the system users in the group. By default allowed from both API and CLI interfaces. If management interface for a group is set to API, then all users under this group will not allowed to access NS through CLI. GUI interface will come under API interface. 
         Possible values = CLI, API 
     .PARAMETER PassThru 
         Return details about the created systemgroup item.
     .EXAMPLE
-        Invoke-ADCAddSystemgroup -groupname <string>
+        PS C:\>Invoke-ADCAddSystemgroup -groupname <string>
+        An example how to add systemgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSystemgroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$groupname ,
+        [string]$Groupname,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$promptstring ,
+        [string]$Promptstring,
 
-        [ValidateRange(300, 86400)]
-        [double]$timeout ,
+        [double]$Timeout,
 
         [ValidateSet('CLI', 'API')]
-        [string[]]$allowedmanagementinterface = 'NS_INTERFACE_ALL' ,
+        [string[]]$Allowedmanagementinterface = 'NS_INTERFACE_ALL',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSystemgroup: Starting"
     }
     process {
         try {
-            $Payload = @{
-                groupname = $groupname
-            }
-            if ($PSBoundParameters.ContainsKey('promptstring')) { $Payload.Add('promptstring', $promptstring) }
-            if ($PSBoundParameters.ContainsKey('timeout')) { $Payload.Add('timeout', $timeout) }
-            if ($PSBoundParameters.ContainsKey('allowedmanagementinterface')) { $Payload.Add('allowedmanagementinterface', $allowedmanagementinterface) }
- 
-            if ($PSCmdlet.ShouldProcess("systemgroup", "Add System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemgroup -Payload $Payload -GetWarning
+            $payload = @{ groupname = $groupname }
+            if ( $PSBoundParameters.ContainsKey('promptstring') ) { $payload.Add('promptstring', $promptstring) }
+            if ( $PSBoundParameters.ContainsKey('timeout') ) { $payload.Add('timeout', $timeout) }
+            if ( $PSBoundParameters.ContainsKey('allowedmanagementinterface') ) { $payload.Add('allowedmanagementinterface', $allowedmanagementinterface) }
+            if ( $PSCmdlet.ShouldProcess("systemgroup", "Add System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemgroup -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSystemgroup -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSystemgroup -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4172,48 +4134,48 @@ function Invoke-ADCAddSystemgroup {
 }
 
 function Invoke-ADCDeleteSystemgroup {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-    .PARAMETER groupname 
-       Name for the group. Must begin with a letter, number, hash(#) or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the group is created.  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my group" or 'my group').  
-       Minimum length = 1 
+        Configuration for system group resource.
+    .PARAMETER Groupname 
+        Name for the group. Must begin with a letter, number, hash(#) or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the group is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my group" or 'my group').
     .EXAMPLE
-        Invoke-ADCDeleteSystemgroup -groupname <string>
+        PS C:\>Invoke-ADCDeleteSystemgroup -Groupname <string>
+        An example how to delete systemgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystemgroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$groupname 
+        [Parameter(Mandatory)]
+        [string]$Groupname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystemgroup: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$groupname", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemgroup -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$groupname", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemgroup -NitroPath nitro/v1/config -Resource $groupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4229,92 +4191,85 @@ function Invoke-ADCDeleteSystemgroup {
 }
 
 function Invoke-ADCUpdateSystemgroup {
-<#
+    <#
     .SYNOPSIS
-        Update System configuration Object
+        Update System configuration Object.
     .DESCRIPTION
-        Update System configuration Object 
-    .PARAMETER groupname 
-        Name for the group. Must begin with a letter, number, hash(#) or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the group is created.  
-        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my group" or 'my group').  
-        Minimum length = 1 
-    .PARAMETER promptstring 
-        String to display at the command-line prompt. Can consist of letters, numbers, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), underscore (_), and the following variables:  
-        * %u - Will be replaced by the user name.  
-        * %h - Will be replaced by the hostname of the Citrix ADC.  
-        * %t - Will be replaced by the current time in 12-hour format.  
-        * %T - Will be replaced by the current time in 24-hour format.  
-        * %d - Will be replaced by the current date.  
-        * %s - Will be replaced by the state of the Citrix ADC.  
-        Note: The 63-character limit for the length of the string does not apply to the characters that replace the variables.  
-        Minimum length = 1 
-    .PARAMETER timeout 
+        Configuration for system group resource.
+    .PARAMETER Groupname 
+        Name for the group. Must begin with a letter, number, hash(#) or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the group is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my group" or 'my group'). 
+    .PARAMETER Promptstring 
+        String to display at the command-line prompt. Can consist of letters, numbers, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), underscore (_), and the following variables: 
+        * %u - Will be replaced by the user name. 
+        * %h - Will be replaced by the hostname of the Citrix ADC. 
+        * %t - Will be replaced by the current time in 12-hour format. 
+        * %T - Will be replaced by the current time in 24-hour format. 
+        * %d - Will be replaced by the current date. 
+        * %s - Will be replaced by the state of the Citrix ADC. 
+        Note: The 63-character limit for the length of the string does not apply to the characters that replace the variables. 
+    .PARAMETER Timeout 
         CLI session inactivity timeout, in seconds. If Restrictedtimeout argument of system parameter is enabled, Timeout can have values in the range [300-86400] seconds.If Restrictedtimeout argument of system parameter is disabled, Timeout can have values in the range [0, 10-100000000] seconds. Default value is 900 seconds. 
-    .PARAMETER allowedmanagementinterface 
-        Allowed Management interfaces of the system users in the group. By default allowed from both API and CLI interfaces. If management interface for a group is set to API, then all users under this group will not allowed to access NS through CLI. GUI interface will come under API interface.  
-        Default value: NS_INTERFACE_ALL  
+    .PARAMETER Allowedmanagementinterface 
+        Allowed Management interfaces of the system users in the group. By default allowed from both API and CLI interfaces. If management interface for a group is set to API, then all users under this group will not allowed to access NS through CLI. GUI interface will come under API interface. 
         Possible values = CLI, API 
     .PARAMETER PassThru 
         Return details about the created systemgroup item.
     .EXAMPLE
-        Invoke-ADCUpdateSystemgroup -groupname <string>
+        PS C:\>Invoke-ADCUpdateSystemgroup -groupname <string>
+        An example how to update systemgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSystemgroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$groupname ,
+        [string]$Groupname,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$promptstring ,
+        [string]$Promptstring,
 
-        [ValidateRange(300, 86400)]
-        [double]$timeout ,
+        [double]$Timeout,
 
         [ValidateSet('CLI', 'API')]
-        [string[]]$allowedmanagementinterface ,
+        [string[]]$Allowedmanagementinterface,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSystemgroup: Starting"
     }
     process {
         try {
-            $Payload = @{
-                groupname = $groupname
-            }
-            if ($PSBoundParameters.ContainsKey('promptstring')) { $Payload.Add('promptstring', $promptstring) }
-            if ($PSBoundParameters.ContainsKey('timeout')) { $Payload.Add('timeout', $timeout) }
-            if ($PSBoundParameters.ContainsKey('allowedmanagementinterface')) { $Payload.Add('allowedmanagementinterface', $allowedmanagementinterface) }
- 
-            if ($PSCmdlet.ShouldProcess("systemgroup", "Update System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemgroup -Payload $Payload -GetWarning
+            $payload = @{ groupname = $groupname }
+            if ( $PSBoundParameters.ContainsKey('promptstring') ) { $payload.Add('promptstring', $promptstring) }
+            if ( $PSBoundParameters.ContainsKey('timeout') ) { $payload.Add('timeout', $timeout) }
+            if ( $PSBoundParameters.ContainsKey('allowedmanagementinterface') ) { $payload.Add('allowedmanagementinterface', $allowedmanagementinterface) }
+            if ( $PSCmdlet.ShouldProcess("systemgroup", "Update System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemgroup -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSystemgroup -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSystemgroup -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4327,56 +4282,57 @@ function Invoke-ADCUpdateSystemgroup {
 }
 
 function Invoke-ADCUnsetSystemgroup {
-<#
+    <#
     .SYNOPSIS
-        Unset System configuration Object
+        Unset System configuration Object.
     .DESCRIPTION
-        Unset System configuration Object 
-   .PARAMETER groupname 
-       Name for the group. Must begin with a letter, number, hash(#) or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the group is created.  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my group" or 'my group'). 
-   .PARAMETER promptstring 
-       String to display at the command-line prompt. Can consist of letters, numbers, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), underscore (_), and the following variables:  
-       * %u - Will be replaced by the user name.  
-       * %h - Will be replaced by the hostname of the Citrix ADC.  
-       * %t - Will be replaced by the current time in 12-hour format.  
-       * %T - Will be replaced by the current time in 24-hour format.  
-       * %d - Will be replaced by the current date.  
-       * %s - Will be replaced by the state of the Citrix ADC.  
-       Note: The 63-character limit for the length of the string does not apply to the characters that replace the variables. 
-   .PARAMETER timeout 
-       CLI session inactivity timeout, in seconds. If Restrictedtimeout argument of system parameter is enabled, Timeout can have values in the ] seconds.If Restrictedtimeout argument of system parameter is disabled, Timeout can have values in the ] seconds. Default value is 900 seconds. 
-   .PARAMETER allowedmanagementinterface 
-       Allowed Management interfaces of the system users in the group. By default allowed from both API and CLI interfaces. If management interface for a group is set to API, then all users under this group will not allowed to access NS through CLI. GUI interface will come under API interface.  
-       Possible values = CLI, API
+        Configuration for system group resource.
+    .PARAMETER Groupname 
+        Name for the group. Must begin with a letter, number, hash(#) or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the group is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my group" or 'my group'). 
+    .PARAMETER Promptstring 
+        String to display at the command-line prompt. Can consist of letters, numbers, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), underscore (_), and the following variables: 
+        * %u - Will be replaced by the user name. 
+        * %h - Will be replaced by the hostname of the Citrix ADC. 
+        * %t - Will be replaced by the current time in 12-hour format. 
+        * %T - Will be replaced by the current time in 24-hour format. 
+        * %d - Will be replaced by the current date. 
+        * %s - Will be replaced by the state of the Citrix ADC. 
+        Note: The 63-character limit for the length of the string does not apply to the characters that replace the variables. 
+    .PARAMETER Timeout 
+        CLI session inactivity timeout, in seconds. If Restrictedtimeout argument of system parameter is enabled, Timeout can have values in the range [300-86400] seconds.If Restrictedtimeout argument of system parameter is disabled, Timeout can have values in the range [0, 10-100000000] seconds. Default value is 900 seconds. 
+    .PARAMETER Allowedmanagementinterface 
+        Allowed Management interfaces of the system users in the group. By default allowed from both API and CLI interfaces. If management interface for a group is set to API, then all users under this group will not allowed to access NS through CLI. GUI interface will come under API interface. 
+        Possible values = CLI, API
     .EXAMPLE
-        Invoke-ADCUnsetSystemgroup -groupname <string>
+        PS C:\>Invoke-ADCUnsetSystemgroup -groupname <string>
+        An example how to unset systemgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSystemgroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$groupname ,
+        [string]$Groupname,
 
-        [Boolean]$promptstring ,
+        [Boolean]$promptstring,
 
-        [Boolean]$timeout ,
+        [Boolean]$timeout,
 
         [Boolean]$allowedmanagementinterface 
     )
@@ -4385,14 +4341,12 @@ function Invoke-ADCUnsetSystemgroup {
     }
     process {
         try {
-            $Payload = @{
-                groupname = $groupname
-            }
-            if ($PSBoundParameters.ContainsKey('promptstring')) { $Payload.Add('promptstring', $promptstring) }
-            if ($PSBoundParameters.ContainsKey('timeout')) { $Payload.Add('timeout', $timeout) }
-            if ($PSBoundParameters.ContainsKey('allowedmanagementinterface')) { $Payload.Add('allowedmanagementinterface', $allowedmanagementinterface) }
-            if ($PSCmdlet.ShouldProcess("$groupname", "Unset System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type systemgroup -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ groupname = $groupname }
+            if ( $PSBoundParameters.ContainsKey('promptstring') ) { $payload.Add('promptstring', $promptstring) }
+            if ( $PSBoundParameters.ContainsKey('timeout') ) { $payload.Add('timeout', $timeout) }
+            if ( $PSBoundParameters.ContainsKey('allowedmanagementinterface') ) { $payload.Add('allowedmanagementinterface', $allowedmanagementinterface) }
+            if ( $PSCmdlet.ShouldProcess("$groupname", "Unset System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type systemgroup -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4408,57 +4362,63 @@ function Invoke-ADCUnsetSystemgroup {
 }
 
 function Invoke-ADCGetSystemgroup {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER groupname 
-       Name for the group. Must begin with a letter, number, hash(#) or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the group is created.  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my group" or 'my group'). 
+        Configuration for system group resource.
+    .PARAMETER Groupname 
+        Name for the group. Must begin with a letter, number, hash(#) or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the group is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my group" or 'my group'). 
     .PARAMETER GetAll 
-        Retreive all systemgroup object(s)
+        Retrieve all systemgroup object(s).
     .PARAMETER Count
-        If specified, the count of the systemgroup object(s) will be returned
+        If specified, the count of the systemgroup object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemgroup
+        PS C:\>Invoke-ADCGetSystemgroup
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemgroup -GetAll 
+        PS C:\>Invoke-ADCGetSystemgroup -GetAll 
+        Get all systemgroup data. 
     .EXAMPLE 
-        Invoke-ADCGetSystemgroup -Count
+        PS C:\>Invoke-ADCGetSystemgroup -Count 
+        Get the number of systemgroup objects.
     .EXAMPLE
-        Invoke-ADCGetSystemgroup -name <string>
+        PS C:\>Invoke-ADCGetSystemgroup -name <string>
+        Get systemgroup object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemgroup -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemgroup -Filter @{ 'name'='<value>' }
+        Get systemgroup data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemgroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$groupname,
+        [string]$Groupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4476,24 +4436,24 @@ function Invoke-ADCGetSystemgroup {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systemgroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemgroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemgroup objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemgroup configuration for property 'groupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving systemgroup configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4507,51 +4467,56 @@ function Invoke-ADCGetSystemgroup {
 }
 
 function Invoke-ADCGetSystemgroupbinding {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER groupname 
-       Name of the system group about which to display information. 
+        Binding object which returns the resources bound to systemgroup.
+    .PARAMETER Groupname 
+        Name of the system group about which to display information. 
     .PARAMETER GetAll 
-        Retreive all systemgroup_binding object(s)
+        Retrieve all systemgroup_binding object(s).
     .PARAMETER Count
-        If specified, the count of the systemgroup_binding object(s) will be returned
+        If specified, the count of the systemgroup_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemgroupbinding
+        PS C:\>Invoke-ADCGetSystemgroupbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemgroupbinding -GetAll
+        PS C:\>Invoke-ADCGetSystemgroupbinding -GetAll 
+        Get all systemgroup_binding data.
     .EXAMPLE
-        Invoke-ADCGetSystemgroupbinding -name <string>
+        PS C:\>Invoke-ADCGetSystemgroupbinding -name <string>
+        Get systemgroup_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemgroupbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemgroupbinding -Filter @{ 'name'='<value>' }
+        Get systemgroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemgroupbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$groupname,
+        [string]$Groupname,
 			
         [hashtable]$Filter = @{ },
 
@@ -4563,26 +4528,24 @@ function Invoke-ADCGetSystemgroupbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all systemgroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemgroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemgroup_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemgroup_binding configuration for property 'groupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving systemgroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4596,69 +4559,64 @@ function Invoke-ADCGetSystemgroupbinding {
 }
 
 function Invoke-ADCAddSystemgroupnspartitionbinding {
-<#
+    <#
     .SYNOPSIS
-        Add System configuration Object
+        Add System configuration Object.
     .DESCRIPTION
-        Add System configuration Object 
-    .PARAMETER groupname 
-        Name of the system group.  
-        Minimum length = 1 
-    .PARAMETER partitionname 
-        Name of the Partition to bind to the system group.  
-        Minimum length = 1 
+        Binding object showing the nspartition that can be bound to systemgroup.
+    .PARAMETER Groupname 
+        Name of the system group. 
+    .PARAMETER Partitionname 
+        Name of the Partition to bind to the system group. 
     .PARAMETER PassThru 
         Return details about the created systemgroup_nspartition_binding item.
     .EXAMPLE
-        Invoke-ADCAddSystemgroupnspartitionbinding -groupname <string>
+        PS C:\>Invoke-ADCAddSystemgroupnspartitionbinding -groupname <string>
+        An example how to add systemgroup_nspartition_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSystemgroupnspartitionbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_nspartition_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$groupname ,
+        [string]$Groupname,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$partitionname ,
+        [string]$Partitionname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSystemgroupnspartitionbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                groupname = $groupname
-            }
-            if ($PSBoundParameters.ContainsKey('partitionname')) { $Payload.Add('partitionname', $partitionname) }
- 
-            if ($PSCmdlet.ShouldProcess("systemgroup_nspartition_binding", "Add System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemgroup_nspartition_binding -Payload $Payload -GetWarning
+            $payload = @{ groupname = $groupname }
+            if ( $PSBoundParameters.ContainsKey('partitionname') ) { $payload.Add('partitionname', $partitionname) }
+            if ( $PSCmdlet.ShouldProcess("systemgroup_nspartition_binding", "Add System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemgroup_nspartition_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSystemgroupnspartitionbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSystemgroupnspartitionbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4671,51 +4629,51 @@ function Invoke-ADCAddSystemgroupnspartitionbinding {
 }
 
 function Invoke-ADCDeleteSystemgroupnspartitionbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-    .PARAMETER groupname 
-       Name of the system group.  
-       Minimum length = 1    .PARAMETER partitionname 
-       Name of the Partition to bind to the system group.  
-       Minimum length = 1
+        Binding object showing the nspartition that can be bound to systemgroup.
+    .PARAMETER Groupname 
+        Name of the system group. 
+    .PARAMETER Partitionname 
+        Name of the Partition to bind to the system group.
     .EXAMPLE
-        Invoke-ADCDeleteSystemgroupnspartitionbinding -groupname <string>
+        PS C:\>Invoke-ADCDeleteSystemgroupnspartitionbinding -Groupname <string>
+        An example how to delete systemgroup_nspartition_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystemgroupnspartitionbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_nspartition_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$groupname ,
+        [Parameter(Mandatory)]
+        [string]$Groupname,
 
-        [string]$partitionname 
+        [string]$Partitionname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystemgroupnspartitionbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('partitionname')) { $Arguments.Add('partitionname', $partitionname) }
-            if ($PSCmdlet.ShouldProcess("$groupname", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemgroup_nspartition_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Partitionname') ) { $arguments.Add('partitionname', $Partitionname) }
+            if ( $PSCmdlet.ShouldProcess("$groupname", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemgroup_nspartition_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4731,55 +4689,61 @@ function Invoke-ADCDeleteSystemgroupnspartitionbinding {
 }
 
 function Invoke-ADCGetSystemgroupnspartitionbinding {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER groupname 
-       Name of the system group. 
+        Binding object showing the nspartition that can be bound to systemgroup.
+    .PARAMETER Groupname 
+        Name of the system group. 
     .PARAMETER GetAll 
-        Retreive all systemgroup_nspartition_binding object(s)
+        Retrieve all systemgroup_nspartition_binding object(s).
     .PARAMETER Count
-        If specified, the count of the systemgroup_nspartition_binding object(s) will be returned
+        If specified, the count of the systemgroup_nspartition_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemgroupnspartitionbinding
+        PS C:\>Invoke-ADCGetSystemgroupnspartitionbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemgroupnspartitionbinding -GetAll 
+        PS C:\>Invoke-ADCGetSystemgroupnspartitionbinding -GetAll 
+        Get all systemgroup_nspartition_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetSystemgroupnspartitionbinding -Count
+        PS C:\>Invoke-ADCGetSystemgroupnspartitionbinding -Count 
+        Get the number of systemgroup_nspartition_binding objects.
     .EXAMPLE
-        Invoke-ADCGetSystemgroupnspartitionbinding -name <string>
+        PS C:\>Invoke-ADCGetSystemgroupnspartitionbinding -name <string>
+        Get systemgroup_nspartition_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemgroupnspartitionbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemgroupnspartitionbinding -Filter @{ 'name'='<value>' }
+        Get systemgroup_nspartition_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemgroupnspartitionbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_nspartition_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$groupname,
+        [string]$Groupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -4792,26 +4756,24 @@ function Invoke-ADCGetSystemgroupnspartitionbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all systemgroup_nspartition_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_nspartition_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_nspartition_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemgroup_nspartition_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_nspartition_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_nspartition_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemgroup_nspartition_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_nspartition_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_nspartition_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemgroup_nspartition_binding configuration for property 'groupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_nspartition_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving systemgroup_nspartition_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_nspartition_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_nspartition_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4825,72 +4787,68 @@ function Invoke-ADCGetSystemgroupnspartitionbinding {
 }
 
 function Invoke-ADCAddSystemgroupsystemcmdpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add System configuration Object
+        Add System configuration Object.
     .DESCRIPTION
-        Add System configuration Object 
-    .PARAMETER groupname 
-        Name of the system group.  
-        Minimum length = 1 
-    .PARAMETER policyname 
+        Binding object showing the systemcmdpolicy that can be bound to systemgroup.
+    .PARAMETER Groupname 
+        Name of the system group. 
+    .PARAMETER Policyname 
         The name of command policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         The priority of the command policy. 
     .PARAMETER PassThru 
         Return details about the created systemgroup_systemcmdpolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddSystemgroupsystemcmdpolicybinding -groupname <string>
+        PS C:\>Invoke-ADCAddSystemgroupsystemcmdpolicybinding -groupname <string>
+        An example how to add systemgroup_systemcmdpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSystemgroupsystemcmdpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_systemcmdpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$groupname ,
+        [string]$Groupname,
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [double]$priority ,
+        [double]$Priority,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSystemgroupsystemcmdpolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                groupname = $groupname
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Payload.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
- 
-            if ($PSCmdlet.ShouldProcess("systemgroup_systemcmdpolicy_binding", "Add System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemgroup_systemcmdpolicy_binding -Payload $Payload -GetWarning
+            $payload = @{ groupname = $groupname }
+            if ( $PSBoundParameters.ContainsKey('policyname') ) { $payload.Add('policyname', $policyname) }
+            if ( $PSBoundParameters.ContainsKey('priority') ) { $payload.Add('priority', $priority) }
+            if ( $PSCmdlet.ShouldProcess("systemgroup_systemcmdpolicy_binding", "Add System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemgroup_systemcmdpolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSystemgroupsystemcmdpolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSystemgroupsystemcmdpolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -4903,50 +4861,51 @@ function Invoke-ADCAddSystemgroupsystemcmdpolicybinding {
 }
 
 function Invoke-ADCDeleteSystemgroupsystemcmdpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-    .PARAMETER groupname 
-       Name of the system group.  
-       Minimum length = 1    .PARAMETER policyname 
-       The name of command policy.
+        Binding object showing the systemcmdpolicy that can be bound to systemgroup.
+    .PARAMETER Groupname 
+        Name of the system group. 
+    .PARAMETER Policyname 
+        The name of command policy.
     .EXAMPLE
-        Invoke-ADCDeleteSystemgroupsystemcmdpolicybinding -groupname <string>
+        PS C:\>Invoke-ADCDeleteSystemgroupsystemcmdpolicybinding -Groupname <string>
+        An example how to delete systemgroup_systemcmdpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystemgroupsystemcmdpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_systemcmdpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$groupname ,
+        [Parameter(Mandatory)]
+        [string]$Groupname,
 
-        [string]$policyname 
+        [string]$Policyname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystemgroupsystemcmdpolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSCmdlet.ShouldProcess("$groupname", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemgroup_systemcmdpolicy_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSCmdlet.ShouldProcess("$groupname", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemgroup_systemcmdpolicy_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -4962,55 +4921,61 @@ function Invoke-ADCDeleteSystemgroupsystemcmdpolicybinding {
 }
 
 function Invoke-ADCGetSystemgroupsystemcmdpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER groupname 
-       Name of the system group. 
+        Binding object showing the systemcmdpolicy that can be bound to systemgroup.
+    .PARAMETER Groupname 
+        Name of the system group. 
     .PARAMETER GetAll 
-        Retreive all systemgroup_systemcmdpolicy_binding object(s)
+        Retrieve all systemgroup_systemcmdpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the systemgroup_systemcmdpolicy_binding object(s) will be returned
+        If specified, the count of the systemgroup_systemcmdpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemgroupsystemcmdpolicybinding
+        PS C:\>Invoke-ADCGetSystemgroupsystemcmdpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemgroupsystemcmdpolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetSystemgroupsystemcmdpolicybinding -GetAll 
+        Get all systemgroup_systemcmdpolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetSystemgroupsystemcmdpolicybinding -Count
+        PS C:\>Invoke-ADCGetSystemgroupsystemcmdpolicybinding -Count 
+        Get the number of systemgroup_systemcmdpolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetSystemgroupsystemcmdpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetSystemgroupsystemcmdpolicybinding -name <string>
+        Get systemgroup_systemcmdpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemgroupsystemcmdpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemgroupsystemcmdpolicybinding -Filter @{ 'name'='<value>' }
+        Get systemgroup_systemcmdpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemgroupsystemcmdpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_systemcmdpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$groupname,
+        [string]$Groupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -5023,26 +4988,24 @@ function Invoke-ADCGetSystemgroupsystemcmdpolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all systemgroup_systemcmdpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_systemcmdpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_systemcmdpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemgroup_systemcmdpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_systemcmdpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_systemcmdpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemgroup_systemcmdpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_systemcmdpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_systemcmdpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemgroup_systemcmdpolicy_binding configuration for property 'groupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_systemcmdpolicy_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving systemgroup_systemcmdpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_systemcmdpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_systemcmdpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5056,67 +5019,63 @@ function Invoke-ADCGetSystemgroupsystemcmdpolicybinding {
 }
 
 function Invoke-ADCAddSystemgroupsystemuserbinding {
-<#
+    <#
     .SYNOPSIS
-        Add System configuration Object
+        Add System configuration Object.
     .DESCRIPTION
-        Add System configuration Object 
-    .PARAMETER groupname 
-        Name of the system group.  
-        Minimum length = 1 
-    .PARAMETER username 
+        Binding object showing the systemuser that can be bound to systemgroup.
+    .PARAMETER Groupname 
+        Name of the system group. 
+    .PARAMETER Username 
         The system user. 
     .PARAMETER PassThru 
         Return details about the created systemgroup_systemuser_binding item.
     .EXAMPLE
-        Invoke-ADCAddSystemgroupsystemuserbinding -groupname <string>
+        PS C:\>Invoke-ADCAddSystemgroupsystemuserbinding -groupname <string>
+        An example how to add systemgroup_systemuser_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSystemgroupsystemuserbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_systemuser_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$groupname ,
+        [string]$Groupname,
 
-        [string]$username ,
+        [string]$Username,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSystemgroupsystemuserbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                groupname = $groupname
-            }
-            if ($PSBoundParameters.ContainsKey('username')) { $Payload.Add('username', $username) }
- 
-            if ($PSCmdlet.ShouldProcess("systemgroup_systemuser_binding", "Add System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemgroup_systemuser_binding -Payload $Payload -GetWarning
+            $payload = @{ groupname = $groupname }
+            if ( $PSBoundParameters.ContainsKey('username') ) { $payload.Add('username', $username) }
+            if ( $PSCmdlet.ShouldProcess("systemgroup_systemuser_binding", "Add System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemgroup_systemuser_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSystemgroupsystemuserbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSystemgroupsystemuserbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5129,50 +5088,51 @@ function Invoke-ADCAddSystemgroupsystemuserbinding {
 }
 
 function Invoke-ADCDeleteSystemgroupsystemuserbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-    .PARAMETER groupname 
-       Name of the system group.  
-       Minimum length = 1    .PARAMETER username 
-       The system user.
+        Binding object showing the systemuser that can be bound to systemgroup.
+    .PARAMETER Groupname 
+        Name of the system group. 
+    .PARAMETER Username 
+        The system user.
     .EXAMPLE
-        Invoke-ADCDeleteSystemgroupsystemuserbinding -groupname <string>
+        PS C:\>Invoke-ADCDeleteSystemgroupsystemuserbinding -Groupname <string>
+        An example how to delete systemgroup_systemuser_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystemgroupsystemuserbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_systemuser_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$groupname ,
+        [Parameter(Mandatory)]
+        [string]$Groupname,
 
-        [string]$username 
+        [string]$Username 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystemgroupsystemuserbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('username')) { $Arguments.Add('username', $username) }
-            if ($PSCmdlet.ShouldProcess("$groupname", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemgroup_systemuser_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Username') ) { $arguments.Add('username', $Username) }
+            if ( $PSCmdlet.ShouldProcess("$groupname", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemgroup_systemuser_binding -NitroPath nitro/v1/config -Resource $groupname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5188,55 +5148,61 @@ function Invoke-ADCDeleteSystemgroupsystemuserbinding {
 }
 
 function Invoke-ADCGetSystemgroupsystemuserbinding {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER groupname 
-       Name of the system group. 
+        Binding object showing the systemuser that can be bound to systemgroup.
+    .PARAMETER Groupname 
+        Name of the system group. 
     .PARAMETER GetAll 
-        Retreive all systemgroup_systemuser_binding object(s)
+        Retrieve all systemgroup_systemuser_binding object(s).
     .PARAMETER Count
-        If specified, the count of the systemgroup_systemuser_binding object(s) will be returned
+        If specified, the count of the systemgroup_systemuser_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemgroupsystemuserbinding
+        PS C:\>Invoke-ADCGetSystemgroupsystemuserbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemgroupsystemuserbinding -GetAll 
+        PS C:\>Invoke-ADCGetSystemgroupsystemuserbinding -GetAll 
+        Get all systemgroup_systemuser_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetSystemgroupsystemuserbinding -Count
+        PS C:\>Invoke-ADCGetSystemgroupsystemuserbinding -Count 
+        Get the number of systemgroup_systemuser_binding objects.
     .EXAMPLE
-        Invoke-ADCGetSystemgroupsystemuserbinding -name <string>
+        PS C:\>Invoke-ADCGetSystemgroupsystemuserbinding -name <string>
+        Get systemgroup_systemuser_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemgroupsystemuserbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemgroupsystemuserbinding -Filter @{ 'name'='<value>' }
+        Get systemgroup_systemuser_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemgroupsystemuserbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemgroup_systemuser_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$groupname,
+        [string]$Groupname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -5249,26 +5215,24 @@ function Invoke-ADCGetSystemgroupsystemuserbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all systemgroup_systemuser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_systemuser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_systemuser_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemgroup_systemuser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_systemuser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_systemuser_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemgroup_systemuser_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_systemuser_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_systemuser_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemgroup_systemuser_binding configuration for property 'groupname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_systemuser_binding -NitroPath nitro/v1/config -Resource $groupname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving systemgroup_systemuser_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_systemuser_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemgroup_systemuser_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5282,35 +5246,37 @@ function Invoke-ADCGetSystemgroupsystemuserbinding {
 }
 
 function Invoke-ADCCheckSystemhwerror {
-<#
+    <#
     .SYNOPSIS
-        Check System configuration Object
+        Check System configuration Object.
     .DESCRIPTION
-        Check System configuration Object 
-    .PARAMETER diskcheck 
+        Configuration for Hardware errors resource.
+    .PARAMETER Diskcheck 
         Perform only disk error checking.
     .EXAMPLE
-        Invoke-ADCCheckSystemhwerror -diskcheck <boolean>
+        PS C:\>Invoke-ADCCheckSystemhwerror -diskcheck <boolean>
+        An example how to check systemhwerror configuration Object(s).
     .NOTES
         File Name : Invoke-ADCCheckSystemhwerror
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemhwerror/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [boolean]$diskcheck 
+        [Parameter(Mandatory)]
+        [boolean]$Diskcheck 
 
     )
     begin {
@@ -5318,12 +5284,10 @@ function Invoke-ADCCheckSystemhwerror {
     }
     process {
         try {
-            $Payload = @{
-                diskcheck = $diskcheck
-            }
+            $payload = @{ diskcheck = $diskcheck }
 
-            if ($PSCmdlet.ShouldProcess($Name, "Check System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemhwerror -Action check -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Check System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemhwerror -Action check -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -5339,36 +5303,38 @@ function Invoke-ADCCheckSystemhwerror {
 }
 
 function Invoke-ADCCreateSystemkek {
-<#
+    <#
     .SYNOPSIS
-        Create System configuration Object
+        Create System configuration Object.
     .DESCRIPTION
-        Create System configuration Object 
-    .PARAMETER passphrase 
+        Configuration for 0 resource.
+    .PARAMETER Passphrase 
         Passphrase required to generate the key encryption key.
     .EXAMPLE
-        Invoke-ADCCreateSystemkek -passphrase <string>
+        PS C:\>Invoke-ADCCreateSystemkek -passphrase <string>
+        An example how to create systemkek configuration Object(s).
     .NOTES
         File Name : Invoke-ADCCreateSystemkek
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemkek/
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemkek.md/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(8, 32)]
-        [string]$passphrase 
+        [string]$Passphrase 
 
     )
     begin {
@@ -5376,12 +5342,10 @@ function Invoke-ADCCreateSystemkek {
     }
     process {
         try {
-            $Payload = @{
-                passphrase = $passphrase
-            }
+            $payload = @{ passphrase = $passphrase }
 
-            if ($PSCmdlet.ShouldProcess($Name, "Create System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemkek -Action create -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Create System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemkek -Action create -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -5397,35 +5361,37 @@ function Invoke-ADCCreateSystemkek {
 }
 
 function Invoke-ADCExportSystemkek {
-<#
+    <#
     .SYNOPSIS
-        Export System configuration Object
+        Export System configuration Object.
     .DESCRIPTION
-        Export System configuration Object 
-    .PARAMETER password 
+        Configuration for 0 resource.
+    .PARAMETER Password 
         Password required to import the key encryption key.
     .EXAMPLE
-        Invoke-ADCExportSystemkek 
+        PS C:\>Invoke-ADCExportSystemkek 
+        An example how to export systemkek configuration Object(s).
     .NOTES
         File Name : Invoke-ADCExportSystemkek
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemkek/
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemkek.md/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateLength(8, 32)]
-        [string]$password 
+        [string]$Password 
 
     )
     begin {
@@ -5433,12 +5399,10 @@ function Invoke-ADCExportSystemkek {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('password')) { $Payload.Add('password', $password) }
-            if ($PSCmdlet.ShouldProcess($Name, "Export System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemkek -Action export -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('password') ) { $payload.Add('password', $password) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Export System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemkek -Action export -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -5454,35 +5418,37 @@ function Invoke-ADCExportSystemkek {
 }
 
 function Invoke-ADCImportSystemkek {
-<#
+    <#
     .SYNOPSIS
-        Import System configuration Object
+        Import System configuration Object.
     .DESCRIPTION
-        Import System configuration Object 
-    .PARAMETER password 
+        Configuration for 0 resource.
+    .PARAMETER Password 
         Password required to import the key encryption key.
     .EXAMPLE
-        Invoke-ADCImportSystemkek 
+        PS C:\>Invoke-ADCImportSystemkek 
+        An example how to import systemkek configuration Object(s).
     .NOTES
         File Name : Invoke-ADCImportSystemkek
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
-        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemkek/
+        Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemkek.md/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateLength(8, 32)]
-        [string]$password 
+        [string]$Password 
 
     )
     begin {
@@ -5490,12 +5456,10 @@ function Invoke-ADCImportSystemkek {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('password')) { $Payload.Add('password', $password) }
-            if ($PSCmdlet.ShouldProcess($Name, "Import System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemkek -Action import -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('password') ) { $payload.Add('password', $password) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Import System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemkek -Action import -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -5511,205 +5475,182 @@ function Invoke-ADCImportSystemkek {
 }
 
 function Invoke-ADCUpdateSystemparameter {
-<#
+    <#
     .SYNOPSIS
-        Update System configuration Object
+        Update System configuration Object.
     .DESCRIPTION
-        Update System configuration Object 
-    .PARAMETER rbaonresponse 
-        Enable or disable Role-Based Authentication (RBA) on responses.  
-        Default value: ENABLED  
+        Configuration for system parameter resource.
+    .PARAMETER Rbaonresponse 
+        Enable or disable Role-Based Authentication (RBA) on responses. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER promptstring 
-        String to display at the command-line prompt. Can consist of letters, numbers, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), underscore (_), and the following variables:  
-        * %u - Will be replaced by the user name.  
-        * %h - Will be replaced by the hostname of the Citrix ADC.  
-        * %t - Will be replaced by the current time in 12-hour format.  
-        * %T - Will be replaced by the current time in 24-hour format.  
-        * %d - Will be replaced by the current date.  
-        * %s - Will be replaced by the state of the Citrix ADC.  
-        Note: The 63-character limit for the length of the string does not apply to the characters that replace the variables.  
-        Minimum length = 1 
-    .PARAMETER natpcbforceflushlimit 
-        Flush the system if the number of Network Address Translation Protocol Control Blocks (NATPCBs) exceeds this value.  
-        Default value: 2147483647  
-        Minimum value = 1000 
-    .PARAMETER natpcbrstontimeout 
-        Send a reset signal to client and server connections when their NATPCBs time out. Avoids the buildup of idle TCP connections on both the sides.  
-        Default value: DISABLED  
+    .PARAMETER Promptstring 
+        String to display at the command-line prompt. Can consist of letters, numbers, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), underscore (_), and the following variables: 
+        * %u - Will be replaced by the user name. 
+        * %h - Will be replaced by the hostname of the Citrix ADC. 
+        * %t - Will be replaced by the current time in 12-hour format. 
+        * %T - Will be replaced by the current time in 24-hour format. 
+        * %d - Will be replaced by the current date. 
+        * %s - Will be replaced by the state of the Citrix ADC. 
+        Note: The 63-character limit for the length of the string does not apply to the characters that replace the variables. 
+    .PARAMETER Natpcbforceflushlimit 
+        Flush the system if the number of Network Address Translation Protocol Control Blocks (NATPCBs) exceeds this value. 
+    .PARAMETER Natpcbrstontimeout 
+        Send a reset signal to client and server connections when their NATPCBs time out. Avoids the buildup of idle TCP connections on both the sides. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER timeout 
-        CLI session inactivity timeout, in seconds. If Restrictedtimeout argument is enabled, Timeout can have values in the range [300-86400] seconds.  
+    .PARAMETER Timeout 
+        CLI session inactivity timeout, in seconds. If Restrictedtimeout argument is enabled, Timeout can have values in the range [300-86400] seconds. 
         If Restrictedtimeout argument is disabled, Timeout can have values in the range [0, 10-100000000] seconds. Default value is 900 seconds. 
-    .PARAMETER localauth 
-        When enabled, local users can access Citrix ADC even when external authentication is configured. When disabled, local users are not allowed to access the Citrix ADC, Local users can access the Citrix ADC only when the configured external authentication servers are unavailable. This parameter is not applicable to SSH Key-based authentication.  
-        Default value: ENABLED  
+    .PARAMETER Localauth 
+        When enabled, local users can access Citrix ADC even when external authentication is configured. When disabled, local users are not allowed to access the Citrix ADC, Local users can access the Citrix ADC only when the configured external authentication servers are unavailable. This parameter is not applicable to SSH Key-based authentication. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER minpasswordlen 
-        Minimum length of system user password. When strong password is enabled default minimum length is 4. User entered value can be greater than or equal to 4. Default mininum value is 1 when strong password is disabled. Maximum value is 127 in both cases.  
-        Minimum value = 1  
-        Maximum value = 127 
-    .PARAMETER strongpassword 
-        After enabling strong password (enableall / enablelocal - not included in exclude list), all the passwords / sensitive information must have - Atleast 1 Lower case character, Atleast 1 Upper case character, Atleast 1 numeric character, Atleast 1 special character ( ~, `, !, @, #, $, %, ^, ;, *, -, _, =, +, {, }, [, ], |, \, :, <, >, /, ., ,, " "). Exclude list in case of enablelocal is - NS_FIPS, NS_CRL, NS_RSAKEY, NS_PKCS12, NS_PKCS8, NS_LDAP, NS_TACACS, NS_TACACSACTION, NS_RADIUS, NS_RADIUSACTION, NS_ENCRYPTION_PARAMS. So no Strong Password checks will be performed on these ObjectType commands for enablelocal case.  
-        Default value: disabled  
+    .PARAMETER Minpasswordlen 
+        Minimum length of system user password. When strong password is enabled default minimum length is 4. User entered value can be greater than or equal to 4. Default mininum value is 1 when strong password is disabled. Maximum value is 127 in both cases. 
+    .PARAMETER Strongpassword 
+        After enabling strong password (enableall / enablelocal - not included in exclude list), all the passwords / sensitive information must have - Atleast 1 Lower case character, Atleast 1 Upper case character, Atleast 1 numeric character, Atleast 1 special character ( ~, `, !, @, #, $, %, ^, ;, *, -, _, =, +, {, }, [, ], |, \, :, <, >, /, .,,, " "). Exclude list in case of enablelocal is - NS_FIPS, NS_CRL, NS_RSAKEY, NS_PKCS12, NS_PKCS8, NS_LDAP, NS_TACACS, NS_TACACSACTION, NS_RADIUS, NS_RADIUSACTION, NS_ENCRYPTION_PARAMS. So no Strong Password checks will be performed on these ObjectType commands for enablelocal case. 
         Possible values = enableall, enablelocal, disabled 
-    .PARAMETER restrictedtimeout 
-        Enable/Disable the restricted timeout behaviour. When enabled, timeout cannot be configured beyond admin configured timeout and also it will have the [minimum - maximum] range check. When disabled, timeout will have the old behaviour. By default the value is disabled.  
-        Default value: DISABLED  
+    .PARAMETER Restrictedtimeout 
+        Enable/Disable the restricted timeout behaviour. When enabled, timeout cannot be configured beyond admin configured timeout and also it will have the [minimum - maximum] range check. When disabled, timeout will have the old behaviour. By default the value is disabled. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER fipsusermode 
-        Use this option to set the FIPS mode for key user-land processes. When enabled, these user-land processes will operate in FIPS mode. In this mode, theses processes will use FIPS 140-2 Level-1 certified crypto algorithms. Default is disabled, wherein, these user-land processes will not operate in FIPS mode.  
-        Default value: DISABLED  
+    .PARAMETER Fipsusermode 
+        Use this option to set the FIPS mode for key user-land processes. When enabled, these user-land processes will operate in FIPS mode. In this mode, these processes will use FIPS 140-2 certified crypto algorithms. 
+        With a FIPS license, it is enabled by default and cannot be disabled. 
+        Without a FIPS license, it is disabled by default, wherein these user-land processes will not operate in FIPS mode. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER doppler 
-        Enable or disable Doppler.  
-        Default value: ENABLED  
+    .PARAMETER Doppler 
+        Enable or disable Doppler. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER googleanalytics 
-        Enable or disable Google analytics.  
-        Default value: DISABLED  
+    .PARAMETER Googleanalytics 
+        Enable or disable Google analytics. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER totalauthtimeout 
-        Total time a request can take for authentication/authorization.  
-        Default value: 20  
-        Minimum value = 5  
-        Maximum value = 120 
-    .PARAMETER cliloglevel 
-        Audit log level, which specifies the types of events to log for cli executed commands.  
-        Available values function as follows:  
-        * EMERGENCY - Events that indicate an immediate crisis on the server.  
-        * ALERT - Events that might require action.  
-        * CRITICAL - Events that indicate an imminent server crisis.  
-        * ERROR - Events that indicate some type of error.  
-        * WARNING - Events that require action in the near future.  
-        * NOTICE - Events that the administrator should know about.  
-        * INFORMATIONAL - All but low-level events.  
-        * DEBUG - All events, in extreme detail.  
-        Default value: INFORMATIONAL  
+    .PARAMETER Totalauthtimeout 
+        Total time a request can take for authentication/authorization. 
+    .PARAMETER Cliloglevel 
+        Audit log level, which specifies the types of events to log for cli executed commands. 
+        Available values function as follows: 
+        * EMERGENCY - Events that indicate an immediate crisis on the server. 
+        * ALERT - Events that might require action. 
+        * CRITICAL - Events that indicate an imminent server crisis. 
+        * ERROR - Events that indicate some type of error. 
+        * WARNING - Events that require action in the near future. 
+        * NOTICE - Events that the administrator should know about. 
+        * INFORMATIONAL - All but low-level events. 
+        * DEBUG - All events, in extreme detail. 
         Possible values = EMERGENCY, ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFORMATIONAL, DEBUG 
-    .PARAMETER forcepasswordchange 
-        Enable or disable force password change for nsroot user.  
-        Default value: DISABLED  
+    .PARAMETER Forcepasswordchange 
+        Enable or disable force password change for nsroot user. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER basicauth 
-        Enable or disable basic authentication for Nitro API.  
-        Default value: ENABLED  
+    .PARAMETER Basicauth 
+        Enable or disable basic authentication for Nitro API. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER reauthonauthparamchange 
-        Enable or disable External user reauthentication when authentication parameter changes.  
-        Default value: DISABLED  
+    .PARAMETER Reauthonauthparamchange 
+        Enable or disable External user reauthentication when authentication parameter changes. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER removesensitivefiles 
-        Use this option to remove the sensitive files from the system like authorise keys, public keys etc. The commands which will remove sensitive files when this system paramter is enabled are rm cluster instance, rm cluster node, rm ha node, clear config full, join cluster and add cluster instance.  
-        Default value: DISABLED  
+    .PARAMETER Removesensitivefiles 
+        Use this option to remove the sensitive files from the system like authorise keys, public keys etc. The commands which will remove sensitive files when this system paramter is enabled are rm cluster instance, rm cluster node, rm ha node, clear config full, join cluster and add cluster instance. 
         Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCUpdateSystemparameter 
+        PS C:\>Invoke-ADCUpdateSystemparameter 
+        An example how to update systemparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSystemparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$rbaonresponse ,
+        [string]$Rbaonresponse,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$promptstring ,
+        [string]$Promptstring,
 
-        [double]$natpcbforceflushlimit ,
-
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$natpcbrstontimeout ,
-
-        [ValidateRange(300, 86400)]
-        [double]$timeout ,
+        [double]$Natpcbforceflushlimit,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$localauth ,
+        [string]$Natpcbrstontimeout,
+
+        [double]$Timeout,
+
+        [ValidateSet('ENABLED', 'DISABLED')]
+        [string]$Localauth,
 
         [ValidateRange(1, 127)]
-        [double]$minpasswordlen ,
+        [double]$Minpasswordlen,
 
         [ValidateSet('enableall', 'enablelocal', 'disabled')]
-        [string]$strongpassword ,
+        [string]$Strongpassword,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$restrictedtimeout ,
+        [string]$Restrictedtimeout,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$fipsusermode ,
+        [string]$Fipsusermode,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$doppler ,
+        [string]$Doppler,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$googleanalytics ,
+        [string]$Googleanalytics,
 
         [ValidateRange(5, 120)]
-        [double]$totalauthtimeout ,
+        [double]$Totalauthtimeout,
 
         [ValidateSet('EMERGENCY', 'ALERT', 'CRITICAL', 'ERROR', 'WARNING', 'NOTICE', 'INFORMATIONAL', 'DEBUG')]
-        [string]$cliloglevel ,
+        [string]$Cliloglevel,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$forcepasswordchange ,
+        [string]$Forcepasswordchange,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$basicauth ,
+        [string]$Basicauth,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$reauthonauthparamchange ,
+        [string]$Reauthonauthparamchange,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$removesensitivefiles 
-
+        [string]$Removesensitivefiles 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSystemparameter: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('rbaonresponse')) { $Payload.Add('rbaonresponse', $rbaonresponse) }
-            if ($PSBoundParameters.ContainsKey('promptstring')) { $Payload.Add('promptstring', $promptstring) }
-            if ($PSBoundParameters.ContainsKey('natpcbforceflushlimit')) { $Payload.Add('natpcbforceflushlimit', $natpcbforceflushlimit) }
-            if ($PSBoundParameters.ContainsKey('natpcbrstontimeout')) { $Payload.Add('natpcbrstontimeout', $natpcbrstontimeout) }
-            if ($PSBoundParameters.ContainsKey('timeout')) { $Payload.Add('timeout', $timeout) }
-            if ($PSBoundParameters.ContainsKey('localauth')) { $Payload.Add('localauth', $localauth) }
-            if ($PSBoundParameters.ContainsKey('minpasswordlen')) { $Payload.Add('minpasswordlen', $minpasswordlen) }
-            if ($PSBoundParameters.ContainsKey('strongpassword')) { $Payload.Add('strongpassword', $strongpassword) }
-            if ($PSBoundParameters.ContainsKey('restrictedtimeout')) { $Payload.Add('restrictedtimeout', $restrictedtimeout) }
-            if ($PSBoundParameters.ContainsKey('fipsusermode')) { $Payload.Add('fipsusermode', $fipsusermode) }
-            if ($PSBoundParameters.ContainsKey('doppler')) { $Payload.Add('doppler', $doppler) }
-            if ($PSBoundParameters.ContainsKey('googleanalytics')) { $Payload.Add('googleanalytics', $googleanalytics) }
-            if ($PSBoundParameters.ContainsKey('totalauthtimeout')) { $Payload.Add('totalauthtimeout', $totalauthtimeout) }
-            if ($PSBoundParameters.ContainsKey('cliloglevel')) { $Payload.Add('cliloglevel', $cliloglevel) }
-            if ($PSBoundParameters.ContainsKey('forcepasswordchange')) { $Payload.Add('forcepasswordchange', $forcepasswordchange) }
-            if ($PSBoundParameters.ContainsKey('basicauth')) { $Payload.Add('basicauth', $basicauth) }
-            if ($PSBoundParameters.ContainsKey('reauthonauthparamchange')) { $Payload.Add('reauthonauthparamchange', $reauthonauthparamchange) }
-            if ($PSBoundParameters.ContainsKey('removesensitivefiles')) { $Payload.Add('removesensitivefiles', $removesensitivefiles) }
- 
-            if ($PSCmdlet.ShouldProcess("systemparameter", "Update System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemparameter -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('rbaonresponse') ) { $payload.Add('rbaonresponse', $rbaonresponse) }
+            if ( $PSBoundParameters.ContainsKey('promptstring') ) { $payload.Add('promptstring', $promptstring) }
+            if ( $PSBoundParameters.ContainsKey('natpcbforceflushlimit') ) { $payload.Add('natpcbforceflushlimit', $natpcbforceflushlimit) }
+            if ( $PSBoundParameters.ContainsKey('natpcbrstontimeout') ) { $payload.Add('natpcbrstontimeout', $natpcbrstontimeout) }
+            if ( $PSBoundParameters.ContainsKey('timeout') ) { $payload.Add('timeout', $timeout) }
+            if ( $PSBoundParameters.ContainsKey('localauth') ) { $payload.Add('localauth', $localauth) }
+            if ( $PSBoundParameters.ContainsKey('minpasswordlen') ) { $payload.Add('minpasswordlen', $minpasswordlen) }
+            if ( $PSBoundParameters.ContainsKey('strongpassword') ) { $payload.Add('strongpassword', $strongpassword) }
+            if ( $PSBoundParameters.ContainsKey('restrictedtimeout') ) { $payload.Add('restrictedtimeout', $restrictedtimeout) }
+            if ( $PSBoundParameters.ContainsKey('fipsusermode') ) { $payload.Add('fipsusermode', $fipsusermode) }
+            if ( $PSBoundParameters.ContainsKey('doppler') ) { $payload.Add('doppler', $doppler) }
+            if ( $PSBoundParameters.ContainsKey('googleanalytics') ) { $payload.Add('googleanalytics', $googleanalytics) }
+            if ( $PSBoundParameters.ContainsKey('totalauthtimeout') ) { $payload.Add('totalauthtimeout', $totalauthtimeout) }
+            if ( $PSBoundParameters.ContainsKey('cliloglevel') ) { $payload.Add('cliloglevel', $cliloglevel) }
+            if ( $PSBoundParameters.ContainsKey('forcepasswordchange') ) { $payload.Add('forcepasswordchange', $forcepasswordchange) }
+            if ( $PSBoundParameters.ContainsKey('basicauth') ) { $payload.Add('basicauth', $basicauth) }
+            if ( $PSBoundParameters.ContainsKey('reauthonauthparamchange') ) { $payload.Add('reauthonauthparamchange', $reauthonauthparamchange) }
+            if ( $PSBoundParameters.ContainsKey('removesensitivefiles') ) { $payload.Add('removesensitivefiles', $removesensitivefiles) }
+            if ( $PSCmdlet.ShouldProcess("systemparameter", "Update System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemparameter -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5722,130 +5663,134 @@ function Invoke-ADCUpdateSystemparameter {
 }
 
 function Invoke-ADCUnsetSystemparameter {
-<#
+    <#
     .SYNOPSIS
-        Unset System configuration Object
+        Unset System configuration Object.
     .DESCRIPTION
-        Unset System configuration Object 
-   .PARAMETER minpasswordlen 
-       Minimum length of system user password. When strong password is enabled default minimum length is 4. User entered value can be greater than or equal to 4. Default mininum value is 1 when strong password is disabled. Maximum value is 127 in both cases. 
-   .PARAMETER rbaonresponse 
-       Enable or disable Role-Based Authentication (RBA) on responses.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER promptstring 
-       String to display at the command-line prompt. Can consist of letters, numbers, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), underscore (_), and the following variables:  
-       * %u - Will be replaced by the user name.  
-       * %h - Will be replaced by the hostname of the Citrix ADC.  
-       * %t - Will be replaced by the current time in 12-hour format.  
-       * %T - Will be replaced by the current time in 24-hour format.  
-       * %d - Will be replaced by the current date.  
-       * %s - Will be replaced by the state of the Citrix ADC.  
-       Note: The 63-character limit for the length of the string does not apply to the characters that replace the variables. 
-   .PARAMETER natpcbforceflushlimit 
-       Flush the system if the number of Network Address Translation Protocol Control Blocks (NATPCBs) exceeds this value. 
-   .PARAMETER natpcbrstontimeout 
-       Send a reset signal to client and server connections when their NATPCBs time out. Avoids the buildup of idle TCP connections on both the sides.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER timeout 
-       CLI session inactivity timeout, in seconds. If Restrictedtimeout argument is enabled, Timeout can have values in the ] seconds.  
-       If Restrictedtimeout argument is disabled, Timeout can have values in the ] seconds. Default value is 900 seconds. 
-   .PARAMETER localauth 
-       When enabled, local users can access Citrix ADC even when external authentication is configured. When disabled, local users are not allowed to access the Citrix ADC, Local users can access the Citrix ADC only when the configured external authentication servers are unavailable. This parameter is not applicable to SSH Key-based authentication.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER strongpassword 
-       After enabling strong password (enableall / enablelocal - not included in exclude list), all the passwords / sensitive information must have - Atleast 1 Lower case character, Atleast 1 Upper case character, Atleast 1 numeric character, Atleast 1 special character ( ~, `, !, @, #, $, %, ^, ;, *, -, _, =, +, {, }, [, ], |, \, :, <, >, /, ., ,, " "). Exclude list in case of enablelocal is - NS_FIPS, NS_CRL, NS_RSAKEY, NS_PKCS12, NS_PKCS8, NS_LDAP, NS_TACACS, NS_TACACSACTION, NS_RADIUS, NS_RADIUSACTION, NS_ENCRYPTION_PARAMS. So no Strong Password checks will be performed on these ObjectType commands for enablelocal case.  
-       Possible values = enableall, enablelocal, disabled 
-   .PARAMETER restrictedtimeout 
-       Enable/Disable the restricted timeout behaviour. When enabled, timeout cannot be configured beyond admin configured timeout and also it will have the [minimum - maximum] range check. When disabled, timeout will have the old behaviour. By default the value is disabled.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER fipsusermode 
-       Use this option to set the FIPS mode for key user-land processes. When enabled, these user-land processes will operate in FIPS mode. In this mode, theses processes will use FIPS 140-2 Level-1 certified crypto algorithms. Default is disabled, wherein, these user-land processes will not operate in FIPS mode.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER doppler 
-       Enable or disable Doppler.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER googleanalytics 
-       Enable or disable Google analytics.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER totalauthtimeout 
-       Total time a request can take for authentication/authorization. 
-   .PARAMETER cliloglevel 
-       Audit log level, which specifies the types of events to log for cli executed commands.  
-       Available values function as follows:  
-       * EMERGENCY - Events that indicate an immediate crisis on the server.  
-       * ALERT - Events that might require action.  
-       * CRITICAL - Events that indicate an imminent server crisis.  
-       * ERROR - Events that indicate some type of error.  
-       * WARNING - Events that require action in the near future.  
-       * NOTICE - Events that the administrator should know about.  
-       * INFORMATIONAL - All but low-level events.  
-       * DEBUG - All events, in extreme detail.  
-       Possible values = EMERGENCY, ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFORMATIONAL, DEBUG 
-   .PARAMETER forcepasswordchange 
-       Enable or disable force password change for nsroot user.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER basicauth 
-       Enable or disable basic authentication for Nitro API.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER reauthonauthparamchange 
-       Enable or disable External user reauthentication when authentication parameter changes.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER removesensitivefiles 
-       Use this option to remove the sensitive files from the system like authorise keys, public keys etc. The commands which will remove sensitive files when this system paramter is enabled are rm cluster instance, rm cluster node, rm ha node, clear config full, join cluster and add cluster instance.  
-       Possible values = ENABLED, DISABLED
+        Configuration for system parameter resource.
+    .PARAMETER Minpasswordlen 
+        Minimum length of system user password. When strong password is enabled default minimum length is 4. User entered value can be greater than or equal to 4. Default mininum value is 1 when strong password is disabled. Maximum value is 127 in both cases. 
+    .PARAMETER Rbaonresponse 
+        Enable or disable Role-Based Authentication (RBA) on responses. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Promptstring 
+        String to display at the command-line prompt. Can consist of letters, numbers, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), underscore (_), and the following variables: 
+        * %u - Will be replaced by the user name. 
+        * %h - Will be replaced by the hostname of the Citrix ADC. 
+        * %t - Will be replaced by the current time in 12-hour format. 
+        * %T - Will be replaced by the current time in 24-hour format. 
+        * %d - Will be replaced by the current date. 
+        * %s - Will be replaced by the state of the Citrix ADC. 
+        Note: The 63-character limit for the length of the string does not apply to the characters that replace the variables. 
+    .PARAMETER Natpcbforceflushlimit 
+        Flush the system if the number of Network Address Translation Protocol Control Blocks (NATPCBs) exceeds this value. 
+    .PARAMETER Natpcbrstontimeout 
+        Send a reset signal to client and server connections when their NATPCBs time out. Avoids the buildup of idle TCP connections on both the sides. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Timeout 
+        CLI session inactivity timeout, in seconds. If Restrictedtimeout argument is enabled, Timeout can have values in the range [300-86400] seconds. 
+        If Restrictedtimeout argument is disabled, Timeout can have values in the range [0, 10-100000000] seconds. Default value is 900 seconds. 
+    .PARAMETER Localauth 
+        When enabled, local users can access Citrix ADC even when external authentication is configured. When disabled, local users are not allowed to access the Citrix ADC, Local users can access the Citrix ADC only when the configured external authentication servers are unavailable. This parameter is not applicable to SSH Key-based authentication. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Strongpassword 
+        After enabling strong password (enableall / enablelocal - not included in exclude list), all the passwords / sensitive information must have - Atleast 1 Lower case character, Atleast 1 Upper case character, Atleast 1 numeric character, Atleast 1 special character ( ~, `, !, @, #, $, %, ^, ;, *, -, _, =, +, {, }, [, ], |, \, :, <, >, /, .,,, " "). Exclude list in case of enablelocal is - NS_FIPS, NS_CRL, NS_RSAKEY, NS_PKCS12, NS_PKCS8, NS_LDAP, NS_TACACS, NS_TACACSACTION, NS_RADIUS, NS_RADIUSACTION, NS_ENCRYPTION_PARAMS. So no Strong Password checks will be performed on these ObjectType commands for enablelocal case. 
+        Possible values = enableall, enablelocal, disabled 
+    .PARAMETER Restrictedtimeout 
+        Enable/Disable the restricted timeout behaviour. When enabled, timeout cannot be configured beyond admin configured timeout and also it will have the [minimum - maximum] range check. When disabled, timeout will have the old behaviour. By default the value is disabled. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Fipsusermode 
+        Use this option to set the FIPS mode for key user-land processes. When enabled, these user-land processes will operate in FIPS mode. In this mode, these processes will use FIPS 140-2 certified crypto algorithms. 
+        With a FIPS license, it is enabled by default and cannot be disabled. 
+        Without a FIPS license, it is disabled by default, wherein these user-land processes will not operate in FIPS mode. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Doppler 
+        Enable or disable Doppler. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Googleanalytics 
+        Enable or disable Google analytics. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Totalauthtimeout 
+        Total time a request can take for authentication/authorization. 
+    .PARAMETER Cliloglevel 
+        Audit log level, which specifies the types of events to log for cli executed commands. 
+        Available values function as follows: 
+        * EMERGENCY - Events that indicate an immediate crisis on the server. 
+        * ALERT - Events that might require action. 
+        * CRITICAL - Events that indicate an imminent server crisis. 
+        * ERROR - Events that indicate some type of error. 
+        * WARNING - Events that require action in the near future. 
+        * NOTICE - Events that the administrator should know about. 
+        * INFORMATIONAL - All but low-level events. 
+        * DEBUG - All events, in extreme detail. 
+        Possible values = EMERGENCY, ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFORMATIONAL, DEBUG 
+    .PARAMETER Forcepasswordchange 
+        Enable or disable force password change for nsroot user. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Basicauth 
+        Enable or disable basic authentication for Nitro API. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Reauthonauthparamchange 
+        Enable or disable External user reauthentication when authentication parameter changes. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Removesensitivefiles 
+        Use this option to remove the sensitive files from the system like authorise keys, public keys etc. The commands which will remove sensitive files when this system paramter is enabled are rm cluster instance, rm cluster node, rm ha node, clear config full, join cluster and add cluster instance. 
+        Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCUnsetSystemparameter 
+        PS C:\>Invoke-ADCUnsetSystemparameter 
+        An example how to unset systemparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSystemparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemparameter
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$minpasswordlen ,
+        [Boolean]$minpasswordlen,
 
-        [Boolean]$rbaonresponse ,
+        [Boolean]$rbaonresponse,
 
-        [Boolean]$promptstring ,
+        [Boolean]$promptstring,
 
-        [Boolean]$natpcbforceflushlimit ,
+        [Boolean]$natpcbforceflushlimit,
 
-        [Boolean]$natpcbrstontimeout ,
+        [Boolean]$natpcbrstontimeout,
 
-        [Boolean]$timeout ,
+        [Boolean]$timeout,
 
-        [Boolean]$localauth ,
+        [Boolean]$localauth,
 
-        [Boolean]$strongpassword ,
+        [Boolean]$strongpassword,
 
-        [Boolean]$restrictedtimeout ,
+        [Boolean]$restrictedtimeout,
 
-        [Boolean]$fipsusermode ,
+        [Boolean]$fipsusermode,
 
-        [Boolean]$doppler ,
+        [Boolean]$doppler,
 
-        [Boolean]$googleanalytics ,
+        [Boolean]$googleanalytics,
 
-        [Boolean]$totalauthtimeout ,
+        [Boolean]$totalauthtimeout,
 
-        [Boolean]$cliloglevel ,
+        [Boolean]$cliloglevel,
 
-        [Boolean]$forcepasswordchange ,
+        [Boolean]$forcepasswordchange,
 
-        [Boolean]$basicauth ,
+        [Boolean]$basicauth,
 
-        [Boolean]$reauthonauthparamchange ,
+        [Boolean]$reauthonauthparamchange,
 
         [Boolean]$removesensitivefiles 
     )
@@ -5854,29 +5799,27 @@ function Invoke-ADCUnsetSystemparameter {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('minpasswordlen')) { $Payload.Add('minpasswordlen', $minpasswordlen) }
-            if ($PSBoundParameters.ContainsKey('rbaonresponse')) { $Payload.Add('rbaonresponse', $rbaonresponse) }
-            if ($PSBoundParameters.ContainsKey('promptstring')) { $Payload.Add('promptstring', $promptstring) }
-            if ($PSBoundParameters.ContainsKey('natpcbforceflushlimit')) { $Payload.Add('natpcbforceflushlimit', $natpcbforceflushlimit) }
-            if ($PSBoundParameters.ContainsKey('natpcbrstontimeout')) { $Payload.Add('natpcbrstontimeout', $natpcbrstontimeout) }
-            if ($PSBoundParameters.ContainsKey('timeout')) { $Payload.Add('timeout', $timeout) }
-            if ($PSBoundParameters.ContainsKey('localauth')) { $Payload.Add('localauth', $localauth) }
-            if ($PSBoundParameters.ContainsKey('strongpassword')) { $Payload.Add('strongpassword', $strongpassword) }
-            if ($PSBoundParameters.ContainsKey('restrictedtimeout')) { $Payload.Add('restrictedtimeout', $restrictedtimeout) }
-            if ($PSBoundParameters.ContainsKey('fipsusermode')) { $Payload.Add('fipsusermode', $fipsusermode) }
-            if ($PSBoundParameters.ContainsKey('doppler')) { $Payload.Add('doppler', $doppler) }
-            if ($PSBoundParameters.ContainsKey('googleanalytics')) { $Payload.Add('googleanalytics', $googleanalytics) }
-            if ($PSBoundParameters.ContainsKey('totalauthtimeout')) { $Payload.Add('totalauthtimeout', $totalauthtimeout) }
-            if ($PSBoundParameters.ContainsKey('cliloglevel')) { $Payload.Add('cliloglevel', $cliloglevel) }
-            if ($PSBoundParameters.ContainsKey('forcepasswordchange')) { $Payload.Add('forcepasswordchange', $forcepasswordchange) }
-            if ($PSBoundParameters.ContainsKey('basicauth')) { $Payload.Add('basicauth', $basicauth) }
-            if ($PSBoundParameters.ContainsKey('reauthonauthparamchange')) { $Payload.Add('reauthonauthparamchange', $reauthonauthparamchange) }
-            if ($PSBoundParameters.ContainsKey('removesensitivefiles')) { $Payload.Add('removesensitivefiles', $removesensitivefiles) }
-            if ($PSCmdlet.ShouldProcess("systemparameter", "Unset System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type systemparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('minpasswordlen') ) { $payload.Add('minpasswordlen', $minpasswordlen) }
+            if ( $PSBoundParameters.ContainsKey('rbaonresponse') ) { $payload.Add('rbaonresponse', $rbaonresponse) }
+            if ( $PSBoundParameters.ContainsKey('promptstring') ) { $payload.Add('promptstring', $promptstring) }
+            if ( $PSBoundParameters.ContainsKey('natpcbforceflushlimit') ) { $payload.Add('natpcbforceflushlimit', $natpcbforceflushlimit) }
+            if ( $PSBoundParameters.ContainsKey('natpcbrstontimeout') ) { $payload.Add('natpcbrstontimeout', $natpcbrstontimeout) }
+            if ( $PSBoundParameters.ContainsKey('timeout') ) { $payload.Add('timeout', $timeout) }
+            if ( $PSBoundParameters.ContainsKey('localauth') ) { $payload.Add('localauth', $localauth) }
+            if ( $PSBoundParameters.ContainsKey('strongpassword') ) { $payload.Add('strongpassword', $strongpassword) }
+            if ( $PSBoundParameters.ContainsKey('restrictedtimeout') ) { $payload.Add('restrictedtimeout', $restrictedtimeout) }
+            if ( $PSBoundParameters.ContainsKey('fipsusermode') ) { $payload.Add('fipsusermode', $fipsusermode) }
+            if ( $PSBoundParameters.ContainsKey('doppler') ) { $payload.Add('doppler', $doppler) }
+            if ( $PSBoundParameters.ContainsKey('googleanalytics') ) { $payload.Add('googleanalytics', $googleanalytics) }
+            if ( $PSBoundParameters.ContainsKey('totalauthtimeout') ) { $payload.Add('totalauthtimeout', $totalauthtimeout) }
+            if ( $PSBoundParameters.ContainsKey('cliloglevel') ) { $payload.Add('cliloglevel', $cliloglevel) }
+            if ( $PSBoundParameters.ContainsKey('forcepasswordchange') ) { $payload.Add('forcepasswordchange', $forcepasswordchange) }
+            if ( $PSBoundParameters.ContainsKey('basicauth') ) { $payload.Add('basicauth', $basicauth) }
+            if ( $PSBoundParameters.ContainsKey('reauthonauthparamchange') ) { $payload.Add('reauthonauthparamchange', $reauthonauthparamchange) }
+            if ( $PSBoundParameters.ContainsKey('removesensitivefiles') ) { $payload.Add('removesensitivefiles', $removesensitivefiles) }
+            if ( $PSCmdlet.ShouldProcess("systemparameter", "Unset System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type systemparameter -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -5892,45 +5835,50 @@ function Invoke-ADCUnsetSystemparameter {
 }
 
 function Invoke-ADCGetSystemparameter {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
+        Configuration for system parameter resource.
     .PARAMETER GetAll 
-        Retreive all systemparameter object(s)
+        Retrieve all systemparameter object(s).
     .PARAMETER Count
-        If specified, the count of the systemparameter object(s) will be returned
+        If specified, the count of the systemparameter object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemparameter
+        PS C:\>Invoke-ADCGetSystemparameter
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemparameter -GetAll
+        PS C:\>Invoke-ADCGetSystemparameter -GetAll 
+        Get all systemparameter data.
     .EXAMPLE
-        Invoke-ADCGetSystemparameter -name <string>
+        PS C:\>Invoke-ADCGetSystemparameter -name <string>
+        Get systemparameter object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemparameter -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemparameter -Filter @{ 'name'='<value>' }
+        Get systemparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -5942,24 +5890,24 @@ function Invoke-ADCGetSystemparameter {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systemparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemparameter objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemparameter -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systemparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -5973,36 +5921,38 @@ function Invoke-ADCGetSystemparameter {
 }
 
 function Invoke-ADCCreateSystemrestorepoint {
-<#
+    <#
     .SYNOPSIS
-        Create System configuration Object
+        Create System configuration Object.
     .DESCRIPTION
-        Create System configuration Object 
-    .PARAMETER filename 
+        Configuration for Setting restorepoints for auto restore resource.
+    .PARAMETER Filename 
         Name of the restore point.
     .EXAMPLE
-        Invoke-ADCCreateSystemrestorepoint -filename <string>
+        PS C:\>Invoke-ADCCreateSystemrestorepoint -filename <string>
+        An example how to create systemrestorepoint configuration Object(s).
     .NOTES
         File Name : Invoke-ADCCreateSystemrestorepoint
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemrestorepoint/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 63)]
-        [string]$filename 
+        [string]$Filename 
 
     )
     begin {
@@ -6010,12 +5960,10 @@ function Invoke-ADCCreateSystemrestorepoint {
     }
     process {
         try {
-            $Payload = @{
-                filename = $filename
-            }
+            $payload = @{ filename = $filename }
 
-            if ($PSCmdlet.ShouldProcess($Name, "Create System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemrestorepoint -Action create -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Create System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemrestorepoint -Action create -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -6031,48 +5979,47 @@ function Invoke-ADCCreateSystemrestorepoint {
 }
 
 function Invoke-ADCDeleteSystemrestorepoint {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-    .PARAMETER filename 
-       Name of the restore point.  
-       Minimum length = 1  
-       Maximum length = 63 
+        Configuration for Setting restorepoints for auto restore resource.
+    .PARAMETER Filename 
+        Name of the restore point.
     .EXAMPLE
-        Invoke-ADCDeleteSystemrestorepoint -filename <string>
+        PS C:\>Invoke-ADCDeleteSystemrestorepoint -Filename <string>
+        An example how to delete systemrestorepoint configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystemrestorepoint
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemrestorepoint/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$filename 
+        [Parameter(Mandatory)]
+        [string]$Filename 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystemrestorepoint: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$filename", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemrestorepoint -NitroPath nitro/v1/config -Resource $filename -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$filename", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemrestorepoint -NitroPath nitro/v1/config -Resource $filename -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6088,55 +6035,61 @@ function Invoke-ADCDeleteSystemrestorepoint {
 }
 
 function Invoke-ADCGetSystemrestorepoint {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER filename 
-       Name of the restore point. 
+        Configuration for Setting restorepoints for auto restore resource.
+    .PARAMETER Filename 
+        Name of the restore point. 
     .PARAMETER GetAll 
-        Retreive all systemrestorepoint object(s)
+        Retrieve all systemrestorepoint object(s).
     .PARAMETER Count
-        If specified, the count of the systemrestorepoint object(s) will be returned
+        If specified, the count of the systemrestorepoint object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemrestorepoint
+        PS C:\>Invoke-ADCGetSystemrestorepoint
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemrestorepoint -GetAll 
+        PS C:\>Invoke-ADCGetSystemrestorepoint -GetAll 
+        Get all systemrestorepoint data. 
     .EXAMPLE 
-        Invoke-ADCGetSystemrestorepoint -Count
+        PS C:\>Invoke-ADCGetSystemrestorepoint -Count 
+        Get the number of systemrestorepoint objects.
     .EXAMPLE
-        Invoke-ADCGetSystemrestorepoint -name <string>
+        PS C:\>Invoke-ADCGetSystemrestorepoint -name <string>
+        Get systemrestorepoint object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemrestorepoint -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemrestorepoint -Filter @{ 'name'='<value>' }
+        Get systemrestorepoint data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemrestorepoint
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemrestorepoint/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateLength(1, 63)]
-        [string]$filename,
+        [string]$Filename,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -6154,24 +6107,24 @@ function Invoke-ADCGetSystemrestorepoint {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systemrestorepoint objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemrestorepoint -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemrestorepoint -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemrestorepoint objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemrestorepoint -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemrestorepoint -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemrestorepoint objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemrestorepoint -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemrestorepoint -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemrestorepoint configuration for property 'filename'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemrestorepoint -NitroPath nitro/v1/config -Resource $filename -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving systemrestorepoint configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemrestorepoint -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemrestorepoint -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6185,38 +6138,40 @@ function Invoke-ADCGetSystemrestorepoint {
 }
 
 function Invoke-ADCKillSystemsession {
-<#
+    <#
     .SYNOPSIS
-        Kill System configuration Object
+        Kill System configuration Object.
     .DESCRIPTION
-        Kill System configuration Object 
-    .PARAMETER sid 
+        Configuration for system session resource.
+    .PARAMETER Sid 
         ID of the system session about which to display information. 
-    .PARAMETER all 
+    .PARAMETER All 
         Terminate all the system sessions except the current session.
     .EXAMPLE
-        Invoke-ADCKillSystemsession 
+        PS C:\>Invoke-ADCKillSystemsession 
+        An example how to kill systemsession configuration Object(s).
     .NOTES
         File Name : Invoke-ADCKillSystemsession
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemsession/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [double]$sid ,
+        [double]$Sid,
 
-        [boolean]$all 
+        [boolean]$All 
 
     )
     begin {
@@ -6224,13 +6179,11 @@ function Invoke-ADCKillSystemsession {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('sid')) { $Payload.Add('sid', $sid) }
-            if ($PSBoundParameters.ContainsKey('all')) { $Payload.Add('all', $all) }
-            if ($PSCmdlet.ShouldProcess($Name, "Kill System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemsession -Action kill -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('sid') ) { $payload.Add('sid', $sid) }
+            if ( $PSBoundParameters.ContainsKey('all') ) { $payload.Add('all', $all) }
+            if ( $PSCmdlet.ShouldProcess($Name, "Kill System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemsession -Action kill -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -6246,54 +6199,60 @@ function Invoke-ADCKillSystemsession {
 }
 
 function Invoke-ADCGetSystemsession {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER sid 
-       ID of the system session about which to display information. 
+        Configuration for system session resource.
+    .PARAMETER Sid 
+        ID of the system session about which to display information. 
     .PARAMETER GetAll 
-        Retreive all systemsession object(s)
+        Retrieve all systemsession object(s).
     .PARAMETER Count
-        If specified, the count of the systemsession object(s) will be returned
+        If specified, the count of the systemsession object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemsession
+        PS C:\>Invoke-ADCGetSystemsession
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemsession -GetAll 
+        PS C:\>Invoke-ADCGetSystemsession -GetAll 
+        Get all systemsession data. 
     .EXAMPLE 
-        Invoke-ADCGetSystemsession -Count
+        PS C:\>Invoke-ADCGetSystemsession -Count 
+        Get the number of systemsession objects.
     .EXAMPLE
-        Invoke-ADCGetSystemsession -name <string>
+        PS C:\>Invoke-ADCGetSystemsession -name <string>
+        Get systemsession object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemsession -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemsession -Filter @{ 'name'='<value>' }
+        Get systemsession data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemsession
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemsession/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [double]$sid,
+        [double]$Sid,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -6311,24 +6270,24 @@ function Invoke-ADCGetSystemsession {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systemsession objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemsession -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemsession -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemsession objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemsession -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemsession -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemsession objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemsession -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemsession -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemsession configuration for property 'sid'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemsession -NitroPath nitro/v1/config -Resource $sid -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving systemsession configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemsession -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemsession -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6342,53 +6301,53 @@ function Invoke-ADCGetSystemsession {
 }
 
 function Invoke-ADCDeleteSystemsshkey {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-    .PARAMETER name 
-       URL \(protocol, host, path, and file name\) from where the location file will be imported.  
-       NOTE: The import fails if the object to be imported is on an HTTPS server that requires client certificate authentication for access.  
-       Minimum length = 1  
-       Maximum length = 255    .PARAMETER sshkeytype 
-       The type of the ssh key whether public or private key.  
-       Possible values = PRIVATE, PUBLIC
+        Configuration for 0 resource.
+    .PARAMETER Name 
+        URL \(protocol, host, path, and file name\) from where the location file will be imported. 
+        NOTE: The import fails if the object to be imported is on an HTTPS server that requires client certificate authentication for access. 
+    .PARAMETER Sshkeytype 
+        The type of the ssh key whether public or private key. 
+        Possible values = PRIVATE, PUBLIC
     .EXAMPLE
-        Invoke-ADCDeleteSystemsshkey -name <string>
+        PS C:\>Invoke-ADCDeleteSystemsshkey -Name <string>
+        An example how to delete systemsshkey configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystemsshkey
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemsshkey/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [string]$sshkeytype 
+        [string]$Sshkeytype 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystemsshkey: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('sshkeytype')) { $Arguments.Add('sshkeytype', $sshkeytype) }
-            if ($PSCmdlet.ShouldProcess("$name", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemsshkey -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Sshkeytype') ) { $arguments.Add('sshkeytype', $Sshkeytype) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemsshkey -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6404,51 +6363,53 @@ function Invoke-ADCDeleteSystemsshkey {
 }
 
 function Invoke-ADCImportSystemsshkey {
-<#
+    <#
     .SYNOPSIS
-        Import System configuration Object
+        Import System configuration Object.
     .DESCRIPTION
-        Import System configuration Object 
-    .PARAMETER name 
-        URL \(protocol, host, path, and file name\) from where the location file will be imported.  
+        Configuration for 0 resource.
+    .PARAMETER Name 
+        URL \(protocol, host, path, and file name\) from where the location file will be imported. 
         NOTE: The import fails if the object to be imported is on an HTTPS server that requires client certificate authentication for access. 
-    .PARAMETER src 
-        URL \(protocol, host, path, and file name\) from where the location file will be imported.  
+    .PARAMETER Src 
+        URL \(protocol, host, path, and file name\) from where the location file will be imported. 
         NOTE: The import fails if the object to be imported is on an HTTPS server that requires client certificate authentication for access. 
-    .PARAMETER sshkeytype 
-        The type of the ssh key whether public or private key.  
+    .PARAMETER Sshkeytype 
+        The type of the ssh key whether public or private key. 
         Possible values = PRIVATE, PUBLIC
     .EXAMPLE
-        Invoke-ADCImportSystemsshkey -name <string> -src <string> -sshkeytype <string>
+        PS C:\>Invoke-ADCImportSystemsshkey -name <string> -src <string> -sshkeytype <string>
+        An example how to import systemsshkey configuration Object(s).
     .NOTES
         File Name : Invoke-ADCImportSystemsshkey
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemsshkey/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 255)]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 2047)]
-        [string]$src ,
+        [string]$Src,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('PRIVATE', 'PUBLIC')]
-        [string]$sshkeytype 
+        [string]$Sshkeytype 
 
     )
     begin {
@@ -6456,14 +6417,13 @@ function Invoke-ADCImportSystemsshkey {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                src = $src
-                sshkeytype = $sshkeytype
+            $payload = @{ name = $name
+                src            = $src
+                sshkeytype     = $sshkeytype
             }
 
-            if ($PSCmdlet.ShouldProcess($Name, "Import System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemsshkey -Action import -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Import System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemsshkey -Action import -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -6479,52 +6439,57 @@ function Invoke-ADCImportSystemsshkey {
 }
 
 function Invoke-ADCGetSystemsshkey {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER sshkeytype 
-       The type of the ssh key whether public or private key.  
-       Possible values = PRIVATE, PUBLIC 
+        Configuration for 0 resource.
+    .PARAMETER Sshkeytype 
+        The type of the ssh key whether public or private key. 
+        Possible values = PRIVATE, PUBLIC 
     .PARAMETER GetAll 
-        Retreive all systemsshkey object(s)
+        Retrieve all systemsshkey object(s).
     .PARAMETER Count
-        If specified, the count of the systemsshkey object(s) will be returned
+        If specified, the count of the systemsshkey object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemsshkey
+        PS C:\>Invoke-ADCGetSystemsshkey
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemsshkey -GetAll
+        PS C:\>Invoke-ADCGetSystemsshkey -GetAll 
+        Get all systemsshkey data.
     .EXAMPLE
-        Invoke-ADCGetSystemsshkey -name <string>
+        PS C:\>Invoke-ADCGetSystemsshkey -name <string>
+        Get systemsshkey object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemsshkey -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemsshkey -Filter @{ 'name'='<value>' }
+        Get systemsshkey data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemsshkey
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemsshkey/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('PRIVATE', 'PUBLIC')]
-        [string]$sshkeytype,
+        [string]$Sshkeytype,
 			
         [hashtable]$Filter = @{ },
 
@@ -6536,25 +6501,25 @@ function Invoke-ADCGetSystemsshkey {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systemsshkey objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemsshkey -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemsshkey -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemsshkey objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemsshkey -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemsshkey -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemsshkey objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('sshkeytype')) { $Arguments.Add('sshkeytype', $sshkeytype) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemsshkey -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('sshkeytype') ) { $arguments.Add('sshkeytype', $sshkeytype) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemsshkey -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemsshkey configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving systemsshkey configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemsshkey -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemsshkey -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6568,125 +6533,113 @@ function Invoke-ADCGetSystemsshkey {
 }
 
 function Invoke-ADCAddSystemuser {
-<#
+    <#
     .SYNOPSIS
-        Add System configuration Object
+        Add System configuration Object.
     .DESCRIPTION
-        Add System configuration Object 
-    .PARAMETER username 
-        Name for a user. Must begin with a letter, number, or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the user is added.  
-        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my user" or 'my user').  
-        Minimum length = 1 
-    .PARAMETER password 
-        Password for the system user. Can include any ASCII character.  
-        Minimum length = 1 
-    .PARAMETER externalauth 
-        Whether to use external authentication servers for the system user authentication or not.  
-        Default value: ENABLED  
+        Configuration for system user resource.
+    .PARAMETER Username 
+        Name for a user. Must begin with a letter, number, or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the user is added. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my user" or 'my user'). 
+    .PARAMETER Password 
+        Password for the system user. Can include any ASCII character. 
+    .PARAMETER Externalauth 
+        Whether to use external authentication servers for the system user authentication or not. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER promptstring 
-        String to display at the command-line prompt. Can consist of letters, numbers, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), underscore (_), and the following variables:  
-        * %u - Will be replaced by the user name.  
-        * %h - Will be replaced by the hostname of the Citrix ADC.  
-        * %t - Will be replaced by the current time in 12-hour format.  
-        * %T - Will be replaced by the current time in 24-hour format.  
-        * %d - Will be replaced by the current date.  
-        * %s - Will be replaced by the state of the Citrix ADC.  
-        Note: The 63-character limit for the length of the string does not apply to the characters that replace the variables.  
-        Minimum length = 1 
-    .PARAMETER timeout 
+    .PARAMETER Promptstring 
+        String to display at the command-line prompt. Can consist of letters, numbers, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), underscore (_), and the following variables: 
+        * %u - Will be replaced by the user name. 
+        * %h - Will be replaced by the hostname of the Citrix ADC. 
+        * %t - Will be replaced by the current time in 12-hour format. 
+        * %T - Will be replaced by the current time in 24-hour format. 
+        * %d - Will be replaced by the current date. 
+        * %s - Will be replaced by the state of the Citrix ADC. 
+        Note: The 63-character limit for the length of the string does not apply to the characters that replace the variables. 
+    .PARAMETER Timeout 
         CLI session inactivity timeout, in seconds. If Restrictedtimeout argument of system parameter is enabled, Timeout can have values in the range [300-86400] seconds. If Restrictedtimeout argument of system parameter is disabled, Timeout can have values in the range [0, 10-100000000] seconds. Default value is 900 seconds. 
-    .PARAMETER logging 
-        Users logging privilege.  
-        Default value: DISABLED  
+    .PARAMETER Logging 
+        Users logging privilege. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER maxsession 
-        Maximum number of client connection allowed per user.  
-        Default value: 20  
-        Minimum value = 1  
-        Maximum value = 40 
-    .PARAMETER allowedmanagementinterface 
-        Allowed Management interfaces to the system user. By default user is allowed from both API and CLI interfaces. If management interface for a user is set to API, then user is not allowed to access NS through CLI. GUI interface will come under API interface.  
-        Default value: NS_INTERFACE_ALL  
+    .PARAMETER Maxsession 
+        Maximum number of client connection allowed per user. 
+    .PARAMETER Allowedmanagementinterface 
+        Allowed Management interfaces to the system user. By default user is allowed from both API and CLI interfaces. If management interface for a user is set to API, then user is not allowed to access NS through CLI. GUI interface will come under API interface. 
         Possible values = CLI, API 
     .PARAMETER PassThru 
         Return details about the created systemuser item.
     .EXAMPLE
-        Invoke-ADCAddSystemuser -username <string> -password <string>
+        PS C:\>Invoke-ADCAddSystemuser -username <string> -password <string>
+        An example how to add systemuser configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSystemuser
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$username ,
+        [string]$Username,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$password ,
+        [string]$Password,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$externalauth = 'ENABLED' ,
+        [string]$Externalauth = 'ENABLED',
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$promptstring ,
+        [string]$Promptstring,
 
-        [ValidateRange(300, 86400)]
-        [double]$timeout ,
+        [double]$Timeout,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$logging = 'DISABLED' ,
+        [string]$Logging = 'DISABLED',
 
         [ValidateRange(1, 40)]
-        [double]$maxsession = '20' ,
+        [double]$Maxsession = '20',
 
         [ValidateSet('CLI', 'API')]
-        [string[]]$allowedmanagementinterface = 'NS_INTERFACE_ALL' ,
+        [string[]]$Allowedmanagementinterface = 'NS_INTERFACE_ALL',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSystemuser: Starting"
     }
     process {
         try {
-            $Payload = @{
-                username = $username
-                password = $password
+            $payload = @{ username = $username
+                password           = $password
             }
-            if ($PSBoundParameters.ContainsKey('externalauth')) { $Payload.Add('externalauth', $externalauth) }
-            if ($PSBoundParameters.ContainsKey('promptstring')) { $Payload.Add('promptstring', $promptstring) }
-            if ($PSBoundParameters.ContainsKey('timeout')) { $Payload.Add('timeout', $timeout) }
-            if ($PSBoundParameters.ContainsKey('logging')) { $Payload.Add('logging', $logging) }
-            if ($PSBoundParameters.ContainsKey('maxsession')) { $Payload.Add('maxsession', $maxsession) }
-            if ($PSBoundParameters.ContainsKey('allowedmanagementinterface')) { $Payload.Add('allowedmanagementinterface', $allowedmanagementinterface) }
- 
-            if ($PSCmdlet.ShouldProcess("systemuser", "Add System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemuser -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('externalauth') ) { $payload.Add('externalauth', $externalauth) }
+            if ( $PSBoundParameters.ContainsKey('promptstring') ) { $payload.Add('promptstring', $promptstring) }
+            if ( $PSBoundParameters.ContainsKey('timeout') ) { $payload.Add('timeout', $timeout) }
+            if ( $PSBoundParameters.ContainsKey('logging') ) { $payload.Add('logging', $logging) }
+            if ( $PSBoundParameters.ContainsKey('maxsession') ) { $payload.Add('maxsession', $maxsession) }
+            if ( $PSBoundParameters.ContainsKey('allowedmanagementinterface') ) { $payload.Add('allowedmanagementinterface', $allowedmanagementinterface) }
+            if ( $PSCmdlet.ShouldProcess("systemuser", "Add System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type systemuser -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSystemuser -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSystemuser -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6699,48 +6652,48 @@ function Invoke-ADCAddSystemuser {
 }
 
 function Invoke-ADCDeleteSystemuser {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-    .PARAMETER username 
-       Name for a user. Must begin with a letter, number, or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the user is added.  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my user" or 'my user').  
-       Minimum length = 1 
+        Configuration for system user resource.
+    .PARAMETER Username 
+        Name for a user. Must begin with a letter, number, or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the user is added. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my user" or 'my user').
     .EXAMPLE
-        Invoke-ADCDeleteSystemuser -username <string>
+        PS C:\>Invoke-ADCDeleteSystemuser -Username <string>
+        An example how to delete systemuser configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystemuser
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$username 
+        [Parameter(Mandatory)]
+        [string]$Username 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystemuser: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$username", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemuser -NitroPath nitro/v1/config -Resource $username -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$username", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemuser -NitroPath nitro/v1/config -Resource $username -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6756,124 +6709,111 @@ function Invoke-ADCDeleteSystemuser {
 }
 
 function Invoke-ADCUpdateSystemuser {
-<#
+    <#
     .SYNOPSIS
-        Update System configuration Object
+        Update System configuration Object.
     .DESCRIPTION
-        Update System configuration Object 
-    .PARAMETER username 
-        Name for a user. Must begin with a letter, number, or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the user is added.  
-        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my user" or 'my user').  
-        Minimum length = 1 
-    .PARAMETER password 
-        Password for the system user. Can include any ASCII character.  
-        Minimum length = 1 
-    .PARAMETER externalauth 
-        Whether to use external authentication servers for the system user authentication or not.  
-        Default value: ENABLED  
+        Configuration for system user resource.
+    .PARAMETER Username 
+        Name for a user. Must begin with a letter, number, or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the user is added. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my user" or 'my user'). 
+    .PARAMETER Password 
+        Password for the system user. Can include any ASCII character. 
+    .PARAMETER Externalauth 
+        Whether to use external authentication servers for the system user authentication or not. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER promptstring 
-        String to display at the command-line prompt. Can consist of letters, numbers, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), underscore (_), and the following variables:  
-        * %u - Will be replaced by the user name.  
-        * %h - Will be replaced by the hostname of the Citrix ADC.  
-        * %t - Will be replaced by the current time in 12-hour format.  
-        * %T - Will be replaced by the current time in 24-hour format.  
-        * %d - Will be replaced by the current date.  
-        * %s - Will be replaced by the state of the Citrix ADC.  
-        Note: The 63-character limit for the length of the string does not apply to the characters that replace the variables.  
-        Minimum length = 1 
-    .PARAMETER timeout 
+    .PARAMETER Promptstring 
+        String to display at the command-line prompt. Can consist of letters, numbers, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), underscore (_), and the following variables: 
+        * %u - Will be replaced by the user name. 
+        * %h - Will be replaced by the hostname of the Citrix ADC. 
+        * %t - Will be replaced by the current time in 12-hour format. 
+        * %T - Will be replaced by the current time in 24-hour format. 
+        * %d - Will be replaced by the current date. 
+        * %s - Will be replaced by the state of the Citrix ADC. 
+        Note: The 63-character limit for the length of the string does not apply to the characters that replace the variables. 
+    .PARAMETER Timeout 
         CLI session inactivity timeout, in seconds. If Restrictedtimeout argument of system parameter is enabled, Timeout can have values in the range [300-86400] seconds. If Restrictedtimeout argument of system parameter is disabled, Timeout can have values in the range [0, 10-100000000] seconds. Default value is 900 seconds. 
-    .PARAMETER logging 
-        Users logging privilege.  
-        Default value: DISABLED  
+    .PARAMETER Logging 
+        Users logging privilege. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER maxsession 
-        Maximum number of client connection allowed per user.  
-        Default value: 20  
-        Minimum value = 1  
-        Maximum value = 40 
-    .PARAMETER allowedmanagementinterface 
-        Allowed Management interfaces to the system user. By default user is allowed from both API and CLI interfaces. If management interface for a user is set to API, then user is not allowed to access NS through CLI. GUI interface will come under API interface.  
-        Default value: NS_INTERFACE_ALL  
+    .PARAMETER Maxsession 
+        Maximum number of client connection allowed per user. 
+    .PARAMETER Allowedmanagementinterface 
+        Allowed Management interfaces to the system user. By default user is allowed from both API and CLI interfaces. If management interface for a user is set to API, then user is not allowed to access NS through CLI. GUI interface will come under API interface. 
         Possible values = CLI, API 
     .PARAMETER PassThru 
         Return details about the created systemuser item.
     .EXAMPLE
-        Invoke-ADCUpdateSystemuser -username <string>
+        PS C:\>Invoke-ADCUpdateSystemuser -username <string>
+        An example how to update systemuser configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSystemuser
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$username ,
+        [string]$Username,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$password ,
+        [string]$Password,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$externalauth ,
+        [string]$Externalauth,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$promptstring ,
+        [string]$Promptstring,
 
-        [ValidateRange(300, 86400)]
-        [double]$timeout ,
+        [double]$Timeout,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$logging ,
+        [string]$Logging,
 
         [ValidateRange(1, 40)]
-        [double]$maxsession ,
+        [double]$Maxsession,
 
         [ValidateSet('CLI', 'API')]
-        [string[]]$allowedmanagementinterface ,
+        [string[]]$Allowedmanagementinterface,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSystemuser: Starting"
     }
     process {
         try {
-            $Payload = @{
-                username = $username
-            }
-            if ($PSBoundParameters.ContainsKey('password')) { $Payload.Add('password', $password) }
-            if ($PSBoundParameters.ContainsKey('externalauth')) { $Payload.Add('externalauth', $externalauth) }
-            if ($PSBoundParameters.ContainsKey('promptstring')) { $Payload.Add('promptstring', $promptstring) }
-            if ($PSBoundParameters.ContainsKey('timeout')) { $Payload.Add('timeout', $timeout) }
-            if ($PSBoundParameters.ContainsKey('logging')) { $Payload.Add('logging', $logging) }
-            if ($PSBoundParameters.ContainsKey('maxsession')) { $Payload.Add('maxsession', $maxsession) }
-            if ($PSBoundParameters.ContainsKey('allowedmanagementinterface')) { $Payload.Add('allowedmanagementinterface', $allowedmanagementinterface) }
- 
-            if ($PSCmdlet.ShouldProcess("systemuser", "Update System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemuser -Payload $Payload -GetWarning
+            $payload = @{ username = $username }
+            if ( $PSBoundParameters.ContainsKey('password') ) { $payload.Add('password', $password) }
+            if ( $PSBoundParameters.ContainsKey('externalauth') ) { $payload.Add('externalauth', $externalauth) }
+            if ( $PSBoundParameters.ContainsKey('promptstring') ) { $payload.Add('promptstring', $promptstring) }
+            if ( $PSBoundParameters.ContainsKey('timeout') ) { $payload.Add('timeout', $timeout) }
+            if ( $PSBoundParameters.ContainsKey('logging') ) { $payload.Add('logging', $logging) }
+            if ( $PSBoundParameters.ContainsKey('maxsession') ) { $payload.Add('maxsession', $maxsession) }
+            if ( $PSBoundParameters.ContainsKey('allowedmanagementinterface') ) { $payload.Add('allowedmanagementinterface', $allowedmanagementinterface) }
+            if ( $PSCmdlet.ShouldProcess("systemuser", "Update System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemuser -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSystemuser -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSystemuser -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -6886,70 +6826,71 @@ function Invoke-ADCUpdateSystemuser {
 }
 
 function Invoke-ADCUnsetSystemuser {
-<#
+    <#
     .SYNOPSIS
-        Unset System configuration Object
+        Unset System configuration Object.
     .DESCRIPTION
-        Unset System configuration Object 
-   .PARAMETER allowedmanagementinterface 
-       Allowed Management interfaces to the system user. By default user is allowed from both API and CLI interfaces. If management interface for a user is set to API, then user is not allowed to access NS through CLI. GUI interface will come under API interface.  
-       Possible values = CLI, API 
-   .PARAMETER username 
-       Name for a user. Must begin with a letter, number, or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the user is added.  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my user" or 'my user'). 
-   .PARAMETER externalauth 
-       Whether to use external authentication servers for the system user authentication or not.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER promptstring 
-       String to display at the command-line prompt. Can consist of letters, numbers, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), underscore (_), and the following variables:  
-       * %u - Will be replaced by the user name.  
-       * %h - Will be replaced by the hostname of the Citrix ADC.  
-       * %t - Will be replaced by the current time in 12-hour format.  
-       * %T - Will be replaced by the current time in 24-hour format.  
-       * %d - Will be replaced by the current date.  
-       * %s - Will be replaced by the state of the Citrix ADC.  
-       Note: The 63-character limit for the length of the string does not apply to the characters that replace the variables. 
-   .PARAMETER timeout 
-       CLI session inactivity timeout, in seconds. If Restrictedtimeout argument of system parameter is enabled, Timeout can have values in the ] seconds. If Restrictedtimeout argument of system parameter is disabled, Timeout can have values in the ] seconds. Default value is 900 seconds. 
-   .PARAMETER logging 
-       Users logging privilege.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER maxsession 
-       Maximum number of client connection allowed per user.
+        Configuration for system user resource.
+    .PARAMETER Allowedmanagementinterface 
+        Allowed Management interfaces to the system user. By default user is allowed from both API and CLI interfaces. If management interface for a user is set to API, then user is not allowed to access NS through CLI. GUI interface will come under API interface. 
+        Possible values = CLI, API 
+    .PARAMETER Username 
+        Name for a user. Must begin with a letter, number, or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the user is added. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my user" or 'my user'). 
+    .PARAMETER Externalauth 
+        Whether to use external authentication servers for the system user authentication or not. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Promptstring 
+        String to display at the command-line prompt. Can consist of letters, numbers, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), underscore (_), and the following variables: 
+        * %u - Will be replaced by the user name. 
+        * %h - Will be replaced by the hostname of the Citrix ADC. 
+        * %t - Will be replaced by the current time in 12-hour format. 
+        * %T - Will be replaced by the current time in 24-hour format. 
+        * %d - Will be replaced by the current date. 
+        * %s - Will be replaced by the state of the Citrix ADC. 
+        Note: The 63-character limit for the length of the string does not apply to the characters that replace the variables. 
+    .PARAMETER Timeout 
+        CLI session inactivity timeout, in seconds. If Restrictedtimeout argument of system parameter is enabled, Timeout can have values in the range [300-86400] seconds. If Restrictedtimeout argument of system parameter is disabled, Timeout can have values in the range [0, 10-100000000] seconds. Default value is 900 seconds. 
+    .PARAMETER Logging 
+        Users logging privilege. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Maxsession 
+        Maximum number of client connection allowed per user.
     .EXAMPLE
-        Invoke-ADCUnsetSystemuser -username <string>
+        PS C:\>Invoke-ADCUnsetSystemuser -username <string>
+        An example how to unset systemuser configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSystemuser
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$allowedmanagementinterface ,
+        [Boolean]$allowedmanagementinterface,
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$username ,
+        [string]$Username,
 
-        [Boolean]$externalauth ,
+        [Boolean]$externalauth,
 
-        [Boolean]$promptstring ,
+        [Boolean]$promptstring,
 
-        [Boolean]$timeout ,
+        [Boolean]$timeout,
 
-        [Boolean]$logging ,
+        [Boolean]$logging,
 
         [Boolean]$maxsession 
     )
@@ -6958,17 +6899,15 @@ function Invoke-ADCUnsetSystemuser {
     }
     process {
         try {
-            $Payload = @{
-                username = $username
-            }
-            if ($PSBoundParameters.ContainsKey('allowedmanagementinterface')) { $Payload.Add('allowedmanagementinterface', $allowedmanagementinterface) }
-            if ($PSBoundParameters.ContainsKey('externalauth')) { $Payload.Add('externalauth', $externalauth) }
-            if ($PSBoundParameters.ContainsKey('promptstring')) { $Payload.Add('promptstring', $promptstring) }
-            if ($PSBoundParameters.ContainsKey('timeout')) { $Payload.Add('timeout', $timeout) }
-            if ($PSBoundParameters.ContainsKey('logging')) { $Payload.Add('logging', $logging) }
-            if ($PSBoundParameters.ContainsKey('maxsession')) { $Payload.Add('maxsession', $maxsession) }
-            if ($PSCmdlet.ShouldProcess("$username", "Unset System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type systemuser -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ username = $username }
+            if ( $PSBoundParameters.ContainsKey('allowedmanagementinterface') ) { $payload.Add('allowedmanagementinterface', $allowedmanagementinterface) }
+            if ( $PSBoundParameters.ContainsKey('externalauth') ) { $payload.Add('externalauth', $externalauth) }
+            if ( $PSBoundParameters.ContainsKey('promptstring') ) { $payload.Add('promptstring', $promptstring) }
+            if ( $PSBoundParameters.ContainsKey('timeout') ) { $payload.Add('timeout', $timeout) }
+            if ( $PSBoundParameters.ContainsKey('logging') ) { $payload.Add('logging', $logging) }
+            if ( $PSBoundParameters.ContainsKey('maxsession') ) { $payload.Add('maxsession', $maxsession) }
+            if ( $PSCmdlet.ShouldProcess("$username", "Unset System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type systemuser -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -6984,57 +6923,63 @@ function Invoke-ADCUnsetSystemuser {
 }
 
 function Invoke-ADCGetSystemuser {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER username 
-       Name for a user. Must begin with a letter, number, or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the user is added.  
-       CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my user" or 'my user'). 
+        Configuration for system user resource.
+    .PARAMETER Username 
+        Name for a user. Must begin with a letter, number, or the underscore (_) character, and must contain only alphanumeric, hyphen (-), period (.), hash (#), space ( ), at (@), equal (=), colon (:), and underscore characters. Cannot be changed after the user is added. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my user" or 'my user'). 
     .PARAMETER GetAll 
-        Retreive all systemuser object(s)
+        Retrieve all systemuser object(s).
     .PARAMETER Count
-        If specified, the count of the systemuser object(s) will be returned
+        If specified, the count of the systemuser object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemuser
+        PS C:\>Invoke-ADCGetSystemuser
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemuser -GetAll 
+        PS C:\>Invoke-ADCGetSystemuser -GetAll 
+        Get all systemuser data. 
     .EXAMPLE 
-        Invoke-ADCGetSystemuser -Count
+        PS C:\>Invoke-ADCGetSystemuser -Count 
+        Get the number of systemuser objects.
     .EXAMPLE
-        Invoke-ADCGetSystemuser -name <string>
+        PS C:\>Invoke-ADCGetSystemuser -name <string>
+        Get systemuser object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemuser -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemuser -Filter @{ 'name'='<value>' }
+        Get systemuser data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemuser
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$username,
+        [string]$Username,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -7052,24 +6997,24 @@ function Invoke-ADCGetSystemuser {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all systemuser objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemuser objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemuser objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemuser configuration for property 'username'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving systemuser configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7083,51 +7028,56 @@ function Invoke-ADCGetSystemuser {
 }
 
 function Invoke-ADCGetSystemuserbinding {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER username 
-       Name of a system user about whom to display information. 
+        Binding object which returns the resources bound to systemuser.
+    .PARAMETER Username 
+        Name of a system user about whom to display information. 
     .PARAMETER GetAll 
-        Retreive all systemuser_binding object(s)
+        Retrieve all systemuser_binding object(s).
     .PARAMETER Count
-        If specified, the count of the systemuser_binding object(s) will be returned
+        If specified, the count of the systemuser_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemuserbinding
+        PS C:\>Invoke-ADCGetSystemuserbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemuserbinding -GetAll
+        PS C:\>Invoke-ADCGetSystemuserbinding -GetAll 
+        Get all systemuser_binding data.
     .EXAMPLE
-        Invoke-ADCGetSystemuserbinding -name <string>
+        PS C:\>Invoke-ADCGetSystemuserbinding -name <string>
+        Get systemuser_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemuserbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemuserbinding -Filter @{ 'name'='<value>' }
+        Get systemuser_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemuserbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$username,
+        [string]$Username,
 			
         [hashtable]$Filter = @{ },
 
@@ -7139,26 +7089,24 @@ function Invoke-ADCGetSystemuserbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all systemuser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemuser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemuser_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemuser_binding configuration for property 'username'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_binding -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving systemuser_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7172,67 +7120,63 @@ function Invoke-ADCGetSystemuserbinding {
 }
 
 function Invoke-ADCAddSystemusernspartitionbinding {
-<#
+    <#
     .SYNOPSIS
-        Add System configuration Object
+        Add System configuration Object.
     .DESCRIPTION
-        Add System configuration Object 
-    .PARAMETER username 
-        Name of the system-user entry to which to bind the command policy.  
-        Minimum length = 1 
-    .PARAMETER partitionname 
+        Binding object showing the nspartition that can be bound to systemuser.
+    .PARAMETER Username 
+        Name of the system-user entry to which to bind the command policy. 
+    .PARAMETER Partitionname 
         Name of the Partition to bind to the system user. 
     .PARAMETER PassThru 
         Return details about the created systemuser_nspartition_binding item.
     .EXAMPLE
-        Invoke-ADCAddSystemusernspartitionbinding -username <string>
+        PS C:\>Invoke-ADCAddSystemusernspartitionbinding -username <string>
+        An example how to add systemuser_nspartition_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSystemusernspartitionbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser_nspartition_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$username ,
+        [string]$Username,
 
-        [string]$partitionname ,
+        [string]$Partitionname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSystemusernspartitionbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                username = $username
-            }
-            if ($PSBoundParameters.ContainsKey('partitionname')) { $Payload.Add('partitionname', $partitionname) }
- 
-            if ($PSCmdlet.ShouldProcess("systemuser_nspartition_binding", "Add System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemuser_nspartition_binding -Payload $Payload -GetWarning
+            $payload = @{ username = $username }
+            if ( $PSBoundParameters.ContainsKey('partitionname') ) { $payload.Add('partitionname', $partitionname) }
+            if ( $PSCmdlet.ShouldProcess("systemuser_nspartition_binding", "Add System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemuser_nspartition_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSystemusernspartitionbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSystemusernspartitionbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7245,50 +7189,51 @@ function Invoke-ADCAddSystemusernspartitionbinding {
 }
 
 function Invoke-ADCDeleteSystemusernspartitionbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-    .PARAMETER username 
-       Name of the system-user entry to which to bind the command policy.  
-       Minimum length = 1    .PARAMETER partitionname 
-       Name of the Partition to bind to the system user.
+        Binding object showing the nspartition that can be bound to systemuser.
+    .PARAMETER Username 
+        Name of the system-user entry to which to bind the command policy. 
+    .PARAMETER Partitionname 
+        Name of the Partition to bind to the system user.
     .EXAMPLE
-        Invoke-ADCDeleteSystemusernspartitionbinding -username <string>
+        PS C:\>Invoke-ADCDeleteSystemusernspartitionbinding -Username <string>
+        An example how to delete systemuser_nspartition_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystemusernspartitionbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser_nspartition_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$username ,
+        [Parameter(Mandatory)]
+        [string]$Username,
 
-        [string]$partitionname 
+        [string]$Partitionname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystemusernspartitionbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('partitionname')) { $Arguments.Add('partitionname', $partitionname) }
-            if ($PSCmdlet.ShouldProcess("$username", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemuser_nspartition_binding -NitroPath nitro/v1/config -Resource $username -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Partitionname') ) { $arguments.Add('partitionname', $Partitionname) }
+            if ( $PSCmdlet.ShouldProcess("$username", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemuser_nspartition_binding -NitroPath nitro/v1/config -Resource $username -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7304,55 +7249,61 @@ function Invoke-ADCDeleteSystemusernspartitionbinding {
 }
 
 function Invoke-ADCGetSystemusernspartitionbinding {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER username 
-       Name of the system-user entry to which to bind the command policy. 
+        Binding object showing the nspartition that can be bound to systemuser.
+    .PARAMETER Username 
+        Name of the system-user entry to which to bind the command policy. 
     .PARAMETER GetAll 
-        Retreive all systemuser_nspartition_binding object(s)
+        Retrieve all systemuser_nspartition_binding object(s).
     .PARAMETER Count
-        If specified, the count of the systemuser_nspartition_binding object(s) will be returned
+        If specified, the count of the systemuser_nspartition_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemusernspartitionbinding
+        PS C:\>Invoke-ADCGetSystemusernspartitionbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemusernspartitionbinding -GetAll 
+        PS C:\>Invoke-ADCGetSystemusernspartitionbinding -GetAll 
+        Get all systemuser_nspartition_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetSystemusernspartitionbinding -Count
+        PS C:\>Invoke-ADCGetSystemusernspartitionbinding -Count 
+        Get the number of systemuser_nspartition_binding objects.
     .EXAMPLE
-        Invoke-ADCGetSystemusernspartitionbinding -name <string>
+        PS C:\>Invoke-ADCGetSystemusernspartitionbinding -name <string>
+        Get systemuser_nspartition_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemusernspartitionbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemusernspartitionbinding -Filter @{ 'name'='<value>' }
+        Get systemuser_nspartition_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemusernspartitionbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser_nspartition_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$username,
+        [string]$Username,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -7365,26 +7316,24 @@ function Invoke-ADCGetSystemusernspartitionbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all systemuser_nspartition_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_nspartition_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_nspartition_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemuser_nspartition_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_nspartition_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_nspartition_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemuser_nspartition_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_nspartition_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_nspartition_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemuser_nspartition_binding configuration for property 'username'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_nspartition_binding -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving systemuser_nspartition_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_nspartition_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_nspartition_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7398,72 +7347,68 @@ function Invoke-ADCGetSystemusernspartitionbinding {
 }
 
 function Invoke-ADCAddSystemusersystemcmdpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add System configuration Object
+        Add System configuration Object.
     .DESCRIPTION
-        Add System configuration Object 
-    .PARAMETER username 
-        Name of the system-user entry to which to bind the command policy.  
-        Minimum length = 1 
-    .PARAMETER policyname 
+        Binding object showing the systemcmdpolicy that can be bound to systemuser.
+    .PARAMETER Username 
+        Name of the system-user entry to which to bind the command policy. 
+    .PARAMETER Policyname 
         The name of command policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         The priority of the policy. 
     .PARAMETER PassThru 
         Return details about the created systemuser_systemcmdpolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddSystemusersystemcmdpolicybinding -username <string>
+        PS C:\>Invoke-ADCAddSystemusersystemcmdpolicybinding -username <string>
+        An example how to add systemuser_systemcmdpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSystemusersystemcmdpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser_systemcmdpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$username ,
+        [string]$Username,
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [double]$priority ,
+        [double]$Priority,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSystemusersystemcmdpolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                username = $username
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Payload.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
- 
-            if ($PSCmdlet.ShouldProcess("systemuser_systemcmdpolicy_binding", "Add System configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemuser_systemcmdpolicy_binding -Payload $Payload -GetWarning
+            $payload = @{ username = $username }
+            if ( $PSBoundParameters.ContainsKey('policyname') ) { $payload.Add('policyname', $policyname) }
+            if ( $PSBoundParameters.ContainsKey('priority') ) { $payload.Add('priority', $priority) }
+            if ( $PSCmdlet.ShouldProcess("systemuser_systemcmdpolicy_binding", "Add System configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type systemuser_systemcmdpolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSystemusersystemcmdpolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSystemusersystemcmdpolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7476,50 +7421,51 @@ function Invoke-ADCAddSystemusersystemcmdpolicybinding {
 }
 
 function Invoke-ADCDeleteSystemusersystemcmdpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete System configuration Object
+        Delete System configuration Object.
     .DESCRIPTION
-        Delete System configuration Object
-    .PARAMETER username 
-       Name of the system-user entry to which to bind the command policy.  
-       Minimum length = 1    .PARAMETER policyname 
-       The name of command policy.
+        Binding object showing the systemcmdpolicy that can be bound to systemuser.
+    .PARAMETER Username 
+        Name of the system-user entry to which to bind the command policy. 
+    .PARAMETER Policyname 
+        The name of command policy.
     .EXAMPLE
-        Invoke-ADCDeleteSystemusersystemcmdpolicybinding -username <string>
+        PS C:\>Invoke-ADCDeleteSystemusersystemcmdpolicybinding -Username <string>
+        An example how to delete systemuser_systemcmdpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSystemusersystemcmdpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser_systemcmdpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$username ,
+        [Parameter(Mandatory)]
+        [string]$Username,
 
-        [string]$policyname 
+        [string]$Policyname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSystemusersystemcmdpolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSCmdlet.ShouldProcess("$username", "Delete System configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemuser_systemcmdpolicy_binding -NitroPath nitro/v1/config -Resource $username -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSCmdlet.ShouldProcess("$username", "Delete System configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type systemuser_systemcmdpolicy_binding -NitroPath nitro/v1/config -Resource $username -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -7535,55 +7481,61 @@ function Invoke-ADCDeleteSystemusersystemcmdpolicybinding {
 }
 
 function Invoke-ADCGetSystemusersystemcmdpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER username 
-       Name of the system-user entry to which to bind the command policy. 
+        Binding object showing the systemcmdpolicy that can be bound to systemuser.
+    .PARAMETER Username 
+        Name of the system-user entry to which to bind the command policy. 
     .PARAMETER GetAll 
-        Retreive all systemuser_systemcmdpolicy_binding object(s)
+        Retrieve all systemuser_systemcmdpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the systemuser_systemcmdpolicy_binding object(s) will be returned
+        If specified, the count of the systemuser_systemcmdpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemusersystemcmdpolicybinding
+        PS C:\>Invoke-ADCGetSystemusersystemcmdpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemusersystemcmdpolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetSystemusersystemcmdpolicybinding -GetAll 
+        Get all systemuser_systemcmdpolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetSystemusersystemcmdpolicybinding -Count
+        PS C:\>Invoke-ADCGetSystemusersystemcmdpolicybinding -Count 
+        Get the number of systemuser_systemcmdpolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetSystemusersystemcmdpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetSystemusersystemcmdpolicybinding -name <string>
+        Get systemuser_systemcmdpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemusersystemcmdpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemusersystemcmdpolicybinding -Filter @{ 'name'='<value>' }
+        Get systemuser_systemcmdpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemusersystemcmdpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser_systemcmdpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$username,
+        [string]$Username,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -7596,26 +7548,24 @@ function Invoke-ADCGetSystemusersystemcmdpolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all systemuser_systemcmdpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_systemcmdpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_systemcmdpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemuser_systemcmdpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_systemcmdpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_systemcmdpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemuser_systemcmdpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_systemcmdpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_systemcmdpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemuser_systemcmdpolicy_binding configuration for property 'username'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_systemcmdpolicy_binding -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving systemuser_systemcmdpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_systemcmdpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_systemcmdpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -7629,55 +7579,61 @@ function Invoke-ADCGetSystemusersystemcmdpolicybinding {
 }
 
 function Invoke-ADCGetSystemusersystemgroupbinding {
-<#
+    <#
     .SYNOPSIS
-        Get System configuration object(s)
+        Get System configuration object(s).
     .DESCRIPTION
-        Get System configuration object(s)
-    .PARAMETER username 
-       Name of the system-user entry to which to bind the command policy. 
+        Binding object showing the systemgroup that can be bound to systemuser.
+    .PARAMETER Username 
+        Name of the system-user entry to which to bind the command policy. 
     .PARAMETER GetAll 
-        Retreive all systemuser_systemgroup_binding object(s)
+        Retrieve all systemuser_systemgroup_binding object(s).
     .PARAMETER Count
-        If specified, the count of the systemuser_systemgroup_binding object(s) will be returned
+        If specified, the count of the systemuser_systemgroup_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSystemusersystemgroupbinding
+        PS C:\>Invoke-ADCGetSystemusersystemgroupbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSystemusersystemgroupbinding -GetAll 
+        PS C:\>Invoke-ADCGetSystemusersystemgroupbinding -GetAll 
+        Get all systemuser_systemgroup_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetSystemusersystemgroupbinding -Count
+        PS C:\>Invoke-ADCGetSystemusersystemgroupbinding -Count 
+        Get the number of systemuser_systemgroup_binding objects.
     .EXAMPLE
-        Invoke-ADCGetSystemusersystemgroupbinding -name <string>
+        PS C:\>Invoke-ADCGetSystemusersystemgroupbinding -name <string>
+        Get systemuser_systemgroup_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSystemusersystemgroupbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSystemusersystemgroupbinding -Filter @{ 'name'='<value>' }
+        Get systemuser_systemgroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemusersystemgroupbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/system/systemuser_systemgroup_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$username,
+        [string]$Username,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -7690,26 +7646,24 @@ function Invoke-ADCGetSystemusersystemgroupbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all systemuser_systemgroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_systemgroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_systemgroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for systemuser_systemgroup_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_systemgroup_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_systemgroup_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving systemuser_systemgroup_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_systemgroup_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_systemgroup_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving systemuser_systemgroup_binding configuration for property 'username'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_systemgroup_binding -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving systemuser_systemgroup_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_systemgroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type systemuser_systemgroup_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

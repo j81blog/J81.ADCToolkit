@@ -1,118 +1,101 @@
 function Invoke-ADCUpdateIpsecparameter {
-<#
+    <#
     .SYNOPSIS
-        Update Ipsec configuration Object
+        Update Ipsec configuration Object.
     .DESCRIPTION
-        Update Ipsec configuration Object 
-    .PARAMETER ikeversion 
-        IKE Protocol Version.  
-        Default value: V2  
+        Configuration for IPSEC paramter resource.
+    .PARAMETER Ikeversion 
+        IKE Protocol Version. 
         Possible values = V1, V2 
-    .PARAMETER encalgo 
-        Type of encryption algorithm (Note: Selection of AES enables AES128).  
-        Default value: AES  
+    .PARAMETER Encalgo 
+        Type of encryption algorithm (Note: Selection of AES enables AES128). 
         Possible values = AES, 3DES, AES192, AES256 
-    .PARAMETER hashalgo 
-        Type of hashing algorithm.  
-        Default value: HMAC_SHA256  
+    .PARAMETER Hashalgo 
+        Type of hashing algorithm. 
         Possible values = HMAC_SHA1, HMAC_SHA256, HMAC_SHA384, HMAC_SHA512, HMAC_MD5 
-    .PARAMETER lifetime 
-        Lifetime of IKE SA in seconds. Lifetime of IPSec SA will be (lifetime of IKE SA/8).  
-        Minimum value = 480  
-        Maximum value = 31536000 
-    .PARAMETER livenesscheckinterval 
-        Number of seconds after which a notify payload is sent to check the liveliness of the peer. Additional retries are done as per retransmit interval setting. Zero value disables liveliness checks.  
-        Minimum value = 0  
-        Maximum value = 64999 
-    .PARAMETER replaywindowsize 
-        IPSec Replay window size for the data traffic.  
-        Minimum value = 0  
-        Maximum value = 16384 
-    .PARAMETER ikeretryinterval 
-        IKE retry interval for bringing up the connection.  
-        Minimum value = 60  
-        Maximum value = 3600 
-    .PARAMETER perfectforwardsecrecy 
-        Enable/Disable PFS.  
-        Default value: DISABLE  
+    .PARAMETER Lifetime 
+        Lifetime of IKE SA in seconds. Lifetime of IPSec SA will be (lifetime of IKE SA/8). 
+    .PARAMETER Livenesscheckinterval 
+        Number of seconds after which a notify payload is sent to check the liveliness of the peer. Additional retries are done as per retransmit interval setting. Zero value disables liveliness checks. 
+    .PARAMETER Replaywindowsize 
+        IPSec Replay window size for the data traffic. 
+    .PARAMETER Ikeretryinterval 
+        IKE retry interval for bringing up the connection. 
+    .PARAMETER Perfectforwardsecrecy 
+        Enable/Disable PFS. 
         Possible values = ENABLE, DISABLE 
-    .PARAMETER retransmissiontime 
-        The interval in seconds to retry sending the IKE messages to peer, three consecutive attempts are done with doubled interval after every failure,  
-        increases for every retransmit till 6 retransmits.  
-        Minimum value = 1  
-        Maximum value = 99
+    .PARAMETER Retransmissiontime 
+        The interval in seconds to retry sending the IKE messages to peer, three consecutive attempts are done with doubled interval after every failure, 
+        increases for every retransmit till 6 retransmits.
     .EXAMPLE
-        Invoke-ADCUpdateIpsecparameter 
+        PS C:\>Invoke-ADCUpdateIpsecparameter 
+        An example how to update ipsecparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateIpsecparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsec/ipsecparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateSet('V1', 'V2')]
-        [string]$ikeversion ,
+        [string]$Ikeversion,
 
         [ValidateSet('AES', '3DES', 'AES192', 'AES256')]
-        [string[]]$encalgo ,
+        [string[]]$Encalgo,
 
         [ValidateSet('HMAC_SHA1', 'HMAC_SHA256', 'HMAC_SHA384', 'HMAC_SHA512', 'HMAC_MD5')]
-        [string[]]$hashalgo ,
+        [string[]]$Hashalgo,
 
         [ValidateRange(480, 31536000)]
-        [double]$lifetime ,
+        [double]$Lifetime,
 
         [ValidateRange(0, 64999)]
-        [double]$livenesscheckinterval ,
+        [double]$Livenesscheckinterval,
 
         [ValidateRange(0, 16384)]
-        [double]$replaywindowsize ,
+        [double]$Replaywindowsize,
 
         [ValidateRange(60, 3600)]
-        [double]$ikeretryinterval ,
+        [double]$Ikeretryinterval,
 
         [ValidateSet('ENABLE', 'DISABLE')]
-        [string]$perfectforwardsecrecy ,
+        [string]$Perfectforwardsecrecy,
 
         [ValidateRange(1, 99)]
-        [double]$retransmissiontime 
-
+        [double]$Retransmissiontime 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateIpsecparameter: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('ikeversion')) { $Payload.Add('ikeversion', $ikeversion) }
-            if ($PSBoundParameters.ContainsKey('encalgo')) { $Payload.Add('encalgo', $encalgo) }
-            if ($PSBoundParameters.ContainsKey('hashalgo')) { $Payload.Add('hashalgo', $hashalgo) }
-            if ($PSBoundParameters.ContainsKey('lifetime')) { $Payload.Add('lifetime', $lifetime) }
-            if ($PSBoundParameters.ContainsKey('livenesscheckinterval')) { $Payload.Add('livenesscheckinterval', $livenesscheckinterval) }
-            if ($PSBoundParameters.ContainsKey('replaywindowsize')) { $Payload.Add('replaywindowsize', $replaywindowsize) }
-            if ($PSBoundParameters.ContainsKey('ikeretryinterval')) { $Payload.Add('ikeretryinterval', $ikeretryinterval) }
-            if ($PSBoundParameters.ContainsKey('perfectforwardsecrecy')) { $Payload.Add('perfectforwardsecrecy', $perfectforwardsecrecy) }
-            if ($PSBoundParameters.ContainsKey('retransmissiontime')) { $Payload.Add('retransmissiontime', $retransmissiontime) }
- 
-            if ($PSCmdlet.ShouldProcess("ipsecparameter", "Update Ipsec configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type ipsecparameter -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('ikeversion') ) { $payload.Add('ikeversion', $ikeversion) }
+            if ( $PSBoundParameters.ContainsKey('encalgo') ) { $payload.Add('encalgo', $encalgo) }
+            if ( $PSBoundParameters.ContainsKey('hashalgo') ) { $payload.Add('hashalgo', $hashalgo) }
+            if ( $PSBoundParameters.ContainsKey('lifetime') ) { $payload.Add('lifetime', $lifetime) }
+            if ( $PSBoundParameters.ContainsKey('livenesscheckinterval') ) { $payload.Add('livenesscheckinterval', $livenesscheckinterval) }
+            if ( $PSBoundParameters.ContainsKey('replaywindowsize') ) { $payload.Add('replaywindowsize', $replaywindowsize) }
+            if ( $PSBoundParameters.ContainsKey('ikeretryinterval') ) { $payload.Add('ikeretryinterval', $ikeretryinterval) }
+            if ( $PSBoundParameters.ContainsKey('perfectforwardsecrecy') ) { $payload.Add('perfectforwardsecrecy', $perfectforwardsecrecy) }
+            if ( $PSBoundParameters.ContainsKey('retransmissiontime') ) { $payload.Add('retransmissiontime', $retransmissiontime) }
+            if ( $PSCmdlet.ShouldProcess("ipsecparameter", "Update Ipsec configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type ipsecparameter -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -125,69 +108,71 @@ function Invoke-ADCUpdateIpsecparameter {
 }
 
 function Invoke-ADCUnsetIpsecparameter {
-<#
+    <#
     .SYNOPSIS
-        Unset Ipsec configuration Object
+        Unset Ipsec configuration Object.
     .DESCRIPTION
-        Unset Ipsec configuration Object 
-   .PARAMETER ikeversion 
-       IKE Protocol Version.  
-       Possible values = V1, V2 
-   .PARAMETER encalgo 
-       Type of encryption algorithm (Note: Selection of AES enables AES128).  
-       Possible values = AES, 3DES, AES192, AES256 
-   .PARAMETER hashalgo 
-       Type of hashing algorithm.  
-       Possible values = HMAC_SHA1, HMAC_SHA256, HMAC_SHA384, HMAC_SHA512, HMAC_MD5 
-   .PARAMETER lifetime 
-       Lifetime of IKE SA in seconds. Lifetime of IPSec SA will be (lifetime of IKE SA/8). 
-   .PARAMETER livenesscheckinterval 
-       Number of seconds after which a notify payload is sent to check the liveliness of the peer. Additional retries are done as per retransmit interval setting. Zero value disables liveliness checks. 
-   .PARAMETER replaywindowsize 
-       IPSec Replay window size for the data traffic. 
-   .PARAMETER ikeretryinterval 
-       IKE retry interval for bringing up the connection. 
-   .PARAMETER perfectforwardsecrecy 
-       Enable/Disable PFS.  
-       Possible values = ENABLE, DISABLE 
-   .PARAMETER retransmissiontime 
-       The interval in seconds to retry sending the IKE messages to peer, three consecutive attempts are done with doubled interval after every failure,  
-       increases for every retransmit till 6 retransmits.
+        Configuration for IPSEC paramter resource.
+    .PARAMETER Ikeversion 
+        IKE Protocol Version. 
+        Possible values = V1, V2 
+    .PARAMETER Encalgo 
+        Type of encryption algorithm (Note: Selection of AES enables AES128). 
+        Possible values = AES, 3DES, AES192, AES256 
+    .PARAMETER Hashalgo 
+        Type of hashing algorithm. 
+        Possible values = HMAC_SHA1, HMAC_SHA256, HMAC_SHA384, HMAC_SHA512, HMAC_MD5 
+    .PARAMETER Lifetime 
+        Lifetime of IKE SA in seconds. Lifetime of IPSec SA will be (lifetime of IKE SA/8). 
+    .PARAMETER Livenesscheckinterval 
+        Number of seconds after which a notify payload is sent to check the liveliness of the peer. Additional retries are done as per retransmit interval setting. Zero value disables liveliness checks. 
+    .PARAMETER Replaywindowsize 
+        IPSec Replay window size for the data traffic. 
+    .PARAMETER Ikeretryinterval 
+        IKE retry interval for bringing up the connection. 
+    .PARAMETER Perfectforwardsecrecy 
+        Enable/Disable PFS. 
+        Possible values = ENABLE, DISABLE 
+    .PARAMETER Retransmissiontime 
+        The interval in seconds to retry sending the IKE messages to peer, three consecutive attempts are done with doubled interval after every failure, 
+        increases for every retransmit till 6 retransmits.
     .EXAMPLE
-        Invoke-ADCUnsetIpsecparameter 
+        PS C:\>Invoke-ADCUnsetIpsecparameter 
+        An example how to unset ipsecparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetIpsecparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsec/ipsecparameter
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$ikeversion ,
+        [Boolean]$ikeversion,
 
-        [Boolean]$encalgo ,
+        [Boolean]$encalgo,
 
-        [Boolean]$hashalgo ,
+        [Boolean]$hashalgo,
 
-        [Boolean]$lifetime ,
+        [Boolean]$lifetime,
 
-        [Boolean]$livenesscheckinterval ,
+        [Boolean]$livenesscheckinterval,
 
-        [Boolean]$replaywindowsize ,
+        [Boolean]$replaywindowsize,
 
-        [Boolean]$ikeretryinterval ,
+        [Boolean]$ikeretryinterval,
 
-        [Boolean]$perfectforwardsecrecy ,
+        [Boolean]$perfectforwardsecrecy,
 
         [Boolean]$retransmissiontime 
     )
@@ -196,20 +181,18 @@ function Invoke-ADCUnsetIpsecparameter {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('ikeversion')) { $Payload.Add('ikeversion', $ikeversion) }
-            if ($PSBoundParameters.ContainsKey('encalgo')) { $Payload.Add('encalgo', $encalgo) }
-            if ($PSBoundParameters.ContainsKey('hashalgo')) { $Payload.Add('hashalgo', $hashalgo) }
-            if ($PSBoundParameters.ContainsKey('lifetime')) { $Payload.Add('lifetime', $lifetime) }
-            if ($PSBoundParameters.ContainsKey('livenesscheckinterval')) { $Payload.Add('livenesscheckinterval', $livenesscheckinterval) }
-            if ($PSBoundParameters.ContainsKey('replaywindowsize')) { $Payload.Add('replaywindowsize', $replaywindowsize) }
-            if ($PSBoundParameters.ContainsKey('ikeretryinterval')) { $Payload.Add('ikeretryinterval', $ikeretryinterval) }
-            if ($PSBoundParameters.ContainsKey('perfectforwardsecrecy')) { $Payload.Add('perfectforwardsecrecy', $perfectforwardsecrecy) }
-            if ($PSBoundParameters.ContainsKey('retransmissiontime')) { $Payload.Add('retransmissiontime', $retransmissiontime) }
-            if ($PSCmdlet.ShouldProcess("ipsecparameter", "Unset Ipsec configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ipsecparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('ikeversion') ) { $payload.Add('ikeversion', $ikeversion) }
+            if ( $PSBoundParameters.ContainsKey('encalgo') ) { $payload.Add('encalgo', $encalgo) }
+            if ( $PSBoundParameters.ContainsKey('hashalgo') ) { $payload.Add('hashalgo', $hashalgo) }
+            if ( $PSBoundParameters.ContainsKey('lifetime') ) { $payload.Add('lifetime', $lifetime) }
+            if ( $PSBoundParameters.ContainsKey('livenesscheckinterval') ) { $payload.Add('livenesscheckinterval', $livenesscheckinterval) }
+            if ( $PSBoundParameters.ContainsKey('replaywindowsize') ) { $payload.Add('replaywindowsize', $replaywindowsize) }
+            if ( $PSBoundParameters.ContainsKey('ikeretryinterval') ) { $payload.Add('ikeretryinterval', $ikeretryinterval) }
+            if ( $PSBoundParameters.ContainsKey('perfectforwardsecrecy') ) { $payload.Add('perfectforwardsecrecy', $perfectforwardsecrecy) }
+            if ( $PSBoundParameters.ContainsKey('retransmissiontime') ) { $payload.Add('retransmissiontime', $retransmissiontime) }
+            if ( $PSCmdlet.ShouldProcess("ipsecparameter", "Unset Ipsec configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type ipsecparameter -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -225,45 +208,50 @@ function Invoke-ADCUnsetIpsecparameter {
 }
 
 function Invoke-ADCGetIpsecparameter {
-<#
+    <#
     .SYNOPSIS
-        Get Ipsec configuration object(s)
+        Get Ipsec configuration object(s).
     .DESCRIPTION
-        Get Ipsec configuration object(s)
+        Configuration for IPSEC paramter resource.
     .PARAMETER GetAll 
-        Retreive all ipsecparameter object(s)
+        Retrieve all ipsecparameter object(s).
     .PARAMETER Count
-        If specified, the count of the ipsecparameter object(s) will be returned
+        If specified, the count of the ipsecparameter object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetIpsecparameter
+        PS C:\>Invoke-ADCGetIpsecparameter
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetIpsecparameter -GetAll
+        PS C:\>Invoke-ADCGetIpsecparameter -GetAll 
+        Get all ipsecparameter data.
     .EXAMPLE
-        Invoke-ADCGetIpsecparameter -name <string>
+        PS C:\>Invoke-ADCGetIpsecparameter -name <string>
+        Get ipsecparameter object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetIpsecparameter -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetIpsecparameter -Filter @{ 'name'='<value>' }
+        Get ipsecparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetIpsecparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsec/ipsecparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -275,24 +263,24 @@ function Invoke-ADCGetIpsecparameter {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all ipsecparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for ipsecparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving ipsecparameter objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecparameter -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving ipsecparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving ipsecparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -306,151 +294,136 @@ function Invoke-ADCGetIpsecparameter {
 }
 
 function Invoke-ADCAddIpsecprofile {
-<#
+    <#
     .SYNOPSIS
-        Add Ipsec configuration Object
+        Add Ipsec configuration Object.
     .DESCRIPTION
-        Add Ipsec configuration Object 
-    .PARAMETER name 
-        The name of the ipsec profile.  
-        Minimum length = 1  
-        Maximum length = 32 
-    .PARAMETER ikeversion 
-        IKE Protocol Version.  
+        Configuration for IPSEC profile resource.
+    .PARAMETER Name 
+        The name of the ipsec profile. 
+    .PARAMETER Ikeversion 
+        IKE Protocol Version. 
         Possible values = V1, V2 
-    .PARAMETER encalgo 
-        Type of encryption algorithm (Note: Selection of AES enables AES128).  
+    .PARAMETER Encalgo 
+        Type of encryption algorithm (Note: Selection of AES enables AES128). 
         Possible values = AES, 3DES, AES192, AES256 
-    .PARAMETER hashalgo 
-        Type of hashing algorithm.  
+    .PARAMETER Hashalgo 
+        Type of hashing algorithm. 
         Possible values = HMAC_SHA1, HMAC_SHA256, HMAC_SHA384, HMAC_SHA512, HMAC_MD5 
-    .PARAMETER lifetime 
-        Lifetime of IKE SA in seconds. Lifetime of IPSec SA will be (lifetime of IKE SA/8).  
-        Minimum value = 480  
-        Maximum value = 31536000 
-    .PARAMETER psk 
+    .PARAMETER Lifetime 
+        Lifetime of IKE SA in seconds. Lifetime of IPSec SA will be (lifetime of IKE SA/8). 
+    .PARAMETER Psk 
         Pre shared key value. 
-    .PARAMETER publickey 
+    .PARAMETER Publickey 
         Public key file path. 
-    .PARAMETER privatekey 
+    .PARAMETER Privatekey 
         Private key file path. 
-    .PARAMETER peerpublickey 
+    .PARAMETER Peerpublickey 
         Peer public key file path. 
-    .PARAMETER livenesscheckinterval 
-        Number of seconds after which a notify payload is sent to check the liveliness of the peer. Additional retries are done as per retransmit interval setting. Zero value disables liveliness checks.  
-        Minimum value = 0  
-        Maximum value = 64999 
-    .PARAMETER replaywindowsize 
-        IPSec Replay window size for the data traffic.  
-        Minimum value = 0  
-        Maximum value = 16384 
-    .PARAMETER ikeretryinterval 
-        IKE retry interval for bringing up the connection.  
-        Minimum value = 60  
-        Maximum value = 3600 
-    .PARAMETER retransmissiontime 
-        The interval in seconds to retry sending the IKE messages to peer, three consecutive attempts are done with doubled interval after every failure.  
-        Minimum value = 1  
-        Maximum value = 99 
-    .PARAMETER perfectforwardsecrecy 
-        Enable/Disable PFS.  
+    .PARAMETER Livenesscheckinterval 
+        Number of seconds after which a notify payload is sent to check the liveliness of the peer. Additional retries are done as per retransmit interval setting. Zero value disables liveliness checks. 
+    .PARAMETER Replaywindowsize 
+        IPSec Replay window size for the data traffic. 
+    .PARAMETER Ikeretryinterval 
+        IKE retry interval for bringing up the connection. 
+    .PARAMETER Retransmissiontime 
+        The interval in seconds to retry sending the IKE messages to peer, three consecutive attempts are done with doubled interval after every failure. 
+    .PARAMETER Perfectforwardsecrecy 
+        Enable/Disable PFS. 
         Possible values = ENABLE, DISABLE 
     .PARAMETER PassThru 
         Return details about the created ipsecprofile item.
     .EXAMPLE
-        Invoke-ADCAddIpsecprofile -name <string>
+        PS C:\>Invoke-ADCAddIpsecprofile -name <string>
+        An example how to add ipsecprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddIpsecprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsec/ipsecprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 32)]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateSet('V1', 'V2')]
-        [string]$ikeversion ,
+        [string]$Ikeversion,
 
         [ValidateSet('AES', '3DES', 'AES192', 'AES256')]
-        [string[]]$encalgo ,
+        [string[]]$Encalgo,
 
         [ValidateSet('HMAC_SHA1', 'HMAC_SHA256', 'HMAC_SHA384', 'HMAC_SHA512', 'HMAC_MD5')]
-        [string[]]$hashalgo ,
+        [string[]]$Hashalgo,
 
         [ValidateRange(480, 31536000)]
-        [double]$lifetime ,
+        [double]$Lifetime,
 
-        [string]$psk ,
+        [string]$Psk,
 
-        [string]$publickey ,
+        [string]$Publickey,
 
-        [string]$privatekey ,
+        [string]$Privatekey,
 
-        [string]$peerpublickey ,
+        [string]$Peerpublickey,
 
         [ValidateRange(0, 64999)]
-        [double]$livenesscheckinterval ,
+        [double]$Livenesscheckinterval,
 
         [ValidateRange(0, 16384)]
-        [double]$replaywindowsize ,
+        [double]$Replaywindowsize,
 
         [ValidateRange(60, 3600)]
-        [double]$ikeretryinterval ,
+        [double]$Ikeretryinterval,
 
         [ValidateRange(1, 99)]
-        [double]$retransmissiontime ,
+        [double]$Retransmissiontime,
 
         [ValidateSet('ENABLE', 'DISABLE')]
-        [string]$perfectforwardsecrecy ,
+        [string]$Perfectforwardsecrecy,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddIpsecprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('ikeversion')) { $Payload.Add('ikeversion', $ikeversion) }
-            if ($PSBoundParameters.ContainsKey('encalgo')) { $Payload.Add('encalgo', $encalgo) }
-            if ($PSBoundParameters.ContainsKey('hashalgo')) { $Payload.Add('hashalgo', $hashalgo) }
-            if ($PSBoundParameters.ContainsKey('lifetime')) { $Payload.Add('lifetime', $lifetime) }
-            if ($PSBoundParameters.ContainsKey('psk')) { $Payload.Add('psk', $psk) }
-            if ($PSBoundParameters.ContainsKey('publickey')) { $Payload.Add('publickey', $publickey) }
-            if ($PSBoundParameters.ContainsKey('privatekey')) { $Payload.Add('privatekey', $privatekey) }
-            if ($PSBoundParameters.ContainsKey('peerpublickey')) { $Payload.Add('peerpublickey', $peerpublickey) }
-            if ($PSBoundParameters.ContainsKey('livenesscheckinterval')) { $Payload.Add('livenesscheckinterval', $livenesscheckinterval) }
-            if ($PSBoundParameters.ContainsKey('replaywindowsize')) { $Payload.Add('replaywindowsize', $replaywindowsize) }
-            if ($PSBoundParameters.ContainsKey('ikeretryinterval')) { $Payload.Add('ikeretryinterval', $ikeretryinterval) }
-            if ($PSBoundParameters.ContainsKey('retransmissiontime')) { $Payload.Add('retransmissiontime', $retransmissiontime) }
-            if ($PSBoundParameters.ContainsKey('perfectforwardsecrecy')) { $Payload.Add('perfectforwardsecrecy', $perfectforwardsecrecy) }
- 
-            if ($PSCmdlet.ShouldProcess("ipsecprofile", "Add Ipsec configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ipsecprofile -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('ikeversion') ) { $payload.Add('ikeversion', $ikeversion) }
+            if ( $PSBoundParameters.ContainsKey('encalgo') ) { $payload.Add('encalgo', $encalgo) }
+            if ( $PSBoundParameters.ContainsKey('hashalgo') ) { $payload.Add('hashalgo', $hashalgo) }
+            if ( $PSBoundParameters.ContainsKey('lifetime') ) { $payload.Add('lifetime', $lifetime) }
+            if ( $PSBoundParameters.ContainsKey('psk') ) { $payload.Add('psk', $psk) }
+            if ( $PSBoundParameters.ContainsKey('publickey') ) { $payload.Add('publickey', $publickey) }
+            if ( $PSBoundParameters.ContainsKey('privatekey') ) { $payload.Add('privatekey', $privatekey) }
+            if ( $PSBoundParameters.ContainsKey('peerpublickey') ) { $payload.Add('peerpublickey', $peerpublickey) }
+            if ( $PSBoundParameters.ContainsKey('livenesscheckinterval') ) { $payload.Add('livenesscheckinterval', $livenesscheckinterval) }
+            if ( $PSBoundParameters.ContainsKey('replaywindowsize') ) { $payload.Add('replaywindowsize', $replaywindowsize) }
+            if ( $PSBoundParameters.ContainsKey('ikeretryinterval') ) { $payload.Add('ikeretryinterval', $ikeretryinterval) }
+            if ( $PSBoundParameters.ContainsKey('retransmissiontime') ) { $payload.Add('retransmissiontime', $retransmissiontime) }
+            if ( $PSBoundParameters.ContainsKey('perfectforwardsecrecy') ) { $payload.Add('perfectforwardsecrecy', $perfectforwardsecrecy) }
+            if ( $PSCmdlet.ShouldProcess("ipsecprofile", "Add Ipsec configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ipsecprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetIpsecprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetIpsecprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -463,48 +436,47 @@ function Invoke-ADCAddIpsecprofile {
 }
 
 function Invoke-ADCDeleteIpsecprofile {
-<#
+    <#
     .SYNOPSIS
-        Delete Ipsec configuration Object
+        Delete Ipsec configuration Object.
     .DESCRIPTION
-        Delete Ipsec configuration Object
-    .PARAMETER name 
-       The name of the ipsec profile.  
-       Minimum length = 1  
-       Maximum length = 32 
+        Configuration for IPSEC profile resource.
+    .PARAMETER Name 
+        The name of the ipsec profile.
     .EXAMPLE
-        Invoke-ADCDeleteIpsecprofile -name <string>
+        PS C:\>Invoke-ADCDeleteIpsecprofile -Name <string>
+        An example how to delete ipsecprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteIpsecprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsec/ipsecprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteIpsecprofile: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Ipsec configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type ipsecprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Ipsec configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type ipsecprofile -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -520,55 +492,61 @@ function Invoke-ADCDeleteIpsecprofile {
 }
 
 function Invoke-ADCGetIpsecprofile {
-<#
+    <#
     .SYNOPSIS
-        Get Ipsec configuration object(s)
+        Get Ipsec configuration object(s).
     .DESCRIPTION
-        Get Ipsec configuration object(s)
-    .PARAMETER name 
-       The name of the ipsec profile. 
+        Configuration for IPSEC profile resource.
+    .PARAMETER Name 
+        The name of the ipsec profile. 
     .PARAMETER GetAll 
-        Retreive all ipsecprofile object(s)
+        Retrieve all ipsecprofile object(s).
     .PARAMETER Count
-        If specified, the count of the ipsecprofile object(s) will be returned
+        If specified, the count of the ipsecprofile object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetIpsecprofile
+        PS C:\>Invoke-ADCGetIpsecprofile
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetIpsecprofile -GetAll 
+        PS C:\>Invoke-ADCGetIpsecprofile -GetAll 
+        Get all ipsecprofile data. 
     .EXAMPLE 
-        Invoke-ADCGetIpsecprofile -Count
+        PS C:\>Invoke-ADCGetIpsecprofile -Count 
+        Get the number of ipsecprofile objects.
     .EXAMPLE
-        Invoke-ADCGetIpsecprofile -name <string>
+        PS C:\>Invoke-ADCGetIpsecprofile -name <string>
+        Get ipsecprofile object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetIpsecprofile -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetIpsecprofile -Filter @{ 'name'='<value>' }
+        Get ipsecprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetIpsecprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsec/ipsecprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateLength(1, 32)]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -586,24 +564,24 @@ function Invoke-ADCGetIpsecprofile {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all ipsecprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for ipsecprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving ipsecprofile objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecprofile -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving ipsecprofile configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving ipsecprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ipsecprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

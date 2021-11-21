@@ -1,96 +1,91 @@
 function Invoke-ADCAddCmpaction {
-<#
+    <#
     .SYNOPSIS
-        Add Compression configuration Object
+        Add Compression configuration Object.
     .DESCRIPTION
-        Add Compression configuration Object 
-    .PARAMETER name 
+        Configuration for compression action resource.
+    .PARAMETER Name 
         Name of the compression action. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the action is added. 
-    .PARAMETER cmptype 
-        Type of compression performed by this action.  
-        Available settings function as follows:  
-        * COMPRESS - Apply GZIP or DEFLATE compression to the response, depending on the request header. Prefer GZIP.  
-        * GZIP - Apply GZIP compression.  
-        * DEFLATE - Apply DEFLATE compression.  
-        * NOCOMPRESS - Do not compress the response if the request matches a policy that uses this action.  
+    .PARAMETER Cmptype 
+        Type of compression performed by this action. 
+        Available settings function as follows: 
+        * COMPRESS - Apply GZIP or DEFLATE compression to the response, depending on the request header. Prefer GZIP. 
+        * GZIP - Apply GZIP compression. 
+        * DEFLATE - Apply DEFLATE compression. 
+        * NOCOMPRESS - Do not compress the response if the request matches a policy that uses this action. 
         Possible values = compress, gzip, deflate, nocompress 
-    .PARAMETER addvaryheader 
-        Control insertion of the Vary header in HTTP responses compressed by Citrix ADC. Intermediate caches store different versions of the response for different values of the headers present in the Vary response header.  
-        Default value: GLOBAL  
+    .PARAMETER Addvaryheader 
+        Control insertion of the Vary header in HTTP responses compressed by Citrix ADC. Intermediate caches store different versions of the response for different values of the headers present in the Vary response header. 
         Possible values = GLOBAL, DISABLED, ENABLED 
-    .PARAMETER varyheadervalue 
-        The value of the HTTP Vary header for compressed responses.  
-        Minimum length = 1 
-    .PARAMETER deltatype 
-        The type of delta action (if delta type compression action is defined).  
-        Default value: PERURL  
+    .PARAMETER Varyheadervalue 
+        The value of the HTTP Vary header for compressed responses. 
+    .PARAMETER Deltatype 
+        The type of delta action (if delta type compression action is defined). 
         Possible values = PERURL, PERPOLICY 
     .PARAMETER PassThru 
         Return details about the created cmpaction item.
     .EXAMPLE
-        Invoke-ADCAddCmpaction -name <string> -cmptype <string>
+        PS C:\>Invoke-ADCAddCmpaction -name <string> -cmptype <string>
+        An example how to add cmpaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddCmpaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('compress', 'gzip', 'deflate', 'nocompress')]
-        [string]$cmptype ,
+        [string]$Cmptype,
 
         [ValidateSet('GLOBAL', 'DISABLED', 'ENABLED')]
-        [string]$addvaryheader = 'GLOBAL' ,
+        [string]$Addvaryheader = 'GLOBAL',
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$varyheadervalue ,
+        [string]$Varyheadervalue,
 
         [ValidateSet('PERURL', 'PERPOLICY')]
-        [string]$deltatype = 'PERURL' ,
+        [string]$Deltatype = 'PERURL',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddCmpaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                cmptype = $cmptype
+            $payload = @{ name = $name
+                cmptype        = $cmptype
             }
-            if ($PSBoundParameters.ContainsKey('addvaryheader')) { $Payload.Add('addvaryheader', $addvaryheader) }
-            if ($PSBoundParameters.ContainsKey('varyheadervalue')) { $Payload.Add('varyheadervalue', $varyheadervalue) }
-            if ($PSBoundParameters.ContainsKey('deltatype')) { $Payload.Add('deltatype', $deltatype) }
- 
-            if ($PSCmdlet.ShouldProcess("cmpaction", "Add Compression configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cmpaction -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('addvaryheader') ) { $payload.Add('addvaryheader', $addvaryheader) }
+            if ( $PSBoundParameters.ContainsKey('varyheadervalue') ) { $payload.Add('varyheadervalue', $varyheadervalue) }
+            if ( $PSBoundParameters.ContainsKey('deltatype') ) { $payload.Add('deltatype', $deltatype) }
+            if ( $PSCmdlet.ShouldProcess("cmpaction", "Add Compression configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cmpaction -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCmpaction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCmpaction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -103,46 +98,47 @@ function Invoke-ADCAddCmpaction {
 }
 
 function Invoke-ADCDeleteCmpaction {
-<#
+    <#
     .SYNOPSIS
-        Delete Compression configuration Object
+        Delete Compression configuration Object.
     .DESCRIPTION
-        Delete Compression configuration Object
-    .PARAMETER name 
-       Name of the compression action. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the action is added. 
+        Configuration for compression action resource.
+    .PARAMETER Name 
+        Name of the compression action. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the action is added.
     .EXAMPLE
-        Invoke-ADCDeleteCmpaction -name <string>
+        PS C:\>Invoke-ADCDeleteCmpaction -Name <string>
+        An example how to delete cmpaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteCmpaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteCmpaction: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Compression configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cmpaction -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Compression configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cmpaction -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -158,89 +154,84 @@ function Invoke-ADCDeleteCmpaction {
 }
 
 function Invoke-ADCUpdateCmpaction {
-<#
+    <#
     .SYNOPSIS
-        Update Compression configuration Object
+        Update Compression configuration Object.
     .DESCRIPTION
-        Update Compression configuration Object 
-    .PARAMETER name 
+        Configuration for compression action resource.
+    .PARAMETER Name 
         Name of the compression action. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the action is added. 
-    .PARAMETER cmptype 
-        Type of compression performed by this action.  
-        Available settings function as follows:  
-        * COMPRESS - Apply GZIP or DEFLATE compression to the response, depending on the request header. Prefer GZIP.  
-        * GZIP - Apply GZIP compression.  
-        * DEFLATE - Apply DEFLATE compression.  
-        * NOCOMPRESS - Do not compress the response if the request matches a policy that uses this action.  
+    .PARAMETER Cmptype 
+        Type of compression performed by this action. 
+        Available settings function as follows: 
+        * COMPRESS - Apply GZIP or DEFLATE compression to the response, depending on the request header. Prefer GZIP. 
+        * GZIP - Apply GZIP compression. 
+        * DEFLATE - Apply DEFLATE compression. 
+        * NOCOMPRESS - Do not compress the response if the request matches a policy that uses this action. 
         Possible values = compress, gzip, deflate, nocompress 
-    .PARAMETER addvaryheader 
-        Control insertion of the Vary header in HTTP responses compressed by Citrix ADC. Intermediate caches store different versions of the response for different values of the headers present in the Vary response header.  
-        Default value: GLOBAL  
+    .PARAMETER Addvaryheader 
+        Control insertion of the Vary header in HTTP responses compressed by Citrix ADC. Intermediate caches store different versions of the response for different values of the headers present in the Vary response header. 
         Possible values = GLOBAL, DISABLED, ENABLED 
-    .PARAMETER varyheadervalue 
-        The value of the HTTP Vary header for compressed responses.  
-        Minimum length = 1 
+    .PARAMETER Varyheadervalue 
+        The value of the HTTP Vary header for compressed responses. 
     .PARAMETER PassThru 
         Return details about the created cmpaction item.
     .EXAMPLE
-        Invoke-ADCUpdateCmpaction -name <string>
+        PS C:\>Invoke-ADCUpdateCmpaction -name <string>
+        An example how to update cmpaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateCmpaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateSet('compress', 'gzip', 'deflate', 'nocompress')]
-        [string]$cmptype ,
+        [string]$Cmptype,
 
         [ValidateSet('GLOBAL', 'DISABLED', 'ENABLED')]
-        [string]$addvaryheader ,
+        [string]$Addvaryheader,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$varyheadervalue ,
+        [string]$Varyheadervalue,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateCmpaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('cmptype')) { $Payload.Add('cmptype', $cmptype) }
-            if ($PSBoundParameters.ContainsKey('addvaryheader')) { $Payload.Add('addvaryheader', $addvaryheader) }
-            if ($PSBoundParameters.ContainsKey('varyheadervalue')) { $Payload.Add('varyheadervalue', $varyheadervalue) }
- 
-            if ($PSCmdlet.ShouldProcess("cmpaction", "Update Compression configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cmpaction -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('cmptype') ) { $payload.Add('cmptype', $cmptype) }
+            if ( $PSBoundParameters.ContainsKey('addvaryheader') ) { $payload.Add('addvaryheader', $addvaryheader) }
+            if ( $PSBoundParameters.ContainsKey('varyheadervalue') ) { $payload.Add('varyheadervalue', $varyheadervalue) }
+            if ( $PSCmdlet.ShouldProcess("cmpaction", "Update Compression configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cmpaction -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCmpaction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCmpaction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -253,40 +244,41 @@ function Invoke-ADCUpdateCmpaction {
 }
 
 function Invoke-ADCUnsetCmpaction {
-<#
+    <#
     .SYNOPSIS
-        Unset Compression configuration Object
+        Unset Compression configuration Object.
     .DESCRIPTION
-        Unset Compression configuration Object 
-   .PARAMETER name 
-       Name of the compression action. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the action is added. 
-   .PARAMETER addvaryheader 
-       Control insertion of the Vary header in HTTP responses compressed by Citrix ADC. Intermediate caches store different versions of the response for different values of the headers present in the Vary response header.  
-       Possible values = GLOBAL, DISABLED, ENABLED
+        Configuration for compression action resource.
+    .PARAMETER Name 
+        Name of the compression action. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the action is added. 
+    .PARAMETER Addvaryheader 
+        Control insertion of the Vary header in HTTP responses compressed by Citrix ADC. Intermediate caches store different versions of the response for different values of the headers present in the Vary response header. 
+        Possible values = GLOBAL, DISABLED, ENABLED
     .EXAMPLE
-        Invoke-ADCUnsetCmpaction -name <string>
+        PS C:\>Invoke-ADCUnsetCmpaction -name <string>
+        An example how to unset cmpaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetCmpaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpaction
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
         [Boolean]$addvaryheader 
     )
@@ -295,12 +287,10 @@ function Invoke-ADCUnsetCmpaction {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('addvaryheader')) { $Payload.Add('addvaryheader', $addvaryheader) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Compression configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type cmpaction -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('addvaryheader') ) { $payload.Add('addvaryheader', $addvaryheader) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Compression configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type cmpaction -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -316,72 +306,70 @@ function Invoke-ADCUnsetCmpaction {
 }
 
 function Invoke-ADCRenameCmpaction {
-<#
+    <#
     .SYNOPSIS
-        Rename Compression configuration Object
+        Rename Compression configuration Object.
     .DESCRIPTION
-        Rename Compression configuration Object 
-    .PARAMETER name 
+        Configuration for compression action resource.
+    .PARAMETER Name 
         Name of the compression action. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the action is added. 
-    .PARAMETER newname 
-        New name for the compression action. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at  
-        (@), equals (=), and hyphen (-) characters.  
+    .PARAMETER Newname 
+        New name for the compression action. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at 
+        (@), equals (=), and hyphen (-) characters. 
         Choose a name that can be correlated with the function that the action performs. 
     .PARAMETER PassThru 
         Return details about the created cmpaction item.
     .EXAMPLE
-        Invoke-ADCRenameCmpaction -name <string> -newname <string>
+        PS C:\>Invoke-ADCRenameCmpaction -name <string> -newname <string>
+        An example how to rename cmpaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameCmpaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameCmpaction: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                newname = $newname
+            $payload = @{ name = $name
+                newname        = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("cmpaction", "Rename Compression configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cmpaction -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("cmpaction", "Rename Compression configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cmpaction -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCmpaction -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCmpaction -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -394,56 +382,62 @@ function Invoke-ADCRenameCmpaction {
 }
 
 function Invoke-ADCGetCmpaction {
-<#
+    <#
     .SYNOPSIS
-        Get Compression configuration object(s)
+        Get Compression configuration object(s).
     .DESCRIPTION
-        Get Compression configuration object(s)
-    .PARAMETER name 
-       Name of the compression action. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the action is added. 
+        Configuration for compression action resource.
+    .PARAMETER Name 
+        Name of the compression action. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Can be changed after the action is added. 
     .PARAMETER GetAll 
-        Retreive all cmpaction object(s)
+        Retrieve all cmpaction object(s).
     .PARAMETER Count
-        If specified, the count of the cmpaction object(s) will be returned
+        If specified, the count of the cmpaction object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCmpaction
+        PS C:\>Invoke-ADCGetCmpaction
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCmpaction -GetAll 
+        PS C:\>Invoke-ADCGetCmpaction -GetAll 
+        Get all cmpaction data. 
     .EXAMPLE 
-        Invoke-ADCGetCmpaction -Count
+        PS C:\>Invoke-ADCGetCmpaction -Count 
+        Get the number of cmpaction objects.
     .EXAMPLE
-        Invoke-ADCGetCmpaction -name <string>
+        PS C:\>Invoke-ADCGetCmpaction -name <string>
+        Get cmpaction object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCmpaction -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCmpaction -Filter @{ 'name'='<value>' }
+        Get cmpaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmpaction
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpaction/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -461,24 +455,24 @@ function Invoke-ADCGetCmpaction {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cmpaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpaction -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cmpaction objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpaction -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpaction -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cmpaction objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpaction -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpaction -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cmpaction configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpaction -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cmpaction configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpaction -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -492,45 +486,50 @@ function Invoke-ADCGetCmpaction {
 }
 
 function Invoke-ADCGetCmpglobalbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Compression configuration object(s)
+        Get Compression configuration object(s).
     .DESCRIPTION
-        Get Compression configuration object(s)
+        Binding object which returns the resources bound to cmpglobal.
     .PARAMETER GetAll 
-        Retreive all cmpglobal_binding object(s)
+        Retrieve all cmpglobal_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cmpglobal_binding object(s) will be returned
+        If specified, the count of the cmpglobal_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCmpglobalbinding
+        PS C:\>Invoke-ADCGetCmpglobalbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCmpglobalbinding -GetAll
+        PS C:\>Invoke-ADCGetCmpglobalbinding -GetAll 
+        Get all cmpglobal_binding data.
     .EXAMPLE
-        Invoke-ADCGetCmpglobalbinding -name <string>
+        PS C:\>Invoke-ADCGetCmpglobalbinding -name <string>
+        Get cmpglobal_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCmpglobalbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCmpglobalbinding -Filter @{ 'name'='<value>' }
+        Get cmpglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmpglobalbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpglobal_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -542,26 +541,24 @@ function Invoke-ADCGetCmpglobalbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cmpglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cmpglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cmpglobal_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpglobal_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cmpglobal_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving cmpglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -575,101 +572,91 @@ function Invoke-ADCGetCmpglobalbinding {
 }
 
 function Invoke-ADCAddCmpglobalcmppolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add Compression configuration Object
+        Add Compression configuration Object.
     .DESCRIPTION
-        Add Compression configuration Object 
-    .PARAMETER policyname 
+        Binding object showing the cmppolicy that can be bound to cmpglobal.
+    .PARAMETER Policyname 
         The name of the globally bound HTTP compression policy. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         Positive integer specifying the priority of the policy. The lower the number, the higher the priority. By default, polices within a label are evaluated in the order of their priority numbers. In the configuration utility, you can click the Priority field and edit the priority level or drag the entry to a new position in the list. If you drag the entry to a new position, the priority level is updated automatically. 
-    .PARAMETER state 
-        The current state of the policy binding. This attribute is relevant only for CLASSIC policies.  
-        Possible values = ENABLED, DISABLED 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Expression or other value specifying the priority of the next policy, within the policy label, to evaluate if the current policy evaluates to TRUE. Specify one of the following values: * NEXT - Evaluate the policy with the next higher numbered priority. * END - Stop evaluation. * USE_INVOCATION_RESULT - Applicable if this policy invokes another policy label. If the final goto in the invoked policy label has a value of END, the evaluation stops. If the final goto is anything other than END, the current policy label performs a NEXT. * An expression that evaluates to a number. If you specify an expression, it's evaluation result determines the next policy to evaluate, as follows: * If the expression evaluates to a higher numbered priority, that policy is evaluated next. * If the expression evaluates to the priority of the current policy, the policy with the next higher priority number is evaluated next. * If the expression evaluates to a priority number that is numerically higher than the highest priority number, policy evaluation ends. An UNDEF event is triggered if: * The expression is invalid. * The expression evaluates to a priority number that is numerically lower than the current policy's priority. * The expression evaluates to a priority number that is between the current policy's priority number (say, 30) and the highest priority number (say, 100), but does not match any configured priority number (for example, the expression evaluates to the number 85). This example assumes that the priority number increments by 10 for every successive policy, and therefore a priority number of 85 does not exist in the policy label. 
-    .PARAMETER type 
-        Bind point to which the policy is bound.  
-        Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT 
-    .PARAMETER invoke 
-        Invoke policies bound to a virtual server or a policy label. After the invoked policies are evaluated, the flow returns to the policy with the next priority. Applicable only for default-syntax policies. 
-    .PARAMETER labeltype 
-        Type of policy label invocation. This argument is relevant only for advanced (default-syntax) policies.  
+    .PARAMETER Type 
+        Bind point to which the policy is bound. 
+        Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT, HTTPQUIC_REQ_OVERRIDE, HTTPQUIC_REQ_DEFAULT, HTTPQUIC_RES_OVERRIDE, HTTPQUIC_RES_DEFAULT, NONE 
+    .PARAMETER Invoke 
+        Invoke policies bound to a virtual server or a policy label. After the invoked policies are evaluated, the flow returns to the policy with the next priority. 
+    .PARAMETER Labeltype 
+        Type of policy label invocation. 
         Possible values = reqvserver, resvserver, policylabel 
-    .PARAMETER labelname 
-        Name of the label to invoke if the current policy rule evaluates to TRUE. Applicable only to advanced (default-syntax) policies. 
+    .PARAMETER Labelname 
+        Name of the label to invoke if the current policy rule evaluates to TRUE. 
     .PARAMETER PassThru 
         Return details about the created cmpglobal_cmppolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddCmpglobalcmppolicybinding -policyname <string>
+        PS C:\>Invoke-ADCAddCmpglobalcmppolicybinding -policyname <string>
+        An example how to add cmpglobal_cmppolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddCmpglobalcmppolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpglobal_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$policyname ,
+        [Parameter(Mandatory)]
+        [string]$Policyname,
 
-        [double]$priority ,
+        [double]$Priority,
 
-        [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$state ,
+        [string]$Gotopriorityexpression,
 
-        [string]$gotopriorityexpression ,
+        [ValidateSet('REQ_OVERRIDE', 'REQ_DEFAULT', 'RES_OVERRIDE', 'RES_DEFAULT', 'HTTPQUIC_REQ_OVERRIDE', 'HTTPQUIC_REQ_DEFAULT', 'HTTPQUIC_RES_OVERRIDE', 'HTTPQUIC_RES_DEFAULT', 'NONE')]
+        [string]$Type,
 
-        [ValidateSet('REQ_OVERRIDE', 'REQ_DEFAULT', 'RES_OVERRIDE', 'RES_DEFAULT')]
-        [string]$type ,
-
-        [boolean]$invoke ,
+        [boolean]$Invoke,
 
         [ValidateSet('reqvserver', 'resvserver', 'policylabel')]
-        [string]$labeltype ,
+        [string]$Labeltype,
 
-        [string]$labelname ,
+        [string]$Labelname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddCmpglobalcmppolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                policyname = $policyname
-            }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
-            if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('invoke')) { $Payload.Add('invoke', $invoke) }
-            if ($PSBoundParameters.ContainsKey('labeltype')) { $Payload.Add('labeltype', $labeltype) }
-            if ($PSBoundParameters.ContainsKey('labelname')) { $Payload.Add('labelname', $labelname) }
- 
-            if ($PSCmdlet.ShouldProcess("cmpglobal_cmppolicy_binding", "Add Compression configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cmpglobal_cmppolicy_binding -Payload $Payload -GetWarning
+            $payload = @{ policyname = $policyname }
+            if ( $PSBoundParameters.ContainsKey('priority') ) { $payload.Add('priority', $priority) }
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSBoundParameters.ContainsKey('type') ) { $payload.Add('type', $type) }
+            if ( $PSBoundParameters.ContainsKey('invoke') ) { $payload.Add('invoke', $invoke) }
+            if ( $PSBoundParameters.ContainsKey('labeltype') ) { $payload.Add('labeltype', $labeltype) }
+            if ( $PSBoundParameters.ContainsKey('labelname') ) { $payload.Add('labelname', $labelname) }
+            if ( $PSCmdlet.ShouldProcess("cmpglobal_cmppolicy_binding", "Add Compression configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cmpglobal_cmppolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCmpglobalcmppolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCmpglobalcmppolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -682,54 +669,57 @@ function Invoke-ADCAddCmpglobalcmppolicybinding {
 }
 
 function Invoke-ADCDeleteCmpglobalcmppolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Compression configuration Object
+        Delete Compression configuration Object.
     .DESCRIPTION
-        Delete Compression configuration Object
-     .PARAMETER policyname 
-       The name of the globally bound HTTP compression policy.    .PARAMETER type 
-       Bind point to which the policy is bound.  
-       Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT    .PARAMETER priority 
-       Positive integer specifying the priority of the policy. The lower the number, the higher the priority. By default, polices within a label are evaluated in the order of their priority numbers. In the configuration utility, you can click the Priority field and edit the priority level or drag the entry to a new position in the list. If you drag the entry to a new position, the priority level is updated automatically.
+        Binding object showing the cmppolicy that can be bound to cmpglobal.
+    .PARAMETER Policyname 
+        The name of the globally bound HTTP compression policy. 
+    .PARAMETER Type 
+        Bind point to which the policy is bound. 
+        Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT, HTTPQUIC_REQ_OVERRIDE, HTTPQUIC_REQ_DEFAULT, HTTPQUIC_RES_OVERRIDE, HTTPQUIC_RES_DEFAULT, NONE 
+    .PARAMETER Priority 
+        Positive integer specifying the priority of the policy. The lower the number, the higher the priority. By default, polices within a label are evaluated in the order of their priority numbers. In the configuration utility, you can click the Priority field and edit the priority level or drag the entry to a new position in the list. If you drag the entry to a new position, the priority level is updated automatically.
     .EXAMPLE
-        Invoke-ADCDeleteCmpglobalcmppolicybinding 
+        PS C:\>Invoke-ADCDeleteCmpglobalcmppolicybinding 
+        An example how to delete cmpglobal_cmppolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteCmpglobalcmppolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpglobal_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [string]$type ,
+        [string]$Type,
 
-        [double]$priority 
+        [double]$Priority 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteCmpglobalcmppolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
-            if ($PSCmdlet.ShouldProcess("cmpglobal_cmppolicy_binding", "Delete Compression configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cmpglobal_cmppolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSBoundParameters.ContainsKey('Type') ) { $arguments.Add('type', $Type) }
+            if ( $PSBoundParameters.ContainsKey('Priority') ) { $arguments.Add('priority', $Priority) }
+            if ( $PSCmdlet.ShouldProcess("cmpglobal_cmppolicy_binding", "Delete Compression configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cmpglobal_cmppolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -745,49 +735,55 @@ function Invoke-ADCDeleteCmpglobalcmppolicybinding {
 }
 
 function Invoke-ADCGetCmpglobalcmppolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Compression configuration object(s)
+        Get Compression configuration object(s).
     .DESCRIPTION
-        Get Compression configuration object(s)
+        Binding object showing the cmppolicy that can be bound to cmpglobal.
     .PARAMETER GetAll 
-        Retreive all cmpglobal_cmppolicy_binding object(s)
+        Retrieve all cmpglobal_cmppolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cmpglobal_cmppolicy_binding object(s) will be returned
+        If specified, the count of the cmpglobal_cmppolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCmpglobalcmppolicybinding
+        PS C:\>Invoke-ADCGetCmpglobalcmppolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCmpglobalcmppolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetCmpglobalcmppolicybinding -GetAll 
+        Get all cmpglobal_cmppolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetCmpglobalcmppolicybinding -Count
+        PS C:\>Invoke-ADCGetCmpglobalcmppolicybinding -Count 
+        Get the number of cmpglobal_cmppolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetCmpglobalcmppolicybinding -name <string>
+        PS C:\>Invoke-ADCGetCmpglobalcmppolicybinding -name <string>
+        Get cmpglobal_cmppolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCmpglobalcmppolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCmpglobalcmppolicybinding -Filter @{ 'name'='<value>' }
+        Get cmpglobal_cmppolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmpglobalcmppolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpglobal_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -800,26 +796,24 @@ function Invoke-ADCGetCmpglobalcmppolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cmpglobal_cmppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpglobal_cmppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpglobal_cmppolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cmpglobal_cmppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpglobal_cmppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpglobal_cmppolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cmpglobal_cmppolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpglobal_cmppolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpglobal_cmppolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cmpglobal_cmppolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving cmpglobal_cmppolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpglobal_cmppolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpglobal_cmppolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -833,155 +827,131 @@ function Invoke-ADCGetCmpglobalcmppolicybinding {
 }
 
 function Invoke-ADCUpdateCmpparameter {
-<#
+    <#
     .SYNOPSIS
-        Update Compression configuration Object
+        Update Compression configuration Object.
     .DESCRIPTION
-        Update Compression configuration Object 
-    .PARAMETER cmplevel 
-        Specify a compression level. Available settings function as follows:  
-        * Optimal - Corresponds to a gzip GZIP level of 5-7.  
-        * Best speed - Corresponds to a gzip level of 1.  
-        * Best compression - Corresponds to a gzip level of 9.  
-        Default value: optimal  
+        Configuration for CMP parameter resource.
+    .PARAMETER Cmplevel 
+        Specify a compression level. Available settings function as follows: 
+        * Optimal - Corresponds to a gzip GZIP level of 5-7. 
+        * Best speed - Corresponds to a gzip level of 1. 
+        * Best compression - Corresponds to a gzip level of 9. 
         Possible values = optimal, bestspeed, bestcompression 
-    .PARAMETER quantumsize 
-        Minimum quantum of data to be filled before compression begins.  
-        Default value: 57344  
-        Minimum value = 8  
-        Maximum value = 63488 
-    .PARAMETER servercmp 
-        Allow the server to send compressed data to the Citrix ADC. With the default setting, the Citrix ADC appliance handles all compression.  
-        Default value: ON  
+    .PARAMETER Quantumsize 
+        Minimum quantum of data to be filled before compression begins. 
+    .PARAMETER Servercmp 
+        Allow the server to send compressed data to the Citrix ADC. With the default setting, the Citrix ADC appliance handles all compression. 
         Possible values = ON, OFF 
-    .PARAMETER heurexpiry 
-        Heuristic basefile expiry.  
-        Default value: OFF  
+    .PARAMETER Heurexpiry 
+        Heuristic basefile expiry. 
         Possible values = ON, OFF 
-    .PARAMETER heurexpirythres 
-        Threshold compression ratio for heuristic basefile expiry, multiplied by 100. For example, to set the threshold ratio to 1.25, specify 125.  
-        Default value: 100  
-        Minimum value = 1  
-        Maximum value = 1000 
-    .PARAMETER heurexpiryhistwt 
-        For heuristic basefile expiry, weightage to be given to historical delta compression ratio, specified as percentage. For example, to give 25% weightage to historical ratio (and therefore 75% weightage to the ratio for current delta compression transaction), specify 25.  
-        Default value: 50  
-        Minimum value = 1  
-        Maximum value = 100 
-    .PARAMETER minressize 
+    .PARAMETER Heurexpirythres 
+        Threshold compression ratio for heuristic basefile expiry, multiplied by 100. For example, to set the threshold ratio to 1.25, specify 125. 
+    .PARAMETER Heurexpiryhistwt 
+        For heuristic basefile expiry, weightage to be given to historical delta compression ratio, specified as percentage. For example, to give 25% weightage to historical ratio (and therefore 75% weightage to the ratio for current delta compression transaction), specify 25. 
+    .PARAMETER Minressize 
         Smallest response size, in bytes, to be compressed. 
-    .PARAMETER cmpbypasspct 
-        Citrix ADC CPU threshold after which compression is not performed. Range: 0 - 100.  
-        Default value: 100  
-        Minimum value = 0  
-        Maximum value = 100 
-    .PARAMETER cmponpush 
-        Citrix ADC does not wait for the quantum to be filled before starting to compress data. Upon receipt of a packet with a PUSH flag, the appliance immediately begins compression of the accumulated packets.  
-        Default value: DISABLED  
+    .PARAMETER Cmpbypasspct 
+        Citrix ADC CPU threshold after which compression is not performed. Range: 0 - 100. 
+    .PARAMETER Cmponpush 
+        Citrix ADC does not wait for the quantum to be filled before starting to compress data. Upon receipt of a packet with a PUSH flag, the appliance immediately begins compression of the accumulated packets. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER policytype 
-        Type of policy. Available settings function as follows:  
-        * Classic - Classic policies evaluate basic characteristics of traffic and other data. Deprecated.  
-        * Advanced - Advanced policies (which have been renamed as default syntax policies) can perform the same type of evaluations as classic policies. They also enable you to analyze more data (for example, the body of an HTTP request) and to configure more operations in the policy rule (for example, transforming data in the body of a request into an HTTP header).  
-        Possible values = CLASSIC, ADVANCED 
-    .PARAMETER addvaryheader 
-        Control insertion of the Vary header in HTTP responses compressed by Citrix ADC. Intermediate caches store different versions of the response for different values of the headers present in the Vary response header.  
-        Default value: DISABLED  
+    .PARAMETER Policytype 
+        Type of the policy. The only possible value is ADVANCED. 
+        Possible values = ADVANCED 
+    .PARAMETER Addvaryheader 
+        Control insertion of the Vary header in HTTP responses compressed by Citrix ADC. Intermediate caches store different versions of the response for different values of the headers present in the Vary response header. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER varyheadervalue 
-        The value of the HTTP Vary header for compressed responses. If this argument is not specified, a default value of "Accept-Encoding" will be used.  
-        Minimum length = 1 
-    .PARAMETER externalcache 
-        Enable insertion of Cache-Control: private response directive to indicate response message is intended for a single user and must not be cached by a shared or proxy cache.  
-        Default value: NO  
+    .PARAMETER Varyheadervalue 
+        The value of the HTTP Vary header for compressed responses. If this argument is not specified, a default value of "Accept-Encoding" will be used. 
+    .PARAMETER Externalcache 
+        Enable insertion of Cache-Control: private response directive to indicate response message is intended for a single user and must not be cached by a shared or proxy cache. 
         Possible values = YES, NO
     .EXAMPLE
-        Invoke-ADCUpdateCmpparameter 
+        PS C:\>Invoke-ADCUpdateCmpparameter 
+        An example how to update cmpparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateCmpparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateSet('optimal', 'bestspeed', 'bestcompression')]
-        [string]$cmplevel ,
+        [string]$Cmplevel,
 
         [ValidateRange(8, 63488)]
-        [double]$quantumsize ,
+        [double]$Quantumsize,
 
         [ValidateSet('ON', 'OFF')]
-        [string]$servercmp ,
+        [string]$Servercmp,
 
         [ValidateSet('ON', 'OFF')]
-        [string]$heurexpiry ,
+        [string]$Heurexpiry,
 
         [ValidateRange(1, 1000)]
-        [double]$heurexpirythres ,
+        [double]$Heurexpirythres,
 
         [ValidateRange(1, 100)]
-        [double]$heurexpiryhistwt ,
+        [double]$Heurexpiryhistwt,
 
-        [double]$minressize ,
+        [double]$Minressize,
 
         [ValidateRange(0, 100)]
-        [double]$cmpbypasspct ,
+        [double]$Cmpbypasspct,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$cmponpush ,
+        [string]$Cmponpush,
 
-        [ValidateSet('CLASSIC', 'ADVANCED')]
-        [string]$policytype ,
+        [ValidateSet('ADVANCED')]
+        [string]$Policytype,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$addvaryheader ,
+        [string]$Addvaryheader,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$varyheadervalue ,
+        [string]$Varyheadervalue,
 
         [ValidateSet('YES', 'NO')]
-        [string]$externalcache 
-
+        [string]$Externalcache 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateCmpparameter: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('cmplevel')) { $Payload.Add('cmplevel', $cmplevel) }
-            if ($PSBoundParameters.ContainsKey('quantumsize')) { $Payload.Add('quantumsize', $quantumsize) }
-            if ($PSBoundParameters.ContainsKey('servercmp')) { $Payload.Add('servercmp', $servercmp) }
-            if ($PSBoundParameters.ContainsKey('heurexpiry')) { $Payload.Add('heurexpiry', $heurexpiry) }
-            if ($PSBoundParameters.ContainsKey('heurexpirythres')) { $Payload.Add('heurexpirythres', $heurexpirythres) }
-            if ($PSBoundParameters.ContainsKey('heurexpiryhistwt')) { $Payload.Add('heurexpiryhistwt', $heurexpiryhistwt) }
-            if ($PSBoundParameters.ContainsKey('minressize')) { $Payload.Add('minressize', $minressize) }
-            if ($PSBoundParameters.ContainsKey('cmpbypasspct')) { $Payload.Add('cmpbypasspct', $cmpbypasspct) }
-            if ($PSBoundParameters.ContainsKey('cmponpush')) { $Payload.Add('cmponpush', $cmponpush) }
-            if ($PSBoundParameters.ContainsKey('policytype')) { $Payload.Add('policytype', $policytype) }
-            if ($PSBoundParameters.ContainsKey('addvaryheader')) { $Payload.Add('addvaryheader', $addvaryheader) }
-            if ($PSBoundParameters.ContainsKey('varyheadervalue')) { $Payload.Add('varyheadervalue', $varyheadervalue) }
-            if ($PSBoundParameters.ContainsKey('externalcache')) { $Payload.Add('externalcache', $externalcache) }
- 
-            if ($PSCmdlet.ShouldProcess("cmpparameter", "Update Compression configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cmpparameter -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('cmplevel') ) { $payload.Add('cmplevel', $cmplevel) }
+            if ( $PSBoundParameters.ContainsKey('quantumsize') ) { $payload.Add('quantumsize', $quantumsize) }
+            if ( $PSBoundParameters.ContainsKey('servercmp') ) { $payload.Add('servercmp', $servercmp) }
+            if ( $PSBoundParameters.ContainsKey('heurexpiry') ) { $payload.Add('heurexpiry', $heurexpiry) }
+            if ( $PSBoundParameters.ContainsKey('heurexpirythres') ) { $payload.Add('heurexpirythres', $heurexpirythres) }
+            if ( $PSBoundParameters.ContainsKey('heurexpiryhistwt') ) { $payload.Add('heurexpiryhistwt', $heurexpiryhistwt) }
+            if ( $PSBoundParameters.ContainsKey('minressize') ) { $payload.Add('minressize', $minressize) }
+            if ( $PSBoundParameters.ContainsKey('cmpbypasspct') ) { $payload.Add('cmpbypasspct', $cmpbypasspct) }
+            if ( $PSBoundParameters.ContainsKey('cmponpush') ) { $payload.Add('cmponpush', $cmponpush) }
+            if ( $PSBoundParameters.ContainsKey('policytype') ) { $payload.Add('policytype', $policytype) }
+            if ( $PSBoundParameters.ContainsKey('addvaryheader') ) { $payload.Add('addvaryheader', $addvaryheader) }
+            if ( $PSBoundParameters.ContainsKey('varyheadervalue') ) { $payload.Add('varyheadervalue', $varyheadervalue) }
+            if ( $PSBoundParameters.ContainsKey('externalcache') ) { $payload.Add('externalcache', $externalcache) }
+            if ( $PSCmdlet.ShouldProcess("cmpparameter", "Update Compression configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cmpparameter -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -994,92 +964,92 @@ function Invoke-ADCUpdateCmpparameter {
 }
 
 function Invoke-ADCUnsetCmpparameter {
-<#
+    <#
     .SYNOPSIS
-        Unset Compression configuration Object
+        Unset Compression configuration Object.
     .DESCRIPTION
-        Unset Compression configuration Object 
-   .PARAMETER policytype 
-       Type of policy. Available settings function as follows:  
-       * Classic - Classic policies evaluate basic characteristics of traffic and other data. Deprecated.  
-       * Advanced - Advanced policies (which have been renamed as default syntax policies) can perform the same type of evaluations as classic policies. They also enable you to analyze more data (for example, the body of an HTTP request) and to configure more operations in the policy rule (for example, transforming data in the body of a request into an HTTP header).  
-       Possible values = CLASSIC, ADVANCED 
-   .PARAMETER cmplevel 
-       Specify a compression level. Available settings function as follows:  
-       * Optimal - Corresponds to a gzip GZIP level of 5-7.  
-       * Best speed - Corresponds to a gzip level of 1.  
-       * Best compression - Corresponds to a gzip level of 9.  
-       Possible values = optimal, bestspeed, bestcompression 
-   .PARAMETER quantumsize 
-       Minimum quantum of data to be filled before compression begins. 
-   .PARAMETER servercmp 
-       Allow the server to send compressed data to the Citrix ADC. With the default setting, the Citrix ADC appliance handles all compression.  
-       Possible values = ON, OFF 
-   .PARAMETER heurexpiry 
-       Heuristic basefile expiry.  
-       Possible values = ON, OFF 
-   .PARAMETER heurexpirythres 
-       Threshold compression ratio for heuristic basefile expiry, multiplied by 100. For example, to set the threshold ratio to 1.25, specify 125. 
-   .PARAMETER heurexpiryhistwt 
-       For heuristic basefile expiry, weightage to be given to historical delta compression ratio, specified as percentage. For example, to give 25% weightage to historical ratio (and therefore 75% weightage to the ratio for current delta compression transaction), specify 25. 
-   .PARAMETER minressize 
-       Smallest response size, in bytes, to be compressed. 
-   .PARAMETER cmpbypasspct 
-       Citrix ADC CPU threshold after which compression is not performed. . 
-   .PARAMETER cmponpush 
-       Citrix ADC does not wait for the quantum to be filled before starting to compress data. Upon receipt of a packet with a PUSH flag, the appliance immediately begins compression of the accumulated packets.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER addvaryheader 
-       Control insertion of the Vary header in HTTP responses compressed by Citrix ADC. Intermediate caches store different versions of the response for different values of the headers present in the Vary response header.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER varyheadervalue 
-       The value of the HTTP Vary header for compressed responses. If this argument is not specified, a default value of "Accept-Encoding" will be used. 
-   .PARAMETER externalcache 
-       Enable insertion of Cache-Control: private response directive to indicate response message is intended for a single user and must not be cached by a shared or proxy cache.  
-       Possible values = YES, NO
+        Configuration for CMP parameter resource.
+    .PARAMETER Policytype 
+        Type of the policy. The only possible value is ADVANCED. 
+        Possible values = ADVANCED 
+    .PARAMETER Cmplevel 
+        Specify a compression level. Available settings function as follows: 
+        * Optimal - Corresponds to a gzip GZIP level of 5-7. 
+        * Best speed - Corresponds to a gzip level of 1. 
+        * Best compression - Corresponds to a gzip level of 9. 
+        Possible values = optimal, bestspeed, bestcompression 
+    .PARAMETER Quantumsize 
+        Minimum quantum of data to be filled before compression begins. 
+    .PARAMETER Servercmp 
+        Allow the server to send compressed data to the Citrix ADC. With the default setting, the Citrix ADC appliance handles all compression. 
+        Possible values = ON, OFF 
+    .PARAMETER Heurexpiry 
+        Heuristic basefile expiry. 
+        Possible values = ON, OFF 
+    .PARAMETER Heurexpirythres 
+        Threshold compression ratio for heuristic basefile expiry, multiplied by 100. For example, to set the threshold ratio to 1.25, specify 125. 
+    .PARAMETER Heurexpiryhistwt 
+        For heuristic basefile expiry, weightage to be given to historical delta compression ratio, specified as percentage. For example, to give 25% weightage to historical ratio (and therefore 75% weightage to the ratio for current delta compression transaction), specify 25. 
+    .PARAMETER Minressize 
+        Smallest response size, in bytes, to be compressed. 
+    .PARAMETER Cmpbypasspct 
+        Citrix ADC CPU threshold after which compression is not performed. Range: 0 - 100. 
+    .PARAMETER Cmponpush 
+        Citrix ADC does not wait for the quantum to be filled before starting to compress data. Upon receipt of a packet with a PUSH flag, the appliance immediately begins compression of the accumulated packets. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Addvaryheader 
+        Control insertion of the Vary header in HTTP responses compressed by Citrix ADC. Intermediate caches store different versions of the response for different values of the headers present in the Vary response header. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Varyheadervalue 
+        The value of the HTTP Vary header for compressed responses. If this argument is not specified, a default value of "Accept-Encoding" will be used. 
+    .PARAMETER Externalcache 
+        Enable insertion of Cache-Control: private response directive to indicate response message is intended for a single user and must not be cached by a shared or proxy cache. 
+        Possible values = YES, NO
     .EXAMPLE
-        Invoke-ADCUnsetCmpparameter 
+        PS C:\>Invoke-ADCUnsetCmpparameter 
+        An example how to unset cmpparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetCmpparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpparameter
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$policytype ,
+        [Boolean]$policytype,
 
-        [Boolean]$cmplevel ,
+        [Boolean]$cmplevel,
 
-        [Boolean]$quantumsize ,
+        [Boolean]$quantumsize,
 
-        [Boolean]$servercmp ,
+        [Boolean]$servercmp,
 
-        [Boolean]$heurexpiry ,
+        [Boolean]$heurexpiry,
 
-        [Boolean]$heurexpirythres ,
+        [Boolean]$heurexpirythres,
 
-        [Boolean]$heurexpiryhistwt ,
+        [Boolean]$heurexpiryhistwt,
 
-        [Boolean]$minressize ,
+        [Boolean]$minressize,
 
-        [Boolean]$cmpbypasspct ,
+        [Boolean]$cmpbypasspct,
 
-        [Boolean]$cmponpush ,
+        [Boolean]$cmponpush,
 
-        [Boolean]$addvaryheader ,
+        [Boolean]$addvaryheader,
 
-        [Boolean]$varyheadervalue ,
+        [Boolean]$varyheadervalue,
 
         [Boolean]$externalcache 
     )
@@ -1088,24 +1058,22 @@ function Invoke-ADCUnsetCmpparameter {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('policytype')) { $Payload.Add('policytype', $policytype) }
-            if ($PSBoundParameters.ContainsKey('cmplevel')) { $Payload.Add('cmplevel', $cmplevel) }
-            if ($PSBoundParameters.ContainsKey('quantumsize')) { $Payload.Add('quantumsize', $quantumsize) }
-            if ($PSBoundParameters.ContainsKey('servercmp')) { $Payload.Add('servercmp', $servercmp) }
-            if ($PSBoundParameters.ContainsKey('heurexpiry')) { $Payload.Add('heurexpiry', $heurexpiry) }
-            if ($PSBoundParameters.ContainsKey('heurexpirythres')) { $Payload.Add('heurexpirythres', $heurexpirythres) }
-            if ($PSBoundParameters.ContainsKey('heurexpiryhistwt')) { $Payload.Add('heurexpiryhistwt', $heurexpiryhistwt) }
-            if ($PSBoundParameters.ContainsKey('minressize')) { $Payload.Add('minressize', $minressize) }
-            if ($PSBoundParameters.ContainsKey('cmpbypasspct')) { $Payload.Add('cmpbypasspct', $cmpbypasspct) }
-            if ($PSBoundParameters.ContainsKey('cmponpush')) { $Payload.Add('cmponpush', $cmponpush) }
-            if ($PSBoundParameters.ContainsKey('addvaryheader')) { $Payload.Add('addvaryheader', $addvaryheader) }
-            if ($PSBoundParameters.ContainsKey('varyheadervalue')) { $Payload.Add('varyheadervalue', $varyheadervalue) }
-            if ($PSBoundParameters.ContainsKey('externalcache')) { $Payload.Add('externalcache', $externalcache) }
-            if ($PSCmdlet.ShouldProcess("cmpparameter", "Unset Compression configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type cmpparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('policytype') ) { $payload.Add('policytype', $policytype) }
+            if ( $PSBoundParameters.ContainsKey('cmplevel') ) { $payload.Add('cmplevel', $cmplevel) }
+            if ( $PSBoundParameters.ContainsKey('quantumsize') ) { $payload.Add('quantumsize', $quantumsize) }
+            if ( $PSBoundParameters.ContainsKey('servercmp') ) { $payload.Add('servercmp', $servercmp) }
+            if ( $PSBoundParameters.ContainsKey('heurexpiry') ) { $payload.Add('heurexpiry', $heurexpiry) }
+            if ( $PSBoundParameters.ContainsKey('heurexpirythres') ) { $payload.Add('heurexpirythres', $heurexpirythres) }
+            if ( $PSBoundParameters.ContainsKey('heurexpiryhistwt') ) { $payload.Add('heurexpiryhistwt', $heurexpiryhistwt) }
+            if ( $PSBoundParameters.ContainsKey('minressize') ) { $payload.Add('minressize', $minressize) }
+            if ( $PSBoundParameters.ContainsKey('cmpbypasspct') ) { $payload.Add('cmpbypasspct', $cmpbypasspct) }
+            if ( $PSBoundParameters.ContainsKey('cmponpush') ) { $payload.Add('cmponpush', $cmponpush) }
+            if ( $PSBoundParameters.ContainsKey('addvaryheader') ) { $payload.Add('addvaryheader', $addvaryheader) }
+            if ( $PSBoundParameters.ContainsKey('varyheadervalue') ) { $payload.Add('varyheadervalue', $varyheadervalue) }
+            if ( $PSBoundParameters.ContainsKey('externalcache') ) { $payload.Add('externalcache', $externalcache) }
+            if ( $PSCmdlet.ShouldProcess("cmpparameter", "Unset Compression configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type cmpparameter -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1121,45 +1089,50 @@ function Invoke-ADCUnsetCmpparameter {
 }
 
 function Invoke-ADCGetCmpparameter {
-<#
+    <#
     .SYNOPSIS
-        Get Compression configuration object(s)
+        Get Compression configuration object(s).
     .DESCRIPTION
-        Get Compression configuration object(s)
+        Configuration for CMP parameter resource.
     .PARAMETER GetAll 
-        Retreive all cmpparameter object(s)
+        Retrieve all cmpparameter object(s).
     .PARAMETER Count
-        If specified, the count of the cmpparameter object(s) will be returned
+        If specified, the count of the cmpparameter object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCmpparameter
+        PS C:\>Invoke-ADCGetCmpparameter
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCmpparameter -GetAll
+        PS C:\>Invoke-ADCGetCmpparameter -GetAll 
+        Get all cmpparameter data.
     .EXAMPLE
-        Invoke-ADCGetCmpparameter -name <string>
+        PS C:\>Invoke-ADCGetCmpparameter -name <string>
+        Get cmpparameter object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCmpparameter -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCmpparameter -Filter @{ 'name'='<value>' }
+        Get cmpparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmpparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmpparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -1171,24 +1144,24 @@ function Invoke-ADCGetCmpparameter {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cmpparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cmpparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cmpparameter objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpparameter -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cmpparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving cmpparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmpparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1202,82 +1175,79 @@ function Invoke-ADCGetCmpparameter {
 }
 
 function Invoke-ADCAddCmppolicy {
-<#
+    <#
     .SYNOPSIS
-        Add Compression configuration Object
+        Add Compression configuration Object.
     .DESCRIPTION
-        Add Compression configuration Object 
-    .PARAMETER name 
-        Name of the HTTP compression policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.  
+        Configuration for compression policy resource.
+    .PARAMETER Name 
+        Name of the HTTP compression policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
         Can be changed after the policy is created. 
-    .PARAMETER rule 
-        Expression that determines which HTTP requests or responses match the compression policy.  
-        The following requirements apply only to the Citrix ADC CLI:  
-        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks.  
-        * If the expression itself includes double quotation marks, escape the quotations by using the \ character.  
+    .PARAMETER Rule 
+        Expression that determines which HTTP requests or responses match the compression policy. 
+        The following requirements apply only to the Citrix ADC CLI: 
+        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks. 
+        * If the expression itself includes double quotation marks, escape the quotations by using the \ character. 
         * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks. 
-    .PARAMETER resaction 
-        The built-in or user-defined compression action to apply to the response when the policy matches a request or response.  
-        Minimum length = 1 
+    .PARAMETER Resaction 
+        The built-in or user-defined compression action to apply to the response when the policy matches a request or response. 
     .PARAMETER PassThru 
         Return details about the created cmppolicy item.
     .EXAMPLE
-        Invoke-ADCAddCmppolicy -name <string> -rule <string> -resaction <string>
+        PS C:\>Invoke-ADCAddCmppolicy -name <string> -rule <string> -resaction <string>
+        An example how to add cmppolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddCmppolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
-        [string]$rule ,
+        [Parameter(Mandatory)]
+        [string]$Rule,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$resaction ,
+        [string]$Resaction,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddCmppolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                rule = $rule
-                resaction = $resaction
+            $payload = @{ name = $name
+                rule           = $rule
+                resaction      = $resaction
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("cmppolicy", "Add Compression configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cmppolicy -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("cmppolicy", "Add Compression configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cmppolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCmppolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCmppolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1290,47 +1260,48 @@ function Invoke-ADCAddCmppolicy {
 }
 
 function Invoke-ADCDeleteCmppolicy {
-<#
+    <#
     .SYNOPSIS
-        Delete Compression configuration Object
+        Delete Compression configuration Object.
     .DESCRIPTION
-        Delete Compression configuration Object
-    .PARAMETER name 
-       Name of the HTTP compression policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.  
-       Can be changed after the policy is created. 
+        Configuration for compression policy resource.
+    .PARAMETER Name 
+        Name of the HTTP compression policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
+        Can be changed after the policy is created.
     .EXAMPLE
-        Invoke-ADCDeleteCmppolicy -name <string>
+        PS C:\>Invoke-ADCDeleteCmppolicy -Name <string>
+        An example how to delete cmppolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteCmppolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteCmppolicy: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Compression configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cmppolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Compression configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cmppolicy -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1346,79 +1317,75 @@ function Invoke-ADCDeleteCmppolicy {
 }
 
 function Invoke-ADCUpdateCmppolicy {
-<#
+    <#
     .SYNOPSIS
-        Update Compression configuration Object
+        Update Compression configuration Object.
     .DESCRIPTION
-        Update Compression configuration Object 
-    .PARAMETER name 
-        Name of the HTTP compression policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.  
+        Configuration for compression policy resource.
+    .PARAMETER Name 
+        Name of the HTTP compression policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
         Can be changed after the policy is created. 
-    .PARAMETER rule 
-        Expression that determines which HTTP requests or responses match the compression policy.  
-        The following requirements apply only to the Citrix ADC CLI:  
-        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks.  
-        * If the expression itself includes double quotation marks, escape the quotations by using the \ character.  
+    .PARAMETER Rule 
+        Expression that determines which HTTP requests or responses match the compression policy. 
+        The following requirements apply only to the Citrix ADC CLI: 
+        * If the expression includes one or more spaces, enclose the entire expression in double quotation marks. 
+        * If the expression itself includes double quotation marks, escape the quotations by using the \ character. 
         * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks. 
-    .PARAMETER resaction 
-        The built-in or user-defined compression action to apply to the response when the policy matches a request or response.  
-        Minimum length = 1 
+    .PARAMETER Resaction 
+        The built-in or user-defined compression action to apply to the response when the policy matches a request or response. 
     .PARAMETER PassThru 
         Return details about the created cmppolicy item.
     .EXAMPLE
-        Invoke-ADCUpdateCmppolicy -name <string>
+        PS C:\>Invoke-ADCUpdateCmppolicy -name <string>
+        An example how to update cmppolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateCmppolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$rule ,
+        [string]$Rule,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$resaction ,
+        [string]$Resaction,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateCmppolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
-            if ($PSBoundParameters.ContainsKey('resaction')) { $Payload.Add('resaction', $resaction) }
- 
-            if ($PSCmdlet.ShouldProcess("cmppolicy", "Update Compression configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cmppolicy -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('rule') ) { $payload.Add('rule', $rule) }
+            if ( $PSBoundParameters.ContainsKey('resaction') ) { $payload.Add('resaction', $resaction) }
+            if ( $PSCmdlet.ShouldProcess("cmppolicy", "Update Compression configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cmppolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCmppolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCmppolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1431,73 +1398,71 @@ function Invoke-ADCUpdateCmppolicy {
 }
 
 function Invoke-ADCRenameCmppolicy {
-<#
+    <#
     .SYNOPSIS
-        Rename Compression configuration Object
+        Rename Compression configuration Object.
     .DESCRIPTION
-        Rename Compression configuration Object 
-    .PARAMETER name 
-        Name of the HTTP compression policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.  
+        Configuration for compression policy resource.
+    .PARAMETER Name 
+        Name of the HTTP compression policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
         Can be changed after the policy is created. 
-    .PARAMETER newname 
-        New name for the compression policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.  
+    .PARAMETER Newname 
+        New name for the compression policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
         Choose a name that reflects the function that the policy performs. 
     .PARAMETER PassThru 
         Return details about the created cmppolicy item.
     .EXAMPLE
-        Invoke-ADCRenameCmppolicy -name <string> -newname <string>
+        PS C:\>Invoke-ADCRenameCmppolicy -name <string> -newname <string>
+        An example how to rename cmppolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameCmppolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameCmppolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                newname = $newname
+            $payload = @{ name = $name
+                newname        = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("cmppolicy", "Rename Compression configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cmppolicy -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("cmppolicy", "Rename Compression configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cmppolicy -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCmppolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCmppolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1510,57 +1475,63 @@ function Invoke-ADCRenameCmppolicy {
 }
 
 function Invoke-ADCGetCmppolicy {
-<#
+    <#
     .SYNOPSIS
-        Get Compression configuration object(s)
+        Get Compression configuration object(s).
     .DESCRIPTION
-        Get Compression configuration object(s)
-    .PARAMETER name 
-       Name of the HTTP compression policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters.  
-       Can be changed after the policy is created. 
+        Configuration for compression policy resource.
+    .PARAMETER Name 
+        Name of the HTTP compression policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
+        Can be changed after the policy is created. 
     .PARAMETER GetAll 
-        Retreive all cmppolicy object(s)
+        Retrieve all cmppolicy object(s).
     .PARAMETER Count
-        If specified, the count of the cmppolicy object(s) will be returned
+        If specified, the count of the cmppolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCmppolicy
+        PS C:\>Invoke-ADCGetCmppolicy
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCmppolicy -GetAll 
+        PS C:\>Invoke-ADCGetCmppolicy -GetAll 
+        Get all cmppolicy data. 
     .EXAMPLE 
-        Invoke-ADCGetCmppolicy -Count
+        PS C:\>Invoke-ADCGetCmppolicy -Count 
+        Get the number of cmppolicy objects.
     .EXAMPLE
-        Invoke-ADCGetCmppolicy -name <string>
+        PS C:\>Invoke-ADCGetCmppolicy -name <string>
+        Get cmppolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCmppolicy -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCmppolicy -Filter @{ 'name'='<value>' }
+        Get cmppolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmppolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1578,24 +1549,24 @@ function Invoke-ADCGetCmppolicy {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cmppolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cmppolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cmppolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cmppolicy configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cmppolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1609,70 +1580,68 @@ function Invoke-ADCGetCmppolicy {
 }
 
 function Invoke-ADCAddCmppolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Add Compression configuration Object
+        Add Compression configuration Object.
     .DESCRIPTION
-        Add Compression configuration Object 
-    .PARAMETER labelname 
+        Configuration for compression policy label resource.
+    .PARAMETER Labelname 
         Name of the HTTP compression policy label. Must begin with a letter, number, or the underscore character (_). Additional characters allowed, after the first character, are the hyphen (-), period (.) pound sign (#), space ( ), at sign (@), equals (=), and colon (:). The name must be unique within the list of policy labels for compression policies. Can be renamed after the policy label is created. 
-    .PARAMETER type 
-        Type of packets (request packets or response) against which to match the policies bound to this policy label.  
-        Possible values = REQ, RES 
+    .PARAMETER Type 
+        Type of packets (request packets or response) against which to match the policies bound to this policy label. 
+        Possible values = REQ, RES, HTTPQUIC_REQ, HTTPQUIC_RES 
     .PARAMETER PassThru 
         Return details about the created cmppolicylabel item.
     .EXAMPLE
-        Invoke-ADCAddCmppolicylabel -labelname <string> -type <string>
+        PS C:\>Invoke-ADCAddCmppolicylabel -labelname <string> -type <string>
+        An example how to add cmppolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddCmppolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$labelname ,
+        [string]$Labelname,
 
-        [Parameter(Mandatory = $true)]
-        [ValidateSet('REQ', 'RES')]
-        [string]$type ,
+        [Parameter(Mandatory)]
+        [ValidateSet('REQ', 'RES', 'HTTPQUIC_REQ', 'HTTPQUIC_RES')]
+        [string]$Type,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddCmppolicylabel: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-                type = $type
+            $payload = @{ labelname = $labelname
+                type                = $type
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("cmppolicylabel", "Add Compression configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cmppolicylabel -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("cmppolicylabel", "Add Compression configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cmppolicylabel -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCmppolicylabel -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCmppolicylabel -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1685,46 +1654,47 @@ function Invoke-ADCAddCmppolicylabel {
 }
 
 function Invoke-ADCDeleteCmppolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Delete Compression configuration Object
+        Delete Compression configuration Object.
     .DESCRIPTION
-        Delete Compression configuration Object
-    .PARAMETER labelname 
-       Name of the HTTP compression policy label. Must begin with a letter, number, or the underscore character (_). Additional characters allowed, after the first character, are the hyphen (-), period (.) pound sign (#), space ( ), at sign (@), equals (=), and colon (:). The name must be unique within the list of policy labels for compression policies. Can be renamed after the policy label is created. 
+        Configuration for compression policy label resource.
+    .PARAMETER Labelname 
+        Name of the HTTP compression policy label. Must begin with a letter, number, or the underscore character (_). Additional characters allowed, after the first character, are the hyphen (-), period (.) pound sign (#), space ( ), at sign (@), equals (=), and colon (:). The name must be unique within the list of policy labels for compression policies. Can be renamed after the policy label is created.
     .EXAMPLE
-        Invoke-ADCDeleteCmppolicylabel -labelname <string>
+        PS C:\>Invoke-ADCDeleteCmppolicylabel -Labelname <string>
+        An example how to delete cmppolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteCmppolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname 
+        [Parameter(Mandatory)]
+        [string]$Labelname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteCmppolicylabel: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$labelname", "Delete Compression configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cmppolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$labelname", "Delete Compression configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cmppolicylabel -NitroPath nitro/v1/config -Resource $labelname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1740,70 +1710,68 @@ function Invoke-ADCDeleteCmppolicylabel {
 }
 
 function Invoke-ADCRenameCmppolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Rename Compression configuration Object
+        Rename Compression configuration Object.
     .DESCRIPTION
-        Rename Compression configuration Object 
-    .PARAMETER labelname 
+        Configuration for compression policy label resource.
+    .PARAMETER Labelname 
         Name of the HTTP compression policy label. Must begin with a letter, number, or the underscore character (_). Additional characters allowed, after the first character, are the hyphen (-), period (.) pound sign (#), space ( ), at sign (@), equals (=), and colon (:). The name must be unique within the list of policy labels for compression policies. Can be renamed after the policy label is created. 
-    .PARAMETER newname 
+    .PARAMETER Newname 
         New name for the compression policy label. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. 
     .PARAMETER PassThru 
         Return details about the created cmppolicylabel item.
     .EXAMPLE
-        Invoke-ADCRenameCmppolicylabel -labelname <string> -newname <string>
+        PS C:\>Invoke-ADCRenameCmppolicylabel -labelname <string> -newname <string>
+        An example how to rename cmppolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameCmppolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$labelname ,
+        [string]$Labelname,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameCmppolicylabel: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-                newname = $newname
+            $payload = @{ labelname = $labelname
+                newname             = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("cmppolicylabel", "Rename Compression configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cmppolicylabel -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("cmppolicylabel", "Rename Compression configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cmppolicylabel -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCmppolicylabel -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCmppolicylabel -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1816,55 +1784,61 @@ function Invoke-ADCRenameCmppolicylabel {
 }
 
 function Invoke-ADCGetCmppolicylabel {
-<#
+    <#
     .SYNOPSIS
-        Get Compression configuration object(s)
+        Get Compression configuration object(s).
     .DESCRIPTION
-        Get Compression configuration object(s)
-    .PARAMETER labelname 
-       Name of the HTTP compression policy label. Must begin with a letter, number, or the underscore character (_). Additional characters allowed, after the first character, are the hyphen (-), period (.) pound sign (#), space ( ), at sign (@), equals (=), and colon (:). The name must be unique within the list of policy labels for compression policies. Can be renamed after the policy label is created. 
+        Configuration for compression policy label resource.
+    .PARAMETER Labelname 
+        Name of the HTTP compression policy label. Must begin with a letter, number, or the underscore character (_). Additional characters allowed, after the first character, are the hyphen (-), period (.) pound sign (#), space ( ), at sign (@), equals (=), and colon (:). The name must be unique within the list of policy labels for compression policies. Can be renamed after the policy label is created. 
     .PARAMETER GetAll 
-        Retreive all cmppolicylabel object(s)
+        Retrieve all cmppolicylabel object(s).
     .PARAMETER Count
-        If specified, the count of the cmppolicylabel object(s) will be returned
+        If specified, the count of the cmppolicylabel object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCmppolicylabel
+        PS C:\>Invoke-ADCGetCmppolicylabel
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCmppolicylabel -GetAll 
+        PS C:\>Invoke-ADCGetCmppolicylabel -GetAll 
+        Get all cmppolicylabel data. 
     .EXAMPLE 
-        Invoke-ADCGetCmppolicylabel -Count
+        PS C:\>Invoke-ADCGetCmppolicylabel -Count 
+        Get the number of cmppolicylabel objects.
     .EXAMPLE
-        Invoke-ADCGetCmppolicylabel -name <string>
+        PS C:\>Invoke-ADCGetCmppolicylabel -name <string>
+        Get cmppolicylabel object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCmppolicylabel -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCmppolicylabel -Filter @{ 'name'='<value>' }
+        Get cmppolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmppolicylabel
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicylabel/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1882,24 +1856,24 @@ function Invoke-ADCGetCmppolicylabel {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cmppolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cmppolicylabel objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cmppolicylabel objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cmppolicylabel configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cmppolicylabel configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1913,51 +1887,56 @@ function Invoke-ADCGetCmppolicylabel {
 }
 
 function Invoke-ADCGetCmppolicylabelbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Compression configuration object(s)
+        Get Compression configuration object(s).
     .DESCRIPTION
-        Get Compression configuration object(s)
-    .PARAMETER labelname 
-       Name of the HTTP compression policy label for which to display details. 
+        Binding object which returns the resources bound to cmppolicylabel.
+    .PARAMETER Labelname 
+        Name of the HTTP compression policy label for which to display details. 
     .PARAMETER GetAll 
-        Retreive all cmppolicylabel_binding object(s)
+        Retrieve all cmppolicylabel_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cmppolicylabel_binding object(s) will be returned
+        If specified, the count of the cmppolicylabel_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCmppolicylabelbinding
+        PS C:\>Invoke-ADCGetCmppolicylabelbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCmppolicylabelbinding -GetAll
+        PS C:\>Invoke-ADCGetCmppolicylabelbinding -GetAll 
+        Get all cmppolicylabel_binding data.
     .EXAMPLE
-        Invoke-ADCGetCmppolicylabelbinding -name <string>
+        PS C:\>Invoke-ADCGetCmppolicylabelbinding -name <string>
+        Get cmppolicylabel_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCmppolicylabelbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCmppolicylabelbinding -Filter @{ 'name'='<value>' }
+        Get cmppolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmppolicylabelbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicylabel_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$labelname,
+        [string]$Labelname,
 			
         [hashtable]$Filter = @{ },
 
@@ -1969,26 +1948,24 @@ function Invoke-ADCGetCmppolicylabelbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cmppolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cmppolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cmppolicylabel_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cmppolicylabel_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cmppolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2002,96 +1979,93 @@ function Invoke-ADCGetCmppolicylabelbinding {
 }
 
 function Invoke-ADCAddCmppolicylabelcmppolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add Compression configuration Object
+        Add Compression configuration Object.
     .DESCRIPTION
-        Add Compression configuration Object 
-    .PARAMETER labelname 
-        Name of the HTTP compression policy label to which to bind the policy.  
-        Minimum length = 1 
-    .PARAMETER policyname 
+        Binding object showing the cmppolicy that can be bound to cmppolicylabel.
+    .PARAMETER Labelname 
+        Name of the HTTP compression policy label to which to bind the policy. 
+    .PARAMETER Policyname 
         The compression policy name. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         Specifies the priority of the policy. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Expression specifying the priority of the next policy which will get evaluated if the current policy rule evaluates to TRUE. 
-    .PARAMETER invoke 
+    .PARAMETER Invoke 
         Invoke policies bound to a virtual server or a user-defined policy label. After the invoked policies are evaluated, the flow returns to the policy with the next higher priority number in the original label. 
-    .PARAMETER labeltype 
-        Type of policy label invocation.  
+    .PARAMETER Labeltype 
+        Type of policy label invocation. 
         Possible values = reqvserver, resvserver, policylabel 
-    .PARAMETER invoke_labelname 
+    .PARAMETER Invoke_labelname 
         Name of the label to invoke if the current policy evaluates to TRUE. 
     .PARAMETER PassThru 
         Return details about the created cmppolicylabel_cmppolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddCmppolicylabelcmppolicybinding -labelname <string> -policyname <string> -priority <double>
+        PS C:\>Invoke-ADCAddCmppolicylabelcmppolicybinding -labelname <string> -policyname <string> -priority <double>
+        An example how to add cmppolicylabel_cmppolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddCmppolicylabelcmppolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicylabel_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$labelname ,
+        [string]$Labelname,
 
-        [Parameter(Mandatory = $true)]
-        [string]$policyname ,
+        [Parameter(Mandatory)]
+        [string]$Policyname,
 
-        [Parameter(Mandatory = $true)]
-        [double]$priority ,
+        [Parameter(Mandatory)]
+        [double]$Priority,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
-        [boolean]$invoke ,
+        [boolean]$Invoke,
 
         [ValidateSet('reqvserver', 'resvserver', 'policylabel')]
-        [string]$labeltype ,
+        [string]$Labeltype,
 
-        [string]$invoke_labelname ,
+        [string]$Invoke_labelname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddCmppolicylabelcmppolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                labelname = $labelname
-                policyname = $policyname
-                priority = $priority
+            $payload = @{ labelname = $labelname
+                policyname          = $policyname
+                priority            = $priority
             }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
-            if ($PSBoundParameters.ContainsKey('invoke')) { $Payload.Add('invoke', $invoke) }
-            if ($PSBoundParameters.ContainsKey('labeltype')) { $Payload.Add('labeltype', $labeltype) }
-            if ($PSBoundParameters.ContainsKey('invoke_labelname')) { $Payload.Add('invoke_labelname', $invoke_labelname) }
- 
-            if ($PSCmdlet.ShouldProcess("cmppolicylabel_cmppolicy_binding", "Add Compression configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cmppolicylabel_cmppolicy_binding -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSBoundParameters.ContainsKey('invoke') ) { $payload.Add('invoke', $invoke) }
+            if ( $PSBoundParameters.ContainsKey('labeltype') ) { $payload.Add('labeltype', $labeltype) }
+            if ( $PSBoundParameters.ContainsKey('invoke_labelname') ) { $payload.Add('invoke_labelname', $invoke_labelname) }
+            if ( $PSCmdlet.ShouldProcess("cmppolicylabel_cmppolicy_binding", "Add Compression configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cmppolicylabel_cmppolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCmppolicylabelcmppolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCmppolicylabelcmppolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2104,54 +2078,56 @@ function Invoke-ADCAddCmppolicylabelcmppolicybinding {
 }
 
 function Invoke-ADCDeleteCmppolicylabelcmppolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Compression configuration Object
+        Delete Compression configuration Object.
     .DESCRIPTION
-        Delete Compression configuration Object
-    .PARAMETER labelname 
-       Name of the HTTP compression policy label to which to bind the policy.  
-       Minimum length = 1    .PARAMETER policyname 
-       The compression policy name.    .PARAMETER priority 
-       Specifies the priority of the policy.
+        Binding object showing the cmppolicy that can be bound to cmppolicylabel.
+    .PARAMETER Labelname 
+        Name of the HTTP compression policy label to which to bind the policy. 
+    .PARAMETER Policyname 
+        The compression policy name. 
+    .PARAMETER Priority 
+        Specifies the priority of the policy.
     .EXAMPLE
-        Invoke-ADCDeleteCmppolicylabelcmppolicybinding -labelname <string>
+        PS C:\>Invoke-ADCDeleteCmppolicylabelcmppolicybinding -Labelname <string>
+        An example how to delete cmppolicylabel_cmppolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteCmppolicylabelcmppolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicylabel_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$labelname ,
+        [Parameter(Mandatory)]
+        [string]$Labelname,
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [double]$priority 
+        [double]$Priority 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteCmppolicylabelcmppolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
-            if ($PSCmdlet.ShouldProcess("$labelname", "Delete Compression configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cmppolicylabel_cmppolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSBoundParameters.ContainsKey('Priority') ) { $arguments.Add('priority', $Priority) }
+            if ( $PSCmdlet.ShouldProcess("$labelname", "Delete Compression configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cmppolicylabel_cmppolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2167,55 +2143,61 @@ function Invoke-ADCDeleteCmppolicylabelcmppolicybinding {
 }
 
 function Invoke-ADCGetCmppolicylabelcmppolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Compression configuration object(s)
+        Get Compression configuration object(s).
     .DESCRIPTION
-        Get Compression configuration object(s)
-    .PARAMETER labelname 
-       Name of the HTTP compression policy label to which to bind the policy. 
+        Binding object showing the cmppolicy that can be bound to cmppolicylabel.
+    .PARAMETER Labelname 
+        Name of the HTTP compression policy label to which to bind the policy. 
     .PARAMETER GetAll 
-        Retreive all cmppolicylabel_cmppolicy_binding object(s)
+        Retrieve all cmppolicylabel_cmppolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cmppolicylabel_cmppolicy_binding object(s) will be returned
+        If specified, the count of the cmppolicylabel_cmppolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCmppolicylabelcmppolicybinding
+        PS C:\>Invoke-ADCGetCmppolicylabelcmppolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCmppolicylabelcmppolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetCmppolicylabelcmppolicybinding -GetAll 
+        Get all cmppolicylabel_cmppolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetCmppolicylabelcmppolicybinding -Count
+        PS C:\>Invoke-ADCGetCmppolicylabelcmppolicybinding -Count 
+        Get the number of cmppolicylabel_cmppolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetCmppolicylabelcmppolicybinding -name <string>
+        PS C:\>Invoke-ADCGetCmppolicylabelcmppolicybinding -name <string>
+        Get cmppolicylabel_cmppolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCmppolicylabelcmppolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCmppolicylabelcmppolicybinding -Filter @{ 'name'='<value>' }
+        Get cmppolicylabel_cmppolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmppolicylabelcmppolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicylabel_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2228,26 +2210,24 @@ function Invoke-ADCGetCmppolicylabelcmppolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cmppolicylabel_cmppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_cmppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_cmppolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cmppolicylabel_cmppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_cmppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_cmppolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cmppolicylabel_cmppolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_cmppolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_cmppolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cmppolicylabel_cmppolicy_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_cmppolicy_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cmppolicylabel_cmppolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_cmppolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_cmppolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2261,55 +2241,61 @@ function Invoke-ADCGetCmppolicylabelcmppolicybinding {
 }
 
 function Invoke-ADCGetCmppolicylabelpolicybindingbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Compression configuration object(s)
+        Get Compression configuration object(s).
     .DESCRIPTION
-        Get Compression configuration object(s)
-    .PARAMETER labelname 
-       Name of the HTTP compression policy label to which to bind the policy. 
+        Binding object showing the policybinding that can be bound to cmppolicylabel.
+    .PARAMETER Labelname 
+        Name of the HTTP compression policy label to which to bind the policy. 
     .PARAMETER GetAll 
-        Retreive all cmppolicylabel_policybinding_binding object(s)
+        Retrieve all cmppolicylabel_policybinding_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cmppolicylabel_policybinding_binding object(s) will be returned
+        If specified, the count of the cmppolicylabel_policybinding_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCmppolicylabelpolicybindingbinding
+        PS C:\>Invoke-ADCGetCmppolicylabelpolicybindingbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCmppolicylabelpolicybindingbinding -GetAll 
+        PS C:\>Invoke-ADCGetCmppolicylabelpolicybindingbinding -GetAll 
+        Get all cmppolicylabel_policybinding_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetCmppolicylabelpolicybindingbinding -Count
+        PS C:\>Invoke-ADCGetCmppolicylabelpolicybindingbinding -Count 
+        Get the number of cmppolicylabel_policybinding_binding objects.
     .EXAMPLE
-        Invoke-ADCGetCmppolicylabelpolicybindingbinding -name <string>
+        PS C:\>Invoke-ADCGetCmppolicylabelpolicybindingbinding -name <string>
+        Get cmppolicylabel_policybinding_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCmppolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCmppolicylabelpolicybindingbinding -Filter @{ 'name'='<value>' }
+        Get cmppolicylabel_policybinding_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmppolicylabelpolicybindingbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$labelname,
+        [string]$Labelname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2322,26 +2308,24 @@ function Invoke-ADCGetCmppolicylabelpolicybindingbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cmppolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cmppolicylabel_policybinding_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_policybinding_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cmppolicylabel_policybinding_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_policybinding_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_policybinding_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cmppolicylabel_policybinding_binding configuration for property 'labelname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_policybinding_binding -NitroPath nitro/v1/config -Resource $labelname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cmppolicylabel_policybinding_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_policybinding_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicylabel_policybinding_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2355,51 +2339,56 @@ function Invoke-ADCGetCmppolicylabelpolicybindingbinding {
 }
 
 function Invoke-ADCGetCmppolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Compression configuration object(s)
+        Get Compression configuration object(s).
     .DESCRIPTION
-        Get Compression configuration object(s)
-    .PARAMETER name 
-       Name of the HTTP compression policy for which to display details. 
+        Binding object which returns the resources bound to cmppolicy.
+    .PARAMETER Name 
+        Name of the HTTP compression policy for which to display details. 
     .PARAMETER GetAll 
-        Retreive all cmppolicy_binding object(s)
+        Retrieve all cmppolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cmppolicy_binding object(s) will be returned
+        If specified, the count of the cmppolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCmppolicybinding
+        PS C:\>Invoke-ADCGetCmppolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCmppolicybinding -GetAll
+        PS C:\>Invoke-ADCGetCmppolicybinding -GetAll 
+        Get all cmppolicy_binding data.
     .EXAMPLE
-        Invoke-ADCGetCmppolicybinding -name <string>
+        PS C:\>Invoke-ADCGetCmppolicybinding -name <string>
+        Get cmppolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCmppolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCmppolicybinding -Filter @{ 'name'='<value>' }
+        Get cmppolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmppolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -2411,26 +2400,24 @@ function Invoke-ADCGetCmppolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cmppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cmppolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cmppolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cmppolicy_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cmppolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2444,55 +2431,61 @@ function Invoke-ADCGetCmppolicybinding {
 }
 
 function Invoke-ADCGetCmppolicycmpglobalbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Compression configuration object(s)
+        Get Compression configuration object(s).
     .DESCRIPTION
-        Get Compression configuration object(s)
-    .PARAMETER name 
-       Name of the HTTP compression policy for which to display details. 
+        Binding object showing the cmpglobal that can be bound to cmppolicy.
+    .PARAMETER Name 
+        Name of the HTTP compression policy for which to display details. 
     .PARAMETER GetAll 
-        Retreive all cmppolicy_cmpglobal_binding object(s)
+        Retrieve all cmppolicy_cmpglobal_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cmppolicy_cmpglobal_binding object(s) will be returned
+        If specified, the count of the cmppolicy_cmpglobal_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCmppolicycmpglobalbinding
+        PS C:\>Invoke-ADCGetCmppolicycmpglobalbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCmppolicycmpglobalbinding -GetAll 
+        PS C:\>Invoke-ADCGetCmppolicycmpglobalbinding -GetAll 
+        Get all cmppolicy_cmpglobal_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetCmppolicycmpglobalbinding -Count
+        PS C:\>Invoke-ADCGetCmppolicycmpglobalbinding -Count 
+        Get the number of cmppolicy_cmpglobal_binding objects.
     .EXAMPLE
-        Invoke-ADCGetCmppolicycmpglobalbinding -name <string>
+        PS C:\>Invoke-ADCGetCmppolicycmpglobalbinding -name <string>
+        Get cmppolicy_cmpglobal_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCmppolicycmpglobalbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCmppolicycmpglobalbinding -Filter @{ 'name'='<value>' }
+        Get cmppolicy_cmpglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmppolicycmpglobalbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy_cmpglobal_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2505,26 +2498,24 @@ function Invoke-ADCGetCmppolicycmpglobalbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cmppolicy_cmpglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_cmpglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_cmpglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cmppolicy_cmpglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_cmpglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_cmpglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cmppolicy_cmpglobal_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_cmpglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_cmpglobal_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cmppolicy_cmpglobal_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_cmpglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cmppolicy_cmpglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_cmpglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_cmpglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2538,55 +2529,61 @@ function Invoke-ADCGetCmppolicycmpglobalbinding {
 }
 
 function Invoke-ADCGetCmppolicycmppolicylabelbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Compression configuration object(s)
+        Get Compression configuration object(s).
     .DESCRIPTION
-        Get Compression configuration object(s)
-    .PARAMETER name 
-       Name of the HTTP compression policy for which to display details. 
+        Binding object showing the cmppolicylabel that can be bound to cmppolicy.
+    .PARAMETER Name 
+        Name of the HTTP compression policy for which to display details. 
     .PARAMETER GetAll 
-        Retreive all cmppolicy_cmppolicylabel_binding object(s)
+        Retrieve all cmppolicy_cmppolicylabel_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cmppolicy_cmppolicylabel_binding object(s) will be returned
+        If specified, the count of the cmppolicy_cmppolicylabel_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCmppolicycmppolicylabelbinding
+        PS C:\>Invoke-ADCGetCmppolicycmppolicylabelbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCmppolicycmppolicylabelbinding -GetAll 
+        PS C:\>Invoke-ADCGetCmppolicycmppolicylabelbinding -GetAll 
+        Get all cmppolicy_cmppolicylabel_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetCmppolicycmppolicylabelbinding -Count
+        PS C:\>Invoke-ADCGetCmppolicycmppolicylabelbinding -Count 
+        Get the number of cmppolicy_cmppolicylabel_binding objects.
     .EXAMPLE
-        Invoke-ADCGetCmppolicycmppolicylabelbinding -name <string>
+        PS C:\>Invoke-ADCGetCmppolicycmppolicylabelbinding -name <string>
+        Get cmppolicy_cmppolicylabel_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCmppolicycmppolicylabelbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCmppolicycmppolicylabelbinding -Filter @{ 'name'='<value>' }
+        Get cmppolicy_cmppolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmppolicycmppolicylabelbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy_cmppolicylabel_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2599,26 +2596,24 @@ function Invoke-ADCGetCmppolicycmppolicylabelbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cmppolicy_cmppolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_cmppolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_cmppolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cmppolicy_cmppolicylabel_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_cmppolicylabel_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_cmppolicylabel_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cmppolicy_cmppolicylabel_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_cmppolicylabel_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_cmppolicylabel_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cmppolicy_cmppolicylabel_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_cmppolicylabel_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cmppolicy_cmppolicylabel_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_cmppolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_cmppolicylabel_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2632,55 +2627,61 @@ function Invoke-ADCGetCmppolicycmppolicylabelbinding {
 }
 
 function Invoke-ADCGetCmppolicycrvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Compression configuration object(s)
+        Get Compression configuration object(s).
     .DESCRIPTION
-        Get Compression configuration object(s)
-    .PARAMETER name 
-       Name of the HTTP compression policy for which to display details. 
+        Binding object showing the crvserver that can be bound to cmppolicy.
+    .PARAMETER Name 
+        Name of the HTTP compression policy for which to display details. 
     .PARAMETER GetAll 
-        Retreive all cmppolicy_crvserver_binding object(s)
+        Retrieve all cmppolicy_crvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cmppolicy_crvserver_binding object(s) will be returned
+        If specified, the count of the cmppolicy_crvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCmppolicycrvserverbinding
+        PS C:\>Invoke-ADCGetCmppolicycrvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCmppolicycrvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetCmppolicycrvserverbinding -GetAll 
+        Get all cmppolicy_crvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetCmppolicycrvserverbinding -Count
+        PS C:\>Invoke-ADCGetCmppolicycrvserverbinding -Count 
+        Get the number of cmppolicy_crvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetCmppolicycrvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetCmppolicycrvserverbinding -name <string>
+        Get cmppolicy_crvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCmppolicycrvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCmppolicycrvserverbinding -Filter @{ 'name'='<value>' }
+        Get cmppolicy_crvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmppolicycrvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy_crvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2693,26 +2694,24 @@ function Invoke-ADCGetCmppolicycrvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cmppolicy_crvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_crvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_crvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cmppolicy_crvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_crvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_crvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cmppolicy_crvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_crvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_crvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cmppolicy_crvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_crvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cmppolicy_crvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_crvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_crvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2726,55 +2725,61 @@ function Invoke-ADCGetCmppolicycrvserverbinding {
 }
 
 function Invoke-ADCGetCmppolicycsvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Compression configuration object(s)
+        Get Compression configuration object(s).
     .DESCRIPTION
-        Get Compression configuration object(s)
-    .PARAMETER name 
-       Name of the HTTP compression policy for which to display details. 
+        Binding object showing the csvserver that can be bound to cmppolicy.
+    .PARAMETER Name 
+        Name of the HTTP compression policy for which to display details. 
     .PARAMETER GetAll 
-        Retreive all cmppolicy_csvserver_binding object(s)
+        Retrieve all cmppolicy_csvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cmppolicy_csvserver_binding object(s) will be returned
+        If specified, the count of the cmppolicy_csvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCmppolicycsvserverbinding
+        PS C:\>Invoke-ADCGetCmppolicycsvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCmppolicycsvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetCmppolicycsvserverbinding -GetAll 
+        Get all cmppolicy_csvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetCmppolicycsvserverbinding -Count
+        PS C:\>Invoke-ADCGetCmppolicycsvserverbinding -Count 
+        Get the number of cmppolicy_csvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetCmppolicycsvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetCmppolicycsvserverbinding -name <string>
+        Get cmppolicy_csvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCmppolicycsvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCmppolicycsvserverbinding -Filter @{ 'name'='<value>' }
+        Get cmppolicy_csvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmppolicycsvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2787,26 +2792,24 @@ function Invoke-ADCGetCmppolicycsvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cmppolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_csvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cmppolicy_csvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_csvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_csvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cmppolicy_csvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_csvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_csvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cmppolicy_csvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_csvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cmppolicy_csvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_csvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_csvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2820,55 +2823,61 @@ function Invoke-ADCGetCmppolicycsvserverbinding {
 }
 
 function Invoke-ADCGetCmppolicylbvserverbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Compression configuration object(s)
+        Get Compression configuration object(s).
     .DESCRIPTION
-        Get Compression configuration object(s)
-    .PARAMETER name 
-       Name of the HTTP compression policy for which to display details. 
+        Binding object showing the lbvserver that can be bound to cmppolicy.
+    .PARAMETER Name 
+        Name of the HTTP compression policy for which to display details. 
     .PARAMETER GetAll 
-        Retreive all cmppolicy_lbvserver_binding object(s)
+        Retrieve all cmppolicy_lbvserver_binding object(s).
     .PARAMETER Count
-        If specified, the count of the cmppolicy_lbvserver_binding object(s) will be returned
+        If specified, the count of the cmppolicy_lbvserver_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCmppolicylbvserverbinding
+        PS C:\>Invoke-ADCGetCmppolicylbvserverbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCmppolicylbvserverbinding -GetAll 
+        PS C:\>Invoke-ADCGetCmppolicylbvserverbinding -GetAll 
+        Get all cmppolicy_lbvserver_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetCmppolicylbvserverbinding -Count
+        PS C:\>Invoke-ADCGetCmppolicylbvserverbinding -Count 
+        Get the number of cmppolicy_lbvserver_binding objects.
     .EXAMPLE
-        Invoke-ADCGetCmppolicylbvserverbinding -name <string>
+        PS C:\>Invoke-ADCGetCmppolicylbvserverbinding -name <string>
+        Get cmppolicy_lbvserver_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCmppolicylbvserverbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCmppolicylbvserverbinding -Filter @{ 'name'='<value>' }
+        Get cmppolicy_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmppolicylbvserverbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cmp/cmppolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2881,26 +2890,24 @@ function Invoke-ADCGetCmppolicylbvserverbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all cmppolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cmppolicy_lbvserver_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_lbvserver_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cmppolicy_lbvserver_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_lbvserver_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cmppolicy_lbvserver_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_lbvserver_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cmppolicy_lbvserver_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cmppolicy_lbvserver_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

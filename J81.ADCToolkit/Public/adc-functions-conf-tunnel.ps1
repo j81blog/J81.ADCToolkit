@@ -1,43 +1,48 @@
 function Invoke-ADCGetTunnelglobalbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Tunnel configuration object(s)
+        Get Tunnel configuration object(s).
     .DESCRIPTION
-        Get Tunnel configuration object(s)
+        Binding object which returns the resources bound to tunnelglobal.
     .PARAMETER GetAll 
-        Retreive all tunnelglobal_binding object(s)
+        Retrieve all tunnelglobal_binding object(s).
     .PARAMETER Count
-        If specified, the count of the tunnelglobal_binding object(s) will be returned
+        If specified, the count of the tunnelglobal_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTunnelglobalbinding
+        PS C:\>Invoke-ADCGetTunnelglobalbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTunnelglobalbinding -GetAll
+        PS C:\>Invoke-ADCGetTunnelglobalbinding -GetAll 
+        Get all tunnelglobal_binding data.
     .EXAMPLE
-        Invoke-ADCGetTunnelglobalbinding -name <string>
+        PS C:\>Invoke-ADCGetTunnelglobalbinding -name <string>
+        Get tunnelglobal_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTunnelglobalbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTunnelglobalbinding -Filter @{ 'name'='<value>' }
+        Get tunnelglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTunnelglobalbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunnelglobal_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -49,26 +54,24 @@ function Invoke-ADCGetTunnelglobalbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all tunnelglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunnelglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunnelglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tunnelglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunnelglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunnelglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tunnelglobal_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunnelglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunnelglobal_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tunnelglobal_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving tunnelglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunnelglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunnelglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -82,84 +85,81 @@ function Invoke-ADCGetTunnelglobalbinding {
 }
 
 function Invoke-ADCAddTunnelglobaltunneltrafficpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Add Tunnel configuration Object
+        Add Tunnel configuration Object.
     .DESCRIPTION
-        Add Tunnel configuration Object 
-    .PARAMETER policyname 
+        Binding object showing the tunneltrafficpolicy that can be bound to tunnelglobal.
+    .PARAMETER Policyname 
         Policy name. 
-    .PARAMETER priority 
+    .PARAMETER Priority 
         Priority. 
-    .PARAMETER gotopriorityexpression 
+    .PARAMETER Gotopriorityexpression 
         Expression specifying the priority of the next policy which will get evaluated if the current policy rule evaluates to TRUE. 
-    .PARAMETER state 
-        Current state of the binding. If the binding is enabled, the policy is active.  
+    .PARAMETER State 
+        Current state of the binding. If the binding is enabled, the policy is active. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER type 
-        Bind point to which the policy is bound.  
+    .PARAMETER Type 
+        Bind point to which the policy is bound. 
         Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT 
     .PARAMETER PassThru 
         Return details about the created tunnelglobal_tunneltrafficpolicy_binding item.
     .EXAMPLE
-        Invoke-ADCAddTunnelglobaltunneltrafficpolicybinding -policyname <string>
+        PS C:\>Invoke-ADCAddTunnelglobaltunneltrafficpolicybinding -policyname <string>
+        An example how to add tunnelglobal_tunneltrafficpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTunnelglobaltunneltrafficpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunnelglobal_tunneltrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$policyname ,
+        [Parameter(Mandatory)]
+        [string]$Policyname,
 
-        [double]$priority ,
+        [double]$Priority,
 
-        [string]$gotopriorityexpression ,
+        [string]$Gotopriorityexpression,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$state ,
+        [string]$State,
 
         [ValidateSet('REQ_OVERRIDE', 'REQ_DEFAULT', 'RES_OVERRIDE', 'RES_DEFAULT')]
-        [string]$type ,
+        [string]$Type,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddTunnelglobaltunneltrafficpolicybinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                policyname = $policyname
-            }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Payload.Add('priority', $priority) }
-            if ($PSBoundParameters.ContainsKey('gotopriorityexpression')) { $Payload.Add('gotopriorityexpression', $gotopriorityexpression) }
-            if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Payload.Add('type', $type) }
- 
-            if ($PSCmdlet.ShouldProcess("tunnelglobal_tunneltrafficpolicy_binding", "Add Tunnel configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type tunnelglobal_tunneltrafficpolicy_binding -Payload $Payload -GetWarning
+            $payload = @{ policyname = $policyname }
+            if ( $PSBoundParameters.ContainsKey('priority') ) { $payload.Add('priority', $priority) }
+            if ( $PSBoundParameters.ContainsKey('gotopriorityexpression') ) { $payload.Add('gotopriorityexpression', $gotopriorityexpression) }
+            if ( $PSBoundParameters.ContainsKey('state') ) { $payload.Add('state', $state) }
+            if ( $PSBoundParameters.ContainsKey('type') ) { $payload.Add('type', $type) }
+            if ( $PSCmdlet.ShouldProcess("tunnelglobal_tunneltrafficpolicy_binding", "Add Tunnel configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type tunnelglobal_tunneltrafficpolicy_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetTunnelglobaltunneltrafficpolicybinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetTunnelglobaltunneltrafficpolicybinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -172,54 +172,57 @@ function Invoke-ADCAddTunnelglobaltunneltrafficpolicybinding {
 }
 
 function Invoke-ADCDeleteTunnelglobaltunneltrafficpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Delete Tunnel configuration Object
+        Delete Tunnel configuration Object.
     .DESCRIPTION
-        Delete Tunnel configuration Object
-     .PARAMETER policyname 
-       Policy name.    .PARAMETER type 
-       Bind point to which the policy is bound.  
-       Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT    .PARAMETER priority 
-       Priority.
+        Binding object showing the tunneltrafficpolicy that can be bound to tunnelglobal.
+    .PARAMETER Policyname 
+        Policy name. 
+    .PARAMETER Type 
+        Bind point to which the policy is bound. 
+        Possible values = REQ_OVERRIDE, REQ_DEFAULT, RES_OVERRIDE, RES_DEFAULT 
+    .PARAMETER Priority 
+        Priority.
     .EXAMPLE
-        Invoke-ADCDeleteTunnelglobaltunneltrafficpolicybinding 
+        PS C:\>Invoke-ADCDeleteTunnelglobaltunneltrafficpolicybinding 
+        An example how to delete tunnelglobal_tunneltrafficpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTunnelglobaltunneltrafficpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunnelglobal_tunneltrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [string]$policyname ,
+        [string]$Policyname,
 
-        [string]$type ,
+        [string]$Type,
 
-        [double]$priority 
+        [double]$Priority 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteTunnelglobaltunneltrafficpolicybinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('policyname')) { $Arguments.Add('policyname', $policyname) }
-            if ($PSBoundParameters.ContainsKey('type')) { $Arguments.Add('type', $type) }
-            if ($PSBoundParameters.ContainsKey('priority')) { $Arguments.Add('priority', $priority) }
-            if ($PSCmdlet.ShouldProcess("tunnelglobal_tunneltrafficpolicy_binding", "Delete Tunnel configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tunnelglobal_tunneltrafficpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Policyname') ) { $arguments.Add('policyname', $Policyname) }
+            if ( $PSBoundParameters.ContainsKey('Type') ) { $arguments.Add('type', $Type) }
+            if ( $PSBoundParameters.ContainsKey('Priority') ) { $arguments.Add('priority', $Priority) }
+            if ( $PSCmdlet.ShouldProcess("tunnelglobal_tunneltrafficpolicy_binding", "Delete Tunnel configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tunnelglobal_tunneltrafficpolicy_binding -NitroPath nitro/v1/config -Resource $ -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -235,49 +238,55 @@ function Invoke-ADCDeleteTunnelglobaltunneltrafficpolicybinding {
 }
 
 function Invoke-ADCGetTunnelglobaltunneltrafficpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Tunnel configuration object(s)
+        Get Tunnel configuration object(s).
     .DESCRIPTION
-        Get Tunnel configuration object(s)
+        Binding object showing the tunneltrafficpolicy that can be bound to tunnelglobal.
     .PARAMETER GetAll 
-        Retreive all tunnelglobal_tunneltrafficpolicy_binding object(s)
+        Retrieve all tunnelglobal_tunneltrafficpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the tunnelglobal_tunneltrafficpolicy_binding object(s) will be returned
+        If specified, the count of the tunnelglobal_tunneltrafficpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTunnelglobaltunneltrafficpolicybinding
+        PS C:\>Invoke-ADCGetTunnelglobaltunneltrafficpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTunnelglobaltunneltrafficpolicybinding -GetAll 
+        PS C:\>Invoke-ADCGetTunnelglobaltunneltrafficpolicybinding -GetAll 
+        Get all tunnelglobal_tunneltrafficpolicy_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetTunnelglobaltunneltrafficpolicybinding -Count
+        PS C:\>Invoke-ADCGetTunnelglobaltunneltrafficpolicybinding -Count 
+        Get the number of tunnelglobal_tunneltrafficpolicy_binding objects.
     .EXAMPLE
-        Invoke-ADCGetTunnelglobaltunneltrafficpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetTunnelglobaltunneltrafficpolicybinding -name <string>
+        Get tunnelglobal_tunneltrafficpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTunnelglobaltunneltrafficpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTunnelglobaltunneltrafficpolicybinding -Filter @{ 'name'='<value>' }
+        Get tunnelglobal_tunneltrafficpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTunnelglobaltunneltrafficpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunnelglobal_tunneltrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -290,26 +299,24 @@ function Invoke-ADCGetTunnelglobaltunneltrafficpolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all tunnelglobal_tunneltrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunnelglobal_tunneltrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunnelglobal_tunneltrafficpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tunnelglobal_tunneltrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunnelglobal_tunneltrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunnelglobal_tunneltrafficpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tunnelglobal_tunneltrafficpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunnelglobal_tunneltrafficpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunnelglobal_tunneltrafficpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tunnelglobal_tunneltrafficpolicy_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving tunnelglobal_tunneltrafficpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunnelglobal_tunneltrafficpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunnelglobal_tunneltrafficpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -323,91 +330,88 @@ function Invoke-ADCGetTunnelglobaltunneltrafficpolicybinding {
 }
 
 function Invoke-ADCAddTunneltrafficpolicy {
-<#
+    <#
     .SYNOPSIS
-        Add Tunnel configuration Object
+        Add Tunnel configuration Object.
     .DESCRIPTION
-        Add Tunnel configuration Object 
-    .PARAMETER name 
-        Name for the tunnel traffic policy.  
+        Configuration for tunnel policy resource.
+    .PARAMETER Name 
+        Name for the tunnel traffic policy. 
         Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the policy is created. 
-    .PARAMETER rule 
-        Expression, against which traffic is evaluated.  
-        The following requirements apply only to the Citrix ADC CLI:  
-        * If the expression includes blank spaces, the entire expression must be enclosed in double quotation marks.  
-        * If the expression itself includes double quotation marks, you must escape the quotations by using the \ character.  
+    .PARAMETER Rule 
+        Expression, against which traffic is evaluated. 
+        The following requirements apply only to the Citrix ADC CLI: 
+        * If the expression includes blank spaces, the entire expression must be enclosed in double quotation marks. 
+        * If the expression itself includes double quotation marks, you must escape the quotations by using the \ character. 
         * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks. 
-    .PARAMETER action 
-        Name of the built-in compression action to associate with the policy.  
-        Minimum length = 1 
-    .PARAMETER comment 
+    .PARAMETER Action 
+        Name of the built-in compression action to associate with the policy. 
+    .PARAMETER Comment 
         Any comments to preserve information about this policy. 
-    .PARAMETER logaction 
+    .PARAMETER Logaction 
         Name of the messagelog action to use for requests that match this policy. 
     .PARAMETER PassThru 
         Return details about the created tunneltrafficpolicy item.
     .EXAMPLE
-        Invoke-ADCAddTunneltrafficpolicy -name <string> -rule <string> -action <string>
+        PS C:\>Invoke-ADCAddTunneltrafficpolicy -name <string> -rule <string> -action <string>
+        An example how to add tunneltrafficpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTunneltrafficpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunneltrafficpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
-        [string]$rule ,
+        [Parameter(Mandatory)]
+        [string]$Rule,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$action ,
+        [string]$Action,
 
-        [string]$comment ,
+        [string]$Comment,
 
-        [string]$logaction ,
+        [string]$Logaction,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddTunneltrafficpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                rule = $rule
-                action = $action
+            $payload = @{ name = $name
+                rule           = $rule
+                action         = $action
             }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
- 
-            if ($PSCmdlet.ShouldProcess("tunneltrafficpolicy", "Add Tunnel configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type tunneltrafficpolicy -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("tunneltrafficpolicy", "Add Tunnel configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type tunneltrafficpolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetTunneltrafficpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetTunneltrafficpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -420,47 +424,48 @@ function Invoke-ADCAddTunneltrafficpolicy {
 }
 
 function Invoke-ADCDeleteTunneltrafficpolicy {
-<#
+    <#
     .SYNOPSIS
-        Delete Tunnel configuration Object
+        Delete Tunnel configuration Object.
     .DESCRIPTION
-        Delete Tunnel configuration Object
-    .PARAMETER name 
-       Name for the tunnel traffic policy.  
-       Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the policy is created. 
+        Configuration for tunnel policy resource.
+    .PARAMETER Name 
+        Name for the tunnel traffic policy. 
+        Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the policy is created.
     .EXAMPLE
-        Invoke-ADCDeleteTunneltrafficpolicy -name <string>
+        PS C:\>Invoke-ADCDeleteTunneltrafficpolicy -Name <string>
+        An example how to delete tunneltrafficpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTunneltrafficpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunneltrafficpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteTunneltrafficpolicy: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Tunnel configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tunneltrafficpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Tunnel configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type tunneltrafficpolicy -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -476,89 +481,85 @@ function Invoke-ADCDeleteTunneltrafficpolicy {
 }
 
 function Invoke-ADCUpdateTunneltrafficpolicy {
-<#
+    <#
     .SYNOPSIS
-        Update Tunnel configuration Object
+        Update Tunnel configuration Object.
     .DESCRIPTION
-        Update Tunnel configuration Object 
-    .PARAMETER name 
-        Name for the tunnel traffic policy.  
+        Configuration for tunnel policy resource.
+    .PARAMETER Name 
+        Name for the tunnel traffic policy. 
         Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the policy is created. 
-    .PARAMETER rule 
-        Expression, against which traffic is evaluated.  
-        The following requirements apply only to the Citrix ADC CLI:  
-        * If the expression includes blank spaces, the entire expression must be enclosed in double quotation marks.  
-        * If the expression itself includes double quotation marks, you must escape the quotations by using the \ character.  
+    .PARAMETER Rule 
+        Expression, against which traffic is evaluated. 
+        The following requirements apply only to the Citrix ADC CLI: 
+        * If the expression includes blank spaces, the entire expression must be enclosed in double quotation marks. 
+        * If the expression itself includes double quotation marks, you must escape the quotations by using the \ character. 
         * Alternatively, you can use single quotation marks to enclose the rule, in which case you do not have to escape the double quotation marks. 
-    .PARAMETER action 
-        Name of the built-in compression action to associate with the policy.  
-        Minimum length = 1 
-    .PARAMETER comment 
+    .PARAMETER Action 
+        Name of the built-in compression action to associate with the policy. 
+    .PARAMETER Comment 
         Any comments to preserve information about this policy. 
-    .PARAMETER logaction 
+    .PARAMETER Logaction 
         Name of the messagelog action to use for requests that match this policy. 
     .PARAMETER PassThru 
         Return details about the created tunneltrafficpolicy item.
     .EXAMPLE
-        Invoke-ADCUpdateTunneltrafficpolicy -name <string>
+        PS C:\>Invoke-ADCUpdateTunneltrafficpolicy -name <string>
+        An example how to update tunneltrafficpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateTunneltrafficpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunneltrafficpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [string]$rule ,
+        [string]$Rule,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$action ,
+        [string]$Action,
 
-        [string]$comment ,
+        [string]$Comment,
 
-        [string]$logaction ,
+        [string]$Logaction,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateTunneltrafficpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('rule')) { $Payload.Add('rule', $rule) }
-            if ($PSBoundParameters.ContainsKey('action')) { $Payload.Add('action', $action) }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
- 
-            if ($PSCmdlet.ShouldProcess("tunneltrafficpolicy", "Update Tunnel configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type tunneltrafficpolicy -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('rule') ) { $payload.Add('rule', $rule) }
+            if ( $PSBoundParameters.ContainsKey('action') ) { $payload.Add('action', $action) }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("tunneltrafficpolicy", "Update Tunnel configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type tunneltrafficpolicy -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetTunneltrafficpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetTunneltrafficpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -571,44 +572,45 @@ function Invoke-ADCUpdateTunneltrafficpolicy {
 }
 
 function Invoke-ADCUnsetTunneltrafficpolicy {
-<#
+    <#
     .SYNOPSIS
-        Unset Tunnel configuration Object
+        Unset Tunnel configuration Object.
     .DESCRIPTION
-        Unset Tunnel configuration Object 
-   .PARAMETER name 
-       Name for the tunnel traffic policy.  
-       Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the policy is created. 
-   .PARAMETER comment 
-       Any comments to preserve information about this policy. 
-   .PARAMETER logaction 
-       Name of the messagelog action to use for requests that match this policy.
+        Configuration for tunnel policy resource.
+    .PARAMETER Name 
+        Name for the tunnel traffic policy. 
+        Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the policy is created. 
+    .PARAMETER Comment 
+        Any comments to preserve information about this policy. 
+    .PARAMETER Logaction 
+        Name of the messagelog action to use for requests that match this policy.
     .EXAMPLE
-        Invoke-ADCUnsetTunneltrafficpolicy -name <string>
+        PS C:\>Invoke-ADCUnsetTunneltrafficpolicy -name <string>
+        An example how to unset tunneltrafficpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetTunneltrafficpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunneltrafficpolicy
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$comment ,
+        [Boolean]$comment,
 
         [Boolean]$logaction 
     )
@@ -617,13 +619,11 @@ function Invoke-ADCUnsetTunneltrafficpolicy {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('comment')) { $Payload.Add('comment', $comment) }
-            if ($PSBoundParameters.ContainsKey('logaction')) { $Payload.Add('logaction', $logaction) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset Tunnel configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tunneltrafficpolicy -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('comment') ) { $payload.Add('comment', $comment) }
+            if ( $PSBoundParameters.ContainsKey('logaction') ) { $payload.Add('logaction', $logaction) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset Tunnel configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type tunneltrafficpolicy -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -639,73 +639,71 @@ function Invoke-ADCUnsetTunneltrafficpolicy {
 }
 
 function Invoke-ADCRenameTunneltrafficpolicy {
-<#
+    <#
     .SYNOPSIS
-        Rename Tunnel configuration Object
+        Rename Tunnel configuration Object.
     .DESCRIPTION
-        Rename Tunnel configuration Object 
-    .PARAMETER name 
-        Name for the tunnel traffic policy.  
+        Configuration for tunnel policy resource.
+    .PARAMETER Name 
+        Name for the tunnel traffic policy. 
         Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the policy is created. 
-    .PARAMETER newname 
-        New name for the tunnel traffic policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), e  
-        quals (=), and hyphen (-) characters.  
+    .PARAMETER Newname 
+        New name for the tunnel traffic policy. Must begin with an ASCII alphabetic or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), e 
+        quals (=), and hyphen (-) characters. 
         Choose a name that reflects the function that the policy performs. 
     .PARAMETER PassThru 
         Return details about the created tunneltrafficpolicy item.
     .EXAMPLE
-        Invoke-ADCRenameTunneltrafficpolicy -name <string> -newname <string>
+        PS C:\>Invoke-ADCRenameTunneltrafficpolicy -name <string> -newname <string>
+        An example how to rename tunneltrafficpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameTunneltrafficpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunneltrafficpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$newname ,
+        [string]$Newname,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCRenameTunneltrafficpolicy: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                newname = $newname
+            $payload = @{ name = $name
+                newname        = $newname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("tunneltrafficpolicy", "Rename Tunnel configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type tunneltrafficpolicy -Action rename -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("tunneltrafficpolicy", "Rename Tunnel configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type tunneltrafficpolicy -Action rename -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetTunneltrafficpolicy -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetTunneltrafficpolicy -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -718,57 +716,63 @@ function Invoke-ADCRenameTunneltrafficpolicy {
 }
 
 function Invoke-ADCGetTunneltrafficpolicy {
-<#
+    <#
     .SYNOPSIS
-        Get Tunnel configuration object(s)
+        Get Tunnel configuration object(s).
     .DESCRIPTION
-        Get Tunnel configuration object(s)
-    .PARAMETER name 
-       Name for the tunnel traffic policy.  
-       Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the policy is created. 
+        Configuration for tunnel policy resource.
+    .PARAMETER Name 
+        Name for the tunnel traffic policy. 
+        Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the policy is created. 
     .PARAMETER GetAll 
-        Retreive all tunneltrafficpolicy object(s)
+        Retrieve all tunneltrafficpolicy object(s).
     .PARAMETER Count
-        If specified, the count of the tunneltrafficpolicy object(s) will be returned
+        If specified, the count of the tunneltrafficpolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTunneltrafficpolicy
+        PS C:\>Invoke-ADCGetTunneltrafficpolicy
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTunneltrafficpolicy -GetAll 
+        PS C:\>Invoke-ADCGetTunneltrafficpolicy -GetAll 
+        Get all tunneltrafficpolicy data. 
     .EXAMPLE 
-        Invoke-ADCGetTunneltrafficpolicy -Count
+        PS C:\>Invoke-ADCGetTunneltrafficpolicy -Count 
+        Get the number of tunneltrafficpolicy objects.
     .EXAMPLE
-        Invoke-ADCGetTunneltrafficpolicy -name <string>
+        PS C:\>Invoke-ADCGetTunneltrafficpolicy -name <string>
+        Get tunneltrafficpolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTunneltrafficpolicy -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTunneltrafficpolicy -Filter @{ 'name'='<value>' }
+        Get tunneltrafficpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTunneltrafficpolicy
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunneltrafficpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -786,24 +790,24 @@ function Invoke-ADCGetTunneltrafficpolicy {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all tunneltrafficpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tunneltrafficpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tunneltrafficpolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tunneltrafficpolicy configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving tunneltrafficpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -817,51 +821,56 @@ function Invoke-ADCGetTunneltrafficpolicy {
 }
 
 function Invoke-ADCGetTunneltrafficpolicybinding {
-<#
+    <#
     .SYNOPSIS
-        Get Tunnel configuration object(s)
+        Get Tunnel configuration object(s).
     .DESCRIPTION
-        Get Tunnel configuration object(s)
-    .PARAMETER name 
-       Name of the tunnel traffic policy for which to show detailed information. 
+        Binding object which returns the resources bound to tunneltrafficpolicy.
+    .PARAMETER Name 
+        Name of the tunnel traffic policy for which to show detailed information. 
     .PARAMETER GetAll 
-        Retreive all tunneltrafficpolicy_binding object(s)
+        Retrieve all tunneltrafficpolicy_binding object(s).
     .PARAMETER Count
-        If specified, the count of the tunneltrafficpolicy_binding object(s) will be returned
+        If specified, the count of the tunneltrafficpolicy_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTunneltrafficpolicybinding
+        PS C:\>Invoke-ADCGetTunneltrafficpolicybinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTunneltrafficpolicybinding -GetAll
+        PS C:\>Invoke-ADCGetTunneltrafficpolicybinding -GetAll 
+        Get all tunneltrafficpolicy_binding data.
     .EXAMPLE
-        Invoke-ADCGetTunneltrafficpolicybinding -name <string>
+        PS C:\>Invoke-ADCGetTunneltrafficpolicybinding -name <string>
+        Get tunneltrafficpolicy_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTunneltrafficpolicybinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTunneltrafficpolicybinding -Filter @{ 'name'='<value>' }
+        Get tunneltrafficpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTunneltrafficpolicybinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunneltrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -873,26 +882,24 @@ function Invoke-ADCGetTunneltrafficpolicybinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all tunneltrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tunneltrafficpolicy_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tunneltrafficpolicy_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tunneltrafficpolicy_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving tunneltrafficpolicy_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -906,55 +913,61 @@ function Invoke-ADCGetTunneltrafficpolicybinding {
 }
 
 function Invoke-ADCGetTunneltrafficpolicytunnelglobalbinding {
-<#
+    <#
     .SYNOPSIS
-        Get Tunnel configuration object(s)
+        Get Tunnel configuration object(s).
     .DESCRIPTION
-        Get Tunnel configuration object(s)
-    .PARAMETER name 
-       Name of the tunnel traffic policy for which to show detailed information. 
+        Binding object showing the tunnelglobal that can be bound to tunneltrafficpolicy.
+    .PARAMETER Name 
+        Name of the tunnel traffic policy for which to show detailed information. 
     .PARAMETER GetAll 
-        Retreive all tunneltrafficpolicy_tunnelglobal_binding object(s)
+        Retrieve all tunneltrafficpolicy_tunnelglobal_binding object(s).
     .PARAMETER Count
-        If specified, the count of the tunneltrafficpolicy_tunnelglobal_binding object(s) will be returned
+        If specified, the count of the tunneltrafficpolicy_tunnelglobal_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetTunneltrafficpolicytunnelglobalbinding
+        PS C:\>Invoke-ADCGetTunneltrafficpolicytunnelglobalbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetTunneltrafficpolicytunnelglobalbinding -GetAll 
+        PS C:\>Invoke-ADCGetTunneltrafficpolicytunnelglobalbinding -GetAll 
+        Get all tunneltrafficpolicy_tunnelglobal_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetTunneltrafficpolicytunnelglobalbinding -Count
+        PS C:\>Invoke-ADCGetTunneltrafficpolicytunnelglobalbinding -Count 
+        Get the number of tunneltrafficpolicy_tunnelglobal_binding objects.
     .EXAMPLE
-        Invoke-ADCGetTunneltrafficpolicytunnelglobalbinding -name <string>
+        PS C:\>Invoke-ADCGetTunneltrafficpolicytunnelglobalbinding -name <string>
+        Get tunneltrafficpolicy_tunnelglobal_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetTunneltrafficpolicytunnelglobalbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetTunneltrafficpolicytunnelglobalbinding -Filter @{ 'name'='<value>' }
+        Get tunneltrafficpolicy_tunnelglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTunneltrafficpolicytunnelglobalbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunneltrafficpolicy_tunnelglobal_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -967,26 +980,24 @@ function Invoke-ADCGetTunneltrafficpolicytunnelglobalbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all tunneltrafficpolicy_tunnelglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy_tunnelglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy_tunnelglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for tunneltrafficpolicy_tunnelglobal_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy_tunnelglobal_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy_tunnelglobal_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving tunneltrafficpolicy_tunnelglobal_binding objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy_tunnelglobal_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy_tunnelglobal_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving tunneltrafficpolicy_tunnelglobal_binding configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy_tunnelglobal_binding -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving tunneltrafficpolicy_tunnelglobal_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy_tunnelglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type tunneltrafficpolicy_tunnelglobal_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

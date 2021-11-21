@@ -1,50 +1,55 @@
 function Invoke-ADCGetProtocolhttpStats {
-<#
+    <#
     .SYNOPSIS
-        Get Protocol statistics object(s)
+        Get Protocol statistics object(s).
     .DESCRIPTION
-        Get Protocol statistics object(s)
-    .PARAMETER clearstats 
-       Clear the statsistics / counters.  
-       Possible values = basic, full 
+        Statistics for HTTP resource.
+    .PARAMETER Clearstats 
+        Clear the statsistics / counters. 
+        Possible values = basic, full 
     .PARAMETER GetAll 
-        Retreive all protocolhttp object(s)
+        Retrieve all protocolhttp object(s).
     .PARAMETER Count
-        If specified, the count of the protocolhttp object(s) will be returned
+        If specified, the count of the protocolhttp object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetProtocolhttpStats
+        PS C:\>Invoke-ADCGetProtocolhttpStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetProtocolhttpStats -GetAll
+        PS C:\>Invoke-ADCGetProtocolhttpStats -GetAll 
+        Get all protocolhttp data.
     .EXAMPLE
-        Invoke-ADCGetProtocolhttpStats -name <string>
+        PS C:\>Invoke-ADCGetProtocolhttpStats -name <string>
+        Get protocolhttp object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetProtocolhttpStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetProtocolhttpStats -Filter @{ 'name'='<value>' }
+        Get protocolhttp data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocolhttpStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolhttp/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('basic', 'full')]
-        [string]$clearstats,
+        [string]$Clearstats,
 			
         [hashtable]$Filter = @{ },
 
@@ -56,29 +61,29 @@ function Invoke-ADCGetProtocolhttpStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all protocolhttp objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttp -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttp -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for protocolhttp objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttp -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttp -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving protocolhttp objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('detail')) { $Arguments.Add('detail', $detail) } 
-                if ($PSBoundParameters.ContainsKey('fullvalues')) { $Arguments.Add('fullvalues', $fullvalues) } 
-                if ($PSBoundParameters.ContainsKey('ntimes')) { $Arguments.Add('ntimes', $ntimes) } 
-                if ($PSBoundParameters.ContainsKey('logfile')) { $Arguments.Add('logfile', $logfile) } 
-                if ($PSBoundParameters.ContainsKey('clearstats')) { $Arguments.Add('clearstats', $clearstats) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttp -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('detail') ) { $arguments.Add('detail', $detail) } 
+                if ( $PSBoundParameters.ContainsKey('fullvalues') ) { $arguments.Add('fullvalues', $fullvalues) } 
+                if ( $PSBoundParameters.ContainsKey('ntimes') ) { $arguments.Add('ntimes', $ntimes) } 
+                if ( $PSBoundParameters.ContainsKey('logfile') ) { $arguments.Add('logfile', $logfile) } 
+                if ( $PSBoundParameters.ContainsKey('clearstats') ) { $arguments.Add('clearstats', $clearstats) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttp -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving protocolhttp configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving protocolhttp configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttp -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttp -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -92,52 +97,57 @@ function Invoke-ADCGetProtocolhttpStats {
 }
 
 function Invoke-ADCGetProtocolhttp2Stats {
-<#
+    <#
     .SYNOPSIS
-        Get Protocol statistics object(s)
+        Get Protocol statistics object(s).
     .DESCRIPTION
-        Get Protocol statistics object(s)
-    .PARAMETER clearstats 
-       Clear the statsistics / counters.  
-       Possible values = basic, full 
+        Statistics for http2 resource.
+    .PARAMETER Clearstats 
+        Clear the statsistics / counters. 
+        Possible values = basic, full 
     .PARAMETER GetAll 
-        Retreive all protocolhttp2 object(s)
+        Retrieve all protocolhttp2 object(s).
     .PARAMETER Count
-        If specified, the count of the protocolhttp2 object(s) will be returned
+        If specified, the count of the protocolhttp2 object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetProtocolhttp2Stats
+        PS C:\>Invoke-ADCGetProtocolhttp2Stats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetProtocolhttp2Stats -GetAll
+        PS C:\>Invoke-ADCGetProtocolhttp2Stats -GetAll 
+        Get all protocolhttp2 data.
     .EXAMPLE
-        Invoke-ADCGetProtocolhttp2Stats -name <string>
+        PS C:\>Invoke-ADCGetProtocolhttp2Stats -name <string>
+        Get protocolhttp2 object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetProtocolhttp2Stats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetProtocolhttp2Stats -Filter @{ 'name'='<value>' }
+        Get protocolhttp2 data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocolhttp2Stats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolhttp2/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('basic', 'full')]
-        [string]$clearstats,
+        [string]$Clearstats,
 			
         [hashtable]$Filter = @{ },
 
@@ -149,29 +159,29 @@ function Invoke-ADCGetProtocolhttp2Stats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all protocolhttp2 objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttp2 -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttp2 -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for protocolhttp2 objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttp2 -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttp2 -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving protocolhttp2 objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('detail')) { $Arguments.Add('detail', $detail) } 
-                if ($PSBoundParameters.ContainsKey('fullvalues')) { $Arguments.Add('fullvalues', $fullvalues) } 
-                if ($PSBoundParameters.ContainsKey('ntimes')) { $Arguments.Add('ntimes', $ntimes) } 
-                if ($PSBoundParameters.ContainsKey('logfile')) { $Arguments.Add('logfile', $logfile) } 
-                if ($PSBoundParameters.ContainsKey('clearstats')) { $Arguments.Add('clearstats', $clearstats) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttp2 -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('detail') ) { $arguments.Add('detail', $detail) } 
+                if ( $PSBoundParameters.ContainsKey('fullvalues') ) { $arguments.Add('fullvalues', $fullvalues) } 
+                if ( $PSBoundParameters.ContainsKey('ntimes') ) { $arguments.Add('ntimes', $ntimes) } 
+                if ( $PSBoundParameters.ContainsKey('logfile') ) { $arguments.Add('logfile', $logfile) } 
+                if ( $PSBoundParameters.ContainsKey('clearstats') ) { $arguments.Add('clearstats', $clearstats) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttp2 -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving protocolhttp2 configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving protocolhttp2 configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttp2 -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolhttp2 -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -185,52 +195,57 @@ function Invoke-ADCGetProtocolhttp2Stats {
 }
 
 function Invoke-ADCGetProtocolicmpStats {
-<#
+    <#
     .SYNOPSIS
-        Get Protocol statistics object(s)
+        Get Protocol statistics object(s).
     .DESCRIPTION
-        Get Protocol statistics object(s)
-    .PARAMETER clearstats 
-       Clear the statsistics / counters.  
-       Possible values = basic, full 
+        Statistics for icmp resource.
+    .PARAMETER Clearstats 
+        Clear the statsistics / counters. 
+        Possible values = basic, full 
     .PARAMETER GetAll 
-        Retreive all protocolicmp object(s)
+        Retrieve all protocolicmp object(s).
     .PARAMETER Count
-        If specified, the count of the protocolicmp object(s) will be returned
+        If specified, the count of the protocolicmp object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetProtocolicmpStats
+        PS C:\>Invoke-ADCGetProtocolicmpStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetProtocolicmpStats -GetAll
+        PS C:\>Invoke-ADCGetProtocolicmpStats -GetAll 
+        Get all protocolicmp data.
     .EXAMPLE
-        Invoke-ADCGetProtocolicmpStats -name <string>
+        PS C:\>Invoke-ADCGetProtocolicmpStats -name <string>
+        Get protocolicmp object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetProtocolicmpStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetProtocolicmpStats -Filter @{ 'name'='<value>' }
+        Get protocolicmp data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocolicmpStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolicmp/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('basic', 'full')]
-        [string]$clearstats,
+        [string]$Clearstats,
 			
         [hashtable]$Filter = @{ },
 
@@ -242,29 +257,29 @@ function Invoke-ADCGetProtocolicmpStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all protocolicmp objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolicmp -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolicmp -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for protocolicmp objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolicmp -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolicmp -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving protocolicmp objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('detail')) { $Arguments.Add('detail', $detail) } 
-                if ($PSBoundParameters.ContainsKey('fullvalues')) { $Arguments.Add('fullvalues', $fullvalues) } 
-                if ($PSBoundParameters.ContainsKey('ntimes')) { $Arguments.Add('ntimes', $ntimes) } 
-                if ($PSBoundParameters.ContainsKey('logfile')) { $Arguments.Add('logfile', $logfile) } 
-                if ($PSBoundParameters.ContainsKey('clearstats')) { $Arguments.Add('clearstats', $clearstats) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolicmp -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('detail') ) { $arguments.Add('detail', $detail) } 
+                if ( $PSBoundParameters.ContainsKey('fullvalues') ) { $arguments.Add('fullvalues', $fullvalues) } 
+                if ( $PSBoundParameters.ContainsKey('ntimes') ) { $arguments.Add('ntimes', $ntimes) } 
+                if ( $PSBoundParameters.ContainsKey('logfile') ) { $arguments.Add('logfile', $logfile) } 
+                if ( $PSBoundParameters.ContainsKey('clearstats') ) { $arguments.Add('clearstats', $clearstats) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolicmp -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving protocolicmp configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving protocolicmp configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolicmp -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolicmp -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -278,52 +293,57 @@ function Invoke-ADCGetProtocolicmpStats {
 }
 
 function Invoke-ADCGetProtocolicmpv6Stats {
-<#
+    <#
     .SYNOPSIS
-        Get Protocol statistics object(s)
+        Get Protocol statistics object(s).
     .DESCRIPTION
-        Get Protocol statistics object(s)
-    .PARAMETER clearstats 
-       Clear the statsistics / counters.  
-       Possible values = basic, full 
+        Statistics for icmpv6 resource.
+    .PARAMETER Clearstats 
+        Clear the statsistics / counters. 
+        Possible values = basic, full 
     .PARAMETER GetAll 
-        Retreive all protocolicmpv6 object(s)
+        Retrieve all protocolicmpv6 object(s).
     .PARAMETER Count
-        If specified, the count of the protocolicmpv6 object(s) will be returned
+        If specified, the count of the protocolicmpv6 object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetProtocolicmpv6Stats
+        PS C:\>Invoke-ADCGetProtocolicmpv6Stats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetProtocolicmpv6Stats -GetAll
+        PS C:\>Invoke-ADCGetProtocolicmpv6Stats -GetAll 
+        Get all protocolicmpv6 data.
     .EXAMPLE
-        Invoke-ADCGetProtocolicmpv6Stats -name <string>
+        PS C:\>Invoke-ADCGetProtocolicmpv6Stats -name <string>
+        Get protocolicmpv6 object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetProtocolicmpv6Stats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetProtocolicmpv6Stats -Filter @{ 'name'='<value>' }
+        Get protocolicmpv6 data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocolicmpv6Stats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolicmpv6/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('basic', 'full')]
-        [string]$clearstats,
+        [string]$Clearstats,
 			
         [hashtable]$Filter = @{ },
 
@@ -335,29 +355,29 @@ function Invoke-ADCGetProtocolicmpv6Stats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all protocolicmpv6 objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolicmpv6 -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolicmpv6 -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for protocolicmpv6 objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolicmpv6 -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolicmpv6 -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving protocolicmpv6 objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('detail')) { $Arguments.Add('detail', $detail) } 
-                if ($PSBoundParameters.ContainsKey('fullvalues')) { $Arguments.Add('fullvalues', $fullvalues) } 
-                if ($PSBoundParameters.ContainsKey('ntimes')) { $Arguments.Add('ntimes', $ntimes) } 
-                if ($PSBoundParameters.ContainsKey('logfile')) { $Arguments.Add('logfile', $logfile) } 
-                if ($PSBoundParameters.ContainsKey('clearstats')) { $Arguments.Add('clearstats', $clearstats) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolicmpv6 -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('detail') ) { $arguments.Add('detail', $detail) } 
+                if ( $PSBoundParameters.ContainsKey('fullvalues') ) { $arguments.Add('fullvalues', $fullvalues) } 
+                if ( $PSBoundParameters.ContainsKey('ntimes') ) { $arguments.Add('ntimes', $ntimes) } 
+                if ( $PSBoundParameters.ContainsKey('logfile') ) { $arguments.Add('logfile', $logfile) } 
+                if ( $PSBoundParameters.ContainsKey('clearstats') ) { $arguments.Add('clearstats', $clearstats) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolicmpv6 -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving protocolicmpv6 configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving protocolicmpv6 configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolicmpv6 -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolicmpv6 -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -371,52 +391,57 @@ function Invoke-ADCGetProtocolicmpv6Stats {
 }
 
 function Invoke-ADCGetProtocolipStats {
-<#
+    <#
     .SYNOPSIS
-        Get Protocol statistics object(s)
+        Get Protocol statistics object(s).
     .DESCRIPTION
-        Get Protocol statistics object(s)
-    .PARAMETER clearstats 
-       Clear the statsistics / counters.  
-       Possible values = basic, full 
+        Statistics for protocolip resource.
+    .PARAMETER Clearstats 
+        Clear the statsistics / counters. 
+        Possible values = basic, full 
     .PARAMETER GetAll 
-        Retreive all protocolip object(s)
+        Retrieve all protocolip object(s).
     .PARAMETER Count
-        If specified, the count of the protocolip object(s) will be returned
+        If specified, the count of the protocolip object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetProtocolipStats
+        PS C:\>Invoke-ADCGetProtocolipStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetProtocolipStats -GetAll
+        PS C:\>Invoke-ADCGetProtocolipStats -GetAll 
+        Get all protocolip data.
     .EXAMPLE
-        Invoke-ADCGetProtocolipStats -name <string>
+        PS C:\>Invoke-ADCGetProtocolipStats -name <string>
+        Get protocolip object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetProtocolipStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetProtocolipStats -Filter @{ 'name'='<value>' }
+        Get protocolip data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocolipStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolip/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('basic', 'full')]
-        [string]$clearstats,
+        [string]$Clearstats,
 			
         [hashtable]$Filter = @{ },
 
@@ -428,29 +453,29 @@ function Invoke-ADCGetProtocolipStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all protocolip objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolip -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolip -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for protocolip objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolip -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolip -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving protocolip objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('detail')) { $Arguments.Add('detail', $detail) } 
-                if ($PSBoundParameters.ContainsKey('fullvalues')) { $Arguments.Add('fullvalues', $fullvalues) } 
-                if ($PSBoundParameters.ContainsKey('ntimes')) { $Arguments.Add('ntimes', $ntimes) } 
-                if ($PSBoundParameters.ContainsKey('logfile')) { $Arguments.Add('logfile', $logfile) } 
-                if ($PSBoundParameters.ContainsKey('clearstats')) { $Arguments.Add('clearstats', $clearstats) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolip -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('detail') ) { $arguments.Add('detail', $detail) } 
+                if ( $PSBoundParameters.ContainsKey('fullvalues') ) { $arguments.Add('fullvalues', $fullvalues) } 
+                if ( $PSBoundParameters.ContainsKey('ntimes') ) { $arguments.Add('ntimes', $ntimes) } 
+                if ( $PSBoundParameters.ContainsKey('logfile') ) { $arguments.Add('logfile', $logfile) } 
+                if ( $PSBoundParameters.ContainsKey('clearstats') ) { $arguments.Add('clearstats', $clearstats) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolip -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving protocolip configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving protocolip configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolip -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolip -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -464,52 +489,57 @@ function Invoke-ADCGetProtocolipStats {
 }
 
 function Invoke-ADCGetProtocolipv6Stats {
-<#
+    <#
     .SYNOPSIS
-        Get Protocol statistics object(s)
+        Get Protocol statistics object(s).
     .DESCRIPTION
-        Get Protocol statistics object(s)
-    .PARAMETER clearstats 
-       Clear the statsistics / counters.  
-       Possible values = basic, full 
+        Statistics for ip v6 resource.
+    .PARAMETER Clearstats 
+        Clear the statsistics / counters. 
+        Possible values = basic, full 
     .PARAMETER GetAll 
-        Retreive all protocolipv6 object(s)
+        Retrieve all protocolipv6 object(s).
     .PARAMETER Count
-        If specified, the count of the protocolipv6 object(s) will be returned
+        If specified, the count of the protocolipv6 object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetProtocolipv6Stats
+        PS C:\>Invoke-ADCGetProtocolipv6Stats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetProtocolipv6Stats -GetAll
+        PS C:\>Invoke-ADCGetProtocolipv6Stats -GetAll 
+        Get all protocolipv6 data.
     .EXAMPLE
-        Invoke-ADCGetProtocolipv6Stats -name <string>
+        PS C:\>Invoke-ADCGetProtocolipv6Stats -name <string>
+        Get protocolipv6 object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetProtocolipv6Stats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetProtocolipv6Stats -Filter @{ 'name'='<value>' }
+        Get protocolipv6 data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocolipv6Stats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolipv6/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('basic', 'full')]
-        [string]$clearstats,
+        [string]$Clearstats,
 			
         [hashtable]$Filter = @{ },
 
@@ -521,29 +551,29 @@ function Invoke-ADCGetProtocolipv6Stats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all protocolipv6 objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolipv6 -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolipv6 -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for protocolipv6 objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolipv6 -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolipv6 -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving protocolipv6 objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('detail')) { $Arguments.Add('detail', $detail) } 
-                if ($PSBoundParameters.ContainsKey('fullvalues')) { $Arguments.Add('fullvalues', $fullvalues) } 
-                if ($PSBoundParameters.ContainsKey('ntimes')) { $Arguments.Add('ntimes', $ntimes) } 
-                if ($PSBoundParameters.ContainsKey('logfile')) { $Arguments.Add('logfile', $logfile) } 
-                if ($PSBoundParameters.ContainsKey('clearstats')) { $Arguments.Add('clearstats', $clearstats) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolipv6 -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('detail') ) { $arguments.Add('detail', $detail) } 
+                if ( $PSBoundParameters.ContainsKey('fullvalues') ) { $arguments.Add('fullvalues', $fullvalues) } 
+                if ( $PSBoundParameters.ContainsKey('ntimes') ) { $arguments.Add('ntimes', $ntimes) } 
+                if ( $PSBoundParameters.ContainsKey('logfile') ) { $arguments.Add('logfile', $logfile) } 
+                if ( $PSBoundParameters.ContainsKey('clearstats') ) { $arguments.Add('clearstats', $clearstats) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolipv6 -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving protocolipv6 configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving protocolipv6 configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolipv6 -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolipv6 -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -557,52 +587,57 @@ function Invoke-ADCGetProtocolipv6Stats {
 }
 
 function Invoke-ADCGetProtocolmptcpStats {
-<#
+    <#
     .SYNOPSIS
-        Get Protocol statistics object(s)
+        Get Protocol statistics object(s).
     .DESCRIPTION
-        Get Protocol statistics object(s)
-    .PARAMETER clearstats 
-       Clear the statsistics / counters.  
-       Possible values = basic, full 
+        Statistics for mptcp protocol resource.
+    .PARAMETER Clearstats 
+        Clear the statsistics / counters. 
+        Possible values = basic, full 
     .PARAMETER GetAll 
-        Retreive all protocolmptcp object(s)
+        Retrieve all protocolmptcp object(s).
     .PARAMETER Count
-        If specified, the count of the protocolmptcp object(s) will be returned
+        If specified, the count of the protocolmptcp object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetProtocolmptcpStats
+        PS C:\>Invoke-ADCGetProtocolmptcpStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetProtocolmptcpStats -GetAll
+        PS C:\>Invoke-ADCGetProtocolmptcpStats -GetAll 
+        Get all protocolmptcp data.
     .EXAMPLE
-        Invoke-ADCGetProtocolmptcpStats -name <string>
+        PS C:\>Invoke-ADCGetProtocolmptcpStats -name <string>
+        Get protocolmptcp object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetProtocolmptcpStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetProtocolmptcpStats -Filter @{ 'name'='<value>' }
+        Get protocolmptcp data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocolmptcpStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolmptcp/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('basic', 'full')]
-        [string]$clearstats,
+        [string]$Clearstats,
 			
         [hashtable]$Filter = @{ },
 
@@ -614,29 +649,29 @@ function Invoke-ADCGetProtocolmptcpStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all protocolmptcp objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolmptcp -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolmptcp -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for protocolmptcp objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolmptcp -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolmptcp -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving protocolmptcp objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('detail')) { $Arguments.Add('detail', $detail) } 
-                if ($PSBoundParameters.ContainsKey('fullvalues')) { $Arguments.Add('fullvalues', $fullvalues) } 
-                if ($PSBoundParameters.ContainsKey('ntimes')) { $Arguments.Add('ntimes', $ntimes) } 
-                if ($PSBoundParameters.ContainsKey('logfile')) { $Arguments.Add('logfile', $logfile) } 
-                if ($PSBoundParameters.ContainsKey('clearstats')) { $Arguments.Add('clearstats', $clearstats) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolmptcp -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('detail') ) { $arguments.Add('detail', $detail) } 
+                if ( $PSBoundParameters.ContainsKey('fullvalues') ) { $arguments.Add('fullvalues', $fullvalues) } 
+                if ( $PSBoundParameters.ContainsKey('ntimes') ) { $arguments.Add('ntimes', $ntimes) } 
+                if ( $PSBoundParameters.ContainsKey('logfile') ) { $arguments.Add('logfile', $logfile) } 
+                if ( $PSBoundParameters.ContainsKey('clearstats') ) { $arguments.Add('clearstats', $clearstats) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolmptcp -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving protocolmptcp configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving protocolmptcp configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolmptcp -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocolmptcp -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -650,52 +685,57 @@ function Invoke-ADCGetProtocolmptcpStats {
 }
 
 function Invoke-ADCGetProtocoltcpStats {
-<#
+    <#
     .SYNOPSIS
-        Get Protocol statistics object(s)
+        Get Protocol statistics object(s).
     .DESCRIPTION
-        Get Protocol statistics object(s)
-    .PARAMETER clearstats 
-       Clear the statsistics / counters.  
-       Possible values = basic, full 
+        Statistics for tcp protocol resource.
+    .PARAMETER Clearstats 
+        Clear the statsistics / counters. 
+        Possible values = basic, full 
     .PARAMETER GetAll 
-        Retreive all protocoltcp object(s)
+        Retrieve all protocoltcp object(s).
     .PARAMETER Count
-        If specified, the count of the protocoltcp object(s) will be returned
+        If specified, the count of the protocoltcp object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetProtocoltcpStats
+        PS C:\>Invoke-ADCGetProtocoltcpStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetProtocoltcpStats -GetAll
+        PS C:\>Invoke-ADCGetProtocoltcpStats -GetAll 
+        Get all protocoltcp data.
     .EXAMPLE
-        Invoke-ADCGetProtocoltcpStats -name <string>
+        PS C:\>Invoke-ADCGetProtocoltcpStats -name <string>
+        Get protocoltcp object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetProtocoltcpStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetProtocoltcpStats -Filter @{ 'name'='<value>' }
+        Get protocoltcp data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocoltcpStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocoltcp/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('basic', 'full')]
-        [string]$clearstats,
+        [string]$Clearstats,
 			
         [hashtable]$Filter = @{ },
 
@@ -707,29 +747,29 @@ function Invoke-ADCGetProtocoltcpStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all protocoltcp objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocoltcp -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocoltcp -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for protocoltcp objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocoltcp -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocoltcp -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving protocoltcp objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('detail')) { $Arguments.Add('detail', $detail) } 
-                if ($PSBoundParameters.ContainsKey('fullvalues')) { $Arguments.Add('fullvalues', $fullvalues) } 
-                if ($PSBoundParameters.ContainsKey('ntimes')) { $Arguments.Add('ntimes', $ntimes) } 
-                if ($PSBoundParameters.ContainsKey('logfile')) { $Arguments.Add('logfile', $logfile) } 
-                if ($PSBoundParameters.ContainsKey('clearstats')) { $Arguments.Add('clearstats', $clearstats) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocoltcp -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('detail') ) { $arguments.Add('detail', $detail) } 
+                if ( $PSBoundParameters.ContainsKey('fullvalues') ) { $arguments.Add('fullvalues', $fullvalues) } 
+                if ( $PSBoundParameters.ContainsKey('ntimes') ) { $arguments.Add('ntimes', $ntimes) } 
+                if ( $PSBoundParameters.ContainsKey('logfile') ) { $arguments.Add('logfile', $logfile) } 
+                if ( $PSBoundParameters.ContainsKey('clearstats') ) { $arguments.Add('clearstats', $clearstats) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocoltcp -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving protocoltcp configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving protocoltcp configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocoltcp -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocoltcp -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -743,52 +783,57 @@ function Invoke-ADCGetProtocoltcpStats {
 }
 
 function Invoke-ADCGetProtocoludpStats {
-<#
+    <#
     .SYNOPSIS
-        Get Protocol statistics object(s)
+        Get Protocol statistics object(s).
     .DESCRIPTION
-        Get Protocol statistics object(s)
-    .PARAMETER clearstats 
-       Clear the statsistics / counters.  
-       Possible values = basic, full 
+        Statistics for UDP Protocol resource.
+    .PARAMETER Clearstats 
+        Clear the statsistics / counters. 
+        Possible values = basic, full 
     .PARAMETER GetAll 
-        Retreive all protocoludp object(s)
+        Retrieve all protocoludp object(s).
     .PARAMETER Count
-        If specified, the count of the protocoludp object(s) will be returned
+        If specified, the count of the protocoludp object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetProtocoludpStats
+        PS C:\>Invoke-ADCGetProtocoludpStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetProtocoludpStats -GetAll
+        PS C:\>Invoke-ADCGetProtocoludpStats -GetAll 
+        Get all protocoludp data.
     .EXAMPLE
-        Invoke-ADCGetProtocoludpStats -name <string>
+        PS C:\>Invoke-ADCGetProtocoludpStats -name <string>
+        Get protocoludp object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetProtocoludpStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetProtocoludpStats -Filter @{ 'name'='<value>' }
+        Get protocoludp data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocoludpStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocoludp/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('basic', 'full')]
-        [string]$clearstats,
+        [string]$Clearstats,
 			
         [hashtable]$Filter = @{ },
 
@@ -800,29 +845,29 @@ function Invoke-ADCGetProtocoludpStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all protocoludp objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocoludp -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocoludp -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for protocoludp objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocoludp -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocoludp -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving protocoludp objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('detail')) { $Arguments.Add('detail', $detail) } 
-                if ($PSBoundParameters.ContainsKey('fullvalues')) { $Arguments.Add('fullvalues', $fullvalues) } 
-                if ($PSBoundParameters.ContainsKey('ntimes')) { $Arguments.Add('ntimes', $ntimes) } 
-                if ($PSBoundParameters.ContainsKey('logfile')) { $Arguments.Add('logfile', $logfile) } 
-                if ($PSBoundParameters.ContainsKey('clearstats')) { $Arguments.Add('clearstats', $clearstats) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocoludp -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('detail') ) { $arguments.Add('detail', $detail) } 
+                if ( $PSBoundParameters.ContainsKey('fullvalues') ) { $arguments.Add('fullvalues', $fullvalues) } 
+                if ( $PSBoundParameters.ContainsKey('ntimes') ) { $arguments.Add('ntimes', $ntimes) } 
+                if ( $PSBoundParameters.ContainsKey('logfile') ) { $arguments.Add('logfile', $logfile) } 
+                if ( $PSBoundParameters.ContainsKey('clearstats') ) { $arguments.Add('clearstats', $clearstats) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocoludp -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving protocoludp configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving protocoludp configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocoludp -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type protocoludp -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

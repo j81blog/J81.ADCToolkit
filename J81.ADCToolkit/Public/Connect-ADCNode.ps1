@@ -18,30 +18,41 @@ function Connect-ADCNode {
         Connect-ADCNode -ManagementURL https://citrixacd.domain.local -Credential (Get-Credential)
     .NOTES
         File Name : Connect-ADCNode
-        Version   : v2101.0322
+        Version   : v2111.1716
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
                     Initial source https://github.com/devblackops/NetScaler
     #>
-    [cmdletbinding()]
+    [cmdletbinding(DefaultParameterSetName = 'Connect')]
     param(
+        [Parameter(ParameterSetName = 'Connect')]    
         [ValidatePattern('^(https?:[\/]{2}.*)$', Options = 'None')]
         [ValidateNotNullOrEmpty()]
         [System.Uri]$ManagementURL = (Read-Host -Prompt "Enter the Citrix ADC Management URL. E.g. https://citrixacd.domain.local"),
     
-        [Parameter(Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Connect', Mandatory)]
         [System.Management.Automation.PSCredential]
         [System.Management.Automation.Credential()]$Credential = (Get-Credential -Message "Enter username and password for the Citrix ADC`r`nE.g. nsroot / P@ssw0rd" ),
         
+        [Parameter(ParameterSetName = 'Connect')]
         [int]$Timeout = 900,
 
+        [Parameter(ParameterSetName = 'Connect')]
         [switch]$HA,
 
+        [Parameter(ParameterSetName = 'Connect')]
+        [switch]$Force,
+
+        [Parameter(ParameterSetName = 'Connect')]
         [switch]$PassThru
     )
     # Based on https://github.com/devblackops/NetScaler
-    
+    try {
+        $SessionExpiration = (Get-Date).AddSeconds($Timeout)
+    } catch {
+        $SessionExpiration = (Get-Date).AddSeconds(60)
+    }
     if ($HA) {
         $ADCSession = Connect-ADCHANodes -ManagementURL $ManagementURL -Credential $Credential -PassThru
     } else {
@@ -63,7 +74,6 @@ function Connect-ADCNode {
             ErrorVariable   = 'restError'
             Verbose         = $false
         }
-
         if ($ManagementURL.AbsoluteUri -match "^https://.*?$") {
             if ('PSEdition' -notin $PSVersionTable.Keys -or $PSVersionTable.PSEdition -eq 'Desktop') {
                 Write-Verbose "Connecting to $ManagementURL... Connection is SSL, Ignoring SSL checks"
@@ -89,14 +99,12 @@ public class TrustAllCertsPolicy : ICertificatePolicy {
             $newTlsTypes = [enum]::GetValues('Net.SecurityProtocolType') | Where-Object { $_ -gt $currentMaxTls }
             $newTlsTypes | ForEach-Object {
                 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor $_
-            }
-            
+            }            
         } else {
             Write-Verbose -Message "Connecting to $ManagementURL..."
         }
         try {
-            $response = Invoke-RestMethod @params
-    
+            $response = Invoke-RestMethod @params    
             if ($response.severity -eq 'ERROR') {
                 throw "Error. See response: `n$($response | Format-List -Property * | Out-String)"
             } else {
@@ -106,12 +114,13 @@ public class TrustAllCertsPolicy : ICertificatePolicy {
             throw $_
         }
         $ADCSession = [PSObject]@{
-            ManagementURL = $ManagementURL;
-            WebSession    = [Microsoft.PowerShell.Commands.WebRequestSession]$saveSession;
-            Username      = $Credential.UserName;
-            Version       = "UNKNOWN";
-        }
-    
+            ManagementURL     = $ManagementURL;
+            WebSession        = [Microsoft.PowerShell.Commands.WebRequestSession]$saveSession;
+            Username          = $Credential.UserName;
+            Version           = "UNKNOWN";
+            IsConnected       = $false
+            SessionExpiration = $SessionExpiration
+        }    
         try {
             Write-Verbose -Message "Trying to retrieve the ADC version"
             $params = @{
@@ -128,6 +137,7 @@ public class TrustAllCertsPolicy : ICertificatePolicy {
             $response = Invoke-RestMethod @params
             Write-Verbose -Message "Response:`n$(ConvertTo-Json -InputObject $response | Out-String)"
             $ADCSession.version = ($response.nsversion.version.Split(","))[0]
+            $ADCSession.IsConnected = $true
         } catch {
             Write-Verbose -Message "Error. See response: `n$($response | Format-List -Property * | Out-String)"
         }
@@ -136,5 +146,7 @@ public class TrustAllCertsPolicy : ICertificatePolicy {
         
     if ($PassThru) {
         return $ADCSession
+    } else {
+        return $ADCSession.IsConnected
     }
 }

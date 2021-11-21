@@ -1,50 +1,55 @@
 function Invoke-ADCGetVpnStats {
-<#
+    <#
     .SYNOPSIS
-        Get SSL VPN statistics object(s)
+        Get SSL VPN statistics object(s).
     .DESCRIPTION
-        Get SSL VPN statistics object(s)
-    .PARAMETER clearstats 
-       Clear the statsistics / counters.  
-       Possible values = basic, full 
+        Statistics for vpn.
+    .PARAMETER Clearstats 
+        Clear the statsistics / counters. 
+        Possible values = basic, full 
     .PARAMETER GetAll 
-        Retreive all vpn object(s)
+        Retrieve all vpn object(s).
     .PARAMETER Count
-        If specified, the count of the vpn object(s) will be returned
+        If specified, the count of the vpn object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVpnStats
+        PS C:\>Invoke-ADCGetVpnStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVpnStats -GetAll
+        PS C:\>Invoke-ADCGetVpnStats -GetAll 
+        Get all vpn data.
     .EXAMPLE
-        Invoke-ADCGetVpnStats -name <string>
+        PS C:\>Invoke-ADCGetVpnStats -name <string>
+        Get vpn object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVpnStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVpnStats -Filter @{ 'name'='<value>' }
+        Get vpn data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/vpn/vpn/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('basic', 'full')]
-        [string]$clearstats,
+        [string]$Clearstats,
 			
         [hashtable]$Filter = @{ },
 
@@ -56,29 +61,29 @@ function Invoke-ADCGetVpnStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all vpn objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpn -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpn -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpn objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpn -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpn -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpn objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('detail')) { $Arguments.Add('detail', $detail) } 
-                if ($PSBoundParameters.ContainsKey('fullvalues')) { $Arguments.Add('fullvalues', $fullvalues) } 
-                if ($PSBoundParameters.ContainsKey('ntimes')) { $Arguments.Add('ntimes', $ntimes) } 
-                if ($PSBoundParameters.ContainsKey('logfile')) { $Arguments.Add('logfile', $logfile) } 
-                if ($PSBoundParameters.ContainsKey('clearstats')) { $Arguments.Add('clearstats', $clearstats) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpn -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('detail') ) { $arguments.Add('detail', $detail) } 
+                if ( $PSBoundParameters.ContainsKey('fullvalues') ) { $arguments.Add('fullvalues', $fullvalues) } 
+                if ( $PSBoundParameters.ContainsKey('ntimes') ) { $arguments.Add('ntimes', $ntimes) } 
+                if ( $PSBoundParameters.ContainsKey('logfile') ) { $arguments.Add('logfile', $logfile) } 
+                if ( $PSBoundParameters.ContainsKey('clearstats') ) { $arguments.Add('clearstats', $clearstats) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpn -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpn configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving vpn configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpn -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpn -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -92,51 +97,56 @@ function Invoke-ADCGetVpnStats {
 }
 
 function Invoke-ADCGetVpnurlpolicyStats {
-<#
+    <#
     .SYNOPSIS
-        Get SSL VPN statistics object(s)
+        Get SSL VPN statistics object(s).
     .DESCRIPTION
-        Get SSL VPN statistics object(s)
-    .PARAMETER name 
-       The name of the vpn urlPolicy for which statistics will be displayed. If not given statistics are shown for all policies. 
+        Statistics for VPN url policy resource.
+    .PARAMETER Name 
+        The name of the vpn urlPolicy for which statistics will be displayed. If not given statistics are shown for all policies. 
     .PARAMETER GetAll 
-        Retreive all vpnurlpolicy object(s)
+        Retrieve all vpnurlpolicy object(s).
     .PARAMETER Count
-        If specified, the count of the vpnurlpolicy object(s) will be returned
+        If specified, the count of the vpnurlpolicy object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVpnurlpolicyStats
+        PS C:\>Invoke-ADCGetVpnurlpolicyStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVpnurlpolicyStats -GetAll
+        PS C:\>Invoke-ADCGetVpnurlpolicyStats -GetAll 
+        Get all vpnurlpolicy data.
     .EXAMPLE
-        Invoke-ADCGetVpnurlpolicyStats -name <string>
+        PS C:\>Invoke-ADCGetVpnurlpolicyStats -name <string>
+        Get vpnurlpolicy object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVpnurlpolicyStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVpnurlpolicyStats -Filter @{ 'name'='<value>' }
+        Get vpnurlpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnurlpolicyStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/vpn/vpnurlpolicy/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -148,24 +158,24 @@ function Invoke-ADCGetVpnurlpolicyStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all vpnurlpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnurlpolicy objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnurlpolicy objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnurlpolicy configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy -NitroPath nitro/v1/stat -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnurlpolicy configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnurlpolicy -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -179,51 +189,56 @@ function Invoke-ADCGetVpnurlpolicyStats {
 }
 
 function Invoke-ADCGetVpnvserverStats {
-<#
+    <#
     .SYNOPSIS
-        Get SSL VPN statistics object(s)
+        Get SSL VPN statistics object(s).
     .DESCRIPTION
-        Get SSL VPN statistics object(s)
-    .PARAMETER name 
-       Name of the virtual server for which to show detailed statistics. 
+        Statistics for VPN virtual server resource.
+    .PARAMETER Name 
+        Name of the virtual server for which to show detailed statistics. 
     .PARAMETER GetAll 
-        Retreive all vpnvserver object(s)
+        Retrieve all vpnvserver object(s).
     .PARAMETER Count
-        If specified, the count of the vpnvserver object(s) will be returned
+        If specified, the count of the vpnvserver object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetVpnvserverStats
+        PS C:\>Invoke-ADCGetVpnvserverStats
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetVpnvserverStats -GetAll
+        PS C:\>Invoke-ADCGetVpnvserverStats -GetAll 
+        Get all vpnvserver data.
     .EXAMPLE
-        Invoke-ADCGetVpnvserverStats -name <string>
+        PS C:\>Invoke-ADCGetVpnvserverStats -name <string>
+        Get vpnvserver object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetVpnvserverStats -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetVpnvserverStats -Filter @{ 'name'='<value>' }
+        Get vpnvserver data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverStats
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/vpn/vpnvserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -235,24 +250,24 @@ function Invoke-ADCGetVpnvserverStats {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all vpnvserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for vpnvserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver -NitroPath nitro/v1/stat -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver -NitroPath nitro/v1/stat -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving vpnvserver objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver -NitroPath nitro/v1/stat -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver -NitroPath nitro/v1/stat -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving vpnvserver configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver -NitroPath nitro/v1/stat -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving vpnvserver configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type vpnvserver -NitroPath nitro/v1/stat -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

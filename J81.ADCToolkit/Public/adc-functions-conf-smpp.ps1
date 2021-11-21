@@ -1,94 +1,81 @@
 function Invoke-ADCUpdateSmppparam {
-<#
+    <#
     .SYNOPSIS
-        Update Smpp configuration Object
+        Update Smpp configuration Object.
     .DESCRIPTION
-        Update Smpp configuration Object 
-    .PARAMETER clientmode 
-        Mode in which the client binds to the ADC. Applicable settings function as follows:  
-        * TRANSCEIVER - Client can send and receive messages to and from the message center.  
-        * TRANSMITTERONLY - Client can only send messages.  
-        * RECEIVERONLY - Client can only receive messages.  
-        Default value: TRANSCEIVER  
+        Configuration for SMPP configuration parameters resource.
+    .PARAMETER Clientmode 
+        Mode in which the client binds to the ADC. Applicable settings function as follows: 
+        * TRANSCEIVER - Client can send and receive messages to and from the message center. 
+        * TRANSMITTERONLY - Client can only send messages. 
+        * RECEIVERONLY - Client can only receive messages. 
         Possible values = TRANSCEIVER, TRANSMITTERONLY, RECEIVERONLY 
-    .PARAMETER msgqueue 
-        Queue SMPP messages if a client that is capable of receiving the destination address messages is not available.  
-        Default value: OFF  
+    .PARAMETER Msgqueue 
+        Queue SMPP messages if a client that is capable of receiving the destination address messages is not available. 
         Possible values = ON, OFF 
-    .PARAMETER msgqueuesize 
-        Maximum number of SMPP messages that can be queued. After the limit is reached, the Citrix ADC sends a deliver_sm_resp PDU, with an appropriate error message, to the message center.  
-        Default value: 10000 
-    .PARAMETER addrton 
-        Type of Number, such as an international number or a national number, used in the ESME address sent in the bind request.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 256 
-    .PARAMETER addrnpi 
-        Numbering Plan Indicator, such as landline, data, or WAP client, used in the ESME address sent in the bind request.  
-        Default value: 0  
-        Minimum value = 0  
-        Maximum value = 256 
-    .PARAMETER addrrange 
-        Set of SME addresses, sent in the bind request, serviced by the ESME.  
-        Default value: "\\d*"
+    .PARAMETER Msgqueuesize 
+        Maximum number of SMPP messages that can be queued. After the limit is reached, the Citrix ADC sends a deliver_sm_resp PDU, with an appropriate error message, to the message center. 
+    .PARAMETER Addrton 
+        Type of Number, such as an international number or a national number, used in the ESME address sent in the bind request. 
+    .PARAMETER Addrnpi 
+        Numbering Plan Indicator, such as landline, data, or WAP client, used in the ESME address sent in the bind request. 
+    .PARAMETER Addrrange 
+        Set of SME addresses, sent in the bind request, serviced by the ESME.
     .EXAMPLE
-        Invoke-ADCUpdateSmppparam 
+        PS C:\>Invoke-ADCUpdateSmppparam 
+        An example how to update smppparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSmppparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppparam/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateSet('TRANSCEIVER', 'TRANSMITTERONLY', 'RECEIVERONLY')]
-        [string]$clientmode ,
+        [string]$Clientmode,
 
         [ValidateSet('ON', 'OFF')]
-        [string]$msgqueue ,
+        [string]$Msgqueue,
 
-        [double]$msgqueuesize ,
-
-        [ValidateRange(0, 256)]
-        [double]$addrton ,
+        [double]$Msgqueuesize,
 
         [ValidateRange(0, 256)]
-        [double]$addrnpi ,
+        [double]$Addrton,
 
-        [string]$addrrange 
+        [ValidateRange(0, 256)]
+        [double]$Addrnpi,
 
+        [string]$Addrrange 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSmppparam: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('clientmode')) { $Payload.Add('clientmode', $clientmode) }
-            if ($PSBoundParameters.ContainsKey('msgqueue')) { $Payload.Add('msgqueue', $msgqueue) }
-            if ($PSBoundParameters.ContainsKey('msgqueuesize')) { $Payload.Add('msgqueuesize', $msgqueuesize) }
-            if ($PSBoundParameters.ContainsKey('addrton')) { $Payload.Add('addrton', $addrton) }
-            if ($PSBoundParameters.ContainsKey('addrnpi')) { $Payload.Add('addrnpi', $addrnpi) }
-            if ($PSBoundParameters.ContainsKey('addrrange')) { $Payload.Add('addrrange', $addrrange) }
- 
-            if ($PSCmdlet.ShouldProcess("smppparam", "Update Smpp configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type smppparam -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('clientmode') ) { $payload.Add('clientmode', $clientmode) }
+            if ( $PSBoundParameters.ContainsKey('msgqueue') ) { $payload.Add('msgqueue', $msgqueue) }
+            if ( $PSBoundParameters.ContainsKey('msgqueuesize') ) { $payload.Add('msgqueuesize', $msgqueuesize) }
+            if ( $PSBoundParameters.ContainsKey('addrton') ) { $payload.Add('addrton', $addrton) }
+            if ( $PSBoundParameters.ContainsKey('addrnpi') ) { $payload.Add('addrnpi', $addrnpi) }
+            if ( $PSBoundParameters.ContainsKey('addrrange') ) { $payload.Add('addrrange', $addrrange) }
+            if ( $PSCmdlet.ShouldProcess("smppparam", "Update Smpp configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type smppparam -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -101,57 +88,59 @@ function Invoke-ADCUpdateSmppparam {
 }
 
 function Invoke-ADCUnsetSmppparam {
-<#
+    <#
     .SYNOPSIS
-        Unset Smpp configuration Object
+        Unset Smpp configuration Object.
     .DESCRIPTION
-        Unset Smpp configuration Object 
-   .PARAMETER clientmode 
-       Mode in which the client binds to the ADC. Applicable settings function as follows:  
-       * TRANSCEIVER - Client can send and receive messages to and from the message center.  
-       * TRANSMITTERONLY - Client can only send messages.  
-       * RECEIVERONLY - Client can only receive messages.  
-       Possible values = TRANSCEIVER, TRANSMITTERONLY, RECEIVERONLY 
-   .PARAMETER msgqueue 
-       Queue SMPP messages if a client that is capable of receiving the destination address messages is not available.  
-       Possible values = ON, OFF 
-   .PARAMETER msgqueuesize 
-       Maximum number of SMPP messages that can be queued. After the limit is reached, the Citrix ADC sends a deliver_sm_resp PDU, with an appropriate error message, to the message center. 
-   .PARAMETER addrton 
-       Type of Number, such as an international number or a national number, used in the ESME address sent in the bind request. 
-   .PARAMETER addrnpi 
-       Numbering Plan Indicator, such as landline, data, or WAP client, used in the ESME address sent in the bind request. 
-   .PARAMETER addrrange 
-       Set of SME addresses, sent in the bind request, serviced by the ESME.
+        Configuration for SMPP configuration parameters resource.
+    .PARAMETER Clientmode 
+        Mode in which the client binds to the ADC. Applicable settings function as follows: 
+        * TRANSCEIVER - Client can send and receive messages to and from the message center. 
+        * TRANSMITTERONLY - Client can only send messages. 
+        * RECEIVERONLY - Client can only receive messages. 
+        Possible values = TRANSCEIVER, TRANSMITTERONLY, RECEIVERONLY 
+    .PARAMETER Msgqueue 
+        Queue SMPP messages if a client that is capable of receiving the destination address messages is not available. 
+        Possible values = ON, OFF 
+    .PARAMETER Msgqueuesize 
+        Maximum number of SMPP messages that can be queued. After the limit is reached, the Citrix ADC sends a deliver_sm_resp PDU, with an appropriate error message, to the message center. 
+    .PARAMETER Addrton 
+        Type of Number, such as an international number or a national number, used in the ESME address sent in the bind request. 
+    .PARAMETER Addrnpi 
+        Numbering Plan Indicator, such as landline, data, or WAP client, used in the ESME address sent in the bind request. 
+    .PARAMETER Addrrange 
+        Set of SME addresses, sent in the bind request, serviced by the ESME.
     .EXAMPLE
-        Invoke-ADCUnsetSmppparam 
+        PS C:\>Invoke-ADCUnsetSmppparam 
+        An example how to unset smppparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSmppparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppparam
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$clientmode ,
+        [Boolean]$clientmode,
 
-        [Boolean]$msgqueue ,
+        [Boolean]$msgqueue,
 
-        [Boolean]$msgqueuesize ,
+        [Boolean]$msgqueuesize,
 
-        [Boolean]$addrton ,
+        [Boolean]$addrton,
 
-        [Boolean]$addrnpi ,
+        [Boolean]$addrnpi,
 
         [Boolean]$addrrange 
     )
@@ -160,17 +149,15 @@ function Invoke-ADCUnsetSmppparam {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('clientmode')) { $Payload.Add('clientmode', $clientmode) }
-            if ($PSBoundParameters.ContainsKey('msgqueue')) { $Payload.Add('msgqueue', $msgqueue) }
-            if ($PSBoundParameters.ContainsKey('msgqueuesize')) { $Payload.Add('msgqueuesize', $msgqueuesize) }
-            if ($PSBoundParameters.ContainsKey('addrton')) { $Payload.Add('addrton', $addrton) }
-            if ($PSBoundParameters.ContainsKey('addrnpi')) { $Payload.Add('addrnpi', $addrnpi) }
-            if ($PSBoundParameters.ContainsKey('addrrange')) { $Payload.Add('addrrange', $addrrange) }
-            if ($PSCmdlet.ShouldProcess("smppparam", "Unset Smpp configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type smppparam -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('clientmode') ) { $payload.Add('clientmode', $clientmode) }
+            if ( $PSBoundParameters.ContainsKey('msgqueue') ) { $payload.Add('msgqueue', $msgqueue) }
+            if ( $PSBoundParameters.ContainsKey('msgqueuesize') ) { $payload.Add('msgqueuesize', $msgqueuesize) }
+            if ( $PSBoundParameters.ContainsKey('addrton') ) { $payload.Add('addrton', $addrton) }
+            if ( $PSBoundParameters.ContainsKey('addrnpi') ) { $payload.Add('addrnpi', $addrnpi) }
+            if ( $PSBoundParameters.ContainsKey('addrrange') ) { $payload.Add('addrrange', $addrrange) }
+            if ( $PSCmdlet.ShouldProcess("smppparam", "Unset Smpp configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type smppparam -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -186,45 +173,50 @@ function Invoke-ADCUnsetSmppparam {
 }
 
 function Invoke-ADCGetSmppparam {
-<#
+    <#
     .SYNOPSIS
-        Get Smpp configuration object(s)
+        Get Smpp configuration object(s).
     .DESCRIPTION
-        Get Smpp configuration object(s)
+        Configuration for SMPP configuration parameters resource.
     .PARAMETER GetAll 
-        Retreive all smppparam object(s)
+        Retrieve all smppparam object(s).
     .PARAMETER Count
-        If specified, the count of the smppparam object(s) will be returned
+        If specified, the count of the smppparam object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSmppparam
+        PS C:\>Invoke-ADCGetSmppparam
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSmppparam -GetAll
+        PS C:\>Invoke-ADCGetSmppparam -GetAll 
+        Get all smppparam data.
     .EXAMPLE
-        Invoke-ADCGetSmppparam -name <string>
+        PS C:\>Invoke-ADCGetSmppparam -name <string>
+        Get smppparam object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSmppparam -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSmppparam -Filter @{ 'name'='<value>' }
+        Get smppparam data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSmppparam
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppparam/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -236,24 +228,24 @@ function Invoke-ADCGetSmppparam {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all smppparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppparam -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for smppparam objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppparam -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppparam -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving smppparam objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppparam -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppparam -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving smppparam configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving smppparam configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppparam -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppparam -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -267,69 +259,64 @@ function Invoke-ADCGetSmppparam {
 }
 
 function Invoke-ADCAddSmppuser {
-<#
+    <#
     .SYNOPSIS
-        Add Smpp configuration Object
+        Add Smpp configuration Object.
     .DESCRIPTION
-        Add Smpp configuration Object 
-    .PARAMETER username 
-        Name of the SMPP user. Must be the same as the user name specified in the SMPP server.  
-        Minimum length = 1 
-    .PARAMETER password 
-        Password for binding to the SMPP server. Must be the same as the password specified in the SMPP server.  
-        Minimum length = 1 
+        Configuration for SMPP user resource.
+    .PARAMETER Username 
+        Name of the SMPP user. Must be the same as the user name specified in the SMPP server. 
+    .PARAMETER Password 
+        Password for binding to the SMPP server. Must be the same as the password specified in the SMPP server. 
     .PARAMETER PassThru 
         Return details about the created smppuser item.
     .EXAMPLE
-        Invoke-ADCAddSmppuser -username <string>
+        PS C:\>Invoke-ADCAddSmppuser -username <string>
+        An example how to add smppuser configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSmppuser
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppuser/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$username ,
+        [string]$Username,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$password ,
+        [string]$Password,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSmppuser: Starting"
     }
     process {
         try {
-            $Payload = @{
-                username = $username
-            }
-            if ($PSBoundParameters.ContainsKey('password')) { $Payload.Add('password', $password) }
- 
-            if ($PSCmdlet.ShouldProcess("smppuser", "Add Smpp configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type smppuser -Payload $Payload -GetWarning
+            $payload = @{ username = $username }
+            if ( $PSBoundParameters.ContainsKey('password') ) { $payload.Add('password', $password) }
+            if ( $PSCmdlet.ShouldProcess("smppuser", "Add Smpp configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type smppuser -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSmppuser -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSmppuser -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -342,47 +329,47 @@ function Invoke-ADCAddSmppuser {
 }
 
 function Invoke-ADCDeleteSmppuser {
-<#
+    <#
     .SYNOPSIS
-        Delete Smpp configuration Object
+        Delete Smpp configuration Object.
     .DESCRIPTION
-        Delete Smpp configuration Object
-    .PARAMETER username 
-       Name of the SMPP user. Must be the same as the user name specified in the SMPP server.  
-       Minimum length = 1 
+        Configuration for SMPP user resource.
+    .PARAMETER Username 
+        Name of the SMPP user. Must be the same as the user name specified in the SMPP server.
     .EXAMPLE
-        Invoke-ADCDeleteSmppuser -username <string>
+        PS C:\>Invoke-ADCDeleteSmppuser -Username <string>
+        An example how to delete smppuser configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSmppuser
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppuser/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$username 
+        [Parameter(Mandatory)]
+        [string]$Username 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSmppuser: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$username", "Delete Smpp configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type smppuser -NitroPath nitro/v1/config -Resource $username -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$username", "Delete Smpp configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type smppuser -NitroPath nitro/v1/config -Resource $username -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -398,69 +385,64 @@ function Invoke-ADCDeleteSmppuser {
 }
 
 function Invoke-ADCUpdateSmppuser {
-<#
+    <#
     .SYNOPSIS
-        Update Smpp configuration Object
+        Update Smpp configuration Object.
     .DESCRIPTION
-        Update Smpp configuration Object 
-    .PARAMETER username 
-        Name of the SMPP user. Must be the same as the user name specified in the SMPP server.  
-        Minimum length = 1 
-    .PARAMETER password 
-        Password for binding to the SMPP server. Must be the same as the password specified in the SMPP server.  
-        Minimum length = 1 
+        Configuration for SMPP user resource.
+    .PARAMETER Username 
+        Name of the SMPP user. Must be the same as the user name specified in the SMPP server. 
+    .PARAMETER Password 
+        Password for binding to the SMPP server. Must be the same as the password specified in the SMPP server. 
     .PARAMETER PassThru 
         Return details about the created smppuser item.
     .EXAMPLE
-        Invoke-ADCUpdateSmppuser -username <string>
+        PS C:\>Invoke-ADCUpdateSmppuser -username <string>
+        An example how to update smppuser configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSmppuser
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppuser/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$username ,
+        [string]$Username,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$password ,
+        [string]$Password,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSmppuser: Starting"
     }
     process {
         try {
-            $Payload = @{
-                username = $username
-            }
-            if ($PSBoundParameters.ContainsKey('password')) { $Payload.Add('password', $password) }
- 
-            if ($PSCmdlet.ShouldProcess("smppuser", "Update Smpp configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type smppuser -Payload $Payload -GetWarning
+            $payload = @{ username = $username }
+            if ( $PSBoundParameters.ContainsKey('password') ) { $payload.Add('password', $password) }
+            if ( $PSCmdlet.ShouldProcess("smppuser", "Update Smpp configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type smppuser -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSmppuser -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSmppuser -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -473,55 +455,61 @@ function Invoke-ADCUpdateSmppuser {
 }
 
 function Invoke-ADCGetSmppuser {
-<#
+    <#
     .SYNOPSIS
-        Get Smpp configuration object(s)
+        Get Smpp configuration object(s).
     .DESCRIPTION
-        Get Smpp configuration object(s)
-    .PARAMETER username 
-       Name of the SMPP user. Must be the same as the user name specified in the SMPP server. 
+        Configuration for SMPP user resource.
+    .PARAMETER Username 
+        Name of the SMPP user. Must be the same as the user name specified in the SMPP server. 
     .PARAMETER GetAll 
-        Retreive all smppuser object(s)
+        Retrieve all smppuser object(s).
     .PARAMETER Count
-        If specified, the count of the smppuser object(s) will be returned
+        If specified, the count of the smppuser object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSmppuser
+        PS C:\>Invoke-ADCGetSmppuser
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSmppuser -GetAll 
+        PS C:\>Invoke-ADCGetSmppuser -GetAll 
+        Get all smppuser data. 
     .EXAMPLE 
-        Invoke-ADCGetSmppuser -Count
+        PS C:\>Invoke-ADCGetSmppuser -Count 
+        Get the number of smppuser objects.
     .EXAMPLE
-        Invoke-ADCGetSmppuser -name <string>
+        PS C:\>Invoke-ADCGetSmppuser -name <string>
+        Get smppuser object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSmppuser -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSmppuser -Filter @{ 'name'='<value>' }
+        Get smppuser data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSmppuser
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppuser/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$username,
+        [string]$Username,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -539,24 +527,24 @@ function Invoke-ADCGetSmppuser {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all smppuser objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppuser -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppuser -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for smppuser objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppuser -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppuser -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving smppuser objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppuser -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppuser -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving smppuser configuration for property 'username'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppuser -NitroPath nitro/v1/config -Resource $username -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving smppuser configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppuser -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type smppuser -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

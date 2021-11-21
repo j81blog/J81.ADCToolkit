@@ -11,7 +11,7 @@ function ConvertFrom-ADCVersion {
         $version = $ADCSession | ConvertFrom-ADCVersion
     .NOTES
         File Name : ConvertFrom-ADCVersion
-        Version   : v2101.0322
+        Version   : v2111.1816
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -23,7 +23,7 @@ function ConvertFrom-ADCVersion {
     param(
         [Parameter(ValueFromPipeline = $true)]
         [Alias('Version')]
-        [object]$ADCSession
+        [Object]$ADCSession = (Get-ADCSession)
     )
     begin {
         Write-Verbose "ConvertFrom-ADCVersion: Starting"

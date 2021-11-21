@@ -1,52 +1,58 @@
 function Invoke-ADCGetCloudautoscalegroup {
-<#
+    <#
     .SYNOPSIS
-        Get Cloud configuration object(s)
+        Get Cloud configuration object(s).
     .DESCRIPTION
-        Get Cloud configuration object(s)
-    .PARAMETER name 
-       . 
+        Configuration for Cloud autoscalegroup resource.
+    .PARAMETER Name 
+        . 
     .PARAMETER GetAll 
-        Retreive all cloudautoscalegroup object(s)
+        Retrieve all cloudautoscalegroup object(s).
     .PARAMETER Count
-        If specified, the count of the cloudautoscalegroup object(s) will be returned
+        If specified, the count of the cloudautoscalegroup object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCloudautoscalegroup
+        PS C:\>Invoke-ADCGetCloudautoscalegroup
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCloudautoscalegroup -GetAll 
+        PS C:\>Invoke-ADCGetCloudautoscalegroup -GetAll 
+        Get all cloudautoscalegroup data. 
     .EXAMPLE 
-        Invoke-ADCGetCloudautoscalegroup -Count
+        PS C:\>Invoke-ADCGetCloudautoscalegroup -Count 
+        Get the number of cloudautoscalegroup objects.
     .EXAMPLE
-        Invoke-ADCGetCloudautoscalegroup -name <string>
+        PS C:\>Invoke-ADCGetCloudautoscalegroup -name <string>
+        Get cloudautoscalegroup object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCloudautoscalegroup -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCloudautoscalegroup -Filter @{ 'name'='<value>' }
+        Get cloudautoscalegroup data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCloudautoscalegroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudautoscalegroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -64,24 +70,24 @@ function Invoke-ADCGetCloudautoscalegroup {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cloudautoscalegroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudautoscalegroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudautoscalegroup -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cloudautoscalegroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudautoscalegroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudautoscalegroup -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cloudautoscalegroup objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudautoscalegroup -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudautoscalegroup -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cloudautoscalegroup configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudautoscalegroup -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cloudautoscalegroup configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudautoscalegroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudautoscalegroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -95,71 +101,66 @@ function Invoke-ADCGetCloudautoscalegroup {
 }
 
 function Invoke-ADCUpdateCloudcredential {
-<#
+    <#
     .SYNOPSIS
-        Update Cloud configuration Object
+        Update Cloud configuration Object.
     .DESCRIPTION
-        Update Cloud configuration Object 
-    .PARAMETER tenantidentifier 
-        Tenant ID of the Credentials.  
-        Minimum length = 1 
-    .PARAMETER applicationid 
-        Application ID of the Credentials.  
-        Minimum length = 1 
-    .PARAMETER applicationsecret 
-        Application Secret of the Credentials.  
-        Minimum length = 1
+        Configuration for cloud credentials resource.
+    .PARAMETER Tenantidentifier 
+        Tenant ID of the Credentials. 
+    .PARAMETER Applicationid 
+        Application ID of the Credentials. 
+    .PARAMETER Applicationsecret 
+        Application Secret of the Credentials.
     .EXAMPLE
-        Invoke-ADCUpdateCloudcredential -tenantidentifier <string> -applicationid <string> -applicationsecret <string>
+        PS C:\>Invoke-ADCUpdateCloudcredential -tenantidentifier <string> -applicationid <string> -applicationsecret <string>
+        An example how to update cloudcredential configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateCloudcredential
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudcredential/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$tenantidentifier ,
+        [string]$Tenantidentifier,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$applicationid ,
+        [string]$Applicationid,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$applicationsecret 
-
+        [string]$Applicationsecret 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateCloudcredential: Starting"
     }
     process {
         try {
-            $Payload = @{
-                tenantidentifier = $tenantidentifier
-                applicationid = $applicationid
-                applicationsecret = $applicationsecret
+            $payload = @{ tenantidentifier = $tenantidentifier
+                applicationid              = $applicationid
+                applicationsecret          = $applicationsecret
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("cloudcredential", "Update Cloud configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cloudcredential -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("cloudcredential", "Update Cloud configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cloudcredential -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -172,45 +173,50 @@ function Invoke-ADCUpdateCloudcredential {
 }
 
 function Invoke-ADCGetCloudcredential {
-<#
+    <#
     .SYNOPSIS
-        Get Cloud configuration object(s)
+        Get Cloud configuration object(s).
     .DESCRIPTION
-        Get Cloud configuration object(s)
+        Configuration for cloud credentials resource.
     .PARAMETER GetAll 
-        Retreive all cloudcredential object(s)
+        Retrieve all cloudcredential object(s).
     .PARAMETER Count
-        If specified, the count of the cloudcredential object(s) will be returned
+        If specified, the count of the cloudcredential object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCloudcredential
+        PS C:\>Invoke-ADCGetCloudcredential
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCloudcredential -GetAll
+        PS C:\>Invoke-ADCGetCloudcredential -GetAll 
+        Get all cloudcredential data.
     .EXAMPLE
-        Invoke-ADCGetCloudcredential -name <string>
+        PS C:\>Invoke-ADCGetCloudcredential -name <string>
+        Get cloudcredential object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCloudcredential -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCloudcredential -Filter @{ 'name'='<value>' }
+        Get cloudcredential data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCloudcredential
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudcredential/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -222,24 +228,24 @@ function Invoke-ADCGetCloudcredential {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cloudcredential objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudcredential -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudcredential -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cloudcredential objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudcredential -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudcredential -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cloudcredential objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudcredential -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudcredential -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cloudcredential configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving cloudcredential configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudcredential -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudcredential -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -253,103 +259,94 @@ function Invoke-ADCGetCloudcredential {
 }
 
 function Invoke-ADCUpdateCloudparameter {
-<#
+    <#
     .SYNOPSIS
-        Update Cloud configuration Object
+        Update Cloud configuration Object.
     .DESCRIPTION
-        Update Cloud configuration Object 
-    .PARAMETER controllerfqdn 
-        FQDN of the controller to which the Citrix ADC SDProxy Connects.  
-        Minimum length = 1 
-    .PARAMETER controllerport 
-        Port number of the controller to which the Citrix ADC SDProxy connects.  
-        Minimum value = 1  
-        Range 1 - 65535  
+        Configuration for cloud parameter resource.
+    .PARAMETER Controllerfqdn 
+        FQDN of the controller to which the Citrix ADC SDProxy Connects. 
+    .PARAMETER Controllerport 
+        Port number of the controller to which the Citrix ADC SDProxy connects. 
         * in CLI is represented as 65535 in NITRO API 
-    .PARAMETER instanceid 
-        Instance ID of the customer provided by Trust.  
-        Minimum length = 1 
-    .PARAMETER customerid 
-        Customer ID of the citrix cloud customer.  
-        Minimum length = 1 
-    .PARAMETER resourcelocation 
-        Resource Location of the customer provided by Trust.  
-        Minimum length = 1 
-    .PARAMETER activationcode 
+    .PARAMETER Instanceid 
+        Instance ID of the customer provided by Trust. 
+    .PARAMETER Customerid 
+        Customer ID of the citrix cloud customer. 
+    .PARAMETER Resourcelocation 
+        Resource Location of the customer provided by Trust. 
+    .PARAMETER Activationcode 
         Activation code for the NGS Connector instance. 
-    .PARAMETER deployment 
-        Describes if the customer is a Staging/Production or Dev Citrix Cloud customer.  
-        Possible values = , Production, Staging, Dev 
-    .PARAMETER connectorresidence 
-        Identifies whether the connector is located Onprem, Aws or Azure.  
+    .PARAMETER Deployment 
+        Describes if the customer is a Staging/Production or Dev Citrix Cloud customer. 
+        Possible values = Production, Staging, Dev 
+    .PARAMETER Connectorresidence 
+        Identifies whether the connector is located Onprem, Aws or Azure. 
         Possible values = None, Onprem, Aws, Azure, Cpx
     .EXAMPLE
-        Invoke-ADCUpdateCloudparameter 
+        PS C:\>Invoke-ADCUpdateCloudparameter 
+        An example how to update cloudparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateCloudparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$controllerfqdn ,
+        [string]$Controllerfqdn,
 
         [ValidateRange(1, 65535)]
-        [int]$controllerport ,
+        [int]$Controllerport,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$instanceid ,
+        [string]$Instanceid,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$customerid ,
+        [string]$Customerid,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$resourcelocation ,
+        [string]$Resourcelocation,
 
-        [string]$activationcode ,
+        [string]$Activationcode,
 
-        [ValidateSet('', 'Production', 'Staging', 'Dev')]
-        [string]$deployment ,
+        [ValidateSet('Production', 'Staging', 'Dev')]
+        [string]$Deployment,
 
         [ValidateSet('None', 'Onprem', 'Aws', 'Azure', 'Cpx')]
-        [string]$connectorresidence 
-
+        [string]$Connectorresidence 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateCloudparameter: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('controllerfqdn')) { $Payload.Add('controllerfqdn', $controllerfqdn) }
-            if ($PSBoundParameters.ContainsKey('controllerport')) { $Payload.Add('controllerport', $controllerport) }
-            if ($PSBoundParameters.ContainsKey('instanceid')) { $Payload.Add('instanceid', $instanceid) }
-            if ($PSBoundParameters.ContainsKey('customerid')) { $Payload.Add('customerid', $customerid) }
-            if ($PSBoundParameters.ContainsKey('resourcelocation')) { $Payload.Add('resourcelocation', $resourcelocation) }
-            if ($PSBoundParameters.ContainsKey('activationcode')) { $Payload.Add('activationcode', $activationcode) }
-            if ($PSBoundParameters.ContainsKey('deployment')) { $Payload.Add('deployment', $deployment) }
-            if ($PSBoundParameters.ContainsKey('connectorresidence')) { $Payload.Add('connectorresidence', $connectorresidence) }
- 
-            if ($PSCmdlet.ShouldProcess("cloudparameter", "Update Cloud configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cloudparameter -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('controllerfqdn') ) { $payload.Add('controllerfqdn', $controllerfqdn) }
+            if ( $PSBoundParameters.ContainsKey('controllerport') ) { $payload.Add('controllerport', $controllerport) }
+            if ( $PSBoundParameters.ContainsKey('instanceid') ) { $payload.Add('instanceid', $instanceid) }
+            if ( $PSBoundParameters.ContainsKey('customerid') ) { $payload.Add('customerid', $customerid) }
+            if ( $PSBoundParameters.ContainsKey('resourcelocation') ) { $payload.Add('resourcelocation', $resourcelocation) }
+            if ( $PSBoundParameters.ContainsKey('activationcode') ) { $payload.Add('activationcode', $activationcode) }
+            if ( $PSBoundParameters.ContainsKey('deployment') ) { $payload.Add('deployment', $deployment) }
+            if ( $PSBoundParameters.ContainsKey('connectorresidence') ) { $payload.Add('connectorresidence', $connectorresidence) }
+            if ( $PSCmdlet.ShouldProcess("cloudparameter", "Update Cloud configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cloudparameter -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -362,40 +359,42 @@ function Invoke-ADCUpdateCloudparameter {
 }
 
 function Invoke-ADCUnsetCloudparameter {
-<#
+    <#
     .SYNOPSIS
-        Unset Cloud configuration Object
+        Unset Cloud configuration Object.
     .DESCRIPTION
-        Unset Cloud configuration Object 
-   .PARAMETER instanceid 
-       Instance ID of the customer provided by Trust. 
-   .PARAMETER customerid 
-       Customer ID of the citrix cloud customer. 
-   .PARAMETER resourcelocation 
-       Resource Location of the customer provided by Trust.
+        Configuration for cloud parameter resource.
+    .PARAMETER Instanceid 
+        Instance ID of the customer provided by Trust. 
+    .PARAMETER Customerid 
+        Customer ID of the citrix cloud customer. 
+    .PARAMETER Resourcelocation 
+        Resource Location of the customer provided by Trust.
     .EXAMPLE
-        Invoke-ADCUnsetCloudparameter 
+        PS C:\>Invoke-ADCUnsetCloudparameter 
+        An example how to unset cloudparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetCloudparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudparameter
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$instanceid ,
+        [Boolean]$instanceid,
 
-        [Boolean]$customerid ,
+        [Boolean]$customerid,
 
         [Boolean]$resourcelocation 
     )
@@ -404,14 +403,12 @@ function Invoke-ADCUnsetCloudparameter {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('instanceid')) { $Payload.Add('instanceid', $instanceid) }
-            if ($PSBoundParameters.ContainsKey('customerid')) { $Payload.Add('customerid', $customerid) }
-            if ($PSBoundParameters.ContainsKey('resourcelocation')) { $Payload.Add('resourcelocation', $resourcelocation) }
-            if ($PSCmdlet.ShouldProcess("cloudparameter", "Unset Cloud configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type cloudparameter -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('instanceid') ) { $payload.Add('instanceid', $instanceid) }
+            if ( $PSBoundParameters.ContainsKey('customerid') ) { $payload.Add('customerid', $customerid) }
+            if ( $PSBoundParameters.ContainsKey('resourcelocation') ) { $payload.Add('resourcelocation', $resourcelocation) }
+            if ( $PSCmdlet.ShouldProcess("cloudparameter", "Unset Cloud configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type cloudparameter -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -427,45 +424,50 @@ function Invoke-ADCUnsetCloudparameter {
 }
 
 function Invoke-ADCGetCloudparameter {
-<#
+    <#
     .SYNOPSIS
-        Get Cloud configuration object(s)
+        Get Cloud configuration object(s).
     .DESCRIPTION
-        Get Cloud configuration object(s)
+        Configuration for cloud parameter resource.
     .PARAMETER GetAll 
-        Retreive all cloudparameter object(s)
+        Retrieve all cloudparameter object(s).
     .PARAMETER Count
-        If specified, the count of the cloudparameter object(s) will be returned
+        If specified, the count of the cloudparameter object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCloudparameter
+        PS C:\>Invoke-ADCGetCloudparameter
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCloudparameter -GetAll
+        PS C:\>Invoke-ADCGetCloudparameter -GetAll 
+        Get all cloudparameter data.
     .EXAMPLE
-        Invoke-ADCGetCloudparameter -name <string>
+        PS C:\>Invoke-ADCGetCloudparameter -name <string>
+        Get cloudparameter object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCloudparameter -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCloudparameter -Filter @{ 'name'='<value>' }
+        Get cloudparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCloudparameter
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudparameter/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -477,24 +479,24 @@ function Invoke-ADCGetCloudparameter {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cloudparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cloudparameter objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudparameter -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudparameter -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cloudparameter objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudparameter -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudparameter -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cloudparameter configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving cloudparameter configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudparameter -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -508,54 +510,51 @@ function Invoke-ADCGetCloudparameter {
 }
 
 function Invoke-ADCUpdateCloudparaminternal {
-<#
+    <#
     .SYNOPSIS
-        Update Cloud configuration Object
+        Update Cloud configuration Object.
     .DESCRIPTION
-        Update Cloud configuration Object 
-    .PARAMETER nonftumode 
-        Indicates if GUI in in FTU mode or not.  
+        Configuration for cloud paramInternal resource.
+    .PARAMETER Nonftumode 
+        Indicates if GUI in in FTU mode or not. 
         Possible values = YES, NO
     .EXAMPLE
-        Invoke-ADCUpdateCloudparaminternal 
+        PS C:\>Invoke-ADCUpdateCloudparaminternal 
+        An example how to update cloudparaminternal configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateCloudparaminternal
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudparaminternal/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateSet('YES', 'NO')]
-        [string]$nonftumode 
-
+        [string]$Nonftumode 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateCloudparaminternal: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('nonftumode')) { $Payload.Add('nonftumode', $nonftumode) }
- 
-            if ($PSCmdlet.ShouldProcess("cloudparaminternal", "Update Cloud configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cloudparaminternal -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('nonftumode') ) { $payload.Add('nonftumode', $nonftumode) }
+            if ( $PSCmdlet.ShouldProcess("cloudparaminternal", "Update Cloud configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type cloudparaminternal -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -568,49 +567,55 @@ function Invoke-ADCUpdateCloudparaminternal {
 }
 
 function Invoke-ADCGetCloudparaminternal {
-<#
+    <#
     .SYNOPSIS
-        Get Cloud configuration object(s)
+        Get Cloud configuration object(s).
     .DESCRIPTION
-        Get Cloud configuration object(s)
+        Configuration for cloud paramInternal resource.
     .PARAMETER GetAll 
-        Retreive all cloudparaminternal object(s)
+        Retrieve all cloudparaminternal object(s).
     .PARAMETER Count
-        If specified, the count of the cloudparaminternal object(s) will be returned
+        If specified, the count of the cloudparaminternal object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCloudparaminternal
+        PS C:\>Invoke-ADCGetCloudparaminternal
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCloudparaminternal -GetAll 
+        PS C:\>Invoke-ADCGetCloudparaminternal -GetAll 
+        Get all cloudparaminternal data. 
     .EXAMPLE 
-        Invoke-ADCGetCloudparaminternal -Count
+        PS C:\>Invoke-ADCGetCloudparaminternal -Count 
+        Get the number of cloudparaminternal objects.
     .EXAMPLE
-        Invoke-ADCGetCloudparaminternal -name <string>
+        PS C:\>Invoke-ADCGetCloudparaminternal -name <string>
+        Get cloudparaminternal object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCloudparaminternal -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCloudparaminternal -Filter @{ 'name'='<value>' }
+        Get cloudparaminternal data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCloudparaminternal
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudparaminternal/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -627,24 +632,24 @@ function Invoke-ADCGetCloudparaminternal {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cloudparaminternal objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudparaminternal -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudparaminternal -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cloudparaminternal objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudparaminternal -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudparaminternal -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cloudparaminternal objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudparaminternal -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudparaminternal -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cloudparaminternal configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving cloudparaminternal configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudparaminternal -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudparaminternal -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -658,162 +663,149 @@ function Invoke-ADCGetCloudparaminternal {
 }
 
 function Invoke-ADCAddCloudprofile {
-<#
+    <#
     .SYNOPSIS
-        Add Cloud configuration Object
+        Add Cloud configuration Object.
     .DESCRIPTION
-        Add Cloud configuration Object 
-    .PARAMETER name 
-        Name for the Cloud profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the profile is created.  
-        Minimum length = 1  
-        Maximum length = 127 
-    .PARAMETER type 
-        Type of cloud profile that you want to create, Vserver or based on Azure Tags.  
+        Configuration for cloud profile resource.
+    .PARAMETER Name 
+        Name for the Cloud profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the profile is created. 
+    .PARAMETER Type 
+        Type of cloud profile that you want to create, Vserver or based on Azure Tags. 
         Possible values = autoscale, azuretags 
-    .PARAMETER vservername 
-        Name for the virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at sign (@), equal sign (=), and hyphen (-) characters. Can be changed after the virtual server is created.  
-        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my vserver" or 'my vserver'). .  
-        Minimum length = 1 
-    .PARAMETER servicetype 
-        Protocol used by the service (also called the service type).  
-        Possible values = HTTP, FTP, TCP, UDP, SSL, SSL_BRIDGE, SSL_TCP, DTLS, NNTP, DNS, DHCPRA, ANY, SIP_UDP, SIP_TCP, SIP_SSL, DNS_TCP, RTSP, PUSH, SSL_PUSH, RADIUS, RDP, MYSQL, MSSQL, DIAMETER, SSL_DIAMETER, TFTP, ORACLE, SMPP, SYSLOGTCP, SYSLOGUDP, FIX, SSL_FIX, PROXY, USER_TCP, USER_SSL_TCP, QUIC, IPFIX, LOGSTREAM, MONGO, MONGO_TLS 
-    .PARAMETER ipaddress 
+    .PARAMETER Vservername 
+        Name for the virtual server. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at sign (@), equal sign (=), and hyphen (-) characters. Can be changed after the virtual server is created. 
+        CLI Users: If the name includes one or more spaces, enclose the name in double or single quotation marks (for example, "my vserver" or 'my vserver'). . 
+    .PARAMETER Servicetype 
+        Protocol used by the service (also called the service type). 
+        Possible values = HTTP, FTP, TCP, UDP, SSL, SSL_BRIDGE, SSL_TCP, DTLS, NNTP, DNS, DHCPRA, ANY, SIP_UDP, SIP_TCP, SIP_SSL, DNS_TCP, RTSP, PUSH, SSL_PUSH, RADIUS, RDP, MYSQL, MSSQL, DIAMETER, SSL_DIAMETER, TFTP, ORACLE, SMPP, SYSLOGTCP, SYSLOGUDP, FIX, SSL_FIX, PROXY, USER_TCP, USER_SSL_TCP, QUIC, IPFIX, LOGSTREAM, MONGO, MONGO_TLS, MQTT, MQTT_TLS, QUIC_BRIDGE, HTTP_QUIC 
+    .PARAMETER Ipaddress 
         IPv4 or IPv6 address to assign to the virtual server. 
-    .PARAMETER port 
-        Port number for the virtual server.  
-        Range 1 - 65535  
+    .PARAMETER Port 
+        Port number for the virtual server. 
         * in CLI is represented as 65535 in NITRO API 
-    .PARAMETER servicegroupname 
+    .PARAMETER Servicegroupname 
         servicegroups bind to this server. 
-    .PARAMETER boundservicegroupsvctype 
-        The type of bound service.  
-        Possible values = HTTP, FTP, TCP, UDP, SSL, SSL_BRIDGE, SSL_TCP, DTLS, NNTP, RPCSVR, DNS, ADNS, SNMP, RTSP, DHCPRA, ANY, SIP_UDP, SIP_TCP, SIP_SSL, DNS_TCP, ADNS_TCP, MYSQL, MSSQL, ORACLE, MONGO, MONGO_TLS, RADIUS, RADIUSListener, RDP, DIAMETER, SSL_DIAMETER, TFTP, SMPP, PPTP, GRE, SYSLOGTCP, SYSLOGUDP, FIX, SSL_FIX, USER_TCP, USER_SSL_TCP, QUIC, IPFIX, LOGSTREAM, LOGSTREAM_SSL 
-    .PARAMETER vsvrbindsvcport 
-        The port number to be used for the bound service.  
-        Range 1 - 65535  
+    .PARAMETER Boundservicegroupsvctype 
+        The type of bound service. 
+        Possible values = HTTP, FTP, TCP, UDP, SSL, SSL_BRIDGE, SSL_TCP, DTLS, NNTP, RPCSVR, DNS, ADNS, SNMP, RTSP, DHCPRA, ANY, SIP_UDP, SIP_TCP, SIP_SSL, DNS_TCP, ADNS_TCP, MYSQL, MSSQL, ORACLE, MONGO, MONGO_TLS, RADIUS, RADIUSListener, RDP, DIAMETER, SSL_DIAMETER, TFTP, SMPP, PPTP, GRE, SYSLOGTCP, SYSLOGUDP, FIX, SSL_FIX, USER_TCP, USER_SSL_TCP, QUIC, IPFIX, LOGSTREAM, LOGSTREAM_SSL, MQTT, MQTT_TLS, QUIC_BRIDGE 
+    .PARAMETER Vsvrbindsvcport 
+        The port number to be used for the bound service. 
         * in CLI is represented as 65535 in NITRO API 
-    .PARAMETER graceful 
-        Indicates graceful shutdown of the service. System will wait for all outstanding connections to this service to be closed before disabling the service.  
-        Default value: NO  
+    .PARAMETER Graceful 
+        Indicates graceful shutdown of the service. System will wait for all outstanding connections to this service to be closed before disabling the service. 
         Possible values = YES, NO 
-    .PARAMETER delay 
+    .PARAMETER Delay 
         Time, in seconds, after which all the services configured on the server are disabled. 
-    .PARAMETER azuretagname 
-        Azure tag name.  
-        Maximum length = 512 
-    .PARAMETER azuretagvalue 
-        Azure tag value.  
-        Maximum length = 256 
-    .PARAMETER azurepollperiod 
-        Azure polling period (in seconds).  
-        Default value: 60  
-        Minimum value = 60  
-        Maximum value = 3600 
+    .PARAMETER Azuretagname 
+        Azure tag name. 
+    .PARAMETER Azuretagvalue 
+        Azure tag value. 
+    .PARAMETER Azurepollperiod 
+        Azure polling period (in seconds). 
     .PARAMETER PassThru 
         Return details about the created cloudprofile item.
     .EXAMPLE
-        Invoke-ADCAddCloudprofile -name <string> -type <string> -vservername <string> -servicetype <string> -ipaddress <string> -port <int> -servicegroupname <string> -boundservicegroupsvctype <string> -vsvrbindsvcport <int>
+        PS C:\>Invoke-ADCAddCloudprofile -name <string> -type <string> -vservername <string> -servicetype <string> -ipaddress <string> -port <int> -servicegroupname <string> -boundservicegroupsvctype <string> -vsvrbindsvcport <int>
+        An example how to add cloudprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddCloudprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('autoscale', 'azuretags')]
-        [string]$type ,
+        [string]$Type,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
-        [string]$vservername ,
+        [string]$Vservername,
 
-        [Parameter(Mandatory = $true)]
-        [ValidateSet('HTTP', 'FTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE', 'SSL_TCP', 'DTLS', 'NNTP', 'DNS', 'DHCPRA', 'ANY', 'SIP_UDP', 'SIP_TCP', 'SIP_SSL', 'DNS_TCP', 'RTSP', 'PUSH', 'SSL_PUSH', 'RADIUS', 'RDP', 'MYSQL', 'MSSQL', 'DIAMETER', 'SSL_DIAMETER', 'TFTP', 'ORACLE', 'SMPP', 'SYSLOGTCP', 'SYSLOGUDP', 'FIX', 'SSL_FIX', 'PROXY', 'USER_TCP', 'USER_SSL_TCP', 'QUIC', 'IPFIX', 'LOGSTREAM', 'MONGO', 'MONGO_TLS')]
-        [string]$servicetype ,
+        [Parameter(Mandatory)]
+        [ValidateSet('HTTP', 'FTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE', 'SSL_TCP', 'DTLS', 'NNTP', 'DNS', 'DHCPRA', 'ANY', 'SIP_UDP', 'SIP_TCP', 'SIP_SSL', 'DNS_TCP', 'RTSP', 'PUSH', 'SSL_PUSH', 'RADIUS', 'RDP', 'MYSQL', 'MSSQL', 'DIAMETER', 'SSL_DIAMETER', 'TFTP', 'ORACLE', 'SMPP', 'SYSLOGTCP', 'SYSLOGUDP', 'FIX', 'SSL_FIX', 'PROXY', 'USER_TCP', 'USER_SSL_TCP', 'QUIC', 'IPFIX', 'LOGSTREAM', 'MONGO', 'MONGO_TLS', 'MQTT', 'MQTT_TLS', 'QUIC_BRIDGE', 'HTTP_QUIC')]
+        [string]$Servicetype,
 
-        [Parameter(Mandatory = $true)]
-        [string]$ipaddress ,
+        [Parameter(Mandatory)]
+        [string]$Ipaddress,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateRange(1, 65535)]
-        [int]$port ,
+        [int]$Port,
 
-        [Parameter(Mandatory = $true)]
-        [string]$servicegroupname ,
+        [Parameter(Mandatory)]
+        [string]$Servicegroupname,
 
-        [Parameter(Mandatory = $true)]
-        [ValidateSet('HTTP', 'FTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE', 'SSL_TCP', 'DTLS', 'NNTP', 'RPCSVR', 'DNS', 'ADNS', 'SNMP', 'RTSP', 'DHCPRA', 'ANY', 'SIP_UDP', 'SIP_TCP', 'SIP_SSL', 'DNS_TCP', 'ADNS_TCP', 'MYSQL', 'MSSQL', 'ORACLE', 'MONGO', 'MONGO_TLS', 'RADIUS', 'RADIUSListener', 'RDP', 'DIAMETER', 'SSL_DIAMETER', 'TFTP', 'SMPP', 'PPTP', 'GRE', 'SYSLOGTCP', 'SYSLOGUDP', 'FIX', 'SSL_FIX', 'USER_TCP', 'USER_SSL_TCP', 'QUIC', 'IPFIX', 'LOGSTREAM', 'LOGSTREAM_SSL')]
-        [string]$boundservicegroupsvctype ,
+        [Parameter(Mandatory)]
+        [ValidateSet('HTTP', 'FTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE', 'SSL_TCP', 'DTLS', 'NNTP', 'RPCSVR', 'DNS', 'ADNS', 'SNMP', 'RTSP', 'DHCPRA', 'ANY', 'SIP_UDP', 'SIP_TCP', 'SIP_SSL', 'DNS_TCP', 'ADNS_TCP', 'MYSQL', 'MSSQL', 'ORACLE', 'MONGO', 'MONGO_TLS', 'RADIUS', 'RADIUSListener', 'RDP', 'DIAMETER', 'SSL_DIAMETER', 'TFTP', 'SMPP', 'PPTP', 'GRE', 'SYSLOGTCP', 'SYSLOGUDP', 'FIX', 'SSL_FIX', 'USER_TCP', 'USER_SSL_TCP', 'QUIC', 'IPFIX', 'LOGSTREAM', 'LOGSTREAM_SSL', 'MQTT', 'MQTT_TLS', 'QUIC_BRIDGE')]
+        [string]$Boundservicegroupsvctype,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateRange(1, 65535)]
-        [int]$vsvrbindsvcport ,
+        [int]$Vsvrbindsvcport,
 
         [ValidateSet('YES', 'NO')]
-        [string]$graceful = 'NO' ,
+        [string]$Graceful = 'NO',
 
-        [double]$delay ,
+        [double]$Delay,
 
-        [string]$azuretagname ,
+        [string]$Azuretagname,
 
-        [string]$azuretagvalue ,
+        [string]$Azuretagvalue,
 
         [ValidateRange(60, 3600)]
-        [double]$azurepollperiod = '60' ,
+        [double]$Azurepollperiod = '60',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddCloudprofile: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                type = $type
-                vservername = $vservername
-                servicetype = $servicetype
-                ipaddress = $ipaddress
-                port = $port
-                servicegroupname = $servicegroupname
+            $payload = @{ name           = $name
+                type                     = $type
+                vservername              = $vservername
+                servicetype              = $servicetype
+                ipaddress                = $ipaddress
+                port                     = $port
+                servicegroupname         = $servicegroupname
                 boundservicegroupsvctype = $boundservicegroupsvctype
-                vsvrbindsvcport = $vsvrbindsvcport
+                vsvrbindsvcport          = $vsvrbindsvcport
             }
-            if ($PSBoundParameters.ContainsKey('graceful')) { $Payload.Add('graceful', $graceful) }
-            if ($PSBoundParameters.ContainsKey('delay')) { $Payload.Add('delay', $delay) }
-            if ($PSBoundParameters.ContainsKey('azuretagname')) { $Payload.Add('azuretagname', $azuretagname) }
-            if ($PSBoundParameters.ContainsKey('azuretagvalue')) { $Payload.Add('azuretagvalue', $azuretagvalue) }
-            if ($PSBoundParameters.ContainsKey('azurepollperiod')) { $Payload.Add('azurepollperiod', $azurepollperiod) }
- 
-            if ($PSCmdlet.ShouldProcess("cloudprofile", "Add Cloud configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cloudprofile -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('graceful') ) { $payload.Add('graceful', $graceful) }
+            if ( $PSBoundParameters.ContainsKey('delay') ) { $payload.Add('delay', $delay) }
+            if ( $PSBoundParameters.ContainsKey('azuretagname') ) { $payload.Add('azuretagname', $azuretagname) }
+            if ( $PSBoundParameters.ContainsKey('azuretagvalue') ) { $payload.Add('azuretagvalue', $azuretagvalue) }
+            if ( $PSBoundParameters.ContainsKey('azurepollperiod') ) { $payload.Add('azurepollperiod', $azurepollperiod) }
+            if ( $PSCmdlet.ShouldProcess("cloudprofile", "Add Cloud configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cloudprofile -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetCloudprofile -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetCloudprofile -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -826,48 +818,47 @@ function Invoke-ADCAddCloudprofile {
 }
 
 function Invoke-ADCDeleteCloudprofile {
-<#
+    <#
     .SYNOPSIS
-        Delete Cloud configuration Object
+        Delete Cloud configuration Object.
     .DESCRIPTION
-        Delete Cloud configuration Object
-    .PARAMETER name 
-       Name for the Cloud profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the profile is created.  
-       Minimum length = 1  
-       Maximum length = 127 
+        Configuration for cloud profile resource.
+    .PARAMETER Name 
+        Name for the Cloud profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the profile is created.
     .EXAMPLE
-        Invoke-ADCDeleteCloudprofile -name <string>
+        PS C:\>Invoke-ADCDeleteCloudprofile -Name <string>
+        An example how to delete cloudprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteCloudprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteCloudprofile: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete Cloud configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cloudprofile -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete Cloud configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type cloudprofile -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -883,56 +874,62 @@ function Invoke-ADCDeleteCloudprofile {
 }
 
 function Invoke-ADCGetCloudprofile {
-<#
+    <#
     .SYNOPSIS
-        Get Cloud configuration object(s)
+        Get Cloud configuration object(s).
     .DESCRIPTION
-        Get Cloud configuration object(s)
-    .PARAMETER name 
-       Name for the Cloud profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the profile is created. 
+        Configuration for cloud profile resource.
+    .PARAMETER Name 
+        Name for the Cloud profile. Must begin with an ASCII alphanumeric or underscore (_) character, and must contain only ASCII alphanumeric, underscore, hash (#), period (.), space, colon (:), at (@), equals (=), and hyphen (-) characters. Cannot be changed after the profile is created. 
     .PARAMETER GetAll 
-        Retreive all cloudprofile object(s)
+        Retrieve all cloudprofile object(s).
     .PARAMETER Count
-        If specified, the count of the cloudprofile object(s) will be returned
+        If specified, the count of the cloudprofile object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCloudprofile
+        PS C:\>Invoke-ADCGetCloudprofile
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCloudprofile -GetAll 
+        PS C:\>Invoke-ADCGetCloudprofile -GetAll 
+        Get all cloudprofile data. 
     .EXAMPLE 
-        Invoke-ADCGetCloudprofile -Count
+        PS C:\>Invoke-ADCGetCloudprofile -Count 
+        Get the number of cloudprofile objects.
     .EXAMPLE
-        Invoke-ADCGetCloudprofile -name <string>
+        PS C:\>Invoke-ADCGetCloudprofile -name <string>
+        Get cloudprofile object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCloudprofile -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCloudprofile -Filter @{ 'name'='<value>' }
+        Get cloudprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCloudprofile
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudprofile/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
         [ValidateLength(1, 127)]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -950,24 +947,24 @@ function Invoke-ADCGetCloudprofile {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cloudprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cloudprofile objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudprofile -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudprofile -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cloudprofile objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudprofile -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudprofile -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cloudprofile configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudprofile -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving cloudprofile configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudprofile -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -981,30 +978,32 @@ function Invoke-ADCGetCloudprofile {
 }
 
 function Invoke-ADCCheckCloudservice {
-<#
+    <#
     .SYNOPSIS
-        Check Cloud configuration Object
+        Check Cloud configuration Object.
     .DESCRIPTION
-        Check Cloud configuration Object 
+        Configuration for cloud service resource.
     .EXAMPLE
-        Invoke-ADCCheckCloudservice 
+        PS C:\>Invoke-ADCCheckCloudservice 
+        An example how to check cloudservice configuration Object(s).
     .NOTES
         File Name : Invoke-ADCCheckCloudservice
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudservice/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession) 
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession) 
 
     )
     begin {
@@ -1012,12 +1011,10 @@ function Invoke-ADCCheckCloudservice {
     }
     process {
         try {
-            $Payload = @{
+            $payload = @{ }
 
-            }
-
-            if ($PSCmdlet.ShouldProcess($Name, "Check Cloud configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cloudservice -Action check -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Check Cloud configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type cloudservice -Action check -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -1033,49 +1030,55 @@ function Invoke-ADCCheckCloudservice {
 }
 
 function Invoke-ADCGetCloudvserverip {
-<#
+    <#
     .SYNOPSIS
-        Get Cloud configuration object(s)
+        Get Cloud configuration object(s).
     .DESCRIPTION
-        Get Cloud configuration object(s)
+        Configuration for Cloud virtual server IPs resource.
     .PARAMETER GetAll 
-        Retreive all cloudvserverip object(s)
+        Retrieve all cloudvserverip object(s).
     .PARAMETER Count
-        If specified, the count of the cloudvserverip object(s) will be returned
+        If specified, the count of the cloudvserverip object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetCloudvserverip
+        PS C:\>Invoke-ADCGetCloudvserverip
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetCloudvserverip -GetAll 
+        PS C:\>Invoke-ADCGetCloudvserverip -GetAll 
+        Get all cloudvserverip data. 
     .EXAMPLE 
-        Invoke-ADCGetCloudvserverip -Count
+        PS C:\>Invoke-ADCGetCloudvserverip -Count 
+        Get the number of cloudvserverip objects.
     .EXAMPLE
-        Invoke-ADCGetCloudvserverip -name <string>
+        PS C:\>Invoke-ADCGetCloudvserverip -name <string>
+        Get cloudvserverip object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetCloudvserverip -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetCloudvserverip -Filter @{ 'name'='<value>' }
+        Get cloudvserverip data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCloudvserverip
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/cloud/cloudvserverip/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1092,24 +1095,24 @@ function Invoke-ADCGetCloudvserverip {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all cloudvserverip objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudvserverip -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudvserverip -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for cloudvserverip objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudvserverip -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudvserverip -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving cloudvserverip objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudvserverip -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudvserverip -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving cloudvserverip configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving cloudvserverip configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudvserverip -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type cloudvserverip -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

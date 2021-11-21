@@ -1,61 +1,57 @@
 function Invoke-ADCAddUlfdserver {
-<#
+    <#
     .SYNOPSIS
-        Add Ulfd configuration Object
+        Add Ulfd configuration Object.
     .DESCRIPTION
-        Add Ulfd configuration Object 
-    .PARAMETER loggerip 
-        IP address of the server where ulfd service is running.  
-        Minimum length = 1 
+        Configuration for ulfd server resource.
+    .PARAMETER Loggerip 
+        IP address of the server where ulfd service is running. 
     .PARAMETER PassThru 
         Return details about the created ulfdserver item.
     .EXAMPLE
-        Invoke-ADCAddUlfdserver -loggerip <string>
+        PS C:\>Invoke-ADCAddUlfdserver -loggerip <string>
+        An example how to add ulfdserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddUlfdserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ulfd/ulfdserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$loggerip ,
+        [string]$Loggerip,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddUlfdserver: Starting"
     }
     process {
         try {
-            $Payload = @{
-                loggerip = $loggerip
-            }
+            $payload = @{ loggerip = $loggerip }
 
- 
-            if ($PSCmdlet.ShouldProcess("ulfdserver", "Add Ulfd configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ulfdserver -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("ulfdserver", "Add Ulfd configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type ulfdserver -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetUlfdserver -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetUlfdserver -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -68,47 +64,47 @@ function Invoke-ADCAddUlfdserver {
 }
 
 function Invoke-ADCDeleteUlfdserver {
-<#
+    <#
     .SYNOPSIS
-        Delete Ulfd configuration Object
+        Delete Ulfd configuration Object.
     .DESCRIPTION
-        Delete Ulfd configuration Object
-    .PARAMETER loggerip 
-       IP address of the server where ulfd service is running.  
-       Minimum length = 1 
+        Configuration for ulfd server resource.
+    .PARAMETER Loggerip 
+        IP address of the server where ulfd service is running.
     .EXAMPLE
-        Invoke-ADCDeleteUlfdserver -loggerip <string>
+        PS C:\>Invoke-ADCDeleteUlfdserver -Loggerip <string>
+        An example how to delete ulfdserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteUlfdserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ulfd/ulfdserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$loggerip 
+        [Parameter(Mandatory)]
+        [string]$Loggerip 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteUlfdserver: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$loggerip", "Delete Ulfd configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type ulfdserver -NitroPath nitro/v1/config -Resource $loggerip -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$loggerip", "Delete Ulfd configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type ulfdserver -NitroPath nitro/v1/config -Resource $loggerip -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -124,55 +120,61 @@ function Invoke-ADCDeleteUlfdserver {
 }
 
 function Invoke-ADCGetUlfdserver {
-<#
+    <#
     .SYNOPSIS
-        Get Ulfd configuration object(s)
+        Get Ulfd configuration object(s).
     .DESCRIPTION
-        Get Ulfd configuration object(s)
-    .PARAMETER loggerip 
-       IP address of the server where ulfd service is running. 
+        Configuration for ulfd server resource.
+    .PARAMETER Loggerip 
+        IP address of the server where ulfd service is running. 
     .PARAMETER GetAll 
-        Retreive all ulfdserver object(s)
+        Retrieve all ulfdserver object(s).
     .PARAMETER Count
-        If specified, the count of the ulfdserver object(s) will be returned
+        If specified, the count of the ulfdserver object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetUlfdserver
+        PS C:\>Invoke-ADCGetUlfdserver
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetUlfdserver -GetAll 
+        PS C:\>Invoke-ADCGetUlfdserver -GetAll 
+        Get all ulfdserver data. 
     .EXAMPLE 
-        Invoke-ADCGetUlfdserver -Count
+        PS C:\>Invoke-ADCGetUlfdserver -Count 
+        Get the number of ulfdserver objects.
     .EXAMPLE
-        Invoke-ADCGetUlfdserver -name <string>
+        PS C:\>Invoke-ADCGetUlfdserver -name <string>
+        Get ulfdserver object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetUlfdserver -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetUlfdserver -Filter @{ 'name'='<value>' }
+        Get ulfdserver data with a filter.
     .NOTES
         File Name : Invoke-ADCGetUlfdserver
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ulfd/ulfdserver/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$loggerip,
+        [string]$Loggerip,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -190,24 +192,24 @@ function Invoke-ADCGetUlfdserver {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all ulfdserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ulfdserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ulfdserver -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for ulfdserver objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ulfdserver -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ulfdserver -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving ulfdserver objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ulfdserver -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ulfdserver -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving ulfdserver configuration for property 'loggerip'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ulfdserver -NitroPath nitro/v1/config -Resource $loggerip -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving ulfdserver configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ulfdserver -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type ulfdserver -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"

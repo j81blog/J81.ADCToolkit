@@ -1,103 +1,94 @@
 function Invoke-ADCUpdateSnmpalarm {
-<#
+    <#
     .SYNOPSIS
-        Update SNMP configuration Object
+        Update SNMP configuration Object.
     .DESCRIPTION
-        Update SNMP configuration Object 
-    .PARAMETER trapname 
-        Name of the SNMP alarm. This parameter is required for identifying the SNMP alarm and cannot be modified.  
-        Possible values = CPU-USAGE, AVERAGE-CPU, MEMORY, MGMT-CPU-USAGE, SYNFLOOD, TCP-SYNFLOOD, VSERVER-REQRATE, SERVICE-REQRATE, ENTITY-RXRATE, ENTITY-TXRATE, ENTITY-SYNFLOOD, SERVICE-MAXCLIENTS, HA-STATE-CHANGE, ENTITY-STATE, CONFIG-CHANGE, CONFIG-SAVE, SERVICEGROUP-MEMBER-REQRATE, SERVICEGROUP-MEMBER-MAXCLIENTS, MONITOR-RTO-THRESHOLD, LOGIN-FAILURE, SSL-CERT-EXPIRY, FAN-SPEED-LOW, VOLTAGE-LOW, VOLTAGE-HIGH, TEMPERATURE-HIGH, CPU-TEMPERATURE-HIGH, POWER-SUPPLY-FAILURE, DISK-USAGE-HIGH, INTERFACE-THROUGHPUT-LOW, MON_PROBE_FAILED, HA-VERSION-MISMATCH, HA-SYNC-FAILURE, HA-NO-HEARTBEATS, HA-BAD-SECONDARY-STATE, INTERFACE-BW-USAGE, RATE-LIMIT-THRESHOLD-EXCEEDED, ENTITY-NAME-CHANGE, HA-PROP-FAILURE, IP-CONFLICT, PF-RL-RATE-THRESHOLD, PF-RL-PPS-THRESHOLD, PF-RL-RATE-PKTS-DROPPED, PF-RL-PPS-PKTS-DROPPED, APPFW-START-URL, APPFW-DENY-URL, APPFW-VIOLATIONS-TYPE, APPFW-REFERER-HEADER, APPFW-CSRF-TAG, APPFW-COOKIE, APPFW-FIELD-CONSISTENCY, APPFW-BUFFER-OVERFLOW, APPFW-FIELD-FORMAT, APPFW-FILE-UPLOAD-TYPE, APPFW-JSON-DOS, APPFW-JSON-SQL, APPFW-JSON-XSS, APPFW-SAFE-COMMERCE, APPFW-SAFE-OBJECT, APPFW-SESSION-LIMIT, APPFW-SIGNATURE-MATCH, APPFW-POLICY-HIT, APPFW-XSS, APPFW-XML-XSS, APPFW-SQL, APPFW-XML-SQL, APPFW-XML-ATTACHMENT, APPFW-XML-DOS, APPFW-XML-VALIDATION, APPFW-XML-WSI, APPFW-XML-SCHEMA-COMPILE, APPFW-XML-SOAP-FAULT, APPFW-NEW-SIGNATURE-ADDED, APPFW-DEPLOY-RELAXATION-DP, APPFW-LEARNED-RULE-APPLIED-DYN-PROF, APPFW-CMD, APPFW-POSTBODYLIMIT, DNSKEY-EXPIRY, HA-LICENSE-MISMATCH, SSL-CARD-FAILED, SSL-CARD-NORMAL, WARM-RESTART-EVENT, HARD-DISK-DRIVE-ERRORS, COMPACT-FLASH-ERRORS, CALLHOME-UPLOAD-EVENT, 1024KEY-EXCHANGE-RATE, 2048KEY-EXCHANGE-RATE, 4096KEY-EXCHANGE-RATE, SSL-CUR-SESSION-INUSE, CLUSTER-NODE-HEALTH, CLUSTER-NODE-QUORUM, CLUSTER-VERSION-MISMATCH, CLUSTER-CCO-CHANGE, CLUSTER-OVS-CHANGE, CLUSTER-SYNC-FAILURE, CLUSTER-SYNC-PARTIAL-SUCCESS, CLUSTER-PROP-FAILURE, HA-STICKY-PRIMARY, INBAND-PROTOCOL-VERSION-MISMATCH, SSL-CHIP-REINIT, VRID-STATE-CHANGE, PORT-ALLOC-FAILED, LLDP-REMOTE-CHANGE, DUPLICATE-IPV6, PARTITION-CONFIG-EVENT, PARTITION-SWITCHED, LSN-PORTALLOC-FAILED, LSN-PORTQUOTA-EXCEED, LSN-SESSIONQUOTA-EXCEED, LSN-MEM-RECOVERY-KICKEDIN, VSERVER-SPILLOVER, PARTITION-RATE-LIMIT, POOLED-LICENSE-ONGRACE, POOLED-LICENSE-PARTIAL, CLUSTER-BACKPLANE-HB-MISSING, GSLB-SITE-MEP-FLAP, DNS-MAXNEGCACHE-USAGE, DNS-MAXCACHE-USAGE, NS-LICENSE-EXPIRY, PKT-RATELIMITING-ATTACK, GSLB-SYNC-STATUS-FLIP, URLFILT-DB-UPDATE-STATUS, URLFILT-INIT-SDK, POOLED-LICENSE-CHECKOUT-FAILURE, MIGRATION-STARTED, MIGRATION-COMPLETE, ECDHE-EXCHANGE-RATE, BOT-SIGNATURE-UPDATE, APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH 
-    .PARAMETER thresholdvalue 
-        Value for the high threshold. The Citrix ADC generates an SNMP trap message when the value of the attribute associated with the alarm is greater than or equal to the specified high threshold value.  
-        Minimum value = 1 
-    .PARAMETER normalvalue 
-        Value for the normal threshold. A trap message is generated if the value of the respective attribute falls to or below this value after exceeding the high threshold.  
-        Minimum value = 1 
-    .PARAMETER time 
-        Interval, in seconds, at which the Citrix ADC generates SNMP trap messages when the conditions specified in the SNMP alarm are met.Can be specified for the following alarms: SYNFLOOD, HA-VERSION-MISMATCH, HA-SYNC-FAILURE, HA-NO-HEARTBEATS,HA-BAD-SECONDARY-STATE, CLUSTER-NODE-HEALTH, CLUSTER-NODE-QUORUM, CLUSTER-VERSION-MISMATCH, CLUSTER-BKHB-FAILED, PORT-ALLOC-FAILED, COMPACT-FLASH-ERRORS, HARD-DISK-DRIVE-ERRORS and APPFW traps. Default trap time intervals: SYNFLOOD and APPFW traps = 1sec, PORT-ALLOC-FAILED = 3600sec(1 hour), Other Traps = 86400sec(1 day).  
-        Default value: 1 
-    .PARAMETER state 
-        Current state of the SNMP alarm. The Citrix ADC generates trap messages only for SNMP alarms that are enabled. Some alarms are enabled by default, but you can disable them.  
-        Default value: ENABLED  
+        Configuration for alarm resource.
+    .PARAMETER Trapname 
+        Name of the SNMP alarm. This parameter is required for identifying the SNMP alarm and cannot be modified. 
+        Possible values = CPU-USAGE, AVERAGE-CPU, MEMORY, MGMT-CPU-USAGE, SYNFLOOD, TCP-SYNFLOOD, VSERVER-REQRATE, SERVICE-REQRATE, ENTITY-RXRATE, ENTITY-TXRATE, ENTITY-SYNFLOOD, SERVICE-MAXCLIENTS, HA-STATE-CHANGE, ENTITY-STATE, CONFIG-CHANGE, CONFIG-SAVE, SERVICEGROUP-MEMBER-REQRATE, SERVICEGROUP-MEMBER-MAXCLIENTS, MONITOR-RTO-THRESHOLD, LOGIN-FAILURE, SSL-CERT-EXPIRY, FAN-SPEED-LOW, VOLTAGE-LOW, VOLTAGE-HIGH, TEMPERATURE-HIGH, CPU-TEMPERATURE-HIGH, POWER-SUPPLY-FAILURE, DISK-USAGE-HIGH, INTERFACE-THROUGHPUT-LOW, MON_PROBE_FAILED, HA-VERSION-MISMATCH, HA-SYNC-FAILURE, HA-NO-HEARTBEATS, HA-BAD-SECONDARY-STATE, INTERFACE-BW-USAGE, RATE-LIMIT-THRESHOLD-EXCEEDED, ENTITY-NAME-CHANGE, HA-PROP-FAILURE, IP-CONFLICT, PF-RL-RATE-THRESHOLD, PF-RL-PPS-THRESHOLD, PF-RL-RATE-PKTS-DROPPED, PF-RL-PPS-PKTS-DROPPED, APPFW-START-URL, APPFW-DENY-URL, APPFW-VIOLATIONS-TYPE, APPFW-REFERER-HEADER, APPFW-CSRF-TAG, APPFW-COOKIE, APPFW-FIELD-CONSISTENCY, APPFW-BUFFER-OVERFLOW, APPFW-FIELD-FORMAT, APPFW-FILE-UPLOAD-TYPE, APPFW-JSON-DOS, APPFW-JSON-SQL, APPFW-JSON-XSS, APPFW-SAFE-COMMERCE, APPFW-SAFE-OBJECT, APPFW-SESSION-LIMIT, APPFW-SIGNATURE-MATCH, APPFW-POLICY-HIT, APPFW-XSS, APPFW-XML-XSS, APPFW-SQL, APPFW-XML-SQL, APPFW-XML-ATTACHMENT, APPFW-XML-DOS, APPFW-XML-VALIDATION, APPFW-XML-WSI, APPFW-XML-SCHEMA-COMPILE, APPFW-XML-SOAP-FAULT, APPFW-NEW-SIGNATURE-ADDED, APPFW-DEPLOY-RELAXATION-DP, APPFW-LEARNED-RULE-APPLIED-DYN-PROF, APPFW-CMD, APPFW-POSTBODYLIMIT, APPFW-JSON-CMD, APPFW-SQL-GRAM, APPFW-JSON-SQL-GRAM, DNSKEY-EXPIRY, HA-LICENSE-MISMATCH, SSL-CARD-FAILED, SSL-CARD-NORMAL, WARM-RESTART-EVENT, HARD-DISK-DRIVE-ERRORS, COMPACT-FLASH-ERRORS, CALLHOME-UPLOAD-EVENT, 1024KEY-EXCHANGE-RATE, 2048KEY-EXCHANGE-RATE, 4096KEY-EXCHANGE-RATE, SSL-CUR-SESSION-INUSE, CLUSTER-NODE-HEALTH, CLUSTER-NODE-QUORUM, CLUSTER-VERSION-MISMATCH, CLUSTER-CCO-CHANGE, CLUSTER-OVS-CHANGE, CLUSTER-SYNC-FAILURE, CLUSTER-SYNC-PARTIAL-SUCCESS, CLUSTER-PROP-FAILURE, HA-STICKY-PRIMARY, INBAND-PROTOCOL-VERSION-MISMATCH, SSL-CHIP-REINIT, VRID-STATE-CHANGE, PORT-ALLOC-FAILED, LLDP-REMOTE-CHANGE, DUPLICATE-IPV6, PARTITION-CONFIG-EVENT, PARTITION-SWITCHED, LSN-PORTALLOC-FAILED, LSN-PORTQUOTA-EXCEED, LSN-SESSIONQUOTA-EXCEED, LSN-MEM-RECOVERY-KICKEDIN, VSERVER-SPILLOVER, PARTITION-RATE-LIMIT, POOLED-LICENSE-ONGRACE, POOLED-LICENSE-PARTIAL, CLUSTER-BACKPLANE-HB-MISSING, GSLB-SITE-MEP-FLAP, DNS-MAXNEGCACHE-USAGE, DNS-MAXCACHE-USAGE, NS-LICENSE-EXPIRY, PKT-RATELIMITING-ATTACK, GSLB-SYNC-STATUS-FLIP, URLFILT-DB-UPDATE-STATUS, URLFILT-INIT-SDK, POOLED-LICENSE-CHECKOUT-FAILURE, MIGRATION-STARTED, MIGRATION-COMPLETE, ECDHE-EXCHANGE-RATE, BOT-SIGNATURE-UPDATE, APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH 
+    .PARAMETER Thresholdvalue 
+        Value for the high threshold. The Citrix ADC generates an SNMP trap message when the value of the attribute associated with the alarm is greater than or equal to the specified high threshold value. 
+    .PARAMETER Normalvalue 
+        Value for the normal threshold. A trap message is generated if the value of the respective attribute falls to or below this value after exceeding the high threshold. 
+    .PARAMETER Time 
+        Interval, in seconds, at which the Citrix ADC generates SNMP trap messages when the conditions specified in the SNMP alarm are met.Can be specified for the following alarms: SYNFLOOD, HA-VERSION-MISMATCH, HA-SYNC-FAILURE, HA-NO-HEARTBEATS,HA-BAD-SECONDARY-STATE, CLUSTER-NODE-HEALTH, CLUSTER-NODE-QUORUM, CLUSTER-VERSION-MISMATCH, CLUSTER-BKHB-FAILED, PORT-ALLOC-FAILED, COMPACT-FLASH-ERRORS, HARD-DISK-DRIVE-ERRORS and APPFW traps. Default trap time intervals: SYNFLOOD and APPFW traps = 1sec, PORT-ALLOC-FAILED = 3600sec(1 hour), Other Traps = 86400sec(1 day). 
+    .PARAMETER State 
+        Current state of the SNMP alarm. The Citrix ADC generates trap messages only for SNMP alarms that are enabled. Some alarms are enabled by default, but you can disable them. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER severity 
-        Severity level assigned to trap messages generated by this alarm. The severity levels are, in increasing order of severity, Informational, Warning, Minor, Major, and Critical.  
-        This parameter is useful when you want the Citrix ADC to send trap messages to a trap listener on the basis of severity level. Trap messages with a severity level lower than the specified level (in the trap listener entry) are not sent.  
-        Default value: Unknown  
+    .PARAMETER Severity 
+        Severity level assigned to trap messages generated by this alarm. The severity levels are, in increasing order of severity, Informational, Warning, Minor, Major, and Critical. 
+        This parameter is useful when you want the Citrix ADC to send trap messages to a trap listener on the basis of severity level. Trap messages with a severity level lower than the specified level (in the trap listener entry) are not sent. 
         Possible values = Critical, Major, Minor, Warning, Informational 
-    .PARAMETER logging 
-        Logging status of the alarm. When logging is enabled, the Citrix ADC logs every trap message that is generated for this alarm.  
-        Default value: ENABLED  
+    .PARAMETER Logging 
+        Logging status of the alarm. When logging is enabled, the Citrix ADC logs every trap message that is generated for this alarm. 
         Possible values = ENABLED, DISABLED 
     .PARAMETER PassThru 
         Return details about the created snmpalarm item.
     .EXAMPLE
-        Invoke-ADCUpdateSnmpalarm -trapname <string>
+        PS C:\>Invoke-ADCUpdateSnmpalarm -trapname <string>
+        An example how to update snmpalarm configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSnmpalarm
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpalarm/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [ValidateSet('CPU-USAGE', 'AVERAGE-CPU', 'MEMORY', 'MGMT-CPU-USAGE', 'SYNFLOOD', 'TCP-SYNFLOOD', 'VSERVER-REQRATE', 'SERVICE-REQRATE', 'ENTITY-RXRATE', 'ENTITY-TXRATE', 'ENTITY-SYNFLOOD', 'SERVICE-MAXCLIENTS', 'HA-STATE-CHANGE', 'ENTITY-STATE', 'CONFIG-CHANGE', 'CONFIG-SAVE', 'SERVICEGROUP-MEMBER-REQRATE', 'SERVICEGROUP-MEMBER-MAXCLIENTS', 'MONITOR-RTO-THRESHOLD', 'LOGIN-FAILURE', 'SSL-CERT-EXPIRY', 'FAN-SPEED-LOW', 'VOLTAGE-LOW', 'VOLTAGE-HIGH', 'TEMPERATURE-HIGH', 'CPU-TEMPERATURE-HIGH', 'POWER-SUPPLY-FAILURE', 'DISK-USAGE-HIGH', 'INTERFACE-THROUGHPUT-LOW', 'MON_PROBE_FAILED', 'HA-VERSION-MISMATCH', 'HA-SYNC-FAILURE', 'HA-NO-HEARTBEATS', 'HA-BAD-SECONDARY-STATE', 'INTERFACE-BW-USAGE', 'RATE-LIMIT-THRESHOLD-EXCEEDED', 'ENTITY-NAME-CHANGE', 'HA-PROP-FAILURE', 'IP-CONFLICT', 'PF-RL-RATE-THRESHOLD', 'PF-RL-PPS-THRESHOLD', 'PF-RL-RATE-PKTS-DROPPED', 'PF-RL-PPS-PKTS-DROPPED', 'APPFW-START-URL', 'APPFW-DENY-URL', 'APPFW-VIOLATIONS-TYPE', 'APPFW-REFERER-HEADER', 'APPFW-CSRF-TAG', 'APPFW-COOKIE', 'APPFW-FIELD-CONSISTENCY', 'APPFW-BUFFER-OVERFLOW', 'APPFW-FIELD-FORMAT', 'APPFW-FILE-UPLOAD-TYPE', 'APPFW-JSON-DOS', 'APPFW-JSON-SQL', 'APPFW-JSON-XSS', 'APPFW-SAFE-COMMERCE', 'APPFW-SAFE-OBJECT', 'APPFW-SESSION-LIMIT', 'APPFW-SIGNATURE-MATCH', 'APPFW-POLICY-HIT', 'APPFW-XSS', 'APPFW-XML-XSS', 'APPFW-SQL', 'APPFW-XML-SQL', 'APPFW-XML-ATTACHMENT', 'APPFW-XML-DOS', 'APPFW-XML-VALIDATION', 'APPFW-XML-WSI', 'APPFW-XML-SCHEMA-COMPILE', 'APPFW-XML-SOAP-FAULT', 'APPFW-NEW-SIGNATURE-ADDED', 'APPFW-DEPLOY-RELAXATION-DP', 'APPFW-LEARNED-RULE-APPLIED-DYN-PROF', 'APPFW-CMD', 'APPFW-POSTBODYLIMIT', 'DNSKEY-EXPIRY', 'HA-LICENSE-MISMATCH', 'SSL-CARD-FAILED', 'SSL-CARD-NORMAL', 'WARM-RESTART-EVENT', 'HARD-DISK-DRIVE-ERRORS', 'COMPACT-FLASH-ERRORS', 'CALLHOME-UPLOAD-EVENT', '1024KEY-EXCHANGE-RATE', '2048KEY-EXCHANGE-RATE', '4096KEY-EXCHANGE-RATE', 'SSL-CUR-SESSION-INUSE', 'CLUSTER-NODE-HEALTH', 'CLUSTER-NODE-QUORUM', 'CLUSTER-VERSION-MISMATCH', 'CLUSTER-CCO-CHANGE', 'CLUSTER-OVS-CHANGE', 'CLUSTER-SYNC-FAILURE', 'CLUSTER-SYNC-PARTIAL-SUCCESS', 'CLUSTER-PROP-FAILURE', 'HA-STICKY-PRIMARY', 'INBAND-PROTOCOL-VERSION-MISMATCH', 'SSL-CHIP-REINIT', 'VRID-STATE-CHANGE', 'PORT-ALLOC-FAILED', 'LLDP-REMOTE-CHANGE', 'DUPLICATE-IPV6', 'PARTITION-CONFIG-EVENT', 'PARTITION-SWITCHED', 'LSN-PORTALLOC-FAILED', 'LSN-PORTQUOTA-EXCEED', 'LSN-SESSIONQUOTA-EXCEED', 'LSN-MEM-RECOVERY-KICKEDIN', 'VSERVER-SPILLOVER', 'PARTITION-RATE-LIMIT', 'POOLED-LICENSE-ONGRACE', 'POOLED-LICENSE-PARTIAL', 'CLUSTER-BACKPLANE-HB-MISSING', 'GSLB-SITE-MEP-FLAP', 'DNS-MAXNEGCACHE-USAGE', 'DNS-MAXCACHE-USAGE', 'NS-LICENSE-EXPIRY', 'PKT-RATELIMITING-ATTACK', 'GSLB-SYNC-STATUS-FLIP', 'URLFILT-DB-UPDATE-STATUS', 'URLFILT-INIT-SDK', 'POOLED-LICENSE-CHECKOUT-FAILURE', 'MIGRATION-STARTED', 'MIGRATION-COMPLETE', 'ECDHE-EXCHANGE-RATE', 'BOT-SIGNATURE-UPDATE', 'APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH')]
-        [string]$trapname ,
+        [Parameter(Mandatory)]
+        [ValidateSet('CPU-USAGE', 'AVERAGE-CPU', 'MEMORY', 'MGMT-CPU-USAGE', 'SYNFLOOD', 'TCP-SYNFLOOD', 'VSERVER-REQRATE', 'SERVICE-REQRATE', 'ENTITY-RXRATE', 'ENTITY-TXRATE', 'ENTITY-SYNFLOOD', 'SERVICE-MAXCLIENTS', 'HA-STATE-CHANGE', 'ENTITY-STATE', 'CONFIG-CHANGE', 'CONFIG-SAVE', 'SERVICEGROUP-MEMBER-REQRATE', 'SERVICEGROUP-MEMBER-MAXCLIENTS', 'MONITOR-RTO-THRESHOLD', 'LOGIN-FAILURE', 'SSL-CERT-EXPIRY', 'FAN-SPEED-LOW', 'VOLTAGE-LOW', 'VOLTAGE-HIGH', 'TEMPERATURE-HIGH', 'CPU-TEMPERATURE-HIGH', 'POWER-SUPPLY-FAILURE', 'DISK-USAGE-HIGH', 'INTERFACE-THROUGHPUT-LOW', 'MON_PROBE_FAILED', 'HA-VERSION-MISMATCH', 'HA-SYNC-FAILURE', 'HA-NO-HEARTBEATS', 'HA-BAD-SECONDARY-STATE', 'INTERFACE-BW-USAGE', 'RATE-LIMIT-THRESHOLD-EXCEEDED', 'ENTITY-NAME-CHANGE', 'HA-PROP-FAILURE', 'IP-CONFLICT', 'PF-RL-RATE-THRESHOLD', 'PF-RL-PPS-THRESHOLD', 'PF-RL-RATE-PKTS-DROPPED', 'PF-RL-PPS-PKTS-DROPPED', 'APPFW-START-URL', 'APPFW-DENY-URL', 'APPFW-VIOLATIONS-TYPE', 'APPFW-REFERER-HEADER', 'APPFW-CSRF-TAG', 'APPFW-COOKIE', 'APPFW-FIELD-CONSISTENCY', 'APPFW-BUFFER-OVERFLOW', 'APPFW-FIELD-FORMAT', 'APPFW-FILE-UPLOAD-TYPE', 'APPFW-JSON-DOS', 'APPFW-JSON-SQL', 'APPFW-JSON-XSS', 'APPFW-SAFE-COMMERCE', 'APPFW-SAFE-OBJECT', 'APPFW-SESSION-LIMIT', 'APPFW-SIGNATURE-MATCH', 'APPFW-POLICY-HIT', 'APPFW-XSS', 'APPFW-XML-XSS', 'APPFW-SQL', 'APPFW-XML-SQL', 'APPFW-XML-ATTACHMENT', 'APPFW-XML-DOS', 'APPFW-XML-VALIDATION', 'APPFW-XML-WSI', 'APPFW-XML-SCHEMA-COMPILE', 'APPFW-XML-SOAP-FAULT', 'APPFW-NEW-SIGNATURE-ADDED', 'APPFW-DEPLOY-RELAXATION-DP', 'APPFW-LEARNED-RULE-APPLIED-DYN-PROF', 'APPFW-CMD', 'APPFW-POSTBODYLIMIT', 'APPFW-JSON-CMD', 'APPFW-SQL-GRAM', 'APPFW-JSON-SQL-GRAM', 'DNSKEY-EXPIRY', 'HA-LICENSE-MISMATCH', 'SSL-CARD-FAILED', 'SSL-CARD-NORMAL', 'WARM-RESTART-EVENT', 'HARD-DISK-DRIVE-ERRORS', 'COMPACT-FLASH-ERRORS', 'CALLHOME-UPLOAD-EVENT', '1024KEY-EXCHANGE-RATE', '2048KEY-EXCHANGE-RATE', '4096KEY-EXCHANGE-RATE', 'SSL-CUR-SESSION-INUSE', 'CLUSTER-NODE-HEALTH', 'CLUSTER-NODE-QUORUM', 'CLUSTER-VERSION-MISMATCH', 'CLUSTER-CCO-CHANGE', 'CLUSTER-OVS-CHANGE', 'CLUSTER-SYNC-FAILURE', 'CLUSTER-SYNC-PARTIAL-SUCCESS', 'CLUSTER-PROP-FAILURE', 'HA-STICKY-PRIMARY', 'INBAND-PROTOCOL-VERSION-MISMATCH', 'SSL-CHIP-REINIT', 'VRID-STATE-CHANGE', 'PORT-ALLOC-FAILED', 'LLDP-REMOTE-CHANGE', 'DUPLICATE-IPV6', 'PARTITION-CONFIG-EVENT', 'PARTITION-SWITCHED', 'LSN-PORTALLOC-FAILED', 'LSN-PORTQUOTA-EXCEED', 'LSN-SESSIONQUOTA-EXCEED', 'LSN-MEM-RECOVERY-KICKEDIN', 'VSERVER-SPILLOVER', 'PARTITION-RATE-LIMIT', 'POOLED-LICENSE-ONGRACE', 'POOLED-LICENSE-PARTIAL', 'CLUSTER-BACKPLANE-HB-MISSING', 'GSLB-SITE-MEP-FLAP', 'DNS-MAXNEGCACHE-USAGE', 'DNS-MAXCACHE-USAGE', 'NS-LICENSE-EXPIRY', 'PKT-RATELIMITING-ATTACK', 'GSLB-SYNC-STATUS-FLIP', 'URLFILT-DB-UPDATE-STATUS', 'URLFILT-INIT-SDK', 'POOLED-LICENSE-CHECKOUT-FAILURE', 'MIGRATION-STARTED', 'MIGRATION-COMPLETE', 'ECDHE-EXCHANGE-RATE', 'BOT-SIGNATURE-UPDATE', 'APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH')]
+        [string]$Trapname,
 
-        [double]$thresholdvalue ,
+        [double]$Thresholdvalue,
 
-        [double]$normalvalue ,
+        [double]$Normalvalue,
 
-        [double]$time ,
+        [double]$Time,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$state ,
+        [string]$State,
 
         [ValidateSet('Critical', 'Major', 'Minor', 'Warning', 'Informational')]
-        [string]$severity ,
+        [string]$Severity,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$logging ,
+        [string]$Logging,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSnmpalarm: Starting"
     }
     process {
         try {
-            $Payload = @{
-                trapname = $trapname
-            }
-            if ($PSBoundParameters.ContainsKey('thresholdvalue')) { $Payload.Add('thresholdvalue', $thresholdvalue) }
-            if ($PSBoundParameters.ContainsKey('normalvalue')) { $Payload.Add('normalvalue', $normalvalue) }
-            if ($PSBoundParameters.ContainsKey('time')) { $Payload.Add('time', $time) }
-            if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
-            if ($PSBoundParameters.ContainsKey('severity')) { $Payload.Add('severity', $severity) }
-            if ($PSBoundParameters.ContainsKey('logging')) { $Payload.Add('logging', $logging) }
- 
-            if ($PSCmdlet.ShouldProcess("snmpalarm", "Update SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpalarm -Payload $Payload -GetWarning
+            $payload = @{ trapname = $trapname }
+            if ( $PSBoundParameters.ContainsKey('thresholdvalue') ) { $payload.Add('thresholdvalue', $thresholdvalue) }
+            if ( $PSBoundParameters.ContainsKey('normalvalue') ) { $payload.Add('normalvalue', $normalvalue) }
+            if ( $PSBoundParameters.ContainsKey('time') ) { $payload.Add('time', $time) }
+            if ( $PSBoundParameters.ContainsKey('state') ) { $payload.Add('state', $state) }
+            if ( $PSBoundParameters.ContainsKey('severity') ) { $payload.Add('severity', $severity) }
+            if ( $PSBoundParameters.ContainsKey('logging') ) { $payload.Add('logging', $logging) }
+            if ( $PSCmdlet.ShouldProcess("snmpalarm", "Update SNMP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpalarm -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSnmpalarm -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSnmpalarm -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -110,63 +101,64 @@ function Invoke-ADCUpdateSnmpalarm {
 }
 
 function Invoke-ADCUnsetSnmpalarm {
-<#
+    <#
     .SYNOPSIS
-        Unset SNMP configuration Object
+        Unset SNMP configuration Object.
     .DESCRIPTION
-        Unset SNMP configuration Object 
-   .PARAMETER trapname 
-       Name of the SNMP alarm. This parameter is required for identifying the SNMP alarm and cannot be modified.  
-       Possible values = CPU-USAGE, AVERAGE-CPU, MEMORY, MGMT-CPU-USAGE, SYNFLOOD, TCP-SYNFLOOD, VSERVER-REQRATE, SERVICE-REQRATE, ENTITY-RXRATE, ENTITY-TXRATE, ENTITY-SYNFLOOD, SERVICE-MAXCLIENTS, HA-STATE-CHANGE, ENTITY-STATE, CONFIG-CHANGE, CONFIG-SAVE, SERVICEGROUP-MEMBER-REQRATE, SERVICEGROUP-MEMBER-MAXCLIENTS, MONITOR-RTO-THRESHOLD, LOGIN-FAILURE, SSL-CERT-EXPIRY, FAN-SPEED-LOW, VOLTAGE-LOW, VOLTAGE-HIGH, TEMPERATURE-HIGH, CPU-TEMPERATURE-HIGH, POWER-SUPPLY-FAILURE, DISK-USAGE-HIGH, INTERFACE-THROUGHPUT-LOW, MON_PROBE_FAILED, HA-VERSION-MISMATCH, HA-SYNC-FAILURE, HA-NO-HEARTBEATS, HA-BAD-SECONDARY-STATE, INTERFACE-BW-USAGE, RATE-LIMIT-THRESHOLD-EXCEEDED, ENTITY-NAME-CHANGE, HA-PROP-FAILURE, IP-CONFLICT, PF-RL-RATE-THRESHOLD, PF-RL-PPS-THRESHOLD, PF-RL-RATE-PKTS-DROPPED, PF-RL-PPS-PKTS-DROPPED, APPFW-START-URL, APPFW-DENY-URL, APPFW-VIOLATIONS-TYPE, APPFW-REFERER-HEADER, APPFW-CSRF-TAG, APPFW-COOKIE, APPFW-FIELD-CONSISTENCY, APPFW-BUFFER-OVERFLOW, APPFW-FIELD-FORMAT, APPFW-FILE-UPLOAD-TYPE, APPFW-JSON-DOS, APPFW-JSON-SQL, APPFW-JSON-XSS, APPFW-SAFE-COMMERCE, APPFW-SAFE-OBJECT, APPFW-SESSION-LIMIT, APPFW-SIGNATURE-MATCH, APPFW-POLICY-HIT, APPFW-XSS, APPFW-XML-XSS, APPFW-SQL, APPFW-XML-SQL, APPFW-XML-ATTACHMENT, APPFW-XML-DOS, APPFW-XML-VALIDATION, APPFW-XML-WSI, APPFW-XML-SCHEMA-COMPILE, APPFW-XML-SOAP-FAULT, APPFW-NEW-SIGNATURE-ADDED, APPFW-DEPLOY-RELAXATION-DP, APPFW-LEARNED-RULE-APPLIED-DYN-PROF, APPFW-CMD, APPFW-POSTBODYLIMIT, DNSKEY-EXPIRY, HA-LICENSE-MISMATCH, SSL-CARD-FAILED, SSL-CARD-NORMAL, WARM-RESTART-EVENT, HARD-DISK-DRIVE-ERRORS, COMPACT-FLASH-ERRORS, CALLHOME-UPLOAD-EVENT, 1024KEY-EXCHANGE-RATE, 2048KEY-EXCHANGE-RATE, 4096KEY-EXCHANGE-RATE, SSL-CUR-SESSION-INUSE, CLUSTER-NODE-HEALTH, CLUSTER-NODE-QUORUM, CLUSTER-VERSION-MISMATCH, CLUSTER-CCO-CHANGE, CLUSTER-OVS-CHANGE, CLUSTER-SYNC-FAILURE, CLUSTER-SYNC-PARTIAL-SUCCESS, CLUSTER-PROP-FAILURE, HA-STICKY-PRIMARY, INBAND-PROTOCOL-VERSION-MISMATCH, SSL-CHIP-REINIT, VRID-STATE-CHANGE, PORT-ALLOC-FAILED, LLDP-REMOTE-CHANGE, DUPLICATE-IPV6, PARTITION-CONFIG-EVENT, PARTITION-SWITCHED, LSN-PORTALLOC-FAILED, LSN-PORTQUOTA-EXCEED, LSN-SESSIONQUOTA-EXCEED, LSN-MEM-RECOVERY-KICKEDIN, VSERVER-SPILLOVER, PARTITION-RATE-LIMIT, POOLED-LICENSE-ONGRACE, POOLED-LICENSE-PARTIAL, CLUSTER-BACKPLANE-HB-MISSING, GSLB-SITE-MEP-FLAP, DNS-MAXNEGCACHE-USAGE, DNS-MAXCACHE-USAGE, NS-LICENSE-EXPIRY, PKT-RATELIMITING-ATTACK, GSLB-SYNC-STATUS-FLIP, URLFILT-DB-UPDATE-STATUS, URLFILT-INIT-SDK, POOLED-LICENSE-CHECKOUT-FAILURE, MIGRATION-STARTED, MIGRATION-COMPLETE, ECDHE-EXCHANGE-RATE, BOT-SIGNATURE-UPDATE, APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH 
-   .PARAMETER thresholdvalue 
-       Value for the high threshold. The Citrix ADC generates an SNMP trap message when the value of the attribute associated with the alarm is greater than or equal to the specified high threshold value. 
-   .PARAMETER normalvalue 
-       Value for the normal threshold. A trap message is generated if the value of the respective attribute falls to or below this value after exceeding the high threshold. 
-   .PARAMETER time 
-       Interval, in seconds, at which the Citrix ADC generates SNMP trap messages when the conditions specified in the SNMP alarm are met.Can be specified for the following alarms: SYNFLOOD, HA-VERSION-MISMATCH, HA-SYNC-FAILURE, HA-NO-HEARTBEATS,HA-BAD-SECONDARY-STATE, CLUSTER-NODE-HEALTH, CLUSTER-NODE-QUORUM, CLUSTER-VERSION-MISMATCH, CLUSTER-BKHB-FAILED, PORT-ALLOC-FAILED, COMPACT-FLASH-ERRORS, HARD-DISK-DRIVE-ERRORS and APPFW traps. Default trap time intervals: SYNFLOOD and APPFW traps = 1sec, PORT-ALLOC-FAILED = 3600sec(1 hour), Other Traps = 86400sec(1 day). 
-   .PARAMETER state 
-       Current state of the SNMP alarm. The Citrix ADC generates trap messages only for SNMP alarms that are enabled. Some alarms are enabled by default, but you can disable them.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER severity 
-       Severity level assigned to trap messages generated by this alarm. The severity levels are, in increasing order of severity, Informational, Warning, Minor, Major, and Critical.  
-       This parameter is useful when you want the Citrix ADC to send trap messages to a trap listener on the basis of severity level. Trap messages with a severity level lower than the specified level (in the trap listener entry) are not sent.  
-       Possible values = Critical, Major, Minor, Warning, Informational 
-   .PARAMETER logging 
-       Logging status of the alarm. When logging is enabled, the Citrix ADC logs every trap message that is generated for this alarm.  
-       Possible values = ENABLED, DISABLED
+        Configuration for alarm resource.
+    .PARAMETER Trapname 
+        Name of the SNMP alarm. This parameter is required for identifying the SNMP alarm and cannot be modified. 
+        Possible values = CPU-USAGE, AVERAGE-CPU, MEMORY, MGMT-CPU-USAGE, SYNFLOOD, TCP-SYNFLOOD, VSERVER-REQRATE, SERVICE-REQRATE, ENTITY-RXRATE, ENTITY-TXRATE, ENTITY-SYNFLOOD, SERVICE-MAXCLIENTS, HA-STATE-CHANGE, ENTITY-STATE, CONFIG-CHANGE, CONFIG-SAVE, SERVICEGROUP-MEMBER-REQRATE, SERVICEGROUP-MEMBER-MAXCLIENTS, MONITOR-RTO-THRESHOLD, LOGIN-FAILURE, SSL-CERT-EXPIRY, FAN-SPEED-LOW, VOLTAGE-LOW, VOLTAGE-HIGH, TEMPERATURE-HIGH, CPU-TEMPERATURE-HIGH, POWER-SUPPLY-FAILURE, DISK-USAGE-HIGH, INTERFACE-THROUGHPUT-LOW, MON_PROBE_FAILED, HA-VERSION-MISMATCH, HA-SYNC-FAILURE, HA-NO-HEARTBEATS, HA-BAD-SECONDARY-STATE, INTERFACE-BW-USAGE, RATE-LIMIT-THRESHOLD-EXCEEDED, ENTITY-NAME-CHANGE, HA-PROP-FAILURE, IP-CONFLICT, PF-RL-RATE-THRESHOLD, PF-RL-PPS-THRESHOLD, PF-RL-RATE-PKTS-DROPPED, PF-RL-PPS-PKTS-DROPPED, APPFW-START-URL, APPFW-DENY-URL, APPFW-VIOLATIONS-TYPE, APPFW-REFERER-HEADER, APPFW-CSRF-TAG, APPFW-COOKIE, APPFW-FIELD-CONSISTENCY, APPFW-BUFFER-OVERFLOW, APPFW-FIELD-FORMAT, APPFW-FILE-UPLOAD-TYPE, APPFW-JSON-DOS, APPFW-JSON-SQL, APPFW-JSON-XSS, APPFW-SAFE-COMMERCE, APPFW-SAFE-OBJECT, APPFW-SESSION-LIMIT, APPFW-SIGNATURE-MATCH, APPFW-POLICY-HIT, APPFW-XSS, APPFW-XML-XSS, APPFW-SQL, APPFW-XML-SQL, APPFW-XML-ATTACHMENT, APPFW-XML-DOS, APPFW-XML-VALIDATION, APPFW-XML-WSI, APPFW-XML-SCHEMA-COMPILE, APPFW-XML-SOAP-FAULT, APPFW-NEW-SIGNATURE-ADDED, APPFW-DEPLOY-RELAXATION-DP, APPFW-LEARNED-RULE-APPLIED-DYN-PROF, APPFW-CMD, APPFW-POSTBODYLIMIT, APPFW-JSON-CMD, APPFW-SQL-GRAM, APPFW-JSON-SQL-GRAM, DNSKEY-EXPIRY, HA-LICENSE-MISMATCH, SSL-CARD-FAILED, SSL-CARD-NORMAL, WARM-RESTART-EVENT, HARD-DISK-DRIVE-ERRORS, COMPACT-FLASH-ERRORS, CALLHOME-UPLOAD-EVENT, 1024KEY-EXCHANGE-RATE, 2048KEY-EXCHANGE-RATE, 4096KEY-EXCHANGE-RATE, SSL-CUR-SESSION-INUSE, CLUSTER-NODE-HEALTH, CLUSTER-NODE-QUORUM, CLUSTER-VERSION-MISMATCH, CLUSTER-CCO-CHANGE, CLUSTER-OVS-CHANGE, CLUSTER-SYNC-FAILURE, CLUSTER-SYNC-PARTIAL-SUCCESS, CLUSTER-PROP-FAILURE, HA-STICKY-PRIMARY, INBAND-PROTOCOL-VERSION-MISMATCH, SSL-CHIP-REINIT, VRID-STATE-CHANGE, PORT-ALLOC-FAILED, LLDP-REMOTE-CHANGE, DUPLICATE-IPV6, PARTITION-CONFIG-EVENT, PARTITION-SWITCHED, LSN-PORTALLOC-FAILED, LSN-PORTQUOTA-EXCEED, LSN-SESSIONQUOTA-EXCEED, LSN-MEM-RECOVERY-KICKEDIN, VSERVER-SPILLOVER, PARTITION-RATE-LIMIT, POOLED-LICENSE-ONGRACE, POOLED-LICENSE-PARTIAL, CLUSTER-BACKPLANE-HB-MISSING, GSLB-SITE-MEP-FLAP, DNS-MAXNEGCACHE-USAGE, DNS-MAXCACHE-USAGE, NS-LICENSE-EXPIRY, PKT-RATELIMITING-ATTACK, GSLB-SYNC-STATUS-FLIP, URLFILT-DB-UPDATE-STATUS, URLFILT-INIT-SDK, POOLED-LICENSE-CHECKOUT-FAILURE, MIGRATION-STARTED, MIGRATION-COMPLETE, ECDHE-EXCHANGE-RATE, BOT-SIGNATURE-UPDATE, APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH 
+    .PARAMETER Thresholdvalue 
+        Value for the high threshold. The Citrix ADC generates an SNMP trap message when the value of the attribute associated with the alarm is greater than or equal to the specified high threshold value. 
+    .PARAMETER Normalvalue 
+        Value for the normal threshold. A trap message is generated if the value of the respective attribute falls to or below this value after exceeding the high threshold. 
+    .PARAMETER Time 
+        Interval, in seconds, at which the Citrix ADC generates SNMP trap messages when the conditions specified in the SNMP alarm are met.Can be specified for the following alarms: SYNFLOOD, HA-VERSION-MISMATCH, HA-SYNC-FAILURE, HA-NO-HEARTBEATS,HA-BAD-SECONDARY-STATE, CLUSTER-NODE-HEALTH, CLUSTER-NODE-QUORUM, CLUSTER-VERSION-MISMATCH, CLUSTER-BKHB-FAILED, PORT-ALLOC-FAILED, COMPACT-FLASH-ERRORS, HARD-DISK-DRIVE-ERRORS and APPFW traps. Default trap time intervals: SYNFLOOD and APPFW traps = 1sec, PORT-ALLOC-FAILED = 3600sec(1 hour), Other Traps = 86400sec(1 day). 
+    .PARAMETER State 
+        Current state of the SNMP alarm. The Citrix ADC generates trap messages only for SNMP alarms that are enabled. Some alarms are enabled by default, but you can disable them. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Severity 
+        Severity level assigned to trap messages generated by this alarm. The severity levels are, in increasing order of severity, Informational, Warning, Minor, Major, and Critical. 
+        This parameter is useful when you want the Citrix ADC to send trap messages to a trap listener on the basis of severity level. Trap messages with a severity level lower than the specified level (in the trap listener entry) are not sent. 
+        Possible values = Critical, Major, Minor, Warning, Informational 
+    .PARAMETER Logging 
+        Logging status of the alarm. When logging is enabled, the Citrix ADC logs every trap message that is generated for this alarm. 
+        Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCUnsetSnmpalarm -trapname <string>
+        PS C:\>Invoke-ADCUnsetSnmpalarm -trapname <string>
+        An example how to unset snmpalarm configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSnmpalarm
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpalarm
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [ValidateSet('CPU-USAGE', 'AVERAGE-CPU', 'MEMORY', 'MGMT-CPU-USAGE', 'SYNFLOOD', 'TCP-SYNFLOOD', 'VSERVER-REQRATE', 'SERVICE-REQRATE', 'ENTITY-RXRATE', 'ENTITY-TXRATE', 'ENTITY-SYNFLOOD', 'SERVICE-MAXCLIENTS', 'HA-STATE-CHANGE', 'ENTITY-STATE', 'CONFIG-CHANGE', 'CONFIG-SAVE', 'SERVICEGROUP-MEMBER-REQRATE', 'SERVICEGROUP-MEMBER-MAXCLIENTS', 'MONITOR-RTO-THRESHOLD', 'LOGIN-FAILURE', 'SSL-CERT-EXPIRY', 'FAN-SPEED-LOW', 'VOLTAGE-LOW', 'VOLTAGE-HIGH', 'TEMPERATURE-HIGH', 'CPU-TEMPERATURE-HIGH', 'POWER-SUPPLY-FAILURE', 'DISK-USAGE-HIGH', 'INTERFACE-THROUGHPUT-LOW', 'MON_PROBE_FAILED', 'HA-VERSION-MISMATCH', 'HA-SYNC-FAILURE', 'HA-NO-HEARTBEATS', 'HA-BAD-SECONDARY-STATE', 'INTERFACE-BW-USAGE', 'RATE-LIMIT-THRESHOLD-EXCEEDED', 'ENTITY-NAME-CHANGE', 'HA-PROP-FAILURE', 'IP-CONFLICT', 'PF-RL-RATE-THRESHOLD', 'PF-RL-PPS-THRESHOLD', 'PF-RL-RATE-PKTS-DROPPED', 'PF-RL-PPS-PKTS-DROPPED', 'APPFW-START-URL', 'APPFW-DENY-URL', 'APPFW-VIOLATIONS-TYPE', 'APPFW-REFERER-HEADER', 'APPFW-CSRF-TAG', 'APPFW-COOKIE', 'APPFW-FIELD-CONSISTENCY', 'APPFW-BUFFER-OVERFLOW', 'APPFW-FIELD-FORMAT', 'APPFW-FILE-UPLOAD-TYPE', 'APPFW-JSON-DOS', 'APPFW-JSON-SQL', 'APPFW-JSON-XSS', 'APPFW-SAFE-COMMERCE', 'APPFW-SAFE-OBJECT', 'APPFW-SESSION-LIMIT', 'APPFW-SIGNATURE-MATCH', 'APPFW-POLICY-HIT', 'APPFW-XSS', 'APPFW-XML-XSS', 'APPFW-SQL', 'APPFW-XML-SQL', 'APPFW-XML-ATTACHMENT', 'APPFW-XML-DOS', 'APPFW-XML-VALIDATION', 'APPFW-XML-WSI', 'APPFW-XML-SCHEMA-COMPILE', 'APPFW-XML-SOAP-FAULT', 'APPFW-NEW-SIGNATURE-ADDED', 'APPFW-DEPLOY-RELAXATION-DP', 'APPFW-LEARNED-RULE-APPLIED-DYN-PROF', 'APPFW-CMD', 'APPFW-POSTBODYLIMIT', 'DNSKEY-EXPIRY', 'HA-LICENSE-MISMATCH', 'SSL-CARD-FAILED', 'SSL-CARD-NORMAL', 'WARM-RESTART-EVENT', 'HARD-DISK-DRIVE-ERRORS', 'COMPACT-FLASH-ERRORS', 'CALLHOME-UPLOAD-EVENT', '1024KEY-EXCHANGE-RATE', '2048KEY-EXCHANGE-RATE', '4096KEY-EXCHANGE-RATE', 'SSL-CUR-SESSION-INUSE', 'CLUSTER-NODE-HEALTH', 'CLUSTER-NODE-QUORUM', 'CLUSTER-VERSION-MISMATCH', 'CLUSTER-CCO-CHANGE', 'CLUSTER-OVS-CHANGE', 'CLUSTER-SYNC-FAILURE', 'CLUSTER-SYNC-PARTIAL-SUCCESS', 'CLUSTER-PROP-FAILURE', 'HA-STICKY-PRIMARY', 'INBAND-PROTOCOL-VERSION-MISMATCH', 'SSL-CHIP-REINIT', 'VRID-STATE-CHANGE', 'PORT-ALLOC-FAILED', 'LLDP-REMOTE-CHANGE', 'DUPLICATE-IPV6', 'PARTITION-CONFIG-EVENT', 'PARTITION-SWITCHED', 'LSN-PORTALLOC-FAILED', 'LSN-PORTQUOTA-EXCEED', 'LSN-SESSIONQUOTA-EXCEED', 'LSN-MEM-RECOVERY-KICKEDIN', 'VSERVER-SPILLOVER', 'PARTITION-RATE-LIMIT', 'POOLED-LICENSE-ONGRACE', 'POOLED-LICENSE-PARTIAL', 'CLUSTER-BACKPLANE-HB-MISSING', 'GSLB-SITE-MEP-FLAP', 'DNS-MAXNEGCACHE-USAGE', 'DNS-MAXCACHE-USAGE', 'NS-LICENSE-EXPIRY', 'PKT-RATELIMITING-ATTACK', 'GSLB-SYNC-STATUS-FLIP', 'URLFILT-DB-UPDATE-STATUS', 'URLFILT-INIT-SDK', 'POOLED-LICENSE-CHECKOUT-FAILURE', 'MIGRATION-STARTED', 'MIGRATION-COMPLETE', 'ECDHE-EXCHANGE-RATE', 'BOT-SIGNATURE-UPDATE', 'APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH')]
-        [string]$trapname ,
+        [ValidateSet('CPU-USAGE', 'AVERAGE-CPU', 'MEMORY', 'MGMT-CPU-USAGE', 'SYNFLOOD', 'TCP-SYNFLOOD', 'VSERVER-REQRATE', 'SERVICE-REQRATE', 'ENTITY-RXRATE', 'ENTITY-TXRATE', 'ENTITY-SYNFLOOD', 'SERVICE-MAXCLIENTS', 'HA-STATE-CHANGE', 'ENTITY-STATE', 'CONFIG-CHANGE', 'CONFIG-SAVE', 'SERVICEGROUP-MEMBER-REQRATE', 'SERVICEGROUP-MEMBER-MAXCLIENTS', 'MONITOR-RTO-THRESHOLD', 'LOGIN-FAILURE', 'SSL-CERT-EXPIRY', 'FAN-SPEED-LOW', 'VOLTAGE-LOW', 'VOLTAGE-HIGH', 'TEMPERATURE-HIGH', 'CPU-TEMPERATURE-HIGH', 'POWER-SUPPLY-FAILURE', 'DISK-USAGE-HIGH', 'INTERFACE-THROUGHPUT-LOW', 'MON_PROBE_FAILED', 'HA-VERSION-MISMATCH', 'HA-SYNC-FAILURE', 'HA-NO-HEARTBEATS', 'HA-BAD-SECONDARY-STATE', 'INTERFACE-BW-USAGE', 'RATE-LIMIT-THRESHOLD-EXCEEDED', 'ENTITY-NAME-CHANGE', 'HA-PROP-FAILURE', 'IP-CONFLICT', 'PF-RL-RATE-THRESHOLD', 'PF-RL-PPS-THRESHOLD', 'PF-RL-RATE-PKTS-DROPPED', 'PF-RL-PPS-PKTS-DROPPED', 'APPFW-START-URL', 'APPFW-DENY-URL', 'APPFW-VIOLATIONS-TYPE', 'APPFW-REFERER-HEADER', 'APPFW-CSRF-TAG', 'APPFW-COOKIE', 'APPFW-FIELD-CONSISTENCY', 'APPFW-BUFFER-OVERFLOW', 'APPFW-FIELD-FORMAT', 'APPFW-FILE-UPLOAD-TYPE', 'APPFW-JSON-DOS', 'APPFW-JSON-SQL', 'APPFW-JSON-XSS', 'APPFW-SAFE-COMMERCE', 'APPFW-SAFE-OBJECT', 'APPFW-SESSION-LIMIT', 'APPFW-SIGNATURE-MATCH', 'APPFW-POLICY-HIT', 'APPFW-XSS', 'APPFW-XML-XSS', 'APPFW-SQL', 'APPFW-XML-SQL', 'APPFW-XML-ATTACHMENT', 'APPFW-XML-DOS', 'APPFW-XML-VALIDATION', 'APPFW-XML-WSI', 'APPFW-XML-SCHEMA-COMPILE', 'APPFW-XML-SOAP-FAULT', 'APPFW-NEW-SIGNATURE-ADDED', 'APPFW-DEPLOY-RELAXATION-DP', 'APPFW-LEARNED-RULE-APPLIED-DYN-PROF', 'APPFW-CMD', 'APPFW-POSTBODYLIMIT', 'APPFW-JSON-CMD', 'APPFW-SQL-GRAM', 'APPFW-JSON-SQL-GRAM', 'DNSKEY-EXPIRY', 'HA-LICENSE-MISMATCH', 'SSL-CARD-FAILED', 'SSL-CARD-NORMAL', 'WARM-RESTART-EVENT', 'HARD-DISK-DRIVE-ERRORS', 'COMPACT-FLASH-ERRORS', 'CALLHOME-UPLOAD-EVENT', '1024KEY-EXCHANGE-RATE', '2048KEY-EXCHANGE-RATE', '4096KEY-EXCHANGE-RATE', 'SSL-CUR-SESSION-INUSE', 'CLUSTER-NODE-HEALTH', 'CLUSTER-NODE-QUORUM', 'CLUSTER-VERSION-MISMATCH', 'CLUSTER-CCO-CHANGE', 'CLUSTER-OVS-CHANGE', 'CLUSTER-SYNC-FAILURE', 'CLUSTER-SYNC-PARTIAL-SUCCESS', 'CLUSTER-PROP-FAILURE', 'HA-STICKY-PRIMARY', 'INBAND-PROTOCOL-VERSION-MISMATCH', 'SSL-CHIP-REINIT', 'VRID-STATE-CHANGE', 'PORT-ALLOC-FAILED', 'LLDP-REMOTE-CHANGE', 'DUPLICATE-IPV6', 'PARTITION-CONFIG-EVENT', 'PARTITION-SWITCHED', 'LSN-PORTALLOC-FAILED', 'LSN-PORTQUOTA-EXCEED', 'LSN-SESSIONQUOTA-EXCEED', 'LSN-MEM-RECOVERY-KICKEDIN', 'VSERVER-SPILLOVER', 'PARTITION-RATE-LIMIT', 'POOLED-LICENSE-ONGRACE', 'POOLED-LICENSE-PARTIAL', 'CLUSTER-BACKPLANE-HB-MISSING', 'GSLB-SITE-MEP-FLAP', 'DNS-MAXNEGCACHE-USAGE', 'DNS-MAXCACHE-USAGE', 'NS-LICENSE-EXPIRY', 'PKT-RATELIMITING-ATTACK', 'GSLB-SYNC-STATUS-FLIP', 'URLFILT-DB-UPDATE-STATUS', 'URLFILT-INIT-SDK', 'POOLED-LICENSE-CHECKOUT-FAILURE', 'MIGRATION-STARTED', 'MIGRATION-COMPLETE', 'ECDHE-EXCHANGE-RATE', 'BOT-SIGNATURE-UPDATE', 'APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH')]
+        [string]$Trapname,
 
-        [Boolean]$thresholdvalue ,
+        [Boolean]$thresholdvalue,
 
-        [Boolean]$normalvalue ,
+        [Boolean]$normalvalue,
 
-        [Boolean]$time ,
+        [Boolean]$time,
 
-        [Boolean]$state ,
+        [Boolean]$state,
 
-        [Boolean]$severity ,
+        [Boolean]$severity,
 
         [Boolean]$logging 
     )
@@ -175,17 +167,15 @@ function Invoke-ADCUnsetSnmpalarm {
     }
     process {
         try {
-            $Payload = @{
-                trapname = $trapname
-            }
-            if ($PSBoundParameters.ContainsKey('thresholdvalue')) { $Payload.Add('thresholdvalue', $thresholdvalue) }
-            if ($PSBoundParameters.ContainsKey('normalvalue')) { $Payload.Add('normalvalue', $normalvalue) }
-            if ($PSBoundParameters.ContainsKey('time')) { $Payload.Add('time', $time) }
-            if ($PSBoundParameters.ContainsKey('state')) { $Payload.Add('state', $state) }
-            if ($PSBoundParameters.ContainsKey('severity')) { $Payload.Add('severity', $severity) }
-            if ($PSBoundParameters.ContainsKey('logging')) { $Payload.Add('logging', $logging) }
-            if ($PSCmdlet.ShouldProcess("$trapname", "Unset SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpalarm -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ trapname = $trapname }
+            if ( $PSBoundParameters.ContainsKey('thresholdvalue') ) { $payload.Add('thresholdvalue', $thresholdvalue) }
+            if ( $PSBoundParameters.ContainsKey('normalvalue') ) { $payload.Add('normalvalue', $normalvalue) }
+            if ( $PSBoundParameters.ContainsKey('time') ) { $payload.Add('time', $time) }
+            if ( $PSBoundParameters.ContainsKey('state') ) { $payload.Add('state', $state) }
+            if ( $PSBoundParameters.ContainsKey('severity') ) { $payload.Add('severity', $severity) }
+            if ( $PSBoundParameters.ContainsKey('logging') ) { $payload.Add('logging', $logging) }
+            if ( $PSCmdlet.ShouldProcess("$trapname", "Unset SNMP configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpalarm -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -201,37 +191,39 @@ function Invoke-ADCUnsetSnmpalarm {
 }
 
 function Invoke-ADCEnableSnmpalarm {
-<#
+    <#
     .SYNOPSIS
-        Enable SNMP configuration Object
+        Enable SNMP configuration Object.
     .DESCRIPTION
-        Enable SNMP configuration Object 
-    .PARAMETER trapname 
-        Name of the SNMP alarm. This parameter is required for identifying the SNMP alarm and cannot be modified.  
-        Possible values = CPU-USAGE, AVERAGE-CPU, MEMORY, MGMT-CPU-USAGE, SYNFLOOD, TCP-SYNFLOOD, VSERVER-REQRATE, SERVICE-REQRATE, ENTITY-RXRATE, ENTITY-TXRATE, ENTITY-SYNFLOOD, SERVICE-MAXCLIENTS, HA-STATE-CHANGE, ENTITY-STATE, CONFIG-CHANGE, CONFIG-SAVE, SERVICEGROUP-MEMBER-REQRATE, SERVICEGROUP-MEMBER-MAXCLIENTS, MONITOR-RTO-THRESHOLD, LOGIN-FAILURE, SSL-CERT-EXPIRY, FAN-SPEED-LOW, VOLTAGE-LOW, VOLTAGE-HIGH, TEMPERATURE-HIGH, CPU-TEMPERATURE-HIGH, POWER-SUPPLY-FAILURE, DISK-USAGE-HIGH, INTERFACE-THROUGHPUT-LOW, MON_PROBE_FAILED, HA-VERSION-MISMATCH, HA-SYNC-FAILURE, HA-NO-HEARTBEATS, HA-BAD-SECONDARY-STATE, INTERFACE-BW-USAGE, RATE-LIMIT-THRESHOLD-EXCEEDED, ENTITY-NAME-CHANGE, HA-PROP-FAILURE, IP-CONFLICT, PF-RL-RATE-THRESHOLD, PF-RL-PPS-THRESHOLD, PF-RL-RATE-PKTS-DROPPED, PF-RL-PPS-PKTS-DROPPED, APPFW-START-URL, APPFW-DENY-URL, APPFW-VIOLATIONS-TYPE, APPFW-REFERER-HEADER, APPFW-CSRF-TAG, APPFW-COOKIE, APPFW-FIELD-CONSISTENCY, APPFW-BUFFER-OVERFLOW, APPFW-FIELD-FORMAT, APPFW-FILE-UPLOAD-TYPE, APPFW-JSON-DOS, APPFW-JSON-SQL, APPFW-JSON-XSS, APPFW-SAFE-COMMERCE, APPFW-SAFE-OBJECT, APPFW-SESSION-LIMIT, APPFW-SIGNATURE-MATCH, APPFW-POLICY-HIT, APPFW-XSS, APPFW-XML-XSS, APPFW-SQL, APPFW-XML-SQL, APPFW-XML-ATTACHMENT, APPFW-XML-DOS, APPFW-XML-VALIDATION, APPFW-XML-WSI, APPFW-XML-SCHEMA-COMPILE, APPFW-XML-SOAP-FAULT, APPFW-NEW-SIGNATURE-ADDED, APPFW-DEPLOY-RELAXATION-DP, APPFW-LEARNED-RULE-APPLIED-DYN-PROF, APPFW-CMD, APPFW-POSTBODYLIMIT, DNSKEY-EXPIRY, HA-LICENSE-MISMATCH, SSL-CARD-FAILED, SSL-CARD-NORMAL, WARM-RESTART-EVENT, HARD-DISK-DRIVE-ERRORS, COMPACT-FLASH-ERRORS, CALLHOME-UPLOAD-EVENT, 1024KEY-EXCHANGE-RATE, 2048KEY-EXCHANGE-RATE, 4096KEY-EXCHANGE-RATE, SSL-CUR-SESSION-INUSE, CLUSTER-NODE-HEALTH, CLUSTER-NODE-QUORUM, CLUSTER-VERSION-MISMATCH, CLUSTER-CCO-CHANGE, CLUSTER-OVS-CHANGE, CLUSTER-SYNC-FAILURE, CLUSTER-SYNC-PARTIAL-SUCCESS, CLUSTER-PROP-FAILURE, HA-STICKY-PRIMARY, INBAND-PROTOCOL-VERSION-MISMATCH, SSL-CHIP-REINIT, VRID-STATE-CHANGE, PORT-ALLOC-FAILED, LLDP-REMOTE-CHANGE, DUPLICATE-IPV6, PARTITION-CONFIG-EVENT, PARTITION-SWITCHED, LSN-PORTALLOC-FAILED, LSN-PORTQUOTA-EXCEED, LSN-SESSIONQUOTA-EXCEED, LSN-MEM-RECOVERY-KICKEDIN, VSERVER-SPILLOVER, PARTITION-RATE-LIMIT, POOLED-LICENSE-ONGRACE, POOLED-LICENSE-PARTIAL, CLUSTER-BACKPLANE-HB-MISSING, GSLB-SITE-MEP-FLAP, DNS-MAXNEGCACHE-USAGE, DNS-MAXCACHE-USAGE, NS-LICENSE-EXPIRY, PKT-RATELIMITING-ATTACK, GSLB-SYNC-STATUS-FLIP, URLFILT-DB-UPDATE-STATUS, URLFILT-INIT-SDK, POOLED-LICENSE-CHECKOUT-FAILURE, MIGRATION-STARTED, MIGRATION-COMPLETE, ECDHE-EXCHANGE-RATE, BOT-SIGNATURE-UPDATE, APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH
+        Configuration for alarm resource.
+    .PARAMETER Trapname 
+        Name of the SNMP alarm. This parameter is required for identifying the SNMP alarm and cannot be modified. 
+        Possible values = CPU-USAGE, AVERAGE-CPU, MEMORY, MGMT-CPU-USAGE, SYNFLOOD, TCP-SYNFLOOD, VSERVER-REQRATE, SERVICE-REQRATE, ENTITY-RXRATE, ENTITY-TXRATE, ENTITY-SYNFLOOD, SERVICE-MAXCLIENTS, HA-STATE-CHANGE, ENTITY-STATE, CONFIG-CHANGE, CONFIG-SAVE, SERVICEGROUP-MEMBER-REQRATE, SERVICEGROUP-MEMBER-MAXCLIENTS, MONITOR-RTO-THRESHOLD, LOGIN-FAILURE, SSL-CERT-EXPIRY, FAN-SPEED-LOW, VOLTAGE-LOW, VOLTAGE-HIGH, TEMPERATURE-HIGH, CPU-TEMPERATURE-HIGH, POWER-SUPPLY-FAILURE, DISK-USAGE-HIGH, INTERFACE-THROUGHPUT-LOW, MON_PROBE_FAILED, HA-VERSION-MISMATCH, HA-SYNC-FAILURE, HA-NO-HEARTBEATS, HA-BAD-SECONDARY-STATE, INTERFACE-BW-USAGE, RATE-LIMIT-THRESHOLD-EXCEEDED, ENTITY-NAME-CHANGE, HA-PROP-FAILURE, IP-CONFLICT, PF-RL-RATE-THRESHOLD, PF-RL-PPS-THRESHOLD, PF-RL-RATE-PKTS-DROPPED, PF-RL-PPS-PKTS-DROPPED, APPFW-START-URL, APPFW-DENY-URL, APPFW-VIOLATIONS-TYPE, APPFW-REFERER-HEADER, APPFW-CSRF-TAG, APPFW-COOKIE, APPFW-FIELD-CONSISTENCY, APPFW-BUFFER-OVERFLOW, APPFW-FIELD-FORMAT, APPFW-FILE-UPLOAD-TYPE, APPFW-JSON-DOS, APPFW-JSON-SQL, APPFW-JSON-XSS, APPFW-SAFE-COMMERCE, APPFW-SAFE-OBJECT, APPFW-SESSION-LIMIT, APPFW-SIGNATURE-MATCH, APPFW-POLICY-HIT, APPFW-XSS, APPFW-XML-XSS, APPFW-SQL, APPFW-XML-SQL, APPFW-XML-ATTACHMENT, APPFW-XML-DOS, APPFW-XML-VALIDATION, APPFW-XML-WSI, APPFW-XML-SCHEMA-COMPILE, APPFW-XML-SOAP-FAULT, APPFW-NEW-SIGNATURE-ADDED, APPFW-DEPLOY-RELAXATION-DP, APPFW-LEARNED-RULE-APPLIED-DYN-PROF, APPFW-CMD, APPFW-POSTBODYLIMIT, APPFW-JSON-CMD, APPFW-SQL-GRAM, APPFW-JSON-SQL-GRAM, DNSKEY-EXPIRY, HA-LICENSE-MISMATCH, SSL-CARD-FAILED, SSL-CARD-NORMAL, WARM-RESTART-EVENT, HARD-DISK-DRIVE-ERRORS, COMPACT-FLASH-ERRORS, CALLHOME-UPLOAD-EVENT, 1024KEY-EXCHANGE-RATE, 2048KEY-EXCHANGE-RATE, 4096KEY-EXCHANGE-RATE, SSL-CUR-SESSION-INUSE, CLUSTER-NODE-HEALTH, CLUSTER-NODE-QUORUM, CLUSTER-VERSION-MISMATCH, CLUSTER-CCO-CHANGE, CLUSTER-OVS-CHANGE, CLUSTER-SYNC-FAILURE, CLUSTER-SYNC-PARTIAL-SUCCESS, CLUSTER-PROP-FAILURE, HA-STICKY-PRIMARY, INBAND-PROTOCOL-VERSION-MISMATCH, SSL-CHIP-REINIT, VRID-STATE-CHANGE, PORT-ALLOC-FAILED, LLDP-REMOTE-CHANGE, DUPLICATE-IPV6, PARTITION-CONFIG-EVENT, PARTITION-SWITCHED, LSN-PORTALLOC-FAILED, LSN-PORTQUOTA-EXCEED, LSN-SESSIONQUOTA-EXCEED, LSN-MEM-RECOVERY-KICKEDIN, VSERVER-SPILLOVER, PARTITION-RATE-LIMIT, POOLED-LICENSE-ONGRACE, POOLED-LICENSE-PARTIAL, CLUSTER-BACKPLANE-HB-MISSING, GSLB-SITE-MEP-FLAP, DNS-MAXNEGCACHE-USAGE, DNS-MAXCACHE-USAGE, NS-LICENSE-EXPIRY, PKT-RATELIMITING-ATTACK, GSLB-SYNC-STATUS-FLIP, URLFILT-DB-UPDATE-STATUS, URLFILT-INIT-SDK, POOLED-LICENSE-CHECKOUT-FAILURE, MIGRATION-STARTED, MIGRATION-COMPLETE, ECDHE-EXCHANGE-RATE, BOT-SIGNATURE-UPDATE, APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH
     .EXAMPLE
-        Invoke-ADCEnableSnmpalarm -trapname <string>
+        PS C:\>Invoke-ADCEnableSnmpalarm -trapname <string>
+        An example how to enable snmpalarm configuration Object(s).
     .NOTES
         File Name : Invoke-ADCEnableSnmpalarm
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpalarm/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [ValidateSet('CPU-USAGE', 'AVERAGE-CPU', 'MEMORY', 'MGMT-CPU-USAGE', 'SYNFLOOD', 'TCP-SYNFLOOD', 'VSERVER-REQRATE', 'SERVICE-REQRATE', 'ENTITY-RXRATE', 'ENTITY-TXRATE', 'ENTITY-SYNFLOOD', 'SERVICE-MAXCLIENTS', 'HA-STATE-CHANGE', 'ENTITY-STATE', 'CONFIG-CHANGE', 'CONFIG-SAVE', 'SERVICEGROUP-MEMBER-REQRATE', 'SERVICEGROUP-MEMBER-MAXCLIENTS', 'MONITOR-RTO-THRESHOLD', 'LOGIN-FAILURE', 'SSL-CERT-EXPIRY', 'FAN-SPEED-LOW', 'VOLTAGE-LOW', 'VOLTAGE-HIGH', 'TEMPERATURE-HIGH', 'CPU-TEMPERATURE-HIGH', 'POWER-SUPPLY-FAILURE', 'DISK-USAGE-HIGH', 'INTERFACE-THROUGHPUT-LOW', 'MON_PROBE_FAILED', 'HA-VERSION-MISMATCH', 'HA-SYNC-FAILURE', 'HA-NO-HEARTBEATS', 'HA-BAD-SECONDARY-STATE', 'INTERFACE-BW-USAGE', 'RATE-LIMIT-THRESHOLD-EXCEEDED', 'ENTITY-NAME-CHANGE', 'HA-PROP-FAILURE', 'IP-CONFLICT', 'PF-RL-RATE-THRESHOLD', 'PF-RL-PPS-THRESHOLD', 'PF-RL-RATE-PKTS-DROPPED', 'PF-RL-PPS-PKTS-DROPPED', 'APPFW-START-URL', 'APPFW-DENY-URL', 'APPFW-VIOLATIONS-TYPE', 'APPFW-REFERER-HEADER', 'APPFW-CSRF-TAG', 'APPFW-COOKIE', 'APPFW-FIELD-CONSISTENCY', 'APPFW-BUFFER-OVERFLOW', 'APPFW-FIELD-FORMAT', 'APPFW-FILE-UPLOAD-TYPE', 'APPFW-JSON-DOS', 'APPFW-JSON-SQL', 'APPFW-JSON-XSS', 'APPFW-SAFE-COMMERCE', 'APPFW-SAFE-OBJECT', 'APPFW-SESSION-LIMIT', 'APPFW-SIGNATURE-MATCH', 'APPFW-POLICY-HIT', 'APPFW-XSS', 'APPFW-XML-XSS', 'APPFW-SQL', 'APPFW-XML-SQL', 'APPFW-XML-ATTACHMENT', 'APPFW-XML-DOS', 'APPFW-XML-VALIDATION', 'APPFW-XML-WSI', 'APPFW-XML-SCHEMA-COMPILE', 'APPFW-XML-SOAP-FAULT', 'APPFW-NEW-SIGNATURE-ADDED', 'APPFW-DEPLOY-RELAXATION-DP', 'APPFW-LEARNED-RULE-APPLIED-DYN-PROF', 'APPFW-CMD', 'APPFW-POSTBODYLIMIT', 'DNSKEY-EXPIRY', 'HA-LICENSE-MISMATCH', 'SSL-CARD-FAILED', 'SSL-CARD-NORMAL', 'WARM-RESTART-EVENT', 'HARD-DISK-DRIVE-ERRORS', 'COMPACT-FLASH-ERRORS', 'CALLHOME-UPLOAD-EVENT', '1024KEY-EXCHANGE-RATE', '2048KEY-EXCHANGE-RATE', '4096KEY-EXCHANGE-RATE', 'SSL-CUR-SESSION-INUSE', 'CLUSTER-NODE-HEALTH', 'CLUSTER-NODE-QUORUM', 'CLUSTER-VERSION-MISMATCH', 'CLUSTER-CCO-CHANGE', 'CLUSTER-OVS-CHANGE', 'CLUSTER-SYNC-FAILURE', 'CLUSTER-SYNC-PARTIAL-SUCCESS', 'CLUSTER-PROP-FAILURE', 'HA-STICKY-PRIMARY', 'INBAND-PROTOCOL-VERSION-MISMATCH', 'SSL-CHIP-REINIT', 'VRID-STATE-CHANGE', 'PORT-ALLOC-FAILED', 'LLDP-REMOTE-CHANGE', 'DUPLICATE-IPV6', 'PARTITION-CONFIG-EVENT', 'PARTITION-SWITCHED', 'LSN-PORTALLOC-FAILED', 'LSN-PORTQUOTA-EXCEED', 'LSN-SESSIONQUOTA-EXCEED', 'LSN-MEM-RECOVERY-KICKEDIN', 'VSERVER-SPILLOVER', 'PARTITION-RATE-LIMIT', 'POOLED-LICENSE-ONGRACE', 'POOLED-LICENSE-PARTIAL', 'CLUSTER-BACKPLANE-HB-MISSING', 'GSLB-SITE-MEP-FLAP', 'DNS-MAXNEGCACHE-USAGE', 'DNS-MAXCACHE-USAGE', 'NS-LICENSE-EXPIRY', 'PKT-RATELIMITING-ATTACK', 'GSLB-SYNC-STATUS-FLIP', 'URLFILT-DB-UPDATE-STATUS', 'URLFILT-INIT-SDK', 'POOLED-LICENSE-CHECKOUT-FAILURE', 'MIGRATION-STARTED', 'MIGRATION-COMPLETE', 'ECDHE-EXCHANGE-RATE', 'BOT-SIGNATURE-UPDATE', 'APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH')]
-        [string]$trapname 
+        [Parameter(Mandatory)]
+        [ValidateSet('CPU-USAGE', 'AVERAGE-CPU', 'MEMORY', 'MGMT-CPU-USAGE', 'SYNFLOOD', 'TCP-SYNFLOOD', 'VSERVER-REQRATE', 'SERVICE-REQRATE', 'ENTITY-RXRATE', 'ENTITY-TXRATE', 'ENTITY-SYNFLOOD', 'SERVICE-MAXCLIENTS', 'HA-STATE-CHANGE', 'ENTITY-STATE', 'CONFIG-CHANGE', 'CONFIG-SAVE', 'SERVICEGROUP-MEMBER-REQRATE', 'SERVICEGROUP-MEMBER-MAXCLIENTS', 'MONITOR-RTO-THRESHOLD', 'LOGIN-FAILURE', 'SSL-CERT-EXPIRY', 'FAN-SPEED-LOW', 'VOLTAGE-LOW', 'VOLTAGE-HIGH', 'TEMPERATURE-HIGH', 'CPU-TEMPERATURE-HIGH', 'POWER-SUPPLY-FAILURE', 'DISK-USAGE-HIGH', 'INTERFACE-THROUGHPUT-LOW', 'MON_PROBE_FAILED', 'HA-VERSION-MISMATCH', 'HA-SYNC-FAILURE', 'HA-NO-HEARTBEATS', 'HA-BAD-SECONDARY-STATE', 'INTERFACE-BW-USAGE', 'RATE-LIMIT-THRESHOLD-EXCEEDED', 'ENTITY-NAME-CHANGE', 'HA-PROP-FAILURE', 'IP-CONFLICT', 'PF-RL-RATE-THRESHOLD', 'PF-RL-PPS-THRESHOLD', 'PF-RL-RATE-PKTS-DROPPED', 'PF-RL-PPS-PKTS-DROPPED', 'APPFW-START-URL', 'APPFW-DENY-URL', 'APPFW-VIOLATIONS-TYPE', 'APPFW-REFERER-HEADER', 'APPFW-CSRF-TAG', 'APPFW-COOKIE', 'APPFW-FIELD-CONSISTENCY', 'APPFW-BUFFER-OVERFLOW', 'APPFW-FIELD-FORMAT', 'APPFW-FILE-UPLOAD-TYPE', 'APPFW-JSON-DOS', 'APPFW-JSON-SQL', 'APPFW-JSON-XSS', 'APPFW-SAFE-COMMERCE', 'APPFW-SAFE-OBJECT', 'APPFW-SESSION-LIMIT', 'APPFW-SIGNATURE-MATCH', 'APPFW-POLICY-HIT', 'APPFW-XSS', 'APPFW-XML-XSS', 'APPFW-SQL', 'APPFW-XML-SQL', 'APPFW-XML-ATTACHMENT', 'APPFW-XML-DOS', 'APPFW-XML-VALIDATION', 'APPFW-XML-WSI', 'APPFW-XML-SCHEMA-COMPILE', 'APPFW-XML-SOAP-FAULT', 'APPFW-NEW-SIGNATURE-ADDED', 'APPFW-DEPLOY-RELAXATION-DP', 'APPFW-LEARNED-RULE-APPLIED-DYN-PROF', 'APPFW-CMD', 'APPFW-POSTBODYLIMIT', 'APPFW-JSON-CMD', 'APPFW-SQL-GRAM', 'APPFW-JSON-SQL-GRAM', 'DNSKEY-EXPIRY', 'HA-LICENSE-MISMATCH', 'SSL-CARD-FAILED', 'SSL-CARD-NORMAL', 'WARM-RESTART-EVENT', 'HARD-DISK-DRIVE-ERRORS', 'COMPACT-FLASH-ERRORS', 'CALLHOME-UPLOAD-EVENT', '1024KEY-EXCHANGE-RATE', '2048KEY-EXCHANGE-RATE', '4096KEY-EXCHANGE-RATE', 'SSL-CUR-SESSION-INUSE', 'CLUSTER-NODE-HEALTH', 'CLUSTER-NODE-QUORUM', 'CLUSTER-VERSION-MISMATCH', 'CLUSTER-CCO-CHANGE', 'CLUSTER-OVS-CHANGE', 'CLUSTER-SYNC-FAILURE', 'CLUSTER-SYNC-PARTIAL-SUCCESS', 'CLUSTER-PROP-FAILURE', 'HA-STICKY-PRIMARY', 'INBAND-PROTOCOL-VERSION-MISMATCH', 'SSL-CHIP-REINIT', 'VRID-STATE-CHANGE', 'PORT-ALLOC-FAILED', 'LLDP-REMOTE-CHANGE', 'DUPLICATE-IPV6', 'PARTITION-CONFIG-EVENT', 'PARTITION-SWITCHED', 'LSN-PORTALLOC-FAILED', 'LSN-PORTQUOTA-EXCEED', 'LSN-SESSIONQUOTA-EXCEED', 'LSN-MEM-RECOVERY-KICKEDIN', 'VSERVER-SPILLOVER', 'PARTITION-RATE-LIMIT', 'POOLED-LICENSE-ONGRACE', 'POOLED-LICENSE-PARTIAL', 'CLUSTER-BACKPLANE-HB-MISSING', 'GSLB-SITE-MEP-FLAP', 'DNS-MAXNEGCACHE-USAGE', 'DNS-MAXCACHE-USAGE', 'NS-LICENSE-EXPIRY', 'PKT-RATELIMITING-ATTACK', 'GSLB-SYNC-STATUS-FLIP', 'URLFILT-DB-UPDATE-STATUS', 'URLFILT-INIT-SDK', 'POOLED-LICENSE-CHECKOUT-FAILURE', 'MIGRATION-STARTED', 'MIGRATION-COMPLETE', 'ECDHE-EXCHANGE-RATE', 'BOT-SIGNATURE-UPDATE', 'APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH')]
+        [string]$Trapname 
 
     )
     begin {
@@ -239,12 +231,10 @@ function Invoke-ADCEnableSnmpalarm {
     }
     process {
         try {
-            $Payload = @{
-                trapname = $trapname
-            }
+            $payload = @{ trapname = $trapname }
 
-            if ($PSCmdlet.ShouldProcess($Name, "Enable SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpalarm -Action enable -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Enable SNMP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpalarm -Action enable -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -260,37 +250,39 @@ function Invoke-ADCEnableSnmpalarm {
 }
 
 function Invoke-ADCDisableSnmpalarm {
-<#
+    <#
     .SYNOPSIS
-        Disable SNMP configuration Object
+        Disable SNMP configuration Object.
     .DESCRIPTION
-        Disable SNMP configuration Object 
-    .PARAMETER trapname 
-        Name of the SNMP alarm. This parameter is required for identifying the SNMP alarm and cannot be modified.  
-        Possible values = CPU-USAGE, AVERAGE-CPU, MEMORY, MGMT-CPU-USAGE, SYNFLOOD, TCP-SYNFLOOD, VSERVER-REQRATE, SERVICE-REQRATE, ENTITY-RXRATE, ENTITY-TXRATE, ENTITY-SYNFLOOD, SERVICE-MAXCLIENTS, HA-STATE-CHANGE, ENTITY-STATE, CONFIG-CHANGE, CONFIG-SAVE, SERVICEGROUP-MEMBER-REQRATE, SERVICEGROUP-MEMBER-MAXCLIENTS, MONITOR-RTO-THRESHOLD, LOGIN-FAILURE, SSL-CERT-EXPIRY, FAN-SPEED-LOW, VOLTAGE-LOW, VOLTAGE-HIGH, TEMPERATURE-HIGH, CPU-TEMPERATURE-HIGH, POWER-SUPPLY-FAILURE, DISK-USAGE-HIGH, INTERFACE-THROUGHPUT-LOW, MON_PROBE_FAILED, HA-VERSION-MISMATCH, HA-SYNC-FAILURE, HA-NO-HEARTBEATS, HA-BAD-SECONDARY-STATE, INTERFACE-BW-USAGE, RATE-LIMIT-THRESHOLD-EXCEEDED, ENTITY-NAME-CHANGE, HA-PROP-FAILURE, IP-CONFLICT, PF-RL-RATE-THRESHOLD, PF-RL-PPS-THRESHOLD, PF-RL-RATE-PKTS-DROPPED, PF-RL-PPS-PKTS-DROPPED, APPFW-START-URL, APPFW-DENY-URL, APPFW-VIOLATIONS-TYPE, APPFW-REFERER-HEADER, APPFW-CSRF-TAG, APPFW-COOKIE, APPFW-FIELD-CONSISTENCY, APPFW-BUFFER-OVERFLOW, APPFW-FIELD-FORMAT, APPFW-FILE-UPLOAD-TYPE, APPFW-JSON-DOS, APPFW-JSON-SQL, APPFW-JSON-XSS, APPFW-SAFE-COMMERCE, APPFW-SAFE-OBJECT, APPFW-SESSION-LIMIT, APPFW-SIGNATURE-MATCH, APPFW-POLICY-HIT, APPFW-XSS, APPFW-XML-XSS, APPFW-SQL, APPFW-XML-SQL, APPFW-XML-ATTACHMENT, APPFW-XML-DOS, APPFW-XML-VALIDATION, APPFW-XML-WSI, APPFW-XML-SCHEMA-COMPILE, APPFW-XML-SOAP-FAULT, APPFW-NEW-SIGNATURE-ADDED, APPFW-DEPLOY-RELAXATION-DP, APPFW-LEARNED-RULE-APPLIED-DYN-PROF, APPFW-CMD, APPFW-POSTBODYLIMIT, DNSKEY-EXPIRY, HA-LICENSE-MISMATCH, SSL-CARD-FAILED, SSL-CARD-NORMAL, WARM-RESTART-EVENT, HARD-DISK-DRIVE-ERRORS, COMPACT-FLASH-ERRORS, CALLHOME-UPLOAD-EVENT, 1024KEY-EXCHANGE-RATE, 2048KEY-EXCHANGE-RATE, 4096KEY-EXCHANGE-RATE, SSL-CUR-SESSION-INUSE, CLUSTER-NODE-HEALTH, CLUSTER-NODE-QUORUM, CLUSTER-VERSION-MISMATCH, CLUSTER-CCO-CHANGE, CLUSTER-OVS-CHANGE, CLUSTER-SYNC-FAILURE, CLUSTER-SYNC-PARTIAL-SUCCESS, CLUSTER-PROP-FAILURE, HA-STICKY-PRIMARY, INBAND-PROTOCOL-VERSION-MISMATCH, SSL-CHIP-REINIT, VRID-STATE-CHANGE, PORT-ALLOC-FAILED, LLDP-REMOTE-CHANGE, DUPLICATE-IPV6, PARTITION-CONFIG-EVENT, PARTITION-SWITCHED, LSN-PORTALLOC-FAILED, LSN-PORTQUOTA-EXCEED, LSN-SESSIONQUOTA-EXCEED, LSN-MEM-RECOVERY-KICKEDIN, VSERVER-SPILLOVER, PARTITION-RATE-LIMIT, POOLED-LICENSE-ONGRACE, POOLED-LICENSE-PARTIAL, CLUSTER-BACKPLANE-HB-MISSING, GSLB-SITE-MEP-FLAP, DNS-MAXNEGCACHE-USAGE, DNS-MAXCACHE-USAGE, NS-LICENSE-EXPIRY, PKT-RATELIMITING-ATTACK, GSLB-SYNC-STATUS-FLIP, URLFILT-DB-UPDATE-STATUS, URLFILT-INIT-SDK, POOLED-LICENSE-CHECKOUT-FAILURE, MIGRATION-STARTED, MIGRATION-COMPLETE, ECDHE-EXCHANGE-RATE, BOT-SIGNATURE-UPDATE, APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH
+        Configuration for alarm resource.
+    .PARAMETER Trapname 
+        Name of the SNMP alarm. This parameter is required for identifying the SNMP alarm and cannot be modified. 
+        Possible values = CPU-USAGE, AVERAGE-CPU, MEMORY, MGMT-CPU-USAGE, SYNFLOOD, TCP-SYNFLOOD, VSERVER-REQRATE, SERVICE-REQRATE, ENTITY-RXRATE, ENTITY-TXRATE, ENTITY-SYNFLOOD, SERVICE-MAXCLIENTS, HA-STATE-CHANGE, ENTITY-STATE, CONFIG-CHANGE, CONFIG-SAVE, SERVICEGROUP-MEMBER-REQRATE, SERVICEGROUP-MEMBER-MAXCLIENTS, MONITOR-RTO-THRESHOLD, LOGIN-FAILURE, SSL-CERT-EXPIRY, FAN-SPEED-LOW, VOLTAGE-LOW, VOLTAGE-HIGH, TEMPERATURE-HIGH, CPU-TEMPERATURE-HIGH, POWER-SUPPLY-FAILURE, DISK-USAGE-HIGH, INTERFACE-THROUGHPUT-LOW, MON_PROBE_FAILED, HA-VERSION-MISMATCH, HA-SYNC-FAILURE, HA-NO-HEARTBEATS, HA-BAD-SECONDARY-STATE, INTERFACE-BW-USAGE, RATE-LIMIT-THRESHOLD-EXCEEDED, ENTITY-NAME-CHANGE, HA-PROP-FAILURE, IP-CONFLICT, PF-RL-RATE-THRESHOLD, PF-RL-PPS-THRESHOLD, PF-RL-RATE-PKTS-DROPPED, PF-RL-PPS-PKTS-DROPPED, APPFW-START-URL, APPFW-DENY-URL, APPFW-VIOLATIONS-TYPE, APPFW-REFERER-HEADER, APPFW-CSRF-TAG, APPFW-COOKIE, APPFW-FIELD-CONSISTENCY, APPFW-BUFFER-OVERFLOW, APPFW-FIELD-FORMAT, APPFW-FILE-UPLOAD-TYPE, APPFW-JSON-DOS, APPFW-JSON-SQL, APPFW-JSON-XSS, APPFW-SAFE-COMMERCE, APPFW-SAFE-OBJECT, APPFW-SESSION-LIMIT, APPFW-SIGNATURE-MATCH, APPFW-POLICY-HIT, APPFW-XSS, APPFW-XML-XSS, APPFW-SQL, APPFW-XML-SQL, APPFW-XML-ATTACHMENT, APPFW-XML-DOS, APPFW-XML-VALIDATION, APPFW-XML-WSI, APPFW-XML-SCHEMA-COMPILE, APPFW-XML-SOAP-FAULT, APPFW-NEW-SIGNATURE-ADDED, APPFW-DEPLOY-RELAXATION-DP, APPFW-LEARNED-RULE-APPLIED-DYN-PROF, APPFW-CMD, APPFW-POSTBODYLIMIT, APPFW-JSON-CMD, APPFW-SQL-GRAM, APPFW-JSON-SQL-GRAM, DNSKEY-EXPIRY, HA-LICENSE-MISMATCH, SSL-CARD-FAILED, SSL-CARD-NORMAL, WARM-RESTART-EVENT, HARD-DISK-DRIVE-ERRORS, COMPACT-FLASH-ERRORS, CALLHOME-UPLOAD-EVENT, 1024KEY-EXCHANGE-RATE, 2048KEY-EXCHANGE-RATE, 4096KEY-EXCHANGE-RATE, SSL-CUR-SESSION-INUSE, CLUSTER-NODE-HEALTH, CLUSTER-NODE-QUORUM, CLUSTER-VERSION-MISMATCH, CLUSTER-CCO-CHANGE, CLUSTER-OVS-CHANGE, CLUSTER-SYNC-FAILURE, CLUSTER-SYNC-PARTIAL-SUCCESS, CLUSTER-PROP-FAILURE, HA-STICKY-PRIMARY, INBAND-PROTOCOL-VERSION-MISMATCH, SSL-CHIP-REINIT, VRID-STATE-CHANGE, PORT-ALLOC-FAILED, LLDP-REMOTE-CHANGE, DUPLICATE-IPV6, PARTITION-CONFIG-EVENT, PARTITION-SWITCHED, LSN-PORTALLOC-FAILED, LSN-PORTQUOTA-EXCEED, LSN-SESSIONQUOTA-EXCEED, LSN-MEM-RECOVERY-KICKEDIN, VSERVER-SPILLOVER, PARTITION-RATE-LIMIT, POOLED-LICENSE-ONGRACE, POOLED-LICENSE-PARTIAL, CLUSTER-BACKPLANE-HB-MISSING, GSLB-SITE-MEP-FLAP, DNS-MAXNEGCACHE-USAGE, DNS-MAXCACHE-USAGE, NS-LICENSE-EXPIRY, PKT-RATELIMITING-ATTACK, GSLB-SYNC-STATUS-FLIP, URLFILT-DB-UPDATE-STATUS, URLFILT-INIT-SDK, POOLED-LICENSE-CHECKOUT-FAILURE, MIGRATION-STARTED, MIGRATION-COMPLETE, ECDHE-EXCHANGE-RATE, BOT-SIGNATURE-UPDATE, APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH
     .EXAMPLE
-        Invoke-ADCDisableSnmpalarm -trapname <string>
+        PS C:\>Invoke-ADCDisableSnmpalarm -trapname <string>
+        An example how to disable snmpalarm configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDisableSnmpalarm
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpalarm/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [ValidateSet('CPU-USAGE', 'AVERAGE-CPU', 'MEMORY', 'MGMT-CPU-USAGE', 'SYNFLOOD', 'TCP-SYNFLOOD', 'VSERVER-REQRATE', 'SERVICE-REQRATE', 'ENTITY-RXRATE', 'ENTITY-TXRATE', 'ENTITY-SYNFLOOD', 'SERVICE-MAXCLIENTS', 'HA-STATE-CHANGE', 'ENTITY-STATE', 'CONFIG-CHANGE', 'CONFIG-SAVE', 'SERVICEGROUP-MEMBER-REQRATE', 'SERVICEGROUP-MEMBER-MAXCLIENTS', 'MONITOR-RTO-THRESHOLD', 'LOGIN-FAILURE', 'SSL-CERT-EXPIRY', 'FAN-SPEED-LOW', 'VOLTAGE-LOW', 'VOLTAGE-HIGH', 'TEMPERATURE-HIGH', 'CPU-TEMPERATURE-HIGH', 'POWER-SUPPLY-FAILURE', 'DISK-USAGE-HIGH', 'INTERFACE-THROUGHPUT-LOW', 'MON_PROBE_FAILED', 'HA-VERSION-MISMATCH', 'HA-SYNC-FAILURE', 'HA-NO-HEARTBEATS', 'HA-BAD-SECONDARY-STATE', 'INTERFACE-BW-USAGE', 'RATE-LIMIT-THRESHOLD-EXCEEDED', 'ENTITY-NAME-CHANGE', 'HA-PROP-FAILURE', 'IP-CONFLICT', 'PF-RL-RATE-THRESHOLD', 'PF-RL-PPS-THRESHOLD', 'PF-RL-RATE-PKTS-DROPPED', 'PF-RL-PPS-PKTS-DROPPED', 'APPFW-START-URL', 'APPFW-DENY-URL', 'APPFW-VIOLATIONS-TYPE', 'APPFW-REFERER-HEADER', 'APPFW-CSRF-TAG', 'APPFW-COOKIE', 'APPFW-FIELD-CONSISTENCY', 'APPFW-BUFFER-OVERFLOW', 'APPFW-FIELD-FORMAT', 'APPFW-FILE-UPLOAD-TYPE', 'APPFW-JSON-DOS', 'APPFW-JSON-SQL', 'APPFW-JSON-XSS', 'APPFW-SAFE-COMMERCE', 'APPFW-SAFE-OBJECT', 'APPFW-SESSION-LIMIT', 'APPFW-SIGNATURE-MATCH', 'APPFW-POLICY-HIT', 'APPFW-XSS', 'APPFW-XML-XSS', 'APPFW-SQL', 'APPFW-XML-SQL', 'APPFW-XML-ATTACHMENT', 'APPFW-XML-DOS', 'APPFW-XML-VALIDATION', 'APPFW-XML-WSI', 'APPFW-XML-SCHEMA-COMPILE', 'APPFW-XML-SOAP-FAULT', 'APPFW-NEW-SIGNATURE-ADDED', 'APPFW-DEPLOY-RELAXATION-DP', 'APPFW-LEARNED-RULE-APPLIED-DYN-PROF', 'APPFW-CMD', 'APPFW-POSTBODYLIMIT', 'DNSKEY-EXPIRY', 'HA-LICENSE-MISMATCH', 'SSL-CARD-FAILED', 'SSL-CARD-NORMAL', 'WARM-RESTART-EVENT', 'HARD-DISK-DRIVE-ERRORS', 'COMPACT-FLASH-ERRORS', 'CALLHOME-UPLOAD-EVENT', '1024KEY-EXCHANGE-RATE', '2048KEY-EXCHANGE-RATE', '4096KEY-EXCHANGE-RATE', 'SSL-CUR-SESSION-INUSE', 'CLUSTER-NODE-HEALTH', 'CLUSTER-NODE-QUORUM', 'CLUSTER-VERSION-MISMATCH', 'CLUSTER-CCO-CHANGE', 'CLUSTER-OVS-CHANGE', 'CLUSTER-SYNC-FAILURE', 'CLUSTER-SYNC-PARTIAL-SUCCESS', 'CLUSTER-PROP-FAILURE', 'HA-STICKY-PRIMARY', 'INBAND-PROTOCOL-VERSION-MISMATCH', 'SSL-CHIP-REINIT', 'VRID-STATE-CHANGE', 'PORT-ALLOC-FAILED', 'LLDP-REMOTE-CHANGE', 'DUPLICATE-IPV6', 'PARTITION-CONFIG-EVENT', 'PARTITION-SWITCHED', 'LSN-PORTALLOC-FAILED', 'LSN-PORTQUOTA-EXCEED', 'LSN-SESSIONQUOTA-EXCEED', 'LSN-MEM-RECOVERY-KICKEDIN', 'VSERVER-SPILLOVER', 'PARTITION-RATE-LIMIT', 'POOLED-LICENSE-ONGRACE', 'POOLED-LICENSE-PARTIAL', 'CLUSTER-BACKPLANE-HB-MISSING', 'GSLB-SITE-MEP-FLAP', 'DNS-MAXNEGCACHE-USAGE', 'DNS-MAXCACHE-USAGE', 'NS-LICENSE-EXPIRY', 'PKT-RATELIMITING-ATTACK', 'GSLB-SYNC-STATUS-FLIP', 'URLFILT-DB-UPDATE-STATUS', 'URLFILT-INIT-SDK', 'POOLED-LICENSE-CHECKOUT-FAILURE', 'MIGRATION-STARTED', 'MIGRATION-COMPLETE', 'ECDHE-EXCHANGE-RATE', 'BOT-SIGNATURE-UPDATE', 'APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH')]
-        [string]$trapname 
+        [Parameter(Mandatory)]
+        [ValidateSet('CPU-USAGE', 'AVERAGE-CPU', 'MEMORY', 'MGMT-CPU-USAGE', 'SYNFLOOD', 'TCP-SYNFLOOD', 'VSERVER-REQRATE', 'SERVICE-REQRATE', 'ENTITY-RXRATE', 'ENTITY-TXRATE', 'ENTITY-SYNFLOOD', 'SERVICE-MAXCLIENTS', 'HA-STATE-CHANGE', 'ENTITY-STATE', 'CONFIG-CHANGE', 'CONFIG-SAVE', 'SERVICEGROUP-MEMBER-REQRATE', 'SERVICEGROUP-MEMBER-MAXCLIENTS', 'MONITOR-RTO-THRESHOLD', 'LOGIN-FAILURE', 'SSL-CERT-EXPIRY', 'FAN-SPEED-LOW', 'VOLTAGE-LOW', 'VOLTAGE-HIGH', 'TEMPERATURE-HIGH', 'CPU-TEMPERATURE-HIGH', 'POWER-SUPPLY-FAILURE', 'DISK-USAGE-HIGH', 'INTERFACE-THROUGHPUT-LOW', 'MON_PROBE_FAILED', 'HA-VERSION-MISMATCH', 'HA-SYNC-FAILURE', 'HA-NO-HEARTBEATS', 'HA-BAD-SECONDARY-STATE', 'INTERFACE-BW-USAGE', 'RATE-LIMIT-THRESHOLD-EXCEEDED', 'ENTITY-NAME-CHANGE', 'HA-PROP-FAILURE', 'IP-CONFLICT', 'PF-RL-RATE-THRESHOLD', 'PF-RL-PPS-THRESHOLD', 'PF-RL-RATE-PKTS-DROPPED', 'PF-RL-PPS-PKTS-DROPPED', 'APPFW-START-URL', 'APPFW-DENY-URL', 'APPFW-VIOLATIONS-TYPE', 'APPFW-REFERER-HEADER', 'APPFW-CSRF-TAG', 'APPFW-COOKIE', 'APPFW-FIELD-CONSISTENCY', 'APPFW-BUFFER-OVERFLOW', 'APPFW-FIELD-FORMAT', 'APPFW-FILE-UPLOAD-TYPE', 'APPFW-JSON-DOS', 'APPFW-JSON-SQL', 'APPFW-JSON-XSS', 'APPFW-SAFE-COMMERCE', 'APPFW-SAFE-OBJECT', 'APPFW-SESSION-LIMIT', 'APPFW-SIGNATURE-MATCH', 'APPFW-POLICY-HIT', 'APPFW-XSS', 'APPFW-XML-XSS', 'APPFW-SQL', 'APPFW-XML-SQL', 'APPFW-XML-ATTACHMENT', 'APPFW-XML-DOS', 'APPFW-XML-VALIDATION', 'APPFW-XML-WSI', 'APPFW-XML-SCHEMA-COMPILE', 'APPFW-XML-SOAP-FAULT', 'APPFW-NEW-SIGNATURE-ADDED', 'APPFW-DEPLOY-RELAXATION-DP', 'APPFW-LEARNED-RULE-APPLIED-DYN-PROF', 'APPFW-CMD', 'APPFW-POSTBODYLIMIT', 'APPFW-JSON-CMD', 'APPFW-SQL-GRAM', 'APPFW-JSON-SQL-GRAM', 'DNSKEY-EXPIRY', 'HA-LICENSE-MISMATCH', 'SSL-CARD-FAILED', 'SSL-CARD-NORMAL', 'WARM-RESTART-EVENT', 'HARD-DISK-DRIVE-ERRORS', 'COMPACT-FLASH-ERRORS', 'CALLHOME-UPLOAD-EVENT', '1024KEY-EXCHANGE-RATE', '2048KEY-EXCHANGE-RATE', '4096KEY-EXCHANGE-RATE', 'SSL-CUR-SESSION-INUSE', 'CLUSTER-NODE-HEALTH', 'CLUSTER-NODE-QUORUM', 'CLUSTER-VERSION-MISMATCH', 'CLUSTER-CCO-CHANGE', 'CLUSTER-OVS-CHANGE', 'CLUSTER-SYNC-FAILURE', 'CLUSTER-SYNC-PARTIAL-SUCCESS', 'CLUSTER-PROP-FAILURE', 'HA-STICKY-PRIMARY', 'INBAND-PROTOCOL-VERSION-MISMATCH', 'SSL-CHIP-REINIT', 'VRID-STATE-CHANGE', 'PORT-ALLOC-FAILED', 'LLDP-REMOTE-CHANGE', 'DUPLICATE-IPV6', 'PARTITION-CONFIG-EVENT', 'PARTITION-SWITCHED', 'LSN-PORTALLOC-FAILED', 'LSN-PORTQUOTA-EXCEED', 'LSN-SESSIONQUOTA-EXCEED', 'LSN-MEM-RECOVERY-KICKEDIN', 'VSERVER-SPILLOVER', 'PARTITION-RATE-LIMIT', 'POOLED-LICENSE-ONGRACE', 'POOLED-LICENSE-PARTIAL', 'CLUSTER-BACKPLANE-HB-MISSING', 'GSLB-SITE-MEP-FLAP', 'DNS-MAXNEGCACHE-USAGE', 'DNS-MAXCACHE-USAGE', 'NS-LICENSE-EXPIRY', 'PKT-RATELIMITING-ATTACK', 'GSLB-SYNC-STATUS-FLIP', 'URLFILT-DB-UPDATE-STATUS', 'URLFILT-INIT-SDK', 'POOLED-LICENSE-CHECKOUT-FAILURE', 'MIGRATION-STARTED', 'MIGRATION-COMPLETE', 'ECDHE-EXCHANGE-RATE', 'BOT-SIGNATURE-UPDATE', 'APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH')]
+        [string]$Trapname 
 
     )
     begin {
@@ -298,12 +290,10 @@ function Invoke-ADCDisableSnmpalarm {
     }
     process {
         try {
-            $Payload = @{
-                trapname = $trapname
-            }
+            $payload = @{ trapname = $trapname }
 
-            if ($PSCmdlet.ShouldProcess($Name, "Disable SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpalarm -Action disable -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess($Name, "Disable SNMP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpalarm -Action disable -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $result
@@ -319,56 +309,62 @@ function Invoke-ADCDisableSnmpalarm {
 }
 
 function Invoke-ADCGetSnmpalarm {
-<#
+    <#
     .SYNOPSIS
-        Get SNMP configuration object(s)
+        Get SNMP configuration object(s).
     .DESCRIPTION
-        Get SNMP configuration object(s)
-    .PARAMETER trapname 
-       Name of the SNMP alarm. This parameter is required for identifying the SNMP alarm and cannot be modified.  
-       Possible values = CPU-USAGE, AVERAGE-CPU, MEMORY, MGMT-CPU-USAGE, SYNFLOOD, TCP-SYNFLOOD, VSERVER-REQRATE, SERVICE-REQRATE, ENTITY-RXRATE, ENTITY-TXRATE, ENTITY-SYNFLOOD, SERVICE-MAXCLIENTS, HA-STATE-CHANGE, ENTITY-STATE, CONFIG-CHANGE, CONFIG-SAVE, SERVICEGROUP-MEMBER-REQRATE, SERVICEGROUP-MEMBER-MAXCLIENTS, MONITOR-RTO-THRESHOLD, LOGIN-FAILURE, SSL-CERT-EXPIRY, FAN-SPEED-LOW, VOLTAGE-LOW, VOLTAGE-HIGH, TEMPERATURE-HIGH, CPU-TEMPERATURE-HIGH, POWER-SUPPLY-FAILURE, DISK-USAGE-HIGH, INTERFACE-THROUGHPUT-LOW, MON_PROBE_FAILED, HA-VERSION-MISMATCH, HA-SYNC-FAILURE, HA-NO-HEARTBEATS, HA-BAD-SECONDARY-STATE, INTERFACE-BW-USAGE, RATE-LIMIT-THRESHOLD-EXCEEDED, ENTITY-NAME-CHANGE, HA-PROP-FAILURE, IP-CONFLICT, PF-RL-RATE-THRESHOLD, PF-RL-PPS-THRESHOLD, PF-RL-RATE-PKTS-DROPPED, PF-RL-PPS-PKTS-DROPPED, APPFW-START-URL, APPFW-DENY-URL, APPFW-VIOLATIONS-TYPE, APPFW-REFERER-HEADER, APPFW-CSRF-TAG, APPFW-COOKIE, APPFW-FIELD-CONSISTENCY, APPFW-BUFFER-OVERFLOW, APPFW-FIELD-FORMAT, APPFW-FILE-UPLOAD-TYPE, APPFW-JSON-DOS, APPFW-JSON-SQL, APPFW-JSON-XSS, APPFW-SAFE-COMMERCE, APPFW-SAFE-OBJECT, APPFW-SESSION-LIMIT, APPFW-SIGNATURE-MATCH, APPFW-POLICY-HIT, APPFW-XSS, APPFW-XML-XSS, APPFW-SQL, APPFW-XML-SQL, APPFW-XML-ATTACHMENT, APPFW-XML-DOS, APPFW-XML-VALIDATION, APPFW-XML-WSI, APPFW-XML-SCHEMA-COMPILE, APPFW-XML-SOAP-FAULT, APPFW-NEW-SIGNATURE-ADDED, APPFW-DEPLOY-RELAXATION-DP, APPFW-LEARNED-RULE-APPLIED-DYN-PROF, APPFW-CMD, APPFW-POSTBODYLIMIT, DNSKEY-EXPIRY, HA-LICENSE-MISMATCH, SSL-CARD-FAILED, SSL-CARD-NORMAL, WARM-RESTART-EVENT, HARD-DISK-DRIVE-ERRORS, COMPACT-FLASH-ERRORS, CALLHOME-UPLOAD-EVENT, 1024KEY-EXCHANGE-RATE, 2048KEY-EXCHANGE-RATE, 4096KEY-EXCHANGE-RATE, SSL-CUR-SESSION-INUSE, CLUSTER-NODE-HEALTH, CLUSTER-NODE-QUORUM, CLUSTER-VERSION-MISMATCH, CLUSTER-CCO-CHANGE, CLUSTER-OVS-CHANGE, CLUSTER-SYNC-FAILURE, CLUSTER-SYNC-PARTIAL-SUCCESS, CLUSTER-PROP-FAILURE, HA-STICKY-PRIMARY, INBAND-PROTOCOL-VERSION-MISMATCH, SSL-CHIP-REINIT, VRID-STATE-CHANGE, PORT-ALLOC-FAILED, LLDP-REMOTE-CHANGE, DUPLICATE-IPV6, PARTITION-CONFIG-EVENT, PARTITION-SWITCHED, LSN-PORTALLOC-FAILED, LSN-PORTQUOTA-EXCEED, LSN-SESSIONQUOTA-EXCEED, LSN-MEM-RECOVERY-KICKEDIN, VSERVER-SPILLOVER, PARTITION-RATE-LIMIT, POOLED-LICENSE-ONGRACE, POOLED-LICENSE-PARTIAL, CLUSTER-BACKPLANE-HB-MISSING, GSLB-SITE-MEP-FLAP, DNS-MAXNEGCACHE-USAGE, DNS-MAXCACHE-USAGE, NS-LICENSE-EXPIRY, PKT-RATELIMITING-ATTACK, GSLB-SYNC-STATUS-FLIP, URLFILT-DB-UPDATE-STATUS, URLFILT-INIT-SDK, POOLED-LICENSE-CHECKOUT-FAILURE, MIGRATION-STARTED, MIGRATION-COMPLETE, ECDHE-EXCHANGE-RATE, BOT-SIGNATURE-UPDATE, APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH 
+        Configuration for alarm resource.
+    .PARAMETER Trapname 
+        Name of the SNMP alarm. This parameter is required for identifying the SNMP alarm and cannot be modified. 
+        Possible values = CPU-USAGE, AVERAGE-CPU, MEMORY, MGMT-CPU-USAGE, SYNFLOOD, TCP-SYNFLOOD, VSERVER-REQRATE, SERVICE-REQRATE, ENTITY-RXRATE, ENTITY-TXRATE, ENTITY-SYNFLOOD, SERVICE-MAXCLIENTS, HA-STATE-CHANGE, ENTITY-STATE, CONFIG-CHANGE, CONFIG-SAVE, SERVICEGROUP-MEMBER-REQRATE, SERVICEGROUP-MEMBER-MAXCLIENTS, MONITOR-RTO-THRESHOLD, LOGIN-FAILURE, SSL-CERT-EXPIRY, FAN-SPEED-LOW, VOLTAGE-LOW, VOLTAGE-HIGH, TEMPERATURE-HIGH, CPU-TEMPERATURE-HIGH, POWER-SUPPLY-FAILURE, DISK-USAGE-HIGH, INTERFACE-THROUGHPUT-LOW, MON_PROBE_FAILED, HA-VERSION-MISMATCH, HA-SYNC-FAILURE, HA-NO-HEARTBEATS, HA-BAD-SECONDARY-STATE, INTERFACE-BW-USAGE, RATE-LIMIT-THRESHOLD-EXCEEDED, ENTITY-NAME-CHANGE, HA-PROP-FAILURE, IP-CONFLICT, PF-RL-RATE-THRESHOLD, PF-RL-PPS-THRESHOLD, PF-RL-RATE-PKTS-DROPPED, PF-RL-PPS-PKTS-DROPPED, APPFW-START-URL, APPFW-DENY-URL, APPFW-VIOLATIONS-TYPE, APPFW-REFERER-HEADER, APPFW-CSRF-TAG, APPFW-COOKIE, APPFW-FIELD-CONSISTENCY, APPFW-BUFFER-OVERFLOW, APPFW-FIELD-FORMAT, APPFW-FILE-UPLOAD-TYPE, APPFW-JSON-DOS, APPFW-JSON-SQL, APPFW-JSON-XSS, APPFW-SAFE-COMMERCE, APPFW-SAFE-OBJECT, APPFW-SESSION-LIMIT, APPFW-SIGNATURE-MATCH, APPFW-POLICY-HIT, APPFW-XSS, APPFW-XML-XSS, APPFW-SQL, APPFW-XML-SQL, APPFW-XML-ATTACHMENT, APPFW-XML-DOS, APPFW-XML-VALIDATION, APPFW-XML-WSI, APPFW-XML-SCHEMA-COMPILE, APPFW-XML-SOAP-FAULT, APPFW-NEW-SIGNATURE-ADDED, APPFW-DEPLOY-RELAXATION-DP, APPFW-LEARNED-RULE-APPLIED-DYN-PROF, APPFW-CMD, APPFW-POSTBODYLIMIT, APPFW-JSON-CMD, APPFW-SQL-GRAM, APPFW-JSON-SQL-GRAM, DNSKEY-EXPIRY, HA-LICENSE-MISMATCH, SSL-CARD-FAILED, SSL-CARD-NORMAL, WARM-RESTART-EVENT, HARD-DISK-DRIVE-ERRORS, COMPACT-FLASH-ERRORS, CALLHOME-UPLOAD-EVENT, 1024KEY-EXCHANGE-RATE, 2048KEY-EXCHANGE-RATE, 4096KEY-EXCHANGE-RATE, SSL-CUR-SESSION-INUSE, CLUSTER-NODE-HEALTH, CLUSTER-NODE-QUORUM, CLUSTER-VERSION-MISMATCH, CLUSTER-CCO-CHANGE, CLUSTER-OVS-CHANGE, CLUSTER-SYNC-FAILURE, CLUSTER-SYNC-PARTIAL-SUCCESS, CLUSTER-PROP-FAILURE, HA-STICKY-PRIMARY, INBAND-PROTOCOL-VERSION-MISMATCH, SSL-CHIP-REINIT, VRID-STATE-CHANGE, PORT-ALLOC-FAILED, LLDP-REMOTE-CHANGE, DUPLICATE-IPV6, PARTITION-CONFIG-EVENT, PARTITION-SWITCHED, LSN-PORTALLOC-FAILED, LSN-PORTQUOTA-EXCEED, LSN-SESSIONQUOTA-EXCEED, LSN-MEM-RECOVERY-KICKEDIN, VSERVER-SPILLOVER, PARTITION-RATE-LIMIT, POOLED-LICENSE-ONGRACE, POOLED-LICENSE-PARTIAL, CLUSTER-BACKPLANE-HB-MISSING, GSLB-SITE-MEP-FLAP, DNS-MAXNEGCACHE-USAGE, DNS-MAXCACHE-USAGE, NS-LICENSE-EXPIRY, PKT-RATELIMITING-ATTACK, GSLB-SYNC-STATUS-FLIP, URLFILT-DB-UPDATE-STATUS, URLFILT-INIT-SDK, POOLED-LICENSE-CHECKOUT-FAILURE, MIGRATION-STARTED, MIGRATION-COMPLETE, ECDHE-EXCHANGE-RATE, BOT-SIGNATURE-UPDATE, APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH 
     .PARAMETER GetAll 
-        Retreive all snmpalarm object(s)
+        Retrieve all snmpalarm object(s).
     .PARAMETER Count
-        If specified, the count of the snmpalarm object(s) will be returned
+        If specified, the count of the snmpalarm object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSnmpalarm
+        PS C:\>Invoke-ADCGetSnmpalarm
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSnmpalarm -GetAll 
+        PS C:\>Invoke-ADCGetSnmpalarm -GetAll 
+        Get all snmpalarm data. 
     .EXAMPLE 
-        Invoke-ADCGetSnmpalarm -Count
+        PS C:\>Invoke-ADCGetSnmpalarm -Count 
+        Get the number of snmpalarm objects.
     .EXAMPLE
-        Invoke-ADCGetSnmpalarm -name <string>
+        PS C:\>Invoke-ADCGetSnmpalarm -name <string>
+        Get snmpalarm object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSnmpalarm -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSnmpalarm -Filter @{ 'name'='<value>' }
+        Get snmpalarm data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpalarm
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpalarm/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidateSet('CPU-USAGE', 'AVERAGE-CPU', 'MEMORY', 'MGMT-CPU-USAGE', 'SYNFLOOD', 'TCP-SYNFLOOD', 'VSERVER-REQRATE', 'SERVICE-REQRATE', 'ENTITY-RXRATE', 'ENTITY-TXRATE', 'ENTITY-SYNFLOOD', 'SERVICE-MAXCLIENTS', 'HA-STATE-CHANGE', 'ENTITY-STATE', 'CONFIG-CHANGE', 'CONFIG-SAVE', 'SERVICEGROUP-MEMBER-REQRATE', 'SERVICEGROUP-MEMBER-MAXCLIENTS', 'MONITOR-RTO-THRESHOLD', 'LOGIN-FAILURE', 'SSL-CERT-EXPIRY', 'FAN-SPEED-LOW', 'VOLTAGE-LOW', 'VOLTAGE-HIGH', 'TEMPERATURE-HIGH', 'CPU-TEMPERATURE-HIGH', 'POWER-SUPPLY-FAILURE', 'DISK-USAGE-HIGH', 'INTERFACE-THROUGHPUT-LOW', 'MON_PROBE_FAILED', 'HA-VERSION-MISMATCH', 'HA-SYNC-FAILURE', 'HA-NO-HEARTBEATS', 'HA-BAD-SECONDARY-STATE', 'INTERFACE-BW-USAGE', 'RATE-LIMIT-THRESHOLD-EXCEEDED', 'ENTITY-NAME-CHANGE', 'HA-PROP-FAILURE', 'IP-CONFLICT', 'PF-RL-RATE-THRESHOLD', 'PF-RL-PPS-THRESHOLD', 'PF-RL-RATE-PKTS-DROPPED', 'PF-RL-PPS-PKTS-DROPPED', 'APPFW-START-URL', 'APPFW-DENY-URL', 'APPFW-VIOLATIONS-TYPE', 'APPFW-REFERER-HEADER', 'APPFW-CSRF-TAG', 'APPFW-COOKIE', 'APPFW-FIELD-CONSISTENCY', 'APPFW-BUFFER-OVERFLOW', 'APPFW-FIELD-FORMAT', 'APPFW-FILE-UPLOAD-TYPE', 'APPFW-JSON-DOS', 'APPFW-JSON-SQL', 'APPFW-JSON-XSS', 'APPFW-SAFE-COMMERCE', 'APPFW-SAFE-OBJECT', 'APPFW-SESSION-LIMIT', 'APPFW-SIGNATURE-MATCH', 'APPFW-POLICY-HIT', 'APPFW-XSS', 'APPFW-XML-XSS', 'APPFW-SQL', 'APPFW-XML-SQL', 'APPFW-XML-ATTACHMENT', 'APPFW-XML-DOS', 'APPFW-XML-VALIDATION', 'APPFW-XML-WSI', 'APPFW-XML-SCHEMA-COMPILE', 'APPFW-XML-SOAP-FAULT', 'APPFW-NEW-SIGNATURE-ADDED', 'APPFW-DEPLOY-RELAXATION-DP', 'APPFW-LEARNED-RULE-APPLIED-DYN-PROF', 'APPFW-CMD', 'APPFW-POSTBODYLIMIT', 'DNSKEY-EXPIRY', 'HA-LICENSE-MISMATCH', 'SSL-CARD-FAILED', 'SSL-CARD-NORMAL', 'WARM-RESTART-EVENT', 'HARD-DISK-DRIVE-ERRORS', 'COMPACT-FLASH-ERRORS', 'CALLHOME-UPLOAD-EVENT', '1024KEY-EXCHANGE-RATE', '2048KEY-EXCHANGE-RATE', '4096KEY-EXCHANGE-RATE', 'SSL-CUR-SESSION-INUSE', 'CLUSTER-NODE-HEALTH', 'CLUSTER-NODE-QUORUM', 'CLUSTER-VERSION-MISMATCH', 'CLUSTER-CCO-CHANGE', 'CLUSTER-OVS-CHANGE', 'CLUSTER-SYNC-FAILURE', 'CLUSTER-SYNC-PARTIAL-SUCCESS', 'CLUSTER-PROP-FAILURE', 'HA-STICKY-PRIMARY', 'INBAND-PROTOCOL-VERSION-MISMATCH', 'SSL-CHIP-REINIT', 'VRID-STATE-CHANGE', 'PORT-ALLOC-FAILED', 'LLDP-REMOTE-CHANGE', 'DUPLICATE-IPV6', 'PARTITION-CONFIG-EVENT', 'PARTITION-SWITCHED', 'LSN-PORTALLOC-FAILED', 'LSN-PORTQUOTA-EXCEED', 'LSN-SESSIONQUOTA-EXCEED', 'LSN-MEM-RECOVERY-KICKEDIN', 'VSERVER-SPILLOVER', 'PARTITION-RATE-LIMIT', 'POOLED-LICENSE-ONGRACE', 'POOLED-LICENSE-PARTIAL', 'CLUSTER-BACKPLANE-HB-MISSING', 'GSLB-SITE-MEP-FLAP', 'DNS-MAXNEGCACHE-USAGE', 'DNS-MAXCACHE-USAGE', 'NS-LICENSE-EXPIRY', 'PKT-RATELIMITING-ATTACK', 'GSLB-SYNC-STATUS-FLIP', 'URLFILT-DB-UPDATE-STATUS', 'URLFILT-INIT-SDK', 'POOLED-LICENSE-CHECKOUT-FAILURE', 'MIGRATION-STARTED', 'MIGRATION-COMPLETE', 'ECDHE-EXCHANGE-RATE', 'BOT-SIGNATURE-UPDATE', 'APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH')]
-        [string]$trapname,
+        [ValidateSet('CPU-USAGE', 'AVERAGE-CPU', 'MEMORY', 'MGMT-CPU-USAGE', 'SYNFLOOD', 'TCP-SYNFLOOD', 'VSERVER-REQRATE', 'SERVICE-REQRATE', 'ENTITY-RXRATE', 'ENTITY-TXRATE', 'ENTITY-SYNFLOOD', 'SERVICE-MAXCLIENTS', 'HA-STATE-CHANGE', 'ENTITY-STATE', 'CONFIG-CHANGE', 'CONFIG-SAVE', 'SERVICEGROUP-MEMBER-REQRATE', 'SERVICEGROUP-MEMBER-MAXCLIENTS', 'MONITOR-RTO-THRESHOLD', 'LOGIN-FAILURE', 'SSL-CERT-EXPIRY', 'FAN-SPEED-LOW', 'VOLTAGE-LOW', 'VOLTAGE-HIGH', 'TEMPERATURE-HIGH', 'CPU-TEMPERATURE-HIGH', 'POWER-SUPPLY-FAILURE', 'DISK-USAGE-HIGH', 'INTERFACE-THROUGHPUT-LOW', 'MON_PROBE_FAILED', 'HA-VERSION-MISMATCH', 'HA-SYNC-FAILURE', 'HA-NO-HEARTBEATS', 'HA-BAD-SECONDARY-STATE', 'INTERFACE-BW-USAGE', 'RATE-LIMIT-THRESHOLD-EXCEEDED', 'ENTITY-NAME-CHANGE', 'HA-PROP-FAILURE', 'IP-CONFLICT', 'PF-RL-RATE-THRESHOLD', 'PF-RL-PPS-THRESHOLD', 'PF-RL-RATE-PKTS-DROPPED', 'PF-RL-PPS-PKTS-DROPPED', 'APPFW-START-URL', 'APPFW-DENY-URL', 'APPFW-VIOLATIONS-TYPE', 'APPFW-REFERER-HEADER', 'APPFW-CSRF-TAG', 'APPFW-COOKIE', 'APPFW-FIELD-CONSISTENCY', 'APPFW-BUFFER-OVERFLOW', 'APPFW-FIELD-FORMAT', 'APPFW-FILE-UPLOAD-TYPE', 'APPFW-JSON-DOS', 'APPFW-JSON-SQL', 'APPFW-JSON-XSS', 'APPFW-SAFE-COMMERCE', 'APPFW-SAFE-OBJECT', 'APPFW-SESSION-LIMIT', 'APPFW-SIGNATURE-MATCH', 'APPFW-POLICY-HIT', 'APPFW-XSS', 'APPFW-XML-XSS', 'APPFW-SQL', 'APPFW-XML-SQL', 'APPFW-XML-ATTACHMENT', 'APPFW-XML-DOS', 'APPFW-XML-VALIDATION', 'APPFW-XML-WSI', 'APPFW-XML-SCHEMA-COMPILE', 'APPFW-XML-SOAP-FAULT', 'APPFW-NEW-SIGNATURE-ADDED', 'APPFW-DEPLOY-RELAXATION-DP', 'APPFW-LEARNED-RULE-APPLIED-DYN-PROF', 'APPFW-CMD', 'APPFW-POSTBODYLIMIT', 'APPFW-JSON-CMD', 'APPFW-SQL-GRAM', 'APPFW-JSON-SQL-GRAM', 'DNSKEY-EXPIRY', 'HA-LICENSE-MISMATCH', 'SSL-CARD-FAILED', 'SSL-CARD-NORMAL', 'WARM-RESTART-EVENT', 'HARD-DISK-DRIVE-ERRORS', 'COMPACT-FLASH-ERRORS', 'CALLHOME-UPLOAD-EVENT', '1024KEY-EXCHANGE-RATE', '2048KEY-EXCHANGE-RATE', '4096KEY-EXCHANGE-RATE', 'SSL-CUR-SESSION-INUSE', 'CLUSTER-NODE-HEALTH', 'CLUSTER-NODE-QUORUM', 'CLUSTER-VERSION-MISMATCH', 'CLUSTER-CCO-CHANGE', 'CLUSTER-OVS-CHANGE', 'CLUSTER-SYNC-FAILURE', 'CLUSTER-SYNC-PARTIAL-SUCCESS', 'CLUSTER-PROP-FAILURE', 'HA-STICKY-PRIMARY', 'INBAND-PROTOCOL-VERSION-MISMATCH', 'SSL-CHIP-REINIT', 'VRID-STATE-CHANGE', 'PORT-ALLOC-FAILED', 'LLDP-REMOTE-CHANGE', 'DUPLICATE-IPV6', 'PARTITION-CONFIG-EVENT', 'PARTITION-SWITCHED', 'LSN-PORTALLOC-FAILED', 'LSN-PORTQUOTA-EXCEED', 'LSN-SESSIONQUOTA-EXCEED', 'LSN-MEM-RECOVERY-KICKEDIN', 'VSERVER-SPILLOVER', 'PARTITION-RATE-LIMIT', 'POOLED-LICENSE-ONGRACE', 'POOLED-LICENSE-PARTIAL', 'CLUSTER-BACKPLANE-HB-MISSING', 'GSLB-SITE-MEP-FLAP', 'DNS-MAXNEGCACHE-USAGE', 'DNS-MAXCACHE-USAGE', 'NS-LICENSE-EXPIRY', 'PKT-RATELIMITING-ATTACK', 'GSLB-SYNC-STATUS-FLIP', 'URLFILT-DB-UPDATE-STATUS', 'URLFILT-INIT-SDK', 'POOLED-LICENSE-CHECKOUT-FAILURE', 'MIGRATION-STARTED', 'MIGRATION-COMPLETE', 'ECDHE-EXCHANGE-RATE', 'BOT-SIGNATURE-UPDATE', 'APPFW-XMLPAYLOAD-CONTENT-TYPE-MISMATCH')]
+        [string]$Trapname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -386,24 +382,24 @@ function Invoke-ADCGetSnmpalarm {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all snmpalarm objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpalarm -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpalarm -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpalarm objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpalarm -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpalarm -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpalarm objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpalarm -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpalarm -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpalarm configuration for property 'trapname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpalarm -NitroPath nitro/v1/config -Resource $trapname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving snmpalarm configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpalarm -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpalarm -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -417,70 +413,68 @@ function Invoke-ADCGetSnmpalarm {
 }
 
 function Invoke-ADCAddSnmpcommunity {
-<#
+    <#
     .SYNOPSIS
-        Add SNMP configuration Object
+        Add SNMP configuration Object.
     .DESCRIPTION
-        Add SNMP configuration Object 
-    .PARAMETER communityname 
+        Configuration for community resource.
+    .PARAMETER Communityname 
         The SNMP community string. Can consist of 1 to 31 characters that include uppercase and lowercase letters,numbers and special characters. 
-    .PARAMETER permissions 
-        The SNMP V1 or V2 query-type privilege that you want to associate with this SNMP community.  
+    .PARAMETER Permissions 
+        The SNMP V1 or V2 query-type privilege that you want to associate with this SNMP community. 
         Possible values = GET, GET_NEXT, GET_BULK, SET, ALL 
     .PARAMETER PassThru 
         Return details about the created snmpcommunity item.
     .EXAMPLE
-        Invoke-ADCAddSnmpcommunity -communityname <string> -permissions <string>
+        PS C:\>Invoke-ADCAddSnmpcommunity -communityname <string> -permissions <string>
+        An example how to add snmpcommunity configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSnmpcommunity
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpcommunity/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$communityname ,
+        [string]$Communityname,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('GET', 'GET_NEXT', 'GET_BULK', 'SET', 'ALL')]
-        [string]$permissions ,
+        [string]$Permissions,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSnmpcommunity: Starting"
     }
     process {
         try {
-            $Payload = @{
-                communityname = $communityname
-                permissions = $permissions
+            $payload = @{ communityname = $communityname
+                permissions             = $permissions
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("snmpcommunity", "Add SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpcommunity -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("snmpcommunity", "Add SNMP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpcommunity -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSnmpcommunity -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSnmpcommunity -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -493,46 +487,47 @@ function Invoke-ADCAddSnmpcommunity {
 }
 
 function Invoke-ADCDeleteSnmpcommunity {
-<#
+    <#
     .SYNOPSIS
-        Delete SNMP configuration Object
+        Delete SNMP configuration Object.
     .DESCRIPTION
-        Delete SNMP configuration Object
-    .PARAMETER communityname 
-       The SNMP community string. Can consist of 1 to 31 characters that include uppercase and lowercase letters,numbers and special characters. 
+        Configuration for community resource.
+    .PARAMETER Communityname 
+        The SNMP community string. Can consist of 1 to 31 characters that include uppercase and lowercase letters,numbers and special characters.
     .EXAMPLE
-        Invoke-ADCDeleteSnmpcommunity -communityname <string>
+        PS C:\>Invoke-ADCDeleteSnmpcommunity -Communityname <string>
+        An example how to delete snmpcommunity configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSnmpcommunity
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpcommunity/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$communityname 
+        [Parameter(Mandatory)]
+        [string]$Communityname 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSnmpcommunity: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$communityname", "Delete SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpcommunity -NitroPath nitro/v1/config -Resource $communityname -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$communityname", "Delete SNMP configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpcommunity -NitroPath nitro/v1/config -Resource $communityname -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -548,55 +543,61 @@ function Invoke-ADCDeleteSnmpcommunity {
 }
 
 function Invoke-ADCGetSnmpcommunity {
-<#
+    <#
     .SYNOPSIS
-        Get SNMP configuration object(s)
+        Get SNMP configuration object(s).
     .DESCRIPTION
-        Get SNMP configuration object(s)
-    .PARAMETER communityname 
-       The SNMP community string. Can consist of 1 to 31 characters that include uppercase and lowercase letters,numbers and special characters. 
+        Configuration for community resource.
+    .PARAMETER Communityname 
+        The SNMP community string. Can consist of 1 to 31 characters that include uppercase and lowercase letters,numbers and special characters. 
     .PARAMETER GetAll 
-        Retreive all snmpcommunity object(s)
+        Retrieve all snmpcommunity object(s).
     .PARAMETER Count
-        If specified, the count of the snmpcommunity object(s) will be returned
+        If specified, the count of the snmpcommunity object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSnmpcommunity
+        PS C:\>Invoke-ADCGetSnmpcommunity
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSnmpcommunity -GetAll 
+        PS C:\>Invoke-ADCGetSnmpcommunity -GetAll 
+        Get all snmpcommunity data. 
     .EXAMPLE 
-        Invoke-ADCGetSnmpcommunity -Count
+        PS C:\>Invoke-ADCGetSnmpcommunity -Count 
+        Get the number of snmpcommunity objects.
     .EXAMPLE
-        Invoke-ADCGetSnmpcommunity -name <string>
+        PS C:\>Invoke-ADCGetSnmpcommunity -name <string>
+        Get snmpcommunity object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSnmpcommunity -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSnmpcommunity -Filter @{ 'name'='<value>' }
+        Get snmpcommunity data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpcommunity
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpcommunity/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$communityname,
+        [string]$Communityname,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -614,24 +615,24 @@ function Invoke-ADCGetSnmpcommunity {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all snmpcommunity objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpcommunity -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpcommunity -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpcommunity objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpcommunity -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpcommunity -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpcommunity objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpcommunity -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpcommunity -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpcommunity configuration for property 'communityname'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpcommunity -NitroPath nitro/v1/config -Resource $communityname -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving snmpcommunity configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpcommunity -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpcommunity -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -645,72 +646,64 @@ function Invoke-ADCGetSnmpcommunity {
 }
 
 function Invoke-ADCUpdateSnmpengineid {
-<#
+    <#
     .SYNOPSIS
-        Update SNMP configuration Object
+        Update SNMP configuration Object.
     .DESCRIPTION
-        Update SNMP configuration Object 
-    .PARAMETER engineid 
-        A hexadecimal value of at least 10 characters, uniquely identifying the engineid.  
-        Minimum length = 10  
-        Maximum length = 31 
-    .PARAMETER ownernode 
-        ID of the cluster node for which you are setting the engineid.  
-        Default value: -1  
-        Minimum value = 0  
-        Maximum value = 31 
+        Configuration for SNMP engine id resource.
+    .PARAMETER Engineid 
+        A hexadecimal value of at least 10 characters, uniquely identifying the engineid. 
+    .PARAMETER Ownernode 
+        ID of the cluster node for which you are setting the engineid. 
     .PARAMETER PassThru 
         Return details about the created snmpengineid item.
     .EXAMPLE
-        Invoke-ADCUpdateSnmpengineid -engineid <string>
+        PS C:\>Invoke-ADCUpdateSnmpengineid -engineid <string>
+        An example how to update snmpengineid configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSnmpengineid
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpengineid/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(10, 31)]
-        [string]$engineid ,
+        [string]$Engineid,
 
         [ValidateRange(0, 31)]
-        [double]$ownernode ,
+        [double]$Ownernode,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSnmpengineid: Starting"
     }
     process {
         try {
-            $Payload = @{
-                engineid = $engineid
-            }
-            if ($PSBoundParameters.ContainsKey('ownernode')) { $Payload.Add('ownernode', $ownernode) }
- 
-            if ($PSCmdlet.ShouldProcess("snmpengineid", "Update SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpengineid -Payload $Payload -GetWarning
+            $payload = @{ engineid = $engineid }
+            if ( $PSBoundParameters.ContainsKey('ownernode') ) { $payload.Add('ownernode', $ownernode) }
+            if ( $PSCmdlet.ShouldProcess("snmpengineid", "Update SNMP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpengineid -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSnmpengineid -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSnmpengineid -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -723,32 +716,34 @@ function Invoke-ADCUpdateSnmpengineid {
 }
 
 function Invoke-ADCUnsetSnmpengineid {
-<#
+    <#
     .SYNOPSIS
-        Unset SNMP configuration Object
+        Unset SNMP configuration Object.
     .DESCRIPTION
-        Unset SNMP configuration Object 
-   .PARAMETER ownernode 
-       ID of the cluster node for which you are setting the engineid.
+        Configuration for SNMP engine id resource.
+    .PARAMETER Ownernode 
+        ID of the cluster node for which you are setting the engineid.
     .EXAMPLE
-        Invoke-ADCUnsetSnmpengineid 
+        PS C:\>Invoke-ADCUnsetSnmpengineid 
+        An example how to unset snmpengineid configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSnmpengineid
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpengineid
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Boolean]$ownernode 
     )
@@ -757,12 +752,10 @@ function Invoke-ADCUnsetSnmpengineid {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('ownernode')) { $Payload.Add('ownernode', $ownernode) }
-            if ($PSCmdlet.ShouldProcess("snmpengineid", "Unset SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpengineid -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('ownernode') ) { $payload.Add('ownernode', $ownernode) }
+            if ( $PSCmdlet.ShouldProcess("snmpengineid", "Unset SNMP configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpengineid -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -778,55 +771,61 @@ function Invoke-ADCUnsetSnmpengineid {
 }
 
 function Invoke-ADCGetSnmpengineid {
-<#
+    <#
     .SYNOPSIS
-        Get SNMP configuration object(s)
+        Get SNMP configuration object(s).
     .DESCRIPTION
-        Get SNMP configuration object(s)
-    .PARAMETER ownernode 
-       ID of the cluster node for which you are setting the engineid. 
+        Configuration for SNMP engine id resource.
+    .PARAMETER Ownernode 
+        ID of the cluster node for which you are setting the engineid. 
     .PARAMETER GetAll 
-        Retreive all snmpengineid object(s)
+        Retrieve all snmpengineid object(s).
     .PARAMETER Count
-        If specified, the count of the snmpengineid object(s) will be returned
+        If specified, the count of the snmpengineid object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSnmpengineid
+        PS C:\>Invoke-ADCGetSnmpengineid
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSnmpengineid -GetAll 
+        PS C:\>Invoke-ADCGetSnmpengineid -GetAll 
+        Get all snmpengineid data. 
     .EXAMPLE 
-        Invoke-ADCGetSnmpengineid -Count
+        PS C:\>Invoke-ADCGetSnmpengineid -Count 
+        Get the number of snmpengineid objects.
     .EXAMPLE
-        Invoke-ADCGetSnmpengineid -name <string>
+        PS C:\>Invoke-ADCGetSnmpengineid -name <string>
+        Get snmpengineid object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSnmpengineid -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSnmpengineid -Filter @{ 'name'='<value>' }
+        Get snmpengineid data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpengineid
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpengineid/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateRange(0, 31)]
-        [double]$ownernode,
+        [double]$Ownernode,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -844,24 +843,24 @@ function Invoke-ADCGetSnmpengineid {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all snmpengineid objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpengineid -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpengineid -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpengineid objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpengineid -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpengineid -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpengineid objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpengineid -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpengineid -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpengineid configuration for property 'ownernode'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpengineid -NitroPath nitro/v1/config -Resource $ownernode -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving snmpengineid configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpengineid -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpengineid -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -875,74 +874,71 @@ function Invoke-ADCGetSnmpengineid {
 }
 
 function Invoke-ADCAddSnmpgroup {
-<#
+    <#
     .SYNOPSIS
-        Add SNMP configuration Object
+        Add SNMP configuration Object.
     .DESCRIPTION
-        Add SNMP configuration Object 
-    .PARAMETER name 
+        Configuration for SNMP group resource.
+    .PARAMETER Name 
         Name for the SNMPv3 group. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. You should choose a name that helps identify the SNMPv3 group. 
-    .PARAMETER securitylevel 
-        Security level required for communication between the Citrix ADC and the SNMPv3 users who belong to the group. Specify one of the following options:  
-        noAuthNoPriv. Require neither authentication nor encryption.  
-        authNoPriv. Require authentication but no encryption.  
-        authPriv. Require authentication and encryption.  
-        Note: If you specify authentication, you must specify an encryption algorithm when you assign an SNMPv3 user to the group. If you also specify encryption, you must assign both an authentication and an encryption algorithm for each group member.  
+    .PARAMETER Securitylevel 
+        Security level required for communication between the Citrix ADC and the SNMPv3 users who belong to the group. Specify one of the following options: 
+        noAuthNoPriv. Require neither authentication nor encryption. 
+        authNoPriv. Require authentication but no encryption. 
+        authPriv. Require authentication and encryption. 
+        Note: If you specify authentication, you must specify an encryption algorithm when you assign an SNMPv3 user to the group. If you also specify encryption, you must assign both an authentication and an encryption algorithm for each group member. 
         Possible values = noAuthNoPriv, authNoPriv, authPriv 
-    .PARAMETER readviewname 
-        Name of the configured SNMPv3 view that you want to bind to this SNMPv3 group. An SNMPv3 user bound to this group can access the subtrees that are bound to this SNMPv3 view as type INCLUDED, but cannot access the ones that are type EXCLUDED. If the Citrix ADC has multiple SNMPv3 view entries with the same name, all such entries are associated with the SNMPv3 group.  
-        Minimum length = 1
+    .PARAMETER Readviewname 
+        Name of the configured SNMPv3 view that you want to bind to this SNMPv3 group. An SNMPv3 user bound to this group can access the subtrees that are bound to this SNMPv3 view as type INCLUDED, but cannot access the ones that are type EXCLUDED. If the Citrix ADC has multiple SNMPv3 view entries with the same name, all such entries are associated with the SNMPv3 group.
     .EXAMPLE
-        Invoke-ADCAddSnmpgroup -name <string> -securitylevel <string> -readviewname <string>
+        PS C:\>Invoke-ADCAddSnmpgroup -name <string> -securitylevel <string> -readviewname <string>
+        An example how to add snmpgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSnmpgroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpgroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('noAuthNoPriv', 'authNoPriv', 'authPriv')]
-        [string]$securitylevel ,
+        [string]$Securitylevel,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$readviewname 
-
+        [string]$Readviewname 
     )
     begin {
         Write-Verbose "Invoke-ADCAddSnmpgroup: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                securitylevel = $securitylevel
-                readviewname = $readviewname
+            $payload = @{ name = $name
+                securitylevel  = $securitylevel
+                readviewname   = $readviewname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("snmpgroup", "Add SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpgroup -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("snmpgroup", "Add SNMP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpgroup -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -955,54 +951,56 @@ function Invoke-ADCAddSnmpgroup {
 }
 
 function Invoke-ADCDeleteSnmpgroup {
-<#
+    <#
     .SYNOPSIS
-        Delete SNMP configuration Object
+        Delete SNMP configuration Object.
     .DESCRIPTION
-        Delete SNMP configuration Object
-    .PARAMETER name 
-       Name for the SNMPv3 group. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. You should choose a name that helps identify the SNMPv3 group.    .PARAMETER securitylevel 
-       Security level required for communication between the Citrix ADC and the SNMPv3 users who belong to the group. Specify one of the following options:  
-       noAuthNoPriv. Require neither authentication nor encryption.  
-       authNoPriv. Require authentication but no encryption.  
-       authPriv. Require authentication and encryption.  
-       Note: If you specify authentication, you must specify an encryption algorithm when you assign an SNMPv3 user to the group. If you also specify encryption, you must assign both an authentication and an encryption algorithm for each group member.  
-       Possible values = noAuthNoPriv, authNoPriv, authPriv
+        Configuration for SNMP group resource.
+    .PARAMETER Name 
+        Name for the SNMPv3 group. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. You should choose a name that helps identify the SNMPv3 group. 
+    .PARAMETER Securitylevel 
+        Security level required for communication between the Citrix ADC and the SNMPv3 users who belong to the group. Specify one of the following options: 
+        noAuthNoPriv. Require neither authentication nor encryption. 
+        authNoPriv. Require authentication but no encryption. 
+        authPriv. Require authentication and encryption. 
+        Note: If you specify authentication, you must specify an encryption algorithm when you assign an SNMPv3 user to the group. If you also specify encryption, you must assign both an authentication and an encryption algorithm for each group member. 
+        Possible values = noAuthNoPriv, authNoPriv, authPriv
     .EXAMPLE
-        Invoke-ADCDeleteSnmpgroup -name <string>
+        PS C:\>Invoke-ADCDeleteSnmpgroup -Name <string>
+        An example how to delete snmpgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSnmpgroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpgroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [string]$securitylevel 
+        [string]$Securitylevel 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSnmpgroup: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('securitylevel')) { $Arguments.Add('securitylevel', $securitylevel) }
-            if ($PSCmdlet.ShouldProcess("$name", "Delete SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpgroup -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Securitylevel') ) { $arguments.Add('securitylevel', $Securitylevel) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete SNMP configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpgroup -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1018,74 +1016,71 @@ function Invoke-ADCDeleteSnmpgroup {
 }
 
 function Invoke-ADCUpdateSnmpgroup {
-<#
+    <#
     .SYNOPSIS
-        Update SNMP configuration Object
+        Update SNMP configuration Object.
     .DESCRIPTION
-        Update SNMP configuration Object 
-    .PARAMETER name 
+        Configuration for SNMP group resource.
+    .PARAMETER Name 
         Name for the SNMPv3 group. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. You should choose a name that helps identify the SNMPv3 group. 
-    .PARAMETER securitylevel 
-        Security level required for communication between the Citrix ADC and the SNMPv3 users who belong to the group. Specify one of the following options:  
-        noAuthNoPriv. Require neither authentication nor encryption.  
-        authNoPriv. Require authentication but no encryption.  
-        authPriv. Require authentication and encryption.  
-        Note: If you specify authentication, you must specify an encryption algorithm when you assign an SNMPv3 user to the group. If you also specify encryption, you must assign both an authentication and an encryption algorithm for each group member.  
+    .PARAMETER Securitylevel 
+        Security level required for communication between the Citrix ADC and the SNMPv3 users who belong to the group. Specify one of the following options: 
+        noAuthNoPriv. Require neither authentication nor encryption. 
+        authNoPriv. Require authentication but no encryption. 
+        authPriv. Require authentication and encryption. 
+        Note: If you specify authentication, you must specify an encryption algorithm when you assign an SNMPv3 user to the group. If you also specify encryption, you must assign both an authentication and an encryption algorithm for each group member. 
         Possible values = noAuthNoPriv, authNoPriv, authPriv 
-    .PARAMETER readviewname 
-        Name of the configured SNMPv3 view that you want to bind to this SNMPv3 group. An SNMPv3 user bound to this group can access the subtrees that are bound to this SNMPv3 view as type INCLUDED, but cannot access the ones that are type EXCLUDED. If the Citrix ADC has multiple SNMPv3 view entries with the same name, all such entries are associated with the SNMPv3 group.  
-        Minimum length = 1
+    .PARAMETER Readviewname 
+        Name of the configured SNMPv3 view that you want to bind to this SNMPv3 group. An SNMPv3 user bound to this group can access the subtrees that are bound to this SNMPv3 view as type INCLUDED, but cannot access the ones that are type EXCLUDED. If the Citrix ADC has multiple SNMPv3 view entries with the same name, all such entries are associated with the SNMPv3 group.
     .EXAMPLE
-        Invoke-ADCUpdateSnmpgroup -name <string> -securitylevel <string> -readviewname <string>
+        PS C:\>Invoke-ADCUpdateSnmpgroup -name <string> -securitylevel <string> -readviewname <string>
+        An example how to update snmpgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSnmpgroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpgroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('noAuthNoPriv', 'authNoPriv', 'authPriv')]
-        [string]$securitylevel ,
+        [string]$Securitylevel,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$readviewname 
-
+        [string]$Readviewname 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSnmpgroup: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                securitylevel = $securitylevel
-                readviewname = $readviewname
+            $payload = @{ name = $name
+                securitylevel  = $securitylevel
+                readviewname   = $readviewname
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("snmpgroup", "Update SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpgroup -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("snmpgroup", "Update SNMP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpgroup -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1098,49 +1093,55 @@ function Invoke-ADCUpdateSnmpgroup {
 }
 
 function Invoke-ADCGetSnmpgroup {
-<#
+    <#
     .SYNOPSIS
-        Get SNMP configuration object(s)
+        Get SNMP configuration object(s).
     .DESCRIPTION
-        Get SNMP configuration object(s)
+        Configuration for SNMP group resource.
     .PARAMETER GetAll 
-        Retreive all snmpgroup object(s)
+        Retrieve all snmpgroup object(s).
     .PARAMETER Count
-        If specified, the count of the snmpgroup object(s) will be returned
+        If specified, the count of the snmpgroup object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSnmpgroup
+        PS C:\>Invoke-ADCGetSnmpgroup
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSnmpgroup -GetAll 
+        PS C:\>Invoke-ADCGetSnmpgroup -GetAll 
+        Get all snmpgroup data. 
     .EXAMPLE 
-        Invoke-ADCGetSnmpgroup -Count
+        PS C:\>Invoke-ADCGetSnmpgroup -Count 
+        Get the number of snmpgroup objects.
     .EXAMPLE
-        Invoke-ADCGetSnmpgroup -name <string>
+        PS C:\>Invoke-ADCGetSnmpgroup -name <string>
+        Get snmpgroup object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSnmpgroup -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSnmpgroup -Filter @{ 'name'='<value>' }
+        Get snmpgroup data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpgroup
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpgroup/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1157,24 +1158,24 @@ function Invoke-ADCGetSnmpgroup {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all snmpgroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpgroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpgroup -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpgroup objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpgroup -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpgroup -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpgroup objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpgroup -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpgroup -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpgroup configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving snmpgroup configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpgroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpgroup -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1188,69 +1189,62 @@ function Invoke-ADCGetSnmpgroup {
 }
 
 function Invoke-ADCAddSnmpmanager {
-<#
+    <#
     .SYNOPSIS
-        Add SNMP configuration Object
+        Add SNMP configuration Object.
     .DESCRIPTION
-        Add SNMP configuration Object 
-    .PARAMETER ipaddress 
-        IP address of the SNMP manager. Can be an IPv4 or IPv6 address. You can instead specify an IPv4 network address or IPv6 network prefix if you want the Citrix ADC to respond to SNMP queries from any device on the specified network. Alternatively, instead of an IPv4 address, you can specify a host name that has been assigned to an SNMP manager. If you do so, you must add a DNS name server that resolves the host name of the SNMP manager to its IP address.  
-        Note: The Citrix ADC does not support host names for SNMP managers that have IPv6 addresses.  
-        Minimum length = 1  
-        Maximum length = 255 
-    .PARAMETER netmask 
+        Configuration for manager resource.
+    .PARAMETER Ipaddress 
+        IP address of the SNMP manager. Can be an IPv4 or IPv6 address. You can instead specify an IPv4 network address or IPv6 network prefix if you want the Citrix ADC to respond to SNMP queries from any device on the specified network. Alternatively, instead of an IPv4 address, you can specify a host name that has been assigned to an SNMP manager. If you do so, you must add a DNS name server that resolves the host name of the SNMP manager to its IP address. 
+        Note: The Citrix ADC does not support host names for SNMP managers that have IPv6 addresses. 
+    .PARAMETER Netmask 
         Subnet mask associated with an IPv4 network address. If the IP address specifies the address or host name of a specific host, accept the default value of 255.255.255.255. 
-    .PARAMETER domainresolveretry 
-        Amount of time, in seconds, for which the Citrix ADC waits before sending another DNS query to resolve the host name of the SNMP manager if the last query failed. This parameter is valid for host-name based SNMP managers only. After a query succeeds, the TTL determines the wait time. The minimum and default value is 5.  
-        Minimum value = 5  
-        Maximum value = 20939
+    .PARAMETER Domainresolveretry 
+        Amount of time, in seconds, for which the Citrix ADC waits before sending another DNS query to resolve the host name of the SNMP manager if the last query failed. This parameter is valid for host-name based SNMP managers only. After a query succeeds, the TTL determines the wait time. The minimum and default value is 5.
     .EXAMPLE
-        Invoke-ADCAddSnmpmanager -ipaddress <string>
+        PS C:\>Invoke-ADCAddSnmpmanager -ipaddress <string>
+        An example how to add snmpmanager configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSnmpmanager
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmanager/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 255)]
-        [string]$ipaddress ,
+        [string]$Ipaddress,
 
-        [string]$netmask ,
+        [string]$Netmask,
 
         [ValidateRange(5, 20939)]
-        [int]$domainresolveretry 
-
+        [int]$Domainresolveretry 
     )
     begin {
         Write-Verbose "Invoke-ADCAddSnmpmanager: Starting"
     }
     process {
         try {
-            $Payload = @{
-                ipaddress = $ipaddress
-            }
-            if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
-            if ($PSBoundParameters.ContainsKey('domainresolveretry')) { $Payload.Add('domainresolveretry', $domainresolveretry) }
- 
-            if ($PSCmdlet.ShouldProcess("snmpmanager", "Add SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpmanager -Payload $Payload -GetWarning
+            $payload = @{ ipaddress = $ipaddress }
+            if ( $PSBoundParameters.ContainsKey('netmask') ) { $payload.Add('netmask', $netmask) }
+            if ( $PSBoundParameters.ContainsKey('domainresolveretry') ) { $payload.Add('domainresolveretry', $domainresolveretry) }
+            if ( $PSCmdlet.ShouldProcess("snmpmanager", "Add SNMP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpmanager -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1263,52 +1257,52 @@ function Invoke-ADCAddSnmpmanager {
 }
 
 function Invoke-ADCDeleteSnmpmanager {
-<#
+    <#
     .SYNOPSIS
-        Delete SNMP configuration Object
+        Delete SNMP configuration Object.
     .DESCRIPTION
-        Delete SNMP configuration Object
-    .PARAMETER ipaddress 
-       IP address of the SNMP manager. Can be an IPv4 or IPv6 address. You can instead specify an IPv4 network address or IPv6 network prefix if you want the Citrix ADC to respond to SNMP queries from any device on the specified network. Alternatively, instead of an IPv4 address, you can specify a host name that has been assigned to an SNMP manager. If you do so, you must add a DNS name server that resolves the host name of the SNMP manager to its IP address.  
-       Note: The Citrix ADC does not support host names for SNMP managers that have IPv6 addresses.  
-       Minimum length = 1  
-       Maximum length = 255    .PARAMETER netmask 
-       Subnet mask associated with an IPv4 network address. If the IP address specifies the address or host name of a specific host, accept the default value of 255.255.255.255.
+        Configuration for manager resource.
+    .PARAMETER Ipaddress 
+        IP address of the SNMP manager. Can be an IPv4 or IPv6 address. You can instead specify an IPv4 network address or IPv6 network prefix if you want the Citrix ADC to respond to SNMP queries from any device on the specified network. Alternatively, instead of an IPv4 address, you can specify a host name that has been assigned to an SNMP manager. If you do so, you must add a DNS name server that resolves the host name of the SNMP manager to its IP address. 
+        Note: The Citrix ADC does not support host names for SNMP managers that have IPv6 addresses. 
+    .PARAMETER Netmask 
+        Subnet mask associated with an IPv4 network address. If the IP address specifies the address or host name of a specific host, accept the default value of 255.255.255.255.
     .EXAMPLE
-        Invoke-ADCDeleteSnmpmanager -ipaddress <string>
+        PS C:\>Invoke-ADCDeleteSnmpmanager -Ipaddress <string>
+        An example how to delete snmpmanager configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSnmpmanager
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmanager/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$ipaddress ,
+        [Parameter(Mandatory)]
+        [string]$Ipaddress,
 
-        [string]$netmask 
+        [string]$Netmask 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSnmpmanager: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('netmask')) { $Arguments.Add('netmask', $netmask) }
-            if ($PSCmdlet.ShouldProcess("$ipaddress", "Delete SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpmanager -NitroPath nitro/v1/config -Resource $ipaddress -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Netmask') ) { $arguments.Add('netmask', $Netmask) }
+            if ( $PSCmdlet.ShouldProcess("$ipaddress", "Delete SNMP configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpmanager -NitroPath nitro/v1/config -Resource $ipaddress -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1324,69 +1318,62 @@ function Invoke-ADCDeleteSnmpmanager {
 }
 
 function Invoke-ADCUpdateSnmpmanager {
-<#
+    <#
     .SYNOPSIS
-        Update SNMP configuration Object
+        Update SNMP configuration Object.
     .DESCRIPTION
-        Update SNMP configuration Object 
-    .PARAMETER ipaddress 
-        IP address of the SNMP manager. Can be an IPv4 or IPv6 address. You can instead specify an IPv4 network address or IPv6 network prefix if you want the Citrix ADC to respond to SNMP queries from any device on the specified network. Alternatively, instead of an IPv4 address, you can specify a host name that has been assigned to an SNMP manager. If you do so, you must add a DNS name server that resolves the host name of the SNMP manager to its IP address.  
-        Note: The Citrix ADC does not support host names for SNMP managers that have IPv6 addresses.  
-        Minimum length = 1  
-        Maximum length = 255 
-    .PARAMETER netmask 
+        Configuration for manager resource.
+    .PARAMETER Ipaddress 
+        IP address of the SNMP manager. Can be an IPv4 or IPv6 address. You can instead specify an IPv4 network address or IPv6 network prefix if you want the Citrix ADC to respond to SNMP queries from any device on the specified network. Alternatively, instead of an IPv4 address, you can specify a host name that has been assigned to an SNMP manager. If you do so, you must add a DNS name server that resolves the host name of the SNMP manager to its IP address. 
+        Note: The Citrix ADC does not support host names for SNMP managers that have IPv6 addresses. 
+    .PARAMETER Netmask 
         Subnet mask associated with an IPv4 network address. If the IP address specifies the address or host name of a specific host, accept the default value of 255.255.255.255. 
-    .PARAMETER domainresolveretry 
-        Amount of time, in seconds, for which the Citrix ADC waits before sending another DNS query to resolve the host name of the SNMP manager if the last query failed. This parameter is valid for host-name based SNMP managers only. After a query succeeds, the TTL determines the wait time. The minimum and default value is 5.  
-        Minimum value = 5  
-        Maximum value = 20939
+    .PARAMETER Domainresolveretry 
+        Amount of time, in seconds, for which the Citrix ADC waits before sending another DNS query to resolve the host name of the SNMP manager if the last query failed. This parameter is valid for host-name based SNMP managers only. After a query succeeds, the TTL determines the wait time. The minimum and default value is 5.
     .EXAMPLE
-        Invoke-ADCUpdateSnmpmanager -ipaddress <string>
+        PS C:\>Invoke-ADCUpdateSnmpmanager -ipaddress <string>
+        An example how to update snmpmanager configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSnmpmanager
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmanager/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateLength(1, 255)]
-        [string]$ipaddress ,
+        [string]$Ipaddress,
 
-        [string]$netmask ,
+        [string]$Netmask,
 
         [ValidateRange(5, 20939)]
-        [int]$domainresolveretry 
-
+        [int]$Domainresolveretry 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSnmpmanager: Starting"
     }
     process {
         try {
-            $Payload = @{
-                ipaddress = $ipaddress
-            }
-            if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
-            if ($PSBoundParameters.ContainsKey('domainresolveretry')) { $Payload.Add('domainresolveretry', $domainresolveretry) }
- 
-            if ($PSCmdlet.ShouldProcess("snmpmanager", "Update SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpmanager -Payload $Payload -GetWarning
+            $payload = @{ ipaddress = $ipaddress }
+            if ( $PSBoundParameters.ContainsKey('netmask') ) { $payload.Add('netmask', $netmask) }
+            if ( $PSBoundParameters.ContainsKey('domainresolveretry') ) { $payload.Add('domainresolveretry', $domainresolveretry) }
+            if ( $PSCmdlet.ShouldProcess("snmpmanager", "Update SNMP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpmanager -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1399,43 +1386,44 @@ function Invoke-ADCUpdateSnmpmanager {
 }
 
 function Invoke-ADCUnsetSnmpmanager {
-<#
+    <#
     .SYNOPSIS
-        Unset SNMP configuration Object
+        Unset SNMP configuration Object.
     .DESCRIPTION
-        Unset SNMP configuration Object 
-   .PARAMETER ipaddress 
-       IP address of the SNMP manager. Can be an IPv4 or IPv6 address. You can instead specify an IPv4 network address or IPv6 network prefix if you want the Citrix ADC to respond to SNMP queries from any device on the specified network. Alternatively, instead of an IPv4 address, you can specify a host name that has been assigned to an SNMP manager. If you do so, you must add a DNS name server that resolves the host name of the SNMP manager to its IP address.  
-       Note: The Citrix ADC does not support host names for SNMP managers that have IPv6 addresses. 
-   .PARAMETER netmask 
-       Subnet mask associated with an IPv4 network address. If the IP address specifies the address or host name of a specific host, accept the default value of 255.255.255.255. 
-   .PARAMETER domainresolveretry 
-       Amount of time, in seconds, for which the Citrix ADC waits before sending another DNS query to resolve the host name of the SNMP manager if the last query failed. This parameter is valid for host-name based SNMP managers only. After a query succeeds, the TTL determines the wait time. The minimum and default value is 5.
+        Configuration for manager resource.
+    .PARAMETER Ipaddress 
+        IP address of the SNMP manager. Can be an IPv4 or IPv6 address. You can instead specify an IPv4 network address or IPv6 network prefix if you want the Citrix ADC to respond to SNMP queries from any device on the specified network. Alternatively, instead of an IPv4 address, you can specify a host name that has been assigned to an SNMP manager. If you do so, you must add a DNS name server that resolves the host name of the SNMP manager to its IP address. 
+        Note: The Citrix ADC does not support host names for SNMP managers that have IPv6 addresses. 
+    .PARAMETER Netmask 
+        Subnet mask associated with an IPv4 network address. If the IP address specifies the address or host name of a specific host, accept the default value of 255.255.255.255. 
+    .PARAMETER Domainresolveretry 
+        Amount of time, in seconds, for which the Citrix ADC waits before sending another DNS query to resolve the host name of the SNMP manager if the last query failed. This parameter is valid for host-name based SNMP managers only. After a query succeeds, the TTL determines the wait time. The minimum and default value is 5.
     .EXAMPLE
-        Invoke-ADCUnsetSnmpmanager -ipaddress <string>
+        PS C:\>Invoke-ADCUnsetSnmpmanager -ipaddress <string>
+        An example how to unset snmpmanager configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSnmpmanager
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmanager
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateLength(1, 255)]
-        [string]$ipaddress ,
+        [string]$Ipaddress,
 
-        [Boolean]$netmask ,
+        [Boolean]$netmask,
 
         [Boolean]$domainresolveretry 
     )
@@ -1444,13 +1432,11 @@ function Invoke-ADCUnsetSnmpmanager {
     }
     process {
         try {
-            $Payload = @{
-                ipaddress = $ipaddress
-            }
-            if ($PSBoundParameters.ContainsKey('netmask')) { $Payload.Add('netmask', $netmask) }
-            if ($PSBoundParameters.ContainsKey('domainresolveretry')) { $Payload.Add('domainresolveretry', $domainresolveretry) }
-            if ($PSCmdlet.ShouldProcess("$ipaddress", "Unset SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpmanager -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ ipaddress = $ipaddress }
+            if ( $PSBoundParameters.ContainsKey('netmask') ) { $payload.Add('netmask', $netmask) }
+            if ( $PSBoundParameters.ContainsKey('domainresolveretry') ) { $payload.Add('domainresolveretry', $domainresolveretry) }
+            if ( $PSCmdlet.ShouldProcess("$ipaddress", "Unset SNMP configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpmanager -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1466,49 +1452,55 @@ function Invoke-ADCUnsetSnmpmanager {
 }
 
 function Invoke-ADCGetSnmpmanager {
-<#
+    <#
     .SYNOPSIS
-        Get SNMP configuration object(s)
+        Get SNMP configuration object(s).
     .DESCRIPTION
-        Get SNMP configuration object(s)
+        Configuration for manager resource.
     .PARAMETER GetAll 
-        Retreive all snmpmanager object(s)
+        Retrieve all snmpmanager object(s).
     .PARAMETER Count
-        If specified, the count of the snmpmanager object(s) will be returned
+        If specified, the count of the snmpmanager object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSnmpmanager
+        PS C:\>Invoke-ADCGetSnmpmanager
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSnmpmanager -GetAll 
+        PS C:\>Invoke-ADCGetSnmpmanager -GetAll 
+        Get all snmpmanager data. 
     .EXAMPLE 
-        Invoke-ADCGetSnmpmanager -Count
+        PS C:\>Invoke-ADCGetSnmpmanager -Count 
+        Get the number of snmpmanager objects.
     .EXAMPLE
-        Invoke-ADCGetSnmpmanager -name <string>
+        PS C:\>Invoke-ADCGetSnmpmanager -name <string>
+        Get snmpmanager object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSnmpmanager -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSnmpmanager -Filter @{ 'name'='<value>' }
+        Get snmpmanager data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpmanager
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmanager/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1525,24 +1517,24 @@ function Invoke-ADCGetSnmpmanager {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all snmpmanager objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmanager -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmanager -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpmanager objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmanager -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmanager -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpmanager objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmanager -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmanager -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpmanager configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving snmpmanager configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmanager -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmanager -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1556,88 +1548,82 @@ function Invoke-ADCGetSnmpmanager {
 }
 
 function Invoke-ADCUpdateSnmpmib {
-<#
+    <#
     .SYNOPSIS
-        Update SNMP configuration Object
+        Update SNMP configuration Object.
     .DESCRIPTION
-        Update SNMP configuration Object 
-    .PARAMETER contact 
+        Configuration for SNMP mib resource.
+    .PARAMETER Contact 
         Name of the administrator for this Citrix ADC. Along with the name, you can include information on how to contact this person, such as a phone number or an email address. Can consist of 1 to 127 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. 
-    .PARAMETER name 
+    .PARAMETER Name 
         Name for this Citrix ADC. Can consist of 1 to 127 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. You should choose a name that helps identify the Citrix ADC appliance. 
-    .PARAMETER location 
+    .PARAMETER Location 
         Physical location of the Citrix ADC. For example, you can specify building name, lab number, and rack number. Can consist of 1 to 127 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. 
-    .PARAMETER customid 
+    .PARAMETER Customid 
         Custom identification number for the Citrix ADC. Can consist of 1 to 127 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. You should choose a custom identification that helps identify the Citrix ADC appliance. 
-    .PARAMETER ownernode 
-        ID of the cluster node for which we are setting the mib. This is a mandatory argument to set snmp mib on CLIP.  
-        Default value: -1  
-        Minimum value = 0  
-        Maximum value = 31 
+    .PARAMETER Ownernode 
+        ID of the cluster node for which we are setting the mib. This is a mandatory argument to set snmp mib on CLIP. 
     .PARAMETER PassThru 
         Return details about the created snmpmib item.
     .EXAMPLE
-        Invoke-ADCUpdateSnmpmib 
+        PS C:\>Invoke-ADCUpdateSnmpmib 
+        An example how to update snmpmib configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSnmpmib
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmib/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$contact ,
+        [string]$Contact,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$location ,
+        [string]$Location,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$customid ,
+        [string]$Customid,
 
         [ValidateRange(0, 31)]
-        [double]$ownernode ,
+        [double]$Ownernode,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSnmpmib: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('contact')) { $Payload.Add('contact', $contact) }
-            if ($PSBoundParameters.ContainsKey('name')) { $Payload.Add('name', $name) }
-            if ($PSBoundParameters.ContainsKey('location')) { $Payload.Add('location', $location) }
-            if ($PSBoundParameters.ContainsKey('customid')) { $Payload.Add('customid', $customid) }
-            if ($PSBoundParameters.ContainsKey('ownernode')) { $Payload.Add('ownernode', $ownernode) }
- 
-            if ($PSCmdlet.ShouldProcess("snmpmib", "Update SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpmib -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('contact') ) { $payload.Add('contact', $contact) }
+            if ( $PSBoundParameters.ContainsKey('name') ) { $payload.Add('name', $name) }
+            if ( $PSBoundParameters.ContainsKey('location') ) { $payload.Add('location', $location) }
+            if ( $PSBoundParameters.ContainsKey('customid') ) { $payload.Add('customid', $customid) }
+            if ( $PSBoundParameters.ContainsKey('ownernode') ) { $payload.Add('ownernode', $ownernode) }
+            if ( $PSCmdlet.ShouldProcess("snmpmib", "Update SNMP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpmib -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSnmpmib -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSnmpmib -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1650,48 +1636,50 @@ function Invoke-ADCUpdateSnmpmib {
 }
 
 function Invoke-ADCUnsetSnmpmib {
-<#
+    <#
     .SYNOPSIS
-        Unset SNMP configuration Object
+        Unset SNMP configuration Object.
     .DESCRIPTION
-        Unset SNMP configuration Object 
-   .PARAMETER contact 
-       Name of the administrator for this Citrix ADC. Along with the name, you can include information on how to contact this person, such as a phone number or an email address. Can consist of 1 to 127 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. 
-   .PARAMETER name 
-       Name for this Citrix ADC. Can consist of 1 to 127 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. You should choose a name that helps identify the Citrix ADC appliance. 
-   .PARAMETER location 
-       Physical location of the Citrix ADC. For example, you can specify building name, lab number, and rack number. Can consist of 1 to 127 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. 
-   .PARAMETER customid 
-       Custom identification number for the Citrix ADC. Can consist of 1 to 127 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. You should choose a custom identification that helps identify the Citrix ADC appliance. 
-   .PARAMETER ownernode 
-       ID of the cluster node for which we are setting the mib. This is a mandatory argument to set snmp mib on CLIP.
+        Configuration for SNMP mib resource.
+    .PARAMETER Contact 
+        Name of the administrator for this Citrix ADC. Along with the name, you can include information on how to contact this person, such as a phone number or an email address. Can consist of 1 to 127 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. 
+    .PARAMETER Name 
+        Name for this Citrix ADC. Can consist of 1 to 127 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. You should choose a name that helps identify the Citrix ADC appliance. 
+    .PARAMETER Location 
+        Physical location of the Citrix ADC. For example, you can specify building name, lab number, and rack number. Can consist of 1 to 127 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. 
+    .PARAMETER Customid 
+        Custom identification number for the Citrix ADC. Can consist of 1 to 127 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. You should choose a custom identification that helps identify the Citrix ADC appliance. 
+    .PARAMETER Ownernode 
+        ID of the cluster node for which we are setting the mib. This is a mandatory argument to set snmp mib on CLIP.
     .EXAMPLE
-        Invoke-ADCUnsetSnmpmib 
+        PS C:\>Invoke-ADCUnsetSnmpmib 
+        An example how to unset snmpmib configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSnmpmib
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmib
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$contact ,
+        [Boolean]$contact,
 
-        [Boolean]$name ,
+        [Boolean]$name,
 
-        [Boolean]$location ,
+        [Boolean]$location,
 
-        [Boolean]$customid ,
+        [Boolean]$customid,
 
         [Boolean]$ownernode 
     )
@@ -1700,16 +1688,14 @@ function Invoke-ADCUnsetSnmpmib {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('contact')) { $Payload.Add('contact', $contact) }
-            if ($PSBoundParameters.ContainsKey('name')) { $Payload.Add('name', $name) }
-            if ($PSBoundParameters.ContainsKey('location')) { $Payload.Add('location', $location) }
-            if ($PSBoundParameters.ContainsKey('customid')) { $Payload.Add('customid', $customid) }
-            if ($PSBoundParameters.ContainsKey('ownernode')) { $Payload.Add('ownernode', $ownernode) }
-            if ($PSCmdlet.ShouldProcess("snmpmib", "Unset SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpmib -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('contact') ) { $payload.Add('contact', $contact) }
+            if ( $PSBoundParameters.ContainsKey('name') ) { $payload.Add('name', $name) }
+            if ( $PSBoundParameters.ContainsKey('location') ) { $payload.Add('location', $location) }
+            if ( $PSBoundParameters.ContainsKey('customid') ) { $payload.Add('customid', $customid) }
+            if ( $PSBoundParameters.ContainsKey('ownernode') ) { $payload.Add('ownernode', $ownernode) }
+            if ( $PSCmdlet.ShouldProcess("snmpmib", "Unset SNMP configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpmib -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -1725,55 +1711,61 @@ function Invoke-ADCUnsetSnmpmib {
 }
 
 function Invoke-ADCGetSnmpmib {
-<#
+    <#
     .SYNOPSIS
-        Get SNMP configuration object(s)
+        Get SNMP configuration object(s).
     .DESCRIPTION
-        Get SNMP configuration object(s)
-    .PARAMETER ownernode 
-       ID of the cluster node for which we are setting the mib. This is a mandatory argument to set snmp mib on CLIP. 
+        Configuration for SNMP mib resource.
+    .PARAMETER Ownernode 
+        ID of the cluster node for which we are setting the mib. This is a mandatory argument to set snmp mib on CLIP. 
     .PARAMETER GetAll 
-        Retreive all snmpmib object(s)
+        Retrieve all snmpmib object(s).
     .PARAMETER Count
-        If specified, the count of the snmpmib object(s) will be returned
+        If specified, the count of the snmpmib object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSnmpmib
+        PS C:\>Invoke-ADCGetSnmpmib
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSnmpmib -GetAll 
+        PS C:\>Invoke-ADCGetSnmpmib -GetAll 
+        Get all snmpmib data. 
     .EXAMPLE 
-        Invoke-ADCGetSnmpmib -Count
+        PS C:\>Invoke-ADCGetSnmpmib -Count 
+        Get the number of snmpmib objects.
     .EXAMPLE
-        Invoke-ADCGetSnmpmib -name <string>
+        PS C:\>Invoke-ADCGetSnmpmib -name <string>
+        Get snmpmib object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSnmpmib -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSnmpmib -Filter @{ 'name'='<value>' }
+        Get snmpmib data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpmib
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmib/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateRange(0, 31)]
-        [double]$ownernode,
+        [double]$Ownernode,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -1791,24 +1783,24 @@ function Invoke-ADCGetSnmpmib {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all snmpmib objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmib -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmib -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpmib objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmib -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmib -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpmib objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmib -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmib -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpmib configuration for property 'ownernode'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmib -NitroPath nitro/v1/config -Resource $ownernode -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving snmpmib configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmib -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpmib -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1822,60 +1814,66 @@ function Invoke-ADCGetSnmpmib {
 }
 
 function Invoke-ADCGetSnmpoid {
-<#
+    <#
     .SYNOPSIS
-        Get SNMP configuration object(s)
+        Get SNMP configuration object(s).
     .DESCRIPTION
-        Get SNMP configuration object(s)
-    .PARAMETER entitytype 
-       The type of entity whose SNMP OIDs you want to displayType of entity whose SNMP OIDs you want the Citrix ADC to display.  
-       Possible values = VSERVER, SERVICE, SERVICEGROUP 
-    .PARAMETER name 
-       Name of the entity whose SNMP OID you want the Citrix ADC to display. 
+        Configuration for SNMP Object Identifier resource.
+    .PARAMETER Entitytype 
+        The type of entity whose SNMP OIDs you want to displayType of entity whose SNMP OIDs you want the Citrix ADC to display. 
+        Possible values = VSERVER, SERVICE, SERVICEGROUP 
+    .PARAMETER Name 
+        Name of the entity whose SNMP OID you want the Citrix ADC to display. 
     .PARAMETER GetAll 
-        Retreive all snmpoid object(s)
+        Retrieve all snmpoid object(s).
     .PARAMETER Count
-        If specified, the count of the snmpoid object(s) will be returned
+        If specified, the count of the snmpoid object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSnmpoid
+        PS C:\>Invoke-ADCGetSnmpoid
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSnmpoid -GetAll 
+        PS C:\>Invoke-ADCGetSnmpoid -GetAll 
+        Get all snmpoid data. 
     .EXAMPLE 
-        Invoke-ADCGetSnmpoid -Count
+        PS C:\>Invoke-ADCGetSnmpoid -Count 
+        Get the number of snmpoid objects.
     .EXAMPLE
-        Invoke-ADCGetSnmpoid -name <string>
+        PS C:\>Invoke-ADCGetSnmpoid -name <string>
+        Get snmpoid object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSnmpoid -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSnmpoid -Filter @{ 'name'='<value>' }
+        Get snmpoid data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpoid
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpoid/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('VSERVER', 'SERVICE', 'SERVICEGROUP')]
-        [string]$entitytype ,
+        [string]$Entitytype,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 			
         [hashtable]$Filter = @{ },
 
@@ -1891,26 +1889,26 @@ function Invoke-ADCGetSnmpoid {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all snmpoid objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoid -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoid -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpoid objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoid -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoid -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpoid objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('entitytype')) { $Arguments.Add('entitytype', $entitytype) } 
-                if ($PSBoundParameters.ContainsKey('name')) { $Arguments.Add('name', $name) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoid -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('entitytype') ) { $arguments.Add('entitytype', $entitytype) } 
+                if ( $PSBoundParameters.ContainsKey('name') ) { $arguments.Add('name', $name) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoid -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpoid configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving snmpoid configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoid -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoid -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -1924,79 +1922,72 @@ function Invoke-ADCGetSnmpoid {
 }
 
 function Invoke-ADCUpdateSnmpoption {
-<#
+    <#
     .SYNOPSIS
-        Update SNMP configuration Object
+        Update SNMP configuration Object.
     .DESCRIPTION
-        Update SNMP configuration Object 
-    .PARAMETER snmpset 
-        Accept SNMP SET requests sent to the Citrix ADC, and allow SNMP managers to write values to MIB objects that are configured for write access.  
-        Default value: DISABLED  
+        Configuration for SNMP option resource.
+    .PARAMETER Snmpset 
+        Accept SNMP SET requests sent to the Citrix ADC, and allow SNMP managers to write values to MIB objects that are configured for write access. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER snmptraplogging 
-        Log any SNMP trap events (for SNMP alarms in which logging is enabled) even if no trap listeners are configured. With the default setting, SNMP trap events are logged if at least one trap listener is configured on the appliance.  
-        Default value: DISABLED  
+    .PARAMETER Snmptraplogging 
+        Log any SNMP trap events (for SNMP alarms in which logging is enabled) even if no trap listeners are configured. With the default setting, SNMP trap events are logged if at least one trap listener is configured on the appliance. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER partitionnameintrap 
-        Send partition name as a varbind in traps. By default the partition names are not sent as a varbind.  
-        Default value: DISABLED  
+    .PARAMETER Partitionnameintrap 
+        Send partition name as a varbind in traps. By default the partition names are not sent as a varbind. 
         Possible values = ENABLED, DISABLED 
-    .PARAMETER snmptraplogginglevel 
-        Audit log level of SNMP trap logs. The default value is INFORMATIONAL.  
-        Default value: INFORMATIONAL  
+    .PARAMETER Snmptraplogginglevel 
+        Audit log level of SNMP trap logs. The default value is INFORMATIONAL. 
         Possible values = EMERGENCY, ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFORMATIONAL, DEBUG
     .EXAMPLE
-        Invoke-ADCUpdateSnmpoption 
+        PS C:\>Invoke-ADCUpdateSnmpoption 
+        An example how to update snmpoption configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSnmpoption
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpoption/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$snmpset ,
+        [string]$Snmpset,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$snmptraplogging ,
+        [string]$Snmptraplogging,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$partitionnameintrap ,
+        [string]$Partitionnameintrap,
 
         [ValidateSet('EMERGENCY', 'ALERT', 'CRITICAL', 'ERROR', 'WARNING', 'NOTICE', 'INFORMATIONAL', 'DEBUG')]
-        [string]$snmptraplogginglevel 
-
+        [string]$Snmptraplogginglevel 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSnmpoption: Starting"
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('snmpset')) { $Payload.Add('snmpset', $snmpset) }
-            if ($PSBoundParameters.ContainsKey('snmptraplogging')) { $Payload.Add('snmptraplogging', $snmptraplogging) }
-            if ($PSBoundParameters.ContainsKey('partitionnameintrap')) { $Payload.Add('partitionnameintrap', $partitionnameintrap) }
-            if ($PSBoundParameters.ContainsKey('snmptraplogginglevel')) { $Payload.Add('snmptraplogginglevel', $snmptraplogginglevel) }
- 
-            if ($PSCmdlet.ShouldProcess("snmpoption", "Update SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpoption -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('snmpset') ) { $payload.Add('snmpset', $snmpset) }
+            if ( $PSBoundParameters.ContainsKey('snmptraplogging') ) { $payload.Add('snmptraplogging', $snmptraplogging) }
+            if ( $PSBoundParameters.ContainsKey('partitionnameintrap') ) { $payload.Add('partitionnameintrap', $partitionnameintrap) }
+            if ( $PSBoundParameters.ContainsKey('snmptraplogginglevel') ) { $payload.Add('snmptraplogginglevel', $snmptraplogginglevel) }
+            if ( $PSCmdlet.ShouldProcess("snmpoption", "Update SNMP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpoption -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2009,48 +2000,50 @@ function Invoke-ADCUpdateSnmpoption {
 }
 
 function Invoke-ADCUnsetSnmpoption {
-<#
+    <#
     .SYNOPSIS
-        Unset SNMP configuration Object
+        Unset SNMP configuration Object.
     .DESCRIPTION
-        Unset SNMP configuration Object 
-   .PARAMETER snmpset 
-       Accept SNMP SET requests sent to the Citrix ADC, and allow SNMP managers to write values to MIB objects that are configured for write access.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER snmptraplogging 
-       Log any SNMP trap events (for SNMP alarms in which logging is enabled) even if no trap listeners are configured. With the default setting, SNMP trap events are logged if at least one trap listener is configured on the appliance.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER partitionnameintrap 
-       Send partition name as a varbind in traps. By default the partition names are not sent as a varbind.  
-       Possible values = ENABLED, DISABLED 
-   .PARAMETER snmptraplogginglevel 
-       Audit log level of SNMP trap logs. The default value is INFORMATIONAL.  
-       Possible values = EMERGENCY, ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFORMATIONAL, DEBUG
+        Configuration for SNMP option resource.
+    .PARAMETER Snmpset 
+        Accept SNMP SET requests sent to the Citrix ADC, and allow SNMP managers to write values to MIB objects that are configured for write access. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Snmptraplogging 
+        Log any SNMP trap events (for SNMP alarms in which logging is enabled) even if no trap listeners are configured. With the default setting, SNMP trap events are logged if at least one trap listener is configured on the appliance. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Partitionnameintrap 
+        Send partition name as a varbind in traps. By default the partition names are not sent as a varbind. 
+        Possible values = ENABLED, DISABLED 
+    .PARAMETER Snmptraplogginglevel 
+        Audit log level of SNMP trap logs. The default value is INFORMATIONAL. 
+        Possible values = EMERGENCY, ALERT, CRITICAL, ERROR, WARNING, NOTICE, INFORMATIONAL, DEBUG
     .EXAMPLE
-        Invoke-ADCUnsetSnmpoption 
+        PS C:\>Invoke-ADCUnsetSnmpoption 
+        An example how to unset snmpoption configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSnmpoption
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpoption
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Boolean]$snmpset ,
+        [Boolean]$snmpset,
 
-        [Boolean]$snmptraplogging ,
+        [Boolean]$snmptraplogging,
 
-        [Boolean]$partitionnameintrap ,
+        [Boolean]$partitionnameintrap,
 
         [Boolean]$snmptraplogginglevel 
     )
@@ -2059,15 +2052,13 @@ function Invoke-ADCUnsetSnmpoption {
     }
     process {
         try {
-            $Payload = @{
-
-            }
-            if ($PSBoundParameters.ContainsKey('snmpset')) { $Payload.Add('snmpset', $snmpset) }
-            if ($PSBoundParameters.ContainsKey('snmptraplogging')) { $Payload.Add('snmptraplogging', $snmptraplogging) }
-            if ($PSBoundParameters.ContainsKey('partitionnameintrap')) { $Payload.Add('partitionnameintrap', $partitionnameintrap) }
-            if ($PSBoundParameters.ContainsKey('snmptraplogginglevel')) { $Payload.Add('snmptraplogginglevel', $snmptraplogginglevel) }
-            if ($PSCmdlet.ShouldProcess("snmpoption", "Unset SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpoption -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ }
+            if ( $PSBoundParameters.ContainsKey('snmpset') ) { $payload.Add('snmpset', $snmpset) }
+            if ( $PSBoundParameters.ContainsKey('snmptraplogging') ) { $payload.Add('snmptraplogging', $snmptraplogging) }
+            if ( $PSBoundParameters.ContainsKey('partitionnameintrap') ) { $payload.Add('partitionnameintrap', $partitionnameintrap) }
+            if ( $PSBoundParameters.ContainsKey('snmptraplogginglevel') ) { $payload.Add('snmptraplogginglevel', $snmptraplogginglevel) }
+            if ( $PSCmdlet.ShouldProcess("snmpoption", "Unset SNMP configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpoption -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2083,45 +2074,50 @@ function Invoke-ADCUnsetSnmpoption {
 }
 
 function Invoke-ADCGetSnmpoption {
-<#
+    <#
     .SYNOPSIS
-        Get SNMP configuration object(s)
+        Get SNMP configuration object(s).
     .DESCRIPTION
-        Get SNMP configuration object(s)
+        Configuration for SNMP option resource.
     .PARAMETER GetAll 
-        Retreive all snmpoption object(s)
+        Retrieve all snmpoption object(s).
     .PARAMETER Count
-        If specified, the count of the snmpoption object(s) will be returned
+        If specified, the count of the snmpoption object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSnmpoption
+        PS C:\>Invoke-ADCGetSnmpoption
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSnmpoption -GetAll
+        PS C:\>Invoke-ADCGetSnmpoption -GetAll 
+        Get all snmpoption data.
     .EXAMPLE
-        Invoke-ADCGetSnmpoption -name <string>
+        PS C:\>Invoke-ADCGetSnmpoption -name <string>
+        Get snmpoption object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSnmpoption -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSnmpoption -Filter @{ 'name'='<value>' }
+        Get snmpoption data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpoption
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpoption/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 			
         [hashtable]$Filter = @{ },
 
@@ -2133,24 +2129,24 @@ function Invoke-ADCGetSnmpoption {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all snmpoption objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoption -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoption -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpoption objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoption -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoption -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpoption objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoption -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoption -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpoption configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving snmpoption configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoption -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpoption -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2164,118 +2160,106 @@ function Invoke-ADCGetSnmpoption {
 }
 
 function Invoke-ADCAddSnmptrap {
-<#
+    <#
     .SYNOPSIS
-        Add SNMP configuration Object
+        Add SNMP configuration Object.
     .DESCRIPTION
-        Add SNMP configuration Object 
-    .PARAMETER trapclass 
-        Type of trap messages that the Citrix ADC sends to the trap listener: Generic or the enterprise-specific messages defined in the MIB file.  
+        Configuration for snmp trap resource.
+    .PARAMETER Trapclass 
+        Type of trap messages that the Citrix ADC sends to the trap listener: Generic or the enterprise-specific messages defined in the MIB file. 
         Possible values = generic, specific 
-    .PARAMETER trapdestination 
-        IPv4 or the IPv6 address of the trap listener to which the Citrix ADC is to send SNMP trap messages.  
-        Minimum length = 1 
-    .PARAMETER version 
-        SNMP version, which determines the format of trap messages sent to the trap listener.  
-        This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages.  
-        Default value: V2  
+    .PARAMETER Trapdestination 
+        IPv4 or the IPv6 address of the trap listener to which the Citrix ADC is to send SNMP trap messages. 
+    .PARAMETER Version 
+        SNMP version, which determines the format of trap messages sent to the trap listener. 
+        This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages. 
         Possible values = V1, V2, V3 
-    .PARAMETER td 
-        Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0.  
-        Minimum value = 0  
-        Maximum value = 4094 
-    .PARAMETER destport 
-        UDP port at which the trap listener listens for trap messages. This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages.  
-        Default value: 162  
-        Minimum value = 1  
-        Maximum value = 65534 
-    .PARAMETER communityname 
-        Password (string) sent with the trap messages, so that the trap listener can authenticate them. Can include 1 to 31 uppercase or lowercase letters, numbers, and hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters.  
+    .PARAMETER Td 
+        Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0. 
+    .PARAMETER Destport 
+        UDP port at which the trap listener listens for trap messages. This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages. 
+    .PARAMETER Communityname 
+        Password (string) sent with the trap messages, so that the trap listener can authenticate them. Can include 1 to 31 uppercase or lowercase letters, numbers, and hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. 
         You must specify the same community string on the trap listener device. Otherwise, the trap listener drops the trap messages. 
-    .PARAMETER srcip 
-        IPv4 or IPv6 address that the Citrix ADC inserts as the source IP address in all SNMP trap messages that it sends to this trap listener. By default this is the appliance's NSIP or NSIP6 address, but you can specify an IPv4 MIP or SNIP/SNIP6 address. In cluster setup, the default value is the individual node's NSIP, but it can be set to CLIP or Striped SNIP address. In non default partition, this parameter must be set to the SNIP/SNIP6 address.  
-        Minimum length = 1 
-    .PARAMETER severity 
-        Severity level at or above which the Citrix ADC sends trap messages to this trap listener. The severity levels, in increasing order of severity, are Informational, Warning, Minor, Major, Critical. This parameter can be set for trap listeners of type SPECIFIC only. The default is to send all levels of trap messages.  
-        Important: Trap messages are not assigned severity levels unless you specify severity levels when configuring SNMP alarms.  
-        Default value: Unknown  
+    .PARAMETER Srcip 
+        IPv4 or IPv6 address that the Citrix ADC inserts as the source IP address in all SNMP trap messages that it sends to this trap listener. By default this is the appliance's NSIP or NSIP6 address, but you can specify an IPv4 MIP or SNIP/SNIP6 address. In cluster setup, the default value is the individual node's NSIP, but it can be set to CLIP or Striped SNIP address. In non default partition, this parameter must be set to the SNIP/SNIP6 address. 
+    .PARAMETER Severity 
+        Severity level at or above which the Citrix ADC sends trap messages to this trap listener. The severity levels, in increasing order of severity, are Informational, Warning, Minor, Major, Critical. This parameter can be set for trap listeners of type SPECIFIC only. The default is to send all levels of trap messages. 
+        Important: Trap messages are not assigned severity levels unless you specify severity levels when configuring SNMP alarms. 
         Possible values = Critical, Major, Minor, Warning, Informational 
-    .PARAMETER allpartitions 
-        Send traps of all partitions to this destination.  
-        Default value: DISABLED  
+    .PARAMETER Allpartitions 
+        Send traps of all partitions to this destination. 
         Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCAddSnmptrap -trapclass <string> -trapdestination <string>
+        PS C:\>Invoke-ADCAddSnmptrap -trapclass <string> -trapdestination <string>
+        An example how to add snmptrap configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSnmptrap
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('generic', 'specific')]
-        [string]$trapclass ,
+        [string]$Trapclass,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$trapdestination ,
+        [string]$Trapdestination,
 
         [ValidateSet('V1', 'V2', 'V3')]
-        [string]$version = 'V2' ,
+        [string]$Version = 'V2',
 
         [ValidateRange(0, 4094)]
-        [double]$td ,
+        [double]$Td,
 
         [ValidateRange(1, 65534)]
-        [int]$destport = '162' ,
+        [int]$Destport = '162',
 
-        [string]$communityname ,
+        [string]$Communityname,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$srcip ,
+        [string]$Srcip,
 
         [ValidateSet('Critical', 'Major', 'Minor', 'Warning', 'Informational')]
-        [string]$severity = 'Unknown' ,
+        [string]$Severity = 'Unknown',
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$allpartitions = 'DISABLED' 
-
+        [string]$Allpartitions = 'DISABLED' 
     )
     begin {
         Write-Verbose "Invoke-ADCAddSnmptrap: Starting"
     }
     process {
         try {
-            $Payload = @{
-                trapclass = $trapclass
-                trapdestination = $trapdestination
+            $payload = @{ trapclass = $trapclass
+                trapdestination     = $trapdestination
             }
-            if ($PSBoundParameters.ContainsKey('version')) { $Payload.Add('version', $version) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
-            if ($PSBoundParameters.ContainsKey('destport')) { $Payload.Add('destport', $destport) }
-            if ($PSBoundParameters.ContainsKey('communityname')) { $Payload.Add('communityname', $communityname) }
-            if ($PSBoundParameters.ContainsKey('srcip')) { $Payload.Add('srcip', $srcip) }
-            if ($PSBoundParameters.ContainsKey('severity')) { $Payload.Add('severity', $severity) }
-            if ($PSBoundParameters.ContainsKey('allpartitions')) { $Payload.Add('allpartitions', $allpartitions) }
- 
-            if ($PSCmdlet.ShouldProcess("snmptrap", "Add SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmptrap -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('version') ) { $payload.Add('version', $version) }
+            if ( $PSBoundParameters.ContainsKey('td') ) { $payload.Add('td', $td) }
+            if ( $PSBoundParameters.ContainsKey('destport') ) { $payload.Add('destport', $destport) }
+            if ( $PSBoundParameters.ContainsKey('communityname') ) { $payload.Add('communityname', $communityname) }
+            if ( $PSBoundParameters.ContainsKey('srcip') ) { $payload.Add('srcip', $srcip) }
+            if ( $PSBoundParameters.ContainsKey('severity') ) { $payload.Add('severity', $severity) }
+            if ( $PSBoundParameters.ContainsKey('allpartitions') ) { $payload.Add('allpartitions', $allpartitions) }
+            if ( $PSCmdlet.ShouldProcess("snmptrap", "Add SNMP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmptrap -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2288,64 +2272,64 @@ function Invoke-ADCAddSnmptrap {
 }
 
 function Invoke-ADCDeleteSnmptrap {
-<#
+    <#
     .SYNOPSIS
-        Delete SNMP configuration Object
+        Delete SNMP configuration Object.
     .DESCRIPTION
-        Delete SNMP configuration Object
-    .PARAMETER trapclass 
-       Type of trap messages that the Citrix ADC sends to the trap listener: Generic or the enterprise-specific messages defined in the MIB file.  
-       Possible values = generic, specific    .PARAMETER trapdestination 
-       IPv4 or the IPv6 address of the trap listener to which the Citrix ADC is to send SNMP trap messages.  
-       Minimum length = 1    .PARAMETER version 
-       SNMP version, which determines the format of trap messages sent to the trap listener.  
-       This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages.  
-       Default value: V2  
-       Possible values = V1, V2, V3    .PARAMETER td 
-       Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0.  
-       Minimum value = 0  
-       Maximum value = 4094
+        Configuration for snmp trap resource.
+    .PARAMETER Trapclass 
+        Type of trap messages that the Citrix ADC sends to the trap listener: Generic or the enterprise-specific messages defined in the MIB file. 
+        Possible values = generic, specific 
+    .PARAMETER Trapdestination 
+        IPv4 or the IPv6 address of the trap listener to which the Citrix ADC is to send SNMP trap messages. 
+    .PARAMETER Version 
+        SNMP version, which determines the format of trap messages sent to the trap listener. 
+        This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages. 
+        Possible values = V1, V2, V3 
+    .PARAMETER Td 
+        Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0.
     .EXAMPLE
-        Invoke-ADCDeleteSnmptrap -trapclass <string>
+        PS C:\>Invoke-ADCDeleteSnmptrap -Trapclass <string>
+        An example how to delete snmptrap configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSnmptrap
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$trapclass ,
+        [Parameter(Mandatory)]
+        [string]$Trapclass,
 
-        [string]$trapdestination ,
+        [string]$Trapdestination,
 
-        [string]$version ,
+        [string]$Version,
 
-        [double]$td 
+        [double]$Td 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSnmptrap: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('trapdestination')) { $Arguments.Add('trapdestination', $trapdestination) }
-            if ($PSBoundParameters.ContainsKey('version')) { $Arguments.Add('version', $version) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Arguments.Add('td', $td) }
-            if ($PSCmdlet.ShouldProcess("$trapclass", "Delete SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmptrap -NitroPath nitro/v1/config -Resource $trapclass -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Trapdestination') ) { $arguments.Add('trapdestination', $Trapdestination) }
+            if ( $PSBoundParameters.ContainsKey('Version') ) { $arguments.Add('version', $Version) }
+            if ( $PSBoundParameters.ContainsKey('Td') ) { $arguments.Add('td', $Td) }
+            if ( $PSCmdlet.ShouldProcess("$trapclass", "Delete SNMP configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmptrap -NitroPath nitro/v1/config -Resource $trapclass -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2361,118 +2345,106 @@ function Invoke-ADCDeleteSnmptrap {
 }
 
 function Invoke-ADCUpdateSnmptrap {
-<#
+    <#
     .SYNOPSIS
-        Update SNMP configuration Object
+        Update SNMP configuration Object.
     .DESCRIPTION
-        Update SNMP configuration Object 
-    .PARAMETER trapclass 
-        Type of trap messages that the Citrix ADC sends to the trap listener: Generic or the enterprise-specific messages defined in the MIB file.  
+        Configuration for snmp trap resource.
+    .PARAMETER Trapclass 
+        Type of trap messages that the Citrix ADC sends to the trap listener: Generic or the enterprise-specific messages defined in the MIB file. 
         Possible values = generic, specific 
-    .PARAMETER trapdestination 
-        IPv4 or the IPv6 address of the trap listener to which the Citrix ADC is to send SNMP trap messages.  
-        Minimum length = 1 
-    .PARAMETER version 
-        SNMP version, which determines the format of trap messages sent to the trap listener.  
-        This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages.  
-        Default value: V2  
+    .PARAMETER Trapdestination 
+        IPv4 or the IPv6 address of the trap listener to which the Citrix ADC is to send SNMP trap messages. 
+    .PARAMETER Version 
+        SNMP version, which determines the format of trap messages sent to the trap listener. 
+        This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages. 
         Possible values = V1, V2, V3 
-    .PARAMETER td 
-        Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0.  
-        Minimum value = 0  
-        Maximum value = 4094 
-    .PARAMETER destport 
-        UDP port at which the trap listener listens for trap messages. This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages.  
-        Default value: 162  
-        Minimum value = 1  
-        Maximum value = 65534 
-    .PARAMETER communityname 
-        Password (string) sent with the trap messages, so that the trap listener can authenticate them. Can include 1 to 31 uppercase or lowercase letters, numbers, and hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters.  
+    .PARAMETER Td 
+        Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0. 
+    .PARAMETER Destport 
+        UDP port at which the trap listener listens for trap messages. This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages. 
+    .PARAMETER Communityname 
+        Password (string) sent with the trap messages, so that the trap listener can authenticate them. Can include 1 to 31 uppercase or lowercase letters, numbers, and hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. 
         You must specify the same community string on the trap listener device. Otherwise, the trap listener drops the trap messages. 
-    .PARAMETER srcip 
-        IPv4 or IPv6 address that the Citrix ADC inserts as the source IP address in all SNMP trap messages that it sends to this trap listener. By default this is the appliance's NSIP or NSIP6 address, but you can specify an IPv4 MIP or SNIP/SNIP6 address. In cluster setup, the default value is the individual node's NSIP, but it can be set to CLIP or Striped SNIP address. In non default partition, this parameter must be set to the SNIP/SNIP6 address.  
-        Minimum length = 1 
-    .PARAMETER severity 
-        Severity level at or above which the Citrix ADC sends trap messages to this trap listener. The severity levels, in increasing order of severity, are Informational, Warning, Minor, Major, Critical. This parameter can be set for trap listeners of type SPECIFIC only. The default is to send all levels of trap messages.  
-        Important: Trap messages are not assigned severity levels unless you specify severity levels when configuring SNMP alarms.  
-        Default value: Unknown  
+    .PARAMETER Srcip 
+        IPv4 or IPv6 address that the Citrix ADC inserts as the source IP address in all SNMP trap messages that it sends to this trap listener. By default this is the appliance's NSIP or NSIP6 address, but you can specify an IPv4 MIP or SNIP/SNIP6 address. In cluster setup, the default value is the individual node's NSIP, but it can be set to CLIP or Striped SNIP address. In non default partition, this parameter must be set to the SNIP/SNIP6 address. 
+    .PARAMETER Severity 
+        Severity level at or above which the Citrix ADC sends trap messages to this trap listener. The severity levels, in increasing order of severity, are Informational, Warning, Minor, Major, Critical. This parameter can be set for trap listeners of type SPECIFIC only. The default is to send all levels of trap messages. 
+        Important: Trap messages are not assigned severity levels unless you specify severity levels when configuring SNMP alarms. 
         Possible values = Critical, Major, Minor, Warning, Informational 
-    .PARAMETER allpartitions 
-        Send traps of all partitions to this destination.  
-        Default value: DISABLED  
+    .PARAMETER Allpartitions 
+        Send traps of all partitions to this destination. 
         Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCUpdateSnmptrap -trapclass <string> -trapdestination <string>
+        PS C:\>Invoke-ADCUpdateSnmptrap -trapclass <string> -trapdestination <string>
+        An example how to update snmptrap configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSnmptrap
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('generic', 'specific')]
-        [string]$trapclass ,
+        [string]$Trapclass,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$trapdestination ,
+        [string]$Trapdestination,
 
         [ValidateSet('V1', 'V2', 'V3')]
-        [string]$version ,
+        [string]$Version,
 
         [ValidateRange(0, 4094)]
-        [double]$td ,
+        [double]$Td,
 
         [ValidateRange(1, 65534)]
-        [int]$destport ,
+        [int]$Destport,
 
-        [string]$communityname ,
+        [string]$Communityname,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$srcip ,
+        [string]$Srcip,
 
         [ValidateSet('Critical', 'Major', 'Minor', 'Warning', 'Informational')]
-        [string]$severity ,
+        [string]$Severity,
 
         [ValidateSet('ENABLED', 'DISABLED')]
-        [string]$allpartitions 
-
+        [string]$Allpartitions 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSnmptrap: Starting"
     }
     process {
         try {
-            $Payload = @{
-                trapclass = $trapclass
-                trapdestination = $trapdestination
+            $payload = @{ trapclass = $trapclass
+                trapdestination     = $trapdestination
             }
-            if ($PSBoundParameters.ContainsKey('version')) { $Payload.Add('version', $version) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
-            if ($PSBoundParameters.ContainsKey('destport')) { $Payload.Add('destport', $destport) }
-            if ($PSBoundParameters.ContainsKey('communityname')) { $Payload.Add('communityname', $communityname) }
-            if ($PSBoundParameters.ContainsKey('srcip')) { $Payload.Add('srcip', $srcip) }
-            if ($PSBoundParameters.ContainsKey('severity')) { $Payload.Add('severity', $severity) }
-            if ($PSBoundParameters.ContainsKey('allpartitions')) { $Payload.Add('allpartitions', $allpartitions) }
- 
-            if ($PSCmdlet.ShouldProcess("snmptrap", "Update SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmptrap -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('version') ) { $payload.Add('version', $version) }
+            if ( $PSBoundParameters.ContainsKey('td') ) { $payload.Add('td', $td) }
+            if ( $PSBoundParameters.ContainsKey('destport') ) { $payload.Add('destport', $destport) }
+            if ( $PSBoundParameters.ContainsKey('communityname') ) { $payload.Add('communityname', $communityname) }
+            if ( $PSBoundParameters.ContainsKey('srcip') ) { $payload.Add('srcip', $srcip) }
+            if ( $PSBoundParameters.ContainsKey('severity') ) { $payload.Add('severity', $severity) }
+            if ( $PSBoundParameters.ContainsKey('allpartitions') ) { $payload.Add('allpartitions', $allpartitions) }
+            if ( $PSCmdlet.ShouldProcess("snmptrap", "Update SNMP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmptrap -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2485,75 +2457,75 @@ function Invoke-ADCUpdateSnmptrap {
 }
 
 function Invoke-ADCUnsetSnmptrap {
-<#
+    <#
     .SYNOPSIS
-        Unset SNMP configuration Object
+        Unset SNMP configuration Object.
     .DESCRIPTION
-        Unset SNMP configuration Object 
-   .PARAMETER trapclass 
-       Type of trap messages that the Citrix ADC sends to the trap listener: Generic or the enterprise-specific messages defined in the MIB file.  
-       Possible values = generic, specific 
-   .PARAMETER trapdestination 
-       IPv4 or the IPv6 address of the trap listener to which the Citrix ADC is to send SNMP trap messages. 
-   .PARAMETER version 
-       SNMP version, which determines the format of trap messages sent to the trap listener.  
-       This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages.  
-       Possible values = V1, V2, V3 
-   .PARAMETER td 
-       Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0. 
-   .PARAMETER destport 
-       UDP port at which the trap listener listens for trap messages. This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages. 
-   .PARAMETER communityname 
-       Password (string) sent with the trap messages, so that the trap listener can authenticate them. Can include 1 to 31 uppercase or lowercase letters, numbers, and hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters.  
-       You must specify the same community string on the trap listener device. Otherwise, the trap listener drops the trap messages. 
-   .PARAMETER srcip 
-       IPv4 or IPv6 address that the Citrix ADC inserts as the source IP address in all SNMP trap messages that it sends to this trap listener. By default this is the appliance's NSIP or NSIP6 address, but you can specify an IPv4 MIP or SNIP/SNIP6 address. In cluster setup, the default value is the individual node's NSIP, but it can be set to CLIP or Striped SNIP address. In non default partition, this parameter must be set to the SNIP/SNIP6 address. 
-   .PARAMETER severity 
-       Severity level at or above which the Citrix ADC sends trap messages to this trap listener. The severity levels, in increasing order of severity, are Informational, Warning, Minor, Major, Critical. This parameter can be set for trap listeners of type SPECIFIC only. The default is to send all levels of trap messages.  
-       Important: Trap messages are not assigned severity levels unless you specify severity levels when configuring SNMP alarms.  
-       Possible values = Critical, Major, Minor, Warning, Informational 
-   .PARAMETER allpartitions 
-       Send traps of all partitions to this destination.  
-       Possible values = ENABLED, DISABLED
+        Configuration for snmp trap resource.
+    .PARAMETER Trapclass 
+        Type of trap messages that the Citrix ADC sends to the trap listener: Generic or the enterprise-specific messages defined in the MIB file. 
+        Possible values = generic, specific 
+    .PARAMETER Trapdestination 
+        IPv4 or the IPv6 address of the trap listener to which the Citrix ADC is to send SNMP trap messages. 
+    .PARAMETER Version 
+        SNMP version, which determines the format of trap messages sent to the trap listener. 
+        This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages. 
+        Possible values = V1, V2, V3 
+    .PARAMETER Td 
+        Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0. 
+    .PARAMETER Destport 
+        UDP port at which the trap listener listens for trap messages. This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages. 
+    .PARAMETER Communityname 
+        Password (string) sent with the trap messages, so that the trap listener can authenticate them. Can include 1 to 31 uppercase or lowercase letters, numbers, and hyphen (-), period (.) pound (#), space ( ), at (@), equals (=), colon (:), and underscore (_) characters. 
+        You must specify the same community string on the trap listener device. Otherwise, the trap listener drops the trap messages. 
+    .PARAMETER Srcip 
+        IPv4 or IPv6 address that the Citrix ADC inserts as the source IP address in all SNMP trap messages that it sends to this trap listener. By default this is the appliance's NSIP or NSIP6 address, but you can specify an IPv4 MIP or SNIP/SNIP6 address. In cluster setup, the default value is the individual node's NSIP, but it can be set to CLIP or Striped SNIP address. In non default partition, this parameter must be set to the SNIP/SNIP6 address. 
+    .PARAMETER Severity 
+        Severity level at or above which the Citrix ADC sends trap messages to this trap listener. The severity levels, in increasing order of severity, are Informational, Warning, Minor, Major, Critical. This parameter can be set for trap listeners of type SPECIFIC only. The default is to send all levels of trap messages. 
+        Important: Trap messages are not assigned severity levels unless you specify severity levels when configuring SNMP alarms. 
+        Possible values = Critical, Major, Minor, Warning, Informational 
+    .PARAMETER Allpartitions 
+        Send traps of all partitions to this destination. 
+        Possible values = ENABLED, DISABLED
     .EXAMPLE
-        Invoke-ADCUnsetSnmptrap -trapclass <string> -trapdestination <string>
+        PS C:\>Invoke-ADCUnsetSnmptrap -trapclass <string> -trapdestination <string>
+        An example how to unset snmptrap configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSnmptrap
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateSet('generic', 'specific')]
-        [string]$trapclass ,
+        [string]$Trapclass,
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$trapdestination ,
+        [string]$Trapdestination,
 
-        [Boolean]$version ,
+        [Boolean]$version,
 
-        [Boolean]$td ,
+        [Boolean]$td,
 
-        [Boolean]$destport ,
+        [Boolean]$destport,
 
-        [Boolean]$communityname ,
+        [Boolean]$communityname,
 
-        [Boolean]$srcip ,
+        [Boolean]$srcip,
 
-        [Boolean]$severity ,
+        [Boolean]$severity,
 
         [Boolean]$allpartitions 
     )
@@ -2562,19 +2534,18 @@ function Invoke-ADCUnsetSnmptrap {
     }
     process {
         try {
-            $Payload = @{
-                trapclass = $trapclass
-                trapdestination = $trapdestination
+            $payload = @{ trapclass = $trapclass
+                trapdestination     = $trapdestination
             }
-            if ($PSBoundParameters.ContainsKey('version')) { $Payload.Add('version', $version) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
-            if ($PSBoundParameters.ContainsKey('destport')) { $Payload.Add('destport', $destport) }
-            if ($PSBoundParameters.ContainsKey('communityname')) { $Payload.Add('communityname', $communityname) }
-            if ($PSBoundParameters.ContainsKey('srcip')) { $Payload.Add('srcip', $srcip) }
-            if ($PSBoundParameters.ContainsKey('severity')) { $Payload.Add('severity', $severity) }
-            if ($PSBoundParameters.ContainsKey('allpartitions')) { $Payload.Add('allpartitions', $allpartitions) }
-            if ($PSCmdlet.ShouldProcess("$trapclass trapdestination", "Unset SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmptrap -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('version') ) { $payload.Add('version', $version) }
+            if ( $PSBoundParameters.ContainsKey('td') ) { $payload.Add('td', $td) }
+            if ( $PSBoundParameters.ContainsKey('destport') ) { $payload.Add('destport', $destport) }
+            if ( $PSBoundParameters.ContainsKey('communityname') ) { $payload.Add('communityname', $communityname) }
+            if ( $PSBoundParameters.ContainsKey('srcip') ) { $payload.Add('srcip', $srcip) }
+            if ( $PSBoundParameters.ContainsKey('severity') ) { $payload.Add('severity', $severity) }
+            if ( $PSBoundParameters.ContainsKey('allpartitions') ) { $payload.Add('allpartitions', $allpartitions) }
+            if ( $PSCmdlet.ShouldProcess("$trapclass trapdestination", "Unset SNMP configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmptrap -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2590,49 +2561,55 @@ function Invoke-ADCUnsetSnmptrap {
 }
 
 function Invoke-ADCGetSnmptrap {
-<#
+    <#
     .SYNOPSIS
-        Get SNMP configuration object(s)
+        Get SNMP configuration object(s).
     .DESCRIPTION
-        Get SNMP configuration object(s)
+        Configuration for snmp trap resource.
     .PARAMETER GetAll 
-        Retreive all snmptrap object(s)
+        Retrieve all snmptrap object(s).
     .PARAMETER Count
-        If specified, the count of the snmptrap object(s) will be returned
+        If specified, the count of the snmptrap object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSnmptrap
+        PS C:\>Invoke-ADCGetSnmptrap
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSnmptrap -GetAll 
+        PS C:\>Invoke-ADCGetSnmptrap -GetAll 
+        Get all snmptrap data. 
     .EXAMPLE 
-        Invoke-ADCGetSnmptrap -Count
+        PS C:\>Invoke-ADCGetSnmptrap -Count 
+        Get the number of snmptrap objects.
     .EXAMPLE
-        Invoke-ADCGetSnmptrap -name <string>
+        PS C:\>Invoke-ADCGetSnmptrap -name <string>
+        Get snmptrap object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSnmptrap -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSnmptrap -Filter @{ 'name'='<value>' }
+        Get snmptrap data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmptrap
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -2649,24 +2626,24 @@ function Invoke-ADCGetSnmptrap {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all snmptrap objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmptrap objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmptrap objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmptrap configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving snmptrap configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2680,71 +2657,76 @@ function Invoke-ADCGetSnmptrap {
 }
 
 function Invoke-ADCGetSnmptrapbinding {
-<#
+    <#
     .SYNOPSIS
-        Get SNMP configuration object(s)
+        Get SNMP configuration object(s).
     .DESCRIPTION
-        Get SNMP configuration object(s)
-    .PARAMETER trapdestination 
-       IP address specified in the trap listener entry. 
-    .PARAMETER version 
-       The SNMP version of the trap specified in the trap listener entry.  
-       Possible values = V1, V2, V3 
-    .PARAMETER td 
-       Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0. 
-    .PARAMETER trapclass 
-       Trap type specified in the trap listener entry.  
-       Possible values = generic, specific 
+        Binding object which returns the resources bound to snmptrap.
+    .PARAMETER Trapdestination 
+        IP address specified in the trap listener entry. 
+    .PARAMETER Version 
+        The SNMP version of the trap specified in the trap listener entry. 
+        Possible values = V1, V2, V3 
+    .PARAMETER Td 
+        Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0. 
+    .PARAMETER Trapclass 
+        Trap type specified in the trap listener entry. 
+        Possible values = generic, specific 
     .PARAMETER GetAll 
-        Retreive all snmptrap_binding object(s)
+        Retrieve all snmptrap_binding object(s).
     .PARAMETER Count
-        If specified, the count of the snmptrap_binding object(s) will be returned
+        If specified, the count of the snmptrap_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSnmptrapbinding
+        PS C:\>Invoke-ADCGetSnmptrapbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSnmptrapbinding -GetAll
+        PS C:\>Invoke-ADCGetSnmptrapbinding -GetAll 
+        Get all snmptrap_binding data.
     .EXAMPLE
-        Invoke-ADCGetSnmptrapbinding -name <string>
+        PS C:\>Invoke-ADCGetSnmptrapbinding -name <string>
+        Get snmptrap_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSnmptrapbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSnmptrapbinding -Filter @{ 'name'='<value>' }
+        Get snmptrap_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmptrapbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$trapdestination ,
+        [string]$Trapdestination,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('V1', 'V2', 'V3')]
-        [string]$version ,
+        [string]$Version,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateRange(0, 4094)]
-        [double]$td ,
+        [double]$Td,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('generic', 'specific')]
-        [string]$trapclass,
+        [string]$Trapclass,
 			
         [hashtable]$Filter = @{ },
 
@@ -2756,30 +2738,28 @@ function Invoke-ADCGetSnmptrapbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all snmptrap_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmptrap_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmptrap_binding objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('trapdestination')) { $Arguments.Add('trapdestination', $trapdestination) } 
-                if ($PSBoundParameters.ContainsKey('version')) { $Arguments.Add('version', $version) } 
-                if ($PSBoundParameters.ContainsKey('td')) { $Arguments.Add('td', $td) } 
-                if ($PSBoundParameters.ContainsKey('trapclass')) { $Arguments.Add('trapclass', $trapclass) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('trapdestination') ) { $arguments.Add('trapdestination', $trapdestination) } 
+                if ( $PSBoundParameters.ContainsKey('version') ) { $arguments.Add('version', $version) } 
+                if ( $PSBoundParameters.ContainsKey('td') ) { $arguments.Add('td', $td) } 
+                if ( $PSBoundParameters.ContainsKey('trapclass') ) { $arguments.Add('trapclass', $trapclass) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmptrap_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving snmptrap_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2793,100 +2773,93 @@ function Invoke-ADCGetSnmptrapbinding {
 }
 
 function Invoke-ADCAddSnmptrapsnmpuserbinding {
-<#
+    <#
     .SYNOPSIS
-        Add SNMP configuration Object
+        Add SNMP configuration Object.
     .DESCRIPTION
-        Add SNMP configuration Object 
-    .PARAMETER trapclass 
-        Type of trap messages that the Citrix ADC sends to the trap listener: Generic or the enterprise-specific messages defined in the MIB file.  
+        Binding object showing the snmpuser that can be bound to snmptrap.
+    .PARAMETER Trapclass 
+        Type of trap messages that the Citrix ADC sends to the trap listener: Generic or the enterprise-specific messages defined in the MIB file. 
         Possible values = generic, specific 
-    .PARAMETER trapdestination 
-        IPv4 or the IPv6 address of the trap listener to which the Citrix ADC is to send SNMP trap messages.  
-        Minimum length = 1 
-    .PARAMETER td 
-        Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0.  
-        Minimum value = 0  
-        Maximum value = 4094 
-    .PARAMETER version 
-        SNMP version, which determines the format of trap messages sent to the trap listener. This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages.  
-        Default value: V3  
+    .PARAMETER Trapdestination 
+        IPv4 or the IPv6 address of the trap listener to which the Citrix ADC is to send SNMP trap messages. 
+    .PARAMETER Td 
+        Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0. 
+    .PARAMETER Version 
+        SNMP version, which determines the format of trap messages sent to the trap listener. This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages. 
         Possible values = V1, V2, V3 
-    .PARAMETER username 
+    .PARAMETER Username 
         Name of the SNMP user that will send the SNMPv3 traps. 
-    .PARAMETER securitylevel 
-        Security level of the SNMPv3 trap.  
-        Default value: authNoPriv,  
+    .PARAMETER Securitylevel 
+        Security level of the SNMPv3 trap. 
         Possible values = noAuthNoPriv, authNoPriv, authPriv 
     .PARAMETER PassThru 
         Return details about the created snmptrap_snmpuser_binding item.
     .EXAMPLE
-        Invoke-ADCAddSnmptrapsnmpuserbinding -trapclass <string> -trapdestination <string> -username <string>
+        PS C:\>Invoke-ADCAddSnmptrapsnmpuserbinding -trapclass <string> -trapdestination <string> -username <string>
+        An example how to add snmptrap_snmpuser_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSnmptrapsnmpuserbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap_snmpuser_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('generic', 'specific')]
-        [string]$trapclass ,
+        [string]$Trapclass,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$trapdestination ,
+        [string]$Trapdestination,
 
         [ValidateRange(0, 4094)]
-        [double]$td ,
+        [double]$Td,
 
         [ValidateSet('V1', 'V2', 'V3')]
-        [string]$version = 'V3' ,
+        [string]$Version = 'V3',
 
-        [Parameter(Mandatory = $true)]
-        [string]$username ,
+        [Parameter(Mandatory)]
+        [string]$Username,
 
         [ValidateSet('noAuthNoPriv', 'authNoPriv', 'authPriv')]
-        [string]$securitylevel = 'authNoPriv' ,
+        [string]$Securitylevel = 'authNoPriv',
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSnmptrapsnmpuserbinding: Starting"
     }
     process {
         try {
-            $Payload = @{
-                trapclass = $trapclass
-                trapdestination = $trapdestination
-                username = $username
+            $payload = @{ trapclass = $trapclass
+                trapdestination     = $trapdestination
+                username            = $username
             }
-            if ($PSBoundParameters.ContainsKey('td')) { $Payload.Add('td', $td) }
-            if ($PSBoundParameters.ContainsKey('version')) { $Payload.Add('version', $version) }
-            if ($PSBoundParameters.ContainsKey('securitylevel')) { $Payload.Add('securitylevel', $securitylevel) }
- 
-            if ($PSCmdlet.ShouldProcess("snmptrap_snmpuser_binding", "Add SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmptrap_snmpuser_binding -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('td') ) { $payload.Add('td', $td) }
+            if ( $PSBoundParameters.ContainsKey('version') ) { $payload.Add('version', $version) }
+            if ( $PSBoundParameters.ContainsKey('securitylevel') ) { $payload.Add('securitylevel', $securitylevel) }
+            if ( $PSCmdlet.ShouldProcess("snmptrap_snmpuser_binding", "Add SNMP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmptrap_snmpuser_binding -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSnmptrapsnmpuserbinding -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSnmptrapsnmpuserbinding -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -2899,67 +2872,68 @@ function Invoke-ADCAddSnmptrapsnmpuserbinding {
 }
 
 function Invoke-ADCDeleteSnmptrapsnmpuserbinding {
-<#
+    <#
     .SYNOPSIS
-        Delete SNMP configuration Object
+        Delete SNMP configuration Object.
     .DESCRIPTION
-        Delete SNMP configuration Object
-    .PARAMETER trapclass 
-       Type of trap messages that the Citrix ADC sends to the trap listener: Generic or the enterprise-specific messages defined in the MIB file.  
-       Possible values = generic, specific    .PARAMETER trapdestination 
-       IPv4 or the IPv6 address of the trap listener to which the Citrix ADC is to send SNMP trap messages.  
-       Minimum length = 1    .PARAMETER td 
-       Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0.  
-       Minimum value = 0  
-       Maximum value = 4094    .PARAMETER version 
-       SNMP version, which determines the format of trap messages sent to the trap listener. This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages.  
-       Default value: V3  
-       Possible values = V1, V2, V3    .PARAMETER username 
-       Name of the SNMP user that will send the SNMPv3 traps.
+        Binding object showing the snmpuser that can be bound to snmptrap.
+    .PARAMETER Trapclass 
+        Type of trap messages that the Citrix ADC sends to the trap listener: Generic or the enterprise-specific messages defined in the MIB file. 
+        Possible values = generic, specific 
+    .PARAMETER Trapdestination 
+        IPv4 or the IPv6 address of the trap listener to which the Citrix ADC is to send SNMP trap messages. 
+    .PARAMETER Td 
+        Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0. 
+    .PARAMETER Version 
+        SNMP version, which determines the format of trap messages sent to the trap listener. This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages. 
+        Possible values = V1, V2, V3 
+    .PARAMETER Username 
+        Name of the SNMP user that will send the SNMPv3 traps.
     .EXAMPLE
-        Invoke-ADCDeleteSnmptrapsnmpuserbinding -trapclass <string>
+        PS C:\>Invoke-ADCDeleteSnmptrapsnmpuserbinding -Trapclass <string>
+        An example how to delete snmptrap_snmpuser_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSnmptrapsnmpuserbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap_snmpuser_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$trapclass ,
+        [Parameter(Mandatory)]
+        [string]$Trapclass,
 
-        [string]$trapdestination ,
+        [string]$Trapdestination,
 
-        [double]$td ,
+        [double]$Td,
 
-        [string]$version ,
+        [string]$Version,
 
-        [string]$username 
+        [string]$Username 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSnmptrapsnmpuserbinding: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('trapdestination')) { $Arguments.Add('trapdestination', $trapdestination) }
-            if ($PSBoundParameters.ContainsKey('td')) { $Arguments.Add('td', $td) }
-            if ($PSBoundParameters.ContainsKey('version')) { $Arguments.Add('version', $version) }
-            if ($PSBoundParameters.ContainsKey('username')) { $Arguments.Add('username', $username) }
-            if ($PSCmdlet.ShouldProcess("$trapclass", "Delete SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmptrap_snmpuser_binding -NitroPath nitro/v1/config -Resource $trapclass -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Trapdestination') ) { $arguments.Add('trapdestination', $Trapdestination) }
+            if ( $PSBoundParameters.ContainsKey('Td') ) { $arguments.Add('td', $Td) }
+            if ( $PSBoundParameters.ContainsKey('Version') ) { $arguments.Add('version', $Version) }
+            if ( $PSBoundParameters.ContainsKey('Username') ) { $arguments.Add('username', $Username) }
+            if ( $PSCmdlet.ShouldProcess("$trapclass", "Delete SNMP configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmptrap_snmpuser_binding -NitroPath nitro/v1/config -Resource $trapclass -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -2975,73 +2949,79 @@ function Invoke-ADCDeleteSnmptrapsnmpuserbinding {
 }
 
 function Invoke-ADCGetSnmptrapsnmpuserbinding {
-<#
+    <#
     .SYNOPSIS
-        Get SNMP configuration object(s)
+        Get SNMP configuration object(s).
     .DESCRIPTION
-        Get SNMP configuration object(s)
-    .PARAMETER trapdestination 
-       IPv4 or the IPv6 address of the trap listener to which the Citrix ADC is to send SNMP trap messages. 
-    .PARAMETER version 
-       SNMP version, which determines the format of trap messages sent to the trap listener. This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages.  
-       Possible values = V1, V2, V3 
-    .PARAMETER td 
-       Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0. 
-    .PARAMETER trapclass 
-       Type of trap messages that the Citrix ADC sends to the trap listener: Generic or the enterprise-specific messages defined in the MIB file.  
-       Possible values = generic, specific 
+        Binding object showing the snmpuser that can be bound to snmptrap.
+    .PARAMETER Trapdestination 
+        IPv4 or the IPv6 address of the trap listener to which the Citrix ADC is to send SNMP trap messages. 
+    .PARAMETER Version 
+        SNMP version, which determines the format of trap messages sent to the trap listener. This setting must match the setting on the trap listener. Otherwise, the listener drops the trap messages. 
+        Possible values = V1, V2, V3 
+    .PARAMETER Td 
+        Integer value that uniquely identifies the traffic domain in which you want to configure the entity. If you do not specify an ID, the entity becomes part of the default traffic domain, which has an ID of 0. 
+    .PARAMETER Trapclass 
+        Type of trap messages that the Citrix ADC sends to the trap listener: Generic or the enterprise-specific messages defined in the MIB file. 
+        Possible values = generic, specific 
     .PARAMETER GetAll 
-        Retreive all snmptrap_snmpuser_binding object(s)
+        Retrieve all snmptrap_snmpuser_binding object(s).
     .PARAMETER Count
-        If specified, the count of the snmptrap_snmpuser_binding object(s) will be returned
+        If specified, the count of the snmptrap_snmpuser_binding object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSnmptrapsnmpuserbinding
+        PS C:\>Invoke-ADCGetSnmptrapsnmpuserbinding
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSnmptrapsnmpuserbinding -GetAll 
+        PS C:\>Invoke-ADCGetSnmptrapsnmpuserbinding -GetAll 
+        Get all snmptrap_snmpuser_binding data. 
     .EXAMPLE 
-        Invoke-ADCGetSnmptrapsnmpuserbinding -Count
+        PS C:\>Invoke-ADCGetSnmptrapsnmpuserbinding -Count 
+        Get the number of snmptrap_snmpuser_binding objects.
     .EXAMPLE
-        Invoke-ADCGetSnmptrapsnmpuserbinding -name <string>
+        PS C:\>Invoke-ADCGetSnmptrapsnmpuserbinding -name <string>
+        Get snmptrap_snmpuser_binding object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSnmptrapsnmpuserbinding -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSnmptrapsnmpuserbinding -Filter @{ 'name'='<value>' }
+        Get snmptrap_snmpuser_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmptrapsnmpuserbinding
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap_snmpuser_binding/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$trapdestination ,
+        [string]$Trapdestination,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('V1', 'V2', 'V3')]
-        [string]$version ,
+        [string]$Version,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateRange(0, 4094)]
-        [double]$td ,
+        [double]$Td,
 
         [Parameter(ParameterSetName = 'GetByArgument')]
         [ValidateSet('generic', 'specific')]
-        [string]$trapclass,
+        [string]$Trapclass,
 			
         [hashtable]$Filter = @{ },
 
@@ -3053,30 +3033,28 @@ function Invoke-ADCGetSnmptrapsnmpuserbinding {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ 
-                    bulkbindings = 'yes'
-                }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{  bulkbindings = 'yes' }
                 Write-Verbose "Retrieving all snmptrap_snmpuser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_snmpuser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_snmpuser_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmptrap_snmpuser_binding objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_snmpuser_binding -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_snmpuser_binding -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmptrap_snmpuser_binding objects by arguments"
-                $Arguments = @{ } 
-                if ($PSBoundParameters.ContainsKey('trapdestination')) { $Arguments.Add('trapdestination', $trapdestination) } 
-                if ($PSBoundParameters.ContainsKey('version')) { $Arguments.Add('version', $version) } 
-                if ($PSBoundParameters.ContainsKey('td')) { $Arguments.Add('td', $td) } 
-                if ($PSBoundParameters.ContainsKey('trapclass')) { $Arguments.Add('trapclass', $trapclass) }
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_snmpuser_binding -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                if ( $PSBoundParameters.ContainsKey('trapdestination') ) { $arguments.Add('trapdestination', $trapdestination) } 
+                if ( $PSBoundParameters.ContainsKey('version') ) { $arguments.Add('version', $version) } 
+                if ( $PSBoundParameters.ContainsKey('td') ) { $arguments.Add('td', $td) } 
+                if ( $PSBoundParameters.ContainsKey('trapclass') ) { $arguments.Add('trapclass', $trapclass) }
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_snmpuser_binding -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmptrap_snmpuser_binding configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving snmptrap_snmpuser_binding configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_snmpuser_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmptrap_snmpuser_binding -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3090,95 +3068,92 @@ function Invoke-ADCGetSnmptrapsnmpuserbinding {
 }
 
 function Invoke-ADCAddSnmpuser {
-<#
+    <#
     .SYNOPSIS
-        Add SNMP configuration Object
+        Add SNMP configuration Object.
     .DESCRIPTION
-        Add SNMP configuration Object 
-    .PARAMETER name 
+        Configuration for SNMP user resource.
+    .PARAMETER Name 
         Name for the SNMPv3 user. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. 
-    .PARAMETER group 
-        Name of the configured SNMPv3 group to which to bind this SNMPv3 user. The access rights (bound SNMPv3 views) and security level set for this group are assigned to this user.  
-        Minimum length = 1 
-    .PARAMETER authtype 
-        Authentication algorithm used by the Citrix ADC and the SNMPv3 user for authenticating the communication between them. You must specify the same authentication algorithm when you configure the SNMPv3 user in the SNMP manager.  
+    .PARAMETER Group 
+        Name of the configured SNMPv3 group to which to bind this SNMPv3 user. The access rights (bound SNMPv3 views) and security level set for this group are assigned to this user. 
+    .PARAMETER Authtype 
+        Authentication algorithm used by the Citrix ADC and the SNMPv3 user for authenticating the communication between them. You must specify the same authentication algorithm when you configure the SNMPv3 user in the SNMP manager. 
         Possible values = MD5, SHA 
-    .PARAMETER authpasswd 
+    .PARAMETER Authpasswd 
         Plain-text pass phrase to be used by the authentication algorithm specified by the authType (Authentication Type) parameter. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. 
-    .PARAMETER privtype 
-        Encryption algorithm used by the Citrix ADC and the SNMPv3 user for encrypting the communication between them. You must specify the same encryption algorithm when you configure the SNMPv3 user in the SNMP manager.  
+    .PARAMETER Privtype 
+        Encryption algorithm used by the Citrix ADC and the SNMPv3 user for encrypting the communication between them. You must specify the same encryption algorithm when you configure the SNMPv3 user in the SNMP manager. 
         Possible values = DES, AES 
-    .PARAMETER privpasswd 
+    .PARAMETER Privpasswd 
         Encryption key to be used by the encryption algorithm specified by the privType (Encryption Type) parameter. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. 
     .PARAMETER PassThru 
         Return details about the created snmpuser item.
     .EXAMPLE
-        Invoke-ADCAddSnmpuser -name <string> -group <string>
+        PS C:\>Invoke-ADCAddSnmpuser -name <string> -group <string>
+        An example how to add snmpuser configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSnmpuser
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpuser/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$group ,
+        [string]$Group,
 
         [ValidateSet('MD5', 'SHA')]
-        [string]$authtype ,
+        [string]$Authtype,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$authpasswd ,
+        [string]$Authpasswd,
 
         [ValidateSet('DES', 'AES')]
-        [string]$privtype ,
+        [string]$Privtype,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$privpasswd ,
+        [string]$Privpasswd,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCAddSnmpuser: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                group = $group
+            $payload = @{ name = $name
+                group          = $group
             }
-            if ($PSBoundParameters.ContainsKey('authtype')) { $Payload.Add('authtype', $authtype) }
-            if ($PSBoundParameters.ContainsKey('authpasswd')) { $Payload.Add('authpasswd', $authpasswd) }
-            if ($PSBoundParameters.ContainsKey('privtype')) { $Payload.Add('privtype', $privtype) }
-            if ($PSBoundParameters.ContainsKey('privpasswd')) { $Payload.Add('privpasswd', $privpasswd) }
- 
-            if ($PSCmdlet.ShouldProcess("snmpuser", "Add SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpuser -Payload $Payload -GetWarning
+            if ( $PSBoundParameters.ContainsKey('authtype') ) { $payload.Add('authtype', $authtype) }
+            if ( $PSBoundParameters.ContainsKey('authpasswd') ) { $payload.Add('authpasswd', $authpasswd) }
+            if ( $PSBoundParameters.ContainsKey('privtype') ) { $payload.Add('privtype', $privtype) }
+            if ( $PSBoundParameters.ContainsKey('privpasswd') ) { $payload.Add('privpasswd', $privpasswd) }
+            if ( $PSCmdlet.ShouldProcess("snmpuser", "Add SNMP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpuser -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSnmpuser -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSnmpuser -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3191,46 +3166,47 @@ function Invoke-ADCAddSnmpuser {
 }
 
 function Invoke-ADCDeleteSnmpuser {
-<#
+    <#
     .SYNOPSIS
-        Delete SNMP configuration Object
+        Delete SNMP configuration Object.
     .DESCRIPTION
-        Delete SNMP configuration Object
-    .PARAMETER name 
-       Name for the SNMPv3 user. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. 
+        Configuration for SNMP user resource.
+    .PARAMETER Name 
+        Name for the SNMPv3 user. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters.
     .EXAMPLE
-        Invoke-ADCDeleteSnmpuser -name <string>
+        PS C:\>Invoke-ADCDeleteSnmpuser -Name <string>
+        An example how to delete snmpuser configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSnmpuser
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpuser/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name 
+        [Parameter(Mandatory)]
+        [string]$Name 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSnmpuser: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
+            $arguments = @{ }
 
-            if ($PSCmdlet.ShouldProcess("$name", "Delete SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpuser -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete SNMP configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpuser -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3246,94 +3222,90 @@ function Invoke-ADCDeleteSnmpuser {
 }
 
 function Invoke-ADCUpdateSnmpuser {
-<#
+    <#
     .SYNOPSIS
-        Update SNMP configuration Object
+        Update SNMP configuration Object.
     .DESCRIPTION
-        Update SNMP configuration Object 
-    .PARAMETER name 
+        Configuration for SNMP user resource.
+    .PARAMETER Name 
         Name for the SNMPv3 user. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. 
-    .PARAMETER group 
-        Name of the configured SNMPv3 group to which to bind this SNMPv3 user. The access rights (bound SNMPv3 views) and security level set for this group are assigned to this user.  
-        Minimum length = 1 
-    .PARAMETER authtype 
-        Authentication algorithm used by the Citrix ADC and the SNMPv3 user for authenticating the communication between them. You must specify the same authentication algorithm when you configure the SNMPv3 user in the SNMP manager.  
+    .PARAMETER Group 
+        Name of the configured SNMPv3 group to which to bind this SNMPv3 user. The access rights (bound SNMPv3 views) and security level set for this group are assigned to this user. 
+    .PARAMETER Authtype 
+        Authentication algorithm used by the Citrix ADC and the SNMPv3 user for authenticating the communication between them. You must specify the same authentication algorithm when you configure the SNMPv3 user in the SNMP manager. 
         Possible values = MD5, SHA 
-    .PARAMETER authpasswd 
+    .PARAMETER Authpasswd 
         Plain-text pass phrase to be used by the authentication algorithm specified by the authType (Authentication Type) parameter. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. 
-    .PARAMETER privtype 
-        Encryption algorithm used by the Citrix ADC and the SNMPv3 user for encrypting the communication between them. You must specify the same encryption algorithm when you configure the SNMPv3 user in the SNMP manager.  
+    .PARAMETER Privtype 
+        Encryption algorithm used by the Citrix ADC and the SNMPv3 user for encrypting the communication between them. You must specify the same encryption algorithm when you configure the SNMPv3 user in the SNMP manager. 
         Possible values = DES, AES 
-    .PARAMETER privpasswd 
+    .PARAMETER Privpasswd 
         Encryption key to be used by the encryption algorithm specified by the privType (Encryption Type) parameter. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. 
     .PARAMETER PassThru 
         Return details about the created snmpuser item.
     .EXAMPLE
-        Invoke-ADCUpdateSnmpuser -name <string>
+        PS C:\>Invoke-ADCUpdateSnmpuser -name <string>
+        An example how to update snmpuser configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSnmpuser
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpuser/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$group ,
+        [string]$Group,
 
         [ValidateSet('MD5', 'SHA')]
-        [string]$authtype ,
+        [string]$Authtype,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$authpasswd ,
+        [string]$Authpasswd,
 
         [ValidateSet('DES', 'AES')]
-        [string]$privtype ,
+        [string]$Privtype,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$privpasswd ,
+        [string]$Privpasswd,
 
         [Switch]$PassThru 
-
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSnmpuser: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('group')) { $Payload.Add('group', $group) }
-            if ($PSBoundParameters.ContainsKey('authtype')) { $Payload.Add('authtype', $authtype) }
-            if ($PSBoundParameters.ContainsKey('authpasswd')) { $Payload.Add('authpasswd', $authpasswd) }
-            if ($PSBoundParameters.ContainsKey('privtype')) { $Payload.Add('privtype', $privtype) }
-            if ($PSBoundParameters.ContainsKey('privpasswd')) { $Payload.Add('privpasswd', $privpasswd) }
- 
-            if ($PSCmdlet.ShouldProcess("snmpuser", "Update SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpuser -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('group') ) { $payload.Add('group', $group) }
+            if ( $PSBoundParameters.ContainsKey('authtype') ) { $payload.Add('authtype', $authtype) }
+            if ( $PSBoundParameters.ContainsKey('authpasswd') ) { $payload.Add('authpasswd', $authpasswd) }
+            if ( $PSBoundParameters.ContainsKey('privtype') ) { $payload.Add('privtype', $privtype) }
+            if ( $PSBoundParameters.ContainsKey('privpasswd') ) { $payload.Add('privpasswd', $privpasswd) }
+            if ( $PSCmdlet.ShouldProcess("snmpuser", "Update SNMP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpuser -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-                if ($PSBoundParameters.ContainsKey('PassThru')) {
-                    Write-Output (Invoke-ADCGetSnmpuser -Filter $Payload)
+                if ( $PSBoundParameters.ContainsKey('PassThru') ) {
+                    Write-Output (Invoke-ADCGetSnmpuser -Filter $payload)
                 } else {
                     Write-Output $result
                 }
-
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3346,52 +3318,53 @@ function Invoke-ADCUpdateSnmpuser {
 }
 
 function Invoke-ADCUnsetSnmpuser {
-<#
+    <#
     .SYNOPSIS
-        Unset SNMP configuration Object
+        Unset SNMP configuration Object.
     .DESCRIPTION
-        Unset SNMP configuration Object 
-   .PARAMETER name 
-       Name for the SNMPv3 user. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. 
-   .PARAMETER authtype 
-       Authentication algorithm used by the Citrix ADC and the SNMPv3 user for authenticating the communication between them. You must specify the same authentication algorithm when you configure the SNMPv3 user in the SNMP manager.  
-       Possible values = MD5, SHA 
-   .PARAMETER privtype 
-       Encryption algorithm used by the Citrix ADC and the SNMPv3 user for encrypting the communication between them. You must specify the same encryption algorithm when you configure the SNMPv3 user in the SNMP manager.  
-       Possible values = DES, AES 
-   .PARAMETER authpasswd 
-       Plain-text pass phrase to be used by the authentication algorithm specified by the authType (Authentication Type) parameter. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. 
-   .PARAMETER privpasswd 
-       Encryption key to be used by the encryption algorithm specified by the privType (Encryption Type) parameter. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters.
+        Configuration for SNMP user resource.
+    .PARAMETER Name 
+        Name for the SNMPv3 user. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. 
+    .PARAMETER Authtype 
+        Authentication algorithm used by the Citrix ADC and the SNMPv3 user for authenticating the communication between them. You must specify the same authentication algorithm when you configure the SNMPv3 user in the SNMP manager. 
+        Possible values = MD5, SHA 
+    .PARAMETER Privtype 
+        Encryption algorithm used by the Citrix ADC and the SNMPv3 user for encrypting the communication between them. You must specify the same encryption algorithm when you configure the SNMPv3 user in the SNMP manager. 
+        Possible values = DES, AES 
+    .PARAMETER Authpasswd 
+        Plain-text pass phrase to be used by the authentication algorithm specified by the authType (Authentication Type) parameter. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. 
+    .PARAMETER Privpasswd 
+        Encryption key to be used by the encryption algorithm specified by the privType (Encryption Type) parameter. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters.
     .EXAMPLE
-        Invoke-ADCUnsetSnmpuser -name <string>
+        PS C:\>Invoke-ADCUnsetSnmpuser -name <string>
+        An example how to unset snmpuser configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSnmpuser
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpuser
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Boolean]$authtype ,
+        [Boolean]$authtype,
 
-        [Boolean]$privtype ,
+        [Boolean]$privtype,
 
-        [Boolean]$authpasswd ,
+        [Boolean]$authpasswd,
 
         [Boolean]$privpasswd 
     )
@@ -3400,15 +3373,13 @@ function Invoke-ADCUnsetSnmpuser {
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-            }
-            if ($PSBoundParameters.ContainsKey('authtype')) { $Payload.Add('authtype', $authtype) }
-            if ($PSBoundParameters.ContainsKey('privtype')) { $Payload.Add('privtype', $privtype) }
-            if ($PSBoundParameters.ContainsKey('authpasswd')) { $Payload.Add('authpasswd', $authpasswd) }
-            if ($PSBoundParameters.ContainsKey('privpasswd')) { $Payload.Add('privpasswd', $privpasswd) }
-            if ($PSCmdlet.ShouldProcess("$name", "Unset SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpuser -NitroPath nitro/v1/config -Action unset -Payload $Payload -GetWarning
+            $payload = @{ name = $name }
+            if ( $PSBoundParameters.ContainsKey('authtype') ) { $payload.Add('authtype', $authtype) }
+            if ( $PSBoundParameters.ContainsKey('privtype') ) { $payload.Add('privtype', $privtype) }
+            if ( $PSBoundParameters.ContainsKey('authpasswd') ) { $payload.Add('authpasswd', $authpasswd) }
+            if ( $PSBoundParameters.ContainsKey('privpasswd') ) { $payload.Add('privpasswd', $privpasswd) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Unset SNMP configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -Type snmpuser -NitroPath nitro/v1/config -Action unset -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3424,55 +3395,61 @@ function Invoke-ADCUnsetSnmpuser {
 }
 
 function Invoke-ADCGetSnmpuser {
-<#
+    <#
     .SYNOPSIS
-        Get SNMP configuration object(s)
+        Get SNMP configuration object(s).
     .DESCRIPTION
-        Get SNMP configuration object(s)
-    .PARAMETER name 
-       Name for the SNMPv3 user. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. 
+        Configuration for SNMP user resource.
+    .PARAMETER Name 
+        Name for the SNMPv3 user. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. 
     .PARAMETER GetAll 
-        Retreive all snmpuser object(s)
+        Retrieve all snmpuser object(s).
     .PARAMETER Count
-        If specified, the count of the snmpuser object(s) will be returned
+        If specified, the count of the snmpuser object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSnmpuser
+        PS C:\>Invoke-ADCGetSnmpuser
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSnmpuser -GetAll 
+        PS C:\>Invoke-ADCGetSnmpuser -GetAll 
+        Get all snmpuser data. 
     .EXAMPLE 
-        Invoke-ADCGetSnmpuser -Count
+        PS C:\>Invoke-ADCGetSnmpuser -Count 
+        Get the number of snmpuser objects.
     .EXAMPLE
-        Invoke-ADCGetSnmpuser -name <string>
+        PS C:\>Invoke-ADCGetSnmpuser -name <string>
+        Get snmpuser object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSnmpuser -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSnmpuser -Filter @{ 'name'='<value>' }
+        Get snmpuser data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpuser
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpuser/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name,
+        [string]$Name,
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3490,24 +3467,24 @@ function Invoke-ADCGetSnmpuser {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all snmpuser objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpuser -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpuser -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpuser objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpuser -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpuser -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpuser objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpuser -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpuser -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpuser configuration for property 'name'"
                 $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpuser -NitroPath nitro/v1/config -Resource $name -Summary:$ViewSummary -Filter $Filter -GetWarning
             } else {
                 Write-Verbose "Retrieving snmpuser configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpuser -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpuser -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3521,70 +3498,67 @@ function Invoke-ADCGetSnmpuser {
 }
 
 function Invoke-ADCAddSnmpview {
-<#
+    <#
     .SYNOPSIS
-        Add SNMP configuration Object
+        Add SNMP configuration Object.
     .DESCRIPTION
-        Add SNMP configuration Object 
-    .PARAMETER name 
+        Configuration for view resource.
+    .PARAMETER Name 
         Name for the SNMPv3 view. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. You should choose a name that helps identify the SNMPv3 view. 
-    .PARAMETER subtree 
-        A particular branch (subtree) of the MIB tree that you want to associate with this SNMPv3 view. You must specify the subtree as an SNMP OID.  
-        Minimum length = 1 
-    .PARAMETER type 
-        Include or exclude the subtree, specified by the subtree parameter, in or from this view. This setting can be useful when you have included a subtree, such as A, in an SNMPv3 view and you want to exclude a specific subtree of A, such as B, from the SNMPv3 view.  
+    .PARAMETER Subtree 
+        A particular branch (subtree) of the MIB tree that you want to associate with this SNMPv3 view. You must specify the subtree as an SNMP OID. 
+    .PARAMETER Type 
+        Include or exclude the subtree, specified by the subtree parameter, in or from this view. This setting can be useful when you have included a subtree, such as A, in an SNMPv3 view and you want to exclude a specific subtree of A, such as B, from the SNMPv3 view. 
         Possible values = included, excluded
     .EXAMPLE
-        Invoke-ADCAddSnmpview -name <string> -subtree <string> -type <string>
+        PS C:\>Invoke-ADCAddSnmpview -name <string> -subtree <string> -type <string>
+        An example how to add snmpview configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSnmpview
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpview/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$subtree ,
+        [string]$Subtree,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('included', 'excluded')]
-        [string]$type 
-
+        [string]$Type 
     )
     begin {
         Write-Verbose "Invoke-ADCAddSnmpview: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                subtree = $subtree
-                type = $type
+            $payload = @{ name = $name
+                subtree        = $subtree
+                type           = $type
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("snmpview", "Add SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpview -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("snmpview", "Add SNMP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type snmpview -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 201 Created
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3597,50 +3571,51 @@ function Invoke-ADCAddSnmpview {
 }
 
 function Invoke-ADCDeleteSnmpview {
-<#
+    <#
     .SYNOPSIS
-        Delete SNMP configuration Object
+        Delete SNMP configuration Object.
     .DESCRIPTION
-        Delete SNMP configuration Object
-    .PARAMETER name 
-       Name for the SNMPv3 view. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. You should choose a name that helps identify the SNMPv3 view.    .PARAMETER subtree 
-       A particular branch (subtree) of the MIB tree that you want to associate with this SNMPv3 view. You must specify the subtree as an SNMP OID.  
-       Minimum length = 1
+        Configuration for view resource.
+    .PARAMETER Name 
+        Name for the SNMPv3 view. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. You should choose a name that helps identify the SNMPv3 view. 
+    .PARAMETER Subtree 
+        A particular branch (subtree) of the MIB tree that you want to associate with this SNMPv3 view. You must specify the subtree as an SNMP OID.
     .EXAMPLE
-        Invoke-ADCDeleteSnmpview -name <string>
+        PS C:\>Invoke-ADCDeleteSnmpview -Name <string>
+        An example how to delete snmpview configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSnmpview
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpview/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
-        [string]$name ,
+        [Parameter(Mandatory)]
+        [string]$Name,
 
-        [string]$subtree 
+        [string]$Subtree 
     )
     begin {
         Write-Verbose "Invoke-ADCDeleteSnmpview: Starting"
     }
     process {
         try {
-            $Arguments = @{ 
-            }
-            if ($PSBoundParameters.ContainsKey('subtree')) { $Arguments.Add('subtree', $subtree) }
-            if ($PSCmdlet.ShouldProcess("$name", "Delete SNMP configuration Object")) {
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpview -NitroPath nitro/v1/config -Resource $name -Arguments $Arguments
+            $arguments = @{ }
+            if ( $PSBoundParameters.ContainsKey('Subtree') ) { $arguments.Add('subtree', $Subtree) }
+            if ( $PSCmdlet.ShouldProcess("$name", "Delete SNMP configuration Object") ) {
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method DELETE -Type snmpview -NitroPath nitro/v1/config -Resource $name -Arguments $arguments
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
                 Write-Output $response
@@ -3656,70 +3631,67 @@ function Invoke-ADCDeleteSnmpview {
 }
 
 function Invoke-ADCUpdateSnmpview {
-<#
+    <#
     .SYNOPSIS
-        Update SNMP configuration Object
+        Update SNMP configuration Object.
     .DESCRIPTION
-        Update SNMP configuration Object 
-    .PARAMETER name 
+        Configuration for view resource.
+    .PARAMETER Name 
         Name for the SNMPv3 view. Can consist of 1 to 31 characters that include uppercase and lowercase letters, numbers, and the hyphen (-), period (.) pound (#), space ( ), at sign (@), equals (=), colon (:), and underscore (_) characters. You should choose a name that helps identify the SNMPv3 view. 
-    .PARAMETER subtree 
-        A particular branch (subtree) of the MIB tree that you want to associate with this SNMPv3 view. You must specify the subtree as an SNMP OID.  
-        Minimum length = 1 
-    .PARAMETER type 
-        Include or exclude the subtree, specified by the subtree parameter, in or from this view. This setting can be useful when you have included a subtree, such as A, in an SNMPv3 view and you want to exclude a specific subtree of A, such as B, from the SNMPv3 view.  
+    .PARAMETER Subtree 
+        A particular branch (subtree) of the MIB tree that you want to associate with this SNMPv3 view. You must specify the subtree as an SNMP OID. 
+    .PARAMETER Type 
+        Include or exclude the subtree, specified by the subtree parameter, in or from this view. This setting can be useful when you have included a subtree, such as A, in an SNMPv3 view and you want to exclude a specific subtree of A, such as B, from the SNMPv3 view. 
         Possible values = included, excluded
     .EXAMPLE
-        Invoke-ADCUpdateSnmpview -name <string> -subtree <string> -type <string>
+        PS C:\>Invoke-ADCUpdateSnmpview -name <string> -subtree <string> -type <string>
+        An example how to update snmpview configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSnmpview
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpview/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
+    #>
     [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = "Low")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$name ,
+        [string]$Name,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [string]$subtree ,
+        [string]$Subtree,
 
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory)]
         [ValidateSet('included', 'excluded')]
-        [string]$type 
-
+        [string]$Type 
     )
     begin {
         Write-Verbose "Invoke-ADCUpdateSnmpview: Starting"
     }
     process {
         try {
-            $Payload = @{
-                name = $name
-                subtree = $subtree
-                type = $type
+            $payload = @{ name = $name
+                subtree        = $subtree
+                type           = $type
             }
 
- 
-            if ($PSCmdlet.ShouldProcess("snmpview", "Update SNMP configuration Object")) {
-                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpview -Payload $Payload -GetWarning
+            if ( $PSCmdlet.ShouldProcess("snmpview", "Update SNMP configuration Object") ) {
+                $result = Invoke-ADCNitroApi -ADCSession $ADCSession -Method PUT -NitroPath nitro/v1/config -Type snmpview -Payload $payload -GetWarning
                 #HTTP Status Code on Success: 200 OK
                 #HTTP Status Code on Failure: 4xx <string> (for general HTTP errors) or 5xx <string> (for NetScaler-specific errors). The response payload provides details of the error
-            Write-Output $result
-
+                Write-Output $result
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
@@ -3732,49 +3704,55 @@ function Invoke-ADCUpdateSnmpview {
 }
 
 function Invoke-ADCGetSnmpview {
-<#
+    <#
     .SYNOPSIS
-        Get SNMP configuration object(s)
+        Get SNMP configuration object(s).
     .DESCRIPTION
-        Get SNMP configuration object(s)
+        Configuration for view resource.
     .PARAMETER GetAll 
-        Retreive all snmpview object(s)
+        Retrieve all snmpview object(s).
     .PARAMETER Count
-        If specified, the count of the snmpview object(s) will be returned
+        If specified, the count of the snmpview object(s) will be returned.
     .PARAMETER Filter
-        Specify a filter
+        Specify a filter.
         -Filter @{ 'name'='<value>' }
     .PARAMETER ViewSummary
-        When specified, only a summary of information is returned
+        When specified, only a summary of information is returned.
     .EXAMPLE
-        Invoke-ADCGetSnmpview
+        PS C:\>Invoke-ADCGetSnmpview
+        Get data.
     .EXAMPLE 
-        Invoke-ADCGetSnmpview -GetAll 
+        PS C:\>Invoke-ADCGetSnmpview -GetAll 
+        Get all snmpview data. 
     .EXAMPLE 
-        Invoke-ADCGetSnmpview -Count
+        PS C:\>Invoke-ADCGetSnmpview -Count 
+        Get the number of snmpview objects.
     .EXAMPLE
-        Invoke-ADCGetSnmpview -name <string>
+        PS C:\>Invoke-ADCGetSnmpview -name <string>
+        Get snmpview object by specifying for example the name.
     .EXAMPLE
-        Invoke-ADCGetSnmpview -Filter @{ 'name'='<value>' }
+        PS C:\>Invoke-ADCGetSnmpview -Filter @{ 'name'='<value>' }
+        Get snmpview data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpview
-        Version   : v2106.2309
+        Version   : v2111.2111
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpview/
         Requires  : PowerShell v5.1 and up
-                    ADC 11.x and up
+                    ADC 13.x and up.
+                    ADC 12 and lower may work, not guaranteed.
     .LINK
         https://blog.j81.nl
-#>
-    [CmdletBinding(DefaultParameterSetName = "Getall")]
+    #>
+    [CmdletBinding(DefaultParameterSetName = "GetAll")]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUserNameAndPasswordParams', '')]
     [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseBOMForUnicodeEncodedFile', '')]
     param(
-        [parameter(DontShow)]
-        [hashtable]$ADCSession = (Invoke-ADCGetActiveSession),
+        [Parameter(DontShow)]
+        [Object]$ADCSession = (Get-ADCSession),
 
-        [Parameter(ParameterSetName = 'Count', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Count', Mandatory)]
         [Switch]$Count,
 			
         [hashtable]$Filter = @{ },
@@ -3791,24 +3769,24 @@ function Invoke-ADCGetSnmpview {
     }
     process {
         try {
-            if ( $PsCmdlet.ParameterSetName -eq 'Getall' ) {
-                $Query = @{ }
+            if ( $PsCmdlet.ParameterSetName -eq 'GetAll' ) {
+                $query = @{ }
                 Write-Verbose "Retrieving all snmpview objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpview -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpview -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'Count' ) {
-                if ($PSBoundParameters.ContainsKey('Count')) { $Query = @{ 'count' = 'yes' } }
+                if ( $PSBoundParameters.ContainsKey('Count') ) { $query = @{ 'count' = 'yes' } }
                 Write-Verbose "Retrieving total count for snmpview objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpview -NitroPath nitro/v1/config -Query $Query -Summary:$ViewSummary -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpview -NitroPath nitro/v1/config -Query $query -Summary:$ViewSummary -Filter $Filter -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByArgument' ) {
                 Write-Verbose "Retrieving snmpview objects by arguments"
-                $Arguments = @{ } 
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpview -NitroPath nitro/v1/config -Arguments $Arguments -GetWarning
+                $arguments = @{ } 
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpview -NitroPath nitro/v1/config -Arguments $arguments -GetWarning
             } elseif ( $PsCmdlet.ParameterSetName -eq 'GetByResource' ) {
                 Write-Verbose "Retrieving snmpview configuration for property ''"
 
             } else {
                 Write-Verbose "Retrieving snmpview configuration objects"
-                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpview -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $Query -Filter $Filter -GetWarning
+                $response = Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type snmpview -NitroPath nitro/v1/config -Summary:$ViewSummary -Query $query -Filter $Filter -GetWarning
             }
         } catch {
             Write-Verbose "ERROR: $($_.Exception.Message)"
