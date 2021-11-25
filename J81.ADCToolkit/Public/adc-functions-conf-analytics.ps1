@@ -13,7 +13,7 @@ function Invoke-ADCAddAnalyticsglobalanalyticsprofilebinding {
         An example how to add analyticsglobal_analyticsprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAnalyticsglobalanalyticsprofilebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/analytics/analyticsglobal_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -75,7 +75,7 @@ function Invoke-ADCDeleteAnalyticsglobalanalyticsprofilebinding {
         An example how to delete analyticsglobal_analyticsprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAnalyticsglobalanalyticsprofilebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/analytics/analyticsglobal_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -149,7 +149,7 @@ function Invoke-ADCGetAnalyticsglobalanalyticsprofilebinding {
         Get analyticsglobal_analyticsprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAnalyticsglobalanalyticsprofilebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/analytics/analyticsglobal_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -238,7 +238,7 @@ function Invoke-ADCGetAnalyticsglobalbinding {
         Get analyticsglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAnalyticsglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/analytics/analyticsglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -309,7 +309,7 @@ function Invoke-ADCDeleteAnalyticsprofile {
         An example how to delete analyticsprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAnalyticsprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/analytics/analyticsprofile/
         Requires  : PowerShell v5.1 and up
@@ -452,7 +452,7 @@ function Invoke-ADCUnsetAnalyticsprofile {
         An example how to unset analyticsprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetAnalyticsprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/analytics/analyticsprofile
         Requires  : PowerShell v5.1 and up
@@ -683,7 +683,7 @@ function Invoke-ADCUpdateAnalyticsprofile {
         An example how to update analyticsprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAnalyticsprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/analytics/analyticsprofile/
         Requires  : PowerShell v5.1 and up
@@ -950,7 +950,7 @@ function Invoke-ADCAddAnalyticsprofile {
         An example how to add analyticsprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAnalyticsprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/analytics/analyticsprofile/
         Requires  : PowerShell v5.1 and up
@@ -1152,7 +1152,7 @@ function Invoke-ADCGetAnalyticsprofile {
         Get analyticsprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAnalyticsprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/analytics/analyticsprofile/
         Requires  : PowerShell v5.1 and up

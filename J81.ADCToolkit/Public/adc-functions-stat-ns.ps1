@@ -30,7 +30,7 @@ function Invoke-ADCGetNsStats {
         Get ns data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNsStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/ns/
         Requires  : PowerShell v5.1 and up
@@ -127,7 +127,7 @@ function Invoke-ADCGetNsaclStats {
         Get nsacl data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNsaclStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nsacl/
         Requires  : PowerShell v5.1 and up
@@ -219,7 +219,7 @@ function Invoke-ADCGetNsacl6Stats {
         Get nsacl6 data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNsacl6Stats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nsacl6/
         Requires  : PowerShell v5.1 and up
@@ -311,7 +311,7 @@ function Invoke-ADCGetNslimitidentifierStats {
         Get nslimitidentifier data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNslimitidentifierStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nslimitidentifier/
         Requires  : PowerShell v5.1 and up
@@ -403,7 +403,7 @@ function Invoke-ADCGetNsmemoryStats {
         Get nsmemory data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNsmemoryStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nsmemory/
         Requires  : PowerShell v5.1 and up
@@ -495,7 +495,7 @@ function Invoke-ADCGetNspartitionStats {
         Get nspartition data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNspartitionStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nspartition/
         Requires  : PowerShell v5.1 and up
@@ -587,7 +587,7 @@ function Invoke-ADCGetNspbrStats {
         Get nspbr data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNspbrStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nspbr/
         Requires  : PowerShell v5.1 and up
@@ -679,7 +679,7 @@ function Invoke-ADCGetNspbr6Stats {
         Get nspbr6 data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNspbr6Stats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nspbr6/
         Requires  : PowerShell v5.1 and up
@@ -772,7 +772,7 @@ function Invoke-ADCGetNssimpleaclStats {
         Get nssimpleacl data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNssimpleaclStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nssimpleacl/
         Requires  : PowerShell v5.1 and up
@@ -870,7 +870,7 @@ function Invoke-ADCGetNssimpleacl6Stats {
         Get nssimpleacl6 data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNssimpleacl6Stats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nssimpleacl6/
         Requires  : PowerShell v5.1 and up
@@ -967,7 +967,7 @@ function Invoke-ADCGetNstrafficdomainStats {
         Get nstrafficdomain data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNstrafficdomainStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nstrafficdomain/
         Requires  : PowerShell v5.1 and up

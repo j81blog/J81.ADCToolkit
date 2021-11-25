@@ -30,7 +30,7 @@ function Invoke-ADCGetContentinspectionStats {
         Get contentinspection data with a filter.
     .NOTES
         File Name : Invoke-ADCGetContentinspectionStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/contentinspection/contentinspection/
         Requires  : PowerShell v5.1 and up
@@ -127,7 +127,7 @@ function Invoke-ADCGetContentinspectionpolicyStats {
         Get contentinspectionpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicyStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/contentinspection/contentinspectionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -219,7 +219,7 @@ function Invoke-ADCGetContentinspectionpolicylabelStats {
         Get contentinspectionpolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetContentinspectionpolicylabelStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/contentinspection/contentinspectionpolicylabel/
         Requires  : PowerShell v5.1 and up

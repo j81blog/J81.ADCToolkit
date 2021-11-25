@@ -22,7 +22,7 @@ function Invoke-ADCAddIpsecalgprofile {
         An example how to add ipsecalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddIpsecalgprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsecalg/ipsecalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -111,7 +111,7 @@ function Invoke-ADCUpdateIpsecalgprofile {
         An example how to update ipsecalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateIpsecalgprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsecalg/ipsecalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -198,7 +198,7 @@ function Invoke-ADCUnsetIpsecalgprofile {
         An example how to unset ipsecalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetIpsecalgprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsecalg/ipsecalgprofile
         Requires  : PowerShell v5.1 and up
@@ -265,7 +265,7 @@ function Invoke-ADCDeleteIpsecalgprofile {
         An example how to delete ipsecalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteIpsecalgprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsecalg/ipsecalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -342,7 +342,7 @@ function Invoke-ADCGetIpsecalgprofile {
         Get ipsecalgprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetIpsecalgprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsecalg/ipsecalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -428,7 +428,7 @@ function Invoke-ADCFlushIpsecalgsession {
         An example how to flush ipsecalgsession configuration Object(s).
     .NOTES
         File Name : Invoke-ADCFlushIpsecalgsession
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsecalg/ipsecalgsession/
         Requires  : PowerShell v5.1 and up
@@ -518,7 +518,7 @@ function Invoke-ADCGetIpsecalgsession {
         Get ipsecalgsession data with a filter.
     .NOTES
         File Name : Invoke-ADCGetIpsecalgsession
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ipsecalg/ipsecalgsession/
         Requires  : PowerShell v5.1 and up

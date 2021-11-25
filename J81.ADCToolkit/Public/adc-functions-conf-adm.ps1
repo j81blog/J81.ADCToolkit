@@ -12,7 +12,7 @@ function Invoke-ADCUpdateAdmparameter {
         An example how to update admparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAdmparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/adm/admparameter/
         Requires  : PowerShell v5.1 and up
@@ -69,7 +69,7 @@ function Invoke-ADCUnsetAdmparameter {
         An example how to unset admparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetAdmparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/adm/admparameter
         Requires  : PowerShell v5.1 and up
@@ -140,7 +140,7 @@ function Invoke-ADCGetAdmparameter {
         Get admparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAdmparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/adm/admparameter/
         Requires  : PowerShell v5.1 and up

@@ -29,7 +29,7 @@ function Invoke-ADCGetAuthorizationpolicylabelStats {
         Get authorizationpolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuthorizationpolicylabelStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/authorization/authorizationpolicylabel/
         Requires  : PowerShell v5.1 and up

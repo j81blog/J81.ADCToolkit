@@ -16,7 +16,7 @@ function Invoke-ADCRenameAppflowaction {
         An example how to rename appflowaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameAppflowaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowaction/
         Requires  : PowerShell v5.1 and up
@@ -111,7 +111,7 @@ function Invoke-ADCUnsetAppflowaction {
         An example how to unset appflowaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetAppflowaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowaction
         Requires  : PowerShell v5.1 and up
@@ -193,7 +193,7 @@ function Invoke-ADCDeleteAppflowaction {
         An example how to delete appflowaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAppflowaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowaction/
         Requires  : PowerShell v5.1 and up
@@ -279,7 +279,7 @@ function Invoke-ADCUpdateAppflowaction {
         An example how to update appflowaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAppflowaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowaction/
         Requires  : PowerShell v5.1 and up
@@ -415,7 +415,7 @@ function Invoke-ADCAddAppflowaction {
         An example how to add appflowaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAppflowaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowaction/
         Requires  : PowerShell v5.1 and up
@@ -546,7 +546,7 @@ function Invoke-ADCGetAppflowaction {
         Get appflowaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppflowaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowaction/
         Requires  : PowerShell v5.1 and up
@@ -632,7 +632,7 @@ function Invoke-ADCAddAppflowactionanalyticsprofilebinding {
         An example how to add appflowaction_analyticsprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAppflowactionanalyticsprofilebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowaction_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -699,7 +699,7 @@ function Invoke-ADCDeleteAppflowactionanalyticsprofilebinding {
         An example how to delete appflowaction_analyticsprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAppflowactionanalyticsprofilebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowaction_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -778,7 +778,7 @@ function Invoke-ADCGetAppflowactionanalyticsprofilebinding {
         Get appflowaction_analyticsprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppflowactionanalyticsprofilebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowaction_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -873,7 +873,7 @@ function Invoke-ADCGetAppflowactionbinding {
         Get appflowaction_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppflowactionbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowaction_binding/
         Requires  : PowerShell v5.1 and up
@@ -953,7 +953,7 @@ function Invoke-ADCRenameAppflowcollector {
         An example how to rename appflowcollector configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameAppflowcollector
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowcollector/
         Requires  : PowerShell v5.1 and up
@@ -1030,7 +1030,7 @@ function Invoke-ADCUnsetAppflowcollector {
         An example how to unset appflowcollector configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetAppflowcollector
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowcollector
         Requires  : PowerShell v5.1 and up
@@ -1096,7 +1096,7 @@ function Invoke-ADCDeleteAppflowcollector {
         An example how to delete appflowcollector configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAppflowcollector
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowcollector/
         Requires  : PowerShell v5.1 and up
@@ -1165,7 +1165,7 @@ function Invoke-ADCAddAppflowcollector {
         An example how to add appflowcollector configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAppflowcollector
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowcollector/
         Requires  : PowerShell v5.1 and up
@@ -1252,7 +1252,7 @@ function Invoke-ADCUpdateAppflowcollector {
         An example how to update appflowcollector configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAppflowcollector
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowcollector/
         Requires  : PowerShell v5.1 and up
@@ -1346,7 +1346,7 @@ function Invoke-ADCGetAppflowcollector {
         Get appflowcollector data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppflowcollector
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowcollector/
         Requires  : PowerShell v5.1 and up
@@ -1444,7 +1444,7 @@ function Invoke-ADCAddAppflowglobalappflowpolicybinding {
         An example how to add appflowglobal_appflowpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAppflowglobalappflowpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowglobal_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1532,7 +1532,7 @@ function Invoke-ADCDeleteAppflowglobalappflowpolicybinding {
         An example how to delete appflowglobal_appflowpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAppflowglobalappflowpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowglobal_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1612,7 +1612,7 @@ function Invoke-ADCGetAppflowglobalappflowpolicybinding {
         Get appflowglobal_appflowpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppflowglobalappflowpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowglobal_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1701,7 +1701,7 @@ function Invoke-ADCGetAppflowglobalbinding {
         Get appflowglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppflowglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -1910,7 +1910,7 @@ function Invoke-ADCUnsetAppflowparam {
         An example how to unset appflowparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetAppflowparam
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowparam
         Requires  : PowerShell v5.1 and up
@@ -2254,7 +2254,7 @@ function Invoke-ADCUpdateAppflowparam {
         An example how to update appflowparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAppflowparam
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowparam/
         Requires  : PowerShell v5.1 and up
@@ -2522,7 +2522,7 @@ function Invoke-ADCGetAppflowparam {
         Get appflowparam data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppflowparam
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowparam/
         Requires  : PowerShell v5.1 and up
@@ -2597,7 +2597,7 @@ function Invoke-ADCRenameAppflowpolicy {
         An example how to rename appflowpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameAppflowpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicy/
         Requires  : PowerShell v5.1 and up
@@ -2667,7 +2667,7 @@ function Invoke-ADCDeleteAppflowpolicy {
         An example how to delete appflowpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAppflowpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicy/
         Requires  : PowerShell v5.1 and up
@@ -2738,7 +2738,7 @@ function Invoke-ADCUpdateAppflowpolicy {
         An example how to update appflowpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAppflowpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicy/
         Requires  : PowerShell v5.1 and up
@@ -2816,7 +2816,7 @@ function Invoke-ADCUnsetAppflowpolicy {
         An example how to unset appflowpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetAppflowpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicy
         Requires  : PowerShell v5.1 and up
@@ -2891,7 +2891,7 @@ function Invoke-ADCAddAppflowpolicy {
         An example how to add appflowpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAppflowpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicy/
         Requires  : PowerShell v5.1 and up
@@ -2989,7 +2989,7 @@ function Invoke-ADCGetAppflowpolicy {
         Get appflowpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppflowpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicy/
         Requires  : PowerShell v5.1 and up
@@ -3075,7 +3075,7 @@ function Invoke-ADCRenameAppflowpolicylabel {
         An example how to rename appflowpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameAppflowpolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -3151,7 +3151,7 @@ function Invoke-ADCAddAppflowpolicylabel {
         An example how to add appflowpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAppflowpolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -3218,7 +3218,7 @@ function Invoke-ADCDeleteAppflowpolicylabel {
         An example how to delete appflowpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAppflowpolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -3296,7 +3296,7 @@ function Invoke-ADCGetAppflowpolicylabel {
         Get appflowpolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppflowpolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -3393,7 +3393,7 @@ function Invoke-ADCAddAppflowpolicylabelappflowpolicybinding {
         An example how to add appflowpolicylabel_appflowpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAppflowpolicylabelappflowpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicylabel_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3481,7 +3481,7 @@ function Invoke-ADCDeleteAppflowpolicylabelappflowpolicybinding {
         An example how to delete appflowpolicylabel_appflowpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAppflowpolicylabelappflowpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicylabel_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3563,7 +3563,7 @@ function Invoke-ADCGetAppflowpolicylabelappflowpolicybinding {
         Get appflowpolicylabel_appflowpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppflowpolicylabelappflowpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicylabel_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3658,7 +3658,7 @@ function Invoke-ADCGetAppflowpolicylabelbinding {
         Get appflowpolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppflowpolicylabelbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -3753,7 +3753,7 @@ function Invoke-ADCGetAppflowpolicyappflowglobalbinding {
         Get appflowpolicy_appflowglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppflowpolicyappflowglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicy_appflowglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -3850,7 +3850,7 @@ function Invoke-ADCGetAppflowpolicyappflowpolicylabelbinding {
         Get appflowpolicy_appflowpolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppflowpolicyappflowpolicylabelbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicy_appflowpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -3944,7 +3944,7 @@ function Invoke-ADCGetAppflowpolicybinding {
         Get appflowpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppflowpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4038,7 +4038,7 @@ function Invoke-ADCGetAppflowpolicycsvserverbinding {
         Get appflowpolicy_csvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppflowpolicycsvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -4135,7 +4135,7 @@ function Invoke-ADCGetAppflowpolicylbvserverbinding {
         Get appflowpolicy_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppflowpolicylbvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -4232,7 +4232,7 @@ function Invoke-ADCGetAppflowpolicyvpnvserverbinding {
         Get appflowpolicy_vpnvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppflowpolicyvpnvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appflow/appflowpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up

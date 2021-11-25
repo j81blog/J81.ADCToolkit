@@ -30,7 +30,7 @@ function Invoke-ADCGetBotStats {
         Get bot data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/bot/bot/
         Requires  : PowerShell v5.1 and up
@@ -127,7 +127,7 @@ function Invoke-ADCGetBotpolicyStats {
         Get botpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicyStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/bot/botpolicy/
         Requires  : PowerShell v5.1 and up
@@ -219,7 +219,7 @@ function Invoke-ADCGetBotpolicylabelStats {
         Get botpolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicylabelStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/bot/botpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -311,7 +311,7 @@ function Invoke-ADCGetBotprofileStats {
         Get botprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotprofileStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/bot/botprofile/
         Requires  : PowerShell v5.1 and up

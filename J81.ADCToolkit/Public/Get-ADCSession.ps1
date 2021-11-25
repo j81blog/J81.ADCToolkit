@@ -6,13 +6,12 @@ function Get-ADCSession {
         Verify and retrieve an active session variable
     .PARAMETER ADCSession
         Specify an active session (Output from Connect-ADCNode)
-    .PARAMETER Credential
-        Credential object
     .EXAMPLE
-        Get-ADCSession
+        PS C:\>Get-ADCSession
+        Get the active session and if not found, try to connect
     .NOTES
         File Name : Get-ADCSession
-        Version   : v2111.1816
+        Version   : v2111.2522
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -34,42 +33,36 @@ function Get-ADCSession {
     } elseif ($ADCSession.IsConnected -and ($ADCSession.SessionExpiration -gt (Get-Date).AddSeconds(120))) {
         $IsActive = $true
     }
-    $ManagementURL = ""
     $MessageText = ". E.g. https://citrixacd.domain.local"
-    #Assign parameter credential
     if (-Not $IsActive) {
         try {
             #Check if the ADCSession variable contains a hostname
-            if ($null -ne $ADCSession -and (-Not [String]::IsNullOrEmpty(($ADCSession.ManagementURL.ToString())))) {
+            if ($null -ne $ADCSession -and (-Not [String]::IsNullOrEmpty($( try { $ADCSession.ManagementURL.ToString() } catch { $null } )))) {
                 $ManagementURL = $ADCSession.ManagementURL.ToString().TrimEnd('/')
                 $MessageText = ": $ManagementURL"
-            }
-        } finally { }
-        try {
-            if ([String]::IsNullOrEmpty($ManagementURL)) {
+            } elseif ([String]::IsNullOrEmpty($ManagementURL) -and (-Not [String]::IsNullOrEmpty((Get-Variable -Name ManagementURL -Scope Script -ValueOnly -ErrorAction SilentlyContinue))) ) {
                 $ManagementURL = Get-Variable -Name ManagementURL -Scope Script -ValueOnly -ErrorAction SilentlyContinue
                 $MessageText = ": $ManagementURL"
-            }
-        } finally { }
-        try {
-            if ([String]::IsNullOrEmpty($ManagementURL)) {
+            } elseif ([String]::IsNullOrEmpty($ManagementURL) -and (-Not [String]::IsNullOrEmpty((Get-Variable -Name ManagementURL -Scope Global -ValueOnly -ErrorAction SilentlyContinue))) ) {
                 $ManagementURL = Get-Variable -Name ManagementURL -Scope Global -ValueOnly -ErrorAction SilentlyContinue
                 $MessageText = ": $ManagementURL"
             }
         } finally { }
-        $ADCCredential = $Credential
+
         try {
             #Test if Parameter ADCCredential is a valid credential
-            if (([String]::IsNullOrEmpty($ADCCredential)) -or ($ADCCredential -eq [System.Management.Automation.PSCredential]::Empty)) {
+            $tempCredential = Get-Variable -Name ADCCredential -Scope Script -ValueOnly -ErrorAction SilentlyContinue
+            if ((([String]::IsNullOrEmpty($ADCCredential)) -or ($ADCCredential -eq [System.Management.Automation.PSCredential]::Empty)) -and ($tempCredential -is [System.Management.Automation.PSCredential] -and $tempCredential -ne [System.Management.Automation.PSCredential]::Empty)) {
                 #Get (if it exists) the Script ADCCredential variable for the ADC Credential
-                $ADCCredential = Get-Variable -Name ADCCredential -Scope Script -ValueOnly -ErrorAction SilentlyContinue
+                $ADCCredential = $tempCredential
             }
         } finally { }
         try {
             #Test if Script ADCCredential is a valid credential
-            if (([String]::IsNullOrEmpty($ADCCredential)) -or ($ADCCredential -eq [System.Management.Automation.PSCredential]::Empty)) {
-                #Get (if it exists) the Global ADCCredential variable for the ADC Credential
-                $ADCCredential = Get-Variable -Name ADCCredential -Scope Global -ValueOnly -ErrorAction SilentlyContinue
+            $tempCredential = Get-Variable -Name ADCCredential -Scope Global -ValueOnly -ErrorAction SilentlyContinue
+            if ((([String]::IsNullOrEmpty($ADCCredential)) -or ($ADCCredential -eq [System.Management.Automation.PSCredential]::Empty)) -and ($tempCredential -is [System.Management.Automation.PSCredential] -and $tempCredential -ne [System.Management.Automation.PSCredential]::Empty)) {
+                #Get (if it exists) the Script ADCCredential variable for the ADC Credential
+                $ADCCredential = $tempCredential
             }
         } finally { }
         #If no ManagementURL is available then request a URL

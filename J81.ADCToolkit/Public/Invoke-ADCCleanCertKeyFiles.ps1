@@ -28,7 +28,7 @@ function Invoke-ADCCleanCertKeyFiles {
         This example will first make a backup and then clean the ADC.
     .NOTES
         File Name : Invoke-ADCCleanCertKeyFiles.ps1
-        Version   : v2111.1520
+        Version   : v2111.2522
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up

@@ -24,7 +24,7 @@ function Invoke-ADCAddAzureapplication {
         An example how to add azureapplication configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAzureapplication
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azureapplication/
         Requires  : PowerShell v5.1 and up
@@ -113,7 +113,7 @@ function Invoke-ADCDeleteAzureapplication {
         An example how to delete azureapplication configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAzureapplication
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azureapplication/
         Requires  : PowerShell v5.1 and up
@@ -191,7 +191,7 @@ function Invoke-ADCGetAzureapplication {
         Get azureapplication data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAzureapplication
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azureapplication/
         Requires  : PowerShell v5.1 and up
@@ -281,7 +281,7 @@ function Invoke-ADCAddAzurekeyvault {
         An example how to add azurekeyvault configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAzurekeyvault
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azurekeyvault/
         Requires  : PowerShell v5.1 and up
@@ -355,7 +355,7 @@ function Invoke-ADCDeleteAzurekeyvault {
         An example how to delete azurekeyvault configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAzurekeyvault
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azurekeyvault/
         Requires  : PowerShell v5.1 and up
@@ -433,7 +433,7 @@ function Invoke-ADCGetAzurekeyvault {
         Get azurekeyvault data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAzurekeyvault
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/azure/azurekeyvault/
         Requires  : PowerShell v5.1 and up

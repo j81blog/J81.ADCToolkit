@@ -29,7 +29,7 @@ function Invoke-ADCGetAuthenticationloginschemapolicyStats {
         Get authenticationloginschemapolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuthenticationloginschemapolicyStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/authentication/authenticationloginschemapolicy/
         Requires  : PowerShell v5.1 and up
@@ -121,7 +121,7 @@ function Invoke-ADCGetAuthenticationoauthidppolicyStats {
         Get authenticationoauthidppolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuthenticationoauthidppolicyStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/authentication/authenticationoauthidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -213,7 +213,7 @@ function Invoke-ADCGetAuthenticationpolicyStats {
         Get authenticationpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicyStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/authentication/authenticationpolicy/
         Requires  : PowerShell v5.1 and up
@@ -305,7 +305,7 @@ function Invoke-ADCGetAuthenticationpolicylabelStats {
         Get authenticationpolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuthenticationpolicylabelStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/authentication/authenticationpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -397,7 +397,7 @@ function Invoke-ADCGetAuthenticationsamlidppolicyStats {
         Get authenticationsamlidppolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuthenticationsamlidppolicyStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/authentication/authenticationsamlidppolicy/
         Requires  : PowerShell v5.1 and up
@@ -489,7 +489,7 @@ function Invoke-ADCGetAuthenticationvserverStats {
         Get authenticationvserver data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuthenticationvserverStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/authentication/authenticationvserver/
         Requires  : PowerShell v5.1 and up

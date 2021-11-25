@@ -34,10 +34,10 @@ function Invoke-ADCNitroApi {
         Use this parameter to set the onerror status for nitro request. Applicable only for bulk requests.
         Acceptable values: "EXIT", "CONTINUE", "ROLLBACK", default to "EXIT"
     .EXAMPLE
-        Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type nsip
+        PS C:\>Invoke-ADCNitroApi -ADCSession $ADCSession -Method GET -Type nsip
     .EXAMPLE
-        $Payload = @{ name = $name }
-        Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lbvserver -Action enable -Payload $Payload
+        PS C:\>$Payload = @{ name = $name }; Invoke-ADCNitroApi -ADCSession $ADCSession -Method POST -NitroPath nitro/v1/config -Type lbvserver -Action enable -Payload $Payload
+        Specify payload and invoke the specified api
     .NOTES
         File Name : Invoke-ADCNitroApi
         Version   : v2111.1520

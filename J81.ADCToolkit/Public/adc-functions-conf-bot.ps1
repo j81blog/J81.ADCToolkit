@@ -27,7 +27,7 @@ function Invoke-ADCGetBotglobalbinding {
         Get botglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -113,7 +113,7 @@ function Invoke-ADCAddBotglobalbotpolicybinding {
         An example how to add botglobal_botpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotglobalbotpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botglobal_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -201,7 +201,7 @@ function Invoke-ADCDeleteBotglobalbotpolicybinding {
         An example how to delete botglobal_botpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotglobalbotpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botglobal_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -281,7 +281,7 @@ function Invoke-ADCGetBotglobalbotpolicybinding {
         Get botglobal_botpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotglobalbotpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botglobal_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -367,7 +367,7 @@ function Invoke-ADCAddBotpolicy {
         An example how to add botpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy/
         Requires  : PowerShell v5.1 and up
@@ -447,7 +447,7 @@ function Invoke-ADCDeleteBotpolicy {
         An example how to delete botpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy/
         Requires  : PowerShell v5.1 and up
@@ -516,7 +516,7 @@ function Invoke-ADCUpdateBotpolicy {
         An example how to update botpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateBotpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy/
         Requires  : PowerShell v5.1 and up
@@ -599,7 +599,7 @@ function Invoke-ADCUnsetBotpolicy {
         An example how to unset botpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetBotpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy
         Requires  : PowerShell v5.1 and up
@@ -667,7 +667,7 @@ function Invoke-ADCRenameBotpolicy {
         An example how to rename botpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameBotpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy/
         Requires  : PowerShell v5.1 and up
@@ -757,7 +757,7 @@ function Invoke-ADCGetBotpolicy {
         Get botpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy/
         Requires  : PowerShell v5.1 and up
@@ -842,7 +842,7 @@ function Invoke-ADCAddBotpolicylabel {
         An example how to add botpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotpolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -906,7 +906,7 @@ function Invoke-ADCDeleteBotpolicylabel {
         An example how to delete botpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotpolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -966,7 +966,7 @@ function Invoke-ADCRenameBotpolicylabel {
         An example how to rename botpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameBotpolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -1055,7 +1055,7 @@ function Invoke-ADCGetBotpolicylabel {
         Get botpolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -1154,7 +1154,7 @@ function Invoke-ADCGetBotpolicylabelbinding {
         Get botpolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicylabelbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -1242,7 +1242,7 @@ function Invoke-ADCAddBotpolicylabelbotpolicybinding {
         An example how to add botpolicylabel_botpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotpolicylabelbotpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicylabel_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1329,7 +1329,7 @@ function Invoke-ADCDeleteBotpolicylabelbotpolicybinding {
         An example how to delete botpolicylabel_botpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotpolicylabelbotpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicylabel_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1411,7 +1411,7 @@ function Invoke-ADCGetBotpolicylabelbotpolicybinding {
         Get botpolicylabel_botpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicylabelbotpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicylabel_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1508,7 +1508,7 @@ function Invoke-ADCGetBotpolicylabelpolicybindingbinding {
         Get botpolicylabel_policybinding_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicylabelpolicybindingbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
@@ -1602,7 +1602,7 @@ function Invoke-ADCGetBotpolicybinding {
         Get botpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1696,7 +1696,7 @@ function Invoke-ADCGetBotpolicybotglobalbinding {
         Get botpolicy_botglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicybotglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy_botglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -1793,7 +1793,7 @@ function Invoke-ADCGetBotpolicybotpolicylabelbinding {
         Get botpolicy_botpolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicybotpolicylabelbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy_botpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -1890,7 +1890,7 @@ function Invoke-ADCGetBotpolicycsvserverbinding {
         Get botpolicy_csvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicycsvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -1987,7 +1987,7 @@ function Invoke-ADCGetBotpolicylbvserverbinding {
         Get botpolicy_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotpolicylbvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2122,7 +2122,7 @@ function Invoke-ADCAddBotprofile {
         An example how to add botprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile/
         Requires  : PowerShell v5.1 and up
@@ -2325,7 +2325,7 @@ function Invoke-ADCUpdateBotprofile {
         An example how to update botprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateBotprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile/
         Requires  : PowerShell v5.1 and up
@@ -2526,7 +2526,7 @@ function Invoke-ADCUnsetBotprofile {
         An example how to unset botprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetBotprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile
         Requires  : PowerShell v5.1 and up
@@ -2644,7 +2644,7 @@ function Invoke-ADCDeleteBotprofile {
         An example how to delete botprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile/
         Requires  : PowerShell v5.1 and up
@@ -2721,7 +2721,7 @@ function Invoke-ADCGetBotprofile {
         Get botprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile/
         Requires  : PowerShell v5.1 and up
@@ -2821,7 +2821,7 @@ function Invoke-ADCGetBotprofilebinding {
         Get botprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotprofilebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -2914,7 +2914,7 @@ function Invoke-ADCAddBotprofileblacklistbinding {
         An example how to add botprofile_blacklist_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotprofileblacklistbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_blacklist_binding/
         Requires  : PowerShell v5.1 and up
@@ -3006,7 +3006,7 @@ function Invoke-ADCDeleteBotprofileblacklistbinding {
         An example how to delete botprofile_blacklist_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotprofileblacklistbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_blacklist_binding/
         Requires  : PowerShell v5.1 and up
@@ -3088,7 +3088,7 @@ function Invoke-ADCGetBotprofileblacklistbinding {
         Get botprofile_blacklist_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotprofileblacklistbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_blacklist_binding/
         Requires  : PowerShell v5.1 and up
@@ -3191,7 +3191,7 @@ function Invoke-ADCAddBotprofilecaptchabinding {
         An example how to add botprofile_captcha_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotprofilecaptchabinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_captcha_binding/
         Requires  : PowerShell v5.1 and up
@@ -3300,7 +3300,7 @@ function Invoke-ADCDeleteBotprofilecaptchabinding {
         An example how to delete botprofile_captcha_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotprofilecaptchabinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_captcha_binding/
         Requires  : PowerShell v5.1 and up
@@ -3382,7 +3382,7 @@ function Invoke-ADCGetBotprofilecaptchabinding {
         Get botprofile_captcha_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotprofilecaptchabinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_captcha_binding/
         Requires  : PowerShell v5.1 and up
@@ -3476,7 +3476,7 @@ function Invoke-ADCAddBotprofileipreputationbinding {
         An example how to add botprofile_ipreputation_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotprofileipreputationbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_ipreputation_binding/
         Requires  : PowerShell v5.1 and up
@@ -3566,7 +3566,7 @@ function Invoke-ADCDeleteBotprofileipreputationbinding {
         An example how to delete botprofile_ipreputation_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotprofileipreputationbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_ipreputation_binding/
         Requires  : PowerShell v5.1 and up
@@ -3648,7 +3648,7 @@ function Invoke-ADCGetBotprofileipreputationbinding {
         Get botprofile_ipreputation_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotprofileipreputationbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_ipreputation_binding/
         Requires  : PowerShell v5.1 and up
@@ -3750,7 +3750,7 @@ function Invoke-ADCAddBotprofileratelimitbinding {
         An example how to add botprofile_ratelimit_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotprofileratelimitbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_ratelimit_binding/
         Requires  : PowerShell v5.1 and up
@@ -3856,7 +3856,7 @@ function Invoke-ADCDeleteBotprofileratelimitbinding {
         An example how to delete botprofile_ratelimit_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotprofileratelimitbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_ratelimit_binding/
         Requires  : PowerShell v5.1 and up
@@ -3944,7 +3944,7 @@ function Invoke-ADCGetBotprofileratelimitbinding {
         Get botprofile_ratelimit_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotprofileratelimitbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_ratelimit_binding/
         Requires  : PowerShell v5.1 and up
@@ -4042,7 +4042,7 @@ function Invoke-ADCAddBotprofiletpsbinding {
         An example how to add botprofile_tps_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotprofiletpsbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_tps_binding/
         Requires  : PowerShell v5.1 and up
@@ -4138,7 +4138,7 @@ function Invoke-ADCDeleteBotprofiletpsbinding {
         An example how to delete botprofile_tps_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotprofiletpsbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_tps_binding/
         Requires  : PowerShell v5.1 and up
@@ -4220,7 +4220,7 @@ function Invoke-ADCGetBotprofiletpsbinding {
         Get botprofile_tps_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotprofiletpsbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_tps_binding/
         Requires  : PowerShell v5.1 and up
@@ -4316,7 +4316,7 @@ function Invoke-ADCAddBotprofilewhitelistbinding {
         An example how to add botprofile_whitelist_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddBotprofilewhitelistbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_whitelist_binding/
         Requires  : PowerShell v5.1 and up
@@ -4408,7 +4408,7 @@ function Invoke-ADCDeleteBotprofilewhitelistbinding {
         An example how to delete botprofile_whitelist_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotprofilewhitelistbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_whitelist_binding/
         Requires  : PowerShell v5.1 and up
@@ -4490,7 +4490,7 @@ function Invoke-ADCGetBotprofilewhitelistbinding {
         Get botprofile_whitelist_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotprofilewhitelistbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botprofile_whitelist_binding/
         Requires  : PowerShell v5.1 and up
@@ -4594,7 +4594,7 @@ function Invoke-ADCUpdateBotsettings {
         An example how to update botsettings configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateBotsettings
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botsettings/
         Requires  : PowerShell v5.1 and up
@@ -4718,7 +4718,7 @@ function Invoke-ADCUnsetBotsettings {
         An example how to unset botsettings configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetBotsettings
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botsettings
         Requires  : PowerShell v5.1 and up
@@ -4822,7 +4822,7 @@ function Invoke-ADCGetBotsettings {
         Get botsettings data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotsettings
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botsettings/
         Requires  : PowerShell v5.1 and up
@@ -4899,7 +4899,7 @@ function Invoke-ADCImportBotsignature {
         An example how to import botsignature configuration Object(s).
     .NOTES
         File Name : Invoke-ADCImportBotsignature
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botsignature/
         Requires  : PowerShell v5.1 and up
@@ -4966,7 +4966,7 @@ function Invoke-ADCDeleteBotsignature {
         An example how to delete botsignature configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteBotsignature
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botsignature/
         Requires  : PowerShell v5.1 and up
@@ -5024,7 +5024,7 @@ function Invoke-ADCChangeBotsignature {
         An example how to change botsignature configuration Object(s).
     .NOTES
         File Name : Invoke-ADCChangeBotsignature
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botsignature/
         Requires  : PowerShell v5.1 and up
@@ -5105,7 +5105,7 @@ function Invoke-ADCGetBotsignature {
         Get botsignature data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBotsignature
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bot/botsignature/
         Requires  : PowerShell v5.1 and up

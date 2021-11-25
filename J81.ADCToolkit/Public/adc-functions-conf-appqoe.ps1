@@ -38,7 +38,7 @@ function Invoke-ADCUnsetAppqoeaction {
         An example how to unset appqoeaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetAppqoeaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoeaction
         Requires  : PowerShell v5.1 and up
@@ -128,7 +128,7 @@ function Invoke-ADCDeleteAppqoeaction {
         An example how to delete appqoeaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAppqoeaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoeaction/
         Requires  : PowerShell v5.1 and up
@@ -215,7 +215,7 @@ function Invoke-ADCUpdateAppqoeaction {
         An example how to update appqoeaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAppqoeaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoeaction/
         Requires  : PowerShell v5.1 and up
@@ -367,7 +367,7 @@ function Invoke-ADCAddAppqoeaction {
         An example how to add appqoeaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAppqoeaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoeaction/
         Requires  : PowerShell v5.1 and up
@@ -508,7 +508,7 @@ function Invoke-ADCGetAppqoeaction {
         Get appqoeaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppqoeaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoeaction/
         Requires  : PowerShell v5.1 and up
@@ -589,7 +589,7 @@ function Invoke-ADCChangeAppqoecustomresp {
         An example how to change appqoecustomresp configuration Object(s).
     .NOTES
         File Name : Invoke-ADCChangeAppqoecustomresp
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoecustomresp/
         Requires  : PowerShell v5.1 and up
@@ -646,7 +646,7 @@ function Invoke-ADCDeleteAppqoecustomresp {
         An example how to delete appqoecustomresp configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAppqoecustomresp
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoecustomresp/
         Requires  : PowerShell v5.1 and up
@@ -704,7 +704,7 @@ function Invoke-ADCImportAppqoecustomresp {
         An example how to import appqoecustomresp configuration Object(s).
     .NOTES
         File Name : Invoke-ADCImportAppqoecustomresp
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoecustomresp/
         Requires  : PowerShell v5.1 and up
@@ -784,7 +784,7 @@ function Invoke-ADCGetAppqoecustomresp {
         Get appqoecustomresp data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppqoecustomresp
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoecustomresp/
         Requires  : PowerShell v5.1 and up
@@ -867,7 +867,7 @@ function Invoke-ADCUpdateAppqoeparameter {
         An example how to update appqoeparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAppqoeparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoeparameter/
         Requires  : PowerShell v5.1 and up
@@ -941,7 +941,7 @@ function Invoke-ADCUnsetAppqoeparameter {
         An example how to unset appqoeparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetAppqoeparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoeparameter
         Requires  : PowerShell v5.1 and up
@@ -1021,7 +1021,7 @@ function Invoke-ADCGetAppqoeparameter {
         Get appqoeparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppqoeparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoeparameter/
         Requires  : PowerShell v5.1 and up
@@ -1091,7 +1091,7 @@ function Invoke-ADCDeleteAppqoepolicy {
         An example how to delete appqoepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAppqoepolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoepolicy/
         Requires  : PowerShell v5.1 and up
@@ -1153,7 +1153,7 @@ function Invoke-ADCUpdateAppqoepolicy {
         An example how to update appqoepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAppqoepolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoepolicy/
         Requires  : PowerShell v5.1 and up
@@ -1228,7 +1228,7 @@ function Invoke-ADCAddAppqoepolicy {
         An example how to add appqoepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAppqoepolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoepolicy/
         Requires  : PowerShell v5.1 and up
@@ -1322,7 +1322,7 @@ function Invoke-ADCGetAppqoepolicy {
         Get appqoepolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppqoepolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoepolicy/
         Requires  : PowerShell v5.1 and up
@@ -1422,7 +1422,7 @@ function Invoke-ADCGetAppqoepolicybinding {
         Get appqoepolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppqoepolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1517,7 +1517,7 @@ function Invoke-ADCGetAppqoepolicylbvserverbinding {
         Get appqoepolicy_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppqoepolicylbvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/appqoe/appqoepolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up

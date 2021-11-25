@@ -29,7 +29,7 @@ function Invoke-ADCGetRewritepolicyStats {
         Get rewritepolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRewritepolicyStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/rewrite/rewritepolicy/
         Requires  : PowerShell v5.1 and up
@@ -121,7 +121,7 @@ function Invoke-ADCGetRewritepolicylabelStats {
         Get rewritepolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRewritepolicylabelStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/rewrite/rewritepolicylabel/
         Requires  : PowerShell v5.1 and up

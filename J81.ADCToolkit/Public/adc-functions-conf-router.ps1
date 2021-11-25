@@ -11,7 +11,7 @@ function Invoke-ADCAddRouterdynamicrouting {
         An example how to add routerdynamicrouting configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddRouterdynamicrouting
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/router/routerdynamicrouting/
         Requires  : PowerShell v5.1 and up
@@ -66,7 +66,7 @@ function Invoke-ADCDeleteRouterdynamicrouting {
         An example how to delete routerdynamicrouting configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteRouterdynamicrouting
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/router/routerdynamicrouting/
         Requires  : PowerShell v5.1 and up
@@ -121,7 +121,7 @@ function Invoke-ADCUpdateRouterdynamicrouting {
         An example how to update routerdynamicrouting configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateRouterdynamicrouting
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/router/routerdynamicrouting/
         Requires  : PowerShell v5.1 and up
@@ -176,7 +176,7 @@ function Invoke-ADCUnsetRouterdynamicrouting {
         An example how to unset routerdynamicrouting configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetRouterdynamicrouting
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/router/routerdynamicrouting
         Requires  : PowerShell v5.1 and up
@@ -231,7 +231,7 @@ function Invoke-ADCApplyRouterdynamicrouting {
         An example how to apply routerdynamicrouting configuration Object(s).
     .NOTES
         File Name : Invoke-ADCApplyRouterdynamicrouting
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/router/routerdynamicrouting/
         Requires  : PowerShell v5.1 and up
@@ -310,7 +310,7 @@ function Invoke-ADCGetRouterdynamicrouting {
         Get routerdynamicrouting data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRouterdynamicrouting
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/router/routerdynamicrouting/
         Requires  : PowerShell v5.1 and up

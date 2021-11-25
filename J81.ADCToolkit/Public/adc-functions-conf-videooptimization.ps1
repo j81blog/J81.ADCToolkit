@@ -23,7 +23,7 @@ function Invoke-ADCAddVideooptimizationdetectionaction {
         An example how to add videooptimizationdetectionaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationdetectionaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionaction/
         Requires  : PowerShell v5.1 and up
@@ -93,7 +93,7 @@ function Invoke-ADCDeleteVideooptimizationdetectionaction {
         An example how to delete videooptimizationdetectionaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationdetectionaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionaction/
         Requires  : PowerShell v5.1 and up
@@ -161,7 +161,7 @@ function Invoke-ADCUpdateVideooptimizationdetectionaction {
         An example how to update videooptimizationdetectionaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVideooptimizationdetectionaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionaction/
         Requires  : PowerShell v5.1 and up
@@ -231,7 +231,7 @@ function Invoke-ADCUnsetVideooptimizationdetectionaction {
         An example how to unset videooptimizationdetectionaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVideooptimizationdetectionaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionaction
         Requires  : PowerShell v5.1 and up
@@ -293,7 +293,7 @@ function Invoke-ADCRenameVideooptimizationdetectionaction {
         An example how to rename videooptimizationdetectionaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameVideooptimizationdetectionaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionaction/
         Requires  : PowerShell v5.1 and up
@@ -382,7 +382,7 @@ function Invoke-ADCGetVideooptimizationdetectionaction {
         Get videooptimizationdetectionaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionaction/
         Requires  : PowerShell v5.1 and up
@@ -486,7 +486,7 @@ function Invoke-ADCAddVideooptimizationdetectionpolicy {
         An example how to add videooptimizationdetectionpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationdetectionpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -565,7 +565,7 @@ function Invoke-ADCDeleteVideooptimizationdetectionpolicy {
         An example how to delete videooptimizationdetectionpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationdetectionpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -644,7 +644,7 @@ function Invoke-ADCUpdateVideooptimizationdetectionpolicy {
         An example how to update videooptimizationdetectionpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVideooptimizationdetectionpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -726,7 +726,7 @@ function Invoke-ADCUnsetVideooptimizationdetectionpolicy {
         An example how to unset videooptimizationdetectionpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVideooptimizationdetectionpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicy
         Requires  : PowerShell v5.1 and up
@@ -793,7 +793,7 @@ function Invoke-ADCRenameVideooptimizationdetectionpolicy {
         An example how to rename videooptimizationdetectionpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameVideooptimizationdetectionpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -882,7 +882,7 @@ function Invoke-ADCGetVideooptimizationdetectionpolicy {
         Get videooptimizationdetectionpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -973,7 +973,7 @@ function Invoke-ADCAddVideooptimizationdetectionpolicylabel {
         An example how to add videooptimizationdetectionpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationdetectionpolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -1042,7 +1042,7 @@ function Invoke-ADCDeleteVideooptimizationdetectionpolicylabel {
         An example how to delete videooptimizationdetectionpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationdetectionpolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -1104,7 +1104,7 @@ function Invoke-ADCRenameVideooptimizationdetectionpolicylabel {
         An example how to rename videooptimizationdetectionpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameVideooptimizationdetectionpolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -1194,7 +1194,7 @@ function Invoke-ADCGetVideooptimizationdetectionpolicylabel {
         Get videooptimizationdetectionpolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionpolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -1293,7 +1293,7 @@ function Invoke-ADCGetVideooptimizationdetectionpolicylabelbinding {
         Get videooptimizationdetectionpolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionpolicylabelbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -1387,7 +1387,7 @@ function Invoke-ADCGetVideooptimizationdetectionpolicylabelpolicybindingbinding 
         Get videooptimizationdetectionpolicylabel_policybinding_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionpolicylabelpolicybindingbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
@@ -1478,7 +1478,7 @@ function Invoke-ADCAddVideooptimizationdetectionpolicylabelvideooptimizationdete
         An example how to add videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1565,7 +1565,7 @@ function Invoke-ADCDeleteVideooptimizationdetectionpolicylabelvideooptimizationd
         An example how to delete videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1647,7 +1647,7 @@ function Invoke-ADCGetVideooptimizationdetectionpolicylabelvideooptimizationdete
         Get videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionpolicylabelvideooptimizationdetectionpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicylabel_videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1741,7 +1741,7 @@ function Invoke-ADCGetVideooptimizationdetectionpolicybinding {
         Get videooptimizationdetectionpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1835,7 +1835,7 @@ function Invoke-ADCGetVideooptimizationdetectionpolicylbvserverbinding {
         Get videooptimizationdetectionpolicy_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionpolicylbvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -1932,7 +1932,7 @@ function Invoke-ADCGetVideooptimizationdetectionpolicyvideooptimizationglobaldet
         Get videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationdetectionpolicyvideooptimizationglobaldetectionbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationdetectionpolicy_videooptimizationglobaldetection_binding/
         Requires  : PowerShell v5.1 and up
@@ -2024,7 +2024,7 @@ function Invoke-ADCGetVideooptimizationglobaldetectionbinding {
         Get videooptimizationglobaldetection_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationglobaldetectionbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationglobaldetection_binding/
         Requires  : PowerShell v5.1 and up
@@ -2110,7 +2110,7 @@ function Invoke-ADCAddVideooptimizationglobaldetectionvideooptimizationdetection
         An example how to add videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2198,7 +2198,7 @@ function Invoke-ADCDeleteVideooptimizationglobaldetectionvideooptimizationdetect
         An example how to delete videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2278,7 +2278,7 @@ function Invoke-ADCGetVideooptimizationglobaldetectionvideooptimizationdetection
         Get videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationglobaldetectionvideooptimizationdetectionpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationglobaldetection_videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2367,7 +2367,7 @@ function Invoke-ADCGetVideooptimizationglobalpacingbinding {
         Get videooptimizationglobalpacing_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationglobalpacingbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationglobalpacing_binding/
         Requires  : PowerShell v5.1 and up
@@ -2453,7 +2453,7 @@ function Invoke-ADCAddVideooptimizationglobalpacingvideooptimizationpacingpolicy
         An example how to add videooptimizationglobalpacing_videooptimizationpacingpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationglobalpacingvideooptimizationpacingpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationglobalpacing_videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2541,7 +2541,7 @@ function Invoke-ADCDeleteVideooptimizationglobalpacingvideooptimizationpacingpol
         An example how to delete videooptimizationglobalpacing_videooptimizationpacingpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationglobalpacingvideooptimizationpacingpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationglobalpacing_videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2621,7 +2621,7 @@ function Invoke-ADCGetVideooptimizationglobalpacingvideooptimizationpacingpolicy
         Get videooptimizationglobalpacing_videooptimizationpacingpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationglobalpacingvideooptimizationpacingpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationglobalpacing_videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2700,7 +2700,7 @@ function Invoke-ADCAddVideooptimizationpacingaction {
         An example how to add videooptimizationpacingaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationpacingaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingaction/
         Requires  : PowerShell v5.1 and up
@@ -2770,7 +2770,7 @@ function Invoke-ADCDeleteVideooptimizationpacingaction {
         An example how to delete videooptimizationpacingaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationpacingaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingaction/
         Requires  : PowerShell v5.1 and up
@@ -2832,7 +2832,7 @@ function Invoke-ADCUpdateVideooptimizationpacingaction {
         An example how to update videooptimizationpacingaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVideooptimizationpacingaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingaction/
         Requires  : PowerShell v5.1 and up
@@ -2904,7 +2904,7 @@ function Invoke-ADCUnsetVideooptimizationpacingaction {
         An example how to unset videooptimizationpacingaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVideooptimizationpacingaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingaction
         Requires  : PowerShell v5.1 and up
@@ -2969,7 +2969,7 @@ function Invoke-ADCRenameVideooptimizationpacingaction {
         An example how to rename videooptimizationpacingaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameVideooptimizationpacingaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingaction/
         Requires  : PowerShell v5.1 and up
@@ -3058,7 +3058,7 @@ function Invoke-ADCGetVideooptimizationpacingaction {
         Get videooptimizationpacingaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingaction/
         Requires  : PowerShell v5.1 and up
@@ -3155,7 +3155,7 @@ function Invoke-ADCAddVideooptimizationpacingpolicy {
         An example how to add videooptimizationpacingpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationpacingpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicy/
         Requires  : PowerShell v5.1 and up
@@ -3234,7 +3234,7 @@ function Invoke-ADCDeleteVideooptimizationpacingpolicy {
         An example how to delete videooptimizationpacingpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationpacingpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicy/
         Requires  : PowerShell v5.1 and up
@@ -3306,7 +3306,7 @@ function Invoke-ADCUpdateVideooptimizationpacingpolicy {
         An example how to update videooptimizationpacingpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVideooptimizationpacingpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicy/
         Requires  : PowerShell v5.1 and up
@@ -3388,7 +3388,7 @@ function Invoke-ADCUnsetVideooptimizationpacingpolicy {
         An example how to unset videooptimizationpacingpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVideooptimizationpacingpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicy
         Requires  : PowerShell v5.1 and up
@@ -3455,7 +3455,7 @@ function Invoke-ADCRenameVideooptimizationpacingpolicy {
         An example how to rename videooptimizationpacingpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameVideooptimizationpacingpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicy/
         Requires  : PowerShell v5.1 and up
@@ -3544,7 +3544,7 @@ function Invoke-ADCGetVideooptimizationpacingpolicy {
         Get videooptimizationpacingpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicy/
         Requires  : PowerShell v5.1 and up
@@ -3635,7 +3635,7 @@ function Invoke-ADCAddVideooptimizationpacingpolicylabel {
         An example how to add videooptimizationpacingpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationpacingpolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -3704,7 +3704,7 @@ function Invoke-ADCDeleteVideooptimizationpacingpolicylabel {
         An example how to delete videooptimizationpacingpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationpacingpolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -3766,7 +3766,7 @@ function Invoke-ADCRenameVideooptimizationpacingpolicylabel {
         An example how to rename videooptimizationpacingpolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameVideooptimizationpacingpolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -3856,7 +3856,7 @@ function Invoke-ADCGetVideooptimizationpacingpolicylabel {
         Get videooptimizationpacingpolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingpolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -3955,7 +3955,7 @@ function Invoke-ADCGetVideooptimizationpacingpolicylabelbinding {
         Get videooptimizationpacingpolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingpolicylabelbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -4049,7 +4049,7 @@ function Invoke-ADCGetVideooptimizationpacingpolicylabelpolicybindingbinding {
         Get videooptimizationpacingpolicylabel_policybinding_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingpolicylabelpolicybindingbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
@@ -4140,7 +4140,7 @@ function Invoke-ADCAddVideooptimizationpacingpolicylabelvideooptimizationpacingp
         An example how to add videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4227,7 +4227,7 @@ function Invoke-ADCDeleteVideooptimizationpacingpolicylabelvideooptimizationpaci
         An example how to delete videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4309,7 +4309,7 @@ function Invoke-ADCGetVideooptimizationpacingpolicylabelvideooptimizationpacingp
         Get videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingpolicylabelvideooptimizationpacingpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicylabel_videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4403,7 +4403,7 @@ function Invoke-ADCGetVideooptimizationpacingpolicybinding {
         Get videooptimizationpacingpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4497,7 +4497,7 @@ function Invoke-ADCGetVideooptimizationpacingpolicylbvserverbinding {
         Get videooptimizationpacingpolicy_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingpolicylbvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -4594,7 +4594,7 @@ function Invoke-ADCGetVideooptimizationpacingpolicyvideooptimizationglobalpacing
         Get videooptimizationpacingpolicy_videooptimizationglobalpacing_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationpacingpolicyvideooptimizationglobalpacingbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationpacingpolicy_videooptimizationglobalpacing_binding/
         Requires  : PowerShell v5.1 and up
@@ -4672,7 +4672,7 @@ function Invoke-ADCUpdateVideooptimizationparameter {
         An example how to update videooptimizationparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVideooptimizationparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationparameter/
         Requires  : PowerShell v5.1 and up
@@ -4734,7 +4734,7 @@ function Invoke-ADCUnsetVideooptimizationparameter {
         An example how to unset videooptimizationparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVideooptimizationparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationparameter
         Requires  : PowerShell v5.1 and up
@@ -4808,7 +4808,7 @@ function Invoke-ADCGetVideooptimizationparameter {
         Get videooptimizationparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVideooptimizationparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/videooptimization/videooptimizationparameter/
         Requires  : PowerShell v5.1 and up

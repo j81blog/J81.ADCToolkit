@@ -30,7 +30,7 @@ function Invoke-ADCGetSystemStats {
         Get system data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/system/system/
         Requires  : PowerShell v5.1 and up
@@ -128,7 +128,7 @@ function Invoke-ADCGetSystembwStats {
         Get systembw data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystembwStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/system/systembw/
         Requires  : PowerShell v5.1 and up
@@ -225,7 +225,7 @@ function Invoke-ADCGetSystemcpuStats {
         Get systemcpu data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemcpuStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/system/systemcpu/
         Requires  : PowerShell v5.1 and up
@@ -318,7 +318,7 @@ function Invoke-ADCGetSystemmemoryStats {
         Get systemmemory data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSystemmemoryStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/system/systemmemory/
         Requires  : PowerShell v5.1 and up

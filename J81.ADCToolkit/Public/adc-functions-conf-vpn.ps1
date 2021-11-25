@@ -22,7 +22,7 @@ function Invoke-ADCAddVpnalwaysonprofile {
         An example how to add vpnalwaysonprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnalwaysonprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnalwaysonprofile/
         Requires  : PowerShell v5.1 and up
@@ -96,7 +96,7 @@ function Invoke-ADCDeleteVpnalwaysonprofile {
         An example how to delete vpnalwaysonprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnalwaysonprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnalwaysonprofile/
         Requires  : PowerShell v5.1 and up
@@ -163,7 +163,7 @@ function Invoke-ADCUpdateVpnalwaysonprofile {
         An example how to update vpnalwaysonprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVpnalwaysonprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnalwaysonprofile/
         Requires  : PowerShell v5.1 and up
@@ -246,7 +246,7 @@ function Invoke-ADCUnsetVpnalwaysonprofile {
         An example how to unset vpnalwaysonprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVpnalwaysonprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnalwaysonprofile
         Requires  : PowerShell v5.1 and up
@@ -331,7 +331,7 @@ function Invoke-ADCGetVpnalwaysonprofile {
         Get vpnalwaysonprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnalwaysonprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnalwaysonprofile/
         Requires  : PowerShell v5.1 and up
@@ -423,7 +423,7 @@ function Invoke-ADCAddVpnclientlessaccesspolicy {
         An example how to add vpnclientlessaccesspolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnclientlessaccesspolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccesspolicy/
         Requires  : PowerShell v5.1 and up
@@ -495,7 +495,7 @@ function Invoke-ADCDeleteVpnclientlessaccesspolicy {
         An example how to delete vpnclientlessaccesspolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnclientlessaccesspolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccesspolicy/
         Requires  : PowerShell v5.1 and up
@@ -561,7 +561,7 @@ function Invoke-ADCUpdateVpnclientlessaccesspolicy {
         An example how to update vpnclientlessaccesspolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVpnclientlessaccesspolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccesspolicy/
         Requires  : PowerShell v5.1 and up
@@ -650,7 +650,7 @@ function Invoke-ADCGetVpnclientlessaccesspolicy {
         Get vpnclientlessaccesspolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnclientlessaccesspolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccesspolicy/
         Requires  : PowerShell v5.1 and up
@@ -750,7 +750,7 @@ function Invoke-ADCGetVpnclientlessaccesspolicybinding {
         Get vpnclientlessaccesspolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnclientlessaccesspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccesspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -845,7 +845,7 @@ function Invoke-ADCGetVpnclientlessaccesspolicyvpnglobalbinding {
         Get vpnclientlessaccesspolicy_vpnglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnclientlessaccesspolicyvpnglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccesspolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -943,7 +943,7 @@ function Invoke-ADCGetVpnclientlessaccesspolicyvpnvserverbinding {
         Get vpnclientlessaccesspolicy_vpnvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnclientlessaccesspolicyvpnvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccesspolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -1022,7 +1022,7 @@ function Invoke-ADCAddVpnclientlessaccessprofile {
         An example how to add vpnclientlessaccessprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnclientlessaccessprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccessprofile/
         Requires  : PowerShell v5.1 and up
@@ -1086,7 +1086,7 @@ function Invoke-ADCDeleteVpnclientlessaccessprofile {
         An example how to delete vpnclientlessaccessprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnclientlessaccessprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccessprofile/
         Requires  : PowerShell v5.1 and up
@@ -1167,7 +1167,7 @@ function Invoke-ADCUpdateVpnclientlessaccessprofile {
         An example how to update vpnclientlessaccessprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVpnclientlessaccessprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccessprofile/
         Requires  : PowerShell v5.1 and up
@@ -1297,7 +1297,7 @@ function Invoke-ADCUnsetVpnclientlessaccessprofile {
         An example how to unset vpnclientlessaccessprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVpnclientlessaccessprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccessprofile
         Requires  : PowerShell v5.1 and up
@@ -1407,7 +1407,7 @@ function Invoke-ADCGetVpnclientlessaccessprofile {
         Get vpnclientlessaccessprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnclientlessaccessprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnclientlessaccessprofile/
         Requires  : PowerShell v5.1 and up
@@ -1496,7 +1496,7 @@ function Invoke-ADCAddVpnepaprofile {
         An example how to add vpnepaprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnepaprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnepaprofile/
         Requires  : PowerShell v5.1 and up
@@ -1566,7 +1566,7 @@ function Invoke-ADCDeleteVpnepaprofile {
         An example how to delete vpnepaprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnepaprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnepaprofile/
         Requires  : PowerShell v5.1 and up
@@ -1643,7 +1643,7 @@ function Invoke-ADCGetVpnepaprofile {
         Get vpnepaprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnepaprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnepaprofile/
         Requires  : PowerShell v5.1 and up
@@ -1727,7 +1727,7 @@ function Invoke-ADCAddVpneula {
         An example how to add vpneula configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpneula
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpneula/
         Requires  : PowerShell v5.1 and up
@@ -1790,7 +1790,7 @@ function Invoke-ADCDeleteVpneula {
         An example how to delete vpneula configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpneula
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpneula/
         Requires  : PowerShell v5.1 and up
@@ -1867,7 +1867,7 @@ function Invoke-ADCGetVpneula {
         Get vpneula data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpneula
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpneula/
         Requires  : PowerShell v5.1 and up
@@ -1971,7 +1971,7 @@ function Invoke-ADCAddVpnformssoaction {
         An example how to add vpnformssoaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnformssoaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -2067,7 +2067,7 @@ function Invoke-ADCDeleteVpnformssoaction {
         An example how to delete vpnformssoaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnformssoaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -2145,7 +2145,7 @@ function Invoke-ADCUpdateVpnformssoaction {
         An example how to update vpnformssoaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVpnformssoaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -2248,7 +2248,7 @@ function Invoke-ADCUnsetVpnformssoaction {
         An example how to unset vpnformssoaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVpnformssoaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnformssoaction
         Requires  : PowerShell v5.1 and up
@@ -2336,7 +2336,7 @@ function Invoke-ADCGetVpnformssoaction {
         Get vpnformssoaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnformssoaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -2422,7 +2422,7 @@ function Invoke-ADCAddVpnglobalappcontrollerbinding {
         An example how to add vpnglobal_appcontroller_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalappcontrollerbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_appcontroller_binding/
         Requires  : PowerShell v5.1 and up
@@ -2486,7 +2486,7 @@ function Invoke-ADCDeleteVpnglobalappcontrollerbinding {
         An example how to delete vpnglobal_appcontroller_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalappcontrollerbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_appcontroller_binding/
         Requires  : PowerShell v5.1 and up
@@ -2560,7 +2560,7 @@ function Invoke-ADCGetVpnglobalappcontrollerbinding {
         Get vpnglobal_appcontroller_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalappcontrollerbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_appcontroller_binding/
         Requires  : PowerShell v5.1 and up
@@ -2643,7 +2643,7 @@ function Invoke-ADCAddVpnglobalauditnslogpolicybinding {
         An example how to add vpnglobal_auditnslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauditnslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2721,7 +2721,7 @@ function Invoke-ADCDeleteVpnglobalauditnslogpolicybinding {
         An example how to delete vpnglobal_auditnslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauditnslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2801,7 +2801,7 @@ function Invoke-ADCGetVpnglobalauditnslogpolicybinding {
         Get vpnglobal_auditnslogpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauditnslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2884,7 +2884,7 @@ function Invoke-ADCAddVpnglobalauditsyslogpolicybinding {
         An example how to add vpnglobal_auditsyslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauditsyslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2962,7 +2962,7 @@ function Invoke-ADCDeleteVpnglobalauditsyslogpolicybinding {
         An example how to delete vpnglobal_auditsyslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauditsyslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3042,7 +3042,7 @@ function Invoke-ADCGetVpnglobalauditsyslogpolicybinding {
         Get vpnglobal_auditsyslogpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauditsyslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3125,7 +3125,7 @@ function Invoke-ADCAddVpnglobalauthenticationcertpolicybinding {
         An example how to add vpnglobal_authenticationcertpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauthenticationcertpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3203,7 +3203,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationcertpolicybinding {
         An example how to delete vpnglobal_authenticationcertpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauthenticationcertpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3283,7 +3283,7 @@ function Invoke-ADCGetVpnglobalauthenticationcertpolicybinding {
         Get vpnglobal_authenticationcertpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauthenticationcertpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3366,7 +3366,7 @@ function Invoke-ADCAddVpnglobalauthenticationldappolicybinding {
         An example how to add vpnglobal_authenticationldappolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauthenticationldappolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3444,7 +3444,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationldappolicybinding {
         An example how to delete vpnglobal_authenticationldappolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauthenticationldappolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3524,7 +3524,7 @@ function Invoke-ADCGetVpnglobalauthenticationldappolicybinding {
         Get vpnglobal_authenticationldappolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauthenticationldappolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3607,7 +3607,7 @@ function Invoke-ADCAddVpnglobalauthenticationlocalpolicybinding {
         An example how to add vpnglobal_authenticationlocalpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauthenticationlocalpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3685,7 +3685,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationlocalpolicybinding {
         An example how to delete vpnglobal_authenticationlocalpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauthenticationlocalpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3765,7 +3765,7 @@ function Invoke-ADCGetVpnglobalauthenticationlocalpolicybinding {
         Get vpnglobal_authenticationlocalpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauthenticationlocalpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3848,7 +3848,7 @@ function Invoke-ADCAddVpnglobalauthenticationnegotiatepolicybinding {
         An example how to add vpnglobal_authenticationnegotiatepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauthenticationnegotiatepolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -3926,7 +3926,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationnegotiatepolicybinding {
         An example how to delete vpnglobal_authenticationnegotiatepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauthenticationnegotiatepolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4006,7 +4006,7 @@ function Invoke-ADCGetVpnglobalauthenticationnegotiatepolicybinding {
         Get vpnglobal_authenticationnegotiatepolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauthenticationnegotiatepolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4089,7 +4089,7 @@ function Invoke-ADCAddVpnglobalauthenticationpolicybinding {
         An example how to add vpnglobal_authenticationpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauthenticationpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4167,7 +4167,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationpolicybinding {
         An example how to delete vpnglobal_authenticationpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauthenticationpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4247,7 +4247,7 @@ function Invoke-ADCGetVpnglobalauthenticationpolicybinding {
         Get vpnglobal_authenticationpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauthenticationpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4330,7 +4330,7 @@ function Invoke-ADCAddVpnglobalauthenticationradiuspolicybinding {
         An example how to add vpnglobal_authenticationradiuspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauthenticationradiuspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4408,7 +4408,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationradiuspolicybinding {
         An example how to delete vpnglobal_authenticationradiuspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauthenticationradiuspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4488,7 +4488,7 @@ function Invoke-ADCGetVpnglobalauthenticationradiuspolicybinding {
         Get vpnglobal_authenticationradiuspolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauthenticationradiuspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4571,7 +4571,7 @@ function Invoke-ADCAddVpnglobalauthenticationsamlpolicybinding {
         An example how to add vpnglobal_authenticationsamlpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauthenticationsamlpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4649,7 +4649,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationsamlpolicybinding {
         An example how to delete vpnglobal_authenticationsamlpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauthenticationsamlpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4729,7 +4729,7 @@ function Invoke-ADCGetVpnglobalauthenticationsamlpolicybinding {
         Get vpnglobal_authenticationsamlpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauthenticationsamlpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4812,7 +4812,7 @@ function Invoke-ADCAddVpnglobalauthenticationtacacspolicybinding {
         An example how to add vpnglobal_authenticationtacacspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalauthenticationtacacspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4890,7 +4890,7 @@ function Invoke-ADCDeleteVpnglobalauthenticationtacacspolicybinding {
         An example how to delete vpnglobal_authenticationtacacspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalauthenticationtacacspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4970,7 +4970,7 @@ function Invoke-ADCGetVpnglobalauthenticationtacacspolicybinding {
         Get vpnglobal_authenticationtacacspolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalauthenticationtacacspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5059,7 +5059,7 @@ function Invoke-ADCGetVpnglobalbinding {
         Get vpnglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -5133,7 +5133,7 @@ function Invoke-ADCAddVpnglobaldomainbinding {
         An example how to add vpnglobal_domain_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobaldomainbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_domain_binding/
         Requires  : PowerShell v5.1 and up
@@ -5197,7 +5197,7 @@ function Invoke-ADCDeleteVpnglobaldomainbinding {
         An example how to delete vpnglobal_domain_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobaldomainbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_domain_binding/
         Requires  : PowerShell v5.1 and up
@@ -5271,7 +5271,7 @@ function Invoke-ADCGetVpnglobaldomainbinding {
         Get vpnglobal_domain_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobaldomainbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_domain_binding/
         Requires  : PowerShell v5.1 and up
@@ -5350,7 +5350,7 @@ function Invoke-ADCAddVpnglobalintranetip6binding {
         An example how to add vpnglobal_intranetip6_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalintranetip6binding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -5419,7 +5419,7 @@ function Invoke-ADCDeleteVpnglobalintranetip6binding {
         An example how to delete vpnglobal_intranetip6_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalintranetip6binding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -5496,7 +5496,7 @@ function Invoke-ADCGetVpnglobalintranetip6binding {
         Get vpnglobal_intranetip6_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalintranetip6binding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -5575,7 +5575,7 @@ function Invoke-ADCAddVpnglobalintranetipbinding {
         An example how to add vpnglobal_intranetip_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalintranetipbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -5644,7 +5644,7 @@ function Invoke-ADCDeleteVpnglobalintranetipbinding {
         An example how to delete vpnglobal_intranetip_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalintranetipbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -5721,7 +5721,7 @@ function Invoke-ADCGetVpnglobalintranetipbinding {
         Get vpnglobal_intranetip_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalintranetipbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -5798,7 +5798,7 @@ function Invoke-ADCAddVpnglobalsharefileserverbinding {
         An example how to add vpnglobal_sharefileserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalsharefileserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_sharefileserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5862,7 +5862,7 @@ function Invoke-ADCDeleteVpnglobalsharefileserverbinding {
         An example how to delete vpnglobal_sharefileserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalsharefileserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_sharefileserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5936,7 +5936,7 @@ function Invoke-ADCGetVpnglobalsharefileserverbinding {
         Get vpnglobal_sharefileserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalsharefileserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_sharefileserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -6023,7 +6023,7 @@ function Invoke-ADCAddVpnglobalsslcertkeybinding {
         An example how to add vpnglobal_sslcertkey_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalsslcertkeybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -6105,7 +6105,7 @@ function Invoke-ADCDeleteVpnglobalsslcertkeybinding {
         An example how to delete vpnglobal_sslcertkey_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalsslcertkeybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -6185,7 +6185,7 @@ function Invoke-ADCGetVpnglobalsslcertkeybinding {
         Get vpnglobal_sslcertkey_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalsslcertkeybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -6265,7 +6265,7 @@ function Invoke-ADCAddVpnglobalstaserverbinding {
         An example how to add vpnglobal_staserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalstaserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_staserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -6333,7 +6333,7 @@ function Invoke-ADCDeleteVpnglobalstaserverbinding {
         An example how to delete vpnglobal_staserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalstaserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_staserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -6407,7 +6407,7 @@ function Invoke-ADCGetVpnglobalstaserverbinding {
         Get vpnglobal_staserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalstaserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_staserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -6490,7 +6490,7 @@ function Invoke-ADCAddVpnglobalvpnclientlessaccesspolicybinding {
         An example how to add vpnglobal_vpnclientlessaccesspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalvpnclientlessaccesspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnclientlessaccesspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6568,7 +6568,7 @@ function Invoke-ADCDeleteVpnglobalvpnclientlessaccesspolicybinding {
         An example how to delete vpnglobal_vpnclientlessaccesspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalvpnclientlessaccesspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnclientlessaccesspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6648,7 +6648,7 @@ function Invoke-ADCGetVpnglobalvpnclientlessaccesspolicybinding {
         Get vpnglobal_vpnclientlessaccesspolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalvpnclientlessaccesspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnclientlessaccesspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6725,7 +6725,7 @@ function Invoke-ADCAddVpnglobalvpneulabinding {
         An example how to add vpnglobal_vpneula_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalvpneulabinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpneula_binding/
         Requires  : PowerShell v5.1 and up
@@ -6789,7 +6789,7 @@ function Invoke-ADCDeleteVpnglobalvpneulabinding {
         An example how to delete vpnglobal_vpneula_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalvpneulabinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpneula_binding/
         Requires  : PowerShell v5.1 and up
@@ -6863,7 +6863,7 @@ function Invoke-ADCGetVpnglobalvpneulabinding {
         Get vpnglobal_vpneula_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalvpneulabinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpneula_binding/
         Requires  : PowerShell v5.1 and up
@@ -6940,7 +6940,7 @@ function Invoke-ADCAddVpnglobalvpnintranetapplicationbinding {
         An example how to add vpnglobal_vpnintranetapplication_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalvpnintranetapplicationbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -7004,7 +7004,7 @@ function Invoke-ADCDeleteVpnglobalvpnintranetapplicationbinding {
         An example how to delete vpnglobal_vpnintranetapplication_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalvpnintranetapplicationbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -7078,7 +7078,7 @@ function Invoke-ADCGetVpnglobalvpnintranetapplicationbinding {
         Get vpnglobal_vpnintranetapplication_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalvpnintranetapplicationbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -7155,7 +7155,7 @@ function Invoke-ADCAddVpnglobalvpnnexthopserverbinding {
         An example how to add vpnglobal_vpnnexthopserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalvpnnexthopserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnnexthopserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -7219,7 +7219,7 @@ function Invoke-ADCDeleteVpnglobalvpnnexthopserverbinding {
         An example how to delete vpnglobal_vpnnexthopserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalvpnnexthopserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnnexthopserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -7293,7 +7293,7 @@ function Invoke-ADCGetVpnglobalvpnnexthopserverbinding {
         Get vpnglobal_vpnnexthopserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalvpnnexthopserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnnexthopserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -7370,7 +7370,7 @@ function Invoke-ADCAddVpnglobalvpnportalthemebinding {
         An example how to add vpnglobal_vpnportaltheme_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalvpnportalthemebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnportaltheme_binding/
         Requires  : PowerShell v5.1 and up
@@ -7434,7 +7434,7 @@ function Invoke-ADCDeleteVpnglobalvpnportalthemebinding {
         An example how to delete vpnglobal_vpnportaltheme_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalvpnportalthemebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnportaltheme_binding/
         Requires  : PowerShell v5.1 and up
@@ -7508,7 +7508,7 @@ function Invoke-ADCGetVpnglobalvpnportalthemebinding {
         Get vpnglobal_vpnportaltheme_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalvpnportalthemebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnportaltheme_binding/
         Requires  : PowerShell v5.1 and up
@@ -7591,7 +7591,7 @@ function Invoke-ADCAddVpnglobalvpnsessionpolicybinding {
         An example how to add vpnglobal_vpnsessionpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalvpnsessionpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7669,7 +7669,7 @@ function Invoke-ADCDeleteVpnglobalvpnsessionpolicybinding {
         An example how to delete vpnglobal_vpnsessionpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalvpnsessionpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7749,7 +7749,7 @@ function Invoke-ADCGetVpnglobalvpnsessionpolicybinding {
         Get vpnglobal_vpnsessionpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalvpnsessionpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7832,7 +7832,7 @@ function Invoke-ADCAddVpnglobalvpntrafficpolicybinding {
         An example how to add vpnglobal_vpntrafficpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalvpntrafficpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7910,7 +7910,7 @@ function Invoke-ADCDeleteVpnglobalvpntrafficpolicybinding {
         An example how to delete vpnglobal_vpntrafficpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalvpntrafficpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -7990,7 +7990,7 @@ function Invoke-ADCGetVpnglobalvpntrafficpolicybinding {
         Get vpnglobal_vpntrafficpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalvpntrafficpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8073,7 +8073,7 @@ function Invoke-ADCAddVpnglobalvpnurlpolicybinding {
         An example how to add vpnglobal_vpnurlpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalvpnurlpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8151,7 +8151,7 @@ function Invoke-ADCDeleteVpnglobalvpnurlpolicybinding {
         An example how to delete vpnglobal_vpnurlpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalvpnurlpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8231,7 +8231,7 @@ function Invoke-ADCGetVpnglobalvpnurlpolicybinding {
         Get vpnglobal_vpnurlpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalvpnurlpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -8308,7 +8308,7 @@ function Invoke-ADCAddVpnglobalvpnurlbinding {
         An example how to add vpnglobal_vpnurl_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnglobalvpnurlbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -8372,7 +8372,7 @@ function Invoke-ADCDeleteVpnglobalvpnurlbinding {
         An example how to delete vpnglobal_vpnurl_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnglobalvpnurlbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -8446,7 +8446,7 @@ function Invoke-ADCGetVpnglobalvpnurlbinding {
         Get vpnglobal_vpnurl_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnglobalvpnurlbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnglobal_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -8524,7 +8524,7 @@ function Invoke-ADCKillVpnicaconnection {
         An example how to kill vpnicaconnection configuration Object(s).
     .NOTES
         File Name : Invoke-ADCKillVpnicaconnection
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnicaconnection/
         Requires  : PowerShell v5.1 and up
@@ -8614,7 +8614,7 @@ function Invoke-ADCGetVpnicaconnection {
         Get vpnicaconnection data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnicaconnection
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnicaconnection/
         Requires  : PowerShell v5.1 and up
@@ -8729,7 +8729,7 @@ function Invoke-ADCGetVpnicadtlsconnection {
         Get vpnicadtlsconnection data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnicadtlsconnection
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnicadtlsconnection/
         Requires  : PowerShell v5.1 and up
@@ -8843,7 +8843,7 @@ function Invoke-ADCAddVpnintranetapplication {
         An example how to add vpnintranetapplication configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnintranetapplication
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnintranetapplication/
         Requires  : PowerShell v5.1 and up
@@ -8947,7 +8947,7 @@ function Invoke-ADCDeleteVpnintranetapplication {
         An example how to delete vpnintranetapplication configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnintranetapplication
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnintranetapplication/
         Requires  : PowerShell v5.1 and up
@@ -9024,7 +9024,7 @@ function Invoke-ADCGetVpnintranetapplication {
         Get vpnintranetapplication data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnintranetapplication
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnintranetapplication/
         Requires  : PowerShell v5.1 and up
@@ -9120,7 +9120,7 @@ function Invoke-ADCAddVpnnexthopserver {
         An example how to add vpnnexthopserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnnexthopserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnnexthopserver/
         Requires  : PowerShell v5.1 and up
@@ -9204,7 +9204,7 @@ function Invoke-ADCDeleteVpnnexthopserver {
         An example how to delete vpnnexthopserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnnexthopserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnnexthopserver/
         Requires  : PowerShell v5.1 and up
@@ -9281,7 +9281,7 @@ function Invoke-ADCGetVpnnexthopserver {
         Get vpnnexthopserver data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnnexthopserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnnexthopserver/
         Requires  : PowerShell v5.1 and up
@@ -9598,7 +9598,7 @@ function Invoke-ADCUpdateVpnparameter {
         An example how to update vpnparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVpnparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnparameter/
         Requires  : PowerShell v5.1 and up
@@ -10204,7 +10204,7 @@ function Invoke-ADCUnsetVpnparameter {
         An example how to unset vpnparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVpnparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnparameter
         Requires  : PowerShell v5.1 and up
@@ -10518,7 +10518,7 @@ function Invoke-ADCGetVpnparameter {
         Get vpnparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnparameter/
         Requires  : PowerShell v5.1 and up
@@ -10590,7 +10590,7 @@ function Invoke-ADCKillVpnpcoipconnection {
         An example how to kill vpnpcoipconnection configuration Object(s).
     .NOTES
         File Name : Invoke-ADCKillVpnpcoipconnection
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipconnection/
         Requires  : PowerShell v5.1 and up
@@ -10673,7 +10673,7 @@ function Invoke-ADCGetVpnpcoipconnection {
         Get vpnpcoipconnection data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnpcoipconnection
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipconnection/
         Requires  : PowerShell v5.1 and up
@@ -10769,7 +10769,7 @@ function Invoke-ADCAddVpnpcoipprofile {
         An example how to add vpnpcoipprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnpcoipprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipprofile/
         Requires  : PowerShell v5.1 and up
@@ -10844,7 +10844,7 @@ function Invoke-ADCDeleteVpnpcoipprofile {
         An example how to delete vpnpcoipprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnpcoipprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipprofile/
         Requires  : PowerShell v5.1 and up
@@ -10909,7 +10909,7 @@ function Invoke-ADCUpdateVpnpcoipprofile {
         An example how to update vpnpcoipprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVpnpcoipprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipprofile/
         Requires  : PowerShell v5.1 and up
@@ -10987,7 +10987,7 @@ function Invoke-ADCUnsetVpnpcoipprofile {
         An example how to unset vpnpcoipprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVpnpcoipprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipprofile
         Requires  : PowerShell v5.1 and up
@@ -11069,7 +11069,7 @@ function Invoke-ADCGetVpnpcoipprofile {
         Get vpnpcoipprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnpcoipprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipprofile/
         Requires  : PowerShell v5.1 and up
@@ -11158,7 +11158,7 @@ function Invoke-ADCAddVpnpcoipvserverprofile {
         An example how to add vpnpcoipvserverprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnpcoipvserverprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipvserverprofile/
         Requires  : PowerShell v5.1 and up
@@ -11229,7 +11229,7 @@ function Invoke-ADCDeleteVpnpcoipvserverprofile {
         An example how to delete vpnpcoipvserverprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnpcoipvserverprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipvserverprofile/
         Requires  : PowerShell v5.1 and up
@@ -11292,7 +11292,7 @@ function Invoke-ADCUpdateVpnpcoipvserverprofile {
         An example how to update vpnpcoipvserverprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVpnpcoipvserverprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipvserverprofile/
         Requires  : PowerShell v5.1 and up
@@ -11364,7 +11364,7 @@ function Invoke-ADCUnsetVpnpcoipvserverprofile {
         An example how to unset vpnpcoipvserverprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVpnpcoipvserverprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipvserverprofile
         Requires  : PowerShell v5.1 and up
@@ -11443,7 +11443,7 @@ function Invoke-ADCGetVpnpcoipvserverprofile {
         Get vpnpcoipvserverprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnpcoipvserverprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnpcoipvserverprofile/
         Requires  : PowerShell v5.1 and up
@@ -11530,7 +11530,7 @@ function Invoke-ADCAddVpnportaltheme {
         An example how to add vpnportaltheme configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnportaltheme
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnportaltheme/
         Requires  : PowerShell v5.1 and up
@@ -11600,7 +11600,7 @@ function Invoke-ADCDeleteVpnportaltheme {
         An example how to delete vpnportaltheme configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnportaltheme
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnportaltheme/
         Requires  : PowerShell v5.1 and up
@@ -11677,7 +11677,7 @@ function Invoke-ADCGetVpnportaltheme {
         Get vpnportaltheme data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnportaltheme
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnportaltheme/
         Requires  : PowerShell v5.1 and up
@@ -11944,7 +11944,7 @@ function Invoke-ADCAddVpnsamlssoprofile {
         An example how to add vpnsamlssoprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnsamlssoprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -12277,7 +12277,7 @@ function Invoke-ADCDeleteVpnsamlssoprofile {
         An example how to delete vpnsamlssoprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnsamlssoprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -12518,7 +12518,7 @@ function Invoke-ADCUpdateVpnsamlssoprofile {
         An example how to update vpnsamlssoprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVpnsamlssoprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -12998,7 +12998,7 @@ function Invoke-ADCUnsetVpnsamlssoprofile {
         An example how to unset vpnsamlssoprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVpnsamlssoprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsamlssoprofile
         Requires  : PowerShell v5.1 and up
@@ -13264,7 +13264,7 @@ function Invoke-ADCGetVpnsamlssoprofile {
         Get vpnsamlssoprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnsamlssoprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -13563,7 +13563,7 @@ function Invoke-ADCAddVpnsessionaction {
         An example how to add vpnsessionaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnsessionaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -13912,7 +13912,7 @@ function Invoke-ADCDeleteVpnsessionaction {
         An example how to delete vpnsessionaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnsessionaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -14184,7 +14184,7 @@ function Invoke-ADCUpdateVpnsessionaction {
         An example how to update vpnsessionaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVpnsessionaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -14744,7 +14744,7 @@ function Invoke-ADCUnsetVpnsessionaction {
         An example how to unset vpnsessionaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVpnsessionaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionaction
         Requires  : PowerShell v5.1 and up
@@ -15040,7 +15040,7 @@ function Invoke-ADCGetVpnsessionaction {
         Get vpnsessionaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnsessionaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -15133,7 +15133,7 @@ function Invoke-ADCAddVpnsessionpolicy {
         An example how to add vpnsessionpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnsessionpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -15206,7 +15206,7 @@ function Invoke-ADCDeleteVpnsessionpolicy {
         An example how to delete vpnsessionpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnsessionpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -15272,7 +15272,7 @@ function Invoke-ADCUpdateVpnsessionpolicy {
         An example how to update vpnsessionpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVpnsessionpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -15349,7 +15349,7 @@ function Invoke-ADCUnsetVpnsessionpolicy {
         An example how to unset vpnsessionpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVpnsessionpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy
         Requires  : PowerShell v5.1 and up
@@ -15431,7 +15431,7 @@ function Invoke-ADCGetVpnsessionpolicy {
         Get vpnsessionpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnsessionpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -15534,7 +15534,7 @@ function Invoke-ADCGetVpnsessionpolicyaaagroupbinding {
         Get vpnsessionpolicy_aaagroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnsessionpolicyaaagroupbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy_aaagroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -15632,7 +15632,7 @@ function Invoke-ADCGetVpnsessionpolicyaaauserbinding {
         Get vpnsessionpolicy_aaauser_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnsessionpolicyaaauserbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy_aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -15727,7 +15727,7 @@ function Invoke-ADCGetVpnsessionpolicybinding {
         Get vpnsessionpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnsessionpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -15822,7 +15822,7 @@ function Invoke-ADCGetVpnsessionpolicyvpnglobalbinding {
         Get vpnsessionpolicy_vpnglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnsessionpolicyvpnglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -15920,7 +15920,7 @@ function Invoke-ADCGetVpnsessionpolicyvpnvserverbinding {
         Get vpnsessionpolicy_vpnvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnsessionpolicyvpnvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsessionpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -16018,7 +16018,7 @@ function Invoke-ADCGetVpnsfconfig {
         Get vpnsfconfig data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnsfconfig
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnsfconfig/
         Requires  : PowerShell v5.1 and up
@@ -16120,7 +16120,7 @@ function Invoke-ADCGetVpnstoreinfo {
         Get vpnstoreinfo data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnstoreinfo
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnstoreinfo/
         Requires  : PowerShell v5.1 and up
@@ -16230,7 +16230,7 @@ function Invoke-ADCAddVpntrafficaction {
         An example how to add vpntrafficaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpntrafficaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -16340,7 +16340,7 @@ function Invoke-ADCDeleteVpntrafficaction {
         An example how to delete vpntrafficaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpntrafficaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -16425,7 +16425,7 @@ function Invoke-ADCUpdateVpntrafficaction {
         An example how to update vpntrafficaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVpntrafficaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -16540,7 +16540,7 @@ function Invoke-ADCUnsetVpntrafficaction {
         An example how to unset vpntrafficaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVpntrafficaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficaction
         Requires  : PowerShell v5.1 and up
@@ -16632,7 +16632,7 @@ function Invoke-ADCGetVpntrafficaction {
         Get vpntrafficaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpntrafficaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -16725,7 +16725,7 @@ function Invoke-ADCAddVpntrafficpolicy {
         An example how to add vpntrafficpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpntrafficpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -16799,7 +16799,7 @@ function Invoke-ADCDeleteVpntrafficpolicy {
         An example how to delete vpntrafficpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpntrafficpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -16865,7 +16865,7 @@ function Invoke-ADCUpdateVpntrafficpolicy {
         An example how to update vpntrafficpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVpntrafficpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -16943,7 +16943,7 @@ function Invoke-ADCUnsetVpntrafficpolicy {
         An example how to unset vpntrafficpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVpntrafficpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy
         Requires  : PowerShell v5.1 and up
@@ -17026,7 +17026,7 @@ function Invoke-ADCGetVpntrafficpolicy {
         Get vpntrafficpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpntrafficpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -17130,7 +17130,7 @@ function Invoke-ADCGetVpntrafficpolicyaaagroupbinding {
         Get vpntrafficpolicy_aaagroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpntrafficpolicyaaagroupbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy_aaagroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -17228,7 +17228,7 @@ function Invoke-ADCGetVpntrafficpolicyaaauserbinding {
         Get vpntrafficpolicy_aaauser_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpntrafficpolicyaaauserbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy_aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -17323,7 +17323,7 @@ function Invoke-ADCGetVpntrafficpolicybinding {
         Get vpntrafficpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpntrafficpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -17418,7 +17418,7 @@ function Invoke-ADCGetVpntrafficpolicyvpnglobalbinding {
         Get vpntrafficpolicy_vpnglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpntrafficpolicyvpnglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -17516,7 +17516,7 @@ function Invoke-ADCGetVpntrafficpolicyvpnvserverbinding {
         Get vpntrafficpolicy_vpnvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpntrafficpolicyvpnvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpntrafficpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -17618,7 +17618,7 @@ function Invoke-ADCAddVpnurl {
         An example how to add vpnurl configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnurl
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurl/
         Requires  : PowerShell v5.1 and up
@@ -17718,7 +17718,7 @@ function Invoke-ADCDeleteVpnurl {
         An example how to delete vpnurl configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnurl
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurl/
         Requires  : PowerShell v5.1 and up
@@ -17799,7 +17799,7 @@ function Invoke-ADCUpdateVpnurl {
         An example how to update vpnurl configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVpnurl
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurl/
         Requires  : PowerShell v5.1 and up
@@ -17915,7 +17915,7 @@ function Invoke-ADCUnsetVpnurl {
         An example how to unset vpnurl configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVpnurl
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurl
         Requires  : PowerShell v5.1 and up
@@ -18015,7 +18015,7 @@ function Invoke-ADCGetVpnurl {
         Get vpnurl data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnurl
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurl/
         Requires  : PowerShell v5.1 and up
@@ -18120,7 +18120,7 @@ function Invoke-ADCAddVpnurlaction {
         An example how to add vpnurlaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnurlaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlaction/
         Requires  : PowerShell v5.1 and up
@@ -18217,7 +18217,7 @@ function Invoke-ADCDeleteVpnurlaction {
         An example how to delete vpnurlaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnurlaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlaction/
         Requires  : PowerShell v5.1 and up
@@ -18296,7 +18296,7 @@ function Invoke-ADCUpdateVpnurlaction {
         An example how to update vpnurlaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVpnurlaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlaction/
         Requires  : PowerShell v5.1 and up
@@ -18407,7 +18407,7 @@ function Invoke-ADCUnsetVpnurlaction {
         An example how to unset vpnurlaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVpnurlaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlaction
         Requires  : PowerShell v5.1 and up
@@ -18490,7 +18490,7 @@ function Invoke-ADCRenameVpnurlaction {
         An example how to rename vpnurlaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameVpnurlaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlaction/
         Requires  : PowerShell v5.1 and up
@@ -18580,7 +18580,7 @@ function Invoke-ADCGetVpnurlaction {
         Get vpnurlaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnurlaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlaction/
         Requires  : PowerShell v5.1 and up
@@ -18676,7 +18676,7 @@ function Invoke-ADCAddVpnurlpolicy {
         An example how to add vpnurlpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnurlpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -18754,7 +18754,7 @@ function Invoke-ADCDeleteVpnurlpolicy {
         An example how to delete vpnurlpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnurlpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -18824,7 +18824,7 @@ function Invoke-ADCUpdateVpnurlpolicy {
         An example how to update vpnurlpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVpnurlpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -18903,7 +18903,7 @@ function Invoke-ADCUnsetVpnurlpolicy {
         An example how to unset vpnurlpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVpnurlpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy
         Requires  : PowerShell v5.1 and up
@@ -18971,7 +18971,7 @@ function Invoke-ADCRenameVpnurlpolicy {
         An example how to rename vpnurlpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameVpnurlpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -19061,7 +19061,7 @@ function Invoke-ADCGetVpnurlpolicy {
         Get vpnurlpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnurlpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -19164,7 +19164,7 @@ function Invoke-ADCGetVpnurlpolicyaaagroupbinding {
         Get vpnurlpolicy_aaagroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnurlpolicyaaagroupbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy_aaagroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -19262,7 +19262,7 @@ function Invoke-ADCGetVpnurlpolicyaaauserbinding {
         Get vpnurlpolicy_aaauser_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnurlpolicyaaauserbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy_aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -19357,7 +19357,7 @@ function Invoke-ADCGetVpnurlpolicybinding {
         Get vpnurlpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnurlpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -19452,7 +19452,7 @@ function Invoke-ADCGetVpnurlpolicyvpnglobalbinding {
         Get vpnurlpolicy_vpnglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnurlpolicyvpnglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -19550,7 +19550,7 @@ function Invoke-ADCGetVpnurlpolicyvpnvserverbinding {
         Get vpnurlpolicy_vpnvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnurlpolicyvpnvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnurlpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -19739,7 +19739,7 @@ function Invoke-ADCAddVpnvserver {
         An example how to add vpnvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver/
         Requires  : PowerShell v5.1 and up
@@ -19960,7 +19960,7 @@ function Invoke-ADCDeleteVpnvserver {
         An example how to delete vpnvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver/
         Requires  : PowerShell v5.1 and up
@@ -20113,7 +20113,7 @@ function Invoke-ADCUpdateVpnvserver {
         An example how to update vpnvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateVpnvserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver/
         Requires  : PowerShell v5.1 and up
@@ -20404,7 +20404,7 @@ function Invoke-ADCUnsetVpnvserver {
         An example how to unset vpnvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetVpnvserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver
         Requires  : PowerShell v5.1 and up
@@ -20562,7 +20562,7 @@ function Invoke-ADCEnableVpnvserver {
         An example how to enable vpnvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCEnableVpnvserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver/
         Requires  : PowerShell v5.1 and up
@@ -20621,7 +20621,7 @@ function Invoke-ADCDisableVpnvserver {
         An example how to disable vpnvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDisableVpnvserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver/
         Requires  : PowerShell v5.1 and up
@@ -20684,7 +20684,7 @@ function Invoke-ADCRenameVpnvserver {
         An example how to rename vpnvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameVpnvserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver/
         Requires  : PowerShell v5.1 and up
@@ -20755,7 +20755,7 @@ function Invoke-ADCCheckVpnvserver {
         An example how to check vpnvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCCheckVpnvserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver/
         Requires  : PowerShell v5.1 and up
@@ -20835,7 +20835,7 @@ function Invoke-ADCGetVpnvserver {
         Get vpnvserver data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver/
         Requires  : PowerShell v5.1 and up
@@ -20933,7 +20933,7 @@ function Invoke-ADCAddVpnvserveraaapreauthenticationpolicybinding {
         An example how to add vpnvserver_aaapreauthenticationpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserveraaapreauthenticationpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_aaapreauthenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -21024,7 +21024,7 @@ function Invoke-ADCDeleteVpnvserveraaapreauthenticationpolicybinding {
         An example how to delete vpnvserver_aaapreauthenticationpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserveraaapreauthenticationpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_aaapreauthenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -21112,7 +21112,7 @@ function Invoke-ADCGetVpnvserveraaapreauthenticationpolicybinding {
         Get vpnvserver_aaapreauthenticationpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserveraaapreauthenticationpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_aaapreauthenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -21193,7 +21193,7 @@ function Invoke-ADCAddVpnvserveranalyticsprofilebinding {
         An example how to add vpnvserver_analyticsprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserveranalyticsprofilebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -21260,7 +21260,7 @@ function Invoke-ADCDeleteVpnvserveranalyticsprofilebinding {
         An example how to delete vpnvserver_analyticsprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserveranalyticsprofilebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -21339,7 +21339,7 @@ function Invoke-ADCGetVpnvserveranalyticsprofilebinding {
         Get vpnvserver_analyticsprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserveranalyticsprofilebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -21420,7 +21420,7 @@ function Invoke-ADCAddVpnvserverappcontrollerbinding {
         An example how to add vpnvserver_appcontroller_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverappcontrollerbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_appcontroller_binding/
         Requires  : PowerShell v5.1 and up
@@ -21487,7 +21487,7 @@ function Invoke-ADCDeleteVpnvserverappcontrollerbinding {
         An example how to delete vpnvserver_appcontroller_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverappcontrollerbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_appcontroller_binding/
         Requires  : PowerShell v5.1 and up
@@ -21566,7 +21566,7 @@ function Invoke-ADCGetVpnvserverappcontrollerbinding {
         Get vpnvserver_appcontroller_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverappcontrollerbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_appcontroller_binding/
         Requires  : PowerShell v5.1 and up
@@ -21658,7 +21658,7 @@ function Invoke-ADCAddVpnvserverappflowpolicybinding {
         An example how to add vpnvserver_appflowpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverappflowpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -21749,7 +21749,7 @@ function Invoke-ADCDeleteVpnvserverappflowpolicybinding {
         An example how to delete vpnvserver_appflowpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverappflowpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -21837,7 +21837,7 @@ function Invoke-ADCGetVpnvserverappflowpolicybinding {
         Get vpnvserver_appflowpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverappflowpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -21929,7 +21929,7 @@ function Invoke-ADCAddVpnvserverauditnslogpolicybinding {
         An example how to add vpnvserver_auditnslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauditnslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22020,7 +22020,7 @@ function Invoke-ADCDeleteVpnvserverauditnslogpolicybinding {
         An example how to delete vpnvserver_auditnslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauditnslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22108,7 +22108,7 @@ function Invoke-ADCGetVpnvserverauditnslogpolicybinding {
         Get vpnvserver_auditnslogpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauditnslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22200,7 +22200,7 @@ function Invoke-ADCAddVpnvserverauditsyslogpolicybinding {
         An example how to add vpnvserver_auditsyslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauditsyslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22291,7 +22291,7 @@ function Invoke-ADCDeleteVpnvserverauditsyslogpolicybinding {
         An example how to delete vpnvserver_auditsyslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauditsyslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22379,7 +22379,7 @@ function Invoke-ADCGetVpnvserverauditsyslogpolicybinding {
         Get vpnvserver_auditsyslogpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauditsyslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22471,7 +22471,7 @@ function Invoke-ADCAddVpnvserverauthenticationcertpolicybinding {
         An example how to add vpnvserver_authenticationcertpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationcertpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22562,7 +22562,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationcertpolicybinding {
         An example how to delete vpnvserver_authenticationcertpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationcertpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22650,7 +22650,7 @@ function Invoke-ADCGetVpnvserverauthenticationcertpolicybinding {
         Get vpnvserver_authenticationcertpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationcertpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationcertpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22742,7 +22742,7 @@ function Invoke-ADCAddVpnvserverauthenticationdfapolicybinding {
         An example how to add vpnvserver_authenticationdfapolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationdfapolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationdfapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22833,7 +22833,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationdfapolicybinding {
         An example how to delete vpnvserver_authenticationdfapolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationdfapolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationdfapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -22921,7 +22921,7 @@ function Invoke-ADCGetVpnvserverauthenticationdfapolicybinding {
         Get vpnvserver_authenticationdfapolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationdfapolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationdfapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23013,7 +23013,7 @@ function Invoke-ADCAddVpnvserverauthenticationldappolicybinding {
         An example how to add vpnvserver_authenticationldappolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationldappolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23104,7 +23104,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationldappolicybinding {
         An example how to delete vpnvserver_authenticationldappolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationldappolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23192,7 +23192,7 @@ function Invoke-ADCGetVpnvserverauthenticationldappolicybinding {
         Get vpnvserver_authenticationldappolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationldappolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationldappolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23284,7 +23284,7 @@ function Invoke-ADCAddVpnvserverauthenticationlocalpolicybinding {
         An example how to add vpnvserver_authenticationlocalpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationlocalpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23375,7 +23375,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationlocalpolicybinding {
         An example how to delete vpnvserver_authenticationlocalpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationlocalpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23463,7 +23463,7 @@ function Invoke-ADCGetVpnvserverauthenticationlocalpolicybinding {
         Get vpnvserver_authenticationlocalpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationlocalpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationlocalpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23555,7 +23555,7 @@ function Invoke-ADCAddVpnvserverauthenticationloginschemapolicybinding {
         An example how to add vpnvserver_authenticationloginschemapolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationloginschemapolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationloginschemapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23646,7 +23646,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationloginschemapolicybinding {
         An example how to delete vpnvserver_authenticationloginschemapolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationloginschemapolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationloginschemapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23734,7 +23734,7 @@ function Invoke-ADCGetVpnvserverauthenticationloginschemapolicybinding {
         Get vpnvserver_authenticationloginschemapolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationloginschemapolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationloginschemapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23826,7 +23826,7 @@ function Invoke-ADCAddVpnvserverauthenticationnegotiatepolicybinding {
         An example how to add vpnvserver_authenticationnegotiatepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationnegotiatepolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -23917,7 +23917,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationnegotiatepolicybinding {
         An example how to delete vpnvserver_authenticationnegotiatepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationnegotiatepolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24005,7 +24005,7 @@ function Invoke-ADCGetVpnvserverauthenticationnegotiatepolicybinding {
         Get vpnvserver_authenticationnegotiatepolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationnegotiatepolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationnegotiatepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24097,7 +24097,7 @@ function Invoke-ADCAddVpnvserverauthenticationoauthidppolicybinding {
         An example how to add vpnvserver_authenticationoauthidppolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationoauthidppolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationoauthidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24188,7 +24188,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationoauthidppolicybinding {
         An example how to delete vpnvserver_authenticationoauthidppolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationoauthidppolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationoauthidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24276,7 +24276,7 @@ function Invoke-ADCGetVpnvserverauthenticationoauthidppolicybinding {
         Get vpnvserver_authenticationoauthidppolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationoauthidppolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationoauthidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24368,7 +24368,7 @@ function Invoke-ADCAddVpnvserverauthenticationpolicybinding {
         An example how to add vpnvserver_authenticationpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24459,7 +24459,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationpolicybinding {
         An example how to delete vpnvserver_authenticationpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24547,7 +24547,7 @@ function Invoke-ADCGetVpnvserverauthenticationpolicybinding {
         Get vpnvserver_authenticationpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24639,7 +24639,7 @@ function Invoke-ADCAddVpnvserverauthenticationradiuspolicybinding {
         An example how to add vpnvserver_authenticationradiuspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationradiuspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24730,7 +24730,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationradiuspolicybinding {
         An example how to delete vpnvserver_authenticationradiuspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationradiuspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24818,7 +24818,7 @@ function Invoke-ADCGetVpnvserverauthenticationradiuspolicybinding {
         Get vpnvserver_authenticationradiuspolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationradiuspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationradiuspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -24910,7 +24910,7 @@ function Invoke-ADCAddVpnvserverauthenticationsamlidppolicybinding {
         An example how to add vpnvserver_authenticationsamlidppolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationsamlidppolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationsamlidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25001,7 +25001,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationsamlidppolicybinding {
         An example how to delete vpnvserver_authenticationsamlidppolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationsamlidppolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationsamlidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25089,7 +25089,7 @@ function Invoke-ADCGetVpnvserverauthenticationsamlidppolicybinding {
         Get vpnvserver_authenticationsamlidppolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationsamlidppolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationsamlidppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25181,7 +25181,7 @@ function Invoke-ADCAddVpnvserverauthenticationsamlpolicybinding {
         An example how to add vpnvserver_authenticationsamlpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationsamlpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25272,7 +25272,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationsamlpolicybinding {
         An example how to delete vpnvserver_authenticationsamlpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationsamlpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25360,7 +25360,7 @@ function Invoke-ADCGetVpnvserverauthenticationsamlpolicybinding {
         Get vpnvserver_authenticationsamlpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationsamlpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationsamlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25452,7 +25452,7 @@ function Invoke-ADCAddVpnvserverauthenticationtacacspolicybinding {
         An example how to add vpnvserver_authenticationtacacspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationtacacspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25543,7 +25543,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationtacacspolicybinding {
         An example how to delete vpnvserver_authenticationtacacspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationtacacspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25631,7 +25631,7 @@ function Invoke-ADCGetVpnvserverauthenticationtacacspolicybinding {
         Get vpnvserver_authenticationtacacspolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationtacacspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationtacacspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25723,7 +25723,7 @@ function Invoke-ADCAddVpnvserverauthenticationwebauthpolicybinding {
         An example how to add vpnvserver_authenticationwebauthpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverauthenticationwebauthpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationwebauthpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25814,7 +25814,7 @@ function Invoke-ADCDeleteVpnvserverauthenticationwebauthpolicybinding {
         An example how to delete vpnvserver_authenticationwebauthpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverauthenticationwebauthpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationwebauthpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25902,7 +25902,7 @@ function Invoke-ADCGetVpnvserverauthenticationwebauthpolicybinding {
         Get vpnvserver_authenticationwebauthpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverauthenticationwebauthpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_authenticationwebauthpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -25997,7 +25997,7 @@ function Invoke-ADCGetVpnvserverbinding {
         Get vpnvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -26086,7 +26086,7 @@ function Invoke-ADCAddVpnvservercachepolicybinding {
         An example how to add vpnvserver_cachepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvservercachepolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26177,7 +26177,7 @@ function Invoke-ADCDeleteVpnvservercachepolicybinding {
         An example how to delete vpnvserver_cachepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservercachepolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26265,7 +26265,7 @@ function Invoke-ADCGetVpnvservercachepolicybinding {
         Get vpnvserver_cachepolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvservercachepolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26357,7 +26357,7 @@ function Invoke-ADCAddVpnvservercspolicybinding {
         An example how to add vpnvserver_cspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvservercspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26448,7 +26448,7 @@ function Invoke-ADCDeleteVpnvservercspolicybinding {
         An example how to delete vpnvserver_cspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservercspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26536,7 +26536,7 @@ function Invoke-ADCGetVpnvservercspolicybinding {
         Get vpnvserver_cspolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvservercspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_cspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26628,7 +26628,7 @@ function Invoke-ADCAddVpnvserverfeopolicybinding {
         An example how to add vpnvserver_feopolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverfeopolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26720,7 +26720,7 @@ function Invoke-ADCDeleteVpnvserverfeopolicybinding {
         An example how to delete vpnvserver_feopolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverfeopolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26808,7 +26808,7 @@ function Invoke-ADCGetVpnvserverfeopolicybinding {
         Get vpnvserver_feopolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverfeopolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26900,7 +26900,7 @@ function Invoke-ADCAddVpnvservericapolicybinding {
         An example how to add vpnvserver_icapolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvservericapolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_icapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -26991,7 +26991,7 @@ function Invoke-ADCDeleteVpnvservericapolicybinding {
         An example how to delete vpnvserver_icapolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservericapolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_icapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27079,7 +27079,7 @@ function Invoke-ADCGetVpnvservericapolicybinding {
         Get vpnvserver_icapolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvservericapolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_icapolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27162,7 +27162,7 @@ function Invoke-ADCAddVpnvserverintranetip6binding {
         An example how to add vpnvserver_intranetip6_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverintranetip6binding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -27234,7 +27234,7 @@ function Invoke-ADCDeleteVpnvserverintranetip6binding {
         An example how to delete vpnvserver_intranetip6_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverintranetip6binding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -27316,7 +27316,7 @@ function Invoke-ADCGetVpnvserverintranetip6binding {
         Get vpnvserver_intranetip6_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverintranetip6binding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_intranetip6_binding/
         Requires  : PowerShell v5.1 and up
@@ -27399,7 +27399,7 @@ function Invoke-ADCAddVpnvserverintranetipbinding {
         An example how to add vpnvserver_intranetip_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverintranetipbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -27471,7 +27471,7 @@ function Invoke-ADCDeleteVpnvserverintranetipbinding {
         An example how to delete vpnvserver_intranetip_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverintranetipbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -27553,7 +27553,7 @@ function Invoke-ADCGetVpnvserverintranetipbinding {
         Get vpnvserver_intranetip_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverintranetipbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_intranetip_binding/
         Requires  : PowerShell v5.1 and up
@@ -27645,7 +27645,7 @@ function Invoke-ADCAddVpnvserverresponderpolicybinding {
         An example how to add vpnvserver_responderpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverresponderpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27736,7 +27736,7 @@ function Invoke-ADCDeleteVpnvserverresponderpolicybinding {
         An example how to delete vpnvserver_responderpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverresponderpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27824,7 +27824,7 @@ function Invoke-ADCGetVpnvserverresponderpolicybinding {
         Get vpnvserver_responderpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverresponderpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -27916,7 +27916,7 @@ function Invoke-ADCAddVpnvserverrewritepolicybinding {
         An example how to add vpnvserver_rewritepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverrewritepolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28007,7 +28007,7 @@ function Invoke-ADCDeleteVpnvserverrewritepolicybinding {
         An example how to delete vpnvserver_rewritepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverrewritepolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28095,7 +28095,7 @@ function Invoke-ADCGetVpnvserverrewritepolicybinding {
         Get vpnvserver_rewritepolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverrewritepolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28176,7 +28176,7 @@ function Invoke-ADCAddVpnvserversharefileserverbinding {
         An example how to add vpnvserver_sharefileserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserversharefileserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_sharefileserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -28243,7 +28243,7 @@ function Invoke-ADCDeleteVpnvserversharefileserverbinding {
         An example how to delete vpnvserver_sharefileserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserversharefileserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_sharefileserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -28322,7 +28322,7 @@ function Invoke-ADCGetVpnvserversharefileserverbinding {
         Get vpnvserver_sharefileserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserversharefileserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_sharefileserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -28406,7 +28406,7 @@ function Invoke-ADCAddVpnvserverstaserverbinding {
         An example how to add vpnvserver_staserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvserverstaserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_staserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -28477,7 +28477,7 @@ function Invoke-ADCDeleteVpnvserverstaserverbinding {
         An example how to delete vpnvserver_staserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvserverstaserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_staserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -28556,7 +28556,7 @@ function Invoke-ADCGetVpnvserverstaserverbinding {
         Get vpnvserver_staserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverstaserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_staserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -28648,7 +28648,7 @@ function Invoke-ADCAddVpnvservervpnclientlessaccesspolicybinding {
         An example how to add vpnvserver_vpnclientlessaccesspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpnclientlessaccesspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnclientlessaccesspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28739,7 +28739,7 @@ function Invoke-ADCDeleteVpnvservervpnclientlessaccesspolicybinding {
         An example how to delete vpnvserver_vpnclientlessaccesspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpnclientlessaccesspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnclientlessaccesspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28827,7 +28827,7 @@ function Invoke-ADCGetVpnvservervpnclientlessaccesspolicybinding {
         Get vpnvserver_vpnclientlessaccesspolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpnclientlessaccesspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnclientlessaccesspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -28910,7 +28910,7 @@ function Invoke-ADCAddVpnvservervpnepaprofilebinding {
         An example how to add vpnvserver_vpnepaprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpnepaprofilebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnepaprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -28980,7 +28980,7 @@ function Invoke-ADCDeleteVpnvservervpnepaprofilebinding {
         An example how to delete vpnvserver_vpnepaprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpnepaprofilebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnepaprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -29059,7 +29059,7 @@ function Invoke-ADCGetVpnvservervpnepaprofilebinding {
         Get vpnvserver_vpnepaprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpnepaprofilebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnepaprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -29140,7 +29140,7 @@ function Invoke-ADCAddVpnvservervpneulabinding {
         An example how to add vpnvserver_vpneula_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpneulabinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpneula_binding/
         Requires  : PowerShell v5.1 and up
@@ -29207,7 +29207,7 @@ function Invoke-ADCDeleteVpnvservervpneulabinding {
         An example how to delete vpnvserver_vpneula_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpneulabinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpneula_binding/
         Requires  : PowerShell v5.1 and up
@@ -29286,7 +29286,7 @@ function Invoke-ADCGetVpnvservervpneulabinding {
         Get vpnvserver_vpneula_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpneulabinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpneula_binding/
         Requires  : PowerShell v5.1 and up
@@ -29367,7 +29367,7 @@ function Invoke-ADCAddVpnvservervpnintranetapplicationbinding {
         An example how to add vpnvserver_vpnintranetapplication_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpnintranetapplicationbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -29434,7 +29434,7 @@ function Invoke-ADCDeleteVpnvservervpnintranetapplicationbinding {
         An example how to delete vpnvserver_vpnintranetapplication_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpnintranetapplicationbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -29513,7 +29513,7 @@ function Invoke-ADCGetVpnvservervpnintranetapplicationbinding {
         Get vpnvserver_vpnintranetapplication_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpnintranetapplicationbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnintranetapplication_binding/
         Requires  : PowerShell v5.1 and up
@@ -29594,7 +29594,7 @@ function Invoke-ADCAddVpnvservervpnnexthopserverbinding {
         An example how to add vpnvserver_vpnnexthopserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpnnexthopserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnnexthopserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -29661,7 +29661,7 @@ function Invoke-ADCDeleteVpnvservervpnnexthopserverbinding {
         An example how to delete vpnvserver_vpnnexthopserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpnnexthopserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnnexthopserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -29740,7 +29740,7 @@ function Invoke-ADCGetVpnvservervpnnexthopserverbinding {
         Get vpnvserver_vpnnexthopserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpnnexthopserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnnexthopserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -29821,7 +29821,7 @@ function Invoke-ADCAddVpnvservervpnportalthemebinding {
         An example how to add vpnvserver_vpnportaltheme_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpnportalthemebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnportaltheme_binding/
         Requires  : PowerShell v5.1 and up
@@ -29888,7 +29888,7 @@ function Invoke-ADCDeleteVpnvservervpnportalthemebinding {
         An example how to delete vpnvserver_vpnportaltheme_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpnportalthemebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnportaltheme_binding/
         Requires  : PowerShell v5.1 and up
@@ -29967,7 +29967,7 @@ function Invoke-ADCGetVpnvservervpnportalthemebinding {
         Get vpnvserver_vpnportaltheme_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpnportalthemebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnportaltheme_binding/
         Requires  : PowerShell v5.1 and up
@@ -30059,7 +30059,7 @@ function Invoke-ADCAddVpnvservervpnsessionpolicybinding {
         An example how to add vpnvserver_vpnsessionpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpnsessionpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -30150,7 +30150,7 @@ function Invoke-ADCDeleteVpnvservervpnsessionpolicybinding {
         An example how to delete vpnvserver_vpnsessionpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpnsessionpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -30238,7 +30238,7 @@ function Invoke-ADCGetVpnvservervpnsessionpolicybinding {
         Get vpnvserver_vpnsessionpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpnsessionpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -30330,7 +30330,7 @@ function Invoke-ADCAddVpnvservervpntrafficpolicybinding {
         An example how to add vpnvserver_vpntrafficpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpntrafficpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -30421,7 +30421,7 @@ function Invoke-ADCDeleteVpnvservervpntrafficpolicybinding {
         An example how to delete vpnvserver_vpntrafficpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpntrafficpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -30509,7 +30509,7 @@ function Invoke-ADCGetVpnvservervpntrafficpolicybinding {
         Get vpnvserver_vpntrafficpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpntrafficpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpntrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -30601,7 +30601,7 @@ function Invoke-ADCAddVpnvservervpnurlpolicybinding {
         An example how to add vpnvserver_vpnurlpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpnurlpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -30692,7 +30692,7 @@ function Invoke-ADCDeleteVpnvservervpnurlpolicybinding {
         An example how to delete vpnvserver_vpnurlpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpnurlpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -30780,7 +30780,7 @@ function Invoke-ADCGetVpnvservervpnurlpolicybinding {
         Get vpnvserver_vpnurlpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpnurlpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnurlpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -30861,7 +30861,7 @@ function Invoke-ADCAddVpnvservervpnurlbinding {
         An example how to add vpnvserver_vpnurl_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddVpnvservervpnurlbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -30928,7 +30928,7 @@ function Invoke-ADCDeleteVpnvservervpnurlbinding {
         An example how to delete vpnvserver_vpnurl_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteVpnvservervpnurlbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnurl_binding/
         Requires  : PowerShell v5.1 and up
@@ -31007,7 +31007,7 @@ function Invoke-ADCGetVpnvservervpnurlbinding {
         Get vpnvserver_vpnurl_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvservervpnurlbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/vpn/vpnvserver_vpnurl_binding/
         Requires  : PowerShell v5.1 and up

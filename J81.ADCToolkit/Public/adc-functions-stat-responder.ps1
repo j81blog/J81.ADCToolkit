@@ -29,7 +29,7 @@ function Invoke-ADCGetResponderpolicyStats {
         Get responderpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetResponderpolicyStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/responder/responderpolicy/
         Requires  : PowerShell v5.1 and up
@@ -121,7 +121,7 @@ function Invoke-ADCGetResponderpolicylabelStats {
         Get responderpolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetResponderpolicylabelStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/responder/responderpolicylabel/
         Requires  : PowerShell v5.1 and up

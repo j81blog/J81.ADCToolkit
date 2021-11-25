@@ -13,7 +13,7 @@ function Invoke-ADCUpdateReputationsettings {
         An example how to update reputationsettings configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateReputationsettings
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/reputation/reputationsettings/
         Requires  : PowerShell v5.1 and up
@@ -74,7 +74,7 @@ function Invoke-ADCUnsetReputationsettings {
         An example how to unset reputationsettings configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetReputationsettings
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/reputation/reputationsettings
         Requires  : PowerShell v5.1 and up
@@ -148,7 +148,7 @@ function Invoke-ADCGetReputationsettings {
         Get reputationsettings data with a filter.
     .NOTES
         File Name : Invoke-ADCGetReputationsettings
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/reputation/reputationsettings/
         Requires  : PowerShell v5.1 and up

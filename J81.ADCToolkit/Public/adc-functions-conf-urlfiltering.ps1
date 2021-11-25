@@ -29,7 +29,7 @@ function Invoke-ADCGetUrlfilteringcategories {
         Get urlfilteringcategories data with a filter.
     .NOTES
         File Name : Invoke-ADCGetUrlfilteringcategories
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringcategories/
         Requires  : PowerShell v5.1 and up
@@ -104,7 +104,7 @@ function Invoke-ADCAddUrlfilteringcategorization {
         An example how to add urlfilteringcategorization configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddUrlfilteringcategorization
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringcategorization/
         Requires  : PowerShell v5.1 and up
@@ -158,7 +158,7 @@ function Invoke-ADCClearUrlfilteringcategorization {
         An example how to clear urlfilteringcategorization configuration Object(s).
     .NOTES
         File Name : Invoke-ADCClearUrlfilteringcategorization
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringcategorization/
         Requires  : PowerShell v5.1 and up
@@ -228,7 +228,7 @@ function Invoke-ADCGetUrlfilteringcategorization {
         Get urlfilteringcategorization data with a filter.
     .NOTES
         File Name : Invoke-ADCGetUrlfilteringcategorization
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringcategorization/
         Requires  : PowerShell v5.1 and up
@@ -314,7 +314,7 @@ function Invoke-ADCGetUrlfilteringcategorygroups {
         Get urlfilteringcategorygroups data with a filter.
     .NOTES
         File Name : Invoke-ADCGetUrlfilteringcategorygroups
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringcategorygroups/
         Requires  : PowerShell v5.1 and up
@@ -392,7 +392,7 @@ function Invoke-ADCUpdateUrlfilteringparameter {
         An example how to update urlfilteringparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateUrlfilteringparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringparameter/
         Requires  : PowerShell v5.1 and up
@@ -469,7 +469,7 @@ function Invoke-ADCUnsetUrlfilteringparameter {
         An example how to unset urlfilteringparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetUrlfilteringparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringparameter
         Requires  : PowerShell v5.1 and up
@@ -552,7 +552,7 @@ function Invoke-ADCGetUrlfilteringparameter {
         Get urlfilteringparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetUrlfilteringparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/urlfiltering/urlfilteringparameter/
         Requires  : PowerShell v5.1 and up

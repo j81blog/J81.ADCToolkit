@@ -9,7 +9,7 @@
     RootModule        = 'J81.ADCToolkit.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '2111.2111'
+    ModuleVersion     = '2111.2521'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -69,6 +69,7 @@
     FunctionsToExport = @(
         'Invoke-ADCCleanCertKeyFiles',
         'Connect-ADCNode',
+        'Disconnect-ADCNode',
         'Connect-ADCHANodes',
         'Get-ADCSession',
         'Invoke-ADCNitroApi',
@@ -3869,4 +3870,3 @@
     # DefaultCommandPrefix = ''
 
 }
-

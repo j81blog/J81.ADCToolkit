@@ -18,7 +18,7 @@ function Invoke-ADCInstallWipackage {
         An example how to install wipackage configuration Object(s).
     .NOTES
         File Name : Invoke-ADCInstallWipackage
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wipackage/
         Requires  : PowerShell v5.1 and up
@@ -99,7 +99,7 @@ function Invoke-ADCGetWipackage {
         Get wipackage data with a filter.
     .NOTES
         File Name : Invoke-ADCGetWipackage
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wipackage/
         Requires  : PowerShell v5.1 and up
@@ -267,7 +267,7 @@ function Invoke-ADCAddWisite {
         An example how to add wisite configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddWisite
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite/
         Requires  : PowerShell v5.1 and up
@@ -457,7 +457,7 @@ function Invoke-ADCDeleteWisite {
         An example how to delete wisite configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteWisite
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite/
         Requires  : PowerShell v5.1 and up
@@ -606,7 +606,7 @@ function Invoke-ADCUpdateWisite {
         An example how to update wisite configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateWisite
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite/
         Requires  : PowerShell v5.1 and up
@@ -812,7 +812,7 @@ function Invoke-ADCUnsetWisite {
         An example how to unset wisite configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetWisite
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite
         Requires  : PowerShell v5.1 and up
@@ -915,7 +915,7 @@ function Invoke-ADCGetWisite {
         Get wisite data with a filter.
     .NOTES
         File Name : Invoke-ADCGetWisite
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite/
         Requires  : PowerShell v5.1 and up
@@ -1006,7 +1006,7 @@ function Invoke-ADCAddWisiteaccessmethodbinding {
         An example how to add wisite_accessmethod_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddWisiteaccessmethodbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_accessmethod_binding/
         Requires  : PowerShell v5.1 and up
@@ -1082,7 +1082,7 @@ function Invoke-ADCDeleteWisiteaccessmethodbinding {
         An example how to delete wisite_accessmethod_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteWisiteaccessmethodbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_accessmethod_binding/
         Requires  : PowerShell v5.1 and up
@@ -1164,7 +1164,7 @@ function Invoke-ADCGetWisiteaccessmethodbinding {
         Get wisite_accessmethod_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetWisiteaccessmethodbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_accessmethod_binding/
         Requires  : PowerShell v5.1 and up
@@ -1259,7 +1259,7 @@ function Invoke-ADCGetWisitebinding {
         Get wisite_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetWisitebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_binding/
         Requires  : PowerShell v5.1 and up
@@ -1354,7 +1354,7 @@ function Invoke-ADCAddWisitefarmnamebinding {
         An example how to add wisite_farmname_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddWisitefarmnamebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_farmname_binding/
         Requires  : PowerShell v5.1 and up
@@ -1446,7 +1446,7 @@ function Invoke-ADCDeleteWisitefarmnamebinding {
         An example how to delete wisite_farmname_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteWisitefarmnamebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_farmname_binding/
         Requires  : PowerShell v5.1 and up
@@ -1525,7 +1525,7 @@ function Invoke-ADCGetWisitefarmnamebinding {
         Get wisite_farmname_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetWisitefarmnamebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_farmname_binding/
         Requires  : PowerShell v5.1 and up
@@ -1617,7 +1617,7 @@ function Invoke-ADCAddWisitetranslationinternalipbinding {
         An example how to add wisite_translationinternalip_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddWisitetranslationinternalipbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_translationinternalip_binding/
         Requires  : PowerShell v5.1 and up
@@ -1707,7 +1707,7 @@ function Invoke-ADCDeleteWisitetranslationinternalipbinding {
         An example how to delete wisite_translationinternalip_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteWisitetranslationinternalipbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_translationinternalip_binding/
         Requires  : PowerShell v5.1 and up
@@ -1795,7 +1795,7 @@ function Invoke-ADCGetWisitetranslationinternalipbinding {
         Get wisite_translationinternalip_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetWisitetranslationinternalipbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_translationinternalip_binding/
         Requires  : PowerShell v5.1 and up

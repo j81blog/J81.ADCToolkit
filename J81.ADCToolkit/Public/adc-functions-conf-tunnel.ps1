@@ -27,7 +27,7 @@ function Invoke-ADCGetTunnelglobalbinding {
         Get tunnelglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTunnelglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunnelglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -109,7 +109,7 @@ function Invoke-ADCAddTunnelglobaltunneltrafficpolicybinding {
         An example how to add tunnelglobal_tunneltrafficpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTunnelglobaltunneltrafficpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunnelglobal_tunneltrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -189,7 +189,7 @@ function Invoke-ADCDeleteTunnelglobaltunneltrafficpolicybinding {
         An example how to delete tunnelglobal_tunneltrafficpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTunnelglobaltunneltrafficpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunnelglobal_tunneltrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -269,7 +269,7 @@ function Invoke-ADCGetTunnelglobaltunneltrafficpolicybinding {
         Get tunnelglobal_tunneltrafficpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTunnelglobaltunneltrafficpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunnelglobal_tunneltrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -357,7 +357,7 @@ function Invoke-ADCAddTunneltrafficpolicy {
         An example how to add tunneltrafficpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTunneltrafficpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunneltrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -437,7 +437,7 @@ function Invoke-ADCDeleteTunneltrafficpolicy {
         An example how to delete tunneltrafficpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTunneltrafficpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunneltrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -508,7 +508,7 @@ function Invoke-ADCUpdateTunneltrafficpolicy {
         An example how to update tunneltrafficpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateTunneltrafficpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunneltrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -589,7 +589,7 @@ function Invoke-ADCUnsetTunneltrafficpolicy {
         An example how to unset tunneltrafficpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetTunneltrafficpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunneltrafficpolicy
         Requires  : PowerShell v5.1 and up
@@ -658,7 +658,7 @@ function Invoke-ADCRenameTunneltrafficpolicy {
         An example how to rename tunneltrafficpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameTunneltrafficpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunneltrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -750,7 +750,7 @@ function Invoke-ADCGetTunneltrafficpolicy {
         Get tunneltrafficpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTunneltrafficpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunneltrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -851,7 +851,7 @@ function Invoke-ADCGetTunneltrafficpolicybinding {
         Get tunneltrafficpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTunneltrafficpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunneltrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -946,7 +946,7 @@ function Invoke-ADCGetTunneltrafficpolicytunnelglobalbinding {
         Get tunneltrafficpolicy_tunnelglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTunneltrafficpolicytunnelglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tunnel/tunneltrafficpolicy_tunnelglobal_binding/
         Requires  : PowerShell v5.1 and up

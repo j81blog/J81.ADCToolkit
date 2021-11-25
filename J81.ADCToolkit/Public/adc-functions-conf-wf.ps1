@@ -14,7 +14,7 @@ function Invoke-ADCInstallWfpackage {
         An example how to install wfpackage configuration Object(s).
     .NOTES
         File Name : Invoke-ADCInstallWfpackage
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wf/wfpackage/
         Requires  : PowerShell v5.1 and up
@@ -91,7 +91,7 @@ function Invoke-ADCGetWfpackage {
         Get wfpackage data with a filter.
     .NOTES
         File Name : Invoke-ADCGetWfpackage
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wf/wfpackage/
         Requires  : PowerShell v5.1 and up
@@ -179,7 +179,7 @@ function Invoke-ADCAddWfsite {
         An example how to add wfsite configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddWfsite
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wf/wfsite/
         Requires  : PowerShell v5.1 and up
@@ -268,7 +268,7 @@ function Invoke-ADCDeleteWfsite {
         An example how to delete wfsite configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteWfsite
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wf/wfsite/
         Requires  : PowerShell v5.1 and up
@@ -342,7 +342,7 @@ function Invoke-ADCUpdateWfsite {
         An example how to update wfsite configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateWfsite
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wf/wfsite/
         Requires  : PowerShell v5.1 and up
@@ -449,7 +449,7 @@ function Invoke-ADCGetWfsite {
         Get wfsite data with a filter.
     .NOTES
         File Name : Invoke-ADCGetWfsite
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wf/wfsite/
         Requires  : PowerShell v5.1 and up

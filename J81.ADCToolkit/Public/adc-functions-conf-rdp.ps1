@@ -67,7 +67,7 @@ function Invoke-ADCAddRdpclientprofile {
         An example how to add rdpclientprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddRdpclientprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpclientprofile/
         Requires  : PowerShell v5.1 and up
@@ -261,7 +261,7 @@ function Invoke-ADCUpdateRdpclientprofile {
         An example how to update rdpclientprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateRdpclientprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpclientprofile/
         Requires  : PowerShell v5.1 and up
@@ -453,7 +453,7 @@ function Invoke-ADCUnsetRdpclientprofile {
         An example how to unset rdpclientprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetRdpclientprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpclientprofile
         Requires  : PowerShell v5.1 and up
@@ -568,7 +568,7 @@ function Invoke-ADCDeleteRdpclientprofile {
         An example how to delete rdpclientprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteRdpclientprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpclientprofile/
         Requires  : PowerShell v5.1 and up
@@ -645,7 +645,7 @@ function Invoke-ADCGetRdpclientprofile {
         Get rdpclientprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRdpclientprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpclientprofile/
         Requires  : PowerShell v5.1 and up
@@ -729,7 +729,7 @@ function Invoke-ADCKillRdpconnections {
         An example how to kill rdpconnections configuration Object(s).
     .NOTES
         File Name : Invoke-ADCKillRdpconnections
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpconnections/
         Requires  : PowerShell v5.1 and up
@@ -810,7 +810,7 @@ function Invoke-ADCGetRdpconnections {
         Get rdpconnections data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRdpconnections
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpconnections/
         Requires  : PowerShell v5.1 and up
@@ -903,7 +903,7 @@ function Invoke-ADCAddRdpserverprofile {
         An example how to add rdpserverprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddRdpserverprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpserverprofile/
         Requires  : PowerShell v5.1 and up
@@ -993,7 +993,7 @@ function Invoke-ADCUpdateRdpserverprofile {
         An example how to update rdpserverprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateRdpserverprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpserverprofile/
         Requires  : PowerShell v5.1 and up
@@ -1079,7 +1079,7 @@ function Invoke-ADCUnsetRdpserverprofile {
         An example how to unset rdpserverprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetRdpserverprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpserverprofile
         Requires  : PowerShell v5.1 and up
@@ -1146,7 +1146,7 @@ function Invoke-ADCDeleteRdpserverprofile {
         An example how to delete rdpserverprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteRdpserverprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpserverprofile/
         Requires  : PowerShell v5.1 and up
@@ -1223,7 +1223,7 @@ function Invoke-ADCGetRdpserverprofile {
         Get rdpserverprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRdpserverprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/rdp/rdpserverprofile/
         Requires  : PowerShell v5.1 and up

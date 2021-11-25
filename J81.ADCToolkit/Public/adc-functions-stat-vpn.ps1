@@ -30,7 +30,7 @@ function Invoke-ADCGetVpnStats {
         Get vpn data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/vpn/vpn/
         Requires  : PowerShell v5.1 and up
@@ -127,7 +127,7 @@ function Invoke-ADCGetVpnurlpolicyStats {
         Get vpnurlpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnurlpolicyStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/vpn/vpnurlpolicy/
         Requires  : PowerShell v5.1 and up
@@ -219,7 +219,7 @@ function Invoke-ADCGetVpnvserverStats {
         Get vpnvserver data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVpnvserverStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/vpn/vpnvserver/
         Requires  : PowerShell v5.1 and up

@@ -29,7 +29,7 @@ function Invoke-ADCGetAutoscalepolicyStats {
         Get autoscalepolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAutoscalepolicyStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/autoscale/autoscalepolicy/
         Requires  : PowerShell v5.1 and up

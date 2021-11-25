@@ -17,7 +17,7 @@ function Invoke-ADCAddXmdeployment {
         An example how to add xmdeployment configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddXmdeployment
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/xm/xmdeployment.md/
         Requires  : PowerShell v5.1 and up
@@ -91,7 +91,7 @@ function Invoke-ADCDeleteXmdeployment {
         An example how to delete xmdeployment configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteXmdeployment
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/xm/xmdeployment.md/
         Requires  : PowerShell v5.1 and up
@@ -168,7 +168,7 @@ function Invoke-ADCGetXmdeployment {
         Get xmdeployment data with a filter.
     .NOTES
         File Name : Invoke-ADCGetXmdeployment
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/xm/xmdeployment.md/
         Requires  : PowerShell v5.1 and up
@@ -254,7 +254,7 @@ function Invoke-ADCAddXmpackage {
         An example how to add xmpackage configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddXmpackage
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/xm/xmpackage.md/
         Requires  : PowerShell v5.1 and up
@@ -323,7 +323,7 @@ function Invoke-ADCDeleteXmpackage {
         An example how to delete xmpackage configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteXmpackage
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/xm/xmpackage.md/
         Requires  : PowerShell v5.1 and up
@@ -400,7 +400,7 @@ function Invoke-ADCGetXmpackage {
         Get xmpackage data with a filter.
     .NOTES
         File Name : Invoke-ADCGetXmpackage
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/xm/xmpackage.md/
         Requires  : PowerShell v5.1 and up

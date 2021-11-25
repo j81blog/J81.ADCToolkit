@@ -30,7 +30,7 @@ function Invoke-ADCGetCmpStats {
         Get cmp data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmpStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cmp/cmp/
         Requires  : PowerShell v5.1 and up
@@ -127,7 +127,7 @@ function Invoke-ADCGetCmppolicyStats {
         Get cmppolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmppolicyStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cmp/cmppolicy/
         Requires  : PowerShell v5.1 and up
@@ -219,7 +219,7 @@ function Invoke-ADCGetCmppolicylabelStats {
         Get cmppolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmppolicylabelStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cmp/cmppolicylabel/
         Requires  : PowerShell v5.1 and up

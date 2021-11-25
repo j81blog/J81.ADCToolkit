@@ -30,7 +30,7 @@ function Invoke-ADCGetProtocolhttpStats {
         Get protocolhttp data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocolhttpStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolhttp/
         Requires  : PowerShell v5.1 and up
@@ -128,7 +128,7 @@ function Invoke-ADCGetProtocolhttp2Stats {
         Get protocolhttp2 data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocolhttp2Stats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolhttp2/
         Requires  : PowerShell v5.1 and up
@@ -226,7 +226,7 @@ function Invoke-ADCGetProtocolicmpStats {
         Get protocolicmp data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocolicmpStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolicmp/
         Requires  : PowerShell v5.1 and up
@@ -324,7 +324,7 @@ function Invoke-ADCGetProtocolicmpv6Stats {
         Get protocolicmpv6 data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocolicmpv6Stats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolicmpv6/
         Requires  : PowerShell v5.1 and up
@@ -422,7 +422,7 @@ function Invoke-ADCGetProtocolipStats {
         Get protocolip data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocolipStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolip/
         Requires  : PowerShell v5.1 and up
@@ -520,7 +520,7 @@ function Invoke-ADCGetProtocolipv6Stats {
         Get protocolipv6 data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocolipv6Stats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolipv6/
         Requires  : PowerShell v5.1 and up
@@ -618,7 +618,7 @@ function Invoke-ADCGetProtocolmptcpStats {
         Get protocolmptcp data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocolmptcpStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocolmptcp/
         Requires  : PowerShell v5.1 and up
@@ -716,7 +716,7 @@ function Invoke-ADCGetProtocoltcpStats {
         Get protocoltcp data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocoltcpStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocoltcp/
         Requires  : PowerShell v5.1 and up
@@ -814,7 +814,7 @@ function Invoke-ADCGetProtocoludpStats {
         Get protocoludp data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocoludpStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/protocol/protocoludp/
         Requires  : PowerShell v5.1 and up

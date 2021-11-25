@@ -10,10 +10,11 @@ function Invoke-ADCGetSystemFileDirectories {
         Directory path
         Example: "/nsconfig/ssl"
     .EXAMPLE
-        Invoke-ADCGetSystemFileDirectories -FileLocation "/nsconfig/ssl"
+        PS C:\>Invoke-ADCGetSystemFileDirectories -FileLocation "/nsconfig/ssl"
+        Get the systemfile directories
     .NOTES
         File Name : Invoke-ADCGetSystemFileDirectories
-        Version   : v2101.0322
+        Version   : v2111.2522
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
