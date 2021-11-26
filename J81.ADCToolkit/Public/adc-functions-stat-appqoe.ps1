@@ -30,7 +30,7 @@ function Invoke-ADCGetAppqoeStats {
         Get appqoe data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppqoeStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/appqoe/appqoe/
         Requires  : PowerShell v5.1 and up
@@ -127,7 +127,7 @@ function Invoke-ADCGetAppqoepolicyStats {
         Get appqoepolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppqoepolicyStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/appqoe/appqoepolicy/
         Requires  : PowerShell v5.1 and up

@@ -30,7 +30,7 @@ function Invoke-ADCGetDnsStats {
         Get dns data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/dns/dns/
         Requires  : PowerShell v5.1 and up
@@ -127,7 +127,7 @@ function Invoke-ADCGetDnspolicylabelStats {
         Get dnspolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnspolicylabelStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/dns/dnspolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -219,7 +219,7 @@ function Invoke-ADCGetDnsrecordsStats {
         Get dnsrecords data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsrecordsStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/dns/dnsrecords/
         Requires  : PowerShell v5.1 and up

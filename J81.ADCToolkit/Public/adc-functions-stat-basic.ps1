@@ -29,7 +29,7 @@ function Invoke-ADCGetServiceStats {
         Get service data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServiceStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/basic/service/
         Requires  : PowerShell v5.1 and up
@@ -121,7 +121,7 @@ function Invoke-ADCGetServicegroupStats {
         Get servicegroup data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServicegroupStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/basic/servicegroup/
         Requires  : PowerShell v5.1 and up
@@ -214,7 +214,7 @@ function Invoke-ADCGetServicegroupmemberStats {
         Get servicegroupmember data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServicegroupmemberStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/basic/servicegroupmember/
         Requires  : PowerShell v5.1 and up

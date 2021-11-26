@@ -40,3 +40,7 @@
 * Changed/improved description of modules
 * Fixed some parameter options as they were sometimes wrong when imported from the NITRO docs
 * Introduced the option to define a $Global:ManagementURL or $Global:ADCCredential variable (Can also be a Sript scoped variable)
+
+## 2111.10
+* Fixed issue with Get-ADCSession
+* Added Disconnect-ADCNode

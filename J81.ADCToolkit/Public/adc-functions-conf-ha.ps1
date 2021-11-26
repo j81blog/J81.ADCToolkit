@@ -11,7 +11,7 @@ function Invoke-ADCForceHafailover {
         An example how to force hafailover configuration Object(s).
     .NOTES
         File Name : Invoke-ADCForceHafailover
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hafailover/
         Requires  : PowerShell v5.1 and up
@@ -75,7 +75,7 @@ function Invoke-ADCSyncHafiles {
         An example how to sync hafiles configuration Object(s).
     .NOTES
         File Name : Invoke-ADCSyncHafiles
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hafiles/
         Requires  : PowerShell v5.1 and up
@@ -139,7 +139,7 @@ function Invoke-ADCAddHanode {
         An example how to add hanode configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddHanode
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
@@ -211,7 +211,7 @@ function Invoke-ADCDeleteHanode {
         An example how to delete hanode configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteHanode
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
@@ -300,7 +300,7 @@ function Invoke-ADCUpdateHanode {
         An example how to update hanode configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateHanode
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
@@ -431,7 +431,7 @@ function Invoke-ADCUnsetHanode {
         An example how to unset hanode configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetHanode
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode
         Requires  : PowerShell v5.1 and up
@@ -537,7 +537,7 @@ function Invoke-ADCGetHanode {
         Get hanode data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanode
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
@@ -637,7 +637,7 @@ function Invoke-ADCGetHanodebinding {
         Get hanode_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanodebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_binding/
         Requires  : PowerShell v5.1 and up
@@ -732,7 +732,7 @@ function Invoke-ADCGetHanodecibinding {
         Get hanode_ci_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanodecibinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_ci_binding/
         Requires  : PowerShell v5.1 and up
@@ -830,7 +830,7 @@ function Invoke-ADCGetHanodefisbinding {
         Get hanode_fis_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanodefisbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_fis_binding/
         Requires  : PowerShell v5.1 and up
@@ -928,7 +928,7 @@ function Invoke-ADCGetHanodepartialfailureinterfacesbinding {
         Get hanode_partialfailureinterfaces_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanodepartialfailureinterfacesbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_partialfailureinterfaces_binding/
         Requires  : PowerShell v5.1 and up
@@ -1011,7 +1011,7 @@ function Invoke-ADCAddHanoderoutemonitor6binding {
         An example how to add hanode_routemonitor6_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddHanoderoutemonitor6binding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor6_binding/
         Requires  : PowerShell v5.1 and up
@@ -1083,7 +1083,7 @@ function Invoke-ADCDeleteHanoderoutemonitor6binding {
         An example how to delete hanode_routemonitor6_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteHanoderoutemonitor6binding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor6_binding/
         Requires  : PowerShell v5.1 and up
@@ -1165,7 +1165,7 @@ function Invoke-ADCGetHanoderoutemonitor6binding {
         Get hanode_routemonitor6_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanoderoutemonitor6binding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor6_binding/
         Requires  : PowerShell v5.1 and up
@@ -1248,7 +1248,7 @@ function Invoke-ADCAddHanoderoutemonitorbinding {
         An example how to add hanode_routemonitor_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddHanoderoutemonitorbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -1320,7 +1320,7 @@ function Invoke-ADCDeleteHanoderoutemonitorbinding {
         An example how to delete hanode_routemonitor_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteHanoderoutemonitorbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -1402,7 +1402,7 @@ function Invoke-ADCGetHanoderoutemonitorbinding {
         Get hanode_routemonitor_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanoderoutemonitorbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -1482,7 +1482,7 @@ function Invoke-ADCForceHasync {
         An example how to force hasync configuration Object(s).
     .NOTES
         File Name : Invoke-ADCForceHasync
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hasync/
         Requires  : PowerShell v5.1 and up
@@ -1558,7 +1558,7 @@ function Invoke-ADCGetHasyncfailures {
         Get hasyncfailures data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHasyncfailures
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hasyncfailures/
         Requires  : PowerShell v5.1 and up

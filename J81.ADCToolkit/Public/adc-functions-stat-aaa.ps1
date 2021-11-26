@@ -30,7 +30,7 @@ function Invoke-ADCGetAaaStats {
         Get aaa data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAaaStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/aaa/aaa/
         Requires  : PowerShell v5.1 and up

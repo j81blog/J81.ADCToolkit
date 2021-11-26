@@ -30,7 +30,7 @@ function Invoke-ADCGetFeoStats {
         Get feo data with a filter.
     .NOTES
         File Name : Invoke-ADCGetFeoStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/feo/feo/
         Requires  : PowerShell v5.1 and up

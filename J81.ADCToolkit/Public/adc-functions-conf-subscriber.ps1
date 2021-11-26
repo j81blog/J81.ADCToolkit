@@ -50,7 +50,7 @@ function Invoke-ADCUpdateSubscribergxinterface {
         An example how to update subscribergxinterface configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSubscribergxinterface
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribergxinterface/
         Requires  : PowerShell v5.1 and up
@@ -200,7 +200,7 @@ function Invoke-ADCUnsetSubscribergxinterface {
         An example how to unset subscribergxinterface configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSubscribergxinterface
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribergxinterface
         Requires  : PowerShell v5.1 and up
@@ -315,7 +315,7 @@ function Invoke-ADCGetSubscribergxinterface {
         Get subscribergxinterface data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSubscribergxinterface
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribergxinterface/
         Requires  : PowerShell v5.1 and up
@@ -411,7 +411,7 @@ function Invoke-ADCUpdateSubscriberparam {
         An example how to update subscriberparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSubscriberparam
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberparam/
         Requires  : PowerShell v5.1 and up
@@ -502,7 +502,7 @@ function Invoke-ADCUnsetSubscriberparam {
         An example how to unset subscriberparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSubscriberparam
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberparam
         Requires  : PowerShell v5.1 and up
@@ -582,7 +582,7 @@ function Invoke-ADCGetSubscriberparam {
         Get subscriberparam data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSubscriberparam
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberparam/
         Requires  : PowerShell v5.1 and up
@@ -663,7 +663,7 @@ function Invoke-ADCAddSubscriberprofile {
         An example how to add subscriberprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSubscriberprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile/
         Requires  : PowerShell v5.1 and up
@@ -746,7 +746,7 @@ function Invoke-ADCUpdateSubscriberprofile {
         An example how to update subscriberprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSubscriberprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile/
         Requires  : PowerShell v5.1 and up
@@ -820,7 +820,7 @@ function Invoke-ADCUnsetSubscriberprofile {
         An example how to unset subscriberprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSubscriberprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile
         Requires  : PowerShell v5.1 and up
@@ -879,7 +879,7 @@ function Invoke-ADCDeleteSubscriberprofile {
         An example how to delete subscriberprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSubscriberprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile/
         Requires  : PowerShell v5.1 and up
@@ -956,7 +956,7 @@ function Invoke-ADCGetSubscriberprofile {
         Get subscriberprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSubscriberprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile/
         Requires  : PowerShell v5.1 and up
@@ -1036,7 +1036,7 @@ function Invoke-ADCUpdateSubscriberradiusinterface {
         An example how to update subscriberradiusinterface configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSubscriberradiusinterface
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberradiusinterface/
         Requires  : PowerShell v5.1 and up
@@ -1097,7 +1097,7 @@ function Invoke-ADCUnsetSubscriberradiusinterface {
         An example how to unset subscriberradiusinterface configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSubscriberradiusinterface
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberradiusinterface
         Requires  : PowerShell v5.1 and up
@@ -1168,7 +1168,7 @@ function Invoke-ADCGetSubscriberradiusinterface {
         Get subscriberradiusinterface data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSubscriberradiusinterface
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberradiusinterface/
         Requires  : PowerShell v5.1 and up
@@ -1240,7 +1240,7 @@ function Invoke-ADCClearSubscribersessions {
         An example how to clear subscribersessions configuration Object(s).
     .NOTES
         File Name : Invoke-ADCClearSubscribersessions
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribersessions/
         Requires  : PowerShell v5.1 and up
@@ -1325,7 +1325,7 @@ function Invoke-ADCGetSubscribersessions {
         Get subscribersessions data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSubscribersessions
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribersessions/
         Requires  : PowerShell v5.1 and up

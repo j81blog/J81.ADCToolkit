@@ -30,7 +30,7 @@ function Invoke-ADCGetPqStats {
         Get pq data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPqStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/pq/pq.md/
         Requires  : PowerShell v5.1 and up
@@ -127,7 +127,7 @@ function Invoke-ADCGetPqpolicyStats {
         Get pqpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPqpolicyStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/pq/pqpolicy.md/
         Requires  : PowerShell v5.1 and up

@@ -20,7 +20,7 @@ function Invoke-ADCAddUserprotocol {
         An example how to add userprotocol configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddUserprotocol
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol/
         Requires  : PowerShell v5.1 and up
@@ -96,7 +96,7 @@ function Invoke-ADCDeleteUserprotocol {
         An example how to delete userprotocol configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteUserprotocol
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol/
         Requires  : PowerShell v5.1 and up
@@ -156,7 +156,7 @@ function Invoke-ADCUpdateUserprotocol {
         An example how to update userprotocol configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateUserprotocol
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol/
         Requires  : PowerShell v5.1 and up
@@ -224,7 +224,7 @@ function Invoke-ADCUnsetUserprotocol {
         An example how to unset userprotocol configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetUserprotocol
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol
         Requires  : PowerShell v5.1 and up
@@ -304,7 +304,7 @@ function Invoke-ADCGetUserprotocol {
         Get userprotocol data with a filter.
     .NOTES
         File Name : Invoke-ADCGetUserprotocol
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol/
         Requires  : PowerShell v5.1 and up
@@ -406,7 +406,7 @@ function Invoke-ADCAddUservserver {
         An example how to add uservserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddUservserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -498,7 +498,7 @@ function Invoke-ADCDeleteUservserver {
         An example how to delete uservserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteUservserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -565,7 +565,7 @@ function Invoke-ADCUpdateUservserver {
         An example how to update uservserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateUservserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -645,7 +645,7 @@ function Invoke-ADCUnsetUservserver {
         An example how to unset uservserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetUservserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver
         Requires  : PowerShell v5.1 and up
@@ -708,7 +708,7 @@ function Invoke-ADCEnableUservserver {
         An example how to enable uservserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCEnableUservserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -768,7 +768,7 @@ function Invoke-ADCDisableUservserver {
         An example how to disable uservserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDisableUservserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -849,7 +849,7 @@ function Invoke-ADCGetUservserver {
         Get uservserver data with a filter.
     .NOTES
         File Name : Invoke-ADCGetUservserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up

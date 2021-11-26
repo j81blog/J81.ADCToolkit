@@ -30,7 +30,7 @@ function Invoke-ADCUpdateSnmpalarm {
         An example how to update snmpalarm configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSnmpalarm
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpalarm/
         Requires  : PowerShell v5.1 and up
@@ -130,7 +130,7 @@ function Invoke-ADCUnsetSnmpalarm {
         An example how to unset snmpalarm configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSnmpalarm
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpalarm
         Requires  : PowerShell v5.1 and up
@@ -204,7 +204,7 @@ function Invoke-ADCEnableSnmpalarm {
         An example how to enable snmpalarm configuration Object(s).
     .NOTES
         File Name : Invoke-ADCEnableSnmpalarm
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpalarm/
         Requires  : PowerShell v5.1 and up
@@ -263,7 +263,7 @@ function Invoke-ADCDisableSnmpalarm {
         An example how to disable snmpalarm configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDisableSnmpalarm
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpalarm/
         Requires  : PowerShell v5.1 and up
@@ -343,7 +343,7 @@ function Invoke-ADCGetSnmpalarm {
         Get snmpalarm data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpalarm
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpalarm/
         Requires  : PowerShell v5.1 and up
@@ -430,7 +430,7 @@ function Invoke-ADCAddSnmpcommunity {
         An example how to add snmpcommunity configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSnmpcommunity
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpcommunity/
         Requires  : PowerShell v5.1 and up
@@ -499,7 +499,7 @@ function Invoke-ADCDeleteSnmpcommunity {
         An example how to delete snmpcommunity configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSnmpcommunity
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpcommunity/
         Requires  : PowerShell v5.1 and up
@@ -576,7 +576,7 @@ function Invoke-ADCGetSnmpcommunity {
         Get snmpcommunity data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpcommunity
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpcommunity/
         Requires  : PowerShell v5.1 and up
@@ -662,7 +662,7 @@ function Invoke-ADCUpdateSnmpengineid {
         An example how to update snmpengineid configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSnmpengineid
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpengineid/
         Requires  : PowerShell v5.1 and up
@@ -728,7 +728,7 @@ function Invoke-ADCUnsetSnmpengineid {
         An example how to unset snmpengineid configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSnmpengineid
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpengineid
         Requires  : PowerShell v5.1 and up
@@ -804,7 +804,7 @@ function Invoke-ADCGetSnmpengineid {
         Get snmpengineid data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpengineid
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpengineid/
         Requires  : PowerShell v5.1 and up
@@ -895,7 +895,7 @@ function Invoke-ADCAddSnmpgroup {
         An example how to add snmpgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSnmpgroup
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpgroup/
         Requires  : PowerShell v5.1 and up
@@ -970,7 +970,7 @@ function Invoke-ADCDeleteSnmpgroup {
         An example how to delete snmpgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSnmpgroup
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpgroup/
         Requires  : PowerShell v5.1 and up
@@ -1037,7 +1037,7 @@ function Invoke-ADCUpdateSnmpgroup {
         An example how to update snmpgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSnmpgroup
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpgroup/
         Requires  : PowerShell v5.1 and up
@@ -1124,7 +1124,7 @@ function Invoke-ADCGetSnmpgroup {
         Get snmpgroup data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpgroup
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpgroup/
         Requires  : PowerShell v5.1 and up
@@ -1206,7 +1206,7 @@ function Invoke-ADCAddSnmpmanager {
         An example how to add snmpmanager configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSnmpmanager
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmanager/
         Requires  : PowerShell v5.1 and up
@@ -1272,7 +1272,7 @@ function Invoke-ADCDeleteSnmpmanager {
         An example how to delete snmpmanager configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSnmpmanager
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmanager/
         Requires  : PowerShell v5.1 and up
@@ -1335,7 +1335,7 @@ function Invoke-ADCUpdateSnmpmanager {
         An example how to update snmpmanager configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSnmpmanager
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmanager/
         Requires  : PowerShell v5.1 and up
@@ -1403,7 +1403,7 @@ function Invoke-ADCUnsetSnmpmanager {
         An example how to unset snmpmanager configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSnmpmanager
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmanager
         Requires  : PowerShell v5.1 and up
@@ -1483,7 +1483,7 @@ function Invoke-ADCGetSnmpmanager {
         Get snmpmanager data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpmanager
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmanager/
         Requires  : PowerShell v5.1 and up
@@ -1570,7 +1570,7 @@ function Invoke-ADCUpdateSnmpmib {
         An example how to update snmpmib configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSnmpmib
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmib/
         Requires  : PowerShell v5.1 and up
@@ -1656,7 +1656,7 @@ function Invoke-ADCUnsetSnmpmib {
         An example how to unset snmpmib configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSnmpmib
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmib
         Requires  : PowerShell v5.1 and up
@@ -1744,7 +1744,7 @@ function Invoke-ADCGetSnmpmib {
         Get snmpmib data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpmib
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpmib/
         Requires  : PowerShell v5.1 and up
@@ -1850,7 +1850,7 @@ function Invoke-ADCGetSnmpoid {
         Get snmpoid data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpoid
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpoid/
         Requires  : PowerShell v5.1 and up
@@ -1944,7 +1944,7 @@ function Invoke-ADCUpdateSnmpoption {
         An example how to update snmpoption configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSnmpoption
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpoption/
         Requires  : PowerShell v5.1 and up
@@ -2022,7 +2022,7 @@ function Invoke-ADCUnsetSnmpoption {
         An example how to unset snmpoption configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSnmpoption
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpoption
         Requires  : PowerShell v5.1 and up
@@ -2102,7 +2102,7 @@ function Invoke-ADCGetSnmpoption {
         Get snmpoption data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpoption
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpoption/
         Requires  : PowerShell v5.1 and up
@@ -2195,7 +2195,7 @@ function Invoke-ADCAddSnmptrap {
         An example how to add snmptrap configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSnmptrap
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap/
         Requires  : PowerShell v5.1 and up
@@ -2293,7 +2293,7 @@ function Invoke-ADCDeleteSnmptrap {
         An example how to delete snmptrap configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSnmptrap
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap/
         Requires  : PowerShell v5.1 and up
@@ -2380,7 +2380,7 @@ function Invoke-ADCUpdateSnmptrap {
         An example how to update snmptrap configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSnmptrap
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap/
         Requires  : PowerShell v5.1 and up
@@ -2492,7 +2492,7 @@ function Invoke-ADCUnsetSnmptrap {
         An example how to unset snmptrap configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSnmptrap
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap
         Requires  : PowerShell v5.1 and up
@@ -2592,7 +2592,7 @@ function Invoke-ADCGetSnmptrap {
         Get snmptrap data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmptrap
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap/
         Requires  : PowerShell v5.1 and up
@@ -2695,7 +2695,7 @@ function Invoke-ADCGetSnmptrapbinding {
         Get snmptrap_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmptrapbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap_binding/
         Requires  : PowerShell v5.1 and up
@@ -2800,7 +2800,7 @@ function Invoke-ADCAddSnmptrapsnmpuserbinding {
         An example how to add snmptrap_snmpuser_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSnmptrapsnmpuserbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap_snmpuser_binding/
         Requires  : PowerShell v5.1 and up
@@ -2894,7 +2894,7 @@ function Invoke-ADCDeleteSnmptrapsnmpuserbinding {
         An example how to delete snmptrap_snmpuser_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSnmptrapsnmpuserbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap_snmpuser_binding/
         Requires  : PowerShell v5.1 and up
@@ -2990,7 +2990,7 @@ function Invoke-ADCGetSnmptrapsnmpuserbinding {
         Get snmptrap_snmpuser_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmptrapsnmpuserbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmptrap_snmpuser_binding/
         Requires  : PowerShell v5.1 and up
@@ -3094,7 +3094,7 @@ function Invoke-ADCAddSnmpuser {
         An example how to add snmpuser configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSnmpuser
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpuser/
         Requires  : PowerShell v5.1 and up
@@ -3178,7 +3178,7 @@ function Invoke-ADCDeleteSnmpuser {
         An example how to delete snmpuser configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSnmpuser
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpuser/
         Requires  : PowerShell v5.1 and up
@@ -3248,7 +3248,7 @@ function Invoke-ADCUpdateSnmpuser {
         An example how to update snmpuser configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSnmpuser
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpuser/
         Requires  : PowerShell v5.1 and up
@@ -3340,7 +3340,7 @@ function Invoke-ADCUnsetSnmpuser {
         An example how to unset snmpuser configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSnmpuser
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpuser
         Requires  : PowerShell v5.1 and up
@@ -3428,7 +3428,7 @@ function Invoke-ADCGetSnmpuser {
         Get snmpuser data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpuser
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpuser/
         Requires  : PowerShell v5.1 and up
@@ -3515,7 +3515,7 @@ function Invoke-ADCAddSnmpview {
         An example how to add snmpview configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSnmpview
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpview/
         Requires  : PowerShell v5.1 and up
@@ -3585,7 +3585,7 @@ function Invoke-ADCDeleteSnmpview {
         An example how to delete snmpview configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSnmpview
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpview/
         Requires  : PowerShell v5.1 and up
@@ -3648,7 +3648,7 @@ function Invoke-ADCUpdateSnmpview {
         An example how to update snmpview configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSnmpview
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpview/
         Requires  : PowerShell v5.1 and up
@@ -3735,7 +3735,7 @@ function Invoke-ADCGetSnmpview {
         Get snmpview data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSnmpview
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/snmp/snmpview/
         Requires  : PowerShell v5.1 and up

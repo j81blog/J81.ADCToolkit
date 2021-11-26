@@ -19,7 +19,7 @@ function Invoke-ADCUpdateProtocolhttpband {
         An example how to update protocolhttpband configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateProtocolhttpband
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband/
         Requires  : PowerShell v5.1 and up
@@ -85,7 +85,7 @@ function Invoke-ADCUnsetProtocolhttpband {
         An example how to unset protocolhttpband configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetProtocolhttpband
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband
         Requires  : PowerShell v5.1 and up
@@ -144,7 +144,7 @@ function Invoke-ADCClearProtocolhttpband {
         An example how to clear protocolhttpband configuration Object(s).
     .NOTES
         File Name : Invoke-ADCClearProtocolhttpband
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband/
         Requires  : PowerShell v5.1 and up
@@ -223,7 +223,7 @@ function Invoke-ADCGetProtocolhttpband {
         Get protocolhttpband data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocolhttpband
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband/
         Requires  : PowerShell v5.1 and up

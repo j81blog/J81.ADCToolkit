@@ -29,7 +29,7 @@ function Invoke-ADCGetCsvserverStats {
         Get csvserver data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCsvserverStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cs/csvserver/
         Requires  : PowerShell v5.1 and up

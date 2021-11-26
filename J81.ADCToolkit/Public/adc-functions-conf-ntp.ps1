@@ -18,7 +18,7 @@ function Invoke-ADCUpdateNtpparam {
         An example how to update ntpparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateNtpparam
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpparam/
         Requires  : PowerShell v5.1 and up
@@ -93,7 +93,7 @@ function Invoke-ADCUnsetNtpparam {
         An example how to unset ntpparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetNtpparam
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpparam
         Requires  : PowerShell v5.1 and up
@@ -173,7 +173,7 @@ function Invoke-ADCGetNtpparam {
         Get ntpparam data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNtpparam
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpparam/
         Requires  : PowerShell v5.1 and up
@@ -253,7 +253,7 @@ function Invoke-ADCAddNtpserver {
         An example how to add ntpserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddNtpserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpserver/
         Requires  : PowerShell v5.1 and up
@@ -329,7 +329,7 @@ function Invoke-ADCDeleteNtpserver {
         An example how to delete ntpserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteNtpserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpserver/
         Requires  : PowerShell v5.1 and up
@@ -400,7 +400,7 @@ function Invoke-ADCUpdateNtpserver {
         An example how to update ntpserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateNtpserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpserver/
         Requires  : PowerShell v5.1 and up
@@ -491,7 +491,7 @@ function Invoke-ADCUnsetNtpserver {
         An example how to unset ntpserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetNtpserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpserver
         Requires  : PowerShell v5.1 and up
@@ -583,7 +583,7 @@ function Invoke-ADCGetNtpserver {
         Get ntpserver data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNtpserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpserver/
         Requires  : PowerShell v5.1 and up
@@ -676,7 +676,7 @@ function Invoke-ADCGetNtpstatus {
         Get ntpstatus data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNtpstatus
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpstatus/
         Requires  : PowerShell v5.1 and up
@@ -744,7 +744,7 @@ function Invoke-ADCEnableNtpsync {
         An example how to enable ntpsync configuration Object(s).
     .NOTES
         File Name : Invoke-ADCEnableNtpsync
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpsync/
         Requires  : PowerShell v5.1 and up
@@ -796,7 +796,7 @@ function Invoke-ADCDisableNtpsync {
         An example how to disable ntpsync configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDisableNtpsync
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpsync/
         Requires  : PowerShell v5.1 and up
@@ -866,7 +866,7 @@ function Invoke-ADCGetNtpsync {
         Get ntpsync data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNtpsync
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ntp/ntpsync/
         Requires  : PowerShell v5.1 and up

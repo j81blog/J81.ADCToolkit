@@ -7,10 +7,11 @@ function Expand-ADCResult {
     .PARAMETER Result
         Result from a ADC function
     .EXAMPLE
-        Invoke-ADCGetLBvServer | Expand-ADCResult
+        PS C:\>Invoke-ADCGetLBvServer | Expand-ADCResult
+        Expand the returned results from all ADC Cmdlets
     .NOTES
         File Name : Expand-ADCResult
-        Version   : v2101.0322
+        Version   : v2111.2522
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up

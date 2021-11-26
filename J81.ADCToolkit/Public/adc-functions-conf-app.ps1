@@ -15,7 +15,7 @@ function Invoke-ADCImportApplication {
         An example how to import application configuration Object(s).
     .NOTES
         File Name : Invoke-ADCImportApplication
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/app/application/
         Requires  : PowerShell v5.1 and up
@@ -81,7 +81,7 @@ function Invoke-ADCExportApplication {
         An example how to export application configuration Object(s).
     .NOTES
         File Name : Invoke-ADCExportApplication
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/app/application/
         Requires  : PowerShell v5.1 and up
@@ -143,7 +143,7 @@ function Invoke-ADCDeleteApplication {
         An example how to delete application configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteApplication
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/app/application/
         Requires  : PowerShell v5.1 and up

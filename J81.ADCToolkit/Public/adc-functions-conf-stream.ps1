@@ -44,7 +44,7 @@ function Invoke-ADCAddStreamidentifier {
         An example how to add streamidentifier configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddStreamidentifier
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamidentifier/
         Requires  : PowerShell v5.1 and up
@@ -183,7 +183,7 @@ function Invoke-ADCUpdateStreamidentifier {
         An example how to update streamidentifier configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateStreamidentifier
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamidentifier/
         Requires  : PowerShell v5.1 and up
@@ -318,7 +318,7 @@ function Invoke-ADCUnsetStreamidentifier {
         An example how to unset streamidentifier configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetStreamidentifier
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamidentifier
         Requires  : PowerShell v5.1 and up
@@ -408,7 +408,7 @@ function Invoke-ADCDeleteStreamidentifier {
         An example how to delete streamidentifier configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteStreamidentifier
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamidentifier/
         Requires  : PowerShell v5.1 and up
@@ -485,7 +485,7 @@ function Invoke-ADCGetStreamidentifier {
         Get streamidentifier data with a filter.
     .NOTES
         File Name : Invoke-ADCGetStreamidentifier
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamidentifier/
         Requires  : PowerShell v5.1 and up
@@ -584,7 +584,7 @@ function Invoke-ADCGetStreamidentifierbinding {
         Get streamidentifier_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetStreamidentifierbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamidentifier_binding/
         Requires  : PowerShell v5.1 and up
@@ -676,7 +676,7 @@ function Invoke-ADCGetStreamidentifierstreamsessionbinding {
         Get streamidentifier_streamsession_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetStreamidentifierstreamsessionbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamidentifier_streamsession_binding/
         Requires  : PowerShell v5.1 and up
@@ -751,7 +751,7 @@ function Invoke-ADCAddStreamselector {
         An example how to add streamselector configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddStreamselector
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamselector/
         Requires  : PowerShell v5.1 and up
@@ -825,7 +825,7 @@ function Invoke-ADCUpdateStreamselector {
         An example how to update streamselector configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateStreamselector
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamselector/
         Requires  : PowerShell v5.1 and up
@@ -891,7 +891,7 @@ function Invoke-ADCDeleteStreamselector {
         An example how to delete streamselector configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteStreamselector
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamselector/
         Requires  : PowerShell v5.1 and up
@@ -968,7 +968,7 @@ function Invoke-ADCGetStreamselector {
         Get streamselector data with a filter.
     .NOTES
         File Name : Invoke-ADCGetStreamselector
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamselector/
         Requires  : PowerShell v5.1 and up
@@ -1050,7 +1050,7 @@ function Invoke-ADCClearStreamsession {
         An example how to clear streamsession configuration Object(s).
     .NOTES
         File Name : Invoke-ADCClearStreamsession
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamsession/
         Requires  : PowerShell v5.1 and up

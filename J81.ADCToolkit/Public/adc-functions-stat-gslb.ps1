@@ -30,7 +30,7 @@ function Invoke-ADCGetGslbdomainStats {
         Get gslbdomain data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbdomainStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/gslb/gslbdomain/
         Requires  : PowerShell v5.1 and up
@@ -122,7 +122,7 @@ function Invoke-ADCGetGslbserviceStats {
         Get gslbservice data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbserviceStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/gslb/gslbservice/
         Requires  : PowerShell v5.1 and up
@@ -214,7 +214,7 @@ function Invoke-ADCGetGslbservicegroupStats {
         Get gslbservicegroup data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbservicegroupStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/gslb/gslbservicegroup/
         Requires  : PowerShell v5.1 and up
@@ -316,7 +316,7 @@ function Invoke-ADCGetGslbservicegroupmemberStats {
         Get gslbservicegroupmember data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbservicegroupmemberStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/gslb/gslbservicegroupmember/
         Requires  : PowerShell v5.1 and up
@@ -433,7 +433,7 @@ function Invoke-ADCGetGslbsiteStats {
         Get gslbsite data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbsiteStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/gslb/gslbsite/
         Requires  : PowerShell v5.1 and up
@@ -525,7 +525,7 @@ function Invoke-ADCGetGslbvserverStats {
         Get gslbvserver data with a filter.
     .NOTES
         File Name : Invoke-ADCGetGslbvserverStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/gslb/gslbvserver/
         Requires  : PowerShell v5.1 and up

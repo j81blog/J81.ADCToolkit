@@ -13,7 +13,7 @@ function Invoke-ADCAddUlfdserver {
         An example how to add ulfdserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddUlfdserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ulfd/ulfdserver/
         Requires  : PowerShell v5.1 and up
@@ -76,7 +76,7 @@ function Invoke-ADCDeleteUlfdserver {
         An example how to delete ulfdserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteUlfdserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ulfd/ulfdserver/
         Requires  : PowerShell v5.1 and up
@@ -153,7 +153,7 @@ function Invoke-ADCGetUlfdserver {
         Get ulfdserver data with a filter.
     .NOTES
         File Name : Invoke-ADCGetUlfdserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ulfd/ulfdserver/
         Requires  : PowerShell v5.1 and up

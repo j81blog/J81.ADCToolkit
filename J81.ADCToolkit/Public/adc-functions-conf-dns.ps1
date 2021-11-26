@@ -15,7 +15,7 @@ function Invoke-ADCAddDnsaaaarec {
         An example how to add dnsaaaarec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnsaaaarec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaaaarec/
         Requires  : PowerShell v5.1 and up
@@ -85,7 +85,7 @@ function Invoke-ADCDeleteDnsaaaarec {
         An example how to delete dnsaaaarec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnsaaaarec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaaaarec/
         Requires  : PowerShell v5.1 and up
@@ -177,7 +177,7 @@ function Invoke-ADCGetDnsaaaarec {
         Get dnsaaaarec data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsaaaarec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaaaarec/
         Requires  : PowerShell v5.1 and up
@@ -290,7 +290,7 @@ function Invoke-ADCAddDnsaction {
         An example how to add dnsaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnsaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction/
         Requires  : PowerShell v5.1 and up
@@ -375,7 +375,7 @@ function Invoke-ADCDeleteDnsaction {
         An example how to delete dnsaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnsaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction/
         Requires  : PowerShell v5.1 and up
@@ -444,7 +444,7 @@ function Invoke-ADCUpdateDnsaction {
         An example how to update dnsaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateDnsaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction/
         Requires  : PowerShell v5.1 and up
@@ -527,7 +527,7 @@ function Invoke-ADCUnsetDnsaction {
         An example how to unset dnsaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetDnsaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction
         Requires  : PowerShell v5.1 and up
@@ -608,7 +608,7 @@ function Invoke-ADCGetDnsaction {
         Get dnsaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction/
         Requires  : PowerShell v5.1 and up
@@ -699,7 +699,7 @@ function Invoke-ADCAddDnsaction64 {
         An example how to add dnsaction64 configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnsaction64
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction64/
         Requires  : PowerShell v5.1 and up
@@ -771,7 +771,7 @@ function Invoke-ADCDeleteDnsaction64 {
         An example how to delete dnsaction64 configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnsaction64
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction64/
         Requires  : PowerShell v5.1 and up
@@ -837,7 +837,7 @@ function Invoke-ADCUpdateDnsaction64 {
         An example how to update dnsaction64 configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateDnsaction64
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction64/
         Requires  : PowerShell v5.1 and up
@@ -915,7 +915,7 @@ function Invoke-ADCUnsetDnsaction64 {
         An example how to unset dnsaction64 configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetDnsaction64
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction64
         Requires  : PowerShell v5.1 and up
@@ -999,7 +999,7 @@ function Invoke-ADCGetDnsaction64 {
         Get dnsaction64 data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsaction64
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaction64/
         Requires  : PowerShell v5.1 and up
@@ -1086,7 +1086,7 @@ function Invoke-ADCAddDnsaddrec {
         An example how to add dnsaddrec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnsaddrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaddrec/
         Requires  : PowerShell v5.1 and up
@@ -1162,7 +1162,7 @@ function Invoke-ADCDeleteDnsaddrec {
         An example how to delete dnsaddrec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnsaddrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaddrec/
         Requires  : PowerShell v5.1 and up
@@ -1244,7 +1244,7 @@ function Invoke-ADCGetDnsaddrec {
         Get dnsaddrec data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsaddrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsaddrec/
         Requires  : PowerShell v5.1 and up
@@ -1332,7 +1332,7 @@ function Invoke-ADCAddDnscnamerec {
         An example how to add dnscnamerec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnscnamerec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnscnamerec/
         Requires  : PowerShell v5.1 and up
@@ -1406,7 +1406,7 @@ function Invoke-ADCDeleteDnscnamerec {
         An example how to delete dnscnamerec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnscnamerec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnscnamerec/
         Requires  : PowerShell v5.1 and up
@@ -1485,7 +1485,7 @@ function Invoke-ADCGetDnscnamerec {
         Get dnscnamerec data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnscnamerec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnscnamerec/
         Requires  : PowerShell v5.1 and up
@@ -1583,7 +1583,7 @@ function Invoke-ADCGetDnsglobalbinding {
         Get dnsglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -1669,7 +1669,7 @@ function Invoke-ADCAddDnsglobaldnspolicybinding {
         An example how to add dnsglobal_dnspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnsglobaldnspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsglobal_dnspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1756,7 +1756,7 @@ function Invoke-ADCDeleteDnsglobaldnspolicybinding {
         An example how to delete dnsglobal_dnspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnsglobaldnspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsglobal_dnspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1833,7 +1833,7 @@ function Invoke-ADCGetDnsglobaldnspolicybinding {
         Get dnsglobal_dnspolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsglobaldnspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsglobal_dnspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1926,7 +1926,7 @@ function Invoke-ADCAddDnskey {
         An example how to add dnskey configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnskey
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnskey/
         Requires  : PowerShell v5.1 and up
@@ -2033,7 +2033,7 @@ function Invoke-ADCCreateDnskey {
         An example how to create dnskey configuration Object(s).
     .NOTES
         File Name : Invoke-ADCCreateDnskey
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnskey/
         Requires  : PowerShell v5.1 and up
@@ -2128,7 +2128,7 @@ function Invoke-ADCUpdateDnskey {
         An example how to update dnskey configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateDnskey
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnskey/
         Requires  : PowerShell v5.1 and up
@@ -2222,7 +2222,7 @@ function Invoke-ADCUnsetDnskey {
         An example how to unset dnskey configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetDnskey
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnskey
         Requires  : PowerShell v5.1 and up
@@ -2292,7 +2292,7 @@ function Invoke-ADCDeleteDnskey {
         An example how to delete dnskey configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnskey
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnskey/
         Requires  : PowerShell v5.1 and up
@@ -2350,7 +2350,7 @@ function Invoke-ADCImportDnskey {
         An example how to import dnskey configuration Object(s).
     .NOTES
         File Name : Invoke-ADCImportDnskey
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnskey/
         Requires  : PowerShell v5.1 and up
@@ -2435,7 +2435,7 @@ function Invoke-ADCGetDnskey {
         Get dnskey data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnskey
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnskey/
         Requires  : PowerShell v5.1 and up
@@ -2525,7 +2525,7 @@ function Invoke-ADCAddDnsmxrec {
         An example how to add dnsmxrec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnsmxrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsmxrec/
         Requires  : PowerShell v5.1 and up
@@ -2606,7 +2606,7 @@ function Invoke-ADCDeleteDnsmxrec {
         An example how to delete dnsmxrec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnsmxrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsmxrec/
         Requires  : PowerShell v5.1 and up
@@ -2675,7 +2675,7 @@ function Invoke-ADCUpdateDnsmxrec {
         An example how to update dnsmxrec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateDnsmxrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsmxrec/
         Requires  : PowerShell v5.1 and up
@@ -2755,7 +2755,7 @@ function Invoke-ADCUnsetDnsmxrec {
         An example how to unset dnsmxrec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetDnsmxrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsmxrec
         Requires  : PowerShell v5.1 and up
@@ -2839,7 +2839,7 @@ function Invoke-ADCGetDnsmxrec {
         Get dnsmxrec data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsmxrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsmxrec/
         Requires  : PowerShell v5.1 and up
@@ -2934,7 +2934,7 @@ function Invoke-ADCAddDnsnameserver {
         An example how to add dnsnameserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnsnameserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnameserver/
         Requires  : PowerShell v5.1 and up
@@ -3014,7 +3014,7 @@ function Invoke-ADCUpdateDnsnameserver {
         An example how to update dnsnameserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateDnsnameserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnameserver/
         Requires  : PowerShell v5.1 and up
@@ -3083,7 +3083,7 @@ function Invoke-ADCUnsetDnsnameserver {
         An example how to unset dnsnameserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetDnsnameserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnameserver
         Requires  : PowerShell v5.1 and up
@@ -3149,7 +3149,7 @@ function Invoke-ADCDeleteDnsnameserver {
         An example how to delete dnsnameserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnsnameserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnameserver/
         Requires  : PowerShell v5.1 and up
@@ -3215,7 +3215,7 @@ function Invoke-ADCEnableDnsnameserver {
         An example how to enable dnsnameserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCEnableDnsnameserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnameserver/
         Requires  : PowerShell v5.1 and up
@@ -3285,7 +3285,7 @@ function Invoke-ADCDisableDnsnameserver {
         An example how to disable dnsnameserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDisableDnsnameserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnameserver/
         Requires  : PowerShell v5.1 and up
@@ -3369,7 +3369,7 @@ function Invoke-ADCGetDnsnameserver {
         Get dnsnameserver data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsnameserver
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnameserver/
         Requires  : PowerShell v5.1 and up
@@ -3462,7 +3462,7 @@ function Invoke-ADCAddDnsnaptrrec {
         An example how to add dnsnaptrrec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnsnaptrrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnaptrrec/
         Requires  : PowerShell v5.1 and up
@@ -3568,7 +3568,7 @@ function Invoke-ADCDeleteDnsnaptrrec {
         An example how to delete dnsnaptrrec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnsnaptrrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnaptrrec/
         Requires  : PowerShell v5.1 and up
@@ -3668,7 +3668,7 @@ function Invoke-ADCGetDnsnaptrrec {
         Get dnsnaptrrec data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsnaptrrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnaptrrec/
         Requires  : PowerShell v5.1 and up
@@ -3771,7 +3771,7 @@ function Invoke-ADCGetDnsnsecrec {
         Get dnsnsecrec data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsnsecrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnsecrec/
         Requires  : PowerShell v5.1 and up
@@ -3859,7 +3859,7 @@ function Invoke-ADCAddDnsnsrec {
         An example how to add dnsnsrec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnsnsrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnsrec/
         Requires  : PowerShell v5.1 and up
@@ -3935,7 +3935,7 @@ function Invoke-ADCDeleteDnsnsrec {
         An example how to delete dnsnsrec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnsnsrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnsrec/
         Requires  : PowerShell v5.1 and up
@@ -4017,7 +4017,7 @@ function Invoke-ADCGetDnsnsrec {
         Get dnsnsrec data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsnsrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsnsrec/
         Requires  : PowerShell v5.1 and up
@@ -4153,7 +4153,7 @@ function Invoke-ADCUpdateDnsparameter {
         An example how to update dnsparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateDnsparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsparameter/
         Requires  : PowerShell v5.1 and up
@@ -4339,7 +4339,7 @@ function Invoke-ADCUnsetDnsparameter {
         An example how to unset dnsparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetDnsparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsparameter
         Requires  : PowerShell v5.1 and up
@@ -4470,7 +4470,7 @@ function Invoke-ADCGetDnsparameter {
         Get dnsparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsparameter/
         Requires  : PowerShell v5.1 and up
@@ -4568,7 +4568,7 @@ function Invoke-ADCAddDnspolicy {
         An example how to add dnspolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnspolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy/
         Requires  : PowerShell v5.1 and up
@@ -4658,7 +4658,7 @@ function Invoke-ADCDeleteDnspolicy {
         An example how to delete dnspolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnspolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy/
         Requires  : PowerShell v5.1 and up
@@ -4742,7 +4742,7 @@ function Invoke-ADCUpdateDnspolicy {
         An example how to update dnspolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateDnspolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy/
         Requires  : PowerShell v5.1 and up
@@ -4832,7 +4832,7 @@ function Invoke-ADCUnsetDnspolicy {
         An example how to unset dnspolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetDnspolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy
         Requires  : PowerShell v5.1 and up
@@ -4910,7 +4910,7 @@ function Invoke-ADCGetDnspolicy {
         Get dnspolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnspolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy/
         Requires  : PowerShell v5.1 and up
@@ -5004,7 +5004,7 @@ function Invoke-ADCAddDnspolicy64 {
         An example how to add dnspolicy64 configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnspolicy64
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy64/
         Requires  : PowerShell v5.1 and up
@@ -5073,7 +5073,7 @@ function Invoke-ADCDeleteDnspolicy64 {
         An example how to delete dnspolicy64 configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnspolicy64
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy64/
         Requires  : PowerShell v5.1 and up
@@ -5142,7 +5142,7 @@ function Invoke-ADCUpdateDnspolicy64 {
         An example how to update dnspolicy64 configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateDnspolicy64
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy64/
         Requires  : PowerShell v5.1 and up
@@ -5230,7 +5230,7 @@ function Invoke-ADCGetDnspolicy64 {
         Get dnspolicy64 data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnspolicy64
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy64/
         Requires  : PowerShell v5.1 and up
@@ -5329,7 +5329,7 @@ function Invoke-ADCGetDnspolicy64binding {
         Get dnspolicy64_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnspolicy64binding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy64_binding/
         Requires  : PowerShell v5.1 and up
@@ -5423,7 +5423,7 @@ function Invoke-ADCGetDnspolicy64lbvserverbinding {
         Get dnspolicy64_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnspolicy64lbvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy64_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5504,7 +5504,7 @@ function Invoke-ADCAddDnspolicylabel {
         An example how to add dnspolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnspolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -5572,7 +5572,7 @@ function Invoke-ADCDeleteDnspolicylabel {
         An example how to delete dnspolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnspolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -5632,7 +5632,7 @@ function Invoke-ADCRenameDnspolicylabel {
         An example how to rename dnspolicylabel configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameDnspolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -5721,7 +5721,7 @@ function Invoke-ADCGetDnspolicylabel {
         Get dnspolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnspolicylabel
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -5820,7 +5820,7 @@ function Invoke-ADCGetDnspolicylabelbinding {
         Get dnspolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnspolicylabelbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -5908,7 +5908,7 @@ function Invoke-ADCAddDnspolicylabeldnspolicybinding {
         An example how to add dnspolicylabel_dnspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnspolicylabeldnspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicylabel_dnspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5995,7 +5995,7 @@ function Invoke-ADCDeleteDnspolicylabeldnspolicybinding {
         An example how to delete dnspolicylabel_dnspolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnspolicylabeldnspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicylabel_dnspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6077,7 +6077,7 @@ function Invoke-ADCGetDnspolicylabeldnspolicybinding {
         Get dnspolicylabel_dnspolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnspolicylabeldnspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicylabel_dnspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6174,7 +6174,7 @@ function Invoke-ADCGetDnspolicylabelpolicybindingbinding {
         Get dnspolicylabel_policybinding_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnspolicylabelpolicybindingbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicylabel_policybinding_binding/
         Requires  : PowerShell v5.1 and up
@@ -6268,7 +6268,7 @@ function Invoke-ADCGetDnspolicybinding {
         Get dnspolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -6362,7 +6362,7 @@ function Invoke-ADCGetDnspolicydnsglobalbinding {
         Get dnspolicy_dnsglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnspolicydnsglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy_dnsglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -6459,7 +6459,7 @@ function Invoke-ADCGetDnspolicydnspolicylabelbinding {
         Get dnspolicy_dnspolicylabel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnspolicydnspolicylabelbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnspolicy_dnspolicylabel_binding/
         Requires  : PowerShell v5.1 and up
@@ -6561,7 +6561,7 @@ function Invoke-ADCAddDnsprofile {
         An example how to add dnsprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnsprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsprofile/
         Requires  : PowerShell v5.1 and up
@@ -6681,7 +6681,7 @@ function Invoke-ADCUpdateDnsprofile {
         An example how to update dnsprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateDnsprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsprofile/
         Requires  : PowerShell v5.1 and up
@@ -6799,7 +6799,7 @@ function Invoke-ADCUnsetDnsprofile {
         An example how to unset dnsprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetDnsprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsprofile
         Requires  : PowerShell v5.1 and up
@@ -6878,7 +6878,7 @@ function Invoke-ADCDeleteDnsprofile {
         An example how to delete dnsprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnsprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsprofile/
         Requires  : PowerShell v5.1 and up
@@ -6955,7 +6955,7 @@ function Invoke-ADCGetDnsprofile {
         Get dnsprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsprofile
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsprofile/
         Requires  : PowerShell v5.1 and up
@@ -7041,7 +7041,7 @@ function Invoke-ADCFlushDnsproxyrecords {
         An example how to flush dnsproxyrecords configuration Object(s).
     .NOTES
         File Name : Invoke-ADCFlushDnsproxyrecords
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsproxyrecords/
         Requires  : PowerShell v5.1 and up
@@ -7108,7 +7108,7 @@ function Invoke-ADCAddDnsptrrec {
         An example how to add dnsptrrec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnsptrrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsptrrec/
         Requires  : PowerShell v5.1 and up
@@ -7184,7 +7184,7 @@ function Invoke-ADCDeleteDnsptrrec {
         An example how to delete dnsptrrec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnsptrrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsptrrec/
         Requires  : PowerShell v5.1 and up
@@ -7266,7 +7266,7 @@ function Invoke-ADCGetDnsptrrec {
         Get dnsptrrec data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsptrrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsptrrec/
         Requires  : PowerShell v5.1 and up
@@ -7366,7 +7366,7 @@ function Invoke-ADCAddDnssoarec {
         An example how to add dnssoarec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnssoarec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssoarec/
         Requires  : PowerShell v5.1 and up
@@ -7465,7 +7465,7 @@ function Invoke-ADCDeleteDnssoarec {
         An example how to delete dnssoarec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnssoarec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssoarec/
         Requires  : PowerShell v5.1 and up
@@ -7541,7 +7541,7 @@ function Invoke-ADCUpdateDnssoarec {
         An example how to update dnssoarec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateDnssoarec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssoarec/
         Requires  : PowerShell v5.1 and up
@@ -7647,7 +7647,7 @@ function Invoke-ADCUnsetDnssoarec {
         An example how to unset dnssoarec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetDnssoarec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssoarec
         Requires  : PowerShell v5.1 and up
@@ -7741,7 +7741,7 @@ function Invoke-ADCGetDnssoarec {
         Get dnssoarec data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnssoarec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssoarec/
         Requires  : PowerShell v5.1 and up
@@ -7833,7 +7833,7 @@ function Invoke-ADCAddDnssrvrec {
         An example how to add dnssrvrec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnssrvrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssrvrec/
         Requires  : PowerShell v5.1 and up
@@ -7917,7 +7917,7 @@ function Invoke-ADCDeleteDnssrvrec {
         An example how to delete dnssrvrec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnssrvrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssrvrec/
         Requires  : PowerShell v5.1 and up
@@ -7988,7 +7988,7 @@ function Invoke-ADCUpdateDnssrvrec {
         An example how to update dnssrvrec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateDnssrvrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssrvrec/
         Requires  : PowerShell v5.1 and up
@@ -8069,7 +8069,7 @@ function Invoke-ADCUnsetDnssrvrec {
         An example how to unset dnssrvrec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetDnssrvrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssrvrec
         Requires  : PowerShell v5.1 and up
@@ -8162,7 +8162,7 @@ function Invoke-ADCGetDnssrvrec {
         Get dnssrvrec data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnssrvrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssrvrec/
         Requires  : PowerShell v5.1 and up
@@ -8260,7 +8260,7 @@ function Invoke-ADCFlushDnssubnetcache {
         An example how to flush dnssubnetcache configuration Object(s).
     .NOTES
         File Name : Invoke-ADCFlushDnssubnetcache
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssubnetcache/
         Requires  : PowerShell v5.1 and up
@@ -8340,7 +8340,7 @@ function Invoke-ADCGetDnssubnetcache {
         Get dnssubnetcache data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnssubnetcache
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssubnetcache/
         Requires  : PowerShell v5.1 and up
@@ -8423,7 +8423,7 @@ function Invoke-ADCAddDnssuffix {
         An example how to add dnssuffix configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnssuffix
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssuffix/
         Requires  : PowerShell v5.1 and up
@@ -8486,7 +8486,7 @@ function Invoke-ADCDeleteDnssuffix {
         An example how to delete dnssuffix configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnssuffix
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssuffix/
         Requires  : PowerShell v5.1 and up
@@ -8563,7 +8563,7 @@ function Invoke-ADCGetDnssuffix {
         Get dnssuffix data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnssuffix
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnssuffix/
         Requires  : PowerShell v5.1 and up
@@ -8651,7 +8651,7 @@ function Invoke-ADCAddDnstxtrec {
         An example how to add dnstxtrec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnstxtrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnstxtrec/
         Requires  : PowerShell v5.1 and up
@@ -8728,7 +8728,7 @@ function Invoke-ADCDeleteDnstxtrec {
         An example how to delete dnstxtrec configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnstxtrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnstxtrec/
         Requires  : PowerShell v5.1 and up
@@ -8813,7 +8813,7 @@ function Invoke-ADCGetDnstxtrec {
         Get dnstxtrec data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnstxtrec
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnstxtrec/
         Requires  : PowerShell v5.1 and up
@@ -8897,7 +8897,7 @@ function Invoke-ADCAddDnsview {
         An example how to add dnsview configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnsview
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsview/
         Requires  : PowerShell v5.1 and up
@@ -8960,7 +8960,7 @@ function Invoke-ADCDeleteDnsview {
         An example how to delete dnsview configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnsview
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsview/
         Requires  : PowerShell v5.1 and up
@@ -9037,7 +9037,7 @@ function Invoke-ADCGetDnsview {
         Get dnsview data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsview
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsview/
         Requires  : PowerShell v5.1 and up
@@ -9137,7 +9137,7 @@ function Invoke-ADCGetDnsviewbinding {
         Get dnsview_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsviewbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsview_binding/
         Requires  : PowerShell v5.1 and up
@@ -9232,7 +9232,7 @@ function Invoke-ADCGetDnsviewdnspolicybinding {
         Get dnsview_dnspolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsviewdnspolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsview_dnspolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9330,7 +9330,7 @@ function Invoke-ADCGetDnsviewgslbservicebinding {
         Get dnsview_gslbservice_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnsviewgslbservicebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnsview_gslbservice_binding/
         Requires  : PowerShell v5.1 and up
@@ -9422,7 +9422,7 @@ function Invoke-ADCAddDnszone {
         An example how to add dnszone configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDnszone
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone/
         Requires  : PowerShell v5.1 and up
@@ -9513,7 +9513,7 @@ function Invoke-ADCUpdateDnszone {
         An example how to update dnszone configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateDnszone
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone/
         Requires  : PowerShell v5.1 and up
@@ -9600,7 +9600,7 @@ function Invoke-ADCUnsetDnszone {
         An example how to unset dnszone configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetDnszone
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone
         Requires  : PowerShell v5.1 and up
@@ -9664,7 +9664,7 @@ function Invoke-ADCDeleteDnszone {
         An example how to delete dnszone configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDnszone
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone/
         Requires  : PowerShell v5.1 and up
@@ -9722,7 +9722,7 @@ function Invoke-ADCSignDnszone {
         An example how to sign dnszone configuration Object(s).
     .NOTES
         File Name : Invoke-ADCSignDnszone
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone/
         Requires  : PowerShell v5.1 and up
@@ -9785,7 +9785,7 @@ function Invoke-ADCUnsignDnszone {
         An example how to unsign dnszone configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsignDnszone
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone/
         Requires  : PowerShell v5.1 and up
@@ -9867,7 +9867,7 @@ function Invoke-ADCGetDnszone {
         Get dnszone data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnszone
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone/
         Requires  : PowerShell v5.1 and up
@@ -9967,7 +9967,7 @@ function Invoke-ADCGetDnszonebinding {
         Get dnszone_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnszonebinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone_binding/
         Requires  : PowerShell v5.1 and up
@@ -10062,7 +10062,7 @@ function Invoke-ADCGetDnszonednskeybinding {
         Get dnszone_dnskey_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnszonednskeybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone_dnskey_binding/
         Requires  : PowerShell v5.1 and up
@@ -10160,7 +10160,7 @@ function Invoke-ADCGetDnszonedomainbinding {
         Get dnszone_domain_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDnszonedomainbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dns/dnszone_domain_binding/
         Requires  : PowerShell v5.1 and up

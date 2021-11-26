@@ -30,7 +30,7 @@ function Invoke-ADCGetHanodeStats {
         Get hanode data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanodeStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ha/hanode/
         Requires  : PowerShell v5.1 and up

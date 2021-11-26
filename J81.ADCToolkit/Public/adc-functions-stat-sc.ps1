@@ -30,7 +30,7 @@ function Invoke-ADCGetScStats {
         Get sc data with a filter.
     .NOTES
         File Name : Invoke-ADCGetScStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/sc/sc.md/
         Requires  : PowerShell v5.1 and up
@@ -127,7 +127,7 @@ function Invoke-ADCGetScpolicyStats {
         Get scpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetScpolicyStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/sc/scpolicy.md/
         Requires  : PowerShell v5.1 and up

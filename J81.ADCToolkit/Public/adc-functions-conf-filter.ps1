@@ -31,7 +31,7 @@ function Invoke-ADCAddFilteraction {
         An example how to add filteraction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddFilteraction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filteraction.md/
         Requires  : PowerShell v5.1 and up
@@ -115,7 +115,7 @@ function Invoke-ADCDeleteFilteraction {
         An example how to delete filteraction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteFilteraction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filteraction.md/
         Requires  : PowerShell v5.1 and up
@@ -182,7 +182,7 @@ function Invoke-ADCUpdateFilteraction {
         An example how to update filteraction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateFilteraction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filteraction.md/
         Requires  : PowerShell v5.1 and up
@@ -262,7 +262,7 @@ function Invoke-ADCUnsetFilteraction {
         An example how to unset filteraction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetFilteraction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filteraction.md
         Requires  : PowerShell v5.1 and up
@@ -342,7 +342,7 @@ function Invoke-ADCGetFilteraction {
         Get filteraction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetFilteraction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filteraction.md/
         Requires  : PowerShell v5.1 and up
@@ -440,7 +440,7 @@ function Invoke-ADCGetFilterglobalbinding {
         Get filterglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetFilterglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterglobal_binding.md/
         Requires  : PowerShell v5.1 and up
@@ -517,7 +517,7 @@ function Invoke-ADCAddFilterglobalfilterpolicybinding {
         An example how to add filterglobal_filterpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddFilterglobalfilterpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterglobal_filterpolicy_binding.md/
         Requires  : PowerShell v5.1 and up
@@ -585,7 +585,7 @@ function Invoke-ADCDeleteFilterglobalfilterpolicybinding {
         An example how to delete filterglobal_filterpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteFilterglobalfilterpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterglobal_filterpolicy_binding.md/
         Requires  : PowerShell v5.1 and up
@@ -659,7 +659,7 @@ function Invoke-ADCGetFilterglobalfilterpolicybinding {
         Get filterglobal_filterpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetFilterglobalfilterpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterglobal_filterpolicy_binding.md/
         Requires  : PowerShell v5.1 and up
@@ -739,7 +739,7 @@ function Invoke-ADCUpdateFilterhtmlinjectionparameter {
         An example how to update filterhtmlinjectionparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateFilterhtmlinjectionparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterhtmlinjectionparameter.md/
         Requires  : PowerShell v5.1 and up
@@ -811,7 +811,7 @@ function Invoke-ADCUnsetFilterhtmlinjectionparameter {
         An example how to unset filterhtmlinjectionparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetFilterhtmlinjectionparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterhtmlinjectionparameter.md
         Requires  : PowerShell v5.1 and up
@@ -891,7 +891,7 @@ function Invoke-ADCGetFilterhtmlinjectionparameter {
         Get filterhtmlinjectionparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetFilterhtmlinjectionparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterhtmlinjectionparameter.md/
         Requires  : PowerShell v5.1 and up
@@ -965,7 +965,7 @@ function Invoke-ADCAddFilterhtmlinjectionvariable {
         An example how to add filterhtmlinjectionvariable configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddFilterhtmlinjectionvariable
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterhtmlinjectionvariable.md/
         Requires  : PowerShell v5.1 and up
@@ -1031,7 +1031,7 @@ function Invoke-ADCDeleteFilterhtmlinjectionvariable {
         An example how to delete filterhtmlinjectionvariable configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteFilterhtmlinjectionvariable
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterhtmlinjectionvariable.md/
         Requires  : PowerShell v5.1 and up
@@ -1091,7 +1091,7 @@ function Invoke-ADCUpdateFilterhtmlinjectionvariable {
         An example how to update filterhtmlinjectionvariable configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateFilterhtmlinjectionvariable
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterhtmlinjectionvariable.md/
         Requires  : PowerShell v5.1 and up
@@ -1159,7 +1159,7 @@ function Invoke-ADCUnsetFilterhtmlinjectionvariable {
         An example how to unset filterhtmlinjectionvariable configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetFilterhtmlinjectionvariable
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterhtmlinjectionvariable.md
         Requires  : PowerShell v5.1 and up
@@ -1238,7 +1238,7 @@ function Invoke-ADCGetFilterhtmlinjectionvariable {
         Get filterhtmlinjectionvariable data with a filter.
     .NOTES
         File Name : Invoke-ADCGetFilterhtmlinjectionvariable
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterhtmlinjectionvariable.md/
         Requires  : PowerShell v5.1 and up
@@ -1329,7 +1329,7 @@ function Invoke-ADCAddFilterpolicy {
         An example how to add filterpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddFilterpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpolicy.md/
         Requires  : PowerShell v5.1 and up
@@ -1406,7 +1406,7 @@ function Invoke-ADCDeleteFilterpolicy {
         An example how to delete filterpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteFilterpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpolicy.md/
         Requires  : PowerShell v5.1 and up
@@ -1471,7 +1471,7 @@ function Invoke-ADCUpdateFilterpolicy {
         An example how to update filterpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateFilterpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpolicy.md/
         Requires  : PowerShell v5.1 and up
@@ -1567,7 +1567,7 @@ function Invoke-ADCGetFilterpolicy {
         Get filterpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetFilterpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpolicy.md/
         Requires  : PowerShell v5.1 and up
@@ -1667,7 +1667,7 @@ function Invoke-ADCGetFilterpolicybinding {
         Get filterpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetFilterpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpolicy_binding.md/
         Requires  : PowerShell v5.1 and up
@@ -1762,7 +1762,7 @@ function Invoke-ADCGetFilterpolicycrvserverbinding {
         Get filterpolicy_crvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetFilterpolicycrvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpolicy_crvserver_binding.md/
         Requires  : PowerShell v5.1 and up
@@ -1860,7 +1860,7 @@ function Invoke-ADCGetFilterpolicycsvserverbinding {
         Get filterpolicy_csvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetFilterpolicycsvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpolicy_csvserver_binding.md/
         Requires  : PowerShell v5.1 and up
@@ -1958,7 +1958,7 @@ function Invoke-ADCGetFilterpolicyfilterglobalbinding {
         Get filterpolicy_filterglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetFilterpolicyfilterglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpolicy_filterglobal_binding.md/
         Requires  : PowerShell v5.1 and up
@@ -2056,7 +2056,7 @@ function Invoke-ADCGetFilterpolicylbvserverbinding {
         Get filterpolicy_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetFilterpolicylbvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpolicy_lbvserver_binding.md/
         Requires  : PowerShell v5.1 and up
@@ -2133,7 +2133,7 @@ function Invoke-ADCUpdateFilterpostbodyinjection {
         An example how to update filterpostbodyinjection configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateFilterpostbodyinjection
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpostbodyinjection.md/
         Requires  : PowerShell v5.1 and up
@@ -2190,7 +2190,7 @@ function Invoke-ADCUnsetFilterpostbodyinjection {
         An example how to unset filterpostbodyinjection configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetFilterpostbodyinjection
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpostbodyinjection.md
         Requires  : PowerShell v5.1 and up
@@ -2261,7 +2261,7 @@ function Invoke-ADCGetFilterpostbodyinjection {
         Get filterpostbodyinjection data with a filter.
     .NOTES
         File Name : Invoke-ADCGetFilterpostbodyinjection
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterpostbodyinjection.md/
         Requires  : PowerShell v5.1 and up
@@ -2331,7 +2331,7 @@ function Invoke-ADCUpdateFilterprebodyinjection {
         An example how to update filterprebodyinjection configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateFilterprebodyinjection
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterprebodyinjection.md/
         Requires  : PowerShell v5.1 and up
@@ -2388,7 +2388,7 @@ function Invoke-ADCUnsetFilterprebodyinjection {
         An example how to unset filterprebodyinjection configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetFilterprebodyinjection
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterprebodyinjection.md
         Requires  : PowerShell v5.1 and up
@@ -2459,7 +2459,7 @@ function Invoke-ADCGetFilterprebodyinjection {
         Get filterprebodyinjection data with a filter.
     .NOTES
         File Name : Invoke-ADCGetFilterprebodyinjection
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/filter/filterprebodyinjection.md/
         Requires  : PowerShell v5.1 and up

@@ -30,7 +30,7 @@ function Invoke-ADCGetCacheStats {
         Get cache data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCacheStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cache/cache/
         Requires  : PowerShell v5.1 and up
@@ -127,7 +127,7 @@ function Invoke-ADCGetCachecontentgroupStats {
         Get cachecontentgroup data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachecontentgroupStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cache/cachecontentgroup/
         Requires  : PowerShell v5.1 and up
@@ -219,7 +219,7 @@ function Invoke-ADCGetCachepolicyStats {
         Get cachepolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachepolicyStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cache/cachepolicy/
         Requires  : PowerShell v5.1 and up
@@ -311,7 +311,7 @@ function Invoke-ADCGetCachepolicylabelStats {
         Get cachepolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachepolicylabelStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cache/cachepolicylabel/
         Requires  : PowerShell v5.1 and up

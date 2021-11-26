@@ -13,7 +13,7 @@ function Invoke-ADCUpdateScparameter {
         An example how to update scparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateScparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scparameter.md/
         Requires  : PowerShell v5.1 and up
@@ -75,7 +75,7 @@ function Invoke-ADCUnsetScparameter {
         An example how to unset scparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetScparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scparameter.md
         Requires  : PowerShell v5.1 and up
@@ -149,7 +149,7 @@ function Invoke-ADCGetScparameter {
         Get scparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetScparameter
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scparameter.md/
         Requires  : PowerShell v5.1 and up
@@ -244,7 +244,7 @@ function Invoke-ADCAddScpolicy {
         An example how to add scpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddScpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scpolicy.md/
         Requires  : PowerShell v5.1 and up
@@ -333,7 +333,7 @@ function Invoke-ADCDeleteScpolicy {
         An example how to delete scpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteScpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scpolicy.md/
         Requires  : PowerShell v5.1 and up
@@ -414,7 +414,7 @@ function Invoke-ADCUpdateScpolicy {
         An example how to update scpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateScpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scpolicy.md/
         Requires  : PowerShell v5.1 and up
@@ -507,7 +507,7 @@ function Invoke-ADCUnsetScpolicy {
         An example how to unset scpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetScpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scpolicy.md
         Requires  : PowerShell v5.1 and up
@@ -590,7 +590,7 @@ function Invoke-ADCGetScpolicy {
         Get scpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetScpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scpolicy.md/
         Requires  : PowerShell v5.1 and up

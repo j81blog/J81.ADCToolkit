@@ -11,7 +11,7 @@ function Invoke-ADCDeleteAuditmessageaction {
         An example how to delete auditmessageaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAuditmessageaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditmessageaction/
         Requires  : PowerShell v5.1 and up
@@ -89,7 +89,7 @@ function Invoke-ADCUpdateAuditmessageaction {
         An example how to update auditmessageaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAuditmessageaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditmessageaction/
         Requires  : PowerShell v5.1 and up
@@ -172,7 +172,7 @@ function Invoke-ADCUnsetAuditmessageaction {
         An example how to unset auditmessageaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetAuditmessageaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditmessageaction
         Requires  : PowerShell v5.1 and up
@@ -255,7 +255,7 @@ function Invoke-ADCAddAuditmessageaction {
         An example how to add auditmessageaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAuditmessageaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditmessageaction/
         Requires  : PowerShell v5.1 and up
@@ -356,7 +356,7 @@ function Invoke-ADCGetAuditmessageaction {
         Get auditmessageaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditmessageaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditmessageaction/
         Requires  : PowerShell v5.1 and up
@@ -472,7 +472,7 @@ function Invoke-ADCGetAuditmessages {
         Get auditmessages data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditmessages
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditmessages/
         Requires  : PowerShell v5.1 and up
@@ -624,7 +624,7 @@ function Invoke-ADCUnsetAuditnslogaction {
         An example how to unset auditnslogaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetAuditnslogaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogaction
         Requires  : PowerShell v5.1 and up
@@ -724,7 +724,7 @@ function Invoke-ADCDeleteAuditnslogaction {
         An example how to delete auditnslogaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAuditnslogaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogaction/
         Requires  : PowerShell v5.1 and up
@@ -855,7 +855,7 @@ function Invoke-ADCUpdateAuditnslogaction {
         An example how to update auditnslogaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAuditnslogaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogaction/
         Requires  : PowerShell v5.1 and up
@@ -1064,7 +1064,7 @@ function Invoke-ADCAddAuditnslogaction {
         An example how to add auditnslogaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAuditnslogaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogaction/
         Requires  : PowerShell v5.1 and up
@@ -1220,7 +1220,7 @@ function Invoke-ADCGetAuditnslogaction {
         Get auditnslogaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditnslogaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogaction/
         Requires  : PowerShell v5.1 and up
@@ -1309,7 +1309,7 @@ function Invoke-ADCAddAuditnslogglobalauditnslogpolicybinding {
         An example how to add auditnslogglobal_auditnslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAuditnslogglobalauditnslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1383,7 +1383,7 @@ function Invoke-ADCDeleteAuditnslogglobalauditnslogpolicybinding {
         An example how to delete auditnslogglobal_auditnslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAuditnslogglobalauditnslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1460,7 +1460,7 @@ function Invoke-ADCGetAuditnslogglobalauditnslogpolicybinding {
         Get auditnslogglobal_auditnslogpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditnslogglobalauditnslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1549,7 +1549,7 @@ function Invoke-ADCGetAuditnslogglobalbinding {
         Get auditnslogglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditnslogglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -1684,7 +1684,7 @@ function Invoke-ADCUnsetAuditnslogparams {
         An example how to unset auditnslogparams configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetAuditnslogparams
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogparams
         Requires  : PowerShell v5.1 and up
@@ -1849,7 +1849,7 @@ function Invoke-ADCUpdateAuditnslogparams {
         An example how to update auditnslogparams configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAuditnslogparams
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogparams/
         Requires  : PowerShell v5.1 and up
@@ -1980,7 +1980,7 @@ function Invoke-ADCGetAuditnslogparams {
         Get auditnslogparams data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditnslogparams
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogparams/
         Requires  : PowerShell v5.1 and up
@@ -2058,7 +2058,7 @@ function Invoke-ADCAddAuditnslogpolicy {
         An example how to add auditnslogpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAuditnslogpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogpolicy/
         Requires  : PowerShell v5.1 and up
@@ -2133,7 +2133,7 @@ function Invoke-ADCDeleteAuditnslogpolicy {
         An example how to delete auditnslogpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAuditnslogpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogpolicy/
         Requires  : PowerShell v5.1 and up
@@ -2197,7 +2197,7 @@ function Invoke-ADCUpdateAuditnslogpolicy {
         An example how to update auditnslogpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAuditnslogpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogpolicy/
         Requires  : PowerShell v5.1 and up
@@ -2289,7 +2289,7 @@ function Invoke-ADCGetAuditnslogpolicy {
         Get auditnslogpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditnslogpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogpolicy/
         Requires  : PowerShell v5.1 and up
@@ -2392,7 +2392,7 @@ function Invoke-ADCGetAuditnslogpolicyaaagroupbinding {
         Get auditnslogpolicy_aaagroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditnslogpolicyaaagroupbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogpolicy_aaagroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -2490,7 +2490,7 @@ function Invoke-ADCGetAuditnslogpolicyaaauserbinding {
         Get auditnslogpolicy_aaauser_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditnslogpolicyaaauserbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogpolicy_aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -2588,7 +2588,7 @@ function Invoke-ADCGetAuditnslogpolicyappfwglobalbinding {
         Get auditnslogpolicy_appfwglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditnslogpolicyappfwglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogpolicy_appfwglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -2686,7 +2686,7 @@ function Invoke-ADCGetAuditnslogpolicyauditnslogglobalbinding {
         Get auditnslogpolicy_auditnslogglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditnslogpolicyauditnslogglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogpolicy_auditnslogglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -2784,7 +2784,7 @@ function Invoke-ADCGetAuditnslogpolicyauthenticationvserverbinding {
         Get auditnslogpolicy_authenticationvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditnslogpolicyauthenticationvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogpolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -2879,7 +2879,7 @@ function Invoke-ADCGetAuditnslogpolicybinding {
         Get auditnslogpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditnslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -2974,7 +2974,7 @@ function Invoke-ADCGetAuditnslogpolicycsvserverbinding {
         Get auditnslogpolicy_csvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditnslogpolicycsvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3072,7 +3072,7 @@ function Invoke-ADCGetAuditnslogpolicylbvserverbinding {
         Get auditnslogpolicy_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditnslogpolicylbvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3170,7 +3170,7 @@ function Invoke-ADCGetAuditnslogpolicysystemglobalbinding {
         Get auditnslogpolicy_systemglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditnslogpolicysystemglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogpolicy_systemglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -3268,7 +3268,7 @@ function Invoke-ADCGetAuditnslogpolicytmglobalbinding {
         Get auditnslogpolicy_tmglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditnslogpolicytmglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogpolicy_tmglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -3366,7 +3366,7 @@ function Invoke-ADCGetAuditnslogpolicyvpnglobalbinding {
         Get auditnslogpolicy_vpnglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditnslogpolicyvpnglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogpolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -3464,7 +3464,7 @@ function Invoke-ADCGetAuditnslogpolicyvpnvserverbinding {
         Get auditnslogpolicy_vpnvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditnslogpolicyvpnvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditnslogpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -3616,7 +3616,7 @@ function Invoke-ADCUnsetAuditsyslogaction {
         An example how to unset auditsyslogaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetAuditsyslogaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogaction
         Requires  : PowerShell v5.1 and up
@@ -3815,7 +3815,7 @@ function Invoke-ADCUpdateAuditsyslogaction {
         An example how to update auditsyslogaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAuditsyslogaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogaction/
         Requires  : PowerShell v5.1 and up
@@ -3971,7 +3971,7 @@ function Invoke-ADCDeleteAuditsyslogaction {
         An example how to delete auditsyslogaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAuditsyslogaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogaction/
         Requires  : PowerShell v5.1 and up
@@ -4115,7 +4115,7 @@ function Invoke-ADCAddAuditsyslogaction {
         An example how to add auditsyslogaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAuditsyslogaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogaction/
         Requires  : PowerShell v5.1 and up
@@ -4295,7 +4295,7 @@ function Invoke-ADCGetAuditsyslogaction {
         Get auditsyslogaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditsyslogaction
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogaction/
         Requires  : PowerShell v5.1 and up
@@ -4384,7 +4384,7 @@ function Invoke-ADCAddAuditsyslogglobalauditsyslogpolicybinding {
         An example how to add auditsyslogglobal_auditsyslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAuditsyslogglobalauditsyslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4458,7 +4458,7 @@ function Invoke-ADCDeleteAuditsyslogglobalauditsyslogpolicybinding {
         An example how to delete auditsyslogglobal_auditsyslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAuditsyslogglobalauditsyslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4535,7 +4535,7 @@ function Invoke-ADCGetAuditsyslogglobalauditsyslogpolicybinding {
         Get auditsyslogglobal_auditsyslogpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditsyslogglobalauditsyslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4624,7 +4624,7 @@ function Invoke-ADCGetAuditsyslogglobalbinding {
         Get auditsyslogglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditsyslogglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -4762,7 +4762,7 @@ function Invoke-ADCUnsetAuditsyslogparams {
         An example how to unset auditsyslogparams configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetAuditsyslogparams
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogparams
         Requires  : PowerShell v5.1 and up
@@ -4933,7 +4933,7 @@ function Invoke-ADCUpdateAuditsyslogparams {
         An example how to update auditsyslogparams configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAuditsyslogparams
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogparams/
         Requires  : PowerShell v5.1 and up
@@ -5068,7 +5068,7 @@ function Invoke-ADCGetAuditsyslogparams {
         Get auditsyslogparams data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditsyslogparams
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogparams/
         Requires  : PowerShell v5.1 and up
@@ -5146,7 +5146,7 @@ function Invoke-ADCUpdateAuditsyslogpolicy {
         An example how to update auditsyslogpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAuditsyslogpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogpolicy/
         Requires  : PowerShell v5.1 and up
@@ -5224,7 +5224,7 @@ function Invoke-ADCAddAuditsyslogpolicy {
         An example how to add auditsyslogpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAuditsyslogpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogpolicy/
         Requires  : PowerShell v5.1 and up
@@ -5299,7 +5299,7 @@ function Invoke-ADCDeleteAuditsyslogpolicy {
         An example how to delete auditsyslogpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAuditsyslogpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogpolicy/
         Requires  : PowerShell v5.1 and up
@@ -5377,7 +5377,7 @@ function Invoke-ADCGetAuditsyslogpolicy {
         Get auditsyslogpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditsyslogpolicy
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogpolicy/
         Requires  : PowerShell v5.1 and up
@@ -5480,7 +5480,7 @@ function Invoke-ADCGetAuditsyslogpolicyaaagroupbinding {
         Get auditsyslogpolicy_aaagroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditsyslogpolicyaaagroupbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogpolicy_aaagroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -5578,7 +5578,7 @@ function Invoke-ADCGetAuditsyslogpolicyaaauserbinding {
         Get auditsyslogpolicy_aaauser_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditsyslogpolicyaaauserbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogpolicy_aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -5676,7 +5676,7 @@ function Invoke-ADCGetAuditsyslogpolicyauditsyslogglobalbinding {
         Get auditsyslogpolicy_auditsyslogglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditsyslogpolicyauditsyslogglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogpolicy_auditsyslogglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -5774,7 +5774,7 @@ function Invoke-ADCGetAuditsyslogpolicyauthenticationvserverbinding {
         Get auditsyslogpolicy_authenticationvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditsyslogpolicyauthenticationvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogpolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5869,7 +5869,7 @@ function Invoke-ADCGetAuditsyslogpolicybinding {
         Get auditsyslogpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditsyslogpolicybinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5964,7 +5964,7 @@ function Invoke-ADCGetAuditsyslogpolicycsvserverbinding {
         Get auditsyslogpolicy_csvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditsyslogpolicycsvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -6062,7 +6062,7 @@ function Invoke-ADCGetAuditsyslogpolicylbvserverbinding {
         Get auditsyslogpolicy_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditsyslogpolicylbvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -6160,7 +6160,7 @@ function Invoke-ADCGetAuditsyslogpolicyrnatglobalbinding {
         Get auditsyslogpolicy_rnatglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditsyslogpolicyrnatglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogpolicy_rnatglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -6258,7 +6258,7 @@ function Invoke-ADCGetAuditsyslogpolicysystemglobalbinding {
         Get auditsyslogpolicy_systemglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditsyslogpolicysystemglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogpolicy_systemglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -6356,7 +6356,7 @@ function Invoke-ADCGetAuditsyslogpolicytmglobalbinding {
         Get auditsyslogpolicy_tmglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditsyslogpolicytmglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogpolicy_tmglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -6454,7 +6454,7 @@ function Invoke-ADCGetAuditsyslogpolicyvpnglobalbinding {
         Get auditsyslogpolicy_vpnglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditsyslogpolicyvpnglobalbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogpolicy_vpnglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -6552,7 +6552,7 @@ function Invoke-ADCGetAuditsyslogpolicyvpnvserverbinding {
         Get auditsyslogpolicy_vpnvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAuditsyslogpolicyvpnvserverbinding
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/audit/auditsyslogpolicy_vpnvserver_binding/
         Requires  : PowerShell v5.1 and up

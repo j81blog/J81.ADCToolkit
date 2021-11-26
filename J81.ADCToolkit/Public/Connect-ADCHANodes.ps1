@@ -15,10 +15,11 @@ function Connect-ADCHANodes {
     .PARAMETER PassThru
         Return the ADC session object
     .EXAMPLE
-        Connect-ADCNode -ManagementURL https://citrixacd.domain.local -Credential (Get-Credential)
+        PS C:\>Connect-ADCHANode -ManagementURL https://citrixacd.domain.local -Credential (Get-Credential)
+        Connect to the ADC  nodes with specified management url and credential
     .NOTES
         File Name : Connect-ADCHANodes
-        Version   : v2111.1520
+        Version   : v2111.2522
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up

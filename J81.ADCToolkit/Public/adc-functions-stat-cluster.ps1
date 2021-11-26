@@ -29,7 +29,7 @@ function Invoke-ADCGetClusterinstanceStats {
         Get clusterinstance data with a filter.
     .NOTES
         File Name : Invoke-ADCGetClusterinstanceStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cluster/clusterinstance/
         Requires  : PowerShell v5.1 and up
@@ -121,7 +121,7 @@ function Invoke-ADCGetClusternodeStats {
         Get clusternode data with a filter.
     .NOTES
         File Name : Invoke-ADCGetClusternodeStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cluster/clusternode/
         Requires  : PowerShell v5.1 and up

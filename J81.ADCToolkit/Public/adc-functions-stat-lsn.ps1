@@ -30,7 +30,7 @@ function Invoke-ADCGetLsnStats {
         Get lsn data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/lsn/lsn/
         Requires  : PowerShell v5.1 and up
@@ -128,7 +128,7 @@ function Invoke-ADCGetLsndsliteStats {
         Get lsndslite data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsndsliteStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/lsn/lsndslite/
         Requires  : PowerShell v5.1 and up
@@ -225,7 +225,7 @@ function Invoke-ADCGetLsngroupStats {
         Get lsngroup data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngroupStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/lsn/lsngroup/
         Requires  : PowerShell v5.1 and up
@@ -318,7 +318,7 @@ function Invoke-ADCGetLsnnat64Stats {
         Get lsnnat64 data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnnat64Stats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/lsn/lsnnat64/
         Requires  : PowerShell v5.1 and up
@@ -415,7 +415,7 @@ function Invoke-ADCGetLsnpoolStats {
         Get lsnpool data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnpoolStats
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/lsn/lsnpool/
         Requires  : PowerShell v5.1 and up

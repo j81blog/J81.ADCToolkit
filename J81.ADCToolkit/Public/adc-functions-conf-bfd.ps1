@@ -34,7 +34,7 @@ function Invoke-ADCGetBfdsession {
         Get bfdsession data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBfdsession
-        Version   : v2111.2111
+        Version   : v2111.2521
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/bfd/bfdsession/
         Requires  : PowerShell v5.1 and up
