@@ -11,7 +11,7 @@ function Get-ADCSession {
         Get the active session and if not found, try to connect
     .NOTES
         File Name : Get-ADCSession
-        Version   : v2111.2522
+        Version   : v2111.2607
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -48,7 +48,11 @@ function Get-ADCSession {
                 $MessageText = ": $ManagementURL"
             }
         } finally { }
-
+        if (-Not [String]::IsNullOrEmpty($($ADCSession.Username))) {
+            $Username = $ADCSession.Username
+        } else {
+            $Username = $null
+        }
         try {
             #Test if Parameter ADCCredential is a valid credential
             $tempCredential = Get-Variable -Name ADCCredential -Scope Script -ValueOnly -ErrorAction SilentlyContinue
@@ -75,7 +79,7 @@ function Get-ADCSession {
             #Test if Global ADCCredential is a valid credential
             if (([String]::IsNullOrEmpty($ADCCredential)) -or ($ADCCredential -eq [System.Management.Automation.PSCredential]::Empty)) {
                 #No valid credential was found, requesting credential.
-                $ADCCredential = (Get-Credential -Message "Enter username and password for the Citrix ADC`r`nE.g. nsroot / P@ssw0rd" )
+                $ADCCredential = (Get-Credential -Message "Enter username and password for the Citrix ADC`r`nE.g. nsroot / P@ssw0rd" -UserName $Username)
             }
         } finally { }
         try {
