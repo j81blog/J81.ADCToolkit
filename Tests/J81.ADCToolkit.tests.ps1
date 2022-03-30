@@ -32,6 +32,14 @@ Describe "General project validation" {
         $errors.Count | Should -Be 0
     }
 
+    It "Script <file.Name> should be signed" -TestCases $testCase {
+        param ($file)
+
+        $file.FullName | Should -Exist
+        $Status = Get-AuthenticodeSignature -FilePath $file.FullName | Select-Object -ExpandProperty Status
+        $Status | Should -Be "Valid"
+    }
+
     It "Script <file.Name> should pass ScriptAnalyzer" -TestCases $testCase {
         param ($file)
         $analysis = Invoke-ScriptAnalyzer -Path  $file.FullName -ExcludeRule @(
@@ -89,8 +97,8 @@ Describe "Module Metadata validation" {
 # SIG # Begin signature block
 # MIITYgYJKoZIhvcNAQcCoIITUzCCE08CAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCB1h8ND8G/cJ7QO
-# fUbnUrt+NectzPQAygQ2ZBLCa91/oKCCEHUwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCt04/u7/Wdl2BC
+# L2/NKl7XMzhSsyMz0BeSp4UTv8zSYqCCEHUwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -184,11 +192,11 @@ Describe "Module Metadata validation" {
 # IFNpZ25pbmcgQ0ECECwnTfNkELSL/bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQw
 # GAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGC
 # NwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQx
-# IgQgnlbBmSMMZITgwh3IxMwxkc/c7ivBIIy6a7lZaP60yMAwDQYJKoZIhvcNAQEB
-# BQAEggEAdYwtL/of1/L0F3AuKAgU6LuBfm5p17Bby+04HxCZyIHbbvTrzCSk3sk+
-# +D/ntun8ZMz2slNt8q8q+fEcBzo6UKrCOQ6lnZ2zY3Fld8qA0m4eRyTYssY8izZ0
-# dYFUd05CE8XvU1+U9UWVcWzke8rUZyoDl91KPJRwF4aKp9XkezNWBMM5n/Hdnw7P
-# ofk5XVAQsIoI89HvGfHS2mb0o984MV+U7hipY7GVsWstDxmBDKTKsUp2sm9Vp1oK
-# LPm3L0d14TBUeOFyJDfoRXGVKON6ZFE5mkMwHqeqCwW+Bm/Lmjmy+1JldD7bZq3U
-# QY4DekFUr9I4DIuR9QYb6a3rjIAnVA==
+# IgQgS0y4Yyrl8/q12KD41wYwp0oUCH3i7KUTuLobaYuU4fMwDQYJKoZIhvcNAQEB
+# BQAEggEAkSMe0rYMJpTI+hz7e4xHEjKR6T+Rc23WbQmGt6zjHBBkCPbuxmy+aJCN
+# yF9gu1qLuJaZtD1Ra9+HcYqPinGxr/YJktY7O8cc/vRFrS8T67+o+YoZKNkid80R
+# kW+7dfjWs2DBUvs94G7YrY9PylvJ8UzBLDFBAEhyJgfW/tWK8EXWvEIenxKv9SPV
+# E7PfNNNxBUjT51HeqrOfWEuX7pbG6joFJ97jn30giSP64hi4LGcsH+MKJfldA2y/
+# KoI4XAnbVeLnUo6+K8y0hvXBkKJPRMvyOLXdk/feJ5l2zOUlFpvYVZgAEuEMlpz8
+# j0VDaNJBJSZ5StekBZ59KTZ3fBNPeg==
 # SIG # End signature block
