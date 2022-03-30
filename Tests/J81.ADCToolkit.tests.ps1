@@ -34,10 +34,9 @@ Describe "General project validation" {
 
     It "Script <file.Name> should be signed" -TestCases $testCase {
         param ($file)
-
         $file.FullName | Should -Exist
-        $Status = Get-AuthenticodeSignature -FilePath $file.FullName | Select-Object -ExpandProperty Status
-        $Status | Should -Be "Valid"
+        $Signature = Get-AuthenticodeSignature -FilePath $file
+        $Signature.Status | Should -Be "Valid"
     }
 
     It "Script <file.Name> should pass ScriptAnalyzer" -TestCases $testCase {
