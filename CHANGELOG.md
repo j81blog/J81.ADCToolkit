@@ -44,3 +44,6 @@
 ## 2111.10
 * Fixed issue with Get-ADCSession
 * Added Disconnect-ADCNode
+
+## 2203.11
+* Fixed issue with Invoke-ADCCleanCertKeyFiles, files weren't deleted and returned an error
