@@ -30,7 +30,7 @@ function Invoke-ADCGetAppfwStats {
         Get appfw data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppfwStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/appfw/appfw/
         Requires  : PowerShell v5.1 and up
@@ -127,7 +127,7 @@ function Invoke-ADCGetAppfwpolicyStats {
         Get appfwpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicyStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/appfw/appfwpolicy/
         Requires  : PowerShell v5.1 and up
@@ -219,7 +219,7 @@ function Invoke-ADCGetAppfwpolicylabelStats {
         Get appfwpolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppfwpolicylabelStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/appfw/appfwpolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -311,7 +311,7 @@ function Invoke-ADCGetAppfwprofileStats {
         Get appfwprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAppfwprofileStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/appfw/appfwprofile/
         Requires  : PowerShell v5.1 and up
@@ -375,8 +375,8 @@ function Invoke-ADCGetAppfwprofileStats {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCD27YNfWMpPOFcF
-# qX40hnPhLsr5SS0k++c1lrN5CVG1c6CCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCAWWBjoruOQ9gCa
+# k1J5RymptvhwJGqC/SKfhohk8ghLRKCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -544,29 +544,29 @@ function Invoke-ADCGetAppfwprofileStats {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQg3/ZvnkUl2U3JASADzcck/H1h
-# PU41DTHn+FXIlSamwUwwDQYJKoZIhvcNAQEBBQAEggEAdBC4wWrb3/Zuf6hpeATl
-# e4FV9SSdYTmiuO98iqDuxXWkUYfJG5CXzkDjk2JU3ln6D7WHbtXYWHgn/WFlsnDS
-# BX33QlijBfEo2ZKFPE2iw9ckwXm61cxMpVH6on0SRbeyw4T2/6G/wx4dXjSb3Uab
-# VkMQZQ9bpujSezPdzh3Fauu/Me54lllBwRSzU00TJ9z+DAn4KJcQXh/WMHzB0612
-# zKC5k83l0TdxQUlD/wb8olZmu+38HlMg2DYRc65Pw/2aB7MbCdcfHv104EXHPl4T
-# OWPv4pLabMpQPAQgESYsrTWnQvGHmE/flyuxN5onUaJrGfn7vN2sGHIMkFKL//hY
-# CqGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgY43OvwoqknZ05f/If5aczmyu
+# rb1PJgDrvBNIIg/B3zkwDQYJKoZIhvcNAQEBBQAEggEAGvvbnGJm3NJt+HV93kLq
+# b+QM+DmLgyOU3NUMvWVyGrE0VOhxXbbakq3Vs2ELtSO9Ihgi9fdWBjXwvFf5jhK+
+# yBsIEApbLvCtPfg3mXC6vnjlGgjg3Hg1v4s3jS5vr8+LFqx5mdnPm2ufTMc74SUi
+# vCQopGvNS7n4Pg75mKEBgaTiwC5JVAz/9q1mz3ViUsNAvAlzAQegksm61ufwjKIC
+# Ynt+ZGUOfAIMqvySump77WXgw/1z0MKYAznBksulvvIRvtCv8vcFaOGW/cUWzwEu
+# SLg0I4B7vNsirm3TfaFZvHgH8pUG7B6x2ByBIWkVJzlv/oiKSzI8xgu19FwFvCrI
+# Y6GCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzNDAyWjA/BgkqhkiG9w0BCQQxMgQw2vB9+VTft/F26G4uh67LWWyJ
-# Xq2/lFbOl6Iqwg/I0GRy0Kl21muxLajfQCUqmLzrMA0GCSqGSIb3DQEBAQUABIIC
-# ACNn/j+kzI9KT1uPftSjb01ao576g++zoo5gf8mThjjATro0PP1865X4ZpTAPRZL
-# pnSiUWmCm0gQXUCuERzldIN4OOPB95v7YZyaO+3IeyKKr1t5gUlZU36MaFboKQ/V
-# JT5GnNrlFx7Xh3QqKHYjM1znPF24GXt2wGvqHPc+lvXl+EuIYanhlft4toMeK++2
-# Lel+3Sx9vuFXojbcy26zPNKifuwMN6TvOHDA/2v0pxs/eLZs6rlW/I1tmAf0Wryb
-# k4EDumaPgaWrI+K60q8RxZYztcYe8NHGtyxhPJwBkysE5D4GVLx5JJOEqaI1A161
-# NhBAvgHNUv/5yTkNpeRyt/kX3J+Fi5ua682hflmcxyFlCwIY1XsfQ2/Q4Rz5wbGG
-# jhOoBUfHPds7xmljA68AeytAUuzYdO/ayceN54PO2anXpnYfWUZy6ancU9iggl1U
-# 33GzIQCG43Vz7oSpYdUu8ulYly8xou58kMeJZq4jcVrcoVG8jZn4Ac5vMBo/MuXM
-# 4Lx0HbJ7eB8fcVW90XRcpjRq9yUVFBODKdVuKOnO9cYlR+PdhtyVitm/o2fJflwV
-# eOTfxNukbsWp2T461D+yfBbI2ruX07GGQoCcX4fFHDCv/oIdCaXkEgnWJLUer1Y5
-# nqkdHnV8Y/ngppmxFWTwKy7fSvlVeXf/JUPni4IIHZi0
+# MjIwNDAzMTkwODAzWjA/BgkqhkiG9w0BCQQxMgQw+0BjSuMcPykLN/UGmPaZtAFy
+# SFrmyufNdeaPxDuTpVk4B3xSfX3navgqUdt4ZZAZMA0GCSqGSIb3DQEBAQUABIIC
+# ABnHYF8WRwrQq1Jb6/sELO1u0lCRFefwE0Kr+jbhFnqAG8V5js77VHsR/UzrfaHh
+# 8V9DmOXf18S/wv3MjQ14aHVjUKxZXYZ9IAoIeb3mzvclklYzzovDYxMTRZIkh390
+# rBHLZAAD5uqwy93KvKqvwX/PM1s1xAIBrcz9YxbYFJx+2vBij39jpDyvmN4Ku+OF
+# mZdW4eAcyichq9aSLdbfzuDsmpoGbeasa67Qfbjc8L3dR3siKx8ROt0ode8NgCMD
+# uCxhO37umdqAqeQ++zoSSvxT87KAuWoYGfRys/ihV78LcTioawDBgXO3m0EA8xKt
+# Ttq4RUaNX5SUa9nOnkW3YUlwKoGF+RC+yrQJ+m6PJk0AuoHMx+TqBiOrXw2u7VYo
+# gLX3w2qJt6esZKiPuHjivkOJ1z/CbJV2PYQZMemmCy5jBYmAS4ei+r/vw10JuTMp
+# zMgHUgS+vq3PjOVGu8YqvwojcjM2lkst3EdIrLqwmgayezu+pVE2ZkfhV1WY/+Dg
+# H1dqlO2+9aFRVkQrDhriR3RT19doFxtpcgasGLebm8EjFcu9/aOQQH654f5U+Nw2
+# SBC53ZvJw4mjvF619Xak0drodWu5XCFh3o29ocoaAvWRT2+oxisd1aeBmzSAE1md
+# 8HXoooFtrjIqvj0mc6LhaFiDj2PYPpA7TCbemq83K9fp
 # SIG # End signature block

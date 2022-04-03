@@ -50,7 +50,7 @@ function Invoke-ADCUpdateSubscribergxinterface {
         An example how to update subscribergxinterface configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSubscribergxinterface
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribergxinterface/
         Requires  : PowerShell v5.1 and up
@@ -200,7 +200,7 @@ function Invoke-ADCUnsetSubscribergxinterface {
         An example how to unset subscribergxinterface configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSubscribergxinterface
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribergxinterface
         Requires  : PowerShell v5.1 and up
@@ -315,7 +315,7 @@ function Invoke-ADCGetSubscribergxinterface {
         Get subscribergxinterface data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSubscribergxinterface
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribergxinterface/
         Requires  : PowerShell v5.1 and up
@@ -411,7 +411,7 @@ function Invoke-ADCUpdateSubscriberparam {
         An example how to update subscriberparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSubscriberparam
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberparam/
         Requires  : PowerShell v5.1 and up
@@ -502,7 +502,7 @@ function Invoke-ADCUnsetSubscriberparam {
         An example how to unset subscriberparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSubscriberparam
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberparam
         Requires  : PowerShell v5.1 and up
@@ -582,7 +582,7 @@ function Invoke-ADCGetSubscriberparam {
         Get subscriberparam data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSubscriberparam
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberparam/
         Requires  : PowerShell v5.1 and up
@@ -663,7 +663,7 @@ function Invoke-ADCAddSubscriberprofile {
         An example how to add subscriberprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSubscriberprofile
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile/
         Requires  : PowerShell v5.1 and up
@@ -746,7 +746,7 @@ function Invoke-ADCUpdateSubscriberprofile {
         An example how to update subscriberprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSubscriberprofile
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile/
         Requires  : PowerShell v5.1 and up
@@ -820,7 +820,7 @@ function Invoke-ADCUnsetSubscriberprofile {
         An example how to unset subscriberprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSubscriberprofile
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile
         Requires  : PowerShell v5.1 and up
@@ -879,7 +879,7 @@ function Invoke-ADCDeleteSubscriberprofile {
         An example how to delete subscriberprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSubscriberprofile
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile/
         Requires  : PowerShell v5.1 and up
@@ -956,7 +956,7 @@ function Invoke-ADCGetSubscriberprofile {
         Get subscriberprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSubscriberprofile
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberprofile/
         Requires  : PowerShell v5.1 and up
@@ -1036,7 +1036,7 @@ function Invoke-ADCUpdateSubscriberradiusinterface {
         An example how to update subscriberradiusinterface configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSubscriberradiusinterface
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberradiusinterface/
         Requires  : PowerShell v5.1 and up
@@ -1097,7 +1097,7 @@ function Invoke-ADCUnsetSubscriberradiusinterface {
         An example how to unset subscriberradiusinterface configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSubscriberradiusinterface
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberradiusinterface
         Requires  : PowerShell v5.1 and up
@@ -1168,7 +1168,7 @@ function Invoke-ADCGetSubscriberradiusinterface {
         Get subscriberradiusinterface data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSubscriberradiusinterface
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscriberradiusinterface/
         Requires  : PowerShell v5.1 and up
@@ -1240,7 +1240,7 @@ function Invoke-ADCClearSubscribersessions {
         An example how to clear subscribersessions configuration Object(s).
     .NOTES
         File Name : Invoke-ADCClearSubscribersessions
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribersessions/
         Requires  : PowerShell v5.1 and up
@@ -1325,7 +1325,7 @@ function Invoke-ADCGetSubscribersessions {
         Get subscribersessions data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSubscribersessions
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/subscriber/subscribersessions/
         Requires  : PowerShell v5.1 and up
@@ -1406,8 +1406,8 @@ function Invoke-ADCGetSubscribersessions {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCGWj04Zmi/n682
-# TEeaeVHfvPUFjKSBwiXd5Yo9+FGGv6CCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCAv/mpnTgasxglQ
+# 7RYfoyR6YUlNryNsQqXmnxUzXdWlwKCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -1575,29 +1575,29 @@ function Invoke-ADCGetSubscribersessions {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgSuoCBc0orzNkjzlVgps8sUNL
-# CXCY9pWUXGX0lr+0khYwDQYJKoZIhvcNAQEBBQAEggEAMVTnM3Lg58SyGAaqw1MB
-# 93y9NFa9tJ/2Ek3iZ8DCRoe1AZjdO1lJhRTtMHkJq7z62+9DJ8RC1g16zRrjTMXP
-# SX5qSDDZ+hYoEmUdcAu7M8FS9T9LaPk5V5feVpOWBLLU2Rzzy7Eagjef9SPh5Oia
-# MmaiANkXOc4blgSkwurTodsGlxANnlg+nN5fqvo8Qxixxqra3FNank0SNq04cHfb
-# +EqH/n9ExS5GCDo1XpEi997ehQIoMJ8YIIcKcI83UGMhcTq4e1isTGgeSXC5HXra
-# DrUemAO1S+HgcwrZY3lTVlFkGvzEqSe/+R6Y+w2inxeMM7xcFRLSsDeGPahUr5RY
-# HaGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgyQRidBbABI539OgTtfQU2lT9
+# z2Dk3/W8JrWE5ieOnMYwDQYJKoZIhvcNAQEBBQAEggEAD1dZWHfBTnFn2gSpAvON
+# EADs4AvBhrVk+BSPCXmJX3v2IS+hhwbPW+a0b59J6eCZbfVe5wC3tA4UZPr7g7jG
+# +OQAb0rPeF+Zlp85Od5MQfFxkRat4b2yAMhsngLtpTq2jClNwRP9U1mPMeGmbVKo
+# d4rcvZNzKE66QXVSggHyrcnsIoVQ1yheiKm+XyU28+Z1tJByLXn5/u0b89qcQTp9
+# jNX4ICoV11njVNXpxQ/iBqkFEPYc/y41LlNx9lckvK61SbMc+chjneLr3Cm6OC62
+# AmP1ff3/pCL2wt4cEkvJIOEjZrsNaGIQvmlpM8w5i8hcgibMx9T1pyyEg0hqGlHp
+# VaGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzMzQxWjA/BgkqhkiG9w0BCQQxMgQwkRAsHgFQyD2EqNARd2/YRqjx
-# y9kqSWCDQh6C6K3lbnYU4yh+og6WzUQTb4vR3SDEMA0GCSqGSIb3DQEBAQUABIIC
-# AFYwUoOZLwut6Og9htyGhXeW8m9Ul4YKsa+l7rUAfY+d6cUau5RDzeEdVhv41ECH
-# itrmHf5+Y18ILG3MiFjqgebjgTScU/PH+LVK3f6zkPlk5EsbKEeWEVdehzSZEHA/
-# w51oGqxxbTJxeUR8MWG147Hr+Ub3dQN8j7hgf44/Mzolks9CoFISDHtWYkFS4RVU
-# b3t21OVKOEgfiH7fnC0sBsslN6jGsFApAo3BF5xFG9X2beezaM3sxvJuEy4ql0FJ
-# tWJdR7JOtgMWLdRMmnrI0jZWepDQS9PVcOtqcNz7QjZVipyml0JbqjBzCO27F2Ig
-# uNvYn44cMxwFYzOtpGU1SeWHJrE6OT0Y+vWXC3BqCo28F3xaIevIlypVStMG+pBr
-# eurYIO+r/arWWBgSL4X0NyYeZYJop5NAfl++alq8Zj8Ep1ZdbzKlLbfeyNlHAV/y
-# Oh5FiVOz9d/bCqzGJX7A5ZLeq+U9Ivi5/wa8boJRuSdblCsbhSGmKLkpKuSxdrUR
-# vEz2GUqKQp0RBsvukdxVCxL+7zUdHY/waJGRc4tqwdj5pcjfvrQB2GVf5QGkB9UZ
-# hlUc8JtJo7RlQxoUwAnS+d+2NCiqscVn2WefQPgcuWqEmI7x0cisae24oa1zt+bN
-# pP2n//YMLqR0YYdSLy1SmwVaO0/kKcbOQ5DRRWNpPh8U
+# MjIwNDAzMTkwNzE1WjA/BgkqhkiG9w0BCQQxMgQwcj4QzXh3Efcr5i/MYV12JQfK
+# WNYZTZiQQZQexpb+hArh3TKc13oJnKttKO+3/SxDMA0GCSqGSIb3DQEBAQUABIIC
+# AGMQ/JBnXgsYd8HirdjNr13MZJyny6WXSb6ayOfUVE8+wz9QMfdCmVzI6jIGO89i
+# 3Cs9uCPYZidwF4XGQThBw2rBDnJ5HZBTzyIT5CkE3I3YajVF+3iFrPoub1NUQQiD
+# Ky7E47/xe4wVYxD0fsqL5Wx3wBSWEz4kL4XGoijZ+ez0u/DUk29+gvNP9BihRG6d
+# Jy11g8nZaVcrraFZDdq7EgzG5XOhSGDGCFv4PwDQqLtDtWndu5b4XudQFvFaRBnl
+# pI4EmKOTbU5ebVR35DQ4npW1Br4iNQuoAirgDqIxoQRpdprjCU+b9r/PlDZ6olg3
+# kBfdL0Bm0/0wK6fwCbh1xhsnhQlklRwnmCUqUbxggbZCRPYPH45JQ1JDq8RbK+hN
+# oh0NDWzkAeN47QY3G6J4mj/9ucvURDCVKIcoke/1MvG/mJf96Xj36r7Jdq3aohMv
+# tq4akdUSy9hEZszHnOfT2FUrY0tGMBdvjJWuNtPhAZuMJiEqHzrVZ0/lRqKx7i62
+# 8szuSdOU/ERF5cNQQdZ8PoC1WPmAa3sLybfPe58ukuFWYLsaSWX56QkKIdC8Rmfk
+# PuzViVBJ9aPKvfCYOC8y3c3y2vudRTN/F4lLpczmyuizYs/47xHwVp0hJC+6VOUt
+# TG7pmfGtjdoDYogBWII5SZ6S1fgMqPwmdRJF7J+KznMk
 # SIG # End signature block

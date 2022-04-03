@@ -40,6 +40,7 @@ Describe "General project validation" {
             $Signature.Status | Should -Be "Valid"
         }
     }
+
     It "Script <file.Name> should pass ScriptAnalyzer" -TestCases $testCase {
         param ($file)
         $analysis = Invoke-ScriptAnalyzer -Path  $file.FullName -ExcludeRule @(
@@ -55,34 +56,14 @@ Describe "General project validation" {
         ForEach ($rule in $scriptAnalyzerRules) {
             If ($analysis.RuleName -contains $rule) {
                 $analysis |
-                    Where-Object RuleName -EQ $rule -OutVariable failures |
-                    Out-Default
+                Where-Object RuleName -EQ $rule -OutVariable failures |
+                Out-Default
                 $failures.Count | Should -Be 0
             }
         }
     }
 }
-<#
-Describe "Module Function validation" {
-    It "Script <file.Name> should only contain one function" -TestCases $testCase {
-        param ($file)   
-        $file.FullName | Should -Exist
-        $contents = Get-Content -Path $file.FullName -ErrorAction Stop
-        $describes = [Management.Automation.Language.Parser]::ParseInput($contents, [ref]$null, [ref]$null)
-        $test = $describes.FindAll( { $args[0] -is [System.Management.Automation.Language.FunctionDefinitionAst] }, $true) 
-        $test.Count | Should -Be 1
-    }
 
-    It "Script <file.Name> should match function name" -TestCases $testCase {
-        param ($file)
-        $file.FullName | Should -Exist
-        $contents = Get-Content -Path $file.FullName -ErrorAction Stop
-        $describes = [Management.Automation.Language.Parser]::ParseInput($contents, [ref]$null, [ref]$null)
-        $test = $describes.FindAll( { $args[0] -is [System.Management.Automation.Language.FunctionDefinitionAst] }, $true) 
-        $test[0].name | Should -Be $file.basename
-    }
-}
-#>
 # Test module and manifest
 Describe "Module Metadata validation" {
     It "Script fileinfo should be OK" {
@@ -97,8 +78,8 @@ Describe "Module Metadata validation" {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCAlUpg46XczyP39
-# ZWHNW/IJGCunpdSdH/BTLbm+QbzfmaCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCDWWdlsaiRmtpy+
+# B/P0SozKj2y58y0imcTiW+6kTZsA3KCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -266,29 +247,29 @@ Describe "Module Metadata validation" {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgKO+/B5sdVoF9p/GnnQtlC79o
-# 9kazrtJp7AQu+DkkIPgwDQYJKoZIhvcNAQEBBQAEggEADOC4RB+VtD+JpnB1EJ0a
-# DSdhRE42G9SAG1Hu/9ee21fw174h4xLQDxxKw1ZturvTwKeCKCShxjnXxIhx+NF1
-# c/YHcTbzIKp1W1L5WH0VxW0EkxK3FI1AzaLMmFZoyNBOfaFz34ByQ5eAP6oms4N9
-# HLxBQyqOPW2SpHeK5wIxlJPWkZKOan12TGNmvEkxUoNzBWH1IIP8FBeWObUxsKF3
-# WibYpSCPJ06JVZMKm5NidCQpx8QsJIfylkeyQRmY758uJq0RLiaXGZzbGsw3bcmq
-# Kf4/y3j4b4sYcxnP4mVJb4WDaL7tb5g8+rxGiBSpwPY6x+yGTYZw6zv/QcKXIWNg
-# bKGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgHZGKajY+IsqApY50B69xkGCv
+# po/Dqd/57cAttvkkAHUwDQYJKoZIhvcNAQEBBQAEggEAHGYHnnNN98YODBH52IBq
+# eYOFyrDxstRMZLPykg0MLdPRXqySwIh4wz2JPEbwPNyIhzgg1o4CoF+hIGhywO2Q
+# jelQj16Xp7WNA+0xCpfa2hO/+UbM6cBXgFdgUfJsUAPeQliwYG9IjkpxfMThPO0l
+# zdpCh83Y1YGzj5QiOVNjtgoRD5BEPsMuDZRpu6mWx1zq4DcwU1xETxmgGXN4C30v
+# GzNf0xfs11aWTzop9cyzWNP50E1HA+uUH++8UvmG68/cn834/lZErBi8D6gqOeit
+# bCnE5F6vyzd+wM8XLvrVJVYbmwJQn9SHttZJ1YTJCEHUjL9YfDJ9cOzVWwHuNKsb
+# 9aGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwNDAzMTgwNTA4WjA/BgkqhkiG9w0BCQQxMgQwkoEQ/NzbO3NEPL/+gQPbh6DF
-# U6aSqibqvYAbjPDDDGKZVLEpyt6YjwKzjFXcx3bzMA0GCSqGSIb3DQEBAQUABIIC
-# AFcEWt81S4UFf8ZeppSczLfja7TUJXi3ggqELuipJOM+x7X0d9/AbmEnBdnRixSh
-# +m7+MJbpR1YjzqxpJ4Kc3V4AL8flE4k58N+ldUGLesrXEtE3zv2pynRZbnLZTAux
-# ggqCXZLl4Ume720glQs1VahfgmsPnzQwCkzh97EFOrBa7B6WWktchwL8Yve9Ly4K
-# oqtrbFTlsinOt3hE+InUtGxc2KNG32APYcWYWQFxP3ocK3Ft5eXGxhzZB696q0iF
-# NXBPVr9G0f+WgYutMI6q11OAH3hIOTVBXv3euGmrmybx0KXIDy3XyOz5fc6PvQqt
-# jB1v6JVAMlcPxANTwephHlqSOfw/qF7XMkacz8ShehAHUyCqM2lSb5vOexbqn7g+
-# bBjvsvSXZaEEzr3TgJuPzEeATWzxTVv9DPZhTgvP9NIpoVDaUeOdyxjLGGgOC8U+
-# RqWN7DnT+xB+N6rfCah1f6kTFBI7d9xVMMREy8enKpPh3/qo4V3bEUDnczXtEBLx
-# WOjSuvZTm0Cu3WCrVm8009/9gJzmmXv5IuYXGDU4RfnVhBpKz+zI6KC7oS6Wk39M
-# Zwcz1QljLGkILulSef3iVXrNNvE26sJtQ1DlYa8SD61xaFYmvqbLDRBhptsBMkQW
-# JnWE4HbV5St7TGb/kZYa4rvcuV/bTCfAyll7h5By77aY
+# MjIwNDAzMTgzNDU3WjA/BgkqhkiG9w0BCQQxMgQwG947F1zfqudEgx5v4ZGpg3mS
+# DmqgfxOaMGBJdBhfzKWC8pEAIRWbbvkBxjHAcWlOMA0GCSqGSIb3DQEBAQUABIIC
+# AA8SrPd7Me1LElk/LLQMw12BJi+mDMlVMzk+nNfvg6PQDRyKZHKqUnkQPDwy04uY
+# ibPNxOTf0LR4cmLpyi8VE2ChXVPpdwvcsvO493e5T5JEeN6K1BQWgp2b3IgQXJOT
+# ilVEdFkwX3Ux1TgBRk9l3qiQQt9+k7bFYCLsPqbq12erb8AVSGsfVzDjId3zQz/+
+# qIv3fKxad2qe+ZbS2ACzB4coGIyxvt6amqttT2rRZy9tvVmq3umYBxTe/QK0R7IL
+# slj1BSW1GJ2tQWhsu3+OWjuZCGpkaITQGNE1JTwvdu+hsArpOWSsS4ON3+w4yCRf
+# i3gVcGA46q0CV6ghzFgbMXeVe9+CTn3Atl68DFLgpdKH4DorN/u4qd7H4vsp6tkL
+# AKB31EQD+SveiclkOUICqzpAX+QxLaieEQw1zC33Xl6o3T1egNaYyNuvfiy80/5F
+# 6PHNocxmVgyxOJvgr/m5HsRhacBPhrkZnL0IqiOpfDVPyHJmsUJeuWR+bEjMRUmB
+# fmRYp4t+nQ4EwJCh+YsSTShZs77YfJc5GMRXpFZUvhYcjB0c1y3yvIa1o6k47C8m
+# R/iPATtGMSVPLGKWqgp69U0nv/6787m3WzfLXVKY1uRxkCQrDXlFHSj+CgOgA9FZ
+# AVy7/OPuYoqiUCBfJ79p78ERhLuMvyvbbSum962yNcDU
 # SIG # End signature block

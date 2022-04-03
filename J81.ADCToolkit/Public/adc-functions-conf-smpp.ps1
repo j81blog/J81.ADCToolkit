@@ -26,7 +26,7 @@ function Invoke-ADCUpdateSmppparam {
         An example how to update smppparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSmppparam
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppparam/
         Requires  : PowerShell v5.1 and up
@@ -115,7 +115,7 @@ function Invoke-ADCUnsetSmppparam {
         An example how to unset smppparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSmppparam
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppparam
         Requires  : PowerShell v5.1 and up
@@ -201,7 +201,7 @@ function Invoke-ADCGetSmppparam {
         Get smppparam data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSmppparam
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppparam/
         Requires  : PowerShell v5.1 and up
@@ -275,7 +275,7 @@ function Invoke-ADCAddSmppuser {
         An example how to add smppuser configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSmppuser
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppuser/
         Requires  : PowerShell v5.1 and up
@@ -341,7 +341,7 @@ function Invoke-ADCDeleteSmppuser {
         An example how to delete smppuser configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSmppuser
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppuser/
         Requires  : PowerShell v5.1 and up
@@ -401,7 +401,7 @@ function Invoke-ADCUpdateSmppuser {
         An example how to update smppuser configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSmppuser
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppuser/
         Requires  : PowerShell v5.1 and up
@@ -488,7 +488,7 @@ function Invoke-ADCGetSmppuser {
         Get smppuser data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSmppuser
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/smpp/smppuser/
         Requires  : PowerShell v5.1 and up
@@ -560,8 +560,8 @@ function Invoke-ADCGetSmppuser {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCBYz6HUPE0ss+TC
-# KgDx2vHfs9eo7KpX/1463rBkTkgOz6CCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCATZ4MBaDsRBZsN
+# j2FFXfxIvmjsGimcUJQokiaq6fytPKCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -729,29 +729,29 @@ function Invoke-ADCGetSmppuser {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQg69VL+8e7sZg83cy7De2Xx4rY
-# ZOz0Jn1doSVf6lb0FzEwDQYJKoZIhvcNAQEBBQAEggEAm75roGSKkC12FYi5S5Ci
-# lDUPgMB/tAR/Nn9BOIe+kol1fueMgWMF13ekdX9tFjS5fL4EqQYru/s30SexZw5X
-# 4yz3C4P7Xu1SpSwZ0wOQ9pkLnO2SUdITzIRfgYuugsQxtYKMQi8HqssA/ncP75cd
-# YMJNXBTML1FBkhI/7qiKNPd/TIaAmr81dXGqwCs+CB8hzRlu2mXN/rHeuKkxedJR
-# amZ6i6+AqSno7Owdi+X7SRjRmkv+dg5+mrX3GlD/ze1wPKEgwftG6ukzJ55D68SQ
-# yXSfiAjlusY3QD60FuFOO6WmZCq80mzQmv+oOoO2tdgfESxvyjzcqMZOkflvUt8Z
-# NqGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgeDjMJoEJw3dv2l6nkhviEJSf
+# YV/optaOi/bvfHAkUzYwDQYJKoZIhvcNAQEBBQAEggEADY10jfbbf/7bJ/Mp8JEm
+# eKOUpX7qtJWJrh18w3ypAcaXDBymKKuCVpaYWt9aLJnJz/cx1g1dVExXJ10g4v4U
+# mI2sgFVDKEjHvkrjR/L0B287Kqf1wa8MU93LPvExq5v0DPBPwErdJnd2w4Ni8rVb
+# BnO+PPYt4dPwks5wznU9O73xDxJTGpnPFrD2LGYj42jSqeZAz4MCWw9cHAbjWAvk
+# UZ6vI1RCoqasXNxCcrzpLSN76/Ov+zVpiZGjtWHiD8GqQdRrGfAFs1/CaMKRxs5P
+# joynu7Bkkz33IiHN+9jVjN5BG7X6/7dEVumcojFmwo/WvrHl57pO9pLbgavULzTC
+# 8aGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzMzI5WjA/BgkqhkiG9w0BCQQxMgQwkPgqLj7O4ixnowe0l99vK8ZA
-# cHaWBrXA9H7XC1BP6SyMB6f0TckFzvKlIZxPPoCZMA0GCSqGSIb3DQEBAQUABIIC
-# AICDN7KyTQ7KhM1bgvFh4LHHUhZ/IqU9OUQtuIHLJYjazi3jElgUzTusSKChyZgs
-# OqOdoYdXHaY0JaPc66x/T5ZLj2Po3B14LL7LGwioJj9dBKDrE0VNewpkpYcZ8hNO
-# bUfcJarWpI61EDMaDuJFaC7HP9YIKV6eN0WTbsnujFZCcs/+EctZvuYtChDhP24q
-# ZcyzHBucLMf8bWPrng3+6RV92t00zGapckg7xP3tDRY6zI4xVHSVWNGMWM7R8FzB
-# ijKAUtEmtHfTs5lG1skGbvR7fvudyEHb4VQXSmz1L4ASkr9x8sXzH3Mz629d8Pon
-# bVxm2nNbdR0yxJPkb64MduuUf4olYxvKzsI1UXcmstpi2dHrzlkXaPgYjlK8PR5G
-# IoHFmk09bvvjen/3cPY+1LhMtzLWzVLxhCyYAXTDq7pxSQV69GaAW6mZsy19n94z
-# 0CylrG9qV5dr/BY3CZQPj9/se3p1s8vtRkGsFJqCu7J6nKIIRML4gm3TvyytUOL0
-# 4OhNfu62ab99aUdpZOv4rj6XL8JFGY90Vdj9iqOACxdjx1vYawMYN8t06HDuzkBF
-# AQfsew1hQt5dMWKwoP6rLo7dykv55vm851FYpX+l1bVdA4B/tDL1vvoIaJ+I2t7s
-# L6bR5dFDNly5HV/WZkQ/kfvQrJDKrDxYs1nxjG7D3Owh
+# MjIwNDAzMTkwNzAwWjA/BgkqhkiG9w0BCQQxMgQw9LzSmXBDgJl2yRzG/8yhAtiO
+# f/5yxW5sjleDx9GrBulBAL6nQQ/T+JF8wN3Pps+9MA0GCSqGSIb3DQEBAQUABIIC
+# AI5e7hoh7hT6PQSx0jdx0DvQci8MdtEp7QeMKsGZCiN/avbZ9On2Mt4ye9PWhMBP
+# ATPF+JcynBsdmmjD0y1hVi87V1GhxpdNjMtkdAvwhl+b6SZkdC/je9xf9a0jxZbL
+# bbxbwW9VjC1REwp/uVmGAmZyTo2HwupT0pwdTcKLDVlqONdHCw6InE5oxnvozj20
+# oHgWF+V52CxrUOqXejbJ92LJlO2oxcGzub/GYpVJg2fKLxTMNEpAWqM39QC0OLKi
+# 2ufB3er0G6XeR4ejGV7zwA8eyEHHbfjPffnWCbeHJYrPj2bYhDUhRhvJEH9aYnGG
+# HT1sAfkSmDbFndlf44oBYG6BLR9F0SX1VqydgtremnhVDY/2bxt8zB7jHh3TlDe+
+# viX2UZdXlHrHJvN2vGzXfA6pwIEv0TsLEgjX8nBoVeSm+ynCRLd2V4t2iCclHmgX
+# xznTGcBbIURLIxXbf4n6pE2XcJJN+QUcCMZEB1OhbaZZ275reAJtrA/F7OxWb5th
+# JNTNJ0rHSvAqMPdHBfutuJmns/ibTYOJXu4W5nBiy1Du7c4fh9u2rbgd5yujyzrQ
+# 51ozVYnsJXJvLe+0mIpyolUZNewVVc9MFpFzgKvLT/M4S2DU9O/KxT2J5DIFBm3i
+# YgUN0POKpBzQMO3wIfUhLW1F0dTIt5urXT+7Q3l51gr6
 # SIG # End signature block

@@ -29,7 +29,7 @@ function Invoke-ADCGetClusterinstanceStats {
         Get clusterinstance data with a filter.
     .NOTES
         File Name : Invoke-ADCGetClusterinstanceStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cluster/clusterinstance/
         Requires  : PowerShell v5.1 and up
@@ -121,7 +121,7 @@ function Invoke-ADCGetClusternodeStats {
         Get clusternode data with a filter.
     .NOTES
         File Name : Invoke-ADCGetClusternodeStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cluster/clusternode/
         Requires  : PowerShell v5.1 and up
@@ -185,8 +185,8 @@ function Invoke-ADCGetClusternodeStats {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCHYxks75A4QeH+
-# cxp3Nih2t7vr1hT02Td9y3xZ3As3p6CCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCJzpY+f/S9P0oi
+# IMbH8KJZpZa/BuxPaia9Hnkhqg25eKCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -354,29 +354,29 @@ function Invoke-ADCGetClusternodeStats {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgF2qMrGTCL7aRMkgJUj9puMxr
-# 85HPAM4/M3rqj+2wMrUwDQYJKoZIhvcNAQEBBQAEggEAlld7foTCdkt1DygglfQJ
-# I9niTW9X0vQS77Mw5J5oDAFKiIXKHUYt2XLiNWpC2HsObNzDa4MZ6biL6vVNHeQV
-# tmptvxZsXPMUKJMZdLb5O6m1MqnwXtnyknc4OfY09VbS+XOfPu1KKuqgnaNNszNs
-# IMfuQp7yJjmLRJyMEHOCCjxQcmuce6b9dL/7bRsBupKq6OttOzo/StKDMGY8GJBh
-# 2PsB01QyJ5cD0U9ZTjeGbq+1f6QSdOpbZG4sABztGMR2IpTxD/2e5NAq9zSXc6jA
-# /yVhgtoYwloyXtzw0kIK8McIsu2UH/AFPXc7QKiBJ90WlGwKQH90Erinf9cGskMr
-# AKGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgHSmwQW4p7fD62Gr7a8EhDvDi
+# eZm6FUsiEPU2Ksv2nSgwDQYJKoZIhvcNAQEBBQAEggEAVHzYFqEflxrprmdhLo4j
+# zFNWozgmaM5bumig9cqKXXH5/Pu/+gx3706lJgNER5kfZEs/hFDgH+qk0Dzurk7l
+# oodHbPNKv56wvO6GGY3fBFxqwW1gmYIbNwGLgi3hHwci3kvgk5sLphh5qWVNtx3N
+# OOF6lG+I/JY8VVb8Gaday1tE+Ohjb2jSNT1FSkGr92/XaNefe6HJXzPs//pG9R5V
+# dvCzSR3r5npJ8EXDJEAAnIh2pkP/MPpHgwBwc2G/3GGZU9AXSBhSuqPAno9jPxjZ
+# RLAhHmFyvWatf5xmV44wCIi1ROwpPknnOrnSlKJfRgfrSl+leJHEOwMhNYjJqc//
+# 4aGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzNDExWjA/BgkqhkiG9w0BCQQxMgQwgFSSZMx9GkFDzSCUPJjf3/xg
-# PU5F/uAzs31DUlJaXiGkWSP0VJ9vgL367Y4nC0SCMA0GCSqGSIb3DQEBAQUABIIC
-# AF8d+z571DNuCeF7kNefSA5tgSKixY0Hg4q5rnRgl/9fnaJQRagsbqvWIayHXC7W
-# olJ+7q+EOWbGJjwHSiPsghY6Sjk/ZJbIQcEzaHbUcxrNEq5sbvOKZ0pn0RNnRj1S
-# 0Iyzn3eMUIvT41rxsEzMcqxBov7uH+6PVG8YoSGHABNUzA6beXN462I5e3ZSrxVl
-# R6ZTYnpgnT1ncWgJ4XZQjDKZzyrWZt6HFN/9IpzTkMWasvx74cFzIXu5FbBT6wsg
-# kYmIS5KqwkhQdGUrpp1Bku3Py5mPt3HJ5p64sUdPbzY/fD7K9KSvC2l5sGR60S4L
-# hvgQ2GjoYa4pxZ3YtGKlnS3R6I7MtQrGYxxUw7sVmItYOhMagMKkrVPcFT99c6HY
-# 26obDAIk228LoLzbQFMnGXPiN5gpnk8R0ApjP7jwHS6NTGwR+auGDpR2fakE40/n
-# kV1EHeR7filAUAIs54Q8oasaT7BnnHkMXiMB8/GhR9aJ2h5JlPecyt0nwVKNJgtF
-# 8F4/OvsZARxWrCKkRFh7G/AKwNne1LVoREpx+x3LXY8iHXJdfJySw5bowh5voSE3
-# 81b1BcnkOJ2Q5iop+9j/d7qGLDChVjFBv0kW47MslaSYmLsubjY7Xk83D15N7DBy
-# eQrWswhjf0nnUjEk9ZlhqMvJr8NTkZ3omzrqgpaShbcn
+# MjIwNDAzMTkwODMwWjA/BgkqhkiG9w0BCQQxMgQwFTQjwQbdltkv6DNVCO0aSsCq
+# 3yJ3kvDyq7Ng6ifK+7XmcIgvplC6P4byqYL6IPdsMA0GCSqGSIb3DQEBAQUABIIC
+# AIsJ3qKIdhT4vV6Rb5xprsScUFSHRqG+FwUDDB3BGVwB5w8kfqQ5NK2b5aw9DUfZ
+# AFhisBV7fO6EoeS5MT/pVfBC96iyVn0opwE8EOJf9Bi/VAc5r1U7zrMgJVxjDiSc
+# z0qA5tOu92QY1kIa58le7/DL8cKEhrnXMV8pvIxNadmJhQG0IPoc6mRXpvPaCxRn
+# 0g2k5HzwbsbPghOhlgC9N9znfJhD4S5NLEkwqkueuQc4bKZmM+3AOt7+LNsuRwjc
+# Rz6w+LkD8B4zggMuagJuHlR4Ei60pflqDtZZk6xXVQj+EIHzc+T1fahSXuN2zAQQ
+# +z+WMgYfIfot7zrVxaEvuZ4+22kLoRfltvEshufesBsZnt/GHCmIoTGk0VgIES8g
+# bu0z+eP6cKzqWhLfeBgiLwygC5G8sEQ+wONVWCfn51MlUctu2n7IEB35XYzuRjYL
+# eLs/fU9gXjzGcLxqvIJll3brN8uYTgxkSwlOaSC1I65HCoMxofATv+Jfra7oeRsP
+# vr7JNTYOcCb5bYOb+vwKL28L/PP+mqbGGyTfqnGL0sQGlhXvsv/ZzJ6v/0Ib6d8Y
+# Op9AO0rfqoog3uqdP7HhmIfpNMvtbp/52o423I8OlxT7T07XudlUwM94H54vWG85
+# f/JW1JjmNvdziTJy0Ont153NSSgWI4XTjAPDkyNpaiTU
 # SIG # End signature block

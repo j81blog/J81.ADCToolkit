@@ -11,7 +11,7 @@ function Invoke-ADCForceHafailover {
         An example how to force hafailover configuration Object(s).
     .NOTES
         File Name : Invoke-ADCForceHafailover
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hafailover/
         Requires  : PowerShell v5.1 and up
@@ -75,7 +75,7 @@ function Invoke-ADCSyncHafiles {
         An example how to sync hafiles configuration Object(s).
     .NOTES
         File Name : Invoke-ADCSyncHafiles
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hafiles/
         Requires  : PowerShell v5.1 and up
@@ -139,7 +139,7 @@ function Invoke-ADCAddHanode {
         An example how to add hanode configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddHanode
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
@@ -211,7 +211,7 @@ function Invoke-ADCDeleteHanode {
         An example how to delete hanode configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteHanode
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
@@ -300,7 +300,7 @@ function Invoke-ADCUpdateHanode {
         An example how to update hanode configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateHanode
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
@@ -431,7 +431,7 @@ function Invoke-ADCUnsetHanode {
         An example how to unset hanode configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetHanode
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode
         Requires  : PowerShell v5.1 and up
@@ -537,7 +537,7 @@ function Invoke-ADCGetHanode {
         Get hanode data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanode
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode/
         Requires  : PowerShell v5.1 and up
@@ -637,7 +637,7 @@ function Invoke-ADCGetHanodebinding {
         Get hanode_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanodebinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_binding/
         Requires  : PowerShell v5.1 and up
@@ -732,7 +732,7 @@ function Invoke-ADCGetHanodecibinding {
         Get hanode_ci_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanodecibinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_ci_binding/
         Requires  : PowerShell v5.1 and up
@@ -830,7 +830,7 @@ function Invoke-ADCGetHanodefisbinding {
         Get hanode_fis_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanodefisbinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_fis_binding/
         Requires  : PowerShell v5.1 and up
@@ -928,7 +928,7 @@ function Invoke-ADCGetHanodepartialfailureinterfacesbinding {
         Get hanode_partialfailureinterfaces_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanodepartialfailureinterfacesbinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_partialfailureinterfaces_binding/
         Requires  : PowerShell v5.1 and up
@@ -1011,7 +1011,7 @@ function Invoke-ADCAddHanoderoutemonitor6binding {
         An example how to add hanode_routemonitor6_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddHanoderoutemonitor6binding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor6_binding/
         Requires  : PowerShell v5.1 and up
@@ -1083,7 +1083,7 @@ function Invoke-ADCDeleteHanoderoutemonitor6binding {
         An example how to delete hanode_routemonitor6_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteHanoderoutemonitor6binding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor6_binding/
         Requires  : PowerShell v5.1 and up
@@ -1165,7 +1165,7 @@ function Invoke-ADCGetHanoderoutemonitor6binding {
         Get hanode_routemonitor6_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanoderoutemonitor6binding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor6_binding/
         Requires  : PowerShell v5.1 and up
@@ -1248,7 +1248,7 @@ function Invoke-ADCAddHanoderoutemonitorbinding {
         An example how to add hanode_routemonitor_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddHanoderoutemonitorbinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -1320,7 +1320,7 @@ function Invoke-ADCDeleteHanoderoutemonitorbinding {
         An example how to delete hanode_routemonitor_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteHanoderoutemonitorbinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -1402,7 +1402,7 @@ function Invoke-ADCGetHanoderoutemonitorbinding {
         Get hanode_routemonitor_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHanoderoutemonitorbinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hanode_routemonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -1482,7 +1482,7 @@ function Invoke-ADCForceHasync {
         An example how to force hasync configuration Object(s).
     .NOTES
         File Name : Invoke-ADCForceHasync
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hasync/
         Requires  : PowerShell v5.1 and up
@@ -1558,7 +1558,7 @@ function Invoke-ADCGetHasyncfailures {
         Get hasyncfailures data with a filter.
     .NOTES
         File Name : Invoke-ADCGetHasyncfailures
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ha/hasyncfailures/
         Requires  : PowerShell v5.1 and up
@@ -1618,8 +1618,8 @@ function Invoke-ADCGetHasyncfailures {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCAEM5PQKM1Qou2a
-# e2ZrH+Sq8K7uNFQZmqLpq4IGke6HK6CCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCDyco23RqgxJlD8
+# /ASRSu+VenHY0f5/j6rWYaCzZfy5n6CCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -1787,29 +1787,29 @@ function Invoke-ADCGetHasyncfailures {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgWy82FiEB0JleP+vpk0d+VPrS
-# VUA5mKhEoUpl5vzwc3gwDQYJKoZIhvcNAQEBBQAEggEAkR8qLPDexU1MEvN+LvHk
-# ceJN3/8azAbv/4Yt7p8oVoV2yVK2Ib+G++rW4GJ2DSU+IpAJQ4CVv4ccVEXH/Cd+
-# WOTdPPcKsggjJQKdJvJYZbCQe7naYMbw8Vjcx58YjuKjkNLT4LwUpn8bj68x48t/
-# ToWewXIgGoIKYMuS1FDrUiRHFASB9IA/x5yrL3Fv3swNq94iM9G+j/YBKr61YH5E
-# JX3Qtkd3Iu0I4lBG1jbr0ShNj1KQoplWfgfGmfIvUunrt4cuE/oJgVmXIl5esV9h
-# kjfy1Fwvu2ZA6h1jICUdSJNuIEi86V7zOWBwvxZgBCEPNeDdggBlfunFbQQ+iGld
-# W6GCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgjXRUJtF+hOYxWX7VhVw7g6pC
+# NXfh4SqQlK+xnXAF9ekwDQYJKoZIhvcNAQEBBQAEggEANkIU01tehl2iZ0AFR4RU
+# SnA5P5B+eLC3sQqXpyXaPWwT5fTNGi+OJjDw5CI8eR2Sn4T2UsoLmvTu0Q4hKQJM
+# lcb1+d4eCubYlfveZQfshqYlYQ516W+Qr+QiKTi6OejK9/ntIgT+lgPGLRyjzJPA
+# 9vvcpPe7nddFZa1XliDFMlsomLGg6L45e2uNT1T2almv0tvJSUoenOpq5PypbhBX
+# cSVkx+LfYGHLq0tJQjlq6TjiJpby6UG6NBygcKrfGuHj8nxoZa8jlQb+WxWDLwGL
+# w2ab9asUn5FZg9l9M0niGw732DkutyRsbYtckFarSTgASI5PiWClyNuEG+ghqA5e
+# uqGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzMjUzWjA/BgkqhkiG9w0BCQQxMgQw3r00XCk1g8imNrMznvnk7Rih
-# 3P+bBoEluv7zaIeSBNv2xnBFlr4QrGKSqfh88mVTMA0GCSqGSIb3DQEBAQUABIIC
-# AC9RWw+RrWSjtUYr74DmuLiXb349zy54xBHHJCQ82Rx93Xm58pj86cfw0i7rEKUw
-# v49h8CoSZGETqhZ8E7aFKQNWdaKgGIaG9nQBEK/GUxec7pvYqRzZr8sTbWMvPA8b
-# OU4R9A+NqZkX81QFeDh3f5pPTkfzLWPwVO1OHARBu7+y/T/79hm/GOkB/oH33izh
-# Zm93F/se1k0lTWXobUvP4Hb2sU1cs5IexSNmguvObGLY4CGlPMTDz3X67GFOJfGD
-# xSxtP5oA3dXF9JcMLSBhm3p0D4loeJN6xVIH8SXNPjzJXUZ+1p9nO2/hAqOrH/F8
-# 1wfivdzMqnaL32bqBzGehyLdImkiMT2UnD3HLvJrb9aTbtnchQcpVSlBx/h9fBS3
-# AJGlE0RAwRzFOBZQSy1bmUazqA2/FH1cMvNems/eBewOs+B+srIHHfgcjVpVBAva
-# ZJpNdGnS2icTUmn0Ery/zHfFeAhU/kdJjpelK4Hi1dDGtSGYV3AnrD9dDpKXfV2W
-# Np6CFWadhHdccanTRTwKIeSgN63xlX7wV6rdU5FPSbIG2tv6G7OkQLsuHe6NL0J1
-# NLUeNGX11LimbfNYJspxx0oUkG33ECq1YWrVqC0+dfC/j0vU2OoQbIFACx/9JsZP
-# dtQDwzQ2GiGQI8wgXM33mmkxh3++QTfUeRx7e4/7bTPM
+# MjIwNDAzMTkwNTU5WjA/BgkqhkiG9w0BCQQxMgQwfhC4l42AeUds67X4U/Dn73Ye
+# ntNUBeTUgJjUhigUmy2xE8wDhy3k56ESAi8ZAyKLMA0GCSqGSIb3DQEBAQUABIIC
+# ADcNXZVRDPAnsDvOWNiTGgWBOuk/PfKXBJ2pt5I+ygYI85jhbhpHmLrNFCKFC2dH
+# zeKW7Iyv0GMalTeSbPj68I33C336NUqPIPpRCeZ6N/dg6se3WxLaNPbgGRCLCpHi
+# naFsogWyznKkNbYTi/odQFTuUi4n7PXvVUtKUIuzYYhiwz6bU7gbCq/YTKSnm8J6
+# XUxG//Z89PvWQFAkS3EA7/grA+B4q0sy8afkFA3YIU2bi3s534geTGV5VQzwNuSn
+# 28CZikIlJQD39UMMW4eVDQr/vkr8lICwBhvntAYdN/0XODSytMpUJDF6sWY+BHRG
+# 6LKo9NE0tAGtG6MeJgTzi8fd8D5LgWq6NxA6KLXUQ4NZYq9P0B7oI4o/IQPtMrU7
+# vewzBhkeBYmOuMhEIDvbtrmemkWOYQtIV92z9/ei8VbriMgWspBp0u1qp4mQUQK8
+# qvM5o4KM3dqpYScZ1IGaCMuvjfxaYAmmbhAiIAcueH83uu4EVSRAE87Olldk9XUj
+# QYecwJmsUFj2pbf4kQHFoBGH9mham2qa2kCiU0Wlw2MjFaDtV2Qxw9397NtGJB2C
+# S10hU7p6Hqau0UBfPfE53lrlvQp0z8F0HhXh/O8qNEj6nSr7LtusjUHuk4fS5cGr
+# E3iJMNJSejgsJIoKyF9EWgk0B6Vf8yXCzQfl7PzWBFVL
 # SIG # End signature block
