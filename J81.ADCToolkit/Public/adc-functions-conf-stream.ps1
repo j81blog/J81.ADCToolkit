@@ -44,7 +44,7 @@ function Invoke-ADCAddStreamidentifier {
         An example how to add streamidentifier configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddStreamidentifier
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamidentifier/
         Requires  : PowerShell v5.1 and up
@@ -183,7 +183,7 @@ function Invoke-ADCUpdateStreamidentifier {
         An example how to update streamidentifier configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateStreamidentifier
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamidentifier/
         Requires  : PowerShell v5.1 and up
@@ -318,7 +318,7 @@ function Invoke-ADCUnsetStreamidentifier {
         An example how to unset streamidentifier configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetStreamidentifier
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamidentifier
         Requires  : PowerShell v5.1 and up
@@ -408,7 +408,7 @@ function Invoke-ADCDeleteStreamidentifier {
         An example how to delete streamidentifier configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteStreamidentifier
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamidentifier/
         Requires  : PowerShell v5.1 and up
@@ -485,7 +485,7 @@ function Invoke-ADCGetStreamidentifier {
         Get streamidentifier data with a filter.
     .NOTES
         File Name : Invoke-ADCGetStreamidentifier
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamidentifier/
         Requires  : PowerShell v5.1 and up
@@ -584,7 +584,7 @@ function Invoke-ADCGetStreamidentifierbinding {
         Get streamidentifier_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetStreamidentifierbinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamidentifier_binding/
         Requires  : PowerShell v5.1 and up
@@ -676,7 +676,7 @@ function Invoke-ADCGetStreamidentifierstreamsessionbinding {
         Get streamidentifier_streamsession_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetStreamidentifierstreamsessionbinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamidentifier_streamsession_binding/
         Requires  : PowerShell v5.1 and up
@@ -751,7 +751,7 @@ function Invoke-ADCAddStreamselector {
         An example how to add streamselector configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddStreamselector
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamselector/
         Requires  : PowerShell v5.1 and up
@@ -825,7 +825,7 @@ function Invoke-ADCUpdateStreamselector {
         An example how to update streamselector configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateStreamselector
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamselector/
         Requires  : PowerShell v5.1 and up
@@ -891,7 +891,7 @@ function Invoke-ADCDeleteStreamselector {
         An example how to delete streamselector configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteStreamselector
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamselector/
         Requires  : PowerShell v5.1 and up
@@ -968,7 +968,7 @@ function Invoke-ADCGetStreamselector {
         Get streamselector data with a filter.
     .NOTES
         File Name : Invoke-ADCGetStreamselector
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamselector/
         Requires  : PowerShell v5.1 and up
@@ -1050,7 +1050,7 @@ function Invoke-ADCClearStreamsession {
         An example how to clear streamsession configuration Object(s).
     .NOTES
         File Name : Invoke-ADCClearStreamsession
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/stream/streamsession/
         Requires  : PowerShell v5.1 and up
@@ -1098,8 +1098,8 @@ function Invoke-ADCClearStreamsession {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCDWmvMpWbp/SPm8
-# 0G7ccMlNDnDHRGuESsxFp3vPjGDdeaCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCfEPRWZVquPnLo
+# nkzs9F6IaZ9f7aEC7ZGYXQJmtUj9GqCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -1267,29 +1267,29 @@ function Invoke-ADCClearStreamsession {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgkPTjc9nUshEAT5v4LLAqLerT
-# hn079p5u0TRH1b0Si34wDQYJKoZIhvcNAQEBBQAEggEANX33hcJNpeijdHPdlvPa
-# Hvu4l5hpt68p2LGMk5nXW8KXdAdbLTk3sejdzTOCfAP1BHv7YK7i/ZSyk6nmdo3P
-# zAanBl9KzaQkAPXJcqnLLmVegsba/QEmA/pc9Pv5W2pc0h2IoV6cvE5+mTEDxuzQ
-# 02wtjtHJweRqxLa/mF6chWvKfuU6QkWddMxfXfQYg/hLs6zh8LPrxvaTmR9li7xr
-# F/6MRkWoWXAVA5Lb0/JfMXGJKkLnmFwLtLWzKY0mcW2Kp5/0Vz24BKC8cmioHdRb
-# KDcbBVVmwCVnrQmRn/Tb4oTvFvWlfUciBmBQb2Pfg2hFuP1oX6rK99/G/IQocG+O
-# d6GCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgFh39eegqghciv2SA3pH8sO9k
+# LL9LSAH1XiKyJhRfLIcwDQYJKoZIhvcNAQEBBQAEggEAhU9nbNbI/qrgribcpCPG
+# 1UT6+dcXqvh16bqcT6jRzJBa2LuClzSFvAVUpXtyGl5skm8vSvgpkkZHbjhzdBrL
+# mhx5pU/eEX1Fl5XL5qQAf0cQ9vRw0EIOIZ1ne2W7W+3VfFr0HRPwB6eZxw4RelA/
+# yxSYbxV0Lvj4AW/2pOQw3cFWccVoreOHeCDTH31TzTIYjBK3U5C8sIEMOVQJfuyf
+# K8uLnmFoVwuGvA8IfjOzdX7xZ2AaDtc4W2YjBBFyMjyJ9BFgbH+GWGrADXHiExjR
+# +HWr4juzpISzSErjVAGyvWqZQKDAIxNi4i4aOi6lVp9x0KEt1Ql5ygzWY1AlbrDc
+# oqGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzMzM4WjA/BgkqhkiG9w0BCQQxMgQwNo1CTvll/NXp2zoJIHynG0sy
-# SA6Egmq+M4o9idyMXYuoFps5/ZQleba4O6FnykvHMA0GCSqGSIb3DQEBAQUABIIC
-# AB9S+okzdukPs943dWflbxdcLVI2vFfUeCl8t4fZBamNm6djr0/ZDhFln4ThUpdA
-# laWLqxuAsGmhtS1no0w1r/6wEIyMWnecRHBNDsaS2IMHCfbTbsTuq9yGeKpM/22x
-# 3UQFcbV7JZXwZx9YgykrOaj8a13lRPL/TQOF994s+TsYqUkDOQ5HGDytsRKkltfx
-# r+9Ml/NhvEWiAL6+feY7SnkyaPH7XIsf1W9Mxby8FvQHL0fJYGPMgaEKcnPs8/Ny
-# 8uzMnz1mVZwS8ZHaQW21VAWAYI7KC7XRXl1VMUgSk3Oad5VfFO4DB1huhSm60hgj
-# bVgR68bkWPDrog1Ctj9WzFJeGSJMgqaSDv7J6UUcSpqDFordyXUtnm6eMtqE8l9a
-# fDcAHxG3ecL9Q6gObkVoFW4GLh+1q5neOyrP0O6d5Os1s8G/uT8Zi3VXkRCsD6mU
-# llcCm9tGmEOl2QzqedrO8964xWpNGBcHerPSPS9rOFh13apbrSONEeLOrVWlDkpe
-# VcqnTlViT5AhR+zKxkkiasvylYoyNkfs/WaaCazmVF9K7oVU7+UTl0+i3Tu343Gi
-# 21MuSKSFlpG0T4BU/bL7slFmv72d3X2L6eCF/m3wYl4TlgPw9Q074cHa2zbx6JpD
-# Or72S9cjC3toEXGmk2MrZmj/SO669ufJIU5pqdEJVCvl
+# MjIwNDAzMTkwNzEyWjA/BgkqhkiG9w0BCQQxMgQwh19PgVA8HxAlpwBx9o1O9uHL
+# 1dMRJoMqL/vYiISkpgoL2W9LnXZhaKNSuw6IfsIaMA0GCSqGSIb3DQEBAQUABIIC
+# AINIZDVpYW8GPn0I5JM5CQJK69Ee1QcNZtGYxoxh/TDD+QCkO0SpGj6P4qzUBEHw
+# VJUPYEoKLew7O136BMC6HVKq0DWjEXUInzIloA/pQK56wWSvWJt2NsXUcuNjA32Z
+# vSi/tuFGrEPnCQ/xaNZfHd890kvq6sIahXbXqE2EixRq3crjM0ZvvTqDQpbvTS9W
+# kRvRmd1lx5XiuoO8XTfHqLLJ3nKB3hiDdWaWyLJYTF1pRaqwX3p0fQd+vBHGKl4t
+# 5vsOhnPGzvNoDQkqmaKRvDX63VuwxkszdieRHdpjicJZh8k2TxHe6XEi1zAaG5u5
+# Okrq2t4XW+yiwORgkXGURNh8BMKAfXIUcbnY8K74M7SMRG4B7TY/Nu6PsqMWqN/p
+# ZNDQiRSdH88opiocM9XjpS/OWQaLHiIxtmmHU1vBYx0sMJRXnkgJ53zB0Y2Pok42
+# 57HD0g8AVKgUUwZbx7qsgZI3hTtPsIkscelCAlWQ3W35ptNawOQvqQPsT6JiQn7m
+# WBYhuvXUZz0v9xG2H85csT5/NCuqZHeJ0Mte8Hx5lqcr54a6i+PamfvYcrnmALJH
+# 1N2jD10GDuV+oM/+nXGTaZqaEd8FNt/e8oz3rLVYb2EF2UKeqwm+iLrFCg2JRDFJ
+# ltbNYUXxpHr7NJmcKbErtqJ04q+9Zkc4fxe/bQmqJsNy
 # SIG # End signature block

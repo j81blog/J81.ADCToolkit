@@ -9,7 +9,7 @@ function Invoke-ADCClearLldpneighbors {
         An example how to clear lldpneighbors configuration Object(s).
     .NOTES
         File Name : Invoke-ADCClearLldpneighbors
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lldp/lldpneighbors/
         Requires  : PowerShell v5.1 and up
@@ -84,7 +84,7 @@ function Invoke-ADCGetLldpneighbors {
         Get lldpneighbors data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLldpneighbors
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lldp/lldpneighbors/
         Requires  : PowerShell v5.1 and up
@@ -170,7 +170,7 @@ function Invoke-ADCUpdateLldpparam {
         An example how to update lldpparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLldpparam
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lldp/lldpparam/
         Requires  : PowerShell v5.1 and up
@@ -239,7 +239,7 @@ function Invoke-ADCUnsetLldpparam {
         An example how to unset lldpparam configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLldpparam
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lldp/lldpparam
         Requires  : PowerShell v5.1 and up
@@ -316,7 +316,7 @@ function Invoke-ADCGetLldpparam {
         Get lldpparam data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLldpparam
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lldp/lldpparam/
         Requires  : PowerShell v5.1 and up
@@ -376,8 +376,8 @@ function Invoke-ADCGetLldpparam {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCAzHrlMvgCgBgN6
-# pBXLMDRl2oG14F461EvoeIyLiwr6vKCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCAYYFrAEFSawoNb
+# /2TZjjtnApKAjvpL1zB3YpEgj2P7LaCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -545,29 +545,29 @@ function Invoke-ADCGetLldpparam {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgmQI/VDIxH0oVqO2N6aCf4BdG
-# wD7ayOjn+q/gA5dzfNswDQYJKoZIhvcNAQEBBQAEggEANgcqvO4rVvNYhqzE3l7w
-# SyYRRyZ2+J8blsJ6MKX0yYIOwhDrvtt0074ixc3vVZRyathI1yK2e84HuBSRmYKS
-# zD9uYNQ1w71ADJT+KQfq4cViEVghmiSNGOvovZASXXtWl/uF02s3EJEsNBJt03bd
-# 8d80hJPslpw1v2qglqUROlvNepR37XAcrV/4Q4nYMvTOKLA3aMRvdjPoG8hyFRmF
-# 9Rae+r2TS57SMk1FsHoRNX8zreTFgq9zwq4g7/yzV6yMmvONdCoy6ZQL9F1SsLhy
-# zQpNNJalZ8N0Sv71QfK2S5vGC+UxTcNugX46o71tQsXJiltcFRMh2BEYNcMW3Y55
-# Q6GCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgq97jVwHuJqIdOF+qSATQM0Fh
+# C8bWOJzN1lflJgQlTLEwDQYJKoZIhvcNAQEBBQAEggEAGxsuUvg/81EZHVIcVCpj
+# ufRkzI6Ud6TNmWtUx2o4FS5BaP/Nd/hX4yR9ZS1xZFrZ8X5OU0zTvpG89mN2LuGp
+# vFzabg04drz+KLfYues5IHecPRmnl11sZWGMUyt8HsVh6DpfcCDdRoIWoOVapOx4
+# b/wZ/4W0uV4vu/Fkh8eOxon3+fgSL7Yhpqrx7znp6NiBWhh1MfqfBGFT3J27pUof
+# 08zSAFURIRKHQ+6L+EupFo933TCaQhx3LnglaL3JOGND826WAe8EcwBB3wvuGK99
+# cPVpufcYeA3FPCGwatoV9d8n5fb9l66ztqUvO0wvvhrLAYrcjqTOoWUT6kNKpAYw
+# GaGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzMzAyWjA/BgkqhkiG9w0BCQQxMgQw4GoSTRwxESx2nhrLtfp9c+qu
-# 2OlBVVch6snpl3WykWG3bdMqA0NhCATYHG38/9tnMA0GCSqGSIb3DQEBAQUABIIC
-# ACZeNR49EzS2/QsqPf6GlJ+oidiOBR1qHW+svXXo21dvVDsKlWLOjhPF5WlHUIwq
-# AaznQ3TyF9hyWIIB6He+Qvh7j7tszLVcJnoikTLWp6drXSZ6wG+4uE64GAbKWhPZ
-# 71+KeRILy6k0c6heD7GBRwn8VmthTq7Jm/HVm9+7/7rq337biG/r3psF1Wku2+9e
-# Axbc6kJr6fYJy8h9krk9DbJ+uGerwg29TPJuWbnvqLIW710qJ6QOLKp5xbeotVR/
-# YhBA3VPS6WXfs8G19j3QARQS5U1n1ibHf9HbJhrazCYqunWaB5nPpeCkGhUt2Vg7
-# l9jBKfzABpwvACEp/A0HEwc/v8bb0VWLMq+e+wRzeuns5BLare40tH5GisH/qEKI
-# wUgjVbYcFcd5W6FQ9xCsbATX4RKXBLYgMz3XgxUe4xOcI6vGa5QB6QkeBi+R+Ns/
-# KJMlBkC7XwVwLZIFfqHF6buwc4BY4QgPkbHGGMEoS3luWzrpSbbPRfIbE4UIraOc
-# BlwaKrbnCtm9Mrf72EAi22KEgugt0QufS4Ghzg/QBnW/34KTb1yLtmk1JZ451lAV
-# 9llUOocdXVpq3dQXUMyw+9LgyRJ8M7bobSS8Ih8x8hDqzo1dlwfKjbtyMOZr0h2Q
-# s3kLRSiKHW5GzU76dJKv2AT0R24v96mpdpfBrMvIu98o
+# MjIwNDAzMTkwNjE1WjA/BgkqhkiG9w0BCQQxMgQwYRkncjdzRLtKD0SfnbwmyXDX
+# ci2GVYBC0z2BlEEUnnSrQwjLtr2ElDWGKxKLVAhPMA0GCSqGSIb3DQEBAQUABIIC
+# ADYlhDxdwHPSthGLxtyAEUurCq3bJjFOWSyiF8LG7BQ6Js9Apmwpod96pcvTmS/1
+# MAM/P1rPImfpVaanSD6jq54jvoXTFQCCbOqatVJzeIk5cQKvE8CY3z1TtGVIetCg
+# 6iixIqzIDPQFOLk6CZFYjESFUNYlnkcwaXkPO+o1nmklzKXOT7oPLFwcSJPpwJHz
+# pY/4ELfKyxTvm6vuU23Ow6K+HhIC3WoQL5bx44C0PP1H6+AdDdD+q52v5ksRPRF9
+# S6DnKfy6GNKsCrUm8AyokaIJa0PE6DWegq1aCHBOhSyTXb7HVsnz/lKHMcTV8H6+
+# 1A9CRywG9i7Y7C4DoUd9z34isROk/XdJ4CUz2Nz1xCF+i7kwE2kJupa0Iak8tEmN
+# dp9ExmxMYGgUK0iOWYRLzane89GEzCs4Cx+HEisGdR/x/GFkjSOLB4tK1n3BorJf
+# sl5+wv2xUyN+qiP7IuLrl+M/zSCyiOhw59AhIG6iUlhHrquLljqkKrkiZ/Jt3rgr
+# sjEj4LF6KB4TlcJ3/JuaYE8ur6pI4TYb8NQ1alg8oKqlvYDN0BYsbU74CfSjFx3Q
+# Et1mp1hT3YBHIAFJRcU1Ph0XhCLLklulpIeDAHxyHodPGurjHOolTCoaCv+4jPAt
+# 20a0YUla/Sw12pJpK21SCigtlS4/aFL1TfMArW7IZlZp
 # SIG # End signature block

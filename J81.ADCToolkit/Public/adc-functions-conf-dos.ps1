@@ -17,7 +17,7 @@ function Invoke-ADCAddDospolicy {
         An example how to add dospolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddDospolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy.md/
         Requires  : PowerShell v5.1 and up
@@ -88,7 +88,7 @@ function Invoke-ADCDeleteDospolicy {
         An example how to delete dospolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteDospolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy.md/
         Requires  : PowerShell v5.1 and up
@@ -150,7 +150,7 @@ function Invoke-ADCUpdateDospolicy {
         An example how to update dospolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateDospolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy.md/
         Requires  : PowerShell v5.1 and up
@@ -221,7 +221,7 @@ function Invoke-ADCUnsetDospolicy {
         An example how to unset dospolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetDospolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy.md
         Requires  : PowerShell v5.1 and up
@@ -300,7 +300,7 @@ function Invoke-ADCGetDospolicy {
         Get dospolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetDospolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/dos/dospolicy.md/
         Requires  : PowerShell v5.1 and up
@@ -372,8 +372,8 @@ function Invoke-ADCGetDospolicy {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCB928KOUXGLDcZy
-# sdTojgOllSA7oQz5Wz+sDO9uJmuUlqCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCASaR6rqLzLmijN
+# XZsppP1hsAmyHJq+3h3hzqQQ4YG7QKCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -541,29 +541,29 @@ function Invoke-ADCGetDospolicy {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgL1czWe9g8u4kOdUE7MOkJK0/
-# YL4sVZz0+00Zy/MrQNAwDQYJKoZIhvcNAQEBBQAEggEArDLKaQtP+cZAgYcKcnjb
-# ddOeTJdFZKXENuFMWvPpxSim8m+hZTL/yZghrvHiYYCvU5QXMstLG+IfhQRDgNUs
-# TOmU/iyxdsDdWpQlCXwqBAwC6M8t0wsRme1k0Lumf94fo3w7KnpdI9lpCqmDd/qz
-# AGrnq84WkJgHUv5OUDixgDZ/U47ML9IMZuWGWkZucflzlm/Xxjs7pFaCfG0HyvOG
-# IML0y1/CriLuBHrcen9wZIJxpf2rqMXmqlkZMaIweOUkbtaW6a4jiP+NcZKumMvm
-# uEd8t9jn96eJ41WlLl7DoqJbdXM1ud5hp2x7lK+5GLE8VvNZ/naJy0HHCACxSOPR
-# LKGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgaY7whO+jPgZQ29dJNOH3++hB
+# ElogMCnhmVzjh5BjG/4wDQYJKoZIhvcNAQEBBQAEggEAQ4qbOrROVdK+s71ronkS
+# jl22q+g9KMnx833GS77hXXeOYOrHCNTXBiNH6JtemFvCfQ8lhm+pj657/AHTNc23
+# ZIE6/6Fl04zQ0ZDQVbIqOE+RXAcgk/0M7zOq8IU1fQjB1rZ4OHY963NXwa0LESKH
+# ANksd0xnUkLyoLe3je5ExKSFTTRxDZo/sKOzwBp/gn7jJVPyuKyyRvHnOuVbiEJw
+# LduPvQ7Ly/ZICSzTON5hsnj2So/+hXBQcYUIkJI9V3QcU13NUiYOTVLgHFazwXR+
+# gqX3UpK8799vfXbRWdx7wbRekB+haTXFBEtp4Z/voMtyJoJNCT0PUmNCC+dBO8zK
+# RqGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzMjQ4WjA/BgkqhkiG9w0BCQQxMgQw0g8920BB/YOi8omGsc2lzPwV
-# gEylkh9p4Yg+A4nNHYbw9TgPX5D7WbQpZv/TQa6fMA0GCSqGSIb3DQEBAQUABIIC
-# ADk52qkvDHW5rVIgDRE86uin8U3E0lbcn/NuolFXymIfq6+o16dpUhbLneSEQm3s
-# KMApuZuIgIrsD3e1EmO9d3kt+E+P1TDx9QXAiiMv0U59k04bI7rmNLWhPh75HPjR
-# /K1IPXygJd4+XXbrgCPqp1dhp2h10XgJQ1j6z3dANHkHQP4jby6DsAFWQDIiBah3
-# OVhHqzotzJz0vs3NLd/53WoZNHBD7v3IPOdFvSTZ9oaJZclFF17R+geZPbWLgsB+
-# JCNgy5JgkzYUNGT3sGb/LyY/1by9uHJ/JZhBNX4O/GfQcmY/unO6wKX2ZoTIS4ej
-# nwO3tUSnt3BbpC0FyBuA+oUsJscUo84WzlB9PG/aY56Ijk2ld6ukOS+c9cqCS6Dn
-# zsSdHBbg4rJj12bUcPhu/jW7KosCwJl+OrJQ7sHCl61DvDtxHxdv+dz2UbgUKZdu
-# BgT5CQI2ghTyO9z/tPcLbZppyKasxk/ucEFXICbUXHXlMVVAyyTqvzGjYKZsp0oI
-# CT/zGUmqLdszyBjh1+L7HNQBYTjiQVFEGUI1+JdB1qvf05dw/nfKVKPabYs5+2Aq
-# KPg5c0nn5uFrlPZFPWULGIXoWfG4LWRHlx4hbFDmUjRVqsDKlSIbirUkM/hXKy5N
-# QkEPQ75Sc1hzv3nObTSqBDH8f1JE53qV12b09a1GIexv
+# MjIwNDAzMTkwNTQ3WjA/BgkqhkiG9w0BCQQxMgQwRVXSbXQf47bLJjS4gNQ75hYy
+# Wjp0ZvQxbl1QgTN7hwANmRaSXtccYAnNQX5euCX7MA0GCSqGSIb3DQEBAQUABIIC
+# AEV+X22EKMjR4/3/Hkm4AmGW9yq+rFoFtqFdQ1cEieOehqVs5VZOMr3xQWkT/L1N
+# OM3srL5GLdzQvtOqZzFTNZ4vpU9F5yDOl/vyHZ1beCm65D3UKf6qdgAmOX6FIaZd
+# 6AO+KIJ0g9K22ppXXItXWD3SuiEKcLf8moYRSmytouN5ARqgd5ixlUiJDFdYTk8K
+# qpA6u2gz7Mci0vFF80AHKcwb4gUzg8ovntc5RGG9VLqLVJbDCP6jvZIywi9p0IRB
+# d0H2wn246tF4xeCRo/47OZOWYq5PYixizdVDZIfyaerBkVwmRLfG1oNenQIfMuCG
+# Zvq7pAV0EP9rwDcC30n9mu4tHGeFBagFDYcZI2IAJy2vTAVj56Q+z6iHg3665mPe
+# cH2pAG/1wgw4J7OBfaIzxWpvqIa4y1Xx+1J5EW54SobT91hhSclWSWlio1UiMFv0
+# XMVENDBfLgrSujPn1NWMLru+4zKm9+77ojdfRVwXuXtoKtwyRdVC3YD9xw0wd82Z
+# 4pykpdHDr3Q+skI+yCD+XUuWDYX1230QbPUMSjwJHCtaa8xAq1IMue+gcMdZyiwx
+# UF99qcks4SWYQkigCmi9qB+RJM9AnYkE+CVgrKKDcbuwoONy44SxOT4NWN6d1pJD
+# QzIqbcmm2BlhXzqppoK2EuBYQrsUrmMYaPdFhLNeHPjz
 # SIG # End signature block

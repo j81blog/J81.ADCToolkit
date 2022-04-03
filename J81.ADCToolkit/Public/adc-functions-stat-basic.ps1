@@ -29,7 +29,7 @@ function Invoke-ADCGetServiceStats {
         Get service data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServiceStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/basic/service/
         Requires  : PowerShell v5.1 and up
@@ -121,7 +121,7 @@ function Invoke-ADCGetServicegroupStats {
         Get servicegroup data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServicegroupStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/basic/servicegroup/
         Requires  : PowerShell v5.1 and up
@@ -214,7 +214,7 @@ function Invoke-ADCGetServicegroupmemberStats {
         Get servicegroupmember data with a filter.
     .NOTES
         File Name : Invoke-ADCGetServicegroupmemberStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/basic/servicegroupmember/
         Requires  : PowerShell v5.1 and up
@@ -279,8 +279,8 @@ function Invoke-ADCGetServicegroupmemberStats {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCBu+Y/ZHSKbsXEc
-# E0LD2esBF3oBOw5EuHs7puukvDLEJaCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCC4bueTQXQATH4X
+# 4JsFOIx/22AuSy4W7+VffWQaz4IoS6CCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -448,29 +448,29 @@ function Invoke-ADCGetServicegroupmemberStats {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQg+4RDnOobRLNH9Zl7lQvzc/U5
-# 5pPl7R4/0dh/HPjHoU0wDQYJKoZIhvcNAQEBBQAEggEAXFEWWU5DKSOkrKx39f5g
-# Gh+WepDejH2icVl81mlDsar6wQ7gKrBnRPZwQwJKLKy3FHvhj3uu4jnR07PXeMyc
-# ByoezVDlpVvMwlTnKcFCgIoreO1pjaD9P4V9S93cVHE508A2+JlCN2igFIuTLvKX
-# RYCPAum7IML7LNsqOfcSzAdglX6K/XyX7howZasny2bpznKdNn/QQsvbyUlSACql
-# xZzV2bhm6u6G2Gpn9QFg4d5e6uWNVLQV8qHDDSSBvYkSSCDoWYBhHzlEi0dDCA2b
-# aW0eFspN6tsMDPKAOOcojybMn31fPaQKbm4+7kwUOyWcYQiZnyzXVMFz17gKSDaT
-# /qGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgnKZB1nMtqQTh9mm+00p1H7+x
+# f+TOwM6L0lCQu9aM5WAwDQYJKoZIhvcNAQEBBQAEggEAcieCVhmn2fjBDWSnKa9I
+# vAygxs9aAvp9vNjwFzNuxSMbEpo+X2o3XDZZ5UDEKVlIWMFEEIdW0chRZhxYAarc
+# l9/XFZxTQCZr0VHBgTzP4HVhuBRWJeCmIwXcwXPJ9ffiYABKUXndZAfeuiwjKSXH
+# 6KaCYBMhRjqW/0xaaLfI81UuYZ0Wjjw8dk3p6crycUy9elP3T9WLMkBq8yRqMaF6
+# +QEoLIlZcgHAwaXwQuoqty5KbgL6+oS+TgGO3bp66kpCNu7Cq03YEUrC2eBmYJjq
+# 03UIzqsCQXVx3vO/wi307NR71/5EI42tLHd6xLf0eBRbDqvcSs9vpADE1hsO0Jvl
+# R6GCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzNDA1WjA/BgkqhkiG9w0BCQQxMgQwGIPWG3FPGNvl9HAm0TjOecYJ
-# PWv2z12WxmxS/EFisA/Za285Fy13lPeZNW7OTLYpMA0GCSqGSIb3DQEBAQUABIIC
-# ABTXBcwYQcmYIaYxJ1aLnGywbDzcQkv89nc7f96OHDVKV7zqi9dEKEYTj/c2rtIS
-# inrzFM+rU9h6zOH1FoBbWe8oT0ycljSJ7Ib+VVqU96pmBKsgiRIGD2JhJUSmeGMa
-# B9YLOt4Aqe56fCKtAdP1vw3T8jx3FtW95ybtbBTUs19jyMSmgjfOM+DEBlaHDt+I
-# gSzpwGw7TeF00iXrli+JbpO7ddlvldVGOCTe6dt5ApkvRxOLUCOiF+MHQJvxXj3E
-# VTbtmNuRQV3zwybJ67Yzj2nM+tyrbF3wcFPhcznxKfKdYqG0XLLho1CzevGffW8o
-# 0hwDblf9AaVFR6ha5I0Vbtiu4R3WjQ0c+XwFqgyEUTfttk4je7aaPHCZiYrHPN9T
-# UdHryhRm1jAXtYNiapJmNcHBJFIP6WQvQkYGB1luyKWAV013eVj8jq7qfWWBGEgy
-# A6cKp+4dBBTUz1YGgtup6cvn2YIXfNiNuz2PF5tXRoBknb34XtRcKanTKPCqD5z8
-# UISrvLManEiRWi0/ch1SG456aXs/p9p9Ch+Looq4hBONIGiVoR6pCIT6eSmL6NRW
-# Q2EcKW7GTZRU1h8K4UVpM5wDhI7dheGUyrYB0qZVOLLD9a/eZ/armOyTtzyr1+9V
-# 1FLz5+IyU/nysYyZU3KjovvtXJeqaZVhp8s1eBBAEtEF
+# MjIwNDAzMTkwODIxWjA/BgkqhkiG9w0BCQQxMgQwofLW4daP9wNx/pOBSTmoIDvb
+# 02wyV3CHfpB2W7wKpEReLnmzgQZaLhEZLMHjyZkWMA0GCSqGSIb3DQEBAQUABIIC
+# AIwkZocr6Wjb1aH5lrvN6KtsGzqJqlyIZ7wgpNYc9QvN8DjB1TTydu5CWwKCqd6l
+# y2/s5HstVtYHVDkwmbp2lQdQEeIs6ISAn00e2j1fu/9zaZ1241Iw3r3HpTNZtrI7
+# QZITz1KUaT/1daUUadVs9sQz8SRnhuWM7HO1fEthQiKEKdNpR+Msj67+F7p6e7nD
+# jRqjbtIHVVk8fCEKzplwYScAycdFyqKeBfAsgTC+++ch8NCXcVfWJZa7/tm9/uZP
+# wXERH0hln4eBP48BRRRb2oH84erHGG6qn8OfU++ZQEkU26Wc+Ae8Au1pAhwgJguQ
+# t8IrOzX9uHS7q7JKtDOx3teL0ISi9G9Dbp4AvikkTj4a25bBJx95aGyzggBJ9ndm
+# /i4NRAMKnc7k8BWWTzuNXDYZU8MhpfuRC6ql7TaKOeeJmKFVEfGy00GvM6uZTEp2
+# G8ZaihZuXFALCQpqeSvInv6fPkEj51d3EIWF/Sz429xtMgKC5UCPvJTB9QAmCXk+
+# 44Eut0v7rn2by1a99uy9HnjPmv8ibjH4+kf6Ug6Y/jKg5fKngbZ11ZWo3CSeVjl9
+# 6Wfl3aJn8dNLTddXMReazsxPfYZvsYswdjBwgI2CFPhyOyZHeEt6ItsJOQSxtbXv
+# vH+1NkMCXwtJySFAkJTdKeNOIChoHnZ04G3ICPIe/OrH
 # SIG # End signature block

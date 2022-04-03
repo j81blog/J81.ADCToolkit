@@ -30,7 +30,7 @@ function Invoke-ADCGetBridgeStats {
         Get bridge data with a filter.
     .NOTES
         File Name : Invoke-ADCGetBridgeStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/bridge/
         Requires  : PowerShell v5.1 and up
@@ -127,7 +127,7 @@ function Invoke-ADCGetInatStats {
         Get inat data with a filter.
     .NOTES
         File Name : Invoke-ADCGetInatStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/inat/
         Requires  : PowerShell v5.1 and up
@@ -219,7 +219,7 @@ function Invoke-ADCGetInatsessionStats {
         Get inatsession data with a filter.
     .NOTES
         File Name : Invoke-ADCGetInatsessionStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/inatsession/
         Requires  : PowerShell v5.1 and up
@@ -317,7 +317,7 @@ function Invoke-ADCGetInterfaceStats {
         Get Interface data with a filter.
     .NOTES
         File Name : Invoke-ADCGetInterfaceStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/Interface/
         Requires  : PowerShell v5.1 and up
@@ -408,7 +408,7 @@ function Invoke-ADCGetMapbmrStats {
         Get mapbmr data with a filter.
     .NOTES
         File Name : Invoke-ADCGetMapbmrStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/mapbmr/
         Requires  : PowerShell v5.1 and up
@@ -500,7 +500,7 @@ function Invoke-ADCGetMapdomainStats {
         Get mapdomain data with a filter.
     .NOTES
         File Name : Invoke-ADCGetMapdomainStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/mapdomain/
         Requires  : PowerShell v5.1 and up
@@ -593,7 +593,7 @@ function Invoke-ADCGetNat64Stats {
         Get nat64 data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNat64Stats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/nat64/
         Requires  : PowerShell v5.1 and up
@@ -691,7 +691,7 @@ function Invoke-ADCGetRnatStats {
         Get rnat data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRnatStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/rnat/
         Requires  : PowerShell v5.1 and up
@@ -789,7 +789,7 @@ function Invoke-ADCGetRnat6Stats {
         Get rnat6 data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRnat6Stats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/rnat6/
         Requires  : PowerShell v5.1 and up
@@ -886,7 +886,7 @@ function Invoke-ADCGetRnatipStats {
         Get rnatip data with a filter.
     .NOTES
         File Name : Invoke-ADCGetRnatipStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/rnatip/
         Requires  : PowerShell v5.1 and up
@@ -978,7 +978,7 @@ function Invoke-ADCGetTunnelipStats {
         Get tunnelip data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTunnelipStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/tunnelip/
         Requires  : PowerShell v5.1 and up
@@ -1070,7 +1070,7 @@ function Invoke-ADCGetTunnelip6Stats {
         Get tunnelip6 data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTunnelip6Stats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/tunnelip6/
         Requires  : PowerShell v5.1 and up
@@ -1162,7 +1162,7 @@ function Invoke-ADCGetVlanStats {
         Get vlan data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVlanStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/vlan/
         Requires  : PowerShell v5.1 and up
@@ -1254,7 +1254,7 @@ function Invoke-ADCGetVxlanStats {
         Get vxlan data with a filter.
     .NOTES
         File Name : Invoke-ADCGetVxlanStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/network/vxlan/
         Requires  : PowerShell v5.1 and up
@@ -1318,8 +1318,8 @@ function Invoke-ADCGetVxlanStats {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCf/jFRyxPo/yDT
-# 8a4F6JraRHPaMC0mGfokm7MNEXZhyKCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCC/qD1EDXy9XoZO
+# QxaaT2ALhWlNpfWdGIiQ/9nxtVOw/aCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -1487,29 +1487,29 @@ function Invoke-ADCGetVxlanStats {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQg6+gnoGEupQGNqBkO4uwNqq1j
-# mfrxC/mioyFeWKRQ/wIwDQYJKoZIhvcNAQEBBQAEggEAJnSlub7ghJMI5h/ifc3G
-# qznoGjjuYoyi7njqOFau698vrhA8nr6RnyA7EaPm9X55P2XDUXFj12gbG2CTTOBk
-# YTdiU7mfV/GQvFvNjVBbQukGDIlTngFKPebX5ZcMqQ8CjSk1yWy3+sHx1nrrto4o
-# cisVXz03q5+NFBjcwq3mnFiCSe7O/fdH7F0dEbqddoLSBa3IDS/etx7AurdQO1u+
-# rONoRbo5eBPXw5ValCFDyKG+uE4XOcDL1E1UiCr55xp7ICz4YYRqzIqwYDWcJbfe
-# ipclGQ2snskP2/bvcHDs0zCd1LtGei2wUtmwfjmowZjGKkS2H1ydjv1IpWqpv/1o
-# 7KGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgnV6+k4AjY077vySLioXf64EF
+# Sc0yzoFJmZmpCAZKw9EwDQYJKoZIhvcNAQEBBQAEggEAW578NlXfyJrlsDjnmbja
+# +MuP3ZdMTkE7ggO/b+fO42xctSQ1WhKaDlYAbex7nYrfZ6XJgldAwk0qkNk5jE63
+# BoUGRerag4lx4ViIWGC6HxT/XsqMFA26OHgx3hmfJ0/+M9CFDUbfXL6s5TGp67Na
+# 6Ng0IEZ1oIqkRQzzzXSOuCARE3qtOoLuHzh9qZv0qs5+l76jVWwJKdhYDS6qT/+f
+# gxOuJvOcF8CeVCaF9Gm8KrHuLoHXQgHkNhF4RbiduTENNW7o7DhGr1xI4Y7M65Tm
+# v6DPxfxV6Z9mZD1Mp3yWzaw7YUHxYCK7/EOwTTljGLBIV8X89N/MWpfntrEHKspZ
+# U6GCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzNDI2WjA/BgkqhkiG9w0BCQQxMgQwnndyjMHTVp1EGTlTXN4BfBgV
-# ImBtEACH30DDctafVoHBWnXhOficr2HG/q0BQ72cMA0GCSqGSIb3DQEBAQUABIIC
-# ADAyuIHrmPsZvqzkSiwxwgwz6wtZraerg23gnhkokcLrYYnzDRKHB3hbY0E+ULU8
-# cJn4Q1stx0WRt7mIxT//vzJzxiQwBIo5lwMBPIJUgmyC5vF9FoghSRo/mgC5yusq
-# pKjjHsGdL/6UjLfKNo8K4da27kz/qEjvEuUvHWqmovv1dRin9pb5fTLHpbnE502F
-# +4FRR6TF7tZYUBhoLHahkRzQPZl0X4uNZCAk2Ufx1fm64sSN5TM9MIzgzYW1b9K1
-# sE8SG7GFLTVcWhEUhUei4iC5ZgIc4n0fEx7oVB/xh5YphdZXlHlLVGjj4Lily2+o
-# qJ5Zax8Dd84OJYNpnX2regRul0Ix4GikTVZPQ9MfNb++fvm15WPAd6tDycJKxhF8
-# PLLLD1Ir7jwtuvjXazctKIlpHroofRJ0M1oQOc3XInnUMPfmzEPJepju0L9+yoXQ
-# aD1SUZVQTCYzfygW0d866jIV4ENsFqv9PptgD5vMdBtfpd33rjUTJMX3QcYlLkTr
-# FumtcSgMeBhrPYI46SxWlmvFaigtrW8f23l1POmu4kHaNRYVc7CqZ4Fo3uFm+jqI
-# L4eRLDyDQycIyzr6KQSHClhxib2sznxDZxTe3Ya4nkkB4fnO8FGtc7hTr5pObdgu
-# zRmWN1JIUn0wrULveMlacv3TO3FtL6Lax0jiWKhTmejh
+# MjIwNDAzMTkwOTE4WjA/BgkqhkiG9w0BCQQxMgQwO8efMsHCN3oXrh+NglJk2Nx/
+# EaAcDZ4jGjy2AMLvKPhOgGNT1mkt7Gp/QKyvkEASMA0GCSqGSIb3DQEBAQUABIIC
+# ADs0C007U2B0vWhZgdjdO62clKlGqDPh26mWD4DouOT230cAYmEf5LqV6P63ZC2Z
+# /U9g8xZ7uKbH/dqsCl/zrokPmDO+lzyXssDSt/uTy49FdL2/3aBzIQpztn8Kvuh0
+# cLKT6vxoO16RDjMHuj48CttvvVz/fwz4H85wlHiXLB35QMKJhBcE6LwExRZsYexZ
+# KpbS/n/SIN1ihAVz3Gxc40Bd1NxYxPoCXeuxlncgL1WNMIiHw/8gMeAz+3UT4L5L
+# OkffGkEu90/BbXlLI9P9TopnFtfGwAQCkX+cvskvi5zOZFIUKDMQAxp/2Rmwrm1I
+# 2cGwK0bAusbBV4syVUCdAhhH+hxTax0cuYyntHTSe1jRzUhIKNCkvf1t0xblMqhh
+# RpV4tXkHzkJOErvTczwW3TTZi6K+MM5LYIaP6Q2JGZfsoNEJKoPAXzkRMAU4eF3k
+# jL8oWBmhJ15Da5VX3fHCh8I2UtizvXKK5dBV51gD1kxRz1AzEKJ0ABSR4DJHbEk9
+# eHvfwYpBdrLRqDxHVf6PebcfbzwNdVZaYiCzR25Rf5zPlqbSAJwP90UBfcD1bOSc
+# E/2LB44n5OC53NLgJZK0WZIKyT/kdBSG0I1MhOD3ZjnC/72A//eGGIg0En6UYowf
+# kDBPREyojOE8fcjvuuxAkc+uJwzoDM2pje1oEZWlMl06
 # SIG # End signature block

@@ -30,7 +30,7 @@ function Invoke-ADCGetCacheStats {
         Get cache data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCacheStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cache/cache/
         Requires  : PowerShell v5.1 and up
@@ -127,7 +127,7 @@ function Invoke-ADCGetCachecontentgroupStats {
         Get cachecontentgroup data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachecontentgroupStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cache/cachecontentgroup/
         Requires  : PowerShell v5.1 and up
@@ -219,7 +219,7 @@ function Invoke-ADCGetCachepolicyStats {
         Get cachepolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachepolicyStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cache/cachepolicy/
         Requires  : PowerShell v5.1 and up
@@ -311,7 +311,7 @@ function Invoke-ADCGetCachepolicylabelStats {
         Get cachepolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCachepolicylabelStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cache/cachepolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -375,8 +375,8 @@ function Invoke-ADCGetCachepolicylabelStats {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCLSBDEcmoL6wKK
-# u1TyJTNcTQK2hfDJMWNoelJqzd3omqCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCDRX9F0LuUJeehX
+# 9Vn8Z5RXSRGGPNEf2Dd46++n1ffG8qCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -544,29 +544,29 @@ function Invoke-ADCGetCachepolicylabelStats {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgrZPU3ZUAKpNNMbMz1GnWgl9b
-# AgF58CtIro9im5NL56kwDQYJKoZIhvcNAQEBBQAEggEAMr1qkSctOnSWJHuPmTva
-# mLY074gi4pywaSSvQqqBiiVhGkfquFwA23XpvKmuigDAsMt2XCQwf1ms1RZ98Vxc
-# 44nVSF3+1tpPxGDOnHXsrgMn+qxUF4ezCHhxfxazX1ygOa6PKmBSxaD2W+iRxssz
-# TjyFA1PsVQ9HW+gYfLBqRi5RcQPs6iJG9B3WoKfvi3S7gKJ8591sjp7ohCGQdOUt
-# TbZ1qGe+Bo7ufMpjOY7TMpVDuSbmEZepvZ6ovszoZgkguY4EcLE78T1hVW9pRJ2p
-# E9HqN4aonrb0q0WZKersZtHoGwGZDOsQ7l2qfId6gkMzElrV9FG3lN1bajhRFsSv
-# TaGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgFw2in3XoXxZ7y5fQpilNhgPe
+# Cupd2wSleRz41S0aDg4wDQYJKoZIhvcNAQEBBQAEggEASuCPweb4X5rLsLE1a2JL
+# rvLIshBEk37ix503tuhh8/GiR2sPuGwPWQQ3zDhLtVJAVCKDrzwbpU4NiE8tez42
+# EcVb0BnwNl2mHhOQCcfkgWxS0Z57ej7MWWQOZuNpVvv77hkSO0jX+/ZS3D+Cr1iY
+# b1+AaK9lnjp9pbbjK2NxFu2yNPBOg+1b5nTaE+G7xrF85+woIUuqTZ2VxN5WNSDl
+# 5BnLq2LrxwFrWugg7jyNfSQcCDEaZ6JKAHCgclIRmuX1u08lrYwRputrEYfsuB6l
+# G6rx/cEn+f2wl0f0qWr13a7D4elS5zOAclHx3WjvHCvjVqvd6j+hWBS4GC6lYhaH
+# XKGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzNDA5WjA/BgkqhkiG9w0BCQQxMgQwpOqzm/0bVOwDMuFComKvsMiN
-# JjdxY5r/4cdOQvLT1PI6M+z1gKAh3mlkLDX2cex+MA0GCSqGSIb3DQEBAQUABIIC
-# ACPuWqmv2gFNd8Xe3xLnHIlVVwgC/zfuJZD1zD2hssbtQW/y7FYFafU06DyYBZXR
-# 13onKfm6I4RHMbl6uQ+GgHETOJPlpyTN+i6UPCeVv9tzETl1i3nJOJk9r34TwG32
-# W3uV9+f/T2nltm4kLmRIDi6kHxQGX7s+B9twHxnHSP2Fez2mTnBMafwecn3NPnp2
-# ahxZoGXcFzcQ06yOyD2yd6U479ErnYVzfYDPcDmfJIm+zv5FxJfWSB5Ye31LnPF0
-# qu3PB9QswQZ9NjUDBdiOvWLnJdMfm94/hVAkrSE2IflsrIawvlYT0tfRWCM794SZ
-# +CypDmadw4zTIy5DTWSEVJOpySiHMyV6+e+mQF07OYh7vZuIVnVpghOdQQPznXrH
-# zwpGMVFaHOIUxA4TA8Iie/xEdYjhY0M36hvbuCRBI3MkQfMvx8qURqhoKqP/pb2G
-# 2fmwg3//7hKuH3uS0KVQXsjsg8c2aHWK5HRDbHmMLMXaD13TSvFRjFX2J+3J5cEQ
-# Vfxah2JwGL57EQct2Y3VWRI/QcRX84Ac+1lXsVAqSifSPyuPE2vLVOXMGAqS4CUy
-# B9vT7Ny/zWqmjPU28i3kUeZIkzsI166cm+NvTnvrew2gAuuKPS5IPF4glyDsEFah
-# a7iN67NoocReXhWaUkEOe5a+hwFFI2Hywfz3eH170KNP
+# MjIwNDAzMTkwODI3WjA/BgkqhkiG9w0BCQQxMgQwpqkAG4RYcDjGQaOPDMVx80ab
+# LQ96dXAf+dTtKMu0t+09g2wHzR+BhhCA3Hn3NRw/MA0GCSqGSIb3DQEBAQUABIIC
+# ACbLPP4WYJOHHOtdlK86odW2BRyIUfpqqC2ms0/YsatDoPtzV6Fv1TzQh2HgJ16k
+# rijUa33IdsfjNHAjQ2uLuk+OzZpz+nLpasPHc0euJnBrkFkL0UKJ68i8rTyFGUmm
+# HGHAmyUnRhV57kOYyCWttIuupCVwvxwZW+U/pfQXx1go8fs6EBLWkWkcgAaUp1cd
+# R4fw5rECyTA7XG8mjWHTzTySFtUFAXfgjUlalbXjv1KhQbRZRnCpgUIVWn7efcof
+# KtryiBy8AAYr1z4LNlXCtCL5GyPJ5+18OyEqk2Pn9q7Mp3D5LrumAh1R/BaXi8gI
+# yGsN9BQJs2FXgzflRQFPf7O/lFTcbxuaMt+4z/2EP8sBTm0uCAaHLNnKELGAqHPC
+# mZYMlEyXBK9e+tJ4XCa68p0n8ou8kObq8BKkGYLLBSiu83V95fHA0vYabQEgCBam
+# 4jx4dTKPt9M4d0uZT8Gy17AGniw+vZo6uAqBPHWseSu10/j6zHEFeVXBOBS3aOo3
+# XpF3q6vy2OBsp6jljUuqNaXinYQx46UZPz0sT9pF+Rko3iRqG4seWGKhiROHVNwZ
+# Z4O3rk8JURz6tGBKw3CGEkENxY8OIhotZEVZgL+nVbPfvE026bem/uvNVbwNESdr
+# /t+Z8tEcOWWcnHYk9BVeWxvga2gFQQI2r7M7rEU9hNx8
 # SIG # End signature block

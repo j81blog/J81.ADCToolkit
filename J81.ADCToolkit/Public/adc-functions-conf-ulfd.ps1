@@ -13,7 +13,7 @@ function Invoke-ADCAddUlfdserver {
         An example how to add ulfdserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddUlfdserver
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ulfd/ulfdserver/
         Requires  : PowerShell v5.1 and up
@@ -76,7 +76,7 @@ function Invoke-ADCDeleteUlfdserver {
         An example how to delete ulfdserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteUlfdserver
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ulfd/ulfdserver/
         Requires  : PowerShell v5.1 and up
@@ -153,7 +153,7 @@ function Invoke-ADCGetUlfdserver {
         Get ulfdserver data with a filter.
     .NOTES
         File Name : Invoke-ADCGetUlfdserver
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/ulfd/ulfdserver/
         Requires  : PowerShell v5.1 and up
@@ -225,8 +225,8 @@ function Invoke-ADCGetUlfdserver {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCje4QSMwQ2DxhI
-# ArcJhuMlOexuAyOCqmnVXohSe+zaTaCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCBesIiKhvdj2wpN
+# K6JgiceNLEgiCJBtH3JjzwwHafldcaCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -394,29 +394,29 @@ function Invoke-ADCGetUlfdserver {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgGdB9kTNVyxx0KygTv5Y5pxDZ
-# Gn+kB7sB8+2dlN47YOQwDQYJKoZIhvcNAQEBBQAEggEALrzyZo1UXZtVJFCkXnPV
-# DbacPE50XO0zlVP5RlA1QcMAQkYvaSuRCdgFPJYOXr4WBImKiluXUQZ3UEUDlFXv
-# 7/yp1Ptdv7MSqyzDP+wMxuS2mfY32ouCAnrOZ/VIeGLoQIH13HAIo66KZgWoRZi8
-# C5+xG9uh7sZ+wBfqKi3YmE1epjYCGxzvHfy2ngiNtry3uqhL4zJqmc4YbkTCJZkZ
-# C89AxcXKvio0pzc95U1jXW1NLk40M2bcobZ6k8FtxyGYLvNUmGMGjlCH4KqrnYzB
-# H2BYcLQRDcLS1GmnJu3p1PbMdEGfIfbKYOa2xmQcSvy9eSCqEeKOlIEOBscSygLB
-# dqGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgIzTEmMsqzmU0s1jkFsD1xuPQ
+# cxDbzhhD4BWmf7M6s0kwDQYJKoZIhvcNAQEBBQAEggEAEqpBBUGw27xzy3sBYamz
+# qAMvTPJ43e8bN3SF+S1lqOj8yGpixbqYXj0Iv+d9v+VwqP6rKOAwodE67t8NosuI
+# jSI29PvIS8JnA4SH6N3nvBFK0IuITSfThPwq0Otjw/ue2XX5uL2qxkiOxauR0uXs
+# sZ9xL3oWqe4WfSoYbRHlEXOnUron6gmQ9F8oIl00pjZqcAa+OvzvzERU8bXO7BVK
+# fG5rQOURWjGABXh6UCnzN2Cd6sBmBHr0Id1rCO46vZKEzXEoPOXxr3aVLQK+bUOZ
+# MUMVqE9Jip+o3zkZccJTZS1WkOQ6cevCqepivhhk6scnTPRpay4/wKdhWKrfwvSv
+# sqGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzMzQ3WjA/BgkqhkiG9w0BCQQxMgQwb71MgS5P2b5HS2RAxSwbtsiX
-# nTzbZqWVmp+ytq+clOtTYejh+KQ0nhZnX0wvEAmAMA0GCSqGSIb3DQEBAQUABIIC
-# ACP8qESWFrJUH2RUUzyF4CFYq9SKAv6jeh4lxAIDqc0gji8m7byLAEsLWaToQzRY
-# J0fwOsXsizsDMf7mja/UvUilqgCs9JO11WwNXxNVoAFLKyZxEIbndLVLQYKwfozZ
-# RltiemiX8LRvmOw232GgZIS5H1TcGSrHdUXzX/aEDAUH9EEjX14i1Eu78QofvkMa
-# VWbjB2UaCLEE/aNk2cOAZ+wdZ+CQnze4aNL0ABvbx62Ya+gAJBFEFDZgnoxeWEPC
-# aedKjj4G9tXqkClWiyBmJeKsCl/s4PTfvOAK8HCtSvVTKu92jstHcTxIXojl8T3K
-# td464yagjsmLYqiJuliB7oV10K/aefjTfHy7mZA72SD3eqcSX/IH867lS45SXAW6
-# tLfeUqsvq6QnQiHMFz1cGGf1H3PZ9cHGAj/6Hxu4buhu+ZOz9kiV1Rqs5z3uSm4N
-# H7kaXyht3DM/Nx7Fb6ATWmq5VkTENcop4Z6eKRVsXTqEktzbYSSsNQt3NZqhG6sS
-# pIku3c8mveCiT5nG/DWWKycyFHa1Hcw8E7T6bzUGgBY0Ahpl1iCdoVU0z5bsS7AZ
-# mbHjA0RFx1ArMmoFtS7S4rMNTofNfUULE0ojAn9SbmrE5uHmQGkMDY0vsbO4l1Ws
-# Y3HwQIiynsOgDxzpsXoglvBKb4ztxV1gkHCb5wQYDq+Q
+# MjIwNDAzMTkwNzI5WjA/BgkqhkiG9w0BCQQxMgQwJJdtUZJDj9j3pkqvDer1y46/
+# cCWuaurIMFHex3h83No/eWHjbISy9HJKTFCEHuFhMA0GCSqGSIb3DQEBAQUABIIC
+# AATtU/9CxRJtGHT3wIFT/4csdvuyoDxG+U3mdM7DsMQEKbFNTruPRBbpezPt8r+T
+# R0acnJZwsY0EOU6LJavE0mg6wvoqz4k+17qrjVncFcI1KyIob/RRjG5eWgyV+jPM
+# qWqDSyWAUyhNAJOJl3zx1ZR5rYo/8voNXKGhWliaXpJSf5PV1LwHV5OCL5OlYgyT
+# E/wYhKjlbKsQmLdI7IgT3YdKp0EbFRQDmpBiLzEQrOtM+oyZGFdbOBwhNhI8ZTTj
+# zGHJyF5Gv3p2e2FowIPWnmWYlD8IaV9Uz8CkNw9r/xNpQoe8sF9VH27ueO2OKJGr
+# UMWTWRajCFsqd3qQy2MEZGzK+PcTs8dD/z3QZocp3UQ/myvuAqnowWIZ+fCOJfhg
+# UKW49CprJ184Ez6ZdvSe5cnX9SNzTVQgwI35W6pi0R0VaSlyry9OjrmJ7fyKKt3f
+# wZdmtwDm8V/75eA9db216SMysgaVEJ3TpvTdzA0O+cPyf2+Kw4mbrTQOsXLMNTt6
+# ab1RJvbBFRRrSeZJk+CiRmD2mB1A+vXvOQqvdXvSOQgxOsT90iAyz0g4XNnNj1DJ
+# kd2mKX5Xi7fme5ba+DXJnIzREFu9yueM9zrr0i6ttGXJSS2K6WYw8ZL58ZQvOIw2
+# Afmcl1mVSGL4My+adi9mUjESKeiFWh1ihQir0bc1Lg9j
 # SIG # End signature block

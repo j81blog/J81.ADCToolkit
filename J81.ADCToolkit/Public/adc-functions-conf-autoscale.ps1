@@ -26,7 +26,7 @@ function Invoke-ADCAddAutoscaleaction {
         An example how to add autoscaleaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAutoscaleaction
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscaleaction/
         Requires  : PowerShell v5.1 and up
@@ -114,7 +114,7 @@ function Invoke-ADCDeleteAutoscaleaction {
         An example how to delete autoscaleaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAutoscaleaction
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscaleaction/
         Requires  : PowerShell v5.1 and up
@@ -182,7 +182,7 @@ function Invoke-ADCUpdateAutoscaleaction {
         An example how to update autoscaleaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAutoscaleaction
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscaleaction/
         Requires  : PowerShell v5.1 and up
@@ -265,7 +265,7 @@ function Invoke-ADCUnsetAutoscaleaction {
         An example how to unset autoscaleaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetAutoscaleaction
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscaleaction
         Requires  : PowerShell v5.1 and up
@@ -347,7 +347,7 @@ function Invoke-ADCGetAutoscaleaction {
         Get autoscaleaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAutoscaleaction
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscaleaction/
         Requires  : PowerShell v5.1 and up
@@ -439,7 +439,7 @@ function Invoke-ADCAddAutoscalepolicy {
         An example how to add autoscalepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAutoscalepolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscalepolicy/
         Requires  : PowerShell v5.1 and up
@@ -517,7 +517,7 @@ function Invoke-ADCDeleteAutoscalepolicy {
         An example how to delete autoscalepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAutoscalepolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscalepolicy/
         Requires  : PowerShell v5.1 and up
@@ -583,7 +583,7 @@ function Invoke-ADCUpdateAutoscalepolicy {
         An example how to update autoscalepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAutoscalepolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscalepolicy/
         Requires  : PowerShell v5.1 and up
@@ -666,7 +666,7 @@ function Invoke-ADCUnsetAutoscalepolicy {
         An example how to unset autoscalepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetAutoscalepolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscalepolicy
         Requires  : PowerShell v5.1 and up
@@ -737,7 +737,7 @@ function Invoke-ADCRenameAutoscalepolicy {
         An example how to rename autoscalepolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameAutoscalepolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscalepolicy/
         Requires  : PowerShell v5.1 and up
@@ -827,7 +827,7 @@ function Invoke-ADCGetAutoscalepolicy {
         Get autoscalepolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAutoscalepolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscalepolicy/
         Requires  : PowerShell v5.1 and up
@@ -927,7 +927,7 @@ function Invoke-ADCGetAutoscalepolicybinding {
         Get autoscalepolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAutoscalepolicybinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscalepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1022,7 +1022,7 @@ function Invoke-ADCGetAutoscalepolicynstimerbinding {
         Get autoscalepolicy_nstimer_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAutoscalepolicynstimerbinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscalepolicy_nstimer_binding/
         Requires  : PowerShell v5.1 and up
@@ -1110,7 +1110,7 @@ function Invoke-ADCAddAutoscaleprofile {
         An example how to add autoscaleprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddAutoscaleprofile
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscaleprofile/
         Requires  : PowerShell v5.1 and up
@@ -1194,7 +1194,7 @@ function Invoke-ADCDeleteAutoscaleprofile {
         An example how to delete autoscaleprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteAutoscaleprofile
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscaleprofile/
         Requires  : PowerShell v5.1 and up
@@ -1258,7 +1258,7 @@ function Invoke-ADCUpdateAutoscaleprofile {
         An example how to update autoscaleprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAutoscaleprofile
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscaleprofile/
         Requires  : PowerShell v5.1 and up
@@ -1353,7 +1353,7 @@ function Invoke-ADCGetAutoscaleprofile {
         Get autoscaleprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAutoscaleprofile
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/autoscale/autoscaleprofile/
         Requires  : PowerShell v5.1 and up
@@ -1425,8 +1425,8 @@ function Invoke-ADCGetAutoscaleprofile {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCAC9zulMp+7dNz1
-# 4sfsuA50B+oapS0VSeBMCGjzlXhmEqCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCB0q0ZaVem4677A
+# MJaZtD2hOZ/549ZsreUrrALc4gsnTKCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -1594,29 +1594,29 @@ function Invoke-ADCGetAutoscaleprofile {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgHforu2017J9iB2+P3ERBckGX
-# +89JdcsG51UzIr4mhM8wDQYJKoZIhvcNAQEBBQAEggEAPj6U3VnVpDnQPDXfQttH
-# /SKjnveuQTYQrdxb7hxfOp2PjuHCIfbOX7AngP68nJYusq4tb+scwxVTRgtIPgBf
-# NmK5n2FM27BEn6s6ScvEbbBWVDlnv1s846FTmXNoSB5ma128Fsjg/8LpeayQWZW/
-# 4cFD7WulJXHfJXzUTcqz/grvGd96Kl0M0jutMPS7XDEuNgl+m4SK3SPCPmL4DvfY
-# B3erFDFIorpSmULiWs78lm+4VWp0mtQoi2T2XEbJYV7dEPLb1NmcTaguTRiwkPbY
-# z/UdkCLSyd6qpz3du1VBuHNr4b/TnH98knWVMH3UqWwQnmQnGqDcC4fUDw55POxC
-# H6GCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQguFXzCeKsgXagS12FAi7bqW7N
+# TKBewrqFBhkyRrU3VSYwDQYJKoZIhvcNAQEBBQAEggEAaqhK/sgJrs/1yVbhzYJR
+# yn7kvrrjmV3GA2IAOHF3/D1Qr47Wzz/mpt46ekGfyoAPMMJhIqCw47iy5d5w3Q/v
+# /39cIOIrzjkiRSmd3CfQuZADtA673QlKJihk+fej01s/mWwkhqGv8cAc9HnYSa2X
+# laF0hXiy21traIuMI4rahgIx76EqDE/RsCaew7FqmXQEvaZU6FydXQhezmQXgthU
+# uXgggtOrASAhOcyDvI/Se85W+2dICmt+DYTADnARw2ba1hXSlaUTH0Qztggn+Vxj
+# bl3hmbRDeu2H2vQxY9dYGnd7id9gaLOOWPe1HrGR9HyCxmfLv5IwTg3aAR21+P5O
+# jqGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzMjMyWjA/BgkqhkiG9w0BCQQxMgQwyvGaO3MeicV1FpZ6v2ckHw0V
-# gBNQY4FRSeNlYd7GXiK0URV3BXvSpUO/NC+eRkuoMA0GCSqGSIb3DQEBAQUABIIC
-# AHRDKZUrytde8q+lwIzKMjr1jW2g8UcFqrMbOF263ttITCRthDAUWGzVF0PGO/02
-# hgkXatXMF7RBQpslRMA4g2esb6lh+qufaz65hxGgN1IW5RwmuJMjgcPkFo4xtl19
-# 5nlJY9VUv9gsX1jiuMMbkjP2RqHCF3nCm7shNTX/wRMw//mg2+Chf82/9y/eOF7M
-# xegKJnpB4PeMo4OTeWrBwuBPpNVixlYShvMXI/V16OYUvk/QgFYSdcbJyeRziNjK
-# axb6sNz4XkoYSIB8sGWAec+RRhPu8L58BKgM6ByqWsD3EjFZdJ5oqoQdcEmI6t6B
-# CEijbQZNgcLWNnpbBBjDHF1N/Xamxy6CJiRptOG0scEE0utow/wBk7xxDT2Y/8Lw
-# uFywAsRl7ZwAYL1z86JbzlN2PZJo63KMawCeAJW6jHQVO9ATHTE2wvJvhAv/9oOm
-# jSzKoJOca3nPcEnpAqGzIhkNcUDhphpnvydWNRA4XcondLV8W0cnzrtTc8JHLcmn
-# k4dXJ6+Epb16JBgW5fK7VyWW3ibARosPSXl5+l8/D4hWzFPnXkyH5xH0Y0klrtcU
-# IIwwJbZyLkT+svMD0W/JrLnoA/NiUw7gwE4qVClBUAtvaUMfbYmOLDm/eoApsU4M
-# e95WarZWzFETjneIRGtJvb86qnd63rb22fscsvnoqT97
+# MjIwNDAzMTkwNTA2WjA/BgkqhkiG9w0BCQQxMgQw7/ymHyLWBr44kBFJzSwiKYVc
+# UcdYgVOqUSx3qkbfcQuIjBAu6PCU8dfOhKccX8sQMA0GCSqGSIb3DQEBAQUABIIC
+# AHbBzm5PwEImJHQdj2XUSW3ID9iJUnRfkQ+hTfJszP+G3GhZxk9Pk/41SXsi3uKI
+# 6RI5rvdXMbX5ljo8AgrnVdWZIoIzf1/FDBrp4dYJlC9Rshpi0ZJS0U02Cpsn7Wdt
+# fHLraa56yPdNrOCXm/fbHyZrrLiGJuVzkU6b2xoA6foJdjJZfApOPYkOA0kZEXpR
+# lb24s36Vj9jva9vz8dCZhUwMlmUaqoq8ARGlZeazZ59kkg4j0j4ldcVlv4vzTdpC
+# TzJJD0f4KQbcibH+3TeGycKaNyehsaZgvB9kDEQGL705KNvPp+famE8631ig093O
+# HLaf5cf9PMG7/n+wQoZzGirUretCL8wUWRvfwOqf1av5fkFmR833PzWHnvrRkbfp
+# A7wEM+AXUkxs9KD+3xd8Kw5z6IVyjNxF3xtM2ifi17NOy98lgUviVTtiLKFoSNao
+# yr4aHheu+vaHrbO7ScQaFet7vDDUC9z7ZK1Rqqze8B069EsTB/jypj0YgFmyb+oZ
+# QRQoWwkePU+eTe2DjnlhyP7P/bt6zZcwokvK+/2etqx9oS6cknHUF90AnBIv0xbx
+# b6HwYnSBp/bGu6LdkvKqD156bJhXD/LszUHGc4MDXGkCnW0dgcZEgenuU7e7GzQL
+# nvy5F5hwY1m8sRNpDKMhIJcqOAidzJ7Dbfc6Aek6zQXH
 # SIG # End signature block

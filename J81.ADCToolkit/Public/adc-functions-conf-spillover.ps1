@@ -16,7 +16,7 @@ function Invoke-ADCAddSpilloveraction {
         An example how to add spilloveraction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSpilloveraction
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloveraction/
         Requires  : PowerShell v5.1 and up
@@ -84,7 +84,7 @@ function Invoke-ADCDeleteSpilloveraction {
         An example how to delete spilloveraction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSpilloveraction
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloveraction/
         Requires  : PowerShell v5.1 and up
@@ -146,7 +146,7 @@ function Invoke-ADCRenameSpilloveraction {
         An example how to rename spilloveraction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameSpilloveraction
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloveraction/
         Requires  : PowerShell v5.1 and up
@@ -235,7 +235,7 @@ function Invoke-ADCGetSpilloveraction {
         Get spilloveraction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSpilloveraction
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloveraction/
         Requires  : PowerShell v5.1 and up
@@ -324,7 +324,7 @@ function Invoke-ADCAddSpilloverpolicy {
         An example how to add spilloverpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddSpilloverpolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy/
         Requires  : PowerShell v5.1 and up
@@ -397,7 +397,7 @@ function Invoke-ADCDeleteSpilloverpolicy {
         An example how to delete spilloverpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteSpilloverpolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy/
         Requires  : PowerShell v5.1 and up
@@ -461,7 +461,7 @@ function Invoke-ADCUpdateSpilloverpolicy {
         An example how to update spilloverpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateSpilloverpolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy/
         Requires  : PowerShell v5.1 and up
@@ -533,7 +533,7 @@ function Invoke-ADCUnsetSpilloverpolicy {
         An example how to unset spilloverpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetSpilloverpolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy
         Requires  : PowerShell v5.1 and up
@@ -595,7 +595,7 @@ function Invoke-ADCRenameSpilloverpolicy {
         An example how to rename spilloverpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameSpilloverpolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy/
         Requires  : PowerShell v5.1 and up
@@ -685,7 +685,7 @@ function Invoke-ADCGetSpilloverpolicy {
         Get spilloverpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSpilloverpolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy/
         Requires  : PowerShell v5.1 and up
@@ -784,7 +784,7 @@ function Invoke-ADCGetSpilloverpolicybinding {
         Get spilloverpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSpilloverpolicybinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -878,7 +878,7 @@ function Invoke-ADCGetSpilloverpolicycsvserverbinding {
         Get spilloverpolicy_csvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSpilloverpolicycsvserverbinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -975,7 +975,7 @@ function Invoke-ADCGetSpilloverpolicygslbvserverbinding {
         Get spilloverpolicy_gslbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSpilloverpolicygslbvserverbinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy_gslbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -1072,7 +1072,7 @@ function Invoke-ADCGetSpilloverpolicylbvserverbinding {
         Get spilloverpolicy_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetSpilloverpolicylbvserverbinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/spillover/spilloverpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -1138,8 +1138,8 @@ function Invoke-ADCGetSpilloverpolicylbvserverbinding {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCT2H98Rqr9XK5M
-# H/D5l1aX4aLxtXYkhDF23UQ6lgaRyaCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCBIrt5O19sXBIfr
+# Ee9K/D2zKaM2+//tDn8BRtelEFiqKKCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -1307,29 +1307,29 @@ function Invoke-ADCGetSpilloverpolicylbvserverbinding {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgHmYeeO9S4fmdDoWakh9VPO0s
-# HCd99IDcH27nhsxjF44wDQYJKoZIhvcNAQEBBQAEggEAKGAOwgwX9mG9vC1UAbl7
-# 2jNTpdungMrrylFkOULtOVNDeFVYuve11GLufyvEeGtjubMvT/K9HpmaGPUrNbU5
-# AP+X3MZxQidIGsgyOOBApunAgU4ziVTNJSw23JfOT7DpJ7WEGWIP7Rx2HsySzD/t
-# le6gt0nDUv634kroGeDZOWJOLYASRjlwr5fLrGAdY8xZ9Y6lLbNpSnHCNX9moEkh
-# aowYp3tbt4MOSBzZik+fNX2LTdw6Ns6/ERwZCagDwFQKp1f/Dl8Qd+IUSzoufMv8
-# hbZDfJoPKl7DvMEaTCsSUAJ+I/qP1nko7lNeJsx67CUdtV7w6omSrtjwMVNsT7hC
-# OaGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgrUJZ9SZ/g19BLDz/fGki35ZH
+# QETQN6ei6kZImbSEDrQwDQYJKoZIhvcNAQEBBQAEggEApbbB1DmkQVeI9jeSGxM/
+# 3Y0i5fh6mVpGtDxQdc1ueqp47ua9RoL0asY4CqUYWyS1k6gLL0X9PBOk7YC4jNeo
+# +185B7A6GJCVDFYdgVgGXfhGx1EGXOCf+4NSbQVoB7B2r0ZH68uWY12aspGQGTb5
+# 0QVrY2LXAK7NzwajaWVe5+Lso2yVM+tgiVIP/HehYYXpRbyWfwMG0ocUMw3hC1QC
+# /ldV6PUPPPsG8SAAj3LFx8q8R9iGULAgTLJPGmnPI0bNnO7uqTz23n5mrLzW0JVw
+# MiItLEzq2AyQr93ewzuWB3Dx8e/lhUTRIWlRZ+cBMAncAwk++3OWqv1Y5hzDdExv
+# saGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzMzMyWjA/BgkqhkiG9w0BCQQxMgQwtxhwsIQzNeUaIy7VM1LzESU9
-# /mVeZJM4UOHrANkE7dcwXVyCeSLlEff51hP/lqErMA0GCSqGSIb3DQEBAQUABIIC
-# AGxz3KMc2b+3ekWOPq6Aa9xafLqnLfHbSGF56+BwAU41AIeFpZ0A9VrPsIyBfMOV
-# txVWtCOPwUvsZCYfvJCwt47RzbKUuwAaZXwHIQlR77T/YeOeI44Vg2yAUfpbPMzn
-# Igt/AOXpuk4liNsjfKiP28bqIoJlkupSx7dUFsYPgCAJr32holsXELVi4YRcF8LI
-# CNuaszS0nMeA19ZM2Fv7M3Ne6SVlrzy0T7uHSl3aEEj14f/OdDLHXyksve2jxK44
-# lyXNAuNAlp61fNRF3CEm/s6zT2GTIqWO8O3fJ9MiYCIUV1R9JI9pYZ7FlGhnp8e4
-# 1UANhMzAE8sJLpmvZXzCQqSpAxScA1MKH9iymUoYHF+Q4u4J/GIttZqMDkvkMzcY
-# dZ5gQkyHoOaHQ2vOIwALpkNW85tADLYYOjH2vQHO7OJO10f+fGuzgGxwcAXxQJb5
-# +5wdKdYSkOjNwicZocu/Gq30xsvqfKhQFdn8pyaOZGUhAFT3nOz91yNf5g0/fehw
-# k6bSZ28kVu1e78yfw5P+VQjRgr4Yx/j8OeAAB4rP/ckDl1hpEEaWZT/ih/ykc2RK
-# ImFJkcOo7AetV4i/QLowkjbEZVQp4hlMcU2sc5vjb56KNsr9C9iGFdiAyGuIMY4T
-# VO9Uvj32uG8kSqzCIk+w6udICnF6+VsaR7iBI7xCg/v/
+# MjIwNDAzMTkwNzA1WjA/BgkqhkiG9w0BCQQxMgQwynQSnoLsTeyRX72Yy6qUKHgI
+# htfnBvt+F2QDi9E2Uv2PXIVlT+AliCoZ571Sp0BPMA0GCSqGSIb3DQEBAQUABIIC
+# AHBwx71OEOz5DkOlqbJzs5zdsY8f2Lh9k5kJGid2o3i983RS+ECDXaRrYpbMYYVr
+# BYQfDEpm92nkQ89yw5hFiQbycL8Vv7i49nx12fbAdxNhxp1A6n1PZ8c9S6XXHV/U
+# 9obtXSkc0XqYDhhLSbdQzJmsGrFR3DBIvKelaRG7aZM3UisPEfxjphU3b+CX+aMd
+# FVF8iGFnrzdtFfUCF2D6fHibBGRjLJQ4MWJ2N6IqC2onDSJLbGt5pptEodPnkiWe
+# Y+ET6Olldt8R2axKIYITpvHh5c6Dc9pqnv/7CjT36C1ruHLR9VxvbKz69603PuuP
+# 4vWwxrp8PWXfWjjJcoQUFLDtPaDoM1MqgFIhceUVBhNgcvrJ4021BJPX0gMgXNPB
+# z2VnJNobqX1hyED4xkSTkDpzkEuSRQoExhp1INaLrbsSfv85R4jMRQzlydZUKxKA
+# sjlAK7iKr/MLGyuPX6aXiAqxQdWks/XPWfFCTReWKDySBjNYKz0KQ5H0HQabgtl8
+# pCJjHt8YycQXAQFRRE5/tLlJBxxmDpOGZ41xzKeMEKPTc23tdoKe285Kfghwt+Je
+# ET/bzYSCPlQIVkl56L3Llu7c1zzsH4X3GeQrps3R1vNyDgzUhI7Usnm3SvFEHwau
+# 2dTXoO/ZVYNxc3h901RtwhQmbCxjsWPmH+GGXDeUBHpG
 # SIG # End signature block

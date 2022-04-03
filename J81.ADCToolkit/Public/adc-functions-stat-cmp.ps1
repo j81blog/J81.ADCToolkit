@@ -30,7 +30,7 @@ function Invoke-ADCGetCmpStats {
         Get cmp data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmpStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cmp/cmp/
         Requires  : PowerShell v5.1 and up
@@ -127,7 +127,7 @@ function Invoke-ADCGetCmppolicyStats {
         Get cmppolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmppolicyStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cmp/cmppolicy/
         Requires  : PowerShell v5.1 and up
@@ -219,7 +219,7 @@ function Invoke-ADCGetCmppolicylabelStats {
         Get cmppolicylabel data with a filter.
     .NOTES
         File Name : Invoke-ADCGetCmppolicylabelStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/cmp/cmppolicylabel/
         Requires  : PowerShell v5.1 and up
@@ -283,8 +283,8 @@ function Invoke-ADCGetCmppolicylabelStats {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCDSUzdvgCp6B0Ul
-# I8RQDI1rHcjDAYXjmQc8ArFRDDkh5qCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCpWr54VDWGXBdB
+# WqSWs+KwMD0SP2FGv7RA/9jkYK1yiaCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -452,29 +452,29 @@ function Invoke-ADCGetCmppolicylabelStats {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgwiVvPg3OMtGHs0qYylV7Hd30
-# 0N+zCWAYSvSDOyizR1wwDQYJKoZIhvcNAQEBBQAEggEAaokxImDIss1lkpJnI7B7
-# W2RLzepgaoUhCBE+wADzDNjDV85rRm54w+VS9/eB4Y4igm2Ib8SuNHikmjEhaxbQ
-# aA9GVSM51pqVoO9CkCRoN0GOHwVwvDWmlnMpKEB4vkl4KDZV/o+1UTBbMMXZZ2ur
-# xj9oURTbwzJRI/1rZBKL1lOI01c4qCBnNNPBSZKSQE7OdAAbqagZI2yNYE/6OjwQ
-# qqQKeJBq8po3DrSHIYbQuVZW8zHAjy4bmkxXAt1nfwyZNvgL9vbxGOdab8HlEj6S
-# 8pu2CScl/6ntZBowE07s+PINDjFijc3i45s9mufAOyi/Nx2ViDRFvKJl2eHDUSjC
-# yaGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgNc+hlJjMbuQ9/Yc2zKQsyD2B
+# 0WfztEtZ0rIswY+YhB4wDQYJKoZIhvcNAQEBBQAEggEAAOfCZClAubGlFQ68PnTh
+# NrMPGEA+vsghm+o42Q2WIDV9UN9/5ctDGhT4l3thk7eScT8I8uZHFUk9LkCs1yNh
+# 3PpLBT3MgOu77qbf1tv+xhpHVtnQPkbDpAz+i0Wy6fysJuR2Vm9Hx5rqeuc2tfZS
+# tDqy/BMSlFBXu039qllr0gZxRocamlB+kA+biAjtvhu5vIa8ZCUzlVTthoOO/xc+
+# 0LCxVa3TB9kCDxmPF51QFa8VE5niyZmFPdAEHG/O+hPUbSIGirdoOM4C/toxBBlU
+# Yxt86WixC0X5HkryEetd9AZT4lHYKfXa67RYBjzRwvOwhOGD47dc0nsB3nisIN3E
+# lqGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzNDE1WjA/BgkqhkiG9w0BCQQxMgQw3YxX+wpuAXGDg6xogvAvUtra
-# MSMy2yVCfHLysER6s/zWfGiPa9liBckDLkQcCyteMA0GCSqGSIb3DQEBAQUABIIC
-# AAea3Dh3qWIA+2LSX655VzCThzipCB9PCKUI5fdKWmwf0VAmcJeDTyNevBSMEror
-# w1gJq/41Ue2fM1WiIO2hVy0lM2mxVWsfcb1fBYc3gU4K4bVI3edRIhhz/pKvJuPS
-# Cwj5/0/M2b66a+2/g2uydrMxLrMUgPgeHtW7Qo2gt7JjM/D2ybtG1BXF2iSmSspy
-# AIE0QNgzRbf1J4YkS3sKQJ5l4OyvIx8P1S6+AB0S/hkOcoclan/YG6iyxpF3/AAA
-# Xdjhldc3WzKRXLDyVTu34LC0G0kM6o1OO4i4YhkG7b5lj0PX6OSmwy9aSQL+rnHo
-# VZhwuQygTAnIkAeTgIfEkfU21O2qQ4tCNke+9x4/OOB+w1dX3+rR/Br6jxdaN9oQ
-# uFONB3YNhb5VmujI3zwatri/rzaScDle7payVA1jdJmvF8WHtg6HsZOPX+orxfpw
-# pQol5KRwJQ4CBAc5UnAb3/mIx/NYgHgWxG9PuI6KtitdkNmqN7OIj0HaDgfmQgFU
-# zhH+1JvYmX3SDux3YNR+nDoKlBb69q5fyXC1UB2len6IKGrHDfH7qv3DCM69r5fU
-# ZWWnWdwBchc5huhL0Es+aRuSnbHHmjaHA4K+y68XADc/xBLqc96FY+GuSJT4AQBQ
-# 195NEsa62nNFJm41uidzpZelBDnsTBq9X1w6G0mutLei
+# MjIwNDAzMTkwODMzWjA/BgkqhkiG9w0BCQQxMgQwytOWhY9pX07ivUTPej0g5yal
+# DiuVT5SpkUdjSLM9IXPikp7/HgN8ffcYAoAq/nnmMA0GCSqGSIb3DQEBAQUABIIC
+# AH4cIVNE4+XtsoX1LhidVNf3Nf5X/FrwgzeWX2mC9UOOyKk0SRHsec9CFELTc3GD
+# NRXYva7fTNNVYFZyfulJvpw4f/W5ZdkKgEMs+qXHRmnbKpAoIETAYC47K8p+BRLs
+# 9Oa+bcefPe4dyQ/+t2xYU6eJgE3K09mzCAOHeNAoMcdM+OBeg/9LTtXcCeNwIW7k
+# P64NcPAQB6LgPMRIOb4XZUYt+6YMli2COE97/vtU4AVMar4smWRO1YVQ2YFw4ujQ
+# F1+cawoOOtOeA/pa0OKwQ4knXdok6F5lyLleUM3nOx98FCUpXIHhY5pPXRoubgdJ
+# 2C2gSxsC4/1CtaWhlJMEMZRx42cJF2m4Xv+67UXiraLEoLY3SHzMeUu/tBaMjoD6
+# zB1EBogms3pu5QQSyXr7I7Qxn/CL506tKLf/YsKXIMs/o1SZm1Dbqy3/GM5OEkpi
+# pO1+3gjSFgWeXkewNUAWamdlQ0Ve07081XBde7Ra7vxmVj4eXkYpHLUJ2N8V/v2u
+# B843lyg/aGcn/nr/naJEayCiAVkw2/a9Vm2YK0aLyHiCXO7RhQPv05/Q7cSgKciy
+# pVNZ1w9POq5rnf6lDlPmsu+Q8gZc3cNu+qTG/Ah2RO5+iHT9+BCtnYxmeSnapdAE
+# U5R1hC7OAAC3hGdUMpWpx1KMvfaZm2/Y674LWWkEyT/G
 # SIG # End signature block

@@ -13,7 +13,7 @@ function Invoke-ADCUpdateScparameter {
         An example how to update scparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateScparameter
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scparameter.md/
         Requires  : PowerShell v5.1 and up
@@ -75,7 +75,7 @@ function Invoke-ADCUnsetScparameter {
         An example how to unset scparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetScparameter
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scparameter.md
         Requires  : PowerShell v5.1 and up
@@ -149,7 +149,7 @@ function Invoke-ADCGetScparameter {
         Get scparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetScparameter
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scparameter.md/
         Requires  : PowerShell v5.1 and up
@@ -244,7 +244,7 @@ function Invoke-ADCAddScpolicy {
         An example how to add scpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddScpolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scpolicy.md/
         Requires  : PowerShell v5.1 and up
@@ -333,7 +333,7 @@ function Invoke-ADCDeleteScpolicy {
         An example how to delete scpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteScpolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scpolicy.md/
         Requires  : PowerShell v5.1 and up
@@ -414,7 +414,7 @@ function Invoke-ADCUpdateScpolicy {
         An example how to update scpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateScpolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scpolicy.md/
         Requires  : PowerShell v5.1 and up
@@ -507,7 +507,7 @@ function Invoke-ADCUnsetScpolicy {
         An example how to unset scpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetScpolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scpolicy.md
         Requires  : PowerShell v5.1 and up
@@ -590,7 +590,7 @@ function Invoke-ADCGetScpolicy {
         Get scpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetScpolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/sc/scpolicy.md/
         Requires  : PowerShell v5.1 and up
@@ -663,8 +663,8 @@ function Invoke-ADCGetScpolicy {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCMx//3959tq2o4
-# e5NiPwZMkQJzTkS8GM19VaZ50uWHEaCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCC6Jqm27/ZfXlha
+# ru87z/MUQdxZwQ5ooQTmq/ktQL7NhqCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -832,29 +832,29 @@ function Invoke-ADCGetScpolicy {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgzDV6TyDd0kHLd9OeOVkZ+oSk
-# oof5W5zhqEHD4OzbmzQwDQYJKoZIhvcNAQEBBQAEggEAE0OvPy9KgTCdJPSfAzOW
-# KOo6VxGUAiiudRpDsSj6aacNU9RnwbkKupzZudwmSkgMuUOHOz8pMAWCDt/W1Y2l
-# WHhbGugou+F+u8WthBn7ufImQHGIav46I2EszQ3KSILsUF7ACyVyOjCTwpTPLELo
-# kSFX9gm91r/Pkn8lP17KV8eU5Ezm5Oiv2L7qWLRcmgKP6Re5EdLCw/jIPcp43Lyq
-# X3xGEZaqXSvWm1fixgRc5pCod6ziyI/6j+fERGzsWOxuVhn9PxVSoejMWsk7BGj9
-# mMO5DUovSF6+4B3y+/tkiAIj/o6lc+ieGXZlAsFoOzAD9cWMn/j4XXRQHGea4O+8
-# YaGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgNL4GpvZi1Kp0zwReSgXNZEfF
+# BsMDe56eFASH129Eg4UwDQYJKoZIhvcNAQEBBQAEggEAmwkfUtYyB0bWktB1Y21Y
+# /FMgff03LPo9Rr8rftDoK0Pc8XwqlBlTiI+bsfkiHNFIvxM5H6sfrGU0QCJCY+D8
+# BFbWSV/rJhSY+RP/YQE/RtSuTfPoaLpVNoUcxqplcYfvXBxUUIPenICxQlzeI+f7
+# aIHfVvv0Fmcw7gy/XAb0MIk1eeyjCEuDN/uGhni55rCka+BSmNxhoVWSFY3RsTdT
+# fO+NdFLUTVTSM7CDjYQTw98Di0kybGTprootOJxkCssNGO/InFDRogL/X9MNYdFk
+# Xp0LwcY8H67GhhnEBr+/ZGBw0ZbtTO8uPzvwK6x7s/37tuouBEk8W1gEX9ErdQc5
+# MaGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzMzI3WjA/BgkqhkiG9w0BCQQxMgQwfj5j0lv2WNaoq9JeJhRL3a/W
-# CB5A91sAYZM9oD2EPWyPTkM+/kijkFLGz97v2R7EMA0GCSqGSIb3DQEBAQUABIIC
-# AETDBIQKOTELJok4gLXc/260bCN0GBYCp8KRIvYVB5EHF81vKz64XdL4PImJ1pZc
-# a7+rnXVTVmpvDbo24YAlu5++AZ84dqDpwVf+jdYXV8IfAd3Inl1xcRxjoa/F7Fap
-# Q+PFfm1M30wJ6Tfj9b1QSUJRpZfZn4V91FQKi6qhADa7wk2TFLfRMo+sfnlAJYpH
-# grOvjnXBgoKKv+r40kXS3Q15t8cUSrxjMLrqrRaq8X3fCeCp8QC7EQaksQ+semvM
-# 6I1RGSDHS4cPgPfVNIJdhGbeNAU3+4ZkFH1FY5QYLx5HDOhUva5MmNR/vCkNWDS8
-# 34TaCc2fojn+e08b0er3bC3EPmqhQ4KBPQueDRNH4Fh/HLDJ2Cr6UtvI3CRcVSDG
-# 2y5mLSQrea5mT7ZPQsvW2uOxKTnt0xN/v95wUbkONb/aDRCqAvSc2/RRweG3hVYv
-# WnKwtAIbuHk4PGbbUrZL0j9bVs/WuOXa3dku1wcsgV0XkVGPUxtPSKUYJDazwtAB
-# E9Uu/riJOYBoDpU2dEtGE5rZnXC13HJYof0VCCxy9YHLOY/75Fzf8FZHtJxdOZ8h
-# OlS062xg/gz/Q2yBJ3jxbMoh5s3cIGYX+ryWsqHnnnO7Z4ZLO4ycMyVJUAo0p1NI
-# NJRpc7jX+EqpeyN3PBHRthfFh3JAo/pZVEvtNumNFBJE
+# MjIwNDAzMTkwNjU2WjA/BgkqhkiG9w0BCQQxMgQw7mLG2ySNpkWu/oxv7eAfM1rK
+# OG/3xF/TCYB6glquInbNZYi/nZOGGaiKRoBm5QE1MA0GCSqGSIb3DQEBAQUABIIC
+# AGM+8XiYNHPWIWk+LxU4aQHf1ho7ogvw/1xvhW+ULXwtwgRftaO7iY0km/yxqUFp
+# QDZzrqZKNPekz1cra+QLrOk8NPYSs4WDXNaqbusgvC8un5whcKQINi1TukYozslh
+# DDJkxfKK+qr/MpjA+DFc7jNRqMa7qeJB+ArHkqALkcuIQOwchijWmvfiSe9fzyJ3
+# SkIndappMoFoDf+OP4VFLZdmQpqueeZ8rnZT+rsgsKWPKtL6imgsAk892tmbx4T0
+# U/adXou82QnjWFKjeF6Lr1dX55oJTvZNaUA8P3NPQ+5GxEf7RHGBbWLPe3oKL6oR
+# otvgz6Wzp+pqxOVu+9kkYK4UJpx4FTQdT7Bw6Oq1lwA+SrIPyOasmR+vvSJjescF
+# hRQzUsYE6Men4ZIi03ZslPqOxkD/5qKJ1mKbnXsip6A+FBE5jsI6GEy6gi+pgq9X
+# zFRheUecYvNZd1v/jZk6RT8GIejRENoDiKmHYFHFkW/CHt3PKUiXlDmz7tylzHqi
+# pTSfKiJTwKky3eJBsduZCjweDcbLm2TmvzXhipapTvCtQj6vAM5cj8nc2y6rtvJq
+# DSsicbQTZyRLqP2FFNJVNh8GYqQcnHJ82Bi2cKYyPzCqo/dRCbYveY8oMrJHgN6l
+# S7xDb24AQtrCvJ8ebJOdz3a01JFUSNSSznl3AVbAR1MR
 # SIG # End signature block

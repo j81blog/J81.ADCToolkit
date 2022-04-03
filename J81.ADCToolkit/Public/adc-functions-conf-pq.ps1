@@ -32,7 +32,7 @@ function Invoke-ADCGetPqbinding {
         Get pqbinding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPqbinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pq/pqbinding.md/
         Requires  : PowerShell v5.1 and up
@@ -135,7 +135,7 @@ function Invoke-ADCAddPqpolicy {
         An example how to add pqpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddPqpolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pq/pqpolicy.md/
         Requires  : PowerShell v5.1 and up
@@ -219,7 +219,7 @@ function Invoke-ADCDeletePqpolicy {
         An example how to delete pqpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeletePqpolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pq/pqpolicy.md/
         Requires  : PowerShell v5.1 and up
@@ -290,7 +290,7 @@ function Invoke-ADCUpdatePqpolicy {
         An example how to update pqpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdatePqpolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pq/pqpolicy.md/
         Requires  : PowerShell v5.1 and up
@@ -377,7 +377,7 @@ function Invoke-ADCUnsetPqpolicy {
         An example how to unset pqpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetPqpolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pq/pqpolicy.md
         Requires  : PowerShell v5.1 and up
@@ -462,7 +462,7 @@ function Invoke-ADCGetPqpolicy {
         Get pqpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetPqpolicy
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/pq/pqpolicy.md/
         Requires  : PowerShell v5.1 and up
@@ -534,8 +534,8 @@ function Invoke-ADCGetPqpolicy {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCANmeTDANOnek8O
-# LYNQVzlbCmGFQAIU/wdlX52WqWar0aCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCAyvzbUs5X8q8V0
+# LDS/cqvpADjkz9e2RyWNKkgrgWyyv6CCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -703,29 +703,29 @@ function Invoke-ADCGetPqpolicy {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgYchHA4RitLVVAb8tMJsR4UKh
-# NbFFNfGyLhNLtPMmFYwwDQYJKoZIhvcNAQEBBQAEggEAb5bCMBH/mI1no8zh/28w
-# iUzYMUMy3C78lV7VSDc5OIkbtIpfOU9+IOw4C5mEmMKqXHlWy7MqfBf3aAt1JjaE
-# PAgxeLGHXfJGIJY8krP9lzWNAyefs10E7q3Fd8zgDwqo7hyW5R8VP1/LkvZGjvcg
-# DgVpMu44FqrN4qWXeGoqEgbrbSZmzd67lCmhN/Cj/rhGhTTkMdk3i5BJe94djIPy
-# 8jywTmK7sRgrIr/ZYyT9Slo7WsY7uVtDI4rLJQbeHCrqCu4B1SuKuY8QmrDISuo1
-# qgz/3iLmHw8u6Pc7JEnYezSXa1wzU6EC+ImuILQOmaRT2nyKJc8h7oHHkl/9iGq8
-# oaGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgQ/tFKlteKUQ6pFJv8Q9upDXl
+# 3q7iI4PUpVj93emlJ2cwDQYJKoZIhvcNAQEBBQAEggEAmz8na12dqKxocE28AuSj
+# UGjZVWo5OTd/tSQTuYIZJfbHYYEnGS/OqOAWdqXf5Ge+E+lYAcKMTahKV0LpmoPJ
+# z8WCd+MCp++Y4AvuO0jCaEGu8xElwDvVvquM7G1XBfj0m7TGNb97bPv49Lp2E+/p
+# Zjth2FrnwFNfFG5BOq/NSNMbeanl+Etgg6/ct4WjFHAXhP+nXGgPGD07ESAg4ipT
+# bUe1vQ6/8DyEdXDnp0jDnOlFCButnUkCqWKRbw9MdGtiidBbZxZO4YuFToG3Ig4q
+# MUvhAb98SRp82U7A2qpAiGwVsVTwqqL1bzlEdJ3T1kg67QaPQ7v+SS1b0ZzlErLi
+# 9aGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzMzE0WjA/BgkqhkiG9w0BCQQxMgQwlEa5KYT9LfR19Znml8FarTn+
-# wbD14NjtOnqZDS2aSEsbSwhn4MOf4ujM2KyVs3OrMA0GCSqGSIb3DQEBAQUABIIC
-# AGKqCQLZoYun6gx07vQKveVVFk+Nb8xPF89JQsqvU/QidMyTNJRRtHGNoSHurZQ3
-# Ym+4uidhfmd9uDeMuSkHgFHX+qRUZvYJ9+4JZGUFQRpRgrdUK5kA9kOHXy0QzlqN
-# CWHhJPL40PDWW1aLQO1EBV4CPJ5rCypYBKMj7zg+21d5MqvxqI6PN0h5LKrgGr82
-# AhuiL51H5UPyH27Uw9dqTWjkSoBZddsp3MXcPdkPntNWlLSPfVkQlzRqU++5H18f
-# +RE3nTI48EReTNfM2L8I6JVpMrPiqTYXWrj80Ta0WqSp/s/Fch2XJHt8UngSCIu6
-# guHENUdHG84/oOMGDMFKLb33dKh2SHAiCYCE+7xM2svbB6bR3q5cVg68saMMk+9q
-# r5HQALIXdxgyBhtJN0qOQPwlzhgCvQ/C85ccI0IUQNINjfRfOYG3X742LwsrtlMG
-# 1GgCI3NIIjgk5cBVNQDWN1y666afPB6b4REIPlq3vOznRVUp4KblTj47HBOS71x8
-# Nx/yn9duw9j3yys9XFcwBCOpTwtJxOIklOnOd4eVsqgoq85c4GdTIWkq+v1zrk7x
-# l2GPHu0PUtkvlANNE8+n152PqRSHe7hE2ezG/45uXsCB7tIlBBF3ya3zX5/6x/0N
-# Av3LvOumBPlZaL0ux4EynHbdAG4PBlU5ymDf35WPlwu0
+# MjIwNDAzMTkwNjM2WjA/BgkqhkiG9w0BCQQxMgQw8aJa35sVfFHFvkImtRNxJdNJ
+# mQYAgdK57RwZS96LLbFHzpQf8ZuTLIlW+fFbltP1MA0GCSqGSIb3DQEBAQUABIIC
+# ACRvjRhV4PWoJ1w0KFqjDzswbch+y640cUgVPc8kDNm/Mtcv1x8xzf61EH/yMlQ1
+# 2te4Y81dBpNPBY5FT4k4xy5Co5/x5Q+F4UD82/t4lytxaumOO4PPBYsgCiOkxYqF
+# aun4+i7BQTniOYCHtjAloU03jEEyaa4gQUKCkfQL6NBa4P8mnuQlR4i+QAMRWLkx
+# 2L6ZBtACG21kHyH0Hli7IFS+XEiKh8GfbJZxo6LEqi4aym0ImO4n17MBs/qa69Nx
+# FUiO45usVhCWqTuiqGzhilfbWRFnsEFCMYIQ5k5wehY1hR8V0WlKoLJ6Q7RtpS5h
+# bS0HoMZ33IjLzbh/LeOPVeCsdgOxfNGQ4GJU6DfXvgQFaGOjIEGc3lzXtlRO+h4T
+# uYJbAdcC2sLe9BfdDXG1sjHRWtynwRPoSLEA8Zny6TqLhCcZOWVs1ubYW5NNYqv5
+# ZB97DW68a4kJ+PMkqp572cGVqrmMSzIFYz4LCyHquPxFujoZD+KOrOvS4tsOcwPt
+# gQOFHfum4cHr7W6767Hi4NNcrgZonAXx3r7giGbvFLBdx3RYPPXPJXDhU7bhgE0b
+# NX76TQFKOLVNnwOSn3fcEGmBqT01EtHjOq45X1dCIU615EOqXPCBh2BMy4ufOBt3
+# fdy91UliOTBCE6z61b4Kt0hh59qr1W5iunZw1KwDP7o+
 # SIG # End signature block

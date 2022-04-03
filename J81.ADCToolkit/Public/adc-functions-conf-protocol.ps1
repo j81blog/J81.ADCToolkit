@@ -19,7 +19,7 @@ function Invoke-ADCUpdateProtocolhttpband {
         An example how to update protocolhttpband configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateProtocolhttpband
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband/
         Requires  : PowerShell v5.1 and up
@@ -85,7 +85,7 @@ function Invoke-ADCUnsetProtocolhttpband {
         An example how to unset protocolhttpband configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetProtocolhttpband
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband
         Requires  : PowerShell v5.1 and up
@@ -144,7 +144,7 @@ function Invoke-ADCClearProtocolhttpband {
         An example how to clear protocolhttpband configuration Object(s).
     .NOTES
         File Name : Invoke-ADCClearProtocolhttpband
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband/
         Requires  : PowerShell v5.1 and up
@@ -223,7 +223,7 @@ function Invoke-ADCGetProtocolhttpband {
         Get protocolhttpband data with a filter.
     .NOTES
         File Name : Invoke-ADCGetProtocolhttpband
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/protocol/protocolhttpband/
         Requires  : PowerShell v5.1 and up
@@ -293,8 +293,8 @@ function Invoke-ADCGetProtocolhttpband {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCBxmi8CrLcxCVqX
-# /iMbhrkoK0vZOKkfGXQIbWNbVK4J/qCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCQSRstbps5tFx0
+# A/tb6xGvGi5UxK3dhswKbB/2N7EqTaCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -462,29 +462,29 @@ function Invoke-ADCGetProtocolhttpband {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgAH2DSW6gLsNWbqOrAmMxTSiV
-# Whekfmb5QtAuyZd/uxwwDQYJKoZIhvcNAQEBBQAEggEARGSMS8l/hYluB4kflT9T
-# 8VvrTaZdJABoC6OyIVGOLC/Vw2VYhCKx3vRiFuMjAJovOedqaW2E88S+BozTe4Ry
-# 8JAOTerKBBujRk9/RhINI57iS4njIO6p5ylGEgVqLzvfwHF07rQTGjj2nuyi51+U
-# h3HkjOboivN9h7DOCVcBlr0J3GRrqoPP+5TxZzyJUzUyzkXZuCfoWWofvN6q/VvO
-# knvJLMaezViBRx7FPSguslNqMOxHQ5koHNmF0sy796jSXrYV2zk3+R15BFlW+6Hw
-# rQxxJnjPxVabeMXjm2DoA5BeHzPmHO3QuWD2+VY+JlSX2YJlcrsCzgeOy4N5xDH7
-# 0KGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgnvag/Rmjgb0z2XsfqNNnYFl+
+# N29aeROXuOfulcN0Xc0wDQYJKoZIhvcNAQEBBQAEggEATS7w6xVe6ZxWbkygDG8H
+# S4j3wkyZhlCJ4/UOqeRzEDFWZamBg+qYnhkyZ4YyjAtlOJrXCxWG50Z5Mot+1/5R
+# bQnNfi021sM2C1Or4oiZtqWHdQH+T9rYCKELtUjbNXNAz4oWC+LZJhsKLuQ4m89G
+# W/jaAaLPax/7wdfqObWdLeUr7cpYe8tOmCnRqtUl0vB3tUqiHNE5RZNYkyhWYsNS
+# KXF7WosxQ170NgX+z1jRv8ndkAjywNFG6d9+u5IFp9b2eHxkj9mkrKu+0/XW6OWG
+# VFPiSXbprm2wVmeClhy5i3lzsWIEYBGvcC7Uv8pbvx9xiiL/anWb+geV3vBBfu2N
+# pqGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzMzE3WjA/BgkqhkiG9w0BCQQxMgQwcFguUfnGqwgfW/KdprusWilw
-# pyZWVcY7W+n7RCXosone38UAVbG8+nkDQwH4MbuaMA0GCSqGSIb3DQEBAQUABIIC
-# AFI3JIwAoyRaXao1hRPxBdukeOjV2uG6exJm35lmZIIka6tPB5nQWlTBuLJ75Oa4
-# U4d9H6wnYpi/1FkfpjZ7Zo+ZrtWKVFX3jDzXG1r/62aU2lx+B0rT0KPHpRDwzsE7
-# Fl6b4MONAD2kcKxR87jeFA5IjLVAKRfqWOz3CGjbzQl7DepYmNoF6Pi+H1kDfkK5
-# AGMG3iYLSVy3j83Y1a+FjEVZ/x/c4I7gUSUHzSe3pSh4YWK1PwJkiAaTVkkpiKrp
-# EYtJS3w4BwkP7BtvLcb68M1sLnaJNx1CrChxRnK4LK+5Kzfv1nHY5mG1RilZ9pe2
-# QhtlDfRYhbeV6EYL5GT2avhGNjAJO/1vIO7ObeOJypaNF10Z8u/PSuKjBGA810fd
-# v13/Ub+NAtkE5W/HBjBkm3vKclPEl+O+90YjT64e6eCTutzzrE/4298lQEo7OIkx
-# KdrEF0RkBKd3bqAfAyWxn5DDsUolMBQh+DqIqVXgurrUo2qN9ct1ppY+Ct2ZDsDk
-# 8by++M0MD9WOIT0FjXAEM2b/f4fvMhbpY3EBmAXKRXesu8RuJkDcQsNE4Gd+9UGN
-# ZGp7GocIDoFEHf+YGZ6VKDgcZM6jNZ4W0gFo4ySmzGwiyUFQSQf8ZXxM6mZZn6PZ
-# T5uusJSVZlH1j+yRJF1AsgxwJ2QU93m9jpovGWGhk7cs
+# MjIwNDAzMTkwNjM4WjA/BgkqhkiG9w0BCQQxMgQwy1hK+4OWebl5iusqfGJFZPn5
+# B9CU6JQGM3StfsOf+BCUx2jQfY618gvvb7rzxj4UMA0GCSqGSIb3DQEBAQUABIIC
+# ADj/pY4GPRTTjgUW6RtLbY1mORB89KmmJBGqaB1bjJWYJAR1K12+MPNlLmtVQqFU
+# kZ1CLvqEaetWie3jZLyVfFqUo0gLF9KTsWyr4es7VpeqZR6QtxNKKCVNSZV1FVk0
+# 6wK9fWAalfJYAN4LwenYGwj8v/ZSjy8mkzLVmsdcSTF6/t8LhJBgmSn31gBrmQni
+# 4j4woG5jVzZs6r5uOsiS4EeDdN+hSW8MxGyKi45FjZdmYSJchLKWJjJabRpq3lvc
+# p4LZ/Yhn0vOmg7Ine5prBFpfOBd1R6gF5lnezKlQ7uogP/ke63TzCE2thuvVe0u/
+# iiJrQJvDPBpL1RewAqDRg33kRqABrt1dYZGq+0S45qSLDPhTTWtNyhskuz4EgyfM
+# NYoA4lJsf3hlrHNIWws0mSD1v72pTMUuQ0QJHXsiHbyB0NPDZtG71baL1x3Ost48
+# Fpma3dynYF+v2SIg5wcsAOeLPcE6NHrxgisrmCOkveBDFUXHc4IGRldDjx4AVnsV
+# oUSdGAHdMGi0cHH+Hfek8ax5wIPFGwPPfU2/fdxaAuCS+fC0DLjGxfB+PknP5TNP
+# OqWl2iT1bfSTJpBbkdyqWnfWG/6/6yFVfaz4ess4JeVoudBHy+9VfQqWDnrxnPO7
+# A07nqZ1Fu7w7AoPS79G7zd+/LpvPqBUGU5fPKWoy/Sh2
 # SIG # End signature block

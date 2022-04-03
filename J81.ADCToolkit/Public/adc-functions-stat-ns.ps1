@@ -30,7 +30,7 @@ function Invoke-ADCGetNsStats {
         Get ns data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNsStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/ns/
         Requires  : PowerShell v5.1 and up
@@ -127,7 +127,7 @@ function Invoke-ADCGetNsaclStats {
         Get nsacl data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNsaclStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nsacl/
         Requires  : PowerShell v5.1 and up
@@ -219,7 +219,7 @@ function Invoke-ADCGetNsacl6Stats {
         Get nsacl6 data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNsacl6Stats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nsacl6/
         Requires  : PowerShell v5.1 and up
@@ -311,7 +311,7 @@ function Invoke-ADCGetNslimitidentifierStats {
         Get nslimitidentifier data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNslimitidentifierStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nslimitidentifier/
         Requires  : PowerShell v5.1 and up
@@ -403,7 +403,7 @@ function Invoke-ADCGetNsmemoryStats {
         Get nsmemory data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNsmemoryStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nsmemory/
         Requires  : PowerShell v5.1 and up
@@ -495,7 +495,7 @@ function Invoke-ADCGetNspartitionStats {
         Get nspartition data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNspartitionStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nspartition/
         Requires  : PowerShell v5.1 and up
@@ -587,7 +587,7 @@ function Invoke-ADCGetNspbrStats {
         Get nspbr data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNspbrStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nspbr/
         Requires  : PowerShell v5.1 and up
@@ -679,7 +679,7 @@ function Invoke-ADCGetNspbr6Stats {
         Get nspbr6 data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNspbr6Stats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nspbr6/
         Requires  : PowerShell v5.1 and up
@@ -772,7 +772,7 @@ function Invoke-ADCGetNssimpleaclStats {
         Get nssimpleacl data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNssimpleaclStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nssimpleacl/
         Requires  : PowerShell v5.1 and up
@@ -870,7 +870,7 @@ function Invoke-ADCGetNssimpleacl6Stats {
         Get nssimpleacl6 data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNssimpleacl6Stats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nssimpleacl6/
         Requires  : PowerShell v5.1 and up
@@ -967,7 +967,7 @@ function Invoke-ADCGetNstrafficdomainStats {
         Get nstrafficdomain data with a filter.
     .NOTES
         File Name : Invoke-ADCGetNstrafficdomainStats
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/statistics/ns/nstrafficdomain/
         Requires  : PowerShell v5.1 and up
@@ -1031,8 +1031,8 @@ function Invoke-ADCGetNstrafficdomainStats {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCQd/jz0fLao+De
-# DTvrDa9l4huo7aURG7bp/p0zfnPWq6CCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCAdKlRfbVLu307v
+# cuV2VlneiFNDe0QsCJgZSl0SXg8hMqCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -1200,29 +1200,29 @@ function Invoke-ADCGetNstrafficdomainStats {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgLu+humERkXdHdOzJfiN39dOl
-# kh6hmkzajKHbMA3uVMkwDQYJKoZIhvcNAQEBBQAEggEAJS/XgGevmfLA/UEQray7
-# siPgTKcNZp2Zx2uXyVEx1bEQh+iaEOfFVhiBaRYQl2yhOgtfk/obL0Y5736YjPkt
-# zrzEEPSQW7RlHf4fCKxYBWbWpI0HpfahMIk4667K/G8lY8ipc0l8xiAj4GVXU4We
-# RsHUhfMZZ9amf3hp65TQIdcgq3vFPJnPtwyqtzCab19GWdE4Y2R/wgtM8PQbCJX7
-# YSfWz5acWDft4By/Vexv2WfQD3jPk0n/+RQfx7v5HbLhvNE8GBLauG5VMh61fCpc
-# yO0rQWq52uK4JOk4BK6QfY0LGVdJeuA5inTNDAaCjkswLWfEIokSaFzB10UvbkAZ
-# w6GCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgz6QkXIod5Tx9VN2NF7I0VilI
+# OoQLYRcXqcNZgNKA4EgwDQYJKoZIhvcNAQEBBQAEggEATQvUIBe7iX1r/LKToiF2
+# SH7pDfKFtBPVH/cAJoAQgLaM6va/53cTcW8gFOQ48SlU0v5ZKi6xPe5lunfrU9CP
+# R9LMUcwehiiuzNK6Ov5l73UK48iyqFzFA6zyUu+wxUo40yILbS0Ucey16jQw779S
+# 3Y2/68nI7Flz1U8ZUp+AaejsFZyWyutnsYJmqh6cP8ZFENPaNCjoE0/xF/j7BzLg
+# OYtFOMHZoLtdacRVW4NxID2K9CzDC+3titpum7a9lb2ir3S4cYp6MoQChPa1brF/
+# yX74699F6koN9pnQQK2eq6Wsol9sX5eqJ6Ok0q3z89x1PpAbG1EYEgBQ0MKW4Lkm
+# i6GCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzNDI5WjA/BgkqhkiG9w0BCQQxMgQwmC+/I8aewOU+QZ5WR1Lc5CGz
-# CRiNVmFYpn5s8P575pGUei6w2eo12E7truE8VLUaMA0GCSqGSIb3DQEBAQUABIIC
-# ACjwi4sdCosH4FruW/jDvB/py1HYb2jh7NMUMjglSwC2Siqa+338ZTdgSZgpTKW6
-# qK0Q2nbrxJfKloYO2ol0JxnoR5iJ0R4T22Qli9i9SCIAyq95GSTyM0yLTLUmV4uj
-# QQW4tOcaEBSxwATgG6wdWQ4OVc/JKmjRPQg9MYtw7tCLmn0yDlJtBY15PrCni+au
-# zWGkHYfmOC3FT1gILwYDLN+TtqUKHivTUrDeL9EbUsXrwzwYSsgbzqsax8JAqWx5
-# gJ3E8fNWJapMslAQ8IiO7uBFsRF/jwX3T9c3n07Qcn6lP2hZLQk0u+f8AUriB8xW
-# FoKWGJnf/GIGkDQXuvMqJ3bf31kERJtFkMn5fBxK75FncJgpnDIoYjhpFsWVGl4h
-# WWcmSBWGm46jKfYBkAgcMaez4aeZNZRE+52nzHW/D2NsOKY9Lb+Dm6marqBug5yo
-# 5iQHZr8fEMBdWVW23Aq+7LuGW63dotMyeMryHkf3Zy7H9Wx7e1F85NIFKskqypG4
-# G+FSMW2i7+FwAPZd5VOBtw33LinhbpAweRukxt6Ar7G2wIRt8E6wqCNyzFPa0FAR
-# 2CpqBz1E0QN+boj6xRvu7uBLnWAc0lRuVPxlMf53W2iHZVJjOG0owLLL0P4Sicud
-# rbitNa8F66eLyEt4g48DjbkD2reTS/uSX2f9MRFx8hUk
+# MjIwNDAzMTkwOTIxWjA/BgkqhkiG9w0BCQQxMgQwwXHxpqXcUzEMvckDYrFvssF5
+# C/V3Cup7MFEr5fhoQPurZWly6QuDsr5TC5xBrUXCMA0GCSqGSIb3DQEBAQUABIIC
+# AI4Mo1uHrasin8l+ghyrccqDS+sWA/yyzZVbjbn092K6zHiNC8fUV+AZ0w0ndXrH
+# uwCh7pjKHhAVyGs73PW1Eu90tojraieWwsLXPRchJmahSh4/p19Q9FTpFnKv6qGa
+# M/jlPMbMsPkU2sR85Joh9m3Uhw+gLbfFNOALUTTHNngarbvVSTir/t0uJ1WpoYwx
+# 7l4hSpsihwQ+N6mlMRKBnAFUPbAoiO5B5PZbhdtRerPYS7qhWeu/LcC9bTHiEGV7
+# Sj9hxfx/T6qanS6FiZQEjpa4GDhdIEekk7hm4nRzj4IFRdHpOgcWwqoJUr99x8be
+# XoH8GA3WDZeWdLk0svPGvE0S51U+BfLerJvbtx4ZD7cYGVYDqhwXpxA5b7d5NHLO
+# v5Q1MX8MpwY7C3SsUkEERzJ7ExjasICdQQl7Dc6OQJZWVHwarUDNvPKTJxEUnXi0
+# 5TWfzKD+4iYva03eIasF5MFRd0GthwmaJWquZ5ULz9rXUK6n9VzCFcwiA/BQGUx1
+# wmv7orQRBeLfe9xXJtDbCvP+dT4E8FxUXJ1GdkbCj2EnpZgr0LNjjYksb6OQA/qD
+# 5/sPA8ucmdIQtVXLpIJYagSztSahsFtD7aIhFH1LnU7zxjgP+UaBkm+CTLvnoPCQ
+# SOuTt0FdJGW8fdyj8eiounSR961BawjoBKs07CibaJJO
 # SIG # End signature block

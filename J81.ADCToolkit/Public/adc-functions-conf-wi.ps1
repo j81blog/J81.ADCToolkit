@@ -18,7 +18,7 @@ function Invoke-ADCInstallWipackage {
         An example how to install wipackage configuration Object(s).
     .NOTES
         File Name : Invoke-ADCInstallWipackage
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wipackage/
         Requires  : PowerShell v5.1 and up
@@ -99,7 +99,7 @@ function Invoke-ADCGetWipackage {
         Get wipackage data with a filter.
     .NOTES
         File Name : Invoke-ADCGetWipackage
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wipackage/
         Requires  : PowerShell v5.1 and up
@@ -267,7 +267,7 @@ function Invoke-ADCAddWisite {
         An example how to add wisite configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddWisite
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite/
         Requires  : PowerShell v5.1 and up
@@ -457,7 +457,7 @@ function Invoke-ADCDeleteWisite {
         An example how to delete wisite configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteWisite
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite/
         Requires  : PowerShell v5.1 and up
@@ -606,7 +606,7 @@ function Invoke-ADCUpdateWisite {
         An example how to update wisite configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateWisite
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite/
         Requires  : PowerShell v5.1 and up
@@ -812,7 +812,7 @@ function Invoke-ADCUnsetWisite {
         An example how to unset wisite configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetWisite
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite
         Requires  : PowerShell v5.1 and up
@@ -915,7 +915,7 @@ function Invoke-ADCGetWisite {
         Get wisite data with a filter.
     .NOTES
         File Name : Invoke-ADCGetWisite
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite/
         Requires  : PowerShell v5.1 and up
@@ -1006,7 +1006,7 @@ function Invoke-ADCAddWisiteaccessmethodbinding {
         An example how to add wisite_accessmethod_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddWisiteaccessmethodbinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_accessmethod_binding/
         Requires  : PowerShell v5.1 and up
@@ -1082,7 +1082,7 @@ function Invoke-ADCDeleteWisiteaccessmethodbinding {
         An example how to delete wisite_accessmethod_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteWisiteaccessmethodbinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_accessmethod_binding/
         Requires  : PowerShell v5.1 and up
@@ -1164,7 +1164,7 @@ function Invoke-ADCGetWisiteaccessmethodbinding {
         Get wisite_accessmethod_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetWisiteaccessmethodbinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_accessmethod_binding/
         Requires  : PowerShell v5.1 and up
@@ -1259,7 +1259,7 @@ function Invoke-ADCGetWisitebinding {
         Get wisite_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetWisitebinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_binding/
         Requires  : PowerShell v5.1 and up
@@ -1354,7 +1354,7 @@ function Invoke-ADCAddWisitefarmnamebinding {
         An example how to add wisite_farmname_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddWisitefarmnamebinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_farmname_binding/
         Requires  : PowerShell v5.1 and up
@@ -1446,7 +1446,7 @@ function Invoke-ADCDeleteWisitefarmnamebinding {
         An example how to delete wisite_farmname_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteWisitefarmnamebinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_farmname_binding/
         Requires  : PowerShell v5.1 and up
@@ -1525,7 +1525,7 @@ function Invoke-ADCGetWisitefarmnamebinding {
         Get wisite_farmname_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetWisitefarmnamebinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_farmname_binding/
         Requires  : PowerShell v5.1 and up
@@ -1617,7 +1617,7 @@ function Invoke-ADCAddWisitetranslationinternalipbinding {
         An example how to add wisite_translationinternalip_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddWisitetranslationinternalipbinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_translationinternalip_binding/
         Requires  : PowerShell v5.1 and up
@@ -1707,7 +1707,7 @@ function Invoke-ADCDeleteWisitetranslationinternalipbinding {
         An example how to delete wisite_translationinternalip_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteWisitetranslationinternalipbinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_translationinternalip_binding/
         Requires  : PowerShell v5.1 and up
@@ -1795,7 +1795,7 @@ function Invoke-ADCGetWisitetranslationinternalipbinding {
         Get wisite_translationinternalip_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetWisitetranslationinternalipbinding
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/wi/wisite_translationinternalip_binding/
         Requires  : PowerShell v5.1 and up
@@ -1862,8 +1862,8 @@ function Invoke-ADCGetWisitetranslationinternalipbinding {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCnxlbzND6TIaoD
-# 8PMza388NaT4DdmZy7FMH3dWer4WEKCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCBucrjuo3F4sg9e
+# vd3cK4GdID28yzALZD5z3UaHpBvTraCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -2031,29 +2031,29 @@ function Invoke-ADCGetWisitetranslationinternalipbinding {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgZOnDbuQTm6zSZqC1USzrAaN/
-# cjvXs8SEwctGU8ERbGcwDQYJKoZIhvcNAQEBBQAEggEAZWbIiGzWFk+qtcNk1zkk
-# grJXtvFd21kBebDRKnZ8t1beZrlWTTOchwdE7PIFAJO87hIlD5/qPvjFUOnnwXeb
-# 4LuXXDcTxiDYZq+RlfACj7W3uK86YML7/6y8wodMsjF+0npy4ndgOPAGeM5+AucH
-# 39aWndHuD7nxwt86WQRp+foNC6Ies1uXp2JPIHotf8LHJdzCrb3R0ZIx0PWAPmG4
-# +p24UBH4z1EdQOvyPgyYXnMI4raT0xeuZhNOJCAPe4sJyMEDDFK1dhN2wCO8fjGg
-# 2ppWwde57iHcQ5gp6yydytHkVBi/sqTKBxuWg7OjdcZ8v7wPyPtjl0vPkJHyMa7Z
-# iKGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQg5IefpV4n+UF4l9x037vLj7di
+# XE8mIzGPkNXGSo6ZyPYwDQYJKoZIhvcNAQEBBQAEggEAYgg6PDJyS3BNEICZEKvx
+# 6p/4HaMlmLnHSby/uaXGsnBa0UfTR0zytUEUJPlOAfqywYlQJKd4Tx11y1pKpQIj
+# SDl/JtasX3wI1/8Uo199GWXwJyz4X6nMp7uHyJiWi350f27Z9H4XGDrNIsSkTbIF
+# bKJpnmyIYXkURnDipFUq5WRXuupSXYlYP0l8jhn9GfKhrcolUR0ff+fFNOMO1Hl0
+# F/uSYiVv1DrJh5mbxvGBRxqnx1s6rgl3ElCoejoRAF3AroznPXjhtVFGXc2JcvUb
+# po6UiQggk/p0jT3ejmM8h1iNnTm3o2h78oh5l3TjxJPxghUOfCNCYISTj1HK4yQk
+# MqGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzMzU2WjA/BgkqhkiG9w0BCQQxMgQwGpq8nKJarmDZrmu6rVymaUMT
-# i41LBRdsqUEvBh0sDVJHDA+s0mTExEMC+MIlStVSMA0GCSqGSIb3DQEBAQUABIIC
-# AFVY8e3NxzC6YQsmOzN4qGId1JDIY1wiZr8yqcMN3LLzIt8BlWI3Hd1neWmN+spT
-# g6tK5wqymsLdpX7G0nbvDSyUNij4Z6CATDmcD5DIgnYzn8AoFcewf671SUka4Bwk
-# ltWG4Db00MXMideTMxPrp/Fbf27f73yvwsucfJ4GyxzI+ZYbRpkr8bhESPYmN56O
-# 6vWn5BX9Enxy/ac+7IeN+WYF/9KrrtVH8HhML9TDvou6+wj/JfJIJjwaioHnRlvc
-# MDoc5ig/KjQrr+YBn7oSC9hguMQEEkoxNE25FNoreOol2qRt2tv61zNFi3b3y9xB
-# d03aD3gFJyFkre/RrvkHjCI9EjbPVfTVMWQivBls6oi9UL0mAVwuhgHXj0ssXzLV
-# N5jsy5w9D13cb3D6YEi3mIuVrSfkACdDc/ctiS9V51zg07r+QHrtgHoNSTcl1uHv
-# cfag1gmeqLbCflg18XABbb7NvFbui+AaSmEyn3JUVvcHn8U1VM8eQkKAMkjBeB/X
-# rTY/Jh2DlSNX46UgxGAzf2Mc0tYcMnC3AB6M++5Yk6R2RFYfAeJ2foCpJgADhW2N
-# SGhUG+1z4hZMjy3J/1z4kIR60/+COnIv++nDhvE5PJYLIPjG/xxGqS8Pedq8Satz
-# JXb+Xhur8Nod0faOrWWkwXIo97nFjti+ReVFR3N420rM
+# MjIwNDAzMTkwNzUxWjA/BgkqhkiG9w0BCQQxMgQwIJ2Oyu69WhHSowETsT4f6CjK
+# V/aKgZfcX/4aUkr9YhAOIN4/FhqsizfCMDzf/gKxMA0GCSqGSIb3DQEBAQUABIIC
+# AH6VsnIEvAS1xz5qW6A/l89jpNm9MfPl7+VxKlMsrV6SiaiMrsr+qkLzvZqRj8ri
+# 0gHXYmWQMCRkjhC2qdNNcq7sXTkcByb76pYHDwYyoMdcyDoU5/Qj+d9glx3hjUec
+# Lav+raFte/eEVXLI/zzv8VXV2oCpkMNa6pUDoJx2RQaR6cTpR/uUAVuu1H/KO/8z
+# 72d6WyX3+jWSgTGaFeL98VdOksV6Q+EisfdsHioJuDOgmWYL2TyO0kvpQ0UaWIYn
+# +8hDDH4HPkh6MMaKkRlOA6tj/cL0Hwxhc9iO69FWQ/6i3VgpRXM/YGIKfi1u1WJq
+# 330zFkjQy0imH4VXYm4kLLMJ9zRNDLzrg+4sXcpGM0hGaJfy1w+cqgtHNZ5mjw9a
+# cgDw1Nz52IE8UViOPCTYvyTveyFFll2j1qIYK7k8ewRiiOgQ0AK+688RXkmSG9El
+# 8Dy6HtHMcQZuok7kwm78J1PI2C/yUcNbdwf4LJ5N3n+mT4MuVmIt5cVnXzAH52eT
+# bmWRn8yXqh1KjfDY5QAP70Ri+42eDZQDvIfp/iWYt8BYcEEJ5wqYCa2IbPzuWZ9F
+# 0nNSF3ZdAD+LLwHWa3EknUuV2T73iVNzztj0VpCkIGS4KMi30e/Bn8Ggr0IJD9uo
+# Y49XRCPv4iX3Wcjf5QW1krNxWn7JhK1yUd9yR+57SBec
 # SIG # End signature block

@@ -12,7 +12,7 @@ function Invoke-ADCUpdateAdmparameter {
         An example how to update admparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateAdmparameter
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/adm/admparameter/
         Requires  : PowerShell v5.1 and up
@@ -69,7 +69,7 @@ function Invoke-ADCUnsetAdmparameter {
         An example how to unset admparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetAdmparameter
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/adm/admparameter
         Requires  : PowerShell v5.1 and up
@@ -140,7 +140,7 @@ function Invoke-ADCGetAdmparameter {
         Get admparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetAdmparameter
-        Version   : v2111.2521
+        Version   : v2204.0320
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/adm/admparameter/
         Requires  : PowerShell v5.1 and up
@@ -200,8 +200,8 @@ function Invoke-ADCGetAdmparameter {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCahMH7t1Y9qv49
-# g1JOthwEpG0oiEOZVyXBRNl/3T2urKCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCBbLi6oGbnCQFFo
+# OTceexqBCVr3V1akL5MRabqKuPg4DqCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -369,29 +369,29 @@ function Invoke-ADCGetAdmparameter {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgqCxO6tVbNAjSm3Xzsf2KBZM3
-# 7aWkf9hU7rEIwUXw8eMwDQYJKoZIhvcNAQEBBQAEggEAWjnpIFD3lM+jnYQwhTg3
-# VMScCtFZdVz16yl/bustAmCPpmP3OHVTeuAk8qofm77udd1y5LqxDsnwgxT649Tv
-# w+rjANavDRRALxcc+iNWT95mHbqXvD8dMoLZwfrPZmmpuqVdqc7oJMSPU1vbW1sO
-# BWkTskyn60tL0Ef9SRpEn3qW9eNB9NqI8388SBrbdKZPbrcr8kM+8tlrw628cZau
-# iYuLhRWZR3PeNi8yl5s0sgJQOtvqYO1LEDOtsWI5Ri3V0aLzoJqTulBRw/1/FDYv
-# k1e1WkcxlaZQpILrR7KsRYQonHBpfDtRq/2qiZzhuGLtO5XMr+M4H4qdAzMGfv32
-# NqGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgLN2q9JsoKLG5tto8Cyd40lgG
+# pjmTag6zEunilVjbwkYwDQYJKoZIhvcNAQEBBQAEggEAdNw+/Wg/c1n5JWhk4tu3
+# TElXE6uocb74U9c74u77LGgJPe+P+FxQ32Mz4q9w71qMwKJzG2AYwNfhVOsW/uD3
+# uvyj1J4VdhVA9GF0z6ikxHn0Q42CX5tg3msUAdSNmIr/BHKsRLAbrWSpPvSk6hvQ
+# x4t4z4idsav+DYbsYranlk3GJo8cJwkrV8IusIcyDyoshPGxL1Tc1qgFikSstBoB
+# dmmLts68ybyxy3/0SeYY4nUzHrfGRgeEPvYs6W0XqDgC3XUhACn3tt7X3hdynXZ0
+# grbb0kVR77wXYlfQzYwaYVgghe0RrH+YBrruwjE4ZzOqHQ/O2z6DvySBpEtLMp2T
+# FKGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzMjI2WjA/BgkqhkiG9w0BCQQxMgQwFH7fk6EfFeajk6s4XlzlwAYL
-# h2jFtTFXl94eqm+hJG/PRSp8Cg8f3bACdbh1mcdlMA0GCSqGSIb3DQEBAQUABIIC
-# ADiCScrHCjGmN7HqMLVoRNBfboWRG5U/wCeb2ZBQJb7KpkvVrwU6HSRWSsC4qI6V
-# QU4Bu4fo5XFOQqZc3foobvwSbXKQRGNI9R0uOfAFfrABtpaw9xw+Ikt2gXtsarM+
-# Dxf0yhIISjA0aXVKhcoLqEphE3gTzBnPq3jwa0sZdwHr/dszkmH2Oi+7WHO+NFyT
-# k7K0tX0B4z6KDqSb58wegM8Kz25wg972A4RaGOY8G6c6zd2Ma5BtztAqU8I9ZZBQ
-# 6HmBHm7pFGC4znuHEx8OpJC9yv45aiT4beYtB77fPnAJxcHz8HCwW7B58x7t+3e3
-# qAps2NwoatGPc+7gTk8dZSEriWFaq6bDf9IC+3n07owm6sB99fbxKY+wmCJQfJZb
-# u9tP5R45J8pia4VqDJFS7ZTE4+ffY5rGMgUiwucv2RlrZXXpIe139TGlJvAJTVth
-# BEuQVZb0W3hLy0Am8YiYHbrlLHjaFlNctJUUfpd0U3rdHENsO8pYpqjr+PEO7fmt
-# 0ftVGxiHSj/9pL0rVR8sFUFRdayhwciUiAJy890MiEl+MmuM+qtAnmXN7SLT7mLU
-# nP+vmdEGe2UkLyto8KutD5bguIiuMFZGnetljHm8ypwg/1FXAzebNbbxDEmEz8rU
-# glS8NgDqj/1sLVJt/UN91lz3GAMo4KgrkApDZY4myAr0
+# MjIwNDAzMTkwNDM4WjA/BgkqhkiG9w0BCQQxMgQwv6Q2JvDQ7+DjBFc4VLRvma+z
+# UGi1bTOhekXGlAEd2JH1JaSjAEgZidRRdfoQy4CJMA0GCSqGSIb3DQEBAQUABIIC
+# ADx3FkGDmYPDNm28loSMPsyhHNnI6LNxh5hD4aDndaRcBLoC7jXEqEunRxkyH+Pl
+# tXDGZQkCN+8t0ohnRjNGrhqQeFQT8+shYWOMwW1TiGY59GIOLJYzDkLuwFlHUOXg
+# lseB791aueHVBUZMJt5IqABTX1jHvAo/Dw1kjHzTmTIWD9BNxC7uaVC0NT5HyMe9
+# TsWHBf73LfsVO/C1cj4ZpWCdl50953Mws9rMn7OlO1XaBcVid5OZRCZWjCRRu8tz
+# pnuQfVEWulnnR5aqOVWPOvgMk9Mh6phmCWhZNGsSYInH2rvau1okv1PtuLsENx1p
+# rkcPc2ZKX4jMfP1hlOBhKQy2XI7ETfeBqZI40JTROeEktSw3XpQE+/QPcSQ9Pbmz
+# TwpJF6baJn6lcRCd4Pf7SZPdlJ95sS4/PlD0olXZGGNHCJoAkh0LtWkg7YbVuqZU
+# v282lWelGAUhdCMktbaPDPEqkwxls3DcXQaJ/v7Oap+Wdb8ZuxYm77BluA8SPz4Y
+# eVOXlcUKWg9VnHNIM1zBzmBj5iaTkukhRPLZDPNKQ5v9MJRPqU0suhYAsXHmXK1q
+# iTZMvwtkn/9WKLXpCjOdPTZENotTHkgJfuWwQBb4hRtqt57ZSCxWGPEeQdyiL54H
+# DjqEkwnQCyArbuN6uOtb5cVJQNhEB4noASBLz8YPZaQK
 # SIG # End signature block
