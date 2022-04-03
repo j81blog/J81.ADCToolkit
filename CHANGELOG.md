@@ -47,3 +47,8 @@
 
 ## 2203.11
 * Fixed issue with Invoke-ADCCleanCertKeyFiles, files weren't deleted and returned an error
+
+## 2202.0319
+* Changed version number format
+* Signed scripts
+* Updated manifest file, functions weren't properly exported
