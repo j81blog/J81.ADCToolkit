@@ -12,7 +12,7 @@ function Invoke-ADCRetrieveCertificateRemoveInfo {
         Invoke-ADCRetrieveCertificateRemoveInfo
     .NOTES
         File Name : Invoke-ADCRetrieveCertificateRemoveInfo
-        Version   : v2204.322
+        Version   : v2204.410
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -37,8 +37,8 @@ function Invoke-ADCRetrieveCertificateRemoveInfo {
         $LinkedCertificate = Invoke-ADCGetSslcertlink -ADCSession $ADCSession | Expand-ADCResult
         $SAMLCertificates = Invoke-ADCGetAuthenticationsamlaction | Expand-ADCResult | ForEach-Object { $_ | Select-Object -ExpandProperty samlidpcertname -ErrorAction SilentlyContinue ; $_ | Select-Object -ExpandProperty samlsigningcertname -ErrorAction SilentlyContinue } | Select-Object -Unique
         $ssldhfiles = @()
-        $ssldhfiles += Invoke-ADCGetSslprofile | Expand-ADCResult | Select-Object -ExpandProperty dhfile -ErrorAction SilentlyContinue -Unique | ForEach-Object { $_.Replace('/nsconfig/ssl/',$null) }
-        $ssldhfiles += Invoke-ADCGetSslvserver | Expand-ADCResult | Select-Object -ExpandProperty dhfile -ErrorAction SilentlyContinue -Unique | ForEach-Object { $_.Replace('/nsconfig/ssl/',$null) }
+        $ssldhfiles += Invoke-ADCGetSslprofile | Expand-ADCResult | Select-Object -ExpandProperty dhfile -ErrorAction SilentlyContinue -Unique | ForEach-Object { $_.Replace('/nsconfig/ssl/', $null).Split('/') | Select-Object -Last 1 }
+        $ssldhfiles += Invoke-ADCGetSslvserver | Expand-ADCResult | Select-Object -ExpandProperty dhfile -ErrorAction SilentlyContinue -Unique | ForEach-Object { $_.Replace('/nsconfig/ssl/', $null).Split('/') | Select-Object -Last 1 }
         $ssldhfiles = @($ssldhfiles | Select-Object -Unique)
 
         $Certificates = @()
@@ -47,29 +47,34 @@ function Invoke-ADCRetrieveCertificateRemoveInfo {
             $certData = $InstalledCertificates | Where-Object { $_.cert -match "^$($cert.filename)$|^.*/$($cert.filename)$" }
             $keyData = $InstalledCertificates | Where-Object { $_.key -match "^$($cert.filename)$|^.*/$($cert.filename)$" }
             $CertFileData = @()
-            Foreach ($item in $certData) {
-                $Linked = $LinkedCertificate | Where-Object { $_.linkcertkeyname -eq $item.certkey } | Select-Object -ExpandProperty certkeyname
-                if ((($CertificateBindings | Where-Object { $_.certkey -eq $item.certkey } | Get-Member -MemberType NoteProperty | Where-Object { ($_.Name -like "*binding") -and -not ($_.Name -like "*crldistribution*") }).Name) -or ($Linked)) {
-                    $CertFileData += $item | Select-Object *, @{label = "bound"; expression = { $true } }, @{label = "linkedcertkey"; expression = { $Linked } }
-                    $Removable = $false
-                } elseif ($item.certkey -in $SAMLCertificates) {
-                    $CertFileData += $item | Select-Object *, @{label = "bound"; expression = { $true } }, @{label = "linkedcertkey"; expression = { "AuthenticationSAMLAction" } }
-                    $Removable = $false
-                } elseif ($item.certkey -in $ssldhfiles) {
-                    $CertFileData += $item | Select-Object *, @{label = "bound"; expression = { $true } }, @{label = "linkedcertkey"; expression = { "ssl" } }
-                    $Removable = $false
-                }else {
-                    $CertFileData += $item | Select-Object *, @{label = "bound"; expression = { $false } }, @{label = "linkedcertkey"; expression = { $Linked } }
+
+            if ($cert.filename -in $ssldhfiles) {
+                $Removable = $false
+            } else {
+                Foreach ($item in $certData) {
+                    $Linked = $LinkedCertificate | Where-Object { $_.linkcertkeyname -eq $item.certkey } | Select-Object -ExpandProperty certkeyname
+                    if ((($CertificateBindings | Where-Object { $_.certkey -eq $item.certkey } | Get-Member -MemberType NoteProperty | Where-Object { ($_.Name -like "*binding") -and -not ($_.Name -like "*crldistribution*") }).Name) -or ($Linked)) {
+                        $CertFileData += $item | Select-Object *, @{label = "bound"; expression = { $true } }, @{label = "linkedcertkey"; expression = { $Linked } }
+                        $Removable = $false
+                    } elseif ($item.certkey -in $SAMLCertificates) {
+                        $CertFileData += $item | Select-Object *, @{label = "bound"; expression = { $true } }, @{label = "linkedcertkey"; expression = { "AuthenticationSAMLAction" } }
+                        $Removable = $false
+                    } elseif ($item.certkey -in $ssldhfiles) {
+                        $CertFileData += $item | Select-Object *, @{label = "bound"; expression = { $true } }, @{label = "linkedcertkey"; expression = { "ssl" } }
+                        $Removable = $false
+                    } else {
+                        $CertFileData += $item | Select-Object *, @{label = "bound"; expression = { $false } }, @{label = "linkedcertkey"; expression = { $Linked } }
+                    }
                 }
-            }
-            $KeyFileData = @()
-            Foreach ($item in $keyData) {
-                $Linked = $InstalledCertificates | Where-Object { $_.linkcertkeyname -eq $item.certkey -and $null -ne $_.linkcertkeyname } | Select-Object -ExpandProperty certkey
-                if ((($CertificateBindings | Where-Object { $_.certkey -eq $item.certkey } | Get-Member -MemberType NoteProperty | Where-Object { ($_.Name -like "*binding") -and -not ($_.Name -like "*crldistribution*") }).Name) -or ($Linked)) {
-                    $KeyFileData += $item | Select-Object *, @{label = "bound"; expression = { $true } }, @{label = "linkedcertkey"; expression = { $Linked } }
-                    $Removable = $false
-                } else {
-                    $KeyFileData += $item | Select-Object *, @{label = "bound"; expression = { $false } }, @{label = "linkedcertkey"; expression = { $Linked } }
+                $KeyFileData = @()
+                Foreach ($item in $keyData) {
+                    $Linked = $InstalledCertificates | Where-Object { $_.linkcertkeyname -eq $item.certkey -and $null -ne $_.linkcertkeyname } | Select-Object -ExpandProperty certkey
+                    if ((($CertificateBindings | Where-Object { $_.certkey -eq $item.certkey } | Get-Member -MemberType NoteProperty | Where-Object { ($_.Name -like "*binding") -and -not ($_.Name -like "*crldistribution*") }).Name) -or ($Linked)) {
+                        $KeyFileData += $item | Select-Object *, @{label = "bound"; expression = { $true } }, @{label = "linkedcertkey"; expression = { $Linked } }
+                        $Removable = $false
+                    } else {
+                        $KeyFileData += $item | Select-Object *, @{label = "bound"; expression = { $false } }, @{label = "linkedcertkey"; expression = { $Linked } }
+                    }
                 }
             }
             $Certificates += [PsCustomObject]@{
@@ -90,8 +95,8 @@ function Invoke-ADCRetrieveCertificateRemoveInfo {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCDqO8FcUqb0XGRk
-# SxcfNW85ATxdjlwpJVbTqcI56O3kgaCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCBRwG6FX8Fnd6vo
+# 88hf733+3snol/yQQsmW32bjfmP2uqCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -259,29 +264,29 @@ function Invoke-ADCRetrieveCertificateRemoveInfo {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgxg2rk6djmP7cu+KSuVSzeYQS
-# +3lHzbYVR//dhbzXyvgwDQYJKoZIhvcNAQEBBQAEggEAhEq7VOGCaaxmAsNG/np5
-# nxNF0bJTXOf+5xSjBzQUYULpHug6RTQS12QcyeClELlSkHDA6CUa6+3eHmpkrbX/
-# 3a/0EiI9jPTnxa3BKD+c4tzdCOyaK6sKHJhF7LUsJSI7VYs4DGTfazlAN5nC4E4t
-# OlJv2eD0j6xLIEYG1gWZ1aphbiYTSqqzhdS6zIfYk2+dzHUVuiRwSkck6/JwPxYC
-# m5AfFWxLLgaK2GBUcYo2sNfwDPzQLebak0meIEssYVS/f62Zyk6LlyuiU1ZsuDsa
-# qzlau9XvVr1ZZZ5E1qJZOzdm/s3DfKxLY5QXF+9hOWojnsgrEyttvXMoHKSzRAiz
-# qKGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgI1SZbcNlaaWFKynaVle88rBZ
+# y3IQ1ijPulFcK/6bIHMwDQYJKoZIhvcNAQEBBQAEggEAYlA0xQ1LVm5gnHUTO3YY
+# XTts2xjJw7C9DUxLh6WXEIbzP57c+bKccu6QgWW5DXxBImMBjX/gU0LY8MJvEKfX
+# PApgXfWwNhXxaTOfYArvxL7S7cg+ZPC7ykpnPSV/eNUv6rKx/zRXY24PWRB/jNic
+# 297wCapl/Qnhl7W4jN+Wtm9zzJ+QMkSyTOHn+ghPuprwqV1R3Maj5/HbdPt1WmQN
+# jXjioTYFZVRhplRwfv/fNrp+Cv3XmFNk73q54JT0iFeZ1s80pDSHV4bbE50zSLZm
+# bDGw7DKkbYz+E6lhGv8Pf9d2SF7N79Ub7IooHtR0JnwNvuClOEHWe/jUxahKuVXR
+# waGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwNDAzMjAxMDUyWjA/BgkqhkiG9w0BCQQxMgQwhMkR4KSVwqxxi0xv2lr1rm7q
-# FAS1fQJUAPARi15G3hWz2C+mXriAvNwgCVRSQDpbMA0GCSqGSIb3DQEBAQUABIIC
-# AGinVHZKhfpIJncoX9Qj30gUwTdrnrz+oYTE8GJeAkIdq6K0hr9dcAyFDpzt4/kv
-# X1SyG9G5mKeuBR8UQuz3AJP1hbuiFIdQWvRw/4OyDLOzVOuddb19dSD+Jmidqg0C
-# xpvQQUBvpC78392cfLc2Y0l2ib5WFzVt06AdkNMuM1wDSGZVvkeWABuhST9T8Gvt
-# f1NlP32WS6WAqneXyMtmmuYnPoso7Sm7SMdVuzEMnDh7tyvzZ03M6dBeipA0jXTc
-# Uswsh6iY+vlma5Z0H+N/gYEiEtSq8pE5/QGfePKfV0cWoeiwyuCk9gajxfbHh/wh
-# f/vz0c5TwwJNqVE1ecIHgwRJq88BiRmE/vk2onHdaQjbFb58i7u6Es3paqS7Ka8S
-# VjqH4tHBRsKDdjIgitzbMMn0oF4rQv0JVn/4oYrPIsGmIyOQSYNQ+rnO41bnpGw5
-# UuY+El1dcJ7NMhJIS2ma+NCXK5h+E+DAIZoA4EaVR602Rtjj6LYdaOet3Mh5ytBy
-# zYHk+X6RhE2aiuHrSWrNBI8VZVEM6oGTQ/Y/OEE8KgyKeSwTC29P8+VPkdav8J0c
-# 2/pxdq/WLIq3+ehxlmyDNBx6rVrKseCfVO7whvXVYgBE9UEG4A+3N0RPL9bRbp5A
-# QFV8Bdw3g/ZgRTfWRb/mk25pbehAFB292uIdgv3ekkfC
+# MjIwNDA0MDg1ODM4WjA/BgkqhkiG9w0BCQQxMgQwmj/0V7kq1jlyp9d1drpaoxqC
+# b43cpiPSssoXwEMW/DJimG7ZtyxbeX5WVAWA1P7jMA0GCSqGSIb3DQEBAQUABIIC
+# AEaFGItRakhLeHwxbkZU/nT35lvSHshGR+H9j/BhMJmIiPm+FLK/YJxnkzn5DK7X
+# A8UkIirVRmKcgkHEiEztl/bZFLmB9ADjIMN1k1KNibmsbY/vsMmHxOpcl4YbUZZq
+# hkJ+lQxMly9Arg+cnrMWHSmssLYlqpbcqdaY+Kv3kFdI+aF2T0OKWkzQLK8NxcfR
+# yX1mqYMbwbDM2FPpwyCMsYdeiAxS3ldKwLtO8Iu6t+Kgu2D0A9cjY+AiW8J1UG48
+# 7ccsuPawpboNXshB9Yv7/TOTUhuvWUQLO5HeTTksrzkS0o1gGV/sN7xzV189kfij
+# gIpZMBYVoB6aKk4SoxWTs6uFtLy4k8yaPVoISIXi1IkhM6z5Vxqzu70ca4RJzm+8
+# gHOPOSU/k1g3J4Vtssf08TxkZrK780oGHZXt2/HOEYXYHIYbqaBiG2PXMemk/C8b
+# uvXYHejXwtaHzWol8JW1oyVNLiZrdKNRno0zRYhBTML1UF9HhJLJ3EdMIen7nT2z
+# 849u3r/V8+Nq1AKF6GxjsX6PdCvsY1XLDfDZ7ht8JUpVvP5HO1GhT3slwQ5zfXQZ
+# eTciYDrIv68ETPF9FQnNxGpRlBD6PLm8DN9lVbLfJNKSPiY8EBkRAR9sQyS1XfAn
+# XLVlAdU+izXOkj5XhvFgiEjG4BftvfMhNuiim5aZBgVs
 # SIG # End signature block
