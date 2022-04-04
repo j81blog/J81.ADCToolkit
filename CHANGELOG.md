@@ -55,3 +55,6 @@
 
 ## 2204.320
 * Updated all functions with latest API data
+
+## 2204.410
+* Fixed an issue with Invoke-ADCRetrieveCertificateRemoveInfo on PoSH Core
