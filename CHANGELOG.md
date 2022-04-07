@@ -58,3 +58,6 @@
 
 ## 2204.410
 * Fixed an issue with Invoke-ADCRetrieveCertificateRemoveInfo on PoSH Core
+
+## 2204.722
+* Added new parameter '-Primary' to 'Connect-ADCNode" to always connect to the primary node (in HA config)
