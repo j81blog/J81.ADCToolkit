@@ -58,3 +58,10 @@
 
 ## 2204.410
 * Fixed an issue with Invoke-ADCRetrieveCertificateRemoveInfo on PoSH Core
+
+## 2204.722
+* Added new parameter '-Primary' to 'Connect-ADCNode" to always connect to the primary node (in HA config)
+
+## 2204.1115
+* Fixed an issue with Connect-ADCHAnodes, Secondary session was nog correct.
+* Fixed an issue with Get-Session, configured variable $ADCCredential was not found

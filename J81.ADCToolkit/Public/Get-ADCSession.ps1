@@ -11,7 +11,7 @@ function Get-ADCSession {
         Get the active session and if not found, try to connect
     .NOTES
         File Name : Get-ADCSession
-        Version   : v2111.2607
+        Version   : v2204.1115
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -20,79 +20,153 @@ function Get-ADCSession {
     #>
     [CmdletBinding()]
     param(
-        $ADCSession = $Script:ADCSession
+        $ADCSession = $Script:ADCLastSession
     )
     Write-Verbose "Get-ADCSession: Starting"
     $IsActive = $false
-    if ($null -eq $ADCSession -and ([String]::IsNullOrEmpty($ADCSession)) -and (-Not ( ($ADCSession -eq [PSObject]) -or ($ADCSession -eq [PSCustomObject]))) ) {
+    if ($null -eq $ADCSession -or ([String]::IsNullOrEmpty($ADCSession))) {
+        $ADCSession = [PSObject]@{
+            ManagementURL     = $null
+            WebSession        = $null
+            Username          = $null
+            Version           = "UNKNOWN";
+            IsConnected       = $false
+            SessionExpiration = $null
+        }
+    } elseif (-Not ( ($ADCSession -eq [PSObject])) -or (-not $ADCSession -eq [PSCustomObject]) ) {
         $IsActive = $false
-    } elseif ( ($null -ne $ADCSession.SessionExpiration ) -and ($ADCSession.SessionExpiration -is [datetime]) -and ($ADCSession.SessionExpiration -le (Get-Date)) ) {
+    } elseif ($ADCSession.IsConnected -eq $false) {
         $IsActive = $false
-        $ADCSession.IsConnected = $false
-        $Script:ADCSession = $ADCSession
+    } elseif ( ($null -ne $ADCSession.SessionExpiration ) -and ($ADCSession.SessionExpiration -is [DateTime]) -and ($ADCSession.SessionExpiration -le (Get-Date)) ) {
+        $IsActive = $false
     } elseif ($ADCSession.IsConnected -and ($ADCSession.SessionExpiration -gt (Get-Date).AddSeconds(120))) {
         $IsActive = $true
+    } else {
+        $IsActive = $false
+    }
+    Write-Verbose "isActive: $IsActive"
+    if ($IsActive -eq $false) {
+        if ($ADCSession -eq [PSCustomObject] -and (-Not ($ADCSession | Get-Member -Name "IsConnected" -ErrorAction SilentlyContinue -MemberType NoteProperty))) {
+            $ADCSession | Add-Member -MemberType NoteProperty -Name "IsConnected" -Value $false
+        } else {
+            $ADCSession.IsConnected = $false
+        }
     }
     $MessageText = ". E.g. https://citrixacd.domain.local"
     if (-Not $IsActive) {
         try {
-            #Check if the ADCSession variable contains a hostname
+            Write-Verbose "Check if the ADCSession variable contains a hostname"
             if ($null -ne $ADCSession -and (-Not [String]::IsNullOrEmpty($( try { $ADCSession.ManagementURL.ToString() } catch { $null } )))) {
-                $ManagementURL = $ADCSession.ManagementURL.ToString().TrimEnd('/')
+                $ManagementURL = [Uri]$ADCSession.ManagementURL.ToString().TrimEnd('/')
                 $MessageText = ": $ManagementURL"
-            } elseif ([String]::IsNullOrEmpty($ManagementURL) -and (-Not [String]::IsNullOrEmpty((Get-Variable -Name ManagementURL -Scope Script -ValueOnly -ErrorAction SilentlyContinue))) ) {
-                $ManagementURL = Get-Variable -Name ManagementURL -Scope Script -ValueOnly -ErrorAction SilentlyContinue
+                Write-Verbose "Valid ManagementURL found"
+            } elseif (-Not [String]::IsNullOrEmpty($(Get-Variable -Name ManagementURL -Scope 0 -ValueOnly -ErrorAction SilentlyContinue)) ) {
+                $ManagementURL = [Uri](Get-Variable -Name ManagementURL -Scope 0 -ValueOnly -ErrorAction SilentlyContinue)
                 $MessageText = ": $ManagementURL"
-            } elseif ([String]::IsNullOrEmpty($ManagementURL) -and (-Not [String]::IsNullOrEmpty((Get-Variable -Name ManagementURL -Scope Global -ValueOnly -ErrorAction SilentlyContinue))) ) {
-                $ManagementURL = Get-Variable -Name ManagementURL -Scope Global -ValueOnly -ErrorAction SilentlyContinue
+                Write-Verbose "Valid ManagementURL found"
+            } elseif (-Not [String]::IsNullOrEmpty($(Get-Variable -Name ManagementURL -Scope Script -ValueOnly -ErrorAction SilentlyContinue)) ) {
+                $ManagementURL = [Uri](Get-Variable -Name ManagementURL -Scope Script -ValueOnly -ErrorAction SilentlyContinue)
                 $MessageText = ": $ManagementURL"
+                Write-Verbose "Valid ManagementURL found"
+            } elseif (-Not [String]::IsNullOrEmpty($(Get-Variable -Name ManagementURL -Scope Global -ValueOnly -ErrorAction SilentlyContinue)) ) {
+                $ManagementURL = [Uri](Get-Variable -Name ManagementURL -Scope Global -ValueOnly -ErrorAction SilentlyContinue)
+                $MessageText = ": $ManagementURL"
+                Write-Verbose "Valid ManagementURL found"
             }
-        } finally { }
+            Write-Verbose "ManagementURL: $($ManagementURL.ToString().TrimEnd('/'))"
+        } catch {
+            Write-Verbose "Caught an error, $($_.Exception.Message)"
+        }
+        Write-Verbose "ADCSession: $($ADCSession | Out-String)"
         if (-Not [String]::IsNullOrEmpty($($ADCSession.Username))) {
             $Username = $ADCSession.Username
         } else {
-            $Username = $null
+            $Username = "nsroot"
+        }
+        $validCredential = $false
+        try {
+            Write-Verbose "Test if Variable ADCCredential (Scope:0) is a valid credential"
+            $tempCredential = Get-Variable -Name ADCCredential -Scope 0 -ValueOnly -ErrorAction SilentlyContinue
+            if (-not ($null -eq $tempCredential) -and `
+                (-Not [String]::IsNullOrEmpty($tempCredential)) -and `
+                (-Not ($tempCredential -eq [System.Management.Automation.PSCredential]::Empty)) -and `
+                ($tempCredential -is [System.Management.Automation.PSCredential]) -and `
+                (-Not [String]::IsNullOrEmpty($($tempCredential.Username))) ) {
+                Write-Verbose "Get (if it exists) the ADCCredential variable (Scope:0) for the ADC Credential"
+                $ADCCredential = $tempCredential
+                $validCredential = $true
+                Write-Verbose "Valid Credential found"
+            }
+        } catch {
+            Write-Verbose "Caught an (non blocking) error, $($_.Exception.Message)"
         }
         try {
-            #Test if Parameter ADCCredential is a valid credential
+            Write-Verbose "Test if Variable ADCCredential (Scope:Script) is a valid credential"
             $tempCredential = Get-Variable -Name ADCCredential -Scope Script -ValueOnly -ErrorAction SilentlyContinue
-            if ((([String]::IsNullOrEmpty($ADCCredential)) -or ($ADCCredential -eq [System.Management.Automation.PSCredential]::Empty)) -and ($tempCredential -is [System.Management.Automation.PSCredential] -and $tempCredential -ne [System.Management.Automation.PSCredential]::Empty)) {
-                #Get (if it exists) the Script ADCCredential variable for the ADC Credential
+            if (-not ($null -eq $tempCredential) -and `
+                (-Not [String]::IsNullOrEmpty($tempCredential)) -and `
+                (-Not ($tempCredential -eq [System.Management.Automation.PSCredential]::Empty)) -and `
+                ($tempCredential -is [System.Management.Automation.PSCredential]) -and `
+                (-Not [String]::IsNullOrEmpty($($tempCredential.Username))) ) {
+                Write-Verbose "Get (if it exists) the ADCCredential variable (Scope:Script) for the ADC Credential"
                 $ADCCredential = $tempCredential
+                $validCredential = $true
+                Write-Verbose "Valid Credential found"
             }
-        } finally { }
+        } catch {
+            Write-Verbose "Caught an (non blocking) error, $($_.Exception.Message)"
+        }
         try {
-            #Test if Script ADCCredential is a valid credential
+            Write-Verbose "Test if Variable ADCCredential (Scope:Script) is a valid credential"
             $tempCredential = Get-Variable -Name ADCCredential -Scope Global -ValueOnly -ErrorAction SilentlyContinue
-            if ((([String]::IsNullOrEmpty($ADCCredential)) -or ($ADCCredential -eq [System.Management.Automation.PSCredential]::Empty)) -and ($tempCredential -is [System.Management.Automation.PSCredential] -and $tempCredential -ne [System.Management.Automation.PSCredential]::Empty)) {
-                #Get (if it exists) the Script ADCCredential variable for the ADC Credential
+            if (-not ($null -eq $tempCredential) -and `
+                (-Not [String]::IsNullOrEmpty($tempCredential)) -and `
+                (-Not ($tempCredential -eq [System.Management.Automation.PSCredential]::Empty)) -and `
+                ($tempCredential -is [System.Management.Automation.PSCredential]) -and `
+                (-Not [String]::IsNullOrEmpty($($tempCredential.Username))) ) {
+                Write-Verbose "Get (if it exists) the ADCCredential variable (Scope:Global) for the ADC Credential"
                 $ADCCredential = $tempCredential
+                $validCredential = $true
+                Write-Verbose "Valid Credential found"
             }
-        } finally { }
+        } catch {
+            Write-Verbose "Caught an (non blocking) error, $($_.Exception.Message)"
+        }
+        Write-Verbose "Credential: $($ADCCredential.Username)"
         #If no ManagementURL is available then request a URL
         try {
-            if ([String]::IsNullOrEmpty($ManagementURL)) {
+            if (($null -eq $ManagementURL) -or ([String]::IsNullOrEmpty($ManagementURL))) {
                 $ManagementURL = $(Read-Host -Prompt "Enter the Citrix ADC Management URL$($MessageText)") 
             }
-        } finally { }
+        } catch {
+            Write-Verbose "Caught an (non blocking) error, $($_.Exception.Message)"
+        }
         try {
-            #Test if Global ADCCredential is a valid credential
-            if (([String]::IsNullOrEmpty($ADCCredential)) -or ($ADCCredential -eq [System.Management.Automation.PSCredential]::Empty)) {
-                #No valid credential was found, requesting credential.
+            #Test if ADCCredential is a valid credential
+            if ($validCredential -eq $false) {
+                Write-Verbose "No valid credential was found, requesting credential."
                 $ADCCredential = (Get-Credential -Message "Enter username and password for the Citrix ADC`r`nE.g. nsroot / P@ssw0rd" -UserName $Username)
             }
-        } finally { }
+        } catch {
+            Write-Verbose "Caught an (non blocking) error, $($_.Exception.Message)"
+        }
         try {
             $ADCSession = Connect-ADCNode -ManagementURL $ManagementURL -Credential $ADCCredential -PassThru
-        } finally { }
+        } catch {
+            Write-Verbose "Caught an error while connecting, $($_.Exception.Message)"
+        }
     }
-    if ([String]::IsNullOrEmpty($ADCSession) -and [String]::IsNullOrEmpty($(Get-Variable -Scope Script -ErrorAction SilentlyContinue | Where-Object Name -EQ "ADCSession"))) {
+    if (($null -eq $ADCSession) -or `
+        ([String]::IsNullOrEmpty($ADCSession)) -or `
+        ([String]::IsNullOrEmpty($(Get-Variable -Scope Script -ErrorAction SilentlyContinue | Where-Object Name -EQ "ADCSession")))) {
+        Write-Verbose "Empty Session variable, trying to connect"
         $ADCSession = Connect-ADCNode -ManagementURL $(Read-Host -Prompt "Enter the Citrix ADC Management URL$($MessageText)") -Credential (Get-Credential) -PassThru
     }
-    if ([String]::IsNullOrEmpty($ADCSession) -or (-Not $ADCSession.IsConnected)) {
+    if (($null -eq $ADCSession) -or [String]::IsNullOrEmpty($ADCSession) -or (-Not $ADCSession.IsConnected)) {
         throw "Connect to the Citrix ADC Appliance first!"
     } else {
         Write-Verbose "Active Session found, returning Session data"
+        $Script:ADCLastSession = $ADCSession
         Write-Output $ADCSession
     }
     Write-Verbose "Get-ADCSession: Finished"
@@ -101,8 +175,8 @@ function Get-ADCSession {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCvnBApNV+4D3Lt
-# KlUL0hRisq4lwuXFrbvBvDQX/iFhhaCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCDsqe5xfH2Fxa/I
+# Hy+XG/OFtGry6+ZHXIfesUCBu/d0uaCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -270,29 +344,29 @@ function Get-ADCSession {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQg4ncBFm87UMN1jl0UOBIcb7C2
-# oQOkNeRfEAXQTEOgspowDQYJKoZIhvcNAQEBBQAEggEAhgr0iAe5Te/qo/iw2Inn
-# X653wrdIxEZbbgH4VNMfSsSVg2uQUsM/7Ro+6lj8z5+B3MJb6MJ6oFiPwsD4IN/K
-# neqtdYhJWbMTyWK8IiiLjukxFy2vcEqMBbpNeIImVWLFFhi5E1A9/0eWMYqBBXj9
-# bT9sOb8b+vXsbYEJwzsi2k54QztfTCCNZxJNqUlQorwhjMmQj/AnXjpQea5ztlH0
-# EjprRv9733G0qcC/03bZX9AC2hw3cz6VAe1kIy4xrnTe39IOCP73UHfxDWrsKPcb
-# rQsj5W5L+rFSd5aWR4zr/cbSFmzQGTEd2FdqyXUvDFeoxwekIPoenpgEoqlU6SQu
-# 4KGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgiArRj+hB/izSSZODHce7narf
+# 6v5RQGqPuyDZ8A6C7QwwDQYJKoZIhvcNAQEBBQAEggEAFh/7hkibdRkVGO7sp+aY
+# HS/iQKj+bAWa4GCYbDgR0DJyCp0JUZl31kfsNz59MkRKihiaEWCSWVR8eeiEvFZ2
+# UlGF1x695114IoYi1CYNhrm/9XccplNB8gSTp6aRG+Rmm5AUEDPQ1TZGPq+xeHoM
+# 9Thnn/B5jO152tJgakg/poAyvqzk3djxM5LkiuU1njHsbKdIp8I1xgllkIjAgmwa
+# vVMv9o8vpFDQIseILjv0/wRyhxJHfywWIQVuzx4BdDDY2izOS7eZAYOycDWQ3SSr
+# XAdYt/v4UzRJGIrSE4aFJRQcG3YJo/k6d2T9XhQuEqv0BY9ZBSUuLtP1w6wSSO9G
+# iKGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzNTAwWjA/BgkqhkiG9w0BCQQxMgQwj+om1L1UcuPn2qPPbQbf5htG
-# l7XqLQUEZaU/VMWyDcAXDaHXTt/8k1+mcLOUgIrWMA0GCSqGSIb3DQEBAQUABIIC
-# AEuhoUqquKG5ailnSvyQc94u7uwMApQ7BZ4+uHaSLzZ86dTM9C91k0+yxgiv0TVB
-# kjdCnyA6e6lXEn8Mf65rEeklBfP38EYrvnf9GsJfZkUIMoRJ7Jw8CX7N8VsXlJnh
-# KK/Z52oXTJxV6u5FUjhajIq5ClohjxhXZsQ8KU+OS4I9AjA7rQ4ET8rnpVwPtEdd
-# 5VByFFfrn73QdCysQ5FKtZLHcbcOiFEiMc5gIMmEfiXpCQgZPypOgeyQAJkCxYKr
-# X3Pax/+pd8Y1svajLKT/K4pPjjDw9HIiKUUs7qClqFMbLu7Srr4aw6eVhv1lhesA
-# RxvWfaeWDLGNyCBhUlQvrHK7R7bdQgkGbvJU9oLs8jkEnN1jatq5SXX5pVRkT7yM
-# WmWH4/bp+JTjEKZxyrOlfcgBF4JN2gFmNEsI3EO29m/5WTTJeWwYlG2SlHYpAcUP
-# 7jBOq6KkxI93MOdhc/dgzSXXbhM/8wxE1OOkMrC1r5PjZbE+jH8rsm7NyQYYAAb1
-# NrXyHJmgBbpzC6pwNmAyUP2JLHMtZNU1Ot3PlXyfkayVb4Wu5VSeiTKkY8aRv7Bn
-# KlJzThPO5SJObH6VMeqiR8fqJaPd00CpzhylDrM5lvBWKbRByxUqPNGbxxhFu1K0
-# CuincsXyIa/Yzr7EL1kGkppcoBU80oF46+/dLTx4g0d0
+# MjIwNDExMTMzOTA0WjA/BgkqhkiG9w0BCQQxMgQw3khc5a789YVMEIFAYIR97Hx4
+# Ducdi4dC4oirsWVn8cFPiGFYm4AZOxoZCSYhDEr+MA0GCSqGSIb3DQEBAQUABIIC
+# AEWE84DcIPpDhFRZfvNBYY6kumaUsuqSPeZDjxcWFBFppI3zKVejEm9JmO4xnFvl
+# fZyP6ZkyACvqyDTH4sBqTfhN3u2WmgwJ/vQQ7NLWl4yjZSLaokxTOAB8ucmA7Yv2
+# 3r5TIYtc9zp0E9IMbIYK5GdoQgOVJZd/RyUvBf1aMsvbo9ipSyB3TFMMAWBVdN1q
+# 4r4auth76ggLVagWQk91OHli5pNPMeucs9tumGjYo4gIwHAru+n2VcuI3oxspBk5
+# lO9iEKsbCUT4gtYYUAllWrOahGxCtwfZ4DL2h5jfS3qHr8CpHoCoEA0KS8eTeCBc
+# KukA87GFA53Y+HOVEyCciCpea02T9+7a42MOtnr++qnnDuxtU1JBIs2+2I4H9wnH
+# VIKNO4mlt44OMXno2NYXn+KUJxF3K01Ys+aHxaTS00/GwOf60kwFmNv0ARQ0sm7F
+# 2IldkyqLdf86eOMjD+foPDltxaNjCCeePL/xtCeMOIBCfFPk4j05iDaKxXASgFZh
+# tBDa/XTE922CsIEaWtqkfPPmhYB9LLBYM8CpBX1HFckghobqCxABvniT/RdG2kh9
+# m/lZb7BdY5S5/XAZ1lsxA+fv/0xXWXYDuvTz0wEyXwL0w1QzmS+DsgvjWkQsBI64
+# 6ZibGbpCw2LNOkyWTYDBa4Pk9qRK4uwY2jx4d8jFoZo/
 # SIG # End signature block

@@ -19,7 +19,7 @@ function Connect-ADCHANodes {
         Connect to the ADC  nodes with specified management url and credential
     .NOTES
         File Name : Connect-ADCHANodes
-        Version   : v2111.2522
+        Version   : v2204.1115
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -58,32 +58,33 @@ function Connect-ADCHANodes {
         Write-ConsoleText -Line "Connecting" -NoConsoleOutput:$NoConsoleOutput
         try {
             Write-ConsoleText -ForeGroundColor Yellow -NoNewLine "*" -NoConsoleOutput:$NoConsoleOutput
-            $ADCSession = Connect-ADCNode -ManagementURL $ManagementURL -Credential $Credential -Timeout $Timeout -PassThru -ErrorAction Stop
+            $ADCHASession = Connect-ADCNode -ManagementURL $ManagementURL -Credential $Credential -Timeout $Timeout -PassThru -ErrorAction Stop
             $IsConnected = $true
             Write-ConsoleText -ForeGroundColor Yellow -NoNewLine "*" -NoConsoleOutput:$NoConsoleOutput
-            $HANode = Invoke-ADCGetHanode | Expand-ADCResult
-            $nsconfig = Invoke-ADCGetNsconfig | Expand-ADCResult
+            $HANode = Invoke-ADCGetHanode -ADCSession $ADCHASession | Expand-ADCResult
+            $nsconfig = Invoke-ADCGetNsconfig -ADCSession $ADCHASession | Expand-ADCResult
             if ($nsconfig.ipaddress -ne $nsconfig.primaryip) {
                 Write-Warning "You are connected to a secondary node (Primary node is $($nsconfig.primaryip))"
             }
             $NodeState = $nsconfig.systemtype
             if ($NodeState -like "Stand-alone") {
                 Write-ConsoleText -ForeGroundColor Yellow -NoNewLine "*" -NoConsoleOutput:$NoConsoleOutput
-                if ($ADCSession.ContainsKey("IsStandalone")) { $ADCSession["IsStandalone"] = $true } else { $ADCSession.Add("IsStandalone", $true) }
-                if ($ADCSession.ContainsKey("IsHA")) { $ADCSession["IsHA"] = $false } else { $ADCSession.Add("IsHA", $false) }
+                if ($ADCHASession.ContainsKey("IsStandalone")) { $ADCHASession["IsStandalone"] = $true } else { $ADCHASession.Add("IsStandalone", $true) }
+                if ($ADCHASession.ContainsKey("IsHA")) { $ADCHASession["IsHA"] = $false } else { $ADCHASession.Add("IsHA", $false) }
                 try {
                     $PrimaryURL = [System.URI]"$($ManagementURL.Scheme):\\$($nsconfig.ipaddress)"
                     $PrimarySessionDetails = Connect-ADCNode -ManagementURL $PrimaryURL -Credential $Credential -Timeout $Timeout -PassThru -ErrorAction Stop
                     $PriNode = $HANode | Where-Object { $_.ipaddress -eq $nsconfig.ipaddress }
                 } catch {
-                    $PrimarySessionDetails = $ADCSession
+                    $PrimarySessionDetails = $ADCSession.psobject.copy()
                 }
                 $PrimarySession = @{
                     ID      = 0
                     State   = "Primary"
-                    Session = $PrimarySessionDetails
+                    Session = $PrimarySessionDetails.psobject.copy()
                 }
-                if ($ADCSession.ContainsKey("PrimarySession")) { $ADCSession["PrimarySession"] = $PrimarySession } else { $ADCSession.Add("PrimarySession", $PrimarySession) }
+                $ADCHASession = $PrimarySessionDetails.psobject.copy()
+                if ($ADCHASession.ContainsKey("PrimarySession")) { $ADCHASession["PrimarySession"] = $ADCHASession } else { $ADCHASession.Add("PrimarySession", $PrimarySession) }
                 Write-ConsoleText -ForeGroundColor Yellow -NoNewLine "*" -NoConsoleOutput:$NoConsoleOutput
             } elseif ($NodeState -like "HA") {
                 Write-ConsoleText -ForeGroundColor Yellow -NoNewLine "*" -NoConsoleOutput:$NoConsoleOutput
@@ -91,18 +92,19 @@ function Connect-ADCHANodes {
                     $PriNode = $HANode | Where-Object { $_.state -like "Primary" }
                     $PrimaryIP = $PriNode.ipaddress
                     $PrimaryURL = [System.URI]"$($ManagementURL.Scheme):\\$PrimaryIP"
+                    Write-Verbose "Connecting to Primary node $($PrimaryURL)"
                     $PrimarySessionDetails = Connect-ADCNode -ManagementURL $PrimaryURL -Credential $Credential -Timeout $Timeout -PassThru -ErrorAction Stop
-                    if ($ADCSession.ContainsKey("PrimarySession")) { $ADCSession["PrimarySession"] = $PriSession } else { $ADCSession.Add("PrimarySession", $PrimarySessionDetails) }
                     Write-ConsoleText -ForeGroundColor Yellow -NoNewLine "*" -NoConsoleOutput:$NoConsoleOutput
                 } catch {
-                    $PrimarySessionDetails = $ADCSession
+                    $PrimarySessionDetails = $ADCSession.psobject.copy()
                 }
                 $PrimarySession = @{
                     ID      = $PriNode.id
                     State   = $PriNode.state
-                    Session = $PrimarySessionDetails
+                    Session = $PrimarySessionDetails.psobject.copy()
                 }
-                if ($ADCSession.ContainsKey("PrimarySession")) { $ADCSession["PrimarySession"] = $PrimarySession } else { $ADCSession.Add("PrimarySession", $PrimarySession) }
+                $ADCHASession = $PrimarySessionDetails.psobject.copy()
+                if ($ADCHASession.ContainsKey("PrimarySession")) { $ADCHASession["PrimarySession"] = $PrimarySession } else { $ADCHASession.Add("PrimarySession", $PrimarySession) }
                 Write-ConsoleText -ForeGroundColor Yellow -NoNewLine "*" -NoConsoleOutput:$NoConsoleOutput
                 try {
                     $SecNode = $HANode | Where-Object { $_.state -like "Secondary" }
@@ -111,21 +113,21 @@ function Connect-ADCHANodes {
                     }
                     $SecondaryIP = $SecNode.ipaddress
                     $SecondaryURL = [System.URI]"$($ManagementURL.Scheme):\\$SecondaryIP"
+                    Write-Verbose "Connecting to Secondary node $($SecondaryURL)"
                     $SecondarySessionDetails = Connect-ADCNode -ManagementURL $SecondaryURL -Credential $Credential -Timeout $Timeout -PassThru -ErrorAction Stop
-                    
                     Write-ConsoleText -ForeGroundColor Yellow -NoNewLine "*" -NoConsoleOutput:$NoConsoleOutput
                     $SecondarySession = @{
-                        ID      = $PriNode.id
-                        State   = $PriNode.state
-                        Session = $SecondarySessionDetails
+                        ID      = $SecNode.id
+                        State   = $SecNode.state
+                        Session = $SecondarySessionDetails.psobject.copy()
                     }
-                    if ($ADCSession.ContainsKey("SecondarySession")) { $ADCSession["SecondarySession"] = $SecondarySession } else { $ADCSession.Add("SecondarySession", $SecondarySession) }
-                    if ($ADCSession.ContainsKey("IsStandalone")) { $ADCSession["IsStandalone"] = $false } else { $ADCSession.Add("IsStandalone", $false) }
-                    if ($ADCSession.ContainsKey("IsHA")) { $ADCSession["IsHA"] = $true } else { $ADCSession.Add("IsHA", $true) }
+                    if ($ADCHASession.ContainsKey("SecondarySession")) { $ADCHASession["SecondarySession"] = $SecondarySession } else { $ADCHASession.Add("SecondarySession", $SecondarySession) }
+                    if ($ADCHASession.ContainsKey("IsStandalone")) { $ADCHASession["IsStandalone"] = $false } else { $ADCHASession.Add("IsStandalone", $false) }
+                    if ($ADCHASession.ContainsKey("IsHA")) { $ADCHASession["IsHA"] = $true } else { $ADCHASession.Add("IsHA", $true) }
                 } catch {
                     Write-Verbose "Error, $($_.Exception.Message)"
                     $SecondarySessionDetails = $null
-                    if ($ADCSession.ContainsKey("SecondarySession")) { $ADCSession["SecondarySession"] = $null } else { $ADCSession.Add("SecondarySession", $null) }
+                    if ($ADCHASession.ContainsKey("SecondarySession")) { $ADCHASession["SecondarySession"] = $null } else { $ADCHASession.Add("SecondarySession", $null) }
                 }
             }
             Write-ConsoleText -ForeGroundColor Green " Connected" -NoConsoleOutput:$NoConsoleOutput
@@ -160,9 +162,9 @@ function Connect-ADCHANodes {
                 Throw "Only ADC version 13 and up is supported, version 11.x & 12.x is best effort."
             }
         } else {
-            $ADCSession = $null
+            $ADCHASession = $null
         }
-        Write-Output $ADCSession
+        Write-Output $ADCHASession
     }
     end {
         Write-Verbose "Connect-ADCHANodes: Ended"
@@ -172,8 +174,8 @@ function Connect-ADCHANodes {
 # SIG # Begin signature block
 # MIITYgYJKoZIhvcNAQcCoIITUzCCE08CAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCD737iFKRdm/Y3D
-# KKhr+FUTZy0aJ481w/K2dppRVXT1JaCCEHUwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCDICF9jlv4UMdya
+# oAcqK/YZZ6IiJaA1SwGuLoojbzNdbqCCEHUwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -267,11 +269,11 @@ function Connect-ADCHANodes {
 # IFNpZ25pbmcgQ0ECECwnTfNkELSL/bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQw
 # GAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGC
 # NwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQx
-# IgQgNm7Zu6fq1iS0B7PMVX81Sa4bm2nF9MwJ4a6/NMPaZkUwDQYJKoZIhvcNAQEB
-# BQAEggEAPQtRiM73JglcQpVevMIuh5FAYxGxLMp2aFbS3N0yugXLGJlBUBB7ASpn
-# 3BW3bpZNgAWoh3XKbJVlrthJ+lJipZdpl6x0BTlwj71X5IDscdcd0J6Owj87u3PC
-# e3h/lzdDPq6zC+4O1Uu3nAf9yuG4OS2eYSqqa3ZHyhi07V06w/dptOjEA8GN+bdC
-# wHSKnHaSnpTZjkuP9MO5NL9jGy/u0DN0QLvYmpiY4t+tWsyu/N3xd0f/c3u2GU0G
-# BwO9C7OmutluTHYN0WdGMehS+/PMvaOA99PYbp1HAd2tawbbd4kDGMPvvuI9VgKm
-# jrofDiQvcSo2WnnqCZdtB6NCaATEsg==
+# IgQg9JiYjfP8Bswkjd1l5Neha02Xbz1z3lmZ+v2W1m6pIeEwDQYJKoZIhvcNAQEB
+# BQAEggEAlugDNa7bRVLk1abl7W+ndqayxNMVxttmngGEFXqniZ3u1+n0CTNK8Pwh
+# 9FVl3Qy67jOKFRSQI5eZ/1QVrF3P0IQTF64igjQWmw2ymBtEd9CXixnEGS5W0lFe
+# n7iREVw2HsOlHYZYlSlHdXQNVmG2yb56FpCerwggua2IBDU8nCQSy9wKCOlKOeUK
+# K+gEerC/dhiSR7C0axfpPBMzoLcl/1mRh6GHUcGJmgtx3DbGZ1bthEoryS2H6sj1
+# 2z59b2S7jmegHqy1jJjeasr9VAwDZX75L/9HXVG6lpxXWFEzvfcMt+tgUJB7wPxd
+# emBVllgzxR1klrzI6AGPWCTqCQtlAg==
 # SIG # End signature block

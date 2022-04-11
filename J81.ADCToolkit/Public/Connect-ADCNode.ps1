@@ -19,7 +19,7 @@ function Connect-ADCNode {
         Connect to the ADC node with the specified management url and credential
     .NOTES
         File Name : Connect-ADCNode
-        Version   : v2111.2522
+        Version   : v2204.722
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -43,6 +43,9 @@ function Connect-ADCNode {
         [switch]$HA,
 
         [Parameter(ParameterSetName = 'Connect')]
+        [switch]$Primary,
+
+        [Parameter(ParameterSetName = 'Connect')]
         [switch]$Force,
 
         [Parameter(ParameterSetName = 'Connect')]
@@ -54,7 +57,10 @@ function Connect-ADCNode {
     } catch {
         $SessionExpiration = (Get-Date).AddSeconds(60)
     }
-    if ($HA) {
+    if ($Primary) {
+        $ADCSession = Connect-ADCHANodes -ManagementURL $ManagementURL -Credential $Credential -PassThru -WarningAction SilentlyContinue
+        $ADCSession = $ADCSession["PrimarySession"].Session
+    } elseif ($HA) {
         $ADCSession = Connect-ADCHANodes -ManagementURL $ManagementURL -Credential $Credential -PassThru
     } else {
         $login = @{
@@ -143,7 +149,7 @@ public class TrustAllCertsPolicy : ICertificatePolicy {
             Write-Verbose -Message "Error. See response: `n$($response | Format-List -Property * | Out-String)"
         }
     }
-    $Script:ADCSession = $ADCSession
+    $Script:ADCLastSession = $ADCSession
         
     if ($PassThru) {
         return $ADCSession
@@ -155,8 +161,8 @@ public class TrustAllCertsPolicy : ICertificatePolicy {
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCC03Cb2nIUxD3nK
-# yY7EFSp0H0RWkqFiHb84Jgblu551aKCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCBi0GAD0JUvFn75
+# wCbuknqhTYAhZB8zLVdpS//T1n9Zy6CCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -324,29 +330,29 @@ public class TrustAllCertsPolicy : ICertificatePolicy {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgXvSkzk/ntrLBTMFgCLKlr2QI
-# psLvGJB6MHLWJFUJ5S0wDQYJKoZIhvcNAQEBBQAEggEAYXzhFuthpH/I8bhmmih4
-# NmpamsrX9jHa960OzfQ9yUgAOq1TVZHQAE9cpSkV7TwW5j18yB2/Gra9w7USTu0J
-# mXosTrxSYqMZvWLADD+8bLnJlzeB/Fm4c6Z49hk/KON4Zki9iCvNJQu4rXs80lMy
-# ILvOp8UWpiyNnjNqlrSrebyWNIK3GAYwNkvCzxv1fXqBF3uIWjdzs9KJ7VOo5lSx
-# 4fwd9zHNaDH2q83JAIdNcD6IwBG8weKuIng7NweKPCRiPmO+nGDrESDIuHyQNiED
-# G1IL26OFVSTtHtDDIXv49Z+4qNM0KG5iDcEKiTsry93QgrpLvu8Vo7qt3CmYh7Uz
-# k6GCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgz3fegj7y8Den9Cl+2uVRlW3L
+# 6rk8TTiCRbmYKt22w3owDQYJKoZIhvcNAQEBBQAEggEAjwpYFyna0F0tvRVBdC06
+# ymPssUJm+T6AWRlG1ZGHeVQj4FyYNaZnnh/eDQAbE//vtFk1YZOWrSs0iDtUspJr
+# D2YeSYNHiGNmmXF5aSkSMUIm0P663Vzo1wURak8WKVAPMUBnrp69gVEXyvvBD42G
+# mV3xoRrTGn04nw+8KqSNMDy0riLzdmd6hEYnQlI2JlHo00xfE9x0Agw7oCxuYtZQ
+# feGTG+6pBWE1sNv/0sLlbzQtdsx1Q7cGDLm0owDtQ4YmA4l12wXlkfyVHf3oJORo
+# 89BocPzQ7RyIC4KLeM3AIRvYYpAuj2+CvGpyki2PlWkFbtlbV6HoS6GwEh0BssSX
+# t6GCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwMzMwMTkzNDU2WjA/BgkqhkiG9w0BCQQxMgQw0LB7s4RivQ5fAudKA/qp92Gh
-# jCm2JZttAos0IFTFmXab1b+sKhEjFKBTyj15eohnMA0GCSqGSIb3DQEBAQUABIIC
-# AARi6eBUPXYGX5pHLt0mxKs9ewgSI0P7I6smqaIALS9Z7nEgQTx9BkRYeDTSpt8f
-# Xa1oC7LWl/N9MQ/1sGAzBp/+l4juXYvWpZUlplW2KQep3Wz/H0l4pqgopWpiOn79
-# qr2atglDbhFJFuX7DTa3WZq+KpNZsTJ5I+2MFeLpgfSqSMAQhr+QwSEtHRLUutqm
-# bghv3cvp2HlrUGT6TbxczDsbj04zMiArRRBn+J0GHRNKd31WzuUxZzaIHZ+V2LNX
-# bqKxTivkeK95lEF/Wo+Z8zCnAcO0SmPxY81lJNjyGqQivI8+oKiZCF9kr6aHAxOi
-# lZDVCSuNvmUf4lG4o0JZQJNg7t8gm8TMv7v0SSV1RA5WvB/JgQ2richz9mi8+IcA
-# o9myDIIsOekFpsSZCCx3e9qlmr71A/n/Gc1T2wAZolhYiutuAuZTwCD3wMfMTkXR
-# AZfiCtr+B0v5sr02jW3CWM9V+Q8td2k8ZTRkgbQTEnCFGedPW2+icBDtvibuFrt7
-# gsrIhn0dpbCwT/b0jsVLbF70TrTkHQDiWmE7sQq4R9sLsXvcgiSHfQZvZ026wOC/
-# qd3fPwzwc648GZgKFa/yJiTrnecWI187up5dNSl2TsMRdZ5yEYfJPCPzVAHV65t5
-# CtB4r0j93CzL8Mb0Qwk/fx1D45amaT+7yGw7AuPHiQjc
+# MjIwNDExMTMzOTAxWjA/BgkqhkiG9w0BCQQxMgQwBhk54fhouxN7zV/Jmv+cqXCK
+# slBrtppIKXznJR8iSSUODZrQm7ECTGprRr5kZxVIMA0GCSqGSIb3DQEBAQUABIIC
+# AHtfzO/MeBY7RIxAy4CMC7GJ3LvytKat97Azc2NWZ55nzlwQk6OSSlyJa3fxVpkn
+# OOmcVDtXAg0m1vvfWUgZSS44+v3tAVRwodgSe3kwBafi+uU/C0hNNHqUl0cJe063
+# MtFZeavCKbMUUIs0OPGVIBmp46CpnQ3iAC02nU+iJasH9UeYUKI+4K668whH3ifm
+# vCMTaCRztBEopr+784AHZ/OO783TN0PZ7qnLcxgzobrxumA9U5c2Fr/s+9+U67lv
+# Jk8Myz93r4LnINVsdqraEptvXcbTIGWCFkxEKXvBW9+k1f9nB4fiCM8OdTESz7IU
+# 6/lWWQjTsWDimaFEyC2MGH7h+q/ckH1OI9RHb4p4978hMx+qE59150u1zhL9Hpir
+# xmwUMxndXgFgiO5ti8W5Ajy0yMJTvtalYlxmtZvtFArlXSFoAag/UY8fszAA1Zes
+# LVjFJlBhJ2Y08GCplfSBn0CvgfCBzwiZTl2NpS4HjTw7hyIgIi6Zg3eJzJIQ1c+T
+# sPSdhae+jR6m5dpftoDzNcK4bpmPuR1zf8o8Hxk5z6JDa5PphV3cnn30N8gPnYdl
+# OTXLUAPhxwjMY6XQ2sqCfe+ZUYPR6sXhD6eU3v029OtwAnei5Jto+ZmhrUOa4JfI
+# BZfug89QtPcBvVAv+Xg5bbnyQIsq3oIqjA3lhCi9/Qdj
 # SIG # End signature block
