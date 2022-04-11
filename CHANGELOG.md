@@ -66,5 +66,5 @@
 * Fixed an issue with Connect-ADCHAnodes, Secondary session was nog correct.
 * Fixed an issue with Get-Session, configured variable $ADCCredential was not found
 
-## 2204.722
+## 2204.1122
 * Fixed an issue with Get-Session, did not return valid session in some situations  
