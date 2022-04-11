@@ -28,7 +28,7 @@ function Invoke-ADCCleanCertKeyFiles {
         This example will first make a backup and then clean the ADC.
     .NOTES
         File Name : Invoke-ADCCleanCertKeyFiles.ps1
-        Version   : v2204.1115
+        Version   : v2204.1122
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -54,22 +54,25 @@ function Invoke-ADCCleanCertKeyFiles {
     )
     Write-Verbose "Invoke-ADCCleanCertKeyFiles: Starting"
     Write-Verbose "Trying to login into the Citrix ADC."
-    $ADCSession = Connect-ADCHANodes -ManagementURL $ManagementURL -Credential $Credential -PassThru -DisplayConsoleText
+    $ADCHASessions = Connect-ADCHANodes -ManagementURL $ManagementURL -Credential $Credential -PassThru -DisplayConsoleText
+    Write-Verbose $($ADCHASessions | ConvertTo-Json -Depth 4)
+    Write-Verbose "Finished connecting."
     $ADCSessions = @()
-    $ADCSessions += $ADCSession["PrimarySession"]
-    if ($ADCSession.IsHA) {
-        $ADCSessions += $ADCSession["SecondarySession"]
+    if ($ADCHASessions.IsHA) {
+        Write-Verbose "Session is HA"
+        $ADCSessions += $ADCHASessions["SecondarySession"]
     }
-    if (-Not [String]::IsNullOrEmpty($($ADCSession["PrimarySession"].Session))) {
-
+    $ADCSessions += $ADCHASessions["PrimarySession"]
+    Write-Verbose "Checking if there is a usable session..."
+    if (-Not [String]::IsNullOrEmpty($($ADCHASessions["PrimarySession"].Session))) {
         Write-ConsoleText -Line "Backup"
         if ($Backup) {
             Write-ConsoleText -ForeGroundColor Cyan "Initiated"
             Write-ConsoleText -Line "Backup Status"
             try {        
                 $BackupName = "CleanCerts_$((Get-Date).ToString("yyyyMMdd_HHmm"))"
-                $Response = Invoke-ADCSaveNsconfig -all $true -ADCSession $ADCSession["PrimarySession"].Session -ErrorAction Stop
-                $Response = Invoke-ADCCreateSystembackup -ADCSession $ADCSession["PrimarySession"].Session -filename $BackupName -level full -comment "Backup created by PoSH function Invoke-ADCCleanCertKeyFiles" -ErrorAction Stop
+                $Response = Invoke-ADCSaveNsconfig -all $true -ADCSession $ADCHASessions["PrimarySession"].Session -ErrorAction Stop
+                $Response = Invoke-ADCCreateSystembackup -ADCSession $ADCHASessions["PrimarySession"].Session -filename $BackupName -level full -comment "Backup created by PoSH function Invoke-ADCCleanCertKeyFiles" -ErrorAction Stop
                 Write-ConsoleText -ForeGroundColor Green "OK [$BackupName]"
             } catch {
                 Write-ConsoleText -ForeGroundColor Red "Failed $($Response.message)"
@@ -81,7 +84,7 @@ function Invoke-ADCCleanCertKeyFiles {
         try {
             Write-Verbose "Retrieving the certificate details."
             Do {
-                $Certs = Invoke-ADCRetrieveCertificateRemoveInfo -ADCSession $ADCSession["PrimarySession"].Session
+                $Certs = Invoke-ADCRetrieveCertificateRemoveInfo -ADCSession $ADCHASessions["PrimarySession"].Session
                 $RemovableCerts = $Certs | Where-Object { $_.removable -eq $true }
                 if ($RemovableCerts.Count -gt 0) {
                     Write-ConsoleText "Removing CertKeys from the configuration for unused certificates, attempt $loop/$Attempts" -PreBlank
@@ -91,7 +94,7 @@ function Invoke-ADCCleanCertKeyFiles {
                             Write-ConsoleText -Line "CertKey"
                             Write-ConsoleText "$($_.certData.certkey)"
                             Write-ConsoleText -Line "Removing"
-                            $Response = Invoke-ADCDeleteSslcertkey -ADCSession $ADCSession["PrimarySession"].Session -certkey $_.certData.certkey -ErrorAction SilentlyContinue | Write-ADCText
+                            $Response = Invoke-ADCDeleteSslcertkey -ADCSession $ADCHASessions["PrimarySession"].Session -certkey $_.certData.certkey -ErrorAction SilentlyContinue | Write-ADCText
                             Write-Verbose "Response: $Response"
                         }
                         if ($_.keyData.certkey -ne $_.certData.certkey) {
@@ -99,14 +102,14 @@ function Invoke-ADCCleanCertKeyFiles {
                                 Write-ConsoleText -Line "CertKey"
                                 Write-ConsoleText "$($_.keyData.certkey)"
                                 Write-ConsoleText -Line "Removing"
-                                $Response = Invoke-ADCDeleteSslcertkey -ADCSession $ADCSession["PrimarySession"].Session -certkey $_.keyData.certkey -ErrorAction  SilentlyContinue | Write-ADCText
+                                $Response = Invoke-ADCDeleteSslcertkey -ADCSession $ADCHASessions["PrimarySession"].Session -certkey $_.keyData.certkey -ErrorAction  SilentlyContinue | Write-ADCText
                                 Write-Verbose "Response: $Response"
                             }
                         }
                     }
             
                     Write-Verbose "Retrieving certificates and remove unbound files"
-                    $Certs = Invoke-ADCRetrieveCertificateRemoveInfo -ADCSession $ADCSession["PrimarySession"].Session
+                    $Certs = Invoke-ADCRetrieveCertificateRemoveInfo -ADCSession $ADCHASessions["PrimarySession"].Session
                 }
                 $loop++
             } While ($loop -lt ($Attempts + 1) )
@@ -120,14 +123,19 @@ function Invoke-ADCCleanCertKeyFiles {
                         Write-Verbose $($Session | Out-String)
                         Write-ConsoleText -Line "Deleting"
                         Write-ConsoleText -NoNewLine -ForeGroundColor Cyan "[$($Session.State)] "
-                        $Response = Invoke-ADCDeleteSystemfile -ADCSession $Session.Session -filename $_.fileName -filelocation $_.filelocation -ErrorAction SilentlyContinue | Write-ADCText
+                        $Response = Invoke-ADCGetSystemfile -Filename  $_.fileName -Filelocation $_.filelocation -ADCSession $Session.Session -ErrorAction SilentlyContinue | Expand-ADCResult
+                        if ($Response.filename -eq $_.fileName) {
+                            $Response = Invoke-ADCDeleteSystemfile -ADCSession $Session.Session -filename $_.fileName -filelocation $_.filelocation -ErrorAction SilentlyContinue | Write-ADCText
+                        } else {
+                            Write-ConsoleText -ForeGroundColor Yellow "SKIPPED Already removed"
+                        }
                         Write-Verbose "Response: $Response"
                     }
                 }
             } else {
                 Write-ConsoleText "Nothing to remove (anymore), the location `"/nsconfig/ssl/`" is tidy!" -PreBlank
             }
-            $Certs = Invoke-ADCRetrieveCertificateRemoveInfo -ADCSession $ADCSession["PrimarySession"].Session
+            $Certs = Invoke-ADCRetrieveCertificateRemoveInfo -ADCSession $ADCHASessions["PrimarySession"].Session
             if ($($Certs | Where-Object { $_.certData.status -eq "Expired" }).count -gt 0) {
                 Write-ConsoleText -Blank
                 Write-Warning "You still have EXPIRED certificates bound/active in the configuration!"
@@ -148,7 +156,7 @@ function Invoke-ADCCleanCertKeyFiles {
             if (-Not $NoSaveConfig) {
                 Write-ConsoleText -Line "Saving the config"
                 try {
-                    $Response = Invoke-ADCSaveNsconfig -all $true -ADCSession $ADCSession["PrimarySession"].Session -ErrorAction Stop
+                    $Response = Invoke-ADCSaveNsconfig -all $true -ADCSession $ADCHASessions["PrimarySession"].Session -ErrorAction Stop
                     Write-ConsoleText -ForeGroundColor Green "Done"
                 } catch {
                     Write-ConsoleText -ForeGroundColor Red "Failed"
@@ -158,15 +166,15 @@ function Invoke-ADCCleanCertKeyFiles {
         } catch {
             Write-ConsoleText -ForeGroundColor Red "Caught an error. Exception Message: $($_.Exception.Message)"
         }
-        Write-Verbose "Invoke-ADCCleanCertKeyFiles: Finished"
+        Write-Verbose "Invoke-ADCCleanCertKeyFiles: Ended"
     }
 }
 
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCAxENoAwe0MvJyg
-# 19f5jo95e6Cv6AGwDNzpIfcSOJhZqaCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCBQjEWNn/coxSl1
+# cMy4zYGKmTcuYBqfbcqmqv5mTs1vBaCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -334,29 +342,29 @@ function Invoke-ADCCleanCertKeyFiles {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgbIDIXP2ifQX526SNl8zL4Fsp
-# zTSplD/HaRPwG52IjWEwDQYJKoZIhvcNAQEBBQAEggEARrD3JaJo0RF2JvTDKkRH
-# Tc6yf/2C9l7cS3L+JfImi3s2fVxuJXUhVqd3rY2A7loyKI61VUu/MDG/eiqupW5u
-# 4J/mQmhbhSNs3xFMziEl9dOtalCKdj3mws5ibttT23pktIoIz/EwfGZlU680uHj2
-# wFTFLuLQXKvTuE4xktQ2/EVLhrepgaI5zs2UdZe5fkYRVggm45O+hJ9jNFP9Y1YD
-# 92glX454dB+/2GFbL3ufC0MCg4BIuAmzrtjD2De9W13s4SYBW+8w88Be0WjCHcYp
-# hb97IRulazitOEciG4fT1ZrMuGSJeZLVd8XxiiKenIoykXbww5NNgUNi4y75iu6Z
-# f6GCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgp7cjq6RdcNpkKaD53F1mkQCo
+# gUaMXIAdCtJVFn34Q3EwDQYJKoZIhvcNAQEBBQAEggEATPKMt89nJXLE7zoL7DPL
+# CKBRgy22geM/s7b+c+QkV/FdqU61+72VuDbKdU8wg5xB4fjNbQqdxaA/1v3dgDws
+# m3r0OEFv31uOustP7MRwfyKfcEF7lqakOKlXA84PP47IEDwy69v9KVQauqI7bEsH
+# qFNk4WrW8auDPyZ874T2CaOdCHk0ccxrpRRstxbzgc0vFeMtqmmsGbpCRwnFOr3u
+# QOTevgLhnSbFy+I3eNHwmMmb45F2IkpNq339n9shhsnp1RRCIxxZIDvCPweYgXHL
+# h3SeWH8hrX7exGvpmnjxGbrbfbI2DBQHmgLUGi6Tv0a6OswWZRG9/J2ZbYfTe4Td
+# bqGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwNDExMTMzOTA3WjA/BgkqhkiG9w0BCQQxMgQwg+vHEhoK4wSzBz8Qnn7M+njD
-# AnjfXH3qF+oR9hmECRzT+bI0/S63Fx0xIo2Y/m92MA0GCSqGSIb3DQEBAQUABIIC
-# AE9ySyFvv8+AYgZfK28vjJXF82IB+DTn6bpz6RyHLBHqFtl/GKDL/tHRCcLZMI/w
-# FSyWxlVCpKgeSUJXHUBASGELpvPAwfmcb6xcnYZTiDcHiZ6AF16TcuzWiBYEpDRT
-# 3bct6/fzXgUNzpIyyQqldIrnZw9o7VN9Tui5ePbA7PfR1thWsbF0sQGe5tp67/TU
-# DYOC/q01fSbmg+dDlHe48N0/EKpgECORcQnNDM/NYCzMJum7g5ICuOIOP31QpycO
-# vK7Si0V2hcb+ebWkke/+5JuIf2Ogpduw3JpTR9koTy0stIsE9nD7rfaXyz3A/maQ
-# ZqJqdDdFreyfzYJXgMGLjApJ3YyvIQcQwq9rgQk0h7eoYtwD5KGrRJKU09jEI3ax
-# HjWRetQWiNSADOJ+1HHWn7qnU1XZsc4hTePAs9/Ceocusb0zw1W0Zzr+JCXJytrn
-# 58vRP1lik5F9a+EFirXqGHfPNVFzn5oPT/LhqsCyhHNcTJTD9ve2/sFKGdHWidTK
-# O+VN72X2GsP+0sn14Z9NKS9k9SE6LqM6ZdVI1npJ8/DPpdU3Nvh9RrUyKUpC0ZVu
-# 7nCQIFmlX1rEjT3ryiY6QU/AxPerT97198+94N4GtnDI47DbBR5NpcK88z9dexOW
-# FCNe7YnXUwkDaiuDA5yHIanoil0gGQPD9f/XMHBlYUOs
+# MjIwNDExMjAxNzEwWjA/BgkqhkiG9w0BCQQxMgQwUIOM7hSYiceCGrpmCPHzGT2U
+# zQ7SPEcqZ/9DEa5pPK1rflQoRfZdgcalT3b4jBCIMA0GCSqGSIb3DQEBAQUABIIC
+# ACA8mD5Xvd4Z16qX8qNhOOkIdj/NIQPNx6Lxy99jrgefhwLjX0HZ5XQ1jUxzPOu/
+# QZvM/sSlGydBjcO0I2a2Jqqq85evVdnHzFXznNk0FHQSkIMVtfv5SIMLqcGi6AuV
+# KrFZaaUzg9N2etLoJReLM3WU7GHDrt+z8M97tfopFQ4Q1qupDJ3Sr/tobf71d4gY
+# 9SuIcl+UKm08Fo+DodP9zGIZb/y3n/wOXyT5H2DbkZwg18BD/AOTg/1E6G9xLDq0
+# V5yM03KOkGcIQwW007kzf1uhFuqOduqw8gDkOH9siGnH5ilAlokLl0eEhQh5HWHD
+# 8C0gWGVdCQILgP5LiwbG2lJy4K6fQpMI22KPoAi5ckfyXPkXRFcbKIcuT92gOmiL
+# 4okwWIYmX27w+PUlpgh8XWhP74Zk9ysCTnNiM0RfbGUd0obNQhQUn7Zq+ECHo9qc
+# Na1ekN4Jmr8CDoPElw7Q2i2NRv2irUdYHL7CpGaN//UEII1DvWpWVXs4rNUmeKob
+# XIf3/CIH/Dwz2+qhkXlVitzEnkleOcrUmDeLSOzbZN7Y1aYEO4q5BQ0UXCqbqkoq
+# WU/JqhBPEqjP2ew0o0cXDMYi0fupvLgw3Ga9MxSds34w0Z3DRstLF1G3zCI70Aig
+# Gb3CW5hGZCl4DsIUezdYHSrHxUUyxHJ01YKh5+0EQ52b
 # SIG # End signature block

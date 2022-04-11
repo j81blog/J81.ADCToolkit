@@ -12,7 +12,7 @@ function Invoke-ADCRetrieveCertificateRemoveInfo {
         Invoke-ADCRetrieveCertificateRemoveInfo
     .NOTES
         File Name : Invoke-ADCRetrieveCertificateRemoveInfo
-        Version   : v2204.410
+        Version   : v2204.1122
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -31,14 +31,14 @@ function Invoke-ADCRetrieveCertificateRemoveInfo {
     process {
         $SSLFileLocation = "/nsconfig/ssl"
         $InstalledCertificates = Invoke-ADCGetSslcertkey -ADCSession $ADCSession | Expand-ADCResult | Where-Object { $_.certkey -NotMatch '^ns-server-certificate$' } | Select-Object certkey, status, linkcertkeyname, serial, @{label = "daystoexpiration"; expression = { $_.daystoexpiration -as [int] } }, @{label = "cert"; expression = { "$($_.cert.Replace('/nsconfig/ssl/',$null))" } }, @{label = "key"; expression = { "$($_.key.Replace('/nsconfig/ssl/',$null))" } }
-        $FileLocations = Invoke-ADCGetSystemFileDirectories -FileLocation $SSLFileLocation
+        $FileLocations = Invoke-ADCGetSystemFileDirectories -ADCSession $ADCSession -FileLocation $SSLFileLocation
         $CertificateFiles = $FileLocations | ForEach-Object { Invoke-ADCGetSystemfile -filelocation $_ -ADCSession $ADCSession | Expand-ADCResult | Where-Object { ($_.filename -NotMatch '^ns-root\..*$|^certbundle$|^ns-server\..*$|^ns-sftrust\..*$|^ns-sftrust-root\..*$|^trusted_root_certs.*$|^adc-root-certs.crt$') -And ($_.filemode -ne "DIRECTORY") } }
         $CertificateBindings = Invoke-ADCGetSslcertkeybinding -ADCSession $ADCSession | Expand-ADCResult
         $LinkedCertificate = Invoke-ADCGetSslcertlink -ADCSession $ADCSession | Expand-ADCResult
-        $SAMLCertificates = Invoke-ADCGetAuthenticationsamlaction | Expand-ADCResult | ForEach-Object { $_ | Select-Object -ExpandProperty samlidpcertname -ErrorAction SilentlyContinue ; $_ | Select-Object -ExpandProperty samlsigningcertname -ErrorAction SilentlyContinue } | Select-Object -Unique
+        $SAMLCertificates = Invoke-ADCGetAuthenticationsamlaction -ADCSession $ADCSession | Expand-ADCResult | ForEach-Object { $_ | Select-Object -ExpandProperty samlidpcertname -ErrorAction SilentlyContinue ; $_ | Select-Object -ExpandProperty samlsigningcertname -ErrorAction SilentlyContinue } | Select-Object -Unique
         $ssldhfiles = @()
-        $ssldhfiles += Invoke-ADCGetSslprofile | Expand-ADCResult | Select-Object -ExpandProperty dhfile -ErrorAction SilentlyContinue -Unique | ForEach-Object { $_.Replace('/nsconfig/ssl/', $null).Split('/') | Select-Object -Last 1 }
-        $ssldhfiles += Invoke-ADCGetSslvserver | Expand-ADCResult | Select-Object -ExpandProperty dhfile -ErrorAction SilentlyContinue -Unique | ForEach-Object { $_.Replace('/nsconfig/ssl/', $null).Split('/') | Select-Object -Last 1 }
+        $ssldhfiles += Invoke-ADCGetSslprofile -ADCSession $ADCSession | Expand-ADCResult | Select-Object -ExpandProperty dhfile -ErrorAction SilentlyContinue -Unique | ForEach-Object { $_.Replace('/nsconfig/ssl/', $null).Split('/') | Select-Object -Last 1 }
+        $ssldhfiles += Invoke-ADCGetSslvserver -ADCSession $ADCSession | Expand-ADCResult | Select-Object -ExpandProperty dhfile -ErrorAction SilentlyContinue -Unique | ForEach-Object { $_.Replace('/nsconfig/ssl/', $null).Split('/') | Select-Object -Last 1 }
         $ssldhfiles = @($ssldhfiles | Select-Object -Unique)
 
         $Certificates = @()
@@ -88,15 +88,15 @@ function Invoke-ADCRetrieveCertificateRemoveInfo {
         Write-Output $Certificates
     }
     end {
-        Write-Verbose "Invoke-ADCRetrieveCertificateRemoveInfo: Finished"
+        Write-Verbose "Invoke-ADCRetrieveCertificateRemoveInfo: Ended"
     }
 }
 
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCBRwG6FX8Fnd6vo
-# 88hf733+3snol/yQQsmW32bjfmP2uqCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCB0iap8EkPU6m0/
+# CGlXci7twabd1UaH5JrqCyAMPHz8BKCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -264,29 +264,29 @@ function Invoke-ADCRetrieveCertificateRemoveInfo {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgI1SZbcNlaaWFKynaVle88rBZ
-# y3IQ1ijPulFcK/6bIHMwDQYJKoZIhvcNAQEBBQAEggEAYlA0xQ1LVm5gnHUTO3YY
-# XTts2xjJw7C9DUxLh6WXEIbzP57c+bKccu6QgWW5DXxBImMBjX/gU0LY8MJvEKfX
-# PApgXfWwNhXxaTOfYArvxL7S7cg+ZPC7ykpnPSV/eNUv6rKx/zRXY24PWRB/jNic
-# 297wCapl/Qnhl7W4jN+Wtm9zzJ+QMkSyTOHn+ghPuprwqV1R3Maj5/HbdPt1WmQN
-# jXjioTYFZVRhplRwfv/fNrp+Cv3XmFNk73q54JT0iFeZ1s80pDSHV4bbE50zSLZm
-# bDGw7DKkbYz+E6lhGv8Pf9d2SF7N79Ub7IooHtR0JnwNvuClOEHWe/jUxahKuVXR
-# waGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgQZBjk1tNjhVKOjNiR4q7E5+T
+# ZpdBqq/mzMzsO9Us4ZQwDQYJKoZIhvcNAQEBBQAEggEAROn1E5lFQ1KM7lzsf8ZN
+# 3r35D7iXRT2J/cSPU5CSBIIvEGG+qCM7117LwD5gbIOyu/cXs2KowjzgHIlLj5fr
+# fJ1d99FnY4sXgxWBXIuxMuR3LzKKU6mLquZc5T9NAl3jahCVIKsUxuTR28C8z8ZT
+# FJGHhxLkwOHPWW4ldr/So9+PgCEz1U7s1rml0leOWBOewWAgUbKLzvYgR5/T6xY6
+# fm+tmVIMjI6ttyZW4KY2ygjW37HtXcDPLVjm+kiYyqlpKU9XJm1LRrIr6e347xap
+# 4y+29WyEBi23WHH3Zn/svh7Cs5ZjG3+0KxUmvh/9sS9lU3E35QfbtT4NJbPwdIUH
+# ZqGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwNDA0MDg1ODM4WjA/BgkqhkiG9w0BCQQxMgQwmj/0V7kq1jlyp9d1drpaoxqC
-# b43cpiPSssoXwEMW/DJimG7ZtyxbeX5WVAWA1P7jMA0GCSqGSIb3DQEBAQUABIIC
-# AEaFGItRakhLeHwxbkZU/nT35lvSHshGR+H9j/BhMJmIiPm+FLK/YJxnkzn5DK7X
-# A8UkIirVRmKcgkHEiEztl/bZFLmB9ADjIMN1k1KNibmsbY/vsMmHxOpcl4YbUZZq
-# hkJ+lQxMly9Arg+cnrMWHSmssLYlqpbcqdaY+Kv3kFdI+aF2T0OKWkzQLK8NxcfR
-# yX1mqYMbwbDM2FPpwyCMsYdeiAxS3ldKwLtO8Iu6t+Kgu2D0A9cjY+AiW8J1UG48
-# 7ccsuPawpboNXshB9Yv7/TOTUhuvWUQLO5HeTTksrzkS0o1gGV/sN7xzV189kfij
-# gIpZMBYVoB6aKk4SoxWTs6uFtLy4k8yaPVoISIXi1IkhM6z5Vxqzu70ca4RJzm+8
-# gHOPOSU/k1g3J4Vtssf08TxkZrK780oGHZXt2/HOEYXYHIYbqaBiG2PXMemk/C8b
-# uvXYHejXwtaHzWol8JW1oyVNLiZrdKNRno0zRYhBTML1UF9HhJLJ3EdMIen7nT2z
-# 849u3r/V8+Nq1AKF6GxjsX6PdCvsY1XLDfDZ7ht8JUpVvP5HO1GhT3slwQ5zfXQZ
-# eTciYDrIv68ETPF9FQnNxGpRlBD6PLm8DN9lVbLfJNKSPiY8EBkRAR9sQyS1XfAn
-# XLVlAdU+izXOkj5XhvFgiEjG4BftvfMhNuiim5aZBgVs
+# MjIwNDExMjAxNjU2WjA/BgkqhkiG9w0BCQQxMgQw0atCxZroVdqL5Zui8nzXAOwO
+# jRc5c2gePSY6hQ9P5uvDI2hkPwiqRKQvpifWb8WpMA0GCSqGSIb3DQEBAQUABIIC
+# AHNFZmmucah6IBvlnrU511YuqADKNKosF6nCik8gm6kgt/6ZVUHOJHqE4H2kIle/
+# kjjNYX5E/nCaR8aplFWHon4V+8TQMhIkqePNicgIECHFdBQZaTSa6+A84zn+XCxU
+# cQYi+vkw1TNTmbPe+Hgh+OrzaJB9aBLPHUmgISeXTo+xRnMCn0E3a58Y7uUgjeHp
+# Qe2iiNRwzL1fXn+JV9fcQ9p3Ubqo5Ay9ohPUsnI89SayNhuIYrDv5nHsXiQ9OihM
+# yinW9VOZmU2q74h4iDqZ3t/bP6ydQit3/et0uofm2dA3KU6VwACvxFF85tbgNvAD
+# QV1chi+phFbJWMaXbDCyI+RrP2iP5rYInltcWgLARY6jcv9qQIeSu6ipYTAvANEx
+# 9q7oBfUYonJJvx+FfX4bqNH/nrOEQv4xNEDFfKnScrfAacuZhLrWtx3p8YKcJ3w9
+# sx5CsvxTET+RQt48S8bAYn/OrJDCyyGJBcW3hJ09SwOuMSkAyoMsUk6n/SSipWv+
+# grPQ2qos507p23kNcZTAreOh2D9xIfXWgItpXAT3BSKd/IGJeZPlL9OLUa009s/n
+# oM9/RZznWH1CJyRka3sMBs4QXyxcEdsEE14F+a0iiCgxiiEBliLU5xDje6tMZYvA
+# YPWyeOqqCAn6LhuYa5xgz8BJd7/SXKjCoI6GEH7QvZWj
 # SIG # End signature block

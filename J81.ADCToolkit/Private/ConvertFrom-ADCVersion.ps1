@@ -11,7 +11,7 @@ function ConvertFrom-ADCVersion {
         $version = $ADCSession | ConvertFrom-ADCVersion
     .NOTES
         File Name : ConvertFrom-ADCVersion
-        Version   : v2204.1115
+        Version   : v2204.1122
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -22,7 +22,7 @@ function ConvertFrom-ADCVersion {
     [cmdletbinding()]
     param(
         [Parameter(ValueFromPipeline = $true)]
-        [Object]$ADCSession = (Get-ADCSession)
+        [Object]$ADCSession
     )
     begin {
         Write-Verbose "ConvertFrom-ADCVersion: Starting"
@@ -41,15 +41,15 @@ function ConvertFrom-ADCVersion {
         }
     }
     end {
-        Write-Verbose "ConvertFrom-ADCVersion: Finished"
+        Write-Verbose "ConvertFrom-ADCVersion: Ended"
     }
 }
 
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCDhorg76TT0Rkn
-# 7HteRAcT+nE3JUtK8duu4U3RvpkIt6CCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCADIkWIypapsBKD
+# cUNzNYHfYWRcE31X2BpF3fkStPBzZ6CCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -217,29 +217,29 @@ function ConvertFrom-ADCVersion {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQg5Ye8l3mlpUwWdTG92mgABp+t
-# DDsKpeU6eCiwi03hmVwwDQYJKoZIhvcNAQEBBQAEggEAdBLI/JW8D9k+SOPpQkCZ
-# apB1dl8frWxrtcafwbAUaBzcNYEUFu3Ef+qBiFn7b55wIrF7rLTZofKVIWfNUP60
-# Yfm0Dj+MzfQrBIEVT9dKDwmz921TPFwqsS690e9kis6fuoO1au2I8OK/lRUP8M+r
-# wX5p5h3kQJqPafK6SX9VPbp62RucfwHb23R55jNaVv9gy6rDd8A4CPu9xItRHBU/
-# bB+sMs4CAC7U9W14BnZKMwL7wYlHErJZ9A4+C5qZUuMgMawTaz6KskW371Ln1drS
-# xSOr7HH4WEFypnIWeyNDZUD4LFOlWnilts2M7x8tI0CrRC0CYpveVCEq+Lbbb/dc
-# q6GCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgliFzp02YC/6Xip1tELl6M/1R
+# kDgiE1TThSW7TKLjNCIwDQYJKoZIhvcNAQEBBQAEggEAmuLQ5Yl/+/88aGiJKyMy
+# kSlqkbRDjKoeIvol8tG+k/iRrSw0BB9zvlHGFlP3J/vL7/MnukU9pNOHG249SFVF
+# rFo+yP0LHWvjOU8mvtlj0+Z4b+UdPnLdBd/ozr5Apv3Jc9raSIrTH9A1bxZ7i+HB
+# p9J1qJVYNKSs+0JSbKECF5gL+k+g65EvwBqkZumpCh40YY0nUsx35FPZhlc0Af3i
+# JZ8/6ZeHV71kpX8oUI7BjFWoKadFj3AAopeBzJwqWhn4L9OJ0sFwRBAr5Fy3llVa
+# yr2PY08gcgZm2NvYokhl8oNyXH8ILVoZCwa+Gh3LITqqqc59y027KtbXa2QLN5kB
+# f6GCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwNDExMTM0MzMzWjA/BgkqhkiG9w0BCQQxMgQwUihBUqchaXcAeEpw7twETbai
-# ZVssVTgIbofKj9rNVK4ZipC4e2Urkdy8r6UmhmdTMA0GCSqGSIb3DQEBAQUABIIC
-# AAI50rykI+wjJzHMk5iDve1hYk9I6xVwCdJB2W83xD/B7L4zLeBKFt8/0eAzne/K
-# DiDPBYFr1xkuCDB875Ye1xJYm2dTFV/HIKBsI7HljSBGZE7eBICxadBu2lKCJ5Jm
-# WWJN3G6GaDrJgNann664FKcyvgzS7tocO2TJVvVQfJaH6pNdjzswlal3mPnIS3Tg
-# 9mpBYLCx/i+2Z+2Xo+R6ZhbudPrbRi/CFa11aFOcFURDwJZCG0R4Vh3fvoBfC8DN
-# rtvbkJG12CQRu0Cb2aKMpxxvR2Vl6oyX0zFtbNqjA+0mEO3jtZazo1dDIHg6R67J
-# j283MOLGmDB965DYC90bRjZQn1hMD8zh630lYoltptT++RTy8G+Nj45ID/O17Cyc
-# /mWm7HhsPJxCgY8xLJPLwqBdTYxLSom3xeYMAFTFwvU6L9rqNdhMMdVdGS0FdSN4
-# UpMH3CC/Fm/o+a2i8CQoEiaxShxiD5UuHknfiXp+BLi+Kqpz7M/AUv+BfxKnbzrF
-# ttu/so/utCb3u6wYGIAsbZpCdp0anBdWq5MM6DXt1tOMha3q2nj5nVkDOhNeLIW+
-# PY+KKgP7fG/V+8vUsm+zZvqYElcSFflx5Ti6e5f+23BHTD8dOIQCkS+u1R8/fTvz
-# Qi+LzGtRWBrUSYJ4G150QXAjnpLhMI/6/FsGoUxgBEWn
+# MjIwNDExMjAxNjUzWjA/BgkqhkiG9w0BCQQxMgQwJ1SOyb9Wpc04ZbqVupWZ0X/W
+# 5UAr76XluvEcSWw8mn8FJMN05tvcfd57Oy2cHyZ4MA0GCSqGSIb3DQEBAQUABIIC
+# ADAUqzZCykd5mcVlnP3FeGC8qO+GQ7WVj6vV2nIB09lgGbMK5YW5075EOtg9H2mL
+# bvaBnSnA8lKoPtXqPOkQpL8i0Cs80voeteeo17reuGVirgrpGSnb3yoxvRk2csv9
+# 8oxsxfUSChysqRPAtAkxee599Z0dRKNoF0bemQy2n1/yiyHYNsdDA0GtGw0BVIX5
+# SA4VfJoy7VZ6VW/+T3tQA0VK2CJ42y9fs6wqGwBtHYvycA0UKTlGm3/P0jNL943T
+# Azd4DcoorOXrwUFZDZ+WlyG+/OQagSiVdrjsernzn31u8zoKLAS1MKevTBVwaPj6
+# 5abX6eGh+8+3fhkmr67ujDARMoqTiFE//1KhsHdpuKhuqssCSSwIpwSfs5xziuaX
+# mmvVp36gCEw+vpiiAez9rRSF9FsVY03FA70c1vUnbIo5zd+KxClxOxXwHyoyQTdY
+# nbPGAyI/6o5OB3AfOmw1m1+xrAkgET0j2Uxrmpqfch29MS2HJ+/r2aN0XEQYlejf
+# y0mGFjNuzF1zahtL/8mJmxMFkkUc05abNyX31CMmvsv1PYKPJdV0CHdDd0g+2i+W
+# KQbHWWcNKfyyTOPRwmEgcr9UGWe46dPBT6MP+8nQHtfEYV84CvA+pZiMiyFwMn1m
+# IfE2fdvCbdDaxhngcU0a1h6atJzl3M+Q/WxuxeoOuBSK
 # SIG # End signature block
