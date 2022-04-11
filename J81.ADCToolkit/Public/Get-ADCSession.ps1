@@ -11,7 +11,7 @@ function Get-ADCSession {
         Get the active session and if not found, try to connect
     .NOTES
         File Name : Get-ADCSession
-        Version   : v2204.1115
+        Version   : v2204.1122
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -20,7 +20,7 @@ function Get-ADCSession {
     #>
     [CmdletBinding()]
     param(
-        $ADCSession = $Script:ADCLastSession
+        [Object]$ADCSession = $Script:ADCLastSession
     )
     Write-Verbose "Get-ADCSession: Starting"
     $IsActive = $false
@@ -33,11 +33,7 @@ function Get-ADCSession {
             IsConnected       = $false
             SessionExpiration = $null
         }
-    } elseif (-Not ( ($ADCSession -eq [PSObject])) -or (-not $ADCSession -eq [PSCustomObject]) ) {
-        $IsActive = $false
-    } elseif ($ADCSession.IsConnected -eq $false) {
-        $IsActive = $false
-    } elseif ( ($null -ne $ADCSession.SessionExpiration ) -and ($ADCSession.SessionExpiration -is [DateTime]) -and ($ADCSession.SessionExpiration -le (Get-Date)) ) {
+    } elseif ( ($null -ne $ADCSession.SessionExpiration) -and ($ADCSession.SessionExpiration -is [DateTime]) -and ($ADCSession.SessionExpiration -le (Get-Date)) ) {
         $IsActive = $false
     } elseif ($ADCSession.IsConnected -and ($ADCSession.SessionExpiration -gt (Get-Date).AddSeconds(120))) {
         $IsActive = $true
@@ -45,15 +41,13 @@ function Get-ADCSession {
         $IsActive = $false
     }
     Write-Verbose "isActive: $IsActive"
+    $MessageText = ". E.g. https://citrixacd.domain.local"
     if ($IsActive -eq $false) {
         if ($ADCSession -eq [PSCustomObject] -and (-Not ($ADCSession | Get-Member -Name "IsConnected" -ErrorAction SilentlyContinue -MemberType NoteProperty))) {
             $ADCSession | Add-Member -MemberType NoteProperty -Name "IsConnected" -Value $false
         } else {
             $ADCSession.IsConnected = $false
         }
-    }
-    $MessageText = ". E.g. https://citrixacd.domain.local"
-    if (-Not $IsActive) {
         try {
             Write-Verbose "Check if the ADCSession variable contains a hostname"
             if ($null -ne $ADCSession -and (-Not [String]::IsNullOrEmpty($( try { $ADCSession.ManagementURL.ToString() } catch { $null } )))) {
@@ -158,7 +152,7 @@ function Get-ADCSession {
     }
     if (($null -eq $ADCSession) -or `
         ([String]::IsNullOrEmpty($ADCSession)) -or `
-        ([String]::IsNullOrEmpty($(Get-Variable -Scope Script -ErrorAction SilentlyContinue | Where-Object Name -EQ "ADCSession")))) {
+        ([String]::IsNullOrEmpty($(Get-Variable -ErrorAction SilentlyContinue | Where-Object Name -eq "ADCSession")))) {
         Write-Verbose "Empty Session variable, trying to connect"
         $ADCSession = Connect-ADCNode -ManagementURL $(Read-Host -Prompt "Enter the Citrix ADC Management URL$($MessageText)") -Credential (Get-Credential) -PassThru
     }
@@ -166,17 +160,17 @@ function Get-ADCSession {
         throw "Connect to the Citrix ADC Appliance first!"
     } else {
         Write-Verbose "Active Session found, returning Session data"
-        $Script:ADCLastSession = $ADCSession
+        $Script:ADCLastSession = [PSObject]$ADCSession.PSObject.Copy()
         Write-Output $ADCSession
     }
-    Write-Verbose "Get-ADCSession: Finished"
+    Write-Verbose "Get-ADCSession: Ended"
 }
 
 # SIG # Begin signature block
 # MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCDsqe5xfH2Fxa/I
-# Hy+XG/OFtGry6+ZHXIfesUCBu/d0uaCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCAYapdLphX76yMf
+# TBofn5BofJtV2tdbkeSX0yb/A1QqTqCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -344,29 +338,29 @@ function Get-ADCSession {
 # MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
 # /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
 # oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgiArRj+hB/izSSZODHce7narf
-# 6v5RQGqPuyDZ8A6C7QwwDQYJKoZIhvcNAQEBBQAEggEAFh/7hkibdRkVGO7sp+aY
-# HS/iQKj+bAWa4GCYbDgR0DJyCp0JUZl31kfsNz59MkRKihiaEWCSWVR8eeiEvFZ2
-# UlGF1x695114IoYi1CYNhrm/9XccplNB8gSTp6aRG+Rmm5AUEDPQ1TZGPq+xeHoM
-# 9Thnn/B5jO152tJgakg/poAyvqzk3djxM5LkiuU1njHsbKdIp8I1xgllkIjAgmwa
-# vVMv9o8vpFDQIseILjv0/wRyhxJHfywWIQVuzx4BdDDY2izOS7eZAYOycDWQ3SSr
-# XAdYt/v4UzRJGIrSE4aFJRQcG3YJo/k6d2T9XhQuEqv0BY9ZBSUuLtP1w6wSSO9G
-# iKGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
+# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgHnfWFrmb0pvwuD1A7R9so7t1
+# z+JRvzpaVVl9ARtCajwwDQYJKoZIhvcNAQEBBQAEggEADjc9iqqALgoBmqiXP73d
+# bnc3UIpcZ4232ZRquUNh+WWhASzBB0DeVOrVlPt7BM2ETez/WCPL9h+k3WJ+APy6
+# EtZwnjX/1p61+rQQzu08Vq9pcDMWLO6RC6K9gH9JKBqAlKgsJXc5r92lYDo2+mV5
+# hmXaoEatzLkx9MAnW8+W8W52BOdzB3C3QctfoQc8ATHPunlAlSwVcxDJwzIgPk/o
+# 3Q+JB3PfbeoE2x43H+XM3n+nWSRqt2oHGo4A5EUKiM3q6e4T0zBY/kpIuRMC+Aka
+# hhdI4KtFEAPYupy/FVA53Fc+DlT6AQpgykdZi5RxI/yDjTtldLr0Y11hgTIFSDNA
+# VqGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
 # QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
 # MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
 # IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
 # AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwNDExMTMzOTA0WjA/BgkqhkiG9w0BCQQxMgQw3khc5a789YVMEIFAYIR97Hx4
-# Ducdi4dC4oirsWVn8cFPiGFYm4AZOxoZCSYhDEr+MA0GCSqGSIb3DQEBAQUABIIC
-# AEWE84DcIPpDhFRZfvNBYY6kumaUsuqSPeZDjxcWFBFppI3zKVejEm9JmO4xnFvl
-# fZyP6ZkyACvqyDTH4sBqTfhN3u2WmgwJ/vQQ7NLWl4yjZSLaokxTOAB8ucmA7Yv2
-# 3r5TIYtc9zp0E9IMbIYK5GdoQgOVJZd/RyUvBf1aMsvbo9ipSyB3TFMMAWBVdN1q
-# 4r4auth76ggLVagWQk91OHli5pNPMeucs9tumGjYo4gIwHAru+n2VcuI3oxspBk5
-# lO9iEKsbCUT4gtYYUAllWrOahGxCtwfZ4DL2h5jfS3qHr8CpHoCoEA0KS8eTeCBc
-# KukA87GFA53Y+HOVEyCciCpea02T9+7a42MOtnr++qnnDuxtU1JBIs2+2I4H9wnH
-# VIKNO4mlt44OMXno2NYXn+KUJxF3K01Ys+aHxaTS00/GwOf60kwFmNv0ARQ0sm7F
-# 2IldkyqLdf86eOMjD+foPDltxaNjCCeePL/xtCeMOIBCfFPk4j05iDaKxXASgFZh
-# tBDa/XTE922CsIEaWtqkfPPmhYB9LLBYM8CpBX1HFckghobqCxABvniT/RdG2kh9
-# m/lZb7BdY5S5/XAZ1lsxA+fv/0xXWXYDuvTz0wEyXwL0w1QzmS+DsgvjWkQsBI64
-# 6ZibGbpCw2LNOkyWTYDBa4Pk9qRK4uwY2jx4d8jFoZo/
+# MjIwNDExMjA1NDQwWjA/BgkqhkiG9w0BCQQxMgQwPeOvV9OK9HqLzRuHEW9WilRd
+# h+oqsFNXlNy9W9Q3gECrZePy22A1+YyaLOrH15sOMA0GCSqGSIb3DQEBAQUABIIC
+# AGn3J8KUcOWUma3QxCEX6Yk8/2hnZKB6eeXjwUgt3Lrm+hCi6L03vS8lkbBVeX9K
+# 1W7o/SlrA556XPkqI3bQiJMwuFztg0qht0rqk36uGCYm0m9Z4PKZEw8nHUidczxQ
+# 7OTuOB2gBR1ie6KuWU+pBmoBqTvxB+4hBdwXlsgqK09p8f+IFIpu73PnGWVQ0f3K
+# Dm2MhaSkWtyNYjSMu/7YOpZXIoa/9Zbo75yE7r24R7Q5Di6WfICzhiRZ0JhCmymA
+# c3f+1XRkUnBuv8QfsmSFfIFzI394FK3WVoakHHP85cQJ71NkwJQ+uXlbyCqPPju8
+# PMwem+DTL2Ua2llPON5Lwa2seV6DzQ6T2YeW8PyDGMy9T6s2ysKHDjQLoEnPB1e1
+# niaFgFkCx7LIa1IgtITIxa0HHfTS61ZZkFufmovbY7+37iazJ6YW/0VZZ4lkFZzx
+# 3Nyc6iekNAe85FlcjZup4+lrArhvZh7dTfmtzTeP0qIn/AbikrRuZ4f4dSRdsMrb
+# YJZP4pKqaNMgMHOUyk8xQZ/HSvM+uInNLcEuM/47+GtOOlHlGIhgM3PLOWkkE9tM
+# 4bQ0xICLwpfo4nuzrkbA4JIXQTeSYai60Mqx9C2PzerKpfY3GBux3wsGmWAJgITF
+# Lhjwi7S7k/kpSLE7rkoP0eBIbdz4bYf8xSvUlpdy5Deu
 # SIG # End signature block

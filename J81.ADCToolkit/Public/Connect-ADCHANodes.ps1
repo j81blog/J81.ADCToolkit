@@ -19,7 +19,7 @@ function Connect-ADCHANodes {
         Connect to the ADC  nodes with specified management url and credential
     .NOTES
         File Name : Connect-ADCHANodes
-        Version   : v2204.1115
+        Version   : v2204.1122
         Author    : John Billekens
         Requires  : PowerShell v5.1 and up
                     ADC 11.x and up
@@ -137,6 +137,7 @@ function Connect-ADCHANodes {
             $IsConnected = $false
         }
         if ($IsConnected) {
+            Write-Verbose "IsConnected: $IsConnected"
             Write-ConsoleText -Title "ADC Info" -NoConsoleOutput:$NoConsoleOutput
             Write-ConsoleText -Line "Username" -NoConsoleOutput:$NoConsoleOutput
             Write-ConsoleText -ForeGroundColor Cyan "$($PrimarySessionDetails.Username)" -NoConsoleOutput:$NoConsoleOutput
@@ -158,12 +159,14 @@ function Connect-ADCHANodes {
                 Write-ConsoleText -Line "Version" -NoConsoleOutput:$NoConsoleOutput
                 Write-ConsoleText -ForeGroundColor Cyan "$($SecondarySessionDetails.Version)" -NoConsoleOutput:$NoConsoleOutput
             }
-            if ($($PrimarySessionDetails | ConvertFrom-ADCVersion) -lt [System.Version]"11.0") {
+            Write-Verbose "All done, validating version."
+            if ($(ConvertFrom-ADCVersion -ADCSession $PrimarySessionDetails) -lt [System.Version]"11.0") {
                 Throw "Only ADC version 13 and up is supported, version 11.x & 12.x is best effort."
             }
         } else {
             $ADCHASession = $null
         }
+        $Script:ADCLastSession = [PSObject]$PrimarySessionDetails.PSObject.Copy()
         Write-Output $ADCHASession
     }
     end {
@@ -174,8 +177,8 @@ function Connect-ADCHANodes {
 # SIG # Begin signature block
 # MIITYgYJKoZIhvcNAQcCoIITUzCCE08CAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCDICF9jlv4UMdya
-# oAcqK/YZZ6IiJaA1SwGuLoojbzNdbqCCEHUwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCAByW7hXuWTPcr4
+# v1Chk8NqE6AABnjx6F9Ezsuy/hjjG6CCEHUwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -269,11 +272,11 @@ function Connect-ADCHANodes {
 # IFNpZ25pbmcgQ0ECECwnTfNkELSL/bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQw
 # GAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGC
 # NwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQx
-# IgQg9JiYjfP8Bswkjd1l5Neha02Xbz1z3lmZ+v2W1m6pIeEwDQYJKoZIhvcNAQEB
-# BQAEggEAlugDNa7bRVLk1abl7W+ndqayxNMVxttmngGEFXqniZ3u1+n0CTNK8Pwh
-# 9FVl3Qy67jOKFRSQI5eZ/1QVrF3P0IQTF64igjQWmw2ymBtEd9CXixnEGS5W0lFe
-# n7iREVw2HsOlHYZYlSlHdXQNVmG2yb56FpCerwggua2IBDU8nCQSy9wKCOlKOeUK
-# K+gEerC/dhiSR7C0axfpPBMzoLcl/1mRh6GHUcGJmgtx3DbGZ1bthEoryS2H6sj1
-# 2z59b2S7jmegHqy1jJjeasr9VAwDZX75L/9HXVG6lpxXWFEzvfcMt+tgUJB7wPxd
-# emBVllgzxR1klrzI6AGPWCTqCQtlAg==
+# IgQg5bfUU3JIMLrzepPFUdez8+fr2NIO9tOTS3qd+iU246cwDQYJKoZIhvcNAQEB
+# BQAEggEABVXALTjf2TGaf37eF42CJDAFqkXf74df90T+enFtw0DVXKLwV9r8RQvB
+# 6R/54XP8N7aFosKaa1TwiOR1h5iu17StBOICP0aSdODNFpJifgeWYxk4sXJRjgp7
+# Fizj3aJhzy3Vu9FwwM+PElwEOqrbklg4COvkZcLtqIlkUAf8WMdTKAyDt+UQbD96
+# XeFBWj1L2PH9K3H7nYAOTQioG6wUTGizXPqdPQnqd/9SkBJ3eWqEuF6HljU1+OXt
+# 9kEMrtzyCSAc47QdIdVdfgOACsxLmYD0Qx4cR1Dh9286TdNrzMB15xHwt38vYXF+
+# Md5/sRP5nElPs7W7KMEpROMfoD12bw==
 # SIG # End signature block
