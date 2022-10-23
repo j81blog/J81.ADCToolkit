@@ -31,7 +31,7 @@ function Invoke-ADCAddTmformssoaction {
         An example how to add tmformssoaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTmformssoaction
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -50,7 +50,7 @@ function Invoke-ADCAddTmformssoaction {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(Mandatory)]
@@ -128,7 +128,7 @@ function Invoke-ADCDeleteTmformssoaction {
         An example how to delete tmformssoaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTmformssoaction
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -204,7 +204,7 @@ function Invoke-ADCUpdateTmformssoaction {
         An example how to update tmformssoaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateTmformssoaction
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -223,7 +223,7 @@ function Invoke-ADCUpdateTmformssoaction {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [ValidateScript({ $_.Length -gt 1 })]
@@ -306,7 +306,7 @@ function Invoke-ADCUnsetTmformssoaction {
         An example how to unset tmformssoaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetTmformssoaction
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmformssoaction
         Requires  : PowerShell v5.1 and up
@@ -324,7 +324,7 @@ function Invoke-ADCUnsetTmformssoaction {
         [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Boolean]$responsesize,
@@ -395,7 +395,7 @@ function Invoke-ADCGetTmformssoaction {
         Get tmformssoaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmformssoaction
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmformssoaction/
         Requires  : PowerShell v5.1 and up
@@ -414,7 +414,7 @@ function Invoke-ADCGetTmformssoaction {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -484,7 +484,7 @@ function Invoke-ADCAddTmglobalauditnslogpolicybinding {
         An example how to add tmglobal_auditnslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTmglobalauditnslogpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -551,7 +551,7 @@ function Invoke-ADCDeleteTmglobalauditnslogpolicybinding {
         An example how to delete tmglobal_auditnslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTmglobalauditnslogpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -625,7 +625,7 @@ function Invoke-ADCGetTmglobalauditnslogpolicybinding {
         Get tmglobal_auditnslogpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmglobalauditnslogpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -704,7 +704,7 @@ function Invoke-ADCAddTmglobalauditsyslogpolicybinding {
         An example how to add tmglobal_auditsyslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTmglobalauditsyslogpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -771,7 +771,7 @@ function Invoke-ADCDeleteTmglobalauditsyslogpolicybinding {
         An example how to delete tmglobal_auditsyslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTmglobalauditsyslogpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -845,7 +845,7 @@ function Invoke-ADCGetTmglobalauditsyslogpolicybinding {
         Get tmglobal_auditsyslogpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmglobalauditsyslogpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -934,7 +934,7 @@ function Invoke-ADCGetTmglobalbinding {
         Get tmglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmglobalbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -1010,7 +1010,7 @@ function Invoke-ADCAddTmglobaltmsessionpolicybinding {
         An example how to add tmglobal_tmsessionpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTmglobaltmsessionpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1077,7 +1077,7 @@ function Invoke-ADCDeleteTmglobaltmsessionpolicybinding {
         An example how to delete tmglobal_tmsessionpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTmglobaltmsessionpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1151,7 +1151,7 @@ function Invoke-ADCGetTmglobaltmsessionpolicybinding {
         Get tmglobal_tmsessionpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmglobaltmsessionpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1230,7 +1230,7 @@ function Invoke-ADCAddTmglobaltmtrafficpolicybinding {
         An example how to add tmglobal_tmtrafficpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTmglobaltmtrafficpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1297,7 +1297,7 @@ function Invoke-ADCDeleteTmglobaltmtrafficpolicybinding {
         An example how to delete tmglobal_tmtrafficpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTmglobaltmtrafficpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1371,7 +1371,7 @@ function Invoke-ADCGetTmglobaltmtrafficpolicybinding {
         Get tmglobal_tmtrafficpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmglobaltmtrafficpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmglobal_tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -1628,7 +1628,7 @@ function Invoke-ADCAddTmsamlssoprofile {
         An example how to add tmsamlssoprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTmsamlssoprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -1647,7 +1647,7 @@ function Invoke-ADCAddTmsamlssoprofile {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [ValidateScript({ $_.Length -gt 1 })]
@@ -1957,7 +1957,7 @@ function Invoke-ADCDeleteTmsamlssoprofile {
         An example how to delete tmsamlssoprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTmsamlssoprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -2197,7 +2197,7 @@ function Invoke-ADCUpdateTmsamlssoprofile {
         An example how to update tmsamlssoprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateTmsamlssoprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -2216,7 +2216,7 @@ function Invoke-ADCUpdateTmsamlssoprofile {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [ValidateScript({ $_.Length -gt 1 })]
@@ -2672,7 +2672,7 @@ function Invoke-ADCUnsetTmsamlssoprofile {
         An example how to unset tmsamlssoprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetTmsamlssoprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsamlssoprofile
         Requires  : PowerShell v5.1 and up
@@ -2690,7 +2690,7 @@ function Invoke-ADCUnsetTmsamlssoprofile {
         [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Boolean]$samlsigningcertname,
@@ -2935,7 +2935,7 @@ function Invoke-ADCGetTmsamlssoprofile {
         Get tmsamlssoprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmsamlssoprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsamlssoprofile/
         Requires  : PowerShell v5.1 and up
@@ -2954,7 +2954,7 @@ function Invoke-ADCGetTmsamlssoprofile {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -3046,7 +3046,7 @@ function Invoke-ADCAddTmsessionaction {
         An example how to add tmsessionaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTmsessionaction
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -3065,7 +3065,7 @@ function Invoke-ADCAddTmsessionaction {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [double]$Sesstimeout,
@@ -3146,7 +3146,7 @@ function Invoke-ADCDeleteTmsessionaction {
         An example how to delete tmsessionaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTmsessionaction
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -3230,7 +3230,7 @@ function Invoke-ADCUpdateTmsessionaction {
         An example how to update tmsessionaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateTmsessionaction
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -3249,7 +3249,7 @@ function Invoke-ADCUpdateTmsessionaction {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [double]$Sesstimeout,
@@ -3356,7 +3356,7 @@ function Invoke-ADCUnsetTmsessionaction {
         An example how to unset tmsessionaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetTmsessionaction
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionaction
         Requires  : PowerShell v5.1 and up
@@ -3374,7 +3374,7 @@ function Invoke-ADCUnsetTmsessionaction {
         [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Boolean]$sesstimeout,
@@ -3463,7 +3463,7 @@ function Invoke-ADCGetTmsessionaction {
         Get tmsessionaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmsessionaction
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionaction/
         Requires  : PowerShell v5.1 and up
@@ -3482,7 +3482,7 @@ function Invoke-ADCGetTmsessionaction {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -3569,7 +3569,7 @@ function Invoke-ADCUpdateTmsessionparameter {
         An example how to update tmsessionparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateTmsessionparameter
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionparameter/
         Requires  : PowerShell v5.1 and up
@@ -3681,7 +3681,7 @@ function Invoke-ADCUnsetTmsessionparameter {
         An example how to unset tmsessionparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetTmsessionparameter
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionparameter
         Requires  : PowerShell v5.1 and up
@@ -3779,7 +3779,7 @@ function Invoke-ADCGetTmsessionparameter {
         Get tmsessionparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmsessionparameter
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionparameter/
         Requires  : PowerShell v5.1 and up
@@ -3859,7 +3859,7 @@ function Invoke-ADCAddTmsessionpolicy {
         An example how to add tmsessionpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTmsessionpolicy
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -3878,7 +3878,7 @@ function Invoke-ADCAddTmsessionpolicy {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(Mandatory)]
@@ -3933,7 +3933,7 @@ function Invoke-ADCDeleteTmsessionpolicy {
         An example how to delete tmsessionpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTmsessionpolicy
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -3999,7 +3999,7 @@ function Invoke-ADCUpdateTmsessionpolicy {
         An example how to update tmsessionpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateTmsessionpolicy
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -4018,7 +4018,7 @@ function Invoke-ADCUpdateTmsessionpolicy {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Rule,
@@ -4077,7 +4077,7 @@ function Invoke-ADCUnsetTmsessionpolicy {
         An example how to unset tmsessionpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetTmsessionpolicy
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy
         Requires  : PowerShell v5.1 and up
@@ -4095,7 +4095,7 @@ function Invoke-ADCUnsetTmsessionpolicy {
         [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Boolean]$rule,
@@ -4160,7 +4160,7 @@ function Invoke-ADCGetTmsessionpolicy {
         Get tmsessionpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmsessionpolicy
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy/
         Requires  : PowerShell v5.1 and up
@@ -4179,7 +4179,7 @@ function Invoke-ADCGetTmsessionpolicy {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -4264,7 +4264,7 @@ function Invoke-ADCGetTmsessionpolicyaaagroupbinding {
         Get tmsessionpolicy_aaagroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmsessionpolicyaaagroupbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy_aaagroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -4362,7 +4362,7 @@ function Invoke-ADCGetTmsessionpolicyaaauserbinding {
         Get tmsessionpolicy_aaauser_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmsessionpolicyaaauserbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy_aaauser_binding/
         Requires  : PowerShell v5.1 and up
@@ -4460,7 +4460,7 @@ function Invoke-ADCGetTmsessionpolicyauthenticationvserverbinding {
         Get tmsessionpolicy_authenticationvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmsessionpolicyauthenticationvserverbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy_authenticationvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -4555,7 +4555,7 @@ function Invoke-ADCGetTmsessionpolicybinding {
         Get tmsessionpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmsessionpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -4650,7 +4650,7 @@ function Invoke-ADCGetTmsessionpolicytmglobalbinding {
         Get tmsessionpolicy_tmglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmsessionpolicytmglobalbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmsessionpolicy_tmglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -4755,7 +4755,7 @@ function Invoke-ADCAddTmtrafficaction {
         An example how to add tmtrafficaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTmtrafficaction
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -4774,7 +4774,7 @@ function Invoke-ADCAddTmtrafficaction {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [ValidateRange(1, 715827)]
@@ -4858,7 +4858,7 @@ function Invoke-ADCDeleteTmtrafficaction {
         An example how to delete tmtrafficaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTmtrafficaction
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -4942,7 +4942,7 @@ function Invoke-ADCUpdateTmtrafficaction {
         An example how to update tmtrafficaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateTmtrafficaction
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -4961,7 +4961,7 @@ function Invoke-ADCUpdateTmtrafficaction {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [ValidateRange(1, 715827)]
@@ -5057,7 +5057,7 @@ function Invoke-ADCUnsetTmtrafficaction {
         An example how to unset tmtrafficaction configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetTmtrafficaction
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficaction
         Requires  : PowerShell v5.1 and up
@@ -5075,7 +5075,7 @@ function Invoke-ADCUnsetTmtrafficaction {
         [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Boolean]$persistentcookie,
@@ -5149,7 +5149,7 @@ function Invoke-ADCGetTmtrafficaction {
         Get tmtrafficaction data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmtrafficaction
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficaction/
         Requires  : PowerShell v5.1 and up
@@ -5168,7 +5168,7 @@ function Invoke-ADCGetTmtrafficaction {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -5238,7 +5238,7 @@ function Invoke-ADCAddTmtrafficpolicy {
         An example how to add tmtrafficpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddTmtrafficpolicy
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -5257,7 +5257,7 @@ function Invoke-ADCAddTmtrafficpolicy {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(Mandatory)]
@@ -5312,7 +5312,7 @@ function Invoke-ADCDeleteTmtrafficpolicy {
         An example how to delete tmtrafficpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteTmtrafficpolicy
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -5374,7 +5374,7 @@ function Invoke-ADCUpdateTmtrafficpolicy {
         An example how to update tmtrafficpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateTmtrafficpolicy
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -5393,7 +5393,7 @@ function Invoke-ADCUpdateTmtrafficpolicy {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Rule,
@@ -5448,7 +5448,7 @@ function Invoke-ADCUnsetTmtrafficpolicy {
         An example how to unset tmtrafficpolicy configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetTmtrafficpolicy
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy
         Requires  : PowerShell v5.1 and up
@@ -5466,7 +5466,7 @@ function Invoke-ADCUnsetTmtrafficpolicy {
         [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Boolean]$rule,
@@ -5531,7 +5531,7 @@ function Invoke-ADCGetTmtrafficpolicy {
         Get tmtrafficpolicy data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmtrafficpolicy
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy/
         Requires  : PowerShell v5.1 and up
@@ -5550,7 +5550,7 @@ function Invoke-ADCGetTmtrafficpolicy {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -5632,7 +5632,7 @@ function Invoke-ADCGetTmtrafficpolicybinding {
         Get tmtrafficpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmtrafficpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -5727,7 +5727,7 @@ function Invoke-ADCGetTmtrafficpolicycsvserverbinding {
         Get tmtrafficpolicy_csvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmtrafficpolicycsvserverbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5825,7 +5825,7 @@ function Invoke-ADCGetTmtrafficpolicylbvserverbinding {
         Get tmtrafficpolicy_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmtrafficpolicylbvserverbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5923,7 +5923,7 @@ function Invoke-ADCGetTmtrafficpolicytmglobalbinding {
         Get tmtrafficpolicy_tmglobal_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetTmtrafficpolicytmglobalbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/tm/tmtrafficpolicy_tmglobal_binding/
         Requires  : PowerShell v5.1 and up
@@ -5988,10 +5988,10 @@ function Invoke-ADCGetTmtrafficpolicytmglobalbinding {
 }
 
 # SIG # Begin signature block
-# MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
+# MIITYgYJKoZIhvcNAQcCoIITUzCCE08CAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCBiN78Kk60R57lf
-# w6lJXqaV97Z8Y1yOHFm9PSCDZHuyrKCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCECiejmD/GEs5f
+# REATJ8VTsz6wRd2s5oQlItIPuoHFqqCCEHUwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -6079,109 +6079,17 @@ function Invoke-ADCGetTmtrafficpolicytmglobalbinding {
 # ngVR5UR43QHesXWYDVQk/fBO4+L4g71yuss9Ou7wXheSaG3IYfmm8SoKC6W59J7u
 # mDIFhZ7r+YMp08Ysfb06dy6LN0KgaoLtO0qqlBCk4Q34F8W2WnkzGJLjtXX4oemO
 # CiUe5B7xn1qHI/+fpFGe+zmAEc3btcSnqIBv5VPU4OOiwtJbGvoyJi1qV3AcPKRY
-# LqPzW0sH3DJZ84enGm1YMIIG7DCCBNSgAwIBAgIQMA9vrN1mmHR8qUY2p3gtuTAN
-# BgkqhkiG9w0BAQwFADCBiDELMAkGA1UEBhMCVVMxEzARBgNVBAgTCk5ldyBKZXJz
-# ZXkxFDASBgNVBAcTC0plcnNleSBDaXR5MR4wHAYDVQQKExVUaGUgVVNFUlRSVVNU
-# IE5ldHdvcmsxLjAsBgNVBAMTJVVTRVJUcnVzdCBSU0EgQ2VydGlmaWNhdGlvbiBB
-# dXRob3JpdHkwHhcNMTkwNTAyMDAwMDAwWhcNMzgwMTE4MjM1OTU5WjB9MQswCQYD
-# VQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdT
-# YWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3Rp
-# Z28gUlNBIFRpbWUgU3RhbXBpbmcgQ0EwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAw
-# ggIKAoICAQDIGwGv2Sx+iJl9AZg/IJC9nIAhVJO5z6A+U++zWsB21hoEpc5Hg7Xr
-# xMxJNMvzRWW5+adkFiYJ+9UyUnkuyWPCE5u2hj8BBZJmbyGr1XEQeYf0RirNxFrJ
-# 29ddSU1yVg/cyeNTmDoqHvzOWEnTv/M5u7mkI0Ks0BXDf56iXNc48RaycNOjxN+z
-# xXKsLgp3/A2UUrf8H5VzJD0BKLwPDU+zkQGObp0ndVXRFzs0IXuXAZSvf4DP0REK
-# V4TJf1bgvUacgr6Unb+0ILBgfrhN9Q0/29DqhYyKVnHRLZRMyIw80xSinL0m/9NT
-# IMdgaZtYClT0Bef9Maz5yIUXx7gpGaQpL0bj3duRX58/Nj4OMGcrRrc1r5a+2kxg
-# zKi7nw0U1BjEMJh0giHPYla1IXMSHv2qyghYh3ekFesZVf/QOVQtJu5FGjpvzdeE
-# 8NfwKMVPZIMC1Pvi3vG8Aij0bdonigbSlofe6GsO8Ft96XZpkyAcSpcsdxkrk5WY
-# nJee647BeFbGRCXfBhKaBi2fA179g6JTZ8qx+o2hZMmIklnLqEbAyfKm/31X2xJ2
-# +opBJNQb/HKlFKLUrUMcpEmLQTkUAx4p+hulIq6lw02C0I3aa7fb9xhAV3PwcaP7
-# Sn1FNsH3jYL6uckNU4B9+rY5WDLvbxhQiddPnTO9GrWdod6VQXqngwIDAQABo4IB
-# WjCCAVYwHwYDVR0jBBgwFoAUU3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYE
-# FBqh+GEZIA/DQXdFKI7RNV8GEgRVMA4GA1UdDwEB/wQEAwIBhjASBgNVHRMBAf8E
-# CDAGAQH/AgEAMBMGA1UdJQQMMAoGCCsGAQUFBwMIMBEGA1UdIAQKMAgwBgYEVR0g
-# ADBQBgNVHR8ESTBHMEWgQ6BBhj9odHRwOi8vY3JsLnVzZXJ0cnVzdC5jb20vVVNF
-# UlRydXN0UlNBQ2VydGlmaWNhdGlvbkF1dGhvcml0eS5jcmwwdgYIKwYBBQUHAQEE
-# ajBoMD8GCCsGAQUFBzAChjNodHRwOi8vY3J0LnVzZXJ0cnVzdC5jb20vVVNFUlRy
-# dXN0UlNBQWRkVHJ1c3RDQS5jcnQwJQYIKwYBBQUHMAGGGWh0dHA6Ly9vY3NwLnVz
-# ZXJ0cnVzdC5jb20wDQYJKoZIhvcNAQEMBQADggIBAG1UgaUzXRbhtVOBkXXfA3oy
-# Cy0lhBGysNsqfSoF9bw7J/RaoLlJWZApbGHLtVDb4n35nwDvQMOt0+LkVvlYQc/x
-# QuUQff+wdB+PxlwJ+TNe6qAcJlhc87QRD9XVw+K81Vh4v0h24URnbY+wQxAPjeT5
-# OGK/EwHFhaNMxcyyUzCVpNb0llYIuM1cfwGWvnJSajtCN3wWeDmTk5SbsdyybUFt
-# Z83Jb5A9f0VywRsj1sJVhGbks8VmBvbz1kteraMrQoohkv6ob1olcGKBc2NeoLvY
-# 3NdK0z2vgwY4Eh0khy3k/ALWPncEvAQ2ted3y5wujSMYuaPCRx3wXdahc1cFaJqn
-# yTdlHb7qvNhCg0MFpYumCf/RoZSmTqo9CfUFbLfSZFrYKiLCS53xOV5M3kg9mzSW
-# mglfjv33sVKRzj+J9hyhtal1H3G/W0NdZT1QgW6r8NDT/LKzH7aZlib0PHmLXGTM
-# ze4nmuWgwAxyh8FuTVrTHurwROYybxzrF06Uw3hlIDsPQaof6aFBnf6xuKBlKjTg
-# 3qj5PObBMLvAoGMs/FwWAKjQxH/qEZ0eBsambTJdtDgJK0kHqv3sMNrxpy/Pt/36
-# 0KOE2See+wFmd7lWEOEgbsausfm2usg1XTN2jvF8IAwqd661ogKGuinutFoAsYyr
-# 4/kKyVRd1LlqdJ69SK6YMIIHBzCCBO+gAwIBAgIRAIx3oACP9NGwxj2fOkiDjWsw
-# DQYJKoZIhvcNAQEMBQAwfTELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIg
-# TWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBM
-# aW1pdGVkMSUwIwYDVQQDExxTZWN0aWdvIFJTQSBUaW1lIFN0YW1waW5nIENBMB4X
-# DTIwMTAyMzAwMDAwMFoXDTMyMDEyMjIzNTk1OVowgYQxCzAJBgNVBAYTAkdCMRsw
-# GQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAW
-# BgNVBAoTD1NlY3RpZ28gTGltaXRlZDEsMCoGA1UEAwwjU2VjdGlnbyBSU0EgVGlt
-# ZSBTdGFtcGluZyBTaWduZXIgIzIwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIK
-# AoICAQCRh0ssi8HxHqCe0wfGAcpSsL55eV0JZgYtLzV9u8D7J9pCalkbJUzq70DW
-# mn4yyGqBfbRcPlYQgTU6IjaM+/ggKYesdNAbYrw/ZIcCX+/FgO8GHNxeTpOHuJre
-# TAdOhcxwxQ177MPZ45fpyxnbVkVs7ksgbMk+bP3wm/Eo+JGZqvxawZqCIDq37+fW
-# uCVJwjkbh4E5y8O3Os2fUAQfGpmkgAJNHQWoVdNtUoCD5m5IpV/BiVhgiu/xrM2H
-# YxiOdMuEh0FpY4G89h+qfNfBQc6tq3aLIIDULZUHjcf1CxcemuXWmWlRx06mnSlv
-# 53mTDTJjU67MximKIMFgxvICLMT5yCLf+SeCoYNRwrzJghohhLKXvNSvRByWgiKV
-# KoVUrvH9Pkl0dPyOrj+lcvTDWgGqUKWLdpUbZuvv2t+ULtka60wnfUwF9/gjXcRX
-# yCYFevyBI19UCTgqYtWqyt/tz1OrH/ZEnNWZWcVWZFv3jlIPZvyYP0QGE2Ru6eEV
-# YFClsezPuOjJC77FhPfdCp3avClsPVbtv3hntlvIXhQcua+ELXei9zmVN29OfxzG
-# PATWMcV+7z3oUX5xrSR0Gyzc+Xyq78J2SWhi1Yv1A9++fY4PNnVGW5N2xIPugr4s
-# rjcS8bxWw+StQ8O3ZpZelDL6oPariVD6zqDzCIEa0USnzPe4MQIDAQABo4IBeDCC
-# AXQwHwYDVR0jBBgwFoAUGqH4YRkgD8NBd0UojtE1XwYSBFUwHQYDVR0OBBYEFGl1
-# N3u7nTVCTr9X05rbnwHRrt7QMA4GA1UdDwEB/wQEAwIGwDAMBgNVHRMBAf8EAjAA
-# MBYGA1UdJQEB/wQMMAoGCCsGAQUFBwMIMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQEC
-# AQMIMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMEQGA1Ud
-# HwQ9MDswOaA3oDWGM2h0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQVRp
-# bWVTdGFtcGluZ0NBLmNybDB0BggrBgEFBQcBAQRoMGYwPwYIKwYBBQUHMAKGM2h0
-# dHA6Ly9jcnQuc2VjdGlnby5jb20vU2VjdGlnb1JTQVRpbWVTdGFtcGluZ0NBLmNy
-# dDAjBggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wDQYJKoZIhvcN
-# AQEMBQADggIBAEoDeJBCM+x7GoMJNjOYVbudQAYwa0Vq8ZQOGVD/WyVeO+E5xFu6
-# 6ZWQNze93/tk7OWCt5XMV1VwS070qIfdIoWmV7u4ISfUoCoxlIoHIZ6Kvaca9QIV
-# y0RQmYzsProDd6aCApDCLpOpviE0dWO54C0PzwE3y42i+rhamq6hep4TkxlVjwmQ
-# Lt/qiBcW62nW4SW9RQiXgNdUIChPynuzs6XSALBgNGXE48XDpeS6hap6adt1pD55
-# aJo2i0OuNtRhcjwOhWINoF5w22QvAcfBoccklKOyPG6yXqLQ+qjRuCUcFubA1X9o
-# GsRlKTUqLYi86q501oLnwIi44U948FzKwEBcwp/VMhws2jysNvcGUpqjQDAXsCkW
-# mcmqt4hJ9+gLJTO1P22vn18KVt8SscPuzpF36CAT6Vwkx+pEC0rmE4QcTesNtbiG
-# oDCni6GftCzMwBYjyZHlQgNLgM7kTeYqAT7AXoWgJKEXQNXb2+eYEKTx6hkbgFT6
-# R4nomIGpdcAO39BolHmhoJ6OtrdCZsvZ2WsvTdjePjIeIOTsnE1CjZ3HM5mCN0TU
-# JikmQI54L7nu+i/x8Y/+ULh43RSW3hwOcLAqhWqxbGjpKuQQK24h/dN8nTfkKgbW
-# w/HXaONPB3mBCBP+smRe6bE85tB4I7IJLOImYr87qZdRzMdEMoGyr8/fMYIFkzCC
-# BY8CAQEwgZAwfDELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hl
-# c3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVk
-# MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
-# /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
-# oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgkbdo1joeMa4VSp0CEPF00QwD
-# LeS/ScV18usP5xDUn1cwDQYJKoZIhvcNAQEBBQAEggEAChAjIfb/AzYgwku/CBZ9
-# 0ZWWceX/Z+HGHkcRvw1Xw0/mQ89BHHGpbW4Sym1hgHCCYm5lMQDBELDVwmtU+DMR
-# F1FfsccXzJvfFFYYWbHPtjtvthqk/v05C97UKU8IKIWLDyxWjbKfYHMUINO5lFZ1
-# zt58ryYzj6EwO4r/+gg6+EJgTpo35Si7wCAU428/5Ps/dEuNi7+15DKpfwB8VsZj
-# uMS49XxXw4mwx1069p6c3KF1pqVDAkxw7I1vWmS5m6I4LnqNuCPsWtHvmNqq0Pod
-# G5jNpMQvoA6KOzp0aY5E4RwKlgTKlJF4YO64vdtQZ3IkvlmxfPTXJHgQkDkZrhug
-# uqGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
-# QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
-# MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
-# IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
-# AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwNDAzMTkwNzIxWjA/BgkqhkiG9w0BCQQxMgQwjdh3DyVv4BBK2baE/yTk9McN
-# 9R8vtzH8ISVqJ388KI/JmyqDJP3I9HJ+6OlVU699MA0GCSqGSIb3DQEBAQUABIIC
-# AFBtIUaZmmBIOertbMHbJryzejRocZ7HvdMp1r439tVun8S+MSTRXw/6ImRL6D2n
-# qFe6Cf37UoGjdS4zV+/vpxyZ2pcib7doKkTOhPWGUaDFiUtMYo5fSo2oa9qxTFmP
-# IHLuaZ8nshnxXUcrZX4gk26d2ket9fuIhp0axGxtX9h8vk2C3FtqxzesgN88Tqzv
-# nXF7wj/ArHpT/m3u87fPAlZaicRQefhKD24KZ0nPUKnvJDartXSNg1nwmov+3Xgu
-# kAYy47ECwPp7AC5H65/L0AElWuzlpSBvL1uycJHG+KxtJDwWfw2836ZFhWHZqqY0
-# 1FpC468ZGip+5rQTglpMLE4/YY8lBw26aqTbheN9BbAT/QgBcr4eqpoADgvsFg5u
-# AI6ZPHBcDM/XXGTNebyNz34pjpsgZb51hQ+vhdSPN+HlrniNwgcrtTOqru/HUaRQ
-# GAYv5ZL0OvRmCnY/xFE5FzmQiKfjUG5UQ3AJvvnjEmx7iZMD6QeVnJIB5iFwC8Dm
-# cQuFvPZTSziv2RNg1CwpOFDdZUzBfAk4RVecJ2/77L51JcbTyo+JVudExKDR0i9I
-# etRBpPZsbW7w6Atu0G6/qzHFxuNMy6Ck/NB04mAOvOg+uujaqwmZm5IDb+jav8hT
-# NjwnQi5x+EPYuYIIHQY1BPs2ehIDt44Z8wKz5lhJz9OC
+# LqPzW0sH3DJZ84enGm1YMYICQzCCAj8CAQEwgZAwfDELMAkGA1UEBhMCR0IxGzAZ
+# BgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+# A1UEChMPU2VjdGlnbyBMaW1pdGVkMSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2Rl
+# IFNpZ25pbmcgQ0ECECwnTfNkELSL/bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQw
+# GAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGC
+# NwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQx
+# IgQgU1KceE4h0ZyZpwB/TIVYec+ydhx+JvMj45OdWzT6VAYwDQYJKoZIhvcNAQEB
+# BQAEggEAV0EPgaAmTdxPEOiM2ON2BvLPUh9AiXBJLClfXGNttyl1sIFgO7F7Y3sK
+# Wfz6sU21DLjVnfOmehTZAEDUfed2woyLVhbMa8WxD3+tUjxGMXD1a16cjdIqdFDQ
+# VNos4vWk9PHNTAK6XYhfMlpxVpm9zdZmo6ZMSN+avz4OZof3hHZfXb0Qyf8kzjg2
+# pZkyONCcB98OhKQ1Uj1oijxlQhiNcoeSb8UKWzVMbheElaGEuUs4ibBGbpxwtl15
+# 2ThG+b53rs8p8XJH/9l7rF8VxMRzFlcouKdsLsL1jMogP2mzYgfgbf+3A4NqdT22
+# Q6Mh8Xm7+PkGLekKdP+JRcj0cJ8Sdg==
 # SIG # End signature block

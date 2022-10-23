@@ -20,7 +20,7 @@ function Invoke-ADCAddUserprotocol {
         An example how to add userprotocol configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddUserprotocol
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol/
         Requires  : PowerShell v5.1 and up
@@ -96,7 +96,7 @@ function Invoke-ADCDeleteUserprotocol {
         An example how to delete userprotocol configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteUserprotocol
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol/
         Requires  : PowerShell v5.1 and up
@@ -156,7 +156,7 @@ function Invoke-ADCUpdateUserprotocol {
         An example how to update userprotocol configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateUserprotocol
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol/
         Requires  : PowerShell v5.1 and up
@@ -224,7 +224,7 @@ function Invoke-ADCUnsetUserprotocol {
         An example how to unset userprotocol configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetUserprotocol
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol
         Requires  : PowerShell v5.1 and up
@@ -304,7 +304,7 @@ function Invoke-ADCGetUserprotocol {
         Get userprotocol data with a filter.
     .NOTES
         File Name : Invoke-ADCGetUserprotocol
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/userprotocol/
         Requires  : PowerShell v5.1 and up
@@ -406,7 +406,7 @@ function Invoke-ADCAddUservserver {
         An example how to add uservserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddUservserver
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -425,7 +425,7 @@ function Invoke-ADCAddUservserver {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(Mandatory)]
@@ -498,7 +498,7 @@ function Invoke-ADCDeleteUservserver {
         An example how to delete uservserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteUservserver
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -565,7 +565,7 @@ function Invoke-ADCUpdateUservserver {
         An example how to update uservserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateUservserver
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -584,7 +584,7 @@ function Invoke-ADCUpdateUservserver {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Ipaddress,
@@ -645,7 +645,7 @@ function Invoke-ADCUnsetUservserver {
         An example how to unset uservserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetUservserver
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver
         Requires  : PowerShell v5.1 and up
@@ -663,7 +663,7 @@ function Invoke-ADCUnsetUservserver {
         [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Boolean]$Params,
@@ -708,7 +708,7 @@ function Invoke-ADCEnableUservserver {
         An example how to enable uservserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCEnableUservserver
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -727,7 +727,7 @@ function Invoke-ADCEnableUservserver {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name 
 
     )
@@ -768,7 +768,7 @@ function Invoke-ADCDisableUservserver {
         An example how to disable uservserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDisableUservserver
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -787,7 +787,7 @@ function Invoke-ADCDisableUservserver {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name 
 
     )
@@ -849,7 +849,7 @@ function Invoke-ADCGetUservserver {
         Get uservserver data with a filter.
     .NOTES
         File Name : Invoke-ADCGetUservserver
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/user/uservserver/
         Requires  : PowerShell v5.1 and up
@@ -868,7 +868,7 @@ function Invoke-ADCGetUservserver {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -920,10 +920,10 @@ function Invoke-ADCGetUservserver {
 }
 
 # SIG # Begin signature block
-# MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
+# MIITYgYJKoZIhvcNAQcCoIITUzCCE08CAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCsYoY/BuPm4Q0w
-# XCT2ib5oVE49vdKGGAc733OeKHQjL6CCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCYe/ERXzm+WmLq
+# 664WtVosSKvUBHxTzAtgu8OPNItHNKCCEHUwggTzMIID26ADAgECAhAsJ03zZBC0
 # i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
 # ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
 # D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
@@ -1011,109 +1011,17 @@ function Invoke-ADCGetUservserver {
 # ngVR5UR43QHesXWYDVQk/fBO4+L4g71yuss9Ou7wXheSaG3IYfmm8SoKC6W59J7u
 # mDIFhZ7r+YMp08Ysfb06dy6LN0KgaoLtO0qqlBCk4Q34F8W2WnkzGJLjtXX4oemO
 # CiUe5B7xn1qHI/+fpFGe+zmAEc3btcSnqIBv5VPU4OOiwtJbGvoyJi1qV3AcPKRY
-# LqPzW0sH3DJZ84enGm1YMIIG7DCCBNSgAwIBAgIQMA9vrN1mmHR8qUY2p3gtuTAN
-# BgkqhkiG9w0BAQwFADCBiDELMAkGA1UEBhMCVVMxEzARBgNVBAgTCk5ldyBKZXJz
-# ZXkxFDASBgNVBAcTC0plcnNleSBDaXR5MR4wHAYDVQQKExVUaGUgVVNFUlRSVVNU
-# IE5ldHdvcmsxLjAsBgNVBAMTJVVTRVJUcnVzdCBSU0EgQ2VydGlmaWNhdGlvbiBB
-# dXRob3JpdHkwHhcNMTkwNTAyMDAwMDAwWhcNMzgwMTE4MjM1OTU5WjB9MQswCQYD
-# VQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdT
-# YWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3Rp
-# Z28gUlNBIFRpbWUgU3RhbXBpbmcgQ0EwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAw
-# ggIKAoICAQDIGwGv2Sx+iJl9AZg/IJC9nIAhVJO5z6A+U++zWsB21hoEpc5Hg7Xr
-# xMxJNMvzRWW5+adkFiYJ+9UyUnkuyWPCE5u2hj8BBZJmbyGr1XEQeYf0RirNxFrJ
-# 29ddSU1yVg/cyeNTmDoqHvzOWEnTv/M5u7mkI0Ks0BXDf56iXNc48RaycNOjxN+z
-# xXKsLgp3/A2UUrf8H5VzJD0BKLwPDU+zkQGObp0ndVXRFzs0IXuXAZSvf4DP0REK
-# V4TJf1bgvUacgr6Unb+0ILBgfrhN9Q0/29DqhYyKVnHRLZRMyIw80xSinL0m/9NT
-# IMdgaZtYClT0Bef9Maz5yIUXx7gpGaQpL0bj3duRX58/Nj4OMGcrRrc1r5a+2kxg
-# zKi7nw0U1BjEMJh0giHPYla1IXMSHv2qyghYh3ekFesZVf/QOVQtJu5FGjpvzdeE
-# 8NfwKMVPZIMC1Pvi3vG8Aij0bdonigbSlofe6GsO8Ft96XZpkyAcSpcsdxkrk5WY
-# nJee647BeFbGRCXfBhKaBi2fA179g6JTZ8qx+o2hZMmIklnLqEbAyfKm/31X2xJ2
-# +opBJNQb/HKlFKLUrUMcpEmLQTkUAx4p+hulIq6lw02C0I3aa7fb9xhAV3PwcaP7
-# Sn1FNsH3jYL6uckNU4B9+rY5WDLvbxhQiddPnTO9GrWdod6VQXqngwIDAQABo4IB
-# WjCCAVYwHwYDVR0jBBgwFoAUU3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYE
-# FBqh+GEZIA/DQXdFKI7RNV8GEgRVMA4GA1UdDwEB/wQEAwIBhjASBgNVHRMBAf8E
-# CDAGAQH/AgEAMBMGA1UdJQQMMAoGCCsGAQUFBwMIMBEGA1UdIAQKMAgwBgYEVR0g
-# ADBQBgNVHR8ESTBHMEWgQ6BBhj9odHRwOi8vY3JsLnVzZXJ0cnVzdC5jb20vVVNF
-# UlRydXN0UlNBQ2VydGlmaWNhdGlvbkF1dGhvcml0eS5jcmwwdgYIKwYBBQUHAQEE
-# ajBoMD8GCCsGAQUFBzAChjNodHRwOi8vY3J0LnVzZXJ0cnVzdC5jb20vVVNFUlRy
-# dXN0UlNBQWRkVHJ1c3RDQS5jcnQwJQYIKwYBBQUHMAGGGWh0dHA6Ly9vY3NwLnVz
-# ZXJ0cnVzdC5jb20wDQYJKoZIhvcNAQEMBQADggIBAG1UgaUzXRbhtVOBkXXfA3oy
-# Cy0lhBGysNsqfSoF9bw7J/RaoLlJWZApbGHLtVDb4n35nwDvQMOt0+LkVvlYQc/x
-# QuUQff+wdB+PxlwJ+TNe6qAcJlhc87QRD9XVw+K81Vh4v0h24URnbY+wQxAPjeT5
-# OGK/EwHFhaNMxcyyUzCVpNb0llYIuM1cfwGWvnJSajtCN3wWeDmTk5SbsdyybUFt
-# Z83Jb5A9f0VywRsj1sJVhGbks8VmBvbz1kteraMrQoohkv6ob1olcGKBc2NeoLvY
-# 3NdK0z2vgwY4Eh0khy3k/ALWPncEvAQ2ted3y5wujSMYuaPCRx3wXdahc1cFaJqn
-# yTdlHb7qvNhCg0MFpYumCf/RoZSmTqo9CfUFbLfSZFrYKiLCS53xOV5M3kg9mzSW
-# mglfjv33sVKRzj+J9hyhtal1H3G/W0NdZT1QgW6r8NDT/LKzH7aZlib0PHmLXGTM
-# ze4nmuWgwAxyh8FuTVrTHurwROYybxzrF06Uw3hlIDsPQaof6aFBnf6xuKBlKjTg
-# 3qj5PObBMLvAoGMs/FwWAKjQxH/qEZ0eBsambTJdtDgJK0kHqv3sMNrxpy/Pt/36
-# 0KOE2See+wFmd7lWEOEgbsausfm2usg1XTN2jvF8IAwqd661ogKGuinutFoAsYyr
-# 4/kKyVRd1LlqdJ69SK6YMIIHBzCCBO+gAwIBAgIRAIx3oACP9NGwxj2fOkiDjWsw
-# DQYJKoZIhvcNAQEMBQAwfTELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIg
-# TWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBM
-# aW1pdGVkMSUwIwYDVQQDExxTZWN0aWdvIFJTQSBUaW1lIFN0YW1waW5nIENBMB4X
-# DTIwMTAyMzAwMDAwMFoXDTMyMDEyMjIzNTk1OVowgYQxCzAJBgNVBAYTAkdCMRsw
-# GQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAW
-# BgNVBAoTD1NlY3RpZ28gTGltaXRlZDEsMCoGA1UEAwwjU2VjdGlnbyBSU0EgVGlt
-# ZSBTdGFtcGluZyBTaWduZXIgIzIwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIK
-# AoICAQCRh0ssi8HxHqCe0wfGAcpSsL55eV0JZgYtLzV9u8D7J9pCalkbJUzq70DW
-# mn4yyGqBfbRcPlYQgTU6IjaM+/ggKYesdNAbYrw/ZIcCX+/FgO8GHNxeTpOHuJre
-# TAdOhcxwxQ177MPZ45fpyxnbVkVs7ksgbMk+bP3wm/Eo+JGZqvxawZqCIDq37+fW
-# uCVJwjkbh4E5y8O3Os2fUAQfGpmkgAJNHQWoVdNtUoCD5m5IpV/BiVhgiu/xrM2H
-# YxiOdMuEh0FpY4G89h+qfNfBQc6tq3aLIIDULZUHjcf1CxcemuXWmWlRx06mnSlv
-# 53mTDTJjU67MximKIMFgxvICLMT5yCLf+SeCoYNRwrzJghohhLKXvNSvRByWgiKV
-# KoVUrvH9Pkl0dPyOrj+lcvTDWgGqUKWLdpUbZuvv2t+ULtka60wnfUwF9/gjXcRX
-# yCYFevyBI19UCTgqYtWqyt/tz1OrH/ZEnNWZWcVWZFv3jlIPZvyYP0QGE2Ru6eEV
-# YFClsezPuOjJC77FhPfdCp3avClsPVbtv3hntlvIXhQcua+ELXei9zmVN29OfxzG
-# PATWMcV+7z3oUX5xrSR0Gyzc+Xyq78J2SWhi1Yv1A9++fY4PNnVGW5N2xIPugr4s
-# rjcS8bxWw+StQ8O3ZpZelDL6oPariVD6zqDzCIEa0USnzPe4MQIDAQABo4IBeDCC
-# AXQwHwYDVR0jBBgwFoAUGqH4YRkgD8NBd0UojtE1XwYSBFUwHQYDVR0OBBYEFGl1
-# N3u7nTVCTr9X05rbnwHRrt7QMA4GA1UdDwEB/wQEAwIGwDAMBgNVHRMBAf8EAjAA
-# MBYGA1UdJQEB/wQMMAoGCCsGAQUFBwMIMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQEC
-# AQMIMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMEQGA1Ud
-# HwQ9MDswOaA3oDWGM2h0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQVRp
-# bWVTdGFtcGluZ0NBLmNybDB0BggrBgEFBQcBAQRoMGYwPwYIKwYBBQUHMAKGM2h0
-# dHA6Ly9jcnQuc2VjdGlnby5jb20vU2VjdGlnb1JTQVRpbWVTdGFtcGluZ0NBLmNy
-# dDAjBggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wDQYJKoZIhvcN
-# AQEMBQADggIBAEoDeJBCM+x7GoMJNjOYVbudQAYwa0Vq8ZQOGVD/WyVeO+E5xFu6
-# 6ZWQNze93/tk7OWCt5XMV1VwS070qIfdIoWmV7u4ISfUoCoxlIoHIZ6Kvaca9QIV
-# y0RQmYzsProDd6aCApDCLpOpviE0dWO54C0PzwE3y42i+rhamq6hep4TkxlVjwmQ
-# Lt/qiBcW62nW4SW9RQiXgNdUIChPynuzs6XSALBgNGXE48XDpeS6hap6adt1pD55
-# aJo2i0OuNtRhcjwOhWINoF5w22QvAcfBoccklKOyPG6yXqLQ+qjRuCUcFubA1X9o
-# GsRlKTUqLYi86q501oLnwIi44U948FzKwEBcwp/VMhws2jysNvcGUpqjQDAXsCkW
-# mcmqt4hJ9+gLJTO1P22vn18KVt8SscPuzpF36CAT6Vwkx+pEC0rmE4QcTesNtbiG
-# oDCni6GftCzMwBYjyZHlQgNLgM7kTeYqAT7AXoWgJKEXQNXb2+eYEKTx6hkbgFT6
-# R4nomIGpdcAO39BolHmhoJ6OtrdCZsvZ2WsvTdjePjIeIOTsnE1CjZ3HM5mCN0TU
-# JikmQI54L7nu+i/x8Y/+ULh43RSW3hwOcLAqhWqxbGjpKuQQK24h/dN8nTfkKgbW
-# w/HXaONPB3mBCBP+smRe6bE85tB4I7IJLOImYr87qZdRzMdEMoGyr8/fMYIFkzCC
-# BY8CAQEwgZAwfDELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hl
-# c3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVk
-# MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
-# /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
-# oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgkmuVArvQOd3A6mUDlc6J2zym
-# /Q8iQ5CzM9Uwt+yQywowDQYJKoZIhvcNAQEBBQAEggEAq+u8VFqhNl5jyKrwYwrD
-# 86qBIOe4pn9FTGztC9jrQhALEEr/SxmlYdGkr0bngptyxikHasqJ+02zfVfPIkKy
-# lAfFcS26WD3a9nsUXKKGX0t1YnDajRvhOEyc2UYZoDUPBfyHKQ0kVo32A1h7cAB0
-# ET86zVX+MjMH+arMHzWbN1fvXr20XGhyMga3qKe6pjcLvMYXTbgcKa51GQCfFk1K
-# 5aFZYt6Frcm4FnybBehdtxjlqOs+x924gJSmQ6MybNK6qpJavfxF24858/JM1ELa
-# Q9kF0y9CyazZQMZjl+pdiX6Z3hjZLUvuXQgIFisWZFn7cSNzDDlH4ysVDO7lftFW
-# o6GCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
-# QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
-# MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
-# IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
-# AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwNDAzMTkwNzM1WjA/BgkqhkiG9w0BCQQxMgQw0MlUiagEx3nWK4fB+imRRLPq
-# Vdl1Qa3wAe2KNQRSQTZX9Cn4f8lj4pMgJI4CBui2MA0GCSqGSIb3DQEBAQUABIIC
-# AD8T03fY3mRprfTRhvHv17+zKzUS/5c+X1p/4PFiF+DG9h4s3JT2Z+UO716gE8yr
-# G0uexuw/R8gh9N6GT0mhwbXmexL1rKP7ttHYUqoce4GIsLgRk3nGgGiuG8WXcafw
-# wi33FJaGRBr8PEZ7lFJjZ5V0/vsSuxNkkb8kva0Z53F74SIdgC56lThZ4JuhNadl
-# e8YOgdAL8/eHIVzos5Ei3ITjKTzxnTgVSCHgyHPpQpJP9o4QsD0ucMsY6BcyOv1F
-# UO/EUVFzq9kd/iWtQEvlwxk3pfJRISFt2QJMBMPL1rI70JVxDKa6yjNTkwvMpEOL
-# QwcPmJ4GJjpugVxfLCIV14efyYgSEluwXam7JIJZb/PFqYHcFOWw6i1OutyyXajx
-# ArTajfUqLNbFf8Sdt5YHNiYK2UIQHzNKxp2EdA2YVPPDBDk4TuF8T8aNsS5kX+75
-# 1TbbvRaCxk7EJN78nlDeox0Vw///4BZW1/ELAUsiCdQzwAImJUTnhUsj0BsRME9i
-# zBPRdbxWkex14RXdgM8Tf85qI/8ZnKcm7lrodFboPRagqFcXJuEh9hBQOKhuRNHb
-# 4cv2/ineek4w+fmRaG24p+0AiMs61xAfHOQmL75jH4wub2Ik+O4hLdAGiGqgz0Fr
-# 6L9Qu9AJG31R3W5FDb1CxAJ+xQ8n54KiuJ5RqwS5M8jE
+# LqPzW0sH3DJZ84enGm1YMYICQzCCAj8CAQEwgZAwfDELMAkGA1UEBhMCR0IxGzAZ
+# BgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+# A1UEChMPU2VjdGlnbyBMaW1pdGVkMSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2Rl
+# IFNpZ25pbmcgQ0ECECwnTfNkELSL/bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQw
+# GAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGC
+# NwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQx
+# IgQgfHoMF7GbrQCNHMSQWtzzsOea36ON8sIGdn6cARS/hyIwDQYJKoZIhvcNAQEB
+# BQAEggEAQBM97VdXNb3j0jVk+dJeI+0C1TNt1JxEd+gA0IbY1VRhJ1FjPqw5i7sn
+# kK8STtbL7IVs1x6oo65j0gE/OjtZvhEyVROKnlBUvRX0gu9o9HLuy5KiUr0wPOIW
+# vb4hJ1+2DJyrqQtBMNAlfJcYFAgM4sGOJ9Rcqm+ltgWFNkUzoiY9D0juLv5D2BKi
+# H6VV7Fm+/DIGFf1oFkdPuBR1CnfFHwpKjgMw1RF7krRN42nn2w85b9dXaYIMN8j9
+# dyxm2l0MbxF6Ipsyf+RyboJwQG+0/A0/umiL5h1P2DsFSfPvqZAJbkqTFW+nI/7D
+# UGW/CtScgorat+usyLSUen3q+quEsw==
 # SIG # End signature block
