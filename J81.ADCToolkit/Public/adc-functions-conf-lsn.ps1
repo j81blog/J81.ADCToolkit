@@ -20,7 +20,7 @@ function Invoke-ADCAddLsnappsattributes {
         An example how to add lsnappsattributes configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnappsattributes
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes/
         Requires  : PowerShell v5.1 and up
@@ -38,7 +38,7 @@ function Invoke-ADCAddLsnappsattributes {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Name,
 
@@ -97,7 +97,7 @@ function Invoke-ADCDeleteLsnappsattributes {
         An example how to delete lsnappsattributes configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnappsattributes
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes/
         Requires  : PowerShell v5.1 and up
@@ -157,7 +157,7 @@ function Invoke-ADCUpdateLsnappsattributes {
         An example how to update lsnappsattributes configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsnappsattributes
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes/
         Requires  : PowerShell v5.1 and up
@@ -175,7 +175,7 @@ function Invoke-ADCUpdateLsnappsattributes {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Name,
 
@@ -226,7 +226,7 @@ function Invoke-ADCUnsetLsnappsattributes {
         An example how to unset lsnappsattributes configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsnappsattributes
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes
         Requires  : PowerShell v5.1 and up
@@ -243,7 +243,7 @@ function Invoke-ADCUnsetLsnappsattributes {
         [Parameter(DontShow)]
         [Object]$ADCSession = (Get-ADCSession),
 
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Name,
 
@@ -306,7 +306,7 @@ function Invoke-ADCGetLsnappsattributes {
         Get lsnappsattributes data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnappsattributes
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsattributes/
         Requires  : PowerShell v5.1 and up
@@ -324,7 +324,7 @@ function Invoke-ADCGetLsnappsattributes {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Name,
 
@@ -426,7 +426,7 @@ function Invoke-ADCAddLsnappsprofile {
         An example how to add lsnappsprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnappsprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile/
         Requires  : PowerShell v5.1 and up
@@ -444,7 +444,7 @@ function Invoke-ADCAddLsnappsprofile {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Appsprofilename,
 
@@ -518,7 +518,7 @@ function Invoke-ADCDeleteLsnappsprofile {
         An example how to delete lsnappsprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnappsprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile/
         Requires  : PowerShell v5.1 and up
@@ -608,7 +608,7 @@ function Invoke-ADCUpdateLsnappsprofile {
         An example how to update lsnappsprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsnappsprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile/
         Requires  : PowerShell v5.1 and up
@@ -626,7 +626,7 @@ function Invoke-ADCUpdateLsnappsprofile {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Appsprofilename,
 
@@ -726,7 +726,7 @@ function Invoke-ADCUnsetLsnappsprofile {
         An example how to unset lsnappsprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsnappsprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile
         Requires  : PowerShell v5.1 and up
@@ -743,7 +743,7 @@ function Invoke-ADCUnsetLsnappsprofile {
         [Parameter(DontShow)]
         [Object]$ADCSession = (Get-ADCSession),
 
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Appsprofilename,
 
@@ -821,7 +821,7 @@ function Invoke-ADCGetLsnappsprofile {
         Get lsnappsprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnappsprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile/
         Requires  : PowerShell v5.1 and up
@@ -839,7 +839,7 @@ function Invoke-ADCGetLsnappsprofile {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Appsprofilename,
 
@@ -922,7 +922,7 @@ function Invoke-ADCGetLsnappsprofilebinding {
         Get lsnappsprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnappsprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -940,7 +940,7 @@ function Invoke-ADCGetLsnappsprofilebinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Appsprofilename,
 			
@@ -1001,7 +1001,7 @@ function Invoke-ADCAddLsnappsprofilelsnappsattributesbinding {
         An example how to add lsnappsprofile_lsnappsattributes_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnappsprofilelsnappsattributesbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_lsnappsattributes_binding/
         Requires  : PowerShell v5.1 and up
@@ -1019,7 +1019,7 @@ function Invoke-ADCAddLsnappsprofilelsnappsattributesbinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Appsprofilename,
 
@@ -1069,7 +1069,7 @@ function Invoke-ADCDeleteLsnappsprofilelsnappsattributesbinding {
         An example how to delete lsnappsprofile_lsnappsattributes_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnappsprofilelsnappsattributesbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_lsnappsattributes_binding/
         Requires  : PowerShell v5.1 and up
@@ -1148,7 +1148,7 @@ function Invoke-ADCGetLsnappsprofilelsnappsattributesbinding {
         Get lsnappsprofile_lsnappsattributes_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnappsprofilelsnappsattributesbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_lsnappsattributes_binding/
         Requires  : PowerShell v5.1 and up
@@ -1166,7 +1166,7 @@ function Invoke-ADCGetLsnappsprofilelsnappsattributesbinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Appsprofilename,
 
@@ -1230,7 +1230,7 @@ function Invoke-ADCAddLsnappsprofileportbinding {
         An example how to add lsnappsprofile_port_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnappsprofileportbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_port_binding/
         Requires  : PowerShell v5.1 and up
@@ -1248,7 +1248,7 @@ function Invoke-ADCAddLsnappsprofileportbinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Appsprofilename,
 
@@ -1299,7 +1299,7 @@ function Invoke-ADCDeleteLsnappsprofileportbinding {
         An example how to delete lsnappsprofile_port_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnappsprofileportbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_port_binding/
         Requires  : PowerShell v5.1 and up
@@ -1378,7 +1378,7 @@ function Invoke-ADCGetLsnappsprofileportbinding {
         Get lsnappsprofile_port_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnappsprofileportbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnappsprofile_port_binding/
         Requires  : PowerShell v5.1 and up
@@ -1396,7 +1396,7 @@ function Invoke-ADCGetLsnappsprofileportbinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Appsprofilename,
 
@@ -1458,7 +1458,7 @@ function Invoke-ADCAddLsnclient {
         An example how to add lsnclient configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnclient
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient/
         Requires  : PowerShell v5.1 and up
@@ -1476,7 +1476,7 @@ function Invoke-ADCAddLsnclient {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Clientname,
 
@@ -1522,7 +1522,7 @@ function Invoke-ADCDeleteLsnclient {
         An example how to delete lsnclient configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnclient
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient/
         Requires  : PowerShell v5.1 and up
@@ -1599,7 +1599,7 @@ function Invoke-ADCGetLsnclient {
         Get lsnclient data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnclient
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient/
         Requires  : PowerShell v5.1 and up
@@ -1617,7 +1617,7 @@ function Invoke-ADCGetLsnclient {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Clientname,
 
@@ -1700,7 +1700,7 @@ function Invoke-ADCGetLsnclientbinding {
         Get lsnclient_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnclientbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_binding/
         Requires  : PowerShell v5.1 and up
@@ -1718,7 +1718,7 @@ function Invoke-ADCGetLsnclientbinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Clientname,
 			
@@ -1785,7 +1785,7 @@ function Invoke-ADCAddLsnclientnetwork6binding {
         An example how to add lsnclient_network6_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnclientnetwork6binding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network6_binding/
         Requires  : PowerShell v5.1 and up
@@ -1803,7 +1803,7 @@ function Invoke-ADCAddLsnclientnetwork6binding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Clientname,
 
@@ -1871,7 +1871,7 @@ function Invoke-ADCDeleteLsnclientnetwork6binding {
         An example how to delete lsnclient_network6_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnclientnetwork6binding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network6_binding/
         Requires  : PowerShell v5.1 and up
@@ -1959,7 +1959,7 @@ function Invoke-ADCGetLsnclientnetwork6binding {
         Get lsnclient_network6_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnclientnetwork6binding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network6_binding/
         Requires  : PowerShell v5.1 and up
@@ -1977,7 +1977,7 @@ function Invoke-ADCGetLsnclientnetwork6binding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Clientname,
 
@@ -2045,7 +2045,7 @@ function Invoke-ADCAddLsnclientnetworkbinding {
         An example how to add lsnclient_network_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnclientnetworkbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network_binding/
         Requires  : PowerShell v5.1 and up
@@ -2063,7 +2063,7 @@ function Invoke-ADCAddLsnclientnetworkbinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Clientname,
 
@@ -2125,7 +2125,7 @@ function Invoke-ADCDeleteLsnclientnetworkbinding {
         An example how to delete lsnclient_network_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnclientnetworkbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network_binding/
         Requires  : PowerShell v5.1 and up
@@ -2210,7 +2210,7 @@ function Invoke-ADCGetLsnclientnetworkbinding {
         Get lsnclient_network_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnclientnetworkbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_network_binding/
         Requires  : PowerShell v5.1 and up
@@ -2228,7 +2228,7 @@ function Invoke-ADCGetLsnclientnetworkbinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Clientname,
 
@@ -2294,7 +2294,7 @@ function Invoke-ADCAddLsnclientnsacl6binding {
         An example how to add lsnclient_nsacl6_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnclientnsacl6binding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl6_binding/
         Requires  : PowerShell v5.1 and up
@@ -2312,7 +2312,7 @@ function Invoke-ADCAddLsnclientnsacl6binding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Clientname,
 
@@ -2369,7 +2369,7 @@ function Invoke-ADCDeleteLsnclientnsacl6binding {
         An example how to delete lsnclient_nsacl6_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnclientnsacl6binding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl6_binding/
         Requires  : PowerShell v5.1 and up
@@ -2451,7 +2451,7 @@ function Invoke-ADCGetLsnclientnsacl6binding {
         Get lsnclient_nsacl6_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnclientnsacl6binding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl6_binding/
         Requires  : PowerShell v5.1 and up
@@ -2469,7 +2469,7 @@ function Invoke-ADCGetLsnclientnsacl6binding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Clientname,
 
@@ -2535,7 +2535,7 @@ function Invoke-ADCAddLsnclientnsaclbinding {
         An example how to add lsnclient_nsacl_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnclientnsaclbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl_binding/
         Requires  : PowerShell v5.1 and up
@@ -2553,7 +2553,7 @@ function Invoke-ADCAddLsnclientnsaclbinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Clientname,
 
@@ -2610,7 +2610,7 @@ function Invoke-ADCDeleteLsnclientnsaclbinding {
         An example how to delete lsnclient_nsacl_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnclientnsaclbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl_binding/
         Requires  : PowerShell v5.1 and up
@@ -2692,7 +2692,7 @@ function Invoke-ADCGetLsnclientnsaclbinding {
         Get lsnclient_nsacl_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnclientnsaclbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnclient_nsacl_binding/
         Requires  : PowerShell v5.1 and up
@@ -2710,7 +2710,7 @@ function Invoke-ADCGetLsnclientnsaclbinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Clientname,
 
@@ -2799,7 +2799,7 @@ function Invoke-ADCGetLsndeterministicnat {
         Get lsndeterministicnat data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsndeterministicnat
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsndeterministicnat/
         Requires  : PowerShell v5.1 and up
@@ -2985,7 +2985,7 @@ function Invoke-ADCAddLsngroup {
         An example how to add lsngroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngroup
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup/
         Requires  : PowerShell v5.1 and up
@@ -3003,7 +3003,7 @@ function Invoke-ADCAddLsngroup {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -3105,7 +3105,7 @@ function Invoke-ADCDeleteLsngroup {
         An example how to delete lsngroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngroup
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup/
         Requires  : PowerShell v5.1 and up
@@ -3218,7 +3218,7 @@ function Invoke-ADCUpdateLsngroup {
         An example how to update lsngroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsngroup
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup/
         Requires  : PowerShell v5.1 and up
@@ -3236,7 +3236,7 @@ function Invoke-ADCUpdateLsngroup {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -3376,7 +3376,7 @@ function Invoke-ADCUnsetLsngroup {
         An example how to unset lsngroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsngroup
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup
         Requires  : PowerShell v5.1 and up
@@ -3393,7 +3393,7 @@ function Invoke-ADCUnsetLsngroup {
         [Parameter(DontShow)]
         [Object]$ADCSession = (Get-ADCSession),
 
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -3483,7 +3483,7 @@ function Invoke-ADCGetLsngroup {
         Get lsngroup data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngroup
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup/
         Requires  : PowerShell v5.1 and up
@@ -3501,7 +3501,7 @@ function Invoke-ADCGetLsngroup {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -3584,7 +3584,7 @@ function Invoke-ADCGetLsngroupbinding {
         Get lsngroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngroupbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -3602,7 +3602,7 @@ function Invoke-ADCGetLsngroupbinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 			
@@ -3663,7 +3663,7 @@ function Invoke-ADCAddLsngroupipsecalgprofilebinding {
         An example how to add lsngroup_ipsecalgprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngroupipsecalgprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_ipsecalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -3681,7 +3681,7 @@ function Invoke-ADCAddLsngroupipsecalgprofilebinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -3731,7 +3731,7 @@ function Invoke-ADCDeleteLsngroupipsecalgprofilebinding {
         An example how to delete lsngroup_ipsecalgprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngroupipsecalgprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_ipsecalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -3810,7 +3810,7 @@ function Invoke-ADCGetLsngroupipsecalgprofilebinding {
         Get lsngroup_ipsecalgprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngroupipsecalgprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_ipsecalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -3828,7 +3828,7 @@ function Invoke-ADCGetLsngroupipsecalgprofilebinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -3892,7 +3892,7 @@ function Invoke-ADCAddLsngrouplsnappsprofilebinding {
         An example how to add lsngroup_lsnappsprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnappsprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnappsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -3910,7 +3910,7 @@ function Invoke-ADCAddLsngrouplsnappsprofilebinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -3960,7 +3960,7 @@ function Invoke-ADCDeleteLsngrouplsnappsprofilebinding {
         An example how to delete lsngroup_lsnappsprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnappsprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnappsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4039,7 +4039,7 @@ function Invoke-ADCGetLsngrouplsnappsprofilebinding {
         Get lsngroup_lsnappsprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnappsprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnappsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4057,7 +4057,7 @@ function Invoke-ADCGetLsngrouplsnappsprofilebinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -4121,7 +4121,7 @@ function Invoke-ADCAddLsngrouplsnhttphdrlogprofilebinding {
         An example how to add lsngroup_lsnhttphdrlogprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnhttphdrlogprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnhttphdrlogprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4139,7 +4139,7 @@ function Invoke-ADCAddLsngrouplsnhttphdrlogprofilebinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -4189,7 +4189,7 @@ function Invoke-ADCDeleteLsngrouplsnhttphdrlogprofilebinding {
         An example how to delete lsngroup_lsnhttphdrlogprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnhttphdrlogprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnhttphdrlogprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4268,7 +4268,7 @@ function Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding {
         Get lsngroup_lsnhttphdrlogprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnhttphdrlogprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4286,7 +4286,7 @@ function Invoke-ADCGetLsngrouplsnhttphdrlogprofilebinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -4350,7 +4350,7 @@ function Invoke-ADCAddLsngrouplsnlogprofilebinding {
         An example how to add lsngroup_lsnlogprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnlogprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnlogprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4368,7 +4368,7 @@ function Invoke-ADCAddLsngrouplsnlogprofilebinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -4418,7 +4418,7 @@ function Invoke-ADCDeleteLsngrouplsnlogprofilebinding {
         An example how to delete lsngroup_lsnlogprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnlogprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnlogprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4497,7 +4497,7 @@ function Invoke-ADCGetLsngrouplsnlogprofilebinding {
         Get lsngroup_lsnlogprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnlogprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnlogprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4515,7 +4515,7 @@ function Invoke-ADCGetLsngrouplsnlogprofilebinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -4579,7 +4579,7 @@ function Invoke-ADCAddLsngrouplsnpoolbinding {
         An example how to add lsngroup_lsnpool_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnpoolbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnpool_binding/
         Requires  : PowerShell v5.1 and up
@@ -4597,7 +4597,7 @@ function Invoke-ADCAddLsngrouplsnpoolbinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -4647,7 +4647,7 @@ function Invoke-ADCDeleteLsngrouplsnpoolbinding {
         An example how to delete lsngroup_lsnpool_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnpoolbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnpool_binding/
         Requires  : PowerShell v5.1 and up
@@ -4726,7 +4726,7 @@ function Invoke-ADCGetLsngrouplsnpoolbinding {
         Get lsngroup_lsnpool_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnpoolbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnpool_binding/
         Requires  : PowerShell v5.1 and up
@@ -4744,7 +4744,7 @@ function Invoke-ADCGetLsngrouplsnpoolbinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -4808,7 +4808,7 @@ function Invoke-ADCAddLsngrouplsnrtspalgprofilebinding {
         An example how to add lsngroup_lsnrtspalgprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnrtspalgprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnrtspalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4826,7 +4826,7 @@ function Invoke-ADCAddLsngrouplsnrtspalgprofilebinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -4876,7 +4876,7 @@ function Invoke-ADCDeleteLsngrouplsnrtspalgprofilebinding {
         An example how to delete lsngroup_lsnrtspalgprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnrtspalgprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnrtspalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4955,7 +4955,7 @@ function Invoke-ADCGetLsngrouplsnrtspalgprofilebinding {
         Get lsngroup_lsnrtspalgprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnrtspalgprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnrtspalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -4973,7 +4973,7 @@ function Invoke-ADCGetLsngrouplsnrtspalgprofilebinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -5037,7 +5037,7 @@ function Invoke-ADCAddLsngrouplsnsipalgprofilebinding {
         An example how to add lsngroup_lsnsipalgprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsnsipalgprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnsipalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5055,7 +5055,7 @@ function Invoke-ADCAddLsngrouplsnsipalgprofilebinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -5105,7 +5105,7 @@ function Invoke-ADCDeleteLsngrouplsnsipalgprofilebinding {
         An example how to delete lsngroup_lsnsipalgprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsnsipalgprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnsipalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5184,7 +5184,7 @@ function Invoke-ADCGetLsngrouplsnsipalgprofilebinding {
         Get lsngroup_lsnsipalgprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsnsipalgprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsnsipalgprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5202,7 +5202,7 @@ function Invoke-ADCGetLsngrouplsnsipalgprofilebinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -5266,7 +5266,7 @@ function Invoke-ADCAddLsngrouplsntransportprofilebinding {
         An example how to add lsngroup_lsntransportprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngrouplsntransportprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsntransportprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5284,7 +5284,7 @@ function Invoke-ADCAddLsngrouplsntransportprofilebinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -5334,7 +5334,7 @@ function Invoke-ADCDeleteLsngrouplsntransportprofilebinding {
         An example how to delete lsngroup_lsntransportprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouplsntransportprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsntransportprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5413,7 +5413,7 @@ function Invoke-ADCGetLsngrouplsntransportprofilebinding {
         Get lsngroup_lsntransportprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngrouplsntransportprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_lsntransportprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -5431,7 +5431,7 @@ function Invoke-ADCGetLsngrouplsntransportprofilebinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -5495,7 +5495,7 @@ function Invoke-ADCAddLsngrouppcpserverbinding {
         An example how to add lsngroup_pcpserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsngrouppcpserverbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_pcpserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5513,7 +5513,7 @@ function Invoke-ADCAddLsngrouppcpserverbinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -5563,7 +5563,7 @@ function Invoke-ADCDeleteLsngrouppcpserverbinding {
         An example how to delete lsngroup_pcpserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsngrouppcpserverbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_pcpserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5642,7 +5642,7 @@ function Invoke-ADCGetLsngrouppcpserverbinding {
         Get lsngroup_pcpserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsngrouppcpserverbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsngroup_pcpserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -5660,7 +5660,7 @@ function Invoke-ADCGetLsngrouppcpserverbinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Groupname,
 
@@ -5734,7 +5734,7 @@ function Invoke-ADCAddLsnhttphdrlogprofile {
         An example how to add lsnhttphdrlogprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnhttphdrlogprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -5812,7 +5812,7 @@ function Invoke-ADCDeleteLsnhttphdrlogprofile {
         An example how to delete lsnhttphdrlogprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnhttphdrlogprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -5882,7 +5882,7 @@ function Invoke-ADCUpdateLsnhttphdrlogprofile {
         An example how to update lsnhttphdrlogprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsnhttphdrlogprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -5972,7 +5972,7 @@ function Invoke-ADCUnsetLsnhttphdrlogprofile {
         An example how to unset lsnhttphdrlogprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsnhttphdrlogprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile
         Requires  : PowerShell v5.1 and up
@@ -6060,7 +6060,7 @@ function Invoke-ADCGetLsnhttphdrlogprofile {
         Get lsnhttphdrlogprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnhttphdrlogprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnhttphdrlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -6151,7 +6151,7 @@ function Invoke-ADCAddLsnip6profile {
         An example how to add lsnip6profile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnip6profile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnip6profile/
         Requires  : PowerShell v5.1 and up
@@ -6169,7 +6169,7 @@ function Invoke-ADCAddLsnip6profile {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Name,
 
@@ -6226,7 +6226,7 @@ function Invoke-ADCDeleteLsnip6profile {
         An example how to delete lsnip6profile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnip6profile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnip6profile/
         Requires  : PowerShell v5.1 and up
@@ -6303,7 +6303,7 @@ function Invoke-ADCGetLsnip6profile {
         Get lsnip6profile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnip6profile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnip6profile/
         Requires  : PowerShell v5.1 and up
@@ -6321,7 +6321,7 @@ function Invoke-ADCGetLsnip6profile {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Name,
 
@@ -6402,7 +6402,7 @@ function Invoke-ADCAddLsnlogprofile {
         An example how to add lsnlogprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnlogprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -6483,7 +6483,7 @@ function Invoke-ADCDeleteLsnlogprofile {
         An example how to delete lsnlogprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnlogprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -6555,7 +6555,7 @@ function Invoke-ADCUpdateLsnlogprofile {
         An example how to update lsnlogprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsnlogprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -6650,7 +6650,7 @@ function Invoke-ADCUnsetLsnlogprofile {
         An example how to unset lsnlogprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsnlogprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile
         Requires  : PowerShell v5.1 and up
@@ -6741,7 +6741,7 @@ function Invoke-ADCGetLsnlogprofile {
         Get lsnlogprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnlogprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnlogprofile/
         Requires  : PowerShell v5.1 and up
@@ -6833,7 +6833,7 @@ function Invoke-ADCUpdateLsnparameter {
         An example how to update lsnparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsnparameter
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnparameter/
         Requires  : PowerShell v5.1 and up
@@ -6906,7 +6906,7 @@ function Invoke-ADCUnsetLsnparameter {
         An example how to unset lsnparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsnparameter
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnparameter
         Requires  : PowerShell v5.1 and up
@@ -6983,7 +6983,7 @@ function Invoke-ADCGetLsnparameter {
         Get lsnparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnparameter
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnparameter/
         Requires  : PowerShell v5.1 and up
@@ -7076,7 +7076,7 @@ function Invoke-ADCAddLsnpool {
         An example how to add lsnpool configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnpool
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool/
         Requires  : PowerShell v5.1 and up
@@ -7094,7 +7094,7 @@ function Invoke-ADCAddLsnpool {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Poolname,
 
@@ -7155,7 +7155,7 @@ function Invoke-ADCDeleteLsnpool {
         An example how to delete lsnpool configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnpool
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool/
         Requires  : PowerShell v5.1 and up
@@ -7222,7 +7222,7 @@ function Invoke-ADCUpdateLsnpool {
         An example how to update lsnpool configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsnpool
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool/
         Requires  : PowerShell v5.1 and up
@@ -7240,7 +7240,7 @@ function Invoke-ADCUpdateLsnpool {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Poolname,
 
@@ -7302,7 +7302,7 @@ function Invoke-ADCUnsetLsnpool {
         An example how to unset lsnpool configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsnpool
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool
         Requires  : PowerShell v5.1 and up
@@ -7319,7 +7319,7 @@ function Invoke-ADCUnsetLsnpool {
         [Parameter(DontShow)]
         [Object]$ADCSession = (Get-ADCSession),
 
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Poolname,
 
@@ -7385,7 +7385,7 @@ function Invoke-ADCGetLsnpool {
         Get lsnpool data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnpool
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool/
         Requires  : PowerShell v5.1 and up
@@ -7403,7 +7403,7 @@ function Invoke-ADCGetLsnpool {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Poolname,
 
@@ -7486,7 +7486,7 @@ function Invoke-ADCGetLsnpoolbinding {
         Get lsnpool_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnpoolbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool_binding/
         Requires  : PowerShell v5.1 and up
@@ -7504,7 +7504,7 @@ function Invoke-ADCGetLsnpoolbinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Poolname,
 			
@@ -7567,7 +7567,7 @@ function Invoke-ADCAddLsnpoollsnipbinding {
         An example how to add lsnpool_lsnip_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnpoollsnipbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool_lsnip_binding/
         Requires  : PowerShell v5.1 and up
@@ -7585,7 +7585,7 @@ function Invoke-ADCAddLsnpoollsnipbinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Poolname,
 
@@ -7642,7 +7642,7 @@ function Invoke-ADCDeleteLsnpoollsnipbinding {
         An example how to delete lsnpool_lsnip_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnpoollsnipbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool_lsnip_binding/
         Requires  : PowerShell v5.1 and up
@@ -7724,7 +7724,7 @@ function Invoke-ADCGetLsnpoollsnipbinding {
         Get lsnpool_lsnip_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnpoollsnipbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnpool_lsnip_binding/
         Requires  : PowerShell v5.1 and up
@@ -7742,7 +7742,7 @@ function Invoke-ADCGetLsnpoollsnipbinding {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Poolname,
 
@@ -7811,7 +7811,7 @@ function Invoke-ADCAddLsnrtspalgprofile {
         An example how to add lsnrtspalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnrtspalgprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -7894,7 +7894,7 @@ function Invoke-ADCUpdateLsnrtspalgprofile {
         An example how to update lsnrtspalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsnrtspalgprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -7973,7 +7973,7 @@ function Invoke-ADCUnsetLsnrtspalgprofile {
         An example how to unset lsnrtspalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsnrtspalgprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile
         Requires  : PowerShell v5.1 and up
@@ -8037,7 +8037,7 @@ function Invoke-ADCDeleteLsnrtspalgprofile {
         An example how to delete lsnrtspalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnrtspalgprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -8114,7 +8114,7 @@ function Invoke-ADCGetLsnrtspalgprofile {
         Get lsnrtspalgprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnrtspalgprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -8196,7 +8196,7 @@ function Invoke-ADCFlushLsnrtspalgsession {
         An example how to flush lsnrtspalgsession configuration Object(s).
     .NOTES
         File Name : Invoke-ADCFlushLsnrtspalgsession
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgsession/
         Requires  : PowerShell v5.1 and up
@@ -8274,7 +8274,7 @@ function Invoke-ADCGetLsnrtspalgsession {
         Get lsnrtspalgsession data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnrtspalgsession
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgsession/
         Requires  : PowerShell v5.1 and up
@@ -8373,7 +8373,7 @@ function Invoke-ADCGetLsnrtspalgsessionbinding {
         Get lsnrtspalgsession_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnrtspalgsessionbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgsession_binding/
         Requires  : PowerShell v5.1 and up
@@ -8467,7 +8467,7 @@ function Invoke-ADCGetLsnrtspalgsessiondatachannelbinding {
         Get lsnrtspalgsession_datachannel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnrtspalgsessiondatachannelbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnrtspalgsession_datachannel_binding/
         Requires  : PowerShell v5.1 and up
@@ -8560,7 +8560,7 @@ function Invoke-ADCFlushLsnsession {
         An example how to flush lsnsession configuration Object(s).
     .NOTES
         File Name : Invoke-ADCFlushLsnsession
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsession/
         Requires  : PowerShell v5.1 and up
@@ -8679,7 +8679,7 @@ function Invoke-ADCGetLsnsession {
         Get lsnsession data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnsession
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsession/
         Requires  : PowerShell v5.1 and up
@@ -8791,7 +8791,7 @@ function Invoke-ADCFlushLsnsipalgcall {
         An example how to flush lsnsipalgcall configuration Object(s).
     .NOTES
         File Name : Invoke-ADCFlushLsnsipalgcall
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall/
         Requires  : PowerShell v5.1 and up
@@ -8869,7 +8869,7 @@ function Invoke-ADCGetLsnsipalgcall {
         Get lsnsipalgcall data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgcall
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall/
         Requires  : PowerShell v5.1 and up
@@ -8968,7 +8968,7 @@ function Invoke-ADCGetLsnsipalgcallbinding {
         Get lsnsipalgcall_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgcallbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall_binding/
         Requires  : PowerShell v5.1 and up
@@ -9062,7 +9062,7 @@ function Invoke-ADCGetLsnsipalgcallcontrolchannelbinding {
         Get lsnsipalgcall_controlchannel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgcallcontrolchannelbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall_controlchannel_binding/
         Requires  : PowerShell v5.1 and up
@@ -9159,7 +9159,7 @@ function Invoke-ADCGetLsnsipalgcalldatachannelbinding {
         Get lsnsipalgcall_datachannel_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgcalldatachannelbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgcall_datachannel_binding/
         Requires  : PowerShell v5.1 and up
@@ -9268,7 +9268,7 @@ function Invoke-ADCAddLsnsipalgprofile {
         An example how to add lsnsipalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnsipalgprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -9408,7 +9408,7 @@ function Invoke-ADCUpdateLsnsipalgprofile {
         An example how to update lsnsipalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsnsipalgprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -9544,7 +9544,7 @@ function Invoke-ADCUnsetLsnsipalgprofile {
         An example how to unset lsnsipalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsnsipalgprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile
         Requires  : PowerShell v5.1 and up
@@ -9635,7 +9635,7 @@ function Invoke-ADCDeleteLsnsipalgprofile {
         An example how to delete lsnsipalgprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnsipalgprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -9712,7 +9712,7 @@ function Invoke-ADCGetLsnsipalgprofile {
         Get lsnsipalgprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnsipalgprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnsipalgprofile/
         Requires  : PowerShell v5.1 and up
@@ -9819,7 +9819,7 @@ function Invoke-ADCAddLsnstatic {
         An example how to add lsnstatic configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsnstatic
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnstatic/
         Requires  : PowerShell v5.1 and up
@@ -9837,7 +9837,7 @@ function Invoke-ADCAddLsnstatic {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Name,
 
@@ -9919,7 +9919,7 @@ function Invoke-ADCDeleteLsnstatic {
         An example how to delete lsnstatic configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsnstatic
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnstatic/
         Requires  : PowerShell v5.1 and up
@@ -9996,7 +9996,7 @@ function Invoke-ADCGetLsnstatic {
         Get lsnstatic data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsnstatic
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsnstatic/
         Requires  : PowerShell v5.1 and up
@@ -10014,7 +10014,7 @@ function Invoke-ADCGetLsnstatic {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Name,
 
@@ -10118,7 +10118,7 @@ function Invoke-ADCAddLsntransportprofile {
         An example how to add lsntransportprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLsntransportprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile/
         Requires  : PowerShell v5.1 and up
@@ -10136,7 +10136,7 @@ function Invoke-ADCAddLsntransportprofile {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Transportprofilename,
 
@@ -10224,7 +10224,7 @@ function Invoke-ADCDeleteLsntransportprofile {
         An example how to delete lsntransportprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLsntransportprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile/
         Requires  : PowerShell v5.1 and up
@@ -10316,7 +10316,7 @@ function Invoke-ADCUpdateLsntransportprofile {
         An example how to update lsntransportprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLsntransportprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile/
         Requires  : PowerShell v5.1 and up
@@ -10334,7 +10334,7 @@ function Invoke-ADCUpdateLsntransportprofile {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Transportprofilename,
 
@@ -10450,7 +10450,7 @@ function Invoke-ADCUnsetLsntransportprofile {
         An example how to unset lsntransportprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLsntransportprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile
         Requires  : PowerShell v5.1 and up
@@ -10467,7 +10467,7 @@ function Invoke-ADCUnsetLsntransportprofile {
         [Parameter(DontShow)]
         [Object]$ADCSession = (Get-ADCSession),
 
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Transportprofilename,
 
@@ -10557,7 +10557,7 @@ function Invoke-ADCGetLsntransportprofile {
         Get lsntransportprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLsntransportprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lsn/lsntransportprofile/
         Requires  : PowerShell v5.1 and up
@@ -10575,7 +10575,7 @@ function Invoke-ADCGetLsntransportprofile {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 127)]
         [string]$Transportprofilename,
 
@@ -10627,201 +10627,4 @@ function Invoke-ADCGetLsntransportprofile {
     }
 }
 
-# SIG # Begin signature block
-# MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
-# BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCDfcKeQjtWqzb9A
-# fZKFeJvPIiBumPbu2PyrPjTHvwq986CCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
-# i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
-# ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
-# D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
-# aW5nIENBMB4XDTIxMDUwNTAwMDAwMFoXDTI0MDUwNDIzNTk1OVowWzELMAkGA1UE
-# BhMCTkwxEjAQBgNVBAcMCVZlbGRob3ZlbjEbMBkGA1UECgwSSm9oYW5uZXMgQmls
-# bGVrZW5zMRswGQYDVQQDDBJKb2hhbm5lcyBCaWxsZWtlbnMwggEiMA0GCSqGSIb3
-# DQEBAQUAA4IBDwAwggEKAoIBAQCsfgRG81keOHalHfCUgxOa1Qy4VNOnGxB8SL8e
-# rjP9SfcF13McP7F1HGka5Be495pTZ+duGbaQMNozwg/5Dg9IRJEeBabeSSJJCbZo
-# SNpmUu7NNRRfidQxlPC81LxTVHxJ7In0MEfCVm7rWcri28MRCAuafqOfSE+hyb1Z
-# /tKyCyQ5RUq3kjs/CF+VfMHsJn6ZT63YqewRkwHuc7UogTTZKjhPJ9prGLTer8UX
-# UgvsGRbvhYZXIEuy+bmx/iJ1yRl1kX4nj6gUYzlhemOnlSDD66YOrkLDhXPMXLym
-# AN7h0/W5Bo//R5itgvdGBkXkWCKRASnq/9PTcoxW6mwtgU8xAgMBAAGjggGQMIIB
-# jDAfBgNVHSMEGDAWgBQO4TqoUzox1Yq+wbutZxoDha00DjAdBgNVHQ4EFgQUZWMy
-# gC0i1u2NZ1msk2Mm5nJm5AswDgYDVR0PAQH/BAQDAgeAMAwGA1UdEwEB/wQCMAAw
-# EwYDVR0lBAwwCgYIKwYBBQUHAwMwEQYJYIZIAYb4QgEBBAQDAgQQMEoGA1UdIARD
-# MEEwNQYMKwYBBAGyMQECAQMCMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-# by5jb20vQ1BTMAgGBmeBDAEEATBDBgNVHR8EPDA6MDigNqA0hjJodHRwOi8vY3Js
-# LnNlY3RpZ28uY29tL1NlY3RpZ29SU0FDb2RlU2lnbmluZ0NBLmNybDBzBggrBgEF
-# BQcBAQRnMGUwPgYIKwYBBQUHMAKGMmh0dHA6Ly9jcnQuc2VjdGlnby5jb20vU2Vj
-# dGlnb1JTQUNvZGVTaWduaW5nQ0EuY3J0MCMGCCsGAQUFBzABhhdodHRwOi8vb2Nz
-# cC5zZWN0aWdvLmNvbTANBgkqhkiG9w0BAQsFAAOCAQEARjv9ieRocb1DXRWm3XtY
-# jjuSRjlvkoPd9wS6DNfsGlSU42BFd9LCKSyRREZVu8FDq7dN0PhD4bBTT+k6AgrY
-# KG6f/8yUponOdxskv850SjN2S2FeVuR20pqActMrpd1+GCylG8mj8RGjdrLQ3QuX
-# qYKS68WJ39WWYdVB/8Ftajir5p6sAfwHErLhbJS6WwmYjGI/9SekossvU8mZjZwo
-# Gbu+fjZhPc4PhjbEh0ABSsPMfGjQQsg5zLFjg/P+cS6hgYI7qctToo0TexGe32DY
-# fFWHrHuBErW2qXEJvzSqM5OtLRD06a4lH5ZkhojhMOX9S8xDs/ArDKgX1j1Xm4Tu
-# DjCCBYEwggRpoAMCAQICEDlyRDr5IrdR19NsEN0xNZUwDQYJKoZIhvcNAQEMBQAw
-# ezELMAkGA1UEBhMCR0IxGzAZBgNVBAgMEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4G
-# A1UEBwwHU2FsZm9yZDEaMBgGA1UECgwRQ29tb2RvIENBIExpbWl0ZWQxITAfBgNV
-# BAMMGEFBQSBDZXJ0aWZpY2F0ZSBTZXJ2aWNlczAeFw0xOTAzMTIwMDAwMDBaFw0y
-# ODEyMzEyMzU5NTlaMIGIMQswCQYDVQQGEwJVUzETMBEGA1UECBMKTmV3IEplcnNl
-# eTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoTFVRoZSBVU0VSVFJVU1Qg
-# TmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0aW9uIEF1
-# dGhvcml0eTCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAIASZRc2DsPb
-# CLPQrFcNdu3NJ9NMrVCDYeKqIE0JLWQJ3M6Jn8w9qez2z8Hc8dOx1ns3KBErR9o5
-# xrw6GbRfpr19naNjQrZ28qk7K5H44m/Q7BYgkAk+4uh0yRi0kdRiZNt/owbxiBhq
-# kCI8vP4T8IcUe/bkH47U5FHGEWdGCFHLhhRUP7wz/n5snP8WnRi9UY41pqdmyHJn
-# 2yFmsdSbeAPAUDrozPDcvJ5M/q8FljUfV1q3/875PbcstvZU3cjnEjpNrkyKt1ya
-# tLcgPcp/IjSufjtoZgFE5wFORlObM2D3lL5TN5BzQ/Myw1Pv26r+dE5px2uMYJPe
-# xMcM3+EyrsyTO1F4lWeL7j1W/gzQaQ8bD/MlJmszbfduR/pzQ+V+DqVmsSl8MoRj
-# VYnEDcGTVDAZE6zTfTen6106bDVc20HXEtqpSQvf2ICKCZNijrVmzyWIzYS4sT+k
-# OQ/ZAp7rEkyVfPNrBaleFoPMuGfi6BOdzFuC00yz7Vv/3uVzrCM7LQC/NVV0CUnY
-# SVgaf5I25lGSDvMmfRxNF7zJ7EMm0L9BX0CpRET0medXh55QH1dUqD79dGMvsVBl
-# CeZYQi5DGky08CVHWfoEHpPUJkZKUIGy3r54t/xnFeHJV4QeD2PW6WK61l9VLupc
-# xigIBCU5uA4rqfJMlxwHPw1S9e3vL4IPAgMBAAGjgfIwge8wHwYDVR0jBBgwFoAU
-# oBEKIz6W8Qfs4q8p74Klf9AwpLQwHQYDVR0OBBYEFFN5v1qqK0rPVIDh2JvAnfKy
-# A2bLMA4GA1UdDwEB/wQEAwIBhjAPBgNVHRMBAf8EBTADAQH/MBEGA1UdIAQKMAgw
-# BgYEVR0gADBDBgNVHR8EPDA6MDigNqA0hjJodHRwOi8vY3JsLmNvbW9kb2NhLmNv
-# bS9BQUFDZXJ0aWZpY2F0ZVNlcnZpY2VzLmNybDA0BggrBgEFBQcBAQQoMCYwJAYI
-# KwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmNvbW9kb2NhLmNvbTANBgkqhkiG9w0BAQwF
-# AAOCAQEAGIdR3HQhPZyK4Ce3M9AuzOzw5steEd4ib5t1jp5y/uTW/qofnJYt7wNK
-# fq70jW9yPEM7wD/ruN9cqqnGrvL82O6je0P2hjZ8FODN9Pc//t64tIrwkZb+/UNk
-# fv3M0gGhfX34GRnJQisTv1iLuqSiZgR2iJFODIkUzqJNyTKzuugUGrxx8VvwQQuY
-# AAoiAxDlDLH5zZI3Ge078eQ6tvlFEyZ1r7uq7z97dzvSxAKRPRkA0xdcOds/exgN
-# Rc2ThZYvXd9ZFk8/Ub3VRRg/7UqO6AZhdCMWtQ1QcydER38QXYkqa4UxFMToqWpM
-# gLxqeM+4f452cpkMnf7XkQgWoaNflTCCBfUwggPdoAMCAQICEB2iSDBvmyYY0ILg
-# ln0z02owDQYJKoZIhvcNAQEMBQAwgYgxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpO
-# ZXcgSmVyc2V5MRQwEgYDVQQHEwtKZXJzZXkgQ2l0eTEeMBwGA1UEChMVVGhlIFVT
-# RVJUUlVTVCBOZXR3b3JrMS4wLAYDVQQDEyVVU0VSVHJ1c3QgUlNBIENlcnRpZmlj
-# YXRpb24gQXV0aG9yaXR5MB4XDTE4MTEwMjAwMDAwMFoXDTMwMTIzMTIzNTk1OVow
-# fDELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4G
-# A1UEBxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVkMSQwIgYDVQQD
-# ExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0EwggEiMA0GCSqGSIb3DQEBAQUA
-# A4IBDwAwggEKAoIBAQCGIo0yhXoYn0nwli9jCB4t3HyfFM/jJrYlZilAhlRGdDFi
-# xRDtsocnppnLlTDAVvWkdcapDlBipVGREGrgS2Ku/fD4GKyn/+4uMyD6DBmJqGx7
-# rQDDYaHcaWVtH24nlteXUYam9CflfGqLlR5bYNV+1xaSnAAvaPeX7Wpyvjg7Y96P
-# v25MQV0SIAhZ6DnNj9LWzwa0VwW2TqE+V2sfmLzEYtYbC43HZhtKn52BxHJAteJf
-# 7wtF/6POF6YtVbC3sLxUap28jVZTxvC6eVBJLPcDuf4vZTXyIuosB69G2flGHNyM
-# fHEo8/6nxhTdVZFuihEN3wYklX0Pp6F8OtqGNWHTAgMBAAGjggFkMIIBYDAfBgNV
-# HSMEGDAWgBRTeb9aqitKz1SA4dibwJ3ysgNmyzAdBgNVHQ4EFgQUDuE6qFM6MdWK
-# vsG7rWcaA4WtNA4wDgYDVR0PAQH/BAQDAgGGMBIGA1UdEwEB/wQIMAYBAf8CAQAw
-# HQYDVR0lBBYwFAYIKwYBBQUHAwMGCCsGAQUFBwMIMBEGA1UdIAQKMAgwBgYEVR0g
-# ADBQBgNVHR8ESTBHMEWgQ6BBhj9odHRwOi8vY3JsLnVzZXJ0cnVzdC5jb20vVVNF
-# UlRydXN0UlNBQ2VydGlmaWNhdGlvbkF1dGhvcml0eS5jcmwwdgYIKwYBBQUHAQEE
-# ajBoMD8GCCsGAQUFBzAChjNodHRwOi8vY3J0LnVzZXJ0cnVzdC5jb20vVVNFUlRy
-# dXN0UlNBQWRkVHJ1c3RDQS5jcnQwJQYIKwYBBQUHMAGGGWh0dHA6Ly9vY3NwLnVz
-# ZXJ0cnVzdC5jb20wDQYJKoZIhvcNAQEMBQADggIBAE1jUO1HNEphpNveaiqMm/EA
-# AB4dYns61zLC9rPgY7P7YQCImhttEAcET7646ol4IusPRuzzRl5ARokS9At3Wpwq
-# QTr81vTr5/cVlTPDoYMot94v5JT3hTODLUpASL+awk9KsY8k9LOBN9O3ZLCmI2pZ
-# aFJCX/8E6+F0ZXkI9amT3mtxQJmWunjxucjiwwgWsatjWsgVgG10Xkp1fqW4w2y1
-# z99KeYdcx0BNYzX2MNPPtQoOCwR/oEuuu6Ol0IQAkz5TXTSlADVpbL6fICUQDRn7
-# UJBhvjmPeo5N9p8OHv4HURJmgyYZSJXOSsnBf/M6BZv5b9+If8AjntIeQ3pFMcGc
-# TanwWbJZGehqjSkEAnd8S0vNcL46slVaeD68u28DECV3FTSK+TbMQ5Lkuk/xYpMo
-# JVcp+1EZx6ElQGqEV8aynbG8HArafGd+fS7pKEwYfsR7MUFxmksp7As9V1DSyt39
-# ngVR5UR43QHesXWYDVQk/fBO4+L4g71yuss9Ou7wXheSaG3IYfmm8SoKC6W59J7u
-# mDIFhZ7r+YMp08Ysfb06dy6LN0KgaoLtO0qqlBCk4Q34F8W2WnkzGJLjtXX4oemO
-# CiUe5B7xn1qHI/+fpFGe+zmAEc3btcSnqIBv5VPU4OOiwtJbGvoyJi1qV3AcPKRY
-# LqPzW0sH3DJZ84enGm1YMIIG7DCCBNSgAwIBAgIQMA9vrN1mmHR8qUY2p3gtuTAN
-# BgkqhkiG9w0BAQwFADCBiDELMAkGA1UEBhMCVVMxEzARBgNVBAgTCk5ldyBKZXJz
-# ZXkxFDASBgNVBAcTC0plcnNleSBDaXR5MR4wHAYDVQQKExVUaGUgVVNFUlRSVVNU
-# IE5ldHdvcmsxLjAsBgNVBAMTJVVTRVJUcnVzdCBSU0EgQ2VydGlmaWNhdGlvbiBB
-# dXRob3JpdHkwHhcNMTkwNTAyMDAwMDAwWhcNMzgwMTE4MjM1OTU5WjB9MQswCQYD
-# VQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdT
-# YWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3Rp
-# Z28gUlNBIFRpbWUgU3RhbXBpbmcgQ0EwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAw
-# ggIKAoICAQDIGwGv2Sx+iJl9AZg/IJC9nIAhVJO5z6A+U++zWsB21hoEpc5Hg7Xr
-# xMxJNMvzRWW5+adkFiYJ+9UyUnkuyWPCE5u2hj8BBZJmbyGr1XEQeYf0RirNxFrJ
-# 29ddSU1yVg/cyeNTmDoqHvzOWEnTv/M5u7mkI0Ks0BXDf56iXNc48RaycNOjxN+z
-# xXKsLgp3/A2UUrf8H5VzJD0BKLwPDU+zkQGObp0ndVXRFzs0IXuXAZSvf4DP0REK
-# V4TJf1bgvUacgr6Unb+0ILBgfrhN9Q0/29DqhYyKVnHRLZRMyIw80xSinL0m/9NT
-# IMdgaZtYClT0Bef9Maz5yIUXx7gpGaQpL0bj3duRX58/Nj4OMGcrRrc1r5a+2kxg
-# zKi7nw0U1BjEMJh0giHPYla1IXMSHv2qyghYh3ekFesZVf/QOVQtJu5FGjpvzdeE
-# 8NfwKMVPZIMC1Pvi3vG8Aij0bdonigbSlofe6GsO8Ft96XZpkyAcSpcsdxkrk5WY
-# nJee647BeFbGRCXfBhKaBi2fA179g6JTZ8qx+o2hZMmIklnLqEbAyfKm/31X2xJ2
-# +opBJNQb/HKlFKLUrUMcpEmLQTkUAx4p+hulIq6lw02C0I3aa7fb9xhAV3PwcaP7
-# Sn1FNsH3jYL6uckNU4B9+rY5WDLvbxhQiddPnTO9GrWdod6VQXqngwIDAQABo4IB
-# WjCCAVYwHwYDVR0jBBgwFoAUU3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYE
-# FBqh+GEZIA/DQXdFKI7RNV8GEgRVMA4GA1UdDwEB/wQEAwIBhjASBgNVHRMBAf8E
-# CDAGAQH/AgEAMBMGA1UdJQQMMAoGCCsGAQUFBwMIMBEGA1UdIAQKMAgwBgYEVR0g
-# ADBQBgNVHR8ESTBHMEWgQ6BBhj9odHRwOi8vY3JsLnVzZXJ0cnVzdC5jb20vVVNF
-# UlRydXN0UlNBQ2VydGlmaWNhdGlvbkF1dGhvcml0eS5jcmwwdgYIKwYBBQUHAQEE
-# ajBoMD8GCCsGAQUFBzAChjNodHRwOi8vY3J0LnVzZXJ0cnVzdC5jb20vVVNFUlRy
-# dXN0UlNBQWRkVHJ1c3RDQS5jcnQwJQYIKwYBBQUHMAGGGWh0dHA6Ly9vY3NwLnVz
-# ZXJ0cnVzdC5jb20wDQYJKoZIhvcNAQEMBQADggIBAG1UgaUzXRbhtVOBkXXfA3oy
-# Cy0lhBGysNsqfSoF9bw7J/RaoLlJWZApbGHLtVDb4n35nwDvQMOt0+LkVvlYQc/x
-# QuUQff+wdB+PxlwJ+TNe6qAcJlhc87QRD9XVw+K81Vh4v0h24URnbY+wQxAPjeT5
-# OGK/EwHFhaNMxcyyUzCVpNb0llYIuM1cfwGWvnJSajtCN3wWeDmTk5SbsdyybUFt
-# Z83Jb5A9f0VywRsj1sJVhGbks8VmBvbz1kteraMrQoohkv6ob1olcGKBc2NeoLvY
-# 3NdK0z2vgwY4Eh0khy3k/ALWPncEvAQ2ted3y5wujSMYuaPCRx3wXdahc1cFaJqn
-# yTdlHb7qvNhCg0MFpYumCf/RoZSmTqo9CfUFbLfSZFrYKiLCS53xOV5M3kg9mzSW
-# mglfjv33sVKRzj+J9hyhtal1H3G/W0NdZT1QgW6r8NDT/LKzH7aZlib0PHmLXGTM
-# ze4nmuWgwAxyh8FuTVrTHurwROYybxzrF06Uw3hlIDsPQaof6aFBnf6xuKBlKjTg
-# 3qj5PObBMLvAoGMs/FwWAKjQxH/qEZ0eBsambTJdtDgJK0kHqv3sMNrxpy/Pt/36
-# 0KOE2See+wFmd7lWEOEgbsausfm2usg1XTN2jvF8IAwqd661ogKGuinutFoAsYyr
-# 4/kKyVRd1LlqdJ69SK6YMIIHBzCCBO+gAwIBAgIRAIx3oACP9NGwxj2fOkiDjWsw
-# DQYJKoZIhvcNAQEMBQAwfTELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIg
-# TWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBM
-# aW1pdGVkMSUwIwYDVQQDExxTZWN0aWdvIFJTQSBUaW1lIFN0YW1waW5nIENBMB4X
-# DTIwMTAyMzAwMDAwMFoXDTMyMDEyMjIzNTk1OVowgYQxCzAJBgNVBAYTAkdCMRsw
-# GQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAW
-# BgNVBAoTD1NlY3RpZ28gTGltaXRlZDEsMCoGA1UEAwwjU2VjdGlnbyBSU0EgVGlt
-# ZSBTdGFtcGluZyBTaWduZXIgIzIwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIK
-# AoICAQCRh0ssi8HxHqCe0wfGAcpSsL55eV0JZgYtLzV9u8D7J9pCalkbJUzq70DW
-# mn4yyGqBfbRcPlYQgTU6IjaM+/ggKYesdNAbYrw/ZIcCX+/FgO8GHNxeTpOHuJre
-# TAdOhcxwxQ177MPZ45fpyxnbVkVs7ksgbMk+bP3wm/Eo+JGZqvxawZqCIDq37+fW
-# uCVJwjkbh4E5y8O3Os2fUAQfGpmkgAJNHQWoVdNtUoCD5m5IpV/BiVhgiu/xrM2H
-# YxiOdMuEh0FpY4G89h+qfNfBQc6tq3aLIIDULZUHjcf1CxcemuXWmWlRx06mnSlv
-# 53mTDTJjU67MximKIMFgxvICLMT5yCLf+SeCoYNRwrzJghohhLKXvNSvRByWgiKV
-# KoVUrvH9Pkl0dPyOrj+lcvTDWgGqUKWLdpUbZuvv2t+ULtka60wnfUwF9/gjXcRX
-# yCYFevyBI19UCTgqYtWqyt/tz1OrH/ZEnNWZWcVWZFv3jlIPZvyYP0QGE2Ru6eEV
-# YFClsezPuOjJC77FhPfdCp3avClsPVbtv3hntlvIXhQcua+ELXei9zmVN29OfxzG
-# PATWMcV+7z3oUX5xrSR0Gyzc+Xyq78J2SWhi1Yv1A9++fY4PNnVGW5N2xIPugr4s
-# rjcS8bxWw+StQ8O3ZpZelDL6oPariVD6zqDzCIEa0USnzPe4MQIDAQABo4IBeDCC
-# AXQwHwYDVR0jBBgwFoAUGqH4YRkgD8NBd0UojtE1XwYSBFUwHQYDVR0OBBYEFGl1
-# N3u7nTVCTr9X05rbnwHRrt7QMA4GA1UdDwEB/wQEAwIGwDAMBgNVHRMBAf8EAjAA
-# MBYGA1UdJQEB/wQMMAoGCCsGAQUFBwMIMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQEC
-# AQMIMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMEQGA1Ud
-# HwQ9MDswOaA3oDWGM2h0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQVRp
-# bWVTdGFtcGluZ0NBLmNybDB0BggrBgEFBQcBAQRoMGYwPwYIKwYBBQUHMAKGM2h0
-# dHA6Ly9jcnQuc2VjdGlnby5jb20vU2VjdGlnb1JTQVRpbWVTdGFtcGluZ0NBLmNy
-# dDAjBggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wDQYJKoZIhvcN
-# AQEMBQADggIBAEoDeJBCM+x7GoMJNjOYVbudQAYwa0Vq8ZQOGVD/WyVeO+E5xFu6
-# 6ZWQNze93/tk7OWCt5XMV1VwS070qIfdIoWmV7u4ISfUoCoxlIoHIZ6Kvaca9QIV
-# y0RQmYzsProDd6aCApDCLpOpviE0dWO54C0PzwE3y42i+rhamq6hep4TkxlVjwmQ
-# Lt/qiBcW62nW4SW9RQiXgNdUIChPynuzs6XSALBgNGXE48XDpeS6hap6adt1pD55
-# aJo2i0OuNtRhcjwOhWINoF5w22QvAcfBoccklKOyPG6yXqLQ+qjRuCUcFubA1X9o
-# GsRlKTUqLYi86q501oLnwIi44U948FzKwEBcwp/VMhws2jysNvcGUpqjQDAXsCkW
-# mcmqt4hJ9+gLJTO1P22vn18KVt8SscPuzpF36CAT6Vwkx+pEC0rmE4QcTesNtbiG
-# oDCni6GftCzMwBYjyZHlQgNLgM7kTeYqAT7AXoWgJKEXQNXb2+eYEKTx6hkbgFT6
-# R4nomIGpdcAO39BolHmhoJ6OtrdCZsvZ2WsvTdjePjIeIOTsnE1CjZ3HM5mCN0TU
-# JikmQI54L7nu+i/x8Y/+ULh43RSW3hwOcLAqhWqxbGjpKuQQK24h/dN8nTfkKgbW
-# w/HXaONPB3mBCBP+smRe6bE85tB4I7IJLOImYr87qZdRzMdEMoGyr8/fMYIFkzCC
-# BY8CAQEwgZAwfDELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hl
-# c3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVk
-# MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
-# /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
-# oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgBDzoP62gV9pnvWVuyCMZj9Em
-# wDX5ttW8MOk21xTG4MIwDQYJKoZIhvcNAQEBBQAEggEAktESniToROvnWDMmqzh2
-# WScSRZ2hGB2qcc77NPWLH487KVOSOeDW1VkHrD89v3NpgV7twaYkwQEEYP81ehNF
-# bUzUZ81hLGk/SozfdYx2FGlql6LdvfqYwzC1E/jLW06p/s8eM5e+94nQzIPZDPaI
-# sMdwwe+L7VSUm8ag4S3SC0oOfmPxH50LzDQXmjavUa2cJZKqTt4Ab0OnAxVY60WO
-# PouCVHCTu9lTpwSU3/qnx+5PyKaK8MuwTrTmitLMwzy8kvN0D7NQOVb/eju10IqG
-# 8MPqQgrdjVbMfAbkt6lf+3mhGm+KWbtRrYtx4HrT06Fkr483+CWmGfOuaJB7Z+pr
-# B6GCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
-# QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
-# MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
-# IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
-# AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwNDAzMTkwNjE3WjA/BgkqhkiG9w0BCQQxMgQwKFn8fI1LWu4Ske6em7n2bOLE
-# 69ux0RoWzXmb1UkIa9a3DdYfW1z5F9uLUiJBw//nMA0GCSqGSIb3DQEBAQUABIIC
-# AEJD61fnGJSXraKvoENS6DkefYo7RHfbKXqMGAfUmdodsUs10S5rtKUkVSqDEu4+
-# IX9keYXiYVEW9FDyfq2rbUNFSRIHu4jfSl59WU7UYIlYJe8Skwot03knh8VV0rjN
-# CGUo9SP+k3yArUaDn7sfEds4P/1R+ALcjj8y8WmehGeZg4ry46OCj0uEDksS6fAA
-# lmECR9L4Qp7c8EBq4CYHm8eoUmhIorffGAXvG69ERs6sCvySKVsUzLLC/o5DqmdJ
-# nD2OWrMgXlyk7dbgDsDT8iPvqGZI+D9/LXureNeoHzbJrTc/J0BFZohDgZuJ/XdQ
-# DNtd++ktWzD8OfMW0EUJi1i9ai8q9kbzmeqTrT5F+vIUezranUsr3AmDjv4TqOaj
-# W/Xhu2QLG+3lG23Gd/NstGtvlbCvHzKKJOeqsOCrxOonJBhCiPL43+TC3TuArvJM
-# GCMxUytmJP5v/Dc58W87R5LnylZY8HA4C5j6ZVIXpCiQkAYC1KehHqoLQlBxfasL
-# oLdVOTAG2xnC+7eAlVFVUuV2BQiKMP47yEx3fC5PvXbm73Xb1dCQ8BmcLE+sk+Fw
-# oSi27K6AVaj6L846OoKaygxCWUmeAE6W/rMtc9sk7mPTvsOll5JMNSIn7V381sop
-# JoG9Hl/rSc8g5cqmTz82GmGxbHE3eBs1n9hYchirNSzN
-# SIG # End signature block
+

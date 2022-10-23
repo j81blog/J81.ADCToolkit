@@ -44,7 +44,7 @@ function Invoke-ADCAddLbgroup {
         An example how to add lbgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbgroup
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup/
         Requires  : PowerShell v5.1 and up
@@ -179,7 +179,7 @@ function Invoke-ADCUpdateLbgroup {
         An example how to update lbgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLbgroup
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup/
         Requires  : PowerShell v5.1 and up
@@ -315,7 +315,7 @@ function Invoke-ADCUnsetLbgroup {
         An example how to unset lbgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLbgroup
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup
         Requires  : PowerShell v5.1 and up
@@ -403,7 +403,7 @@ function Invoke-ADCDeleteLbgroup {
         An example how to delete lbgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbgroup
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup/
         Requires  : PowerShell v5.1 and up
@@ -463,7 +463,7 @@ function Invoke-ADCRenameLbgroup {
         An example how to rename lbgroup configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameLbgroup
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup/
         Requires  : PowerShell v5.1 and up
@@ -553,7 +553,7 @@ function Invoke-ADCGetLbgroup {
         Get lbgroup data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbgroup
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup/
         Requires  : PowerShell v5.1 and up
@@ -653,7 +653,7 @@ function Invoke-ADCGetLbgroupbinding {
         Get lbgroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbgroupbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -731,7 +731,7 @@ function Invoke-ADCAddLbgrouplbvserverbinding {
         An example how to add lbgroup_lbvserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbgrouplbvserverbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -750,7 +750,7 @@ function Invoke-ADCAddLbgrouplbvserverbinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(Mandatory)]
@@ -802,7 +802,7 @@ function Invoke-ADCDeleteLbgrouplbvserverbinding {
         An example how to delete lbgroup_lbvserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbgrouplbvserverbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -881,7 +881,7 @@ function Invoke-ADCGetLbgrouplbvserverbinding {
         Get lbgroup_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbgrouplbvserverbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbgroup_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -900,7 +900,7 @@ function Invoke-ADCGetLbgrouplbvserverbinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -962,7 +962,7 @@ function Invoke-ADCAddLbmetrictable {
         An example how to add lbmetrictable configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbmetrictable
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmetrictable/
         Requires  : PowerShell v5.1 and up
@@ -980,7 +980,7 @@ function Invoke-ADCAddLbmetrictable {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 31)]
         [string]$Metrictable,
 
@@ -1027,7 +1027,7 @@ function Invoke-ADCDeleteLbmetrictable {
         An example how to delete lbmetrictable configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbmetrictable
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmetrictable/
         Requires  : PowerShell v5.1 and up
@@ -1090,7 +1090,7 @@ function Invoke-ADCUpdateLbmetrictable {
         An example how to update lbmetrictable configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLbmetrictable
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmetrictable/
         Requires  : PowerShell v5.1 and up
@@ -1108,7 +1108,7 @@ function Invoke-ADCUpdateLbmetrictable {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(Mandatory)]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 31)]
         [string]$Metrictable,
 
@@ -1187,7 +1187,7 @@ function Invoke-ADCGetLbmetrictable {
         Get lbmetrictable data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbmetrictable
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmetrictable/
         Requires  : PowerShell v5.1 and up
@@ -1205,7 +1205,7 @@ function Invoke-ADCGetLbmetrictable {
         [Object]$ADCSession = (Get-ADCSession),
 
         [Parameter(ParameterSetName = 'GetByResource')]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [ValidateLength(1, 31)]
         [string]$Metrictable,
 
@@ -1288,7 +1288,7 @@ function Invoke-ADCGetLbmetrictablebinding {
         Get lbmetrictable_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbmetrictablebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmetrictable_binding/
         Requires  : PowerShell v5.1 and up
@@ -1368,7 +1368,7 @@ function Invoke-ADCAddLbmetrictablemetricbinding {
         An example how to add lbmetrictable_metric_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbmetrictablemetricbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmetrictable_metric_binding/
         Requires  : PowerShell v5.1 and up
@@ -1444,7 +1444,7 @@ function Invoke-ADCDeleteLbmetrictablemetricbinding {
         An example how to delete lbmetrictable_metric_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbmetrictablemetricbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmetrictable_metric_binding/
         Requires  : PowerShell v5.1 and up
@@ -1523,7 +1523,7 @@ function Invoke-ADCGetLbmetrictablemetricbinding {
         Get lbmetrictable_metric_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbmetrictablemetricbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmetrictable_metric_binding/
         Requires  : PowerShell v5.1 and up
@@ -1621,7 +1621,7 @@ function Invoke-ADCGetLbmonbindings {
         Get lbmonbindings data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbmonbindings
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonbindings/
         Requires  : PowerShell v5.1 and up
@@ -1718,7 +1718,7 @@ function Invoke-ADCGetLbmonbindingsbinding {
         Get lbmonbindings_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbmonbindingsbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonbindings_binding/
         Requires  : PowerShell v5.1 and up
@@ -1813,7 +1813,7 @@ function Invoke-ADCGetLbmonbindingsgslbservicegroupbinding {
         Get lbmonbindings_gslbservicegroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbmonbindingsgslbservicegroupbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonbindings_gslbservicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -1911,7 +1911,7 @@ function Invoke-ADCGetLbmonbindingsservicegroupbinding {
         Get lbmonbindings_servicegroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbmonbindingsservicegroupbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonbindings_servicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -2009,7 +2009,7 @@ function Invoke-ADCGetLbmonbindingsservicebinding {
         Get lbmonbindings_service_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbmonbindingsservicebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonbindings_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -2319,7 +2319,7 @@ function Invoke-ADCAddLbmonitor {
         An example how to add lbmonitor configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbmonitor
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor/
         Requires  : PowerShell v5.1 and up
@@ -2338,7 +2338,7 @@ function Invoke-ADCAddLbmonitor {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Monitorname,
 
         [Parameter(Mandatory)]
@@ -2767,7 +2767,7 @@ function Invoke-ADCDeleteLbmonitor {
         An example how to delete lbmonitor configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbmonitor
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor/
         Requires  : PowerShell v5.1 and up
@@ -3067,7 +3067,7 @@ function Invoke-ADCUpdateLbmonitor {
         An example how to update lbmonitor configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLbmonitor
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor/
         Requires  : PowerShell v5.1 and up
@@ -3086,7 +3086,7 @@ function Invoke-ADCUpdateLbmonitor {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Monitorname,
 
         [Parameter(Mandatory)]
@@ -3720,7 +3720,7 @@ function Invoke-ADCUnsetLbmonitor {
         An example how to unset lbmonitor configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLbmonitor
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor
         Requires  : PowerShell v5.1 and up
@@ -3738,7 +3738,7 @@ function Invoke-ADCUnsetLbmonitor {
         [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Monitorname,
 
         [ValidateSet('PING', 'TCP', 'HTTP', 'TCP-ECV', 'HTTP-ECV', 'UDP-ECV', 'DNS', 'FTP', 'LDNS-PING', 'LDNS-TCP', 'LDNS-DNS', 'RADIUS', 'USER', 'HTTP-INLINE', 'SIP-UDP', 'SIP-TCP', 'LOAD', 'FTP-EXTENDED', 'SMTP', 'SNMP', 'NNTP', 'MYSQL', 'MYSQL-ECV', 'MSSQL-ECV', 'ORACLE-ECV', 'LDAP', 'POP3', 'CITRIX-XML-SERVICE', 'CITRIX-WEB-INTERFACE', 'DNS-TCP', 'RTSP', 'ARP', 'CITRIX-AG', 'CITRIX-AAC-LOGINPAGE', 'CITRIX-AAC-LAS', 'CITRIX-XD-DDC', 'ND6', 'CITRIX-WI-EXTENDED', 'DIAMETER', 'RADIUS_ACCOUNTING', 'STOREFRONT', 'APPC', 'SMPP', 'CITRIX-XNC-ECV', 'CITRIX-XDM', 'CITRIX-STA-SERVICE', 'CITRIX-STA-SERVICE-NHOP', 'MQTT', 'HTTP2')]
@@ -4050,7 +4050,7 @@ function Invoke-ADCEnableLbmonitor {
         An example how to enable lbmonitor configuration Object(s).
     .NOTES
         File Name : Invoke-ADCEnableLbmonitor
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor/
         Requires  : PowerShell v5.1 and up
@@ -4074,7 +4074,7 @@ function Invoke-ADCEnableLbmonitor {
         [string]$Servicegroupname,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Monitorname 
 
     )
@@ -4121,7 +4121,7 @@ function Invoke-ADCDisableLbmonitor {
         An example how to disable lbmonitor configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDisableLbmonitor
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor/
         Requires  : PowerShell v5.1 and up
@@ -4145,7 +4145,7 @@ function Invoke-ADCDisableLbmonitor {
         [string]$Servicegroupname,
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Monitorname 
 
     )
@@ -4209,7 +4209,7 @@ function Invoke-ADCGetLbmonitor {
         Get lbmonitor data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbmonitor
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor/
         Requires  : PowerShell v5.1 and up
@@ -4228,7 +4228,7 @@ function Invoke-ADCGetLbmonitor {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Monitorname,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -4310,7 +4310,7 @@ function Invoke-ADCGetLbmonitorbinding {
         Get lbmonitor_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbmonitorbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_binding/
         Requires  : PowerShell v5.1 and up
@@ -4392,7 +4392,7 @@ function Invoke-ADCAddLbmonitormetricbinding {
         An example how to add lbmonitor_metric_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbmonitormetricbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_metric_binding/
         Requires  : PowerShell v5.1 and up
@@ -4467,7 +4467,7 @@ function Invoke-ADCDeleteLbmonitormetricbinding {
         An example how to delete lbmonitor_metric_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbmonitormetricbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_metric_binding/
         Requires  : PowerShell v5.1 and up
@@ -4546,7 +4546,7 @@ function Invoke-ADCGetLbmonitormetricbinding {
         Get lbmonitor_metric_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbmonitormetricbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_metric_binding/
         Requires  : PowerShell v5.1 and up
@@ -4637,7 +4637,7 @@ function Invoke-ADCAddLbmonitorservicegroupbinding {
         An example how to add lbmonitor_servicegroup_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbmonitorservicegroupbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_servicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -4721,7 +4721,7 @@ function Invoke-ADCDeleteLbmonitorservicegroupbinding {
         An example how to delete lbmonitor_servicegroup_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbmonitorservicegroupbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_servicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -4796,7 +4796,7 @@ function Invoke-ADCAddLbmonitorservicebinding {
         An example how to add lbmonitor_service_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbmonitorservicebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -4880,7 +4880,7 @@ function Invoke-ADCDeleteLbmonitorservicebinding {
         An example how to delete lbmonitor_service_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbmonitorservicebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -4953,7 +4953,7 @@ function Invoke-ADCAddLbmonitorsslcertkeybinding {
         An example how to add lbmonitor_sslcertkey_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbmonitorsslcertkeybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -5033,7 +5033,7 @@ function Invoke-ADCDeleteLbmonitorsslcertkeybinding {
         An example how to delete lbmonitor_sslcertkey_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbmonitorsslcertkeybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -5115,7 +5115,7 @@ function Invoke-ADCGetLbmonitorsslcertkeybinding {
         Get lbmonitor_sslcertkey_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbmonitorsslcertkeybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbmonitor_sslcertkey_binding/
         Requires  : PowerShell v5.1 and up
@@ -5264,7 +5264,7 @@ function Invoke-ADCUpdateLbparameter {
         An example how to update lbparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLbparameter
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbparameter/
         Requires  : PowerShell v5.1 and up
@@ -5466,7 +5466,7 @@ function Invoke-ADCUnsetLbparameter {
         An example how to unset lbparameter configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLbparameter
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbparameter
         Requires  : PowerShell v5.1 and up
@@ -5597,7 +5597,7 @@ function Invoke-ADCGetLbparameter {
         Get lbparameter data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbparameter
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbparameter/
         Requires  : PowerShell v5.1 and up
@@ -5669,7 +5669,7 @@ function Invoke-ADCClearLbpersistentsessions {
         An example how to clear lbpersistentsessions configuration Object(s).
     .NOTES
         File Name : Invoke-ADCClearLbpersistentsessions
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbpersistentsessions/
         Requires  : PowerShell v5.1 and up
@@ -5751,7 +5751,7 @@ function Invoke-ADCGetLbpersistentsessions {
         Get lbpersistentsessions data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbpersistentsessions
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbpersistentsessions/
         Requires  : PowerShell v5.1 and up
@@ -5878,7 +5878,7 @@ function Invoke-ADCAddLbprofile {
         An example how to add lbprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbprofile/
         Requires  : PowerShell v5.1 and up
@@ -5981,7 +5981,7 @@ function Invoke-ADCDeleteLbprofile {
         An example how to delete lbprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbprofile/
         Requires  : PowerShell v5.1 and up
@@ -6078,7 +6078,7 @@ function Invoke-ADCUpdateLbprofile {
         An example how to update lbprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLbprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbprofile/
         Requires  : PowerShell v5.1 and up
@@ -6220,7 +6220,7 @@ function Invoke-ADCUnsetLbprofile {
         An example how to unset lbprofile configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLbprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbprofile
         Requires  : PowerShell v5.1 and up
@@ -6329,7 +6329,7 @@ function Invoke-ADCGetLbprofile {
         Get lbprofile data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbprofile
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbprofile/
         Requires  : PowerShell v5.1 and up
@@ -6417,7 +6417,7 @@ function Invoke-ADCAddLbroute {
         An example how to add lbroute configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbroute
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbroute/
         Requires  : PowerShell v5.1 and up
@@ -6490,7 +6490,7 @@ function Invoke-ADCDeleteLbroute {
         An example how to delete lbroute configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbroute
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbroute/
         Requires  : PowerShell v5.1 and up
@@ -6570,7 +6570,7 @@ function Invoke-ADCGetLbroute {
         Get lbroute data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbroute
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbroute/
         Requires  : PowerShell v5.1 and up
@@ -6651,7 +6651,7 @@ function Invoke-ADCAddLbroute6 {
         An example how to add lbroute6 configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbroute6
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbroute6/
         Requires  : PowerShell v5.1 and up
@@ -6718,7 +6718,7 @@ function Invoke-ADCDeleteLbroute6 {
         An example how to delete lbroute6 configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbroute6
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbroute6/
         Requires  : PowerShell v5.1 and up
@@ -6795,7 +6795,7 @@ function Invoke-ADCGetLbroute6 {
         Get lbroute6 data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbroute6
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbroute6/
         Requires  : PowerShell v5.1 and up
@@ -6887,7 +6887,7 @@ function Invoke-ADCUpdateLbsipparameters {
         An example how to update lbsipparameters configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLbsipparameters
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbsipparameters/
         Requires  : PowerShell v5.1 and up
@@ -6978,7 +6978,7 @@ function Invoke-ADCUnsetLbsipparameters {
         An example how to unset lbsipparameters configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLbsipparameters
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbsipparameters
         Requires  : PowerShell v5.1 and up
@@ -7067,7 +7067,7 @@ function Invoke-ADCGetLbsipparameters {
         Get lbsipparameters data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbsipparameters
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbsipparameters/
         Requires  : PowerShell v5.1 and up
@@ -7447,7 +7447,7 @@ function Invoke-ADCAddLbvserver {
         An example how to add lbvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvserver
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
         Requires  : PowerShell v5.1 and up
@@ -7466,7 +7466,7 @@ function Invoke-ADCAddLbvserver {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(Mandatory)]
@@ -7883,7 +7883,7 @@ function Invoke-ADCDeleteLbvserver {
         An example how to delete lbvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvserver
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
         Requires  : PowerShell v5.1 and up
@@ -8236,7 +8236,7 @@ function Invoke-ADCUpdateLbvserver {
         An example how to update lbvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLbvserver
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
         Requires  : PowerShell v5.1 and up
@@ -8255,7 +8255,7 @@ function Invoke-ADCUpdateLbvserver {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Ipv46,
@@ -8932,7 +8932,7 @@ function Invoke-ADCUnsetLbvserver {
         An example how to unset lbvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLbvserver
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver
         Requires  : PowerShell v5.1 and up
@@ -8950,7 +8950,7 @@ function Invoke-ADCUnsetLbvserver {
         [Object]$ADCSession = (Get-ADCSession),
 
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Boolean]$backupvserver,
@@ -9250,7 +9250,7 @@ function Invoke-ADCEnableLbvserver {
         An example how to enable lbvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCEnableLbvserver
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
         Requires  : PowerShell v5.1 and up
@@ -9269,7 +9269,7 @@ function Invoke-ADCEnableLbvserver {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name 
 
     )
@@ -9310,7 +9310,7 @@ function Invoke-ADCDisableLbvserver {
         An example how to disable lbvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDisableLbvserver
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
         Requires  : PowerShell v5.1 and up
@@ -9329,7 +9329,7 @@ function Invoke-ADCDisableLbvserver {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name 
 
     )
@@ -9374,7 +9374,7 @@ function Invoke-ADCRenameLbvserver {
         An example how to rename lbvserver configuration Object(s).
     .NOTES
         File Name : Invoke-ADCRenameLbvserver
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
         Requires  : PowerShell v5.1 and up
@@ -9393,7 +9393,7 @@ function Invoke-ADCRenameLbvserver {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(Mandatory)]
@@ -9466,7 +9466,7 @@ function Invoke-ADCGetLbvserver {
         Get lbvserver data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserver
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver/
         Requires  : PowerShell v5.1 and up
@@ -9485,7 +9485,7 @@ function Invoke-ADCGetLbvserver {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -9553,7 +9553,7 @@ function Invoke-ADCAddLbvserveranalyticsprofilebinding {
         An example how to add lbvserver_analyticsprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvserveranalyticsprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -9572,7 +9572,7 @@ function Invoke-ADCAddLbvserveranalyticsprofilebinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Analyticsprofile,
@@ -9621,7 +9621,7 @@ function Invoke-ADCDeleteLbvserveranalyticsprofilebinding {
         An example how to delete lbvserver_analyticsprofile_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvserveranalyticsprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -9700,7 +9700,7 @@ function Invoke-ADCGetLbvserveranalyticsprofilebinding {
         Get lbvserver_analyticsprofile_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserveranalyticsprofilebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_analyticsprofile_binding/
         Requires  : PowerShell v5.1 and up
@@ -9719,7 +9719,7 @@ function Invoke-ADCGetLbvserveranalyticsprofilebinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -9796,7 +9796,7 @@ function Invoke-ADCAddLbvserverappflowpolicybinding {
         An example how to add lbvserver_appflowpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvserverappflowpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9815,7 +9815,7 @@ function Invoke-ADCAddLbvserverappflowpolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -9889,7 +9889,7 @@ function Invoke-ADCDeleteLbvserverappflowpolicybinding {
         An example how to delete lbvserver_appflowpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverappflowpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9974,7 +9974,7 @@ function Invoke-ADCGetLbvserverappflowpolicybinding {
         Get lbvserver_appflowpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverappflowpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_appflowpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -9993,7 +9993,7 @@ function Invoke-ADCGetLbvserverappflowpolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -10070,7 +10070,7 @@ function Invoke-ADCAddLbvserverappfwpolicybinding {
         An example how to add lbvserver_appfwpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvserverappfwpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10089,7 +10089,7 @@ function Invoke-ADCAddLbvserverappfwpolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -10163,7 +10163,7 @@ function Invoke-ADCDeleteLbvserverappfwpolicybinding {
         An example how to delete lbvserver_appfwpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverappfwpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10248,7 +10248,7 @@ function Invoke-ADCGetLbvserverappfwpolicybinding {
         Get lbvserver_appfwpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverappfwpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_appfwpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10267,7 +10267,7 @@ function Invoke-ADCGetLbvserverappfwpolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -10344,7 +10344,7 @@ function Invoke-ADCAddLbvserverappqoepolicybinding {
         An example how to add lbvserver_appqoepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvserverappqoepolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_appqoepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10363,7 +10363,7 @@ function Invoke-ADCAddLbvserverappqoepolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -10437,7 +10437,7 @@ function Invoke-ADCDeleteLbvserverappqoepolicybinding {
         An example how to delete lbvserver_appqoepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverappqoepolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_appqoepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10522,7 +10522,7 @@ function Invoke-ADCGetLbvserverappqoepolicybinding {
         Get lbvserver_appqoepolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverappqoepolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_appqoepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10541,7 +10541,7 @@ function Invoke-ADCGetLbvserverappqoepolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -10618,7 +10618,7 @@ function Invoke-ADCAddLbvserverauditnslogpolicybinding {
         An example how to add lbvserver_auditnslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvserverauditnslogpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10637,7 +10637,7 @@ function Invoke-ADCAddLbvserverauditnslogpolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -10711,7 +10711,7 @@ function Invoke-ADCDeleteLbvserverauditnslogpolicybinding {
         An example how to delete lbvserver_auditnslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverauditnslogpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10796,7 +10796,7 @@ function Invoke-ADCGetLbvserverauditnslogpolicybinding {
         Get lbvserver_auditnslogpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverauditnslogpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_auditnslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10815,7 +10815,7 @@ function Invoke-ADCGetLbvserverauditnslogpolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -10892,7 +10892,7 @@ function Invoke-ADCAddLbvserverauditsyslogpolicybinding {
         An example how to add lbvserver_auditsyslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvserverauditsyslogpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -10911,7 +10911,7 @@ function Invoke-ADCAddLbvserverauditsyslogpolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -10985,7 +10985,7 @@ function Invoke-ADCDeleteLbvserverauditsyslogpolicybinding {
         An example how to delete lbvserver_auditsyslogpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverauditsyslogpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11070,7 +11070,7 @@ function Invoke-ADCGetLbvserverauditsyslogpolicybinding {
         Get lbvserver_auditsyslogpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverauditsyslogpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_auditsyslogpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11089,7 +11089,7 @@ function Invoke-ADCGetLbvserverauditsyslogpolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -11166,7 +11166,7 @@ function Invoke-ADCAddLbvserverauthorizationpolicybinding {
         An example how to add lbvserver_authorizationpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvserverauthorizationpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11185,7 +11185,7 @@ function Invoke-ADCAddLbvserverauthorizationpolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -11259,7 +11259,7 @@ function Invoke-ADCDeleteLbvserverauthorizationpolicybinding {
         An example how to delete lbvserver_authorizationpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverauthorizationpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11344,7 +11344,7 @@ function Invoke-ADCGetLbvserverauthorizationpolicybinding {
         Get lbvserver_authorizationpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverauthorizationpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_authorizationpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11363,7 +11363,7 @@ function Invoke-ADCGetLbvserverauthorizationpolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -11440,7 +11440,7 @@ function Invoke-ADCGetLbvserverbinding {
         Get lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -11532,7 +11532,7 @@ function Invoke-ADCAddLbvserverbotpolicybinding {
         An example how to add lbvserver_botpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvserverbotpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11551,7 +11551,7 @@ function Invoke-ADCAddLbvserverbotpolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -11625,7 +11625,7 @@ function Invoke-ADCDeleteLbvserverbotpolicybinding {
         An example how to delete lbvserver_botpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverbotpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11710,7 +11710,7 @@ function Invoke-ADCGetLbvserverbotpolicybinding {
         Get lbvserver_botpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverbotpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_botpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11729,7 +11729,7 @@ function Invoke-ADCGetLbvserverbotpolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -11806,7 +11806,7 @@ function Invoke-ADCAddLbvservercachepolicybinding {
         An example how to add lbvserver_cachepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvservercachepolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11825,7 +11825,7 @@ function Invoke-ADCAddLbvservercachepolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -11899,7 +11899,7 @@ function Invoke-ADCDeleteLbvservercachepolicybinding {
         An example how to delete lbvserver_cachepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvservercachepolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -11984,7 +11984,7 @@ function Invoke-ADCGetLbvservercachepolicybinding {
         Get lbvserver_cachepolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvservercachepolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_cachepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -12003,7 +12003,7 @@ function Invoke-ADCGetLbvservercachepolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -12080,7 +12080,7 @@ function Invoke-ADCAddLbvservercmppolicybinding {
         An example how to add lbvserver_cmppolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvservercmppolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -12099,7 +12099,7 @@ function Invoke-ADCAddLbvservercmppolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -12173,7 +12173,7 @@ function Invoke-ADCDeleteLbvservercmppolicybinding {
         An example how to delete lbvserver_cmppolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvservercmppolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -12258,7 +12258,7 @@ function Invoke-ADCGetLbvservercmppolicybinding {
         Get lbvserver_cmppolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvservercmppolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_cmppolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -12277,7 +12277,7 @@ function Invoke-ADCGetLbvservercmppolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -12354,7 +12354,7 @@ function Invoke-ADCAddLbvservercontentinspectionpolicybinding {
         An example how to add lbvserver_contentinspectionpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvservercontentinspectionpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -12373,7 +12373,7 @@ function Invoke-ADCAddLbvservercontentinspectionpolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -12447,7 +12447,7 @@ function Invoke-ADCDeleteLbvservercontentinspectionpolicybinding {
         An example how to delete lbvserver_contentinspectionpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvservercontentinspectionpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -12532,7 +12532,7 @@ function Invoke-ADCGetLbvservercontentinspectionpolicybinding {
         Get lbvserver_contentinspectionpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvservercontentinspectionpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_contentinspectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -12551,7 +12551,7 @@ function Invoke-ADCGetLbvservercontentinspectionpolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -12631,7 +12631,7 @@ function Invoke-ADCGetLbvservercsvserverbinding {
         Get lbvserver_csvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvservercsvserverbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_csvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -12650,7 +12650,7 @@ function Invoke-ADCGetLbvservercsvserverbinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -12727,7 +12727,7 @@ function Invoke-ADCAddLbvserverdnspolicy64binding {
         An example how to add lbvserver_dnspolicy64_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvserverdnspolicy64binding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_dnspolicy64_binding/
         Requires  : PowerShell v5.1 and up
@@ -12746,7 +12746,7 @@ function Invoke-ADCAddLbvserverdnspolicy64binding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -12820,7 +12820,7 @@ function Invoke-ADCDeleteLbvserverdnspolicy64binding {
         An example how to delete lbvserver_dnspolicy64_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverdnspolicy64binding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_dnspolicy64_binding/
         Requires  : PowerShell v5.1 and up
@@ -12905,7 +12905,7 @@ function Invoke-ADCGetLbvserverdnspolicy64binding {
         Get lbvserver_dnspolicy64_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverdnspolicy64binding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_dnspolicy64_binding/
         Requires  : PowerShell v5.1 and up
@@ -12924,7 +12924,7 @@ function Invoke-ADCGetLbvserverdnspolicy64binding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -13004,7 +13004,7 @@ function Invoke-ADCGetLbvserverdospolicybinding {
         Get lbvserver_dospolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverdospolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_dospolicy_binding.md/
         Requires  : PowerShell v5.1 and up
@@ -13023,7 +13023,7 @@ function Invoke-ADCGetLbvserverdospolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -13100,7 +13100,7 @@ function Invoke-ADCAddLbvserverfeopolicybinding {
         An example how to add lbvserver_feopolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvserverfeopolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -13119,7 +13119,7 @@ function Invoke-ADCAddLbvserverfeopolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -13193,7 +13193,7 @@ function Invoke-ADCDeleteLbvserverfeopolicybinding {
         An example how to delete lbvserver_feopolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverfeopolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -13278,7 +13278,7 @@ function Invoke-ADCGetLbvserverfeopolicybinding {
         Get lbvserver_feopolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverfeopolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_feopolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -13297,7 +13297,7 @@ function Invoke-ADCGetLbvserverfeopolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -13374,7 +13374,7 @@ function Invoke-ADCAddLbvserverfilterpolicybinding {
         An example how to add lbvserver_filterpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvserverfilterpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_filterpolicy_binding.md/
         Requires  : PowerShell v5.1 and up
@@ -13393,7 +13393,7 @@ function Invoke-ADCAddLbvserverfilterpolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -13467,7 +13467,7 @@ function Invoke-ADCDeleteLbvserverfilterpolicybinding {
         An example how to delete lbvserver_filterpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverfilterpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_filterpolicy_binding.md/
         Requires  : PowerShell v5.1 and up
@@ -13552,7 +13552,7 @@ function Invoke-ADCGetLbvserverfilterpolicybinding {
         Get lbvserver_filterpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverfilterpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_filterpolicy_binding.md/
         Requires  : PowerShell v5.1 and up
@@ -13571,7 +13571,7 @@ function Invoke-ADCGetLbvserverfilterpolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -13648,7 +13648,7 @@ function Invoke-ADCAddLbvserverpqpolicybinding {
         An example how to add lbvserver_pqpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvserverpqpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_pqpolicy_binding.md/
         Requires  : PowerShell v5.1 and up
@@ -13667,7 +13667,7 @@ function Invoke-ADCAddLbvserverpqpolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -13742,7 +13742,7 @@ function Invoke-ADCDeleteLbvserverpqpolicybinding {
         An example how to delete lbvserver_pqpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverpqpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_pqpolicy_binding.md/
         Requires  : PowerShell v5.1 and up
@@ -13827,7 +13827,7 @@ function Invoke-ADCGetLbvserverpqpolicybinding {
         Get lbvserver_pqpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverpqpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_pqpolicy_binding.md/
         Requires  : PowerShell v5.1 and up
@@ -13846,7 +13846,7 @@ function Invoke-ADCGetLbvserverpqpolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -13923,7 +13923,7 @@ function Invoke-ADCAddLbvserverresponderpolicybinding {
         An example how to add lbvserver_responderpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvserverresponderpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -13942,7 +13942,7 @@ function Invoke-ADCAddLbvserverresponderpolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -14016,7 +14016,7 @@ function Invoke-ADCDeleteLbvserverresponderpolicybinding {
         An example how to delete lbvserver_responderpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverresponderpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14101,7 +14101,7 @@ function Invoke-ADCGetLbvserverresponderpolicybinding {
         Get lbvserver_responderpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverresponderpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_responderpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14120,7 +14120,7 @@ function Invoke-ADCGetLbvserverresponderpolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -14197,7 +14197,7 @@ function Invoke-ADCAddLbvserverrewritepolicybinding {
         An example how to add lbvserver_rewritepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvserverrewritepolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14216,7 +14216,7 @@ function Invoke-ADCAddLbvserverrewritepolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -14290,7 +14290,7 @@ function Invoke-ADCDeleteLbvserverrewritepolicybinding {
         An example how to delete lbvserver_rewritepolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverrewritepolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14375,7 +14375,7 @@ function Invoke-ADCGetLbvserverrewritepolicybinding {
         Get lbvserver_rewritepolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverrewritepolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_rewritepolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -14394,7 +14394,7 @@ function Invoke-ADCGetLbvserverrewritepolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -14471,7 +14471,7 @@ function Invoke-ADCAddLbvserverscpolicybinding {
         An example how to add lbvserver_scpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvserverscpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_scpolicy_binding.md/
         Requires  : PowerShell v5.1 and up
@@ -14490,7 +14490,7 @@ function Invoke-ADCAddLbvserverscpolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -14564,7 +14564,7 @@ function Invoke-ADCDeleteLbvserverscpolicybinding {
         An example how to delete lbvserver_scpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverscpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_scpolicy_binding.md/
         Requires  : PowerShell v5.1 and up
@@ -14649,7 +14649,7 @@ function Invoke-ADCGetLbvserverscpolicybinding {
         Get lbvserver_scpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverscpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_scpolicy_binding.md/
         Requires  : PowerShell v5.1 and up
@@ -14668,7 +14668,7 @@ function Invoke-ADCGetLbvserverscpolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -14748,7 +14748,7 @@ function Invoke-ADCGetLbvserverservicegroupmemberbinding {
         Get lbvserver_servicegroupmember_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverservicegroupmemberbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_servicegroupmember_binding/
         Requires  : PowerShell v5.1 and up
@@ -14767,7 +14767,7 @@ function Invoke-ADCGetLbvserverservicegroupmemberbinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -14834,7 +14834,7 @@ function Invoke-ADCAddLbvserverservicegroupbinding {
         An example how to add lbvserver_servicegroup_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvserverservicegroupbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_servicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -14853,7 +14853,7 @@ function Invoke-ADCAddLbvserverservicegroupbinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [ValidateScript({ $_.Length -gt 1 })]
@@ -14912,7 +14912,7 @@ function Invoke-ADCDeleteLbvserverservicegroupbinding {
         An example how to delete lbvserver_servicegroup_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverservicegroupbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_servicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -14994,7 +14994,7 @@ function Invoke-ADCGetLbvserverservicegroupbinding {
         Get lbvserver_servicegroup_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverservicegroupbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_servicegroup_binding/
         Requires  : PowerShell v5.1 and up
@@ -15013,7 +15013,7 @@ function Invoke-ADCGetLbvserverservicegroupbinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -15080,7 +15080,7 @@ function Invoke-ADCAddLbvserverservicebinding {
         An example how to add lbvserver_service_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvserverservicebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -15099,7 +15099,7 @@ function Invoke-ADCAddLbvserverservicebinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [ValidateScript({ $_.Length -gt 1 })]
@@ -15159,7 +15159,7 @@ function Invoke-ADCDeleteLbvserverservicebinding {
         An example how to delete lbvserver_service_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverservicebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -15241,7 +15241,7 @@ function Invoke-ADCGetLbvserverservicebinding {
         Get lbvserver_service_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverservicebinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_service_binding/
         Requires  : PowerShell v5.1 and up
@@ -15260,7 +15260,7 @@ function Invoke-ADCGetLbvserverservicebinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -15337,7 +15337,7 @@ function Invoke-ADCAddLbvserverspilloverpolicybinding {
         An example how to add lbvserver_spilloverpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvserverspilloverpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -15356,7 +15356,7 @@ function Invoke-ADCAddLbvserverspilloverpolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -15430,7 +15430,7 @@ function Invoke-ADCDeleteLbvserverspilloverpolicybinding {
         An example how to delete lbvserver_spilloverpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvserverspilloverpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -15515,7 +15515,7 @@ function Invoke-ADCGetLbvserverspilloverpolicybinding {
         Get lbvserver_spilloverpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvserverspilloverpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_spilloverpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -15534,7 +15534,7 @@ function Invoke-ADCGetLbvserverspilloverpolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -15611,7 +15611,7 @@ function Invoke-ADCAddLbvservertmtrafficpolicybinding {
         An example how to add lbvserver_tmtrafficpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvservertmtrafficpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -15630,7 +15630,7 @@ function Invoke-ADCAddLbvservertmtrafficpolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -15704,7 +15704,7 @@ function Invoke-ADCDeleteLbvservertmtrafficpolicybinding {
         An example how to delete lbvserver_tmtrafficpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvservertmtrafficpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -15789,7 +15789,7 @@ function Invoke-ADCGetLbvservertmtrafficpolicybinding {
         Get lbvserver_tmtrafficpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvservertmtrafficpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_tmtrafficpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -15808,7 +15808,7 @@ function Invoke-ADCGetLbvservertmtrafficpolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -15885,7 +15885,7 @@ function Invoke-ADCAddLbvservertransformpolicybinding {
         An example how to add lbvserver_transformpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvservertransformpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_transformpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -15904,7 +15904,7 @@ function Invoke-ADCAddLbvservertransformpolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -15978,7 +15978,7 @@ function Invoke-ADCDeleteLbvservertransformpolicybinding {
         An example how to delete lbvserver_transformpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvservertransformpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_transformpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16063,7 +16063,7 @@ function Invoke-ADCGetLbvservertransformpolicybinding {
         Get lbvserver_transformpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvservertransformpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_transformpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16082,7 +16082,7 @@ function Invoke-ADCGetLbvservertransformpolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -16159,7 +16159,7 @@ function Invoke-ADCAddLbvservervideooptimizationdetectionpolicybinding {
         An example how to add lbvserver_videooptimizationdetectionpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvservervideooptimizationdetectionpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16178,7 +16178,7 @@ function Invoke-ADCAddLbvservervideooptimizationdetectionpolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -16252,7 +16252,7 @@ function Invoke-ADCDeleteLbvservervideooptimizationdetectionpolicybinding {
         An example how to delete lbvserver_videooptimizationdetectionpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvservervideooptimizationdetectionpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16337,7 +16337,7 @@ function Invoke-ADCGetLbvservervideooptimizationdetectionpolicybinding {
         Get lbvserver_videooptimizationdetectionpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvservervideooptimizationdetectionpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_videooptimizationdetectionpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16356,7 +16356,7 @@ function Invoke-ADCGetLbvservervideooptimizationdetectionpolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -16433,7 +16433,7 @@ function Invoke-ADCAddLbvservervideooptimizationpacingpolicybinding {
         An example how to add lbvserver_videooptimizationpacingpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbvservervideooptimizationpacingpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16452,7 +16452,7 @@ function Invoke-ADCAddLbvservervideooptimizationpacingpolicybinding {
 
         [Parameter(Mandatory)]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [string]$Policyname,
@@ -16526,7 +16526,7 @@ function Invoke-ADCDeleteLbvservervideooptimizationpacingpolicybinding {
         An example how to delete lbvserver_videooptimizationpacingpolicy_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbvservervideooptimizationpacingpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16611,7 +16611,7 @@ function Invoke-ADCGetLbvservervideooptimizationpacingpolicybinding {
         Get lbvserver_videooptimizationpacingpolicy_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbvservervideooptimizationpacingpolicybinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbvserver_videooptimizationpacingpolicy_binding/
         Requires  : PowerShell v5.1 and up
@@ -16630,7 +16630,7 @@ function Invoke-ADCGetLbvservervideooptimizationpacingpolicybinding {
 
         [Parameter(ParameterSetName = 'GetByResource')]
         [ValidateScript({ $_.Length -gt 1 })]
-        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([a-zA-Z0-9]|[_])+)$')]
+        [ValidatePattern('^(([a-zA-Z0-9]|[_])+([\x00-\x7F]|[_]|[#]|[.][ ]|[:]|[@]|[=]|[-])+)$')]
         [string]$Name,
 
         [Parameter(ParameterSetName = 'Count', Mandatory)]
@@ -16700,7 +16700,7 @@ function Invoke-ADCAddLbwlm {
         An example how to add lbwlm configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbwlm
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbwlm/
         Requires  : PowerShell v5.1 and up
@@ -16778,7 +16778,7 @@ function Invoke-ADCDeleteLbwlm {
         An example how to delete lbwlm configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbwlm
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbwlm/
         Requires  : PowerShell v5.1 and up
@@ -16838,7 +16838,7 @@ function Invoke-ADCUpdateLbwlm {
         An example how to update lbwlm configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUpdateLbwlm
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbwlm/
         Requires  : PowerShell v5.1 and up
@@ -16906,7 +16906,7 @@ function Invoke-ADCUnsetLbwlm {
         An example how to unset lbwlm configuration Object(s).
     .NOTES
         File Name : Invoke-ADCUnsetLbwlm
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbwlm
         Requires  : PowerShell v5.1 and up
@@ -16985,7 +16985,7 @@ function Invoke-ADCGetLbwlm {
         Get lbwlm data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbwlm
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbwlm/
         Requires  : PowerShell v5.1 and up
@@ -17085,7 +17085,7 @@ function Invoke-ADCGetLbwlmbinding {
         Get lbwlm_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbwlmbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbwlm_binding/
         Requires  : PowerShell v5.1 and up
@@ -17163,7 +17163,7 @@ function Invoke-ADCAddLbwlmlbvserverbinding {
         An example how to add lbwlm_lbvserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCAddLbwlmlbvserverbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbwlm_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -17233,7 +17233,7 @@ function Invoke-ADCDeleteLbwlmlbvserverbinding {
         An example how to delete lbwlm_lbvserver_binding configuration Object(s).
     .NOTES
         File Name : Invoke-ADCDeleteLbwlmlbvserverbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbwlm_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -17312,7 +17312,7 @@ function Invoke-ADCGetLbwlmlbvserverbinding {
         Get lbwlm_lbvserver_binding data with a filter.
     .NOTES
         File Name : Invoke-ADCGetLbwlmlbvserverbinding
-        Version   : v2204.0320
+        Version   : v2210.2317
         Author    : John Billekens
         Reference : https://developer-docs.citrix.com/projects/citrix-adc-nitro-api-reference/en/latest/configuration/lb/lbwlm_lbvserver_binding/
         Requires  : PowerShell v5.1 and up
@@ -17376,201 +17376,4 @@ function Invoke-ADCGetLbwlmlbvserverbinding {
     }
 }
 
-# SIG # Begin signature block
-# MIIkrQYJKoZIhvcNAQcCoIIknjCCJJoCAQExDzANBglghkgBZQMEAgEFADB5Bgor
-# BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCmggFncS+BSCgI
-# cXBP8/kOGKoeV5SjJrpE33/wbSJ4WqCCHnAwggTzMIID26ADAgECAhAsJ03zZBC0
-# i/247uUvWN5TMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAkdCMRswGQYDVQQI
-# ExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAWBgNVBAoT
-# D1NlY3RpZ28gTGltaXRlZDEkMCIGA1UEAxMbU2VjdGlnbyBSU0EgQ29kZSBTaWdu
-# aW5nIENBMB4XDTIxMDUwNTAwMDAwMFoXDTI0MDUwNDIzNTk1OVowWzELMAkGA1UE
-# BhMCTkwxEjAQBgNVBAcMCVZlbGRob3ZlbjEbMBkGA1UECgwSSm9oYW5uZXMgQmls
-# bGVrZW5zMRswGQYDVQQDDBJKb2hhbm5lcyBCaWxsZWtlbnMwggEiMA0GCSqGSIb3
-# DQEBAQUAA4IBDwAwggEKAoIBAQCsfgRG81keOHalHfCUgxOa1Qy4VNOnGxB8SL8e
-# rjP9SfcF13McP7F1HGka5Be495pTZ+duGbaQMNozwg/5Dg9IRJEeBabeSSJJCbZo
-# SNpmUu7NNRRfidQxlPC81LxTVHxJ7In0MEfCVm7rWcri28MRCAuafqOfSE+hyb1Z
-# /tKyCyQ5RUq3kjs/CF+VfMHsJn6ZT63YqewRkwHuc7UogTTZKjhPJ9prGLTer8UX
-# UgvsGRbvhYZXIEuy+bmx/iJ1yRl1kX4nj6gUYzlhemOnlSDD66YOrkLDhXPMXLym
-# AN7h0/W5Bo//R5itgvdGBkXkWCKRASnq/9PTcoxW6mwtgU8xAgMBAAGjggGQMIIB
-# jDAfBgNVHSMEGDAWgBQO4TqoUzox1Yq+wbutZxoDha00DjAdBgNVHQ4EFgQUZWMy
-# gC0i1u2NZ1msk2Mm5nJm5AswDgYDVR0PAQH/BAQDAgeAMAwGA1UdEwEB/wQCMAAw
-# EwYDVR0lBAwwCgYIKwYBBQUHAwMwEQYJYIZIAYb4QgEBBAQDAgQQMEoGA1UdIARD
-# MEEwNQYMKwYBBAGyMQECAQMCMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-# by5jb20vQ1BTMAgGBmeBDAEEATBDBgNVHR8EPDA6MDigNqA0hjJodHRwOi8vY3Js
-# LnNlY3RpZ28uY29tL1NlY3RpZ29SU0FDb2RlU2lnbmluZ0NBLmNybDBzBggrBgEF
-# BQcBAQRnMGUwPgYIKwYBBQUHMAKGMmh0dHA6Ly9jcnQuc2VjdGlnby5jb20vU2Vj
-# dGlnb1JTQUNvZGVTaWduaW5nQ0EuY3J0MCMGCCsGAQUFBzABhhdodHRwOi8vb2Nz
-# cC5zZWN0aWdvLmNvbTANBgkqhkiG9w0BAQsFAAOCAQEARjv9ieRocb1DXRWm3XtY
-# jjuSRjlvkoPd9wS6DNfsGlSU42BFd9LCKSyRREZVu8FDq7dN0PhD4bBTT+k6AgrY
-# KG6f/8yUponOdxskv850SjN2S2FeVuR20pqActMrpd1+GCylG8mj8RGjdrLQ3QuX
-# qYKS68WJ39WWYdVB/8Ftajir5p6sAfwHErLhbJS6WwmYjGI/9SekossvU8mZjZwo
-# Gbu+fjZhPc4PhjbEh0ABSsPMfGjQQsg5zLFjg/P+cS6hgYI7qctToo0TexGe32DY
-# fFWHrHuBErW2qXEJvzSqM5OtLRD06a4lH5ZkhojhMOX9S8xDs/ArDKgX1j1Xm4Tu
-# DjCCBYEwggRpoAMCAQICEDlyRDr5IrdR19NsEN0xNZUwDQYJKoZIhvcNAQEMBQAw
-# ezELMAkGA1UEBhMCR0IxGzAZBgNVBAgMEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4G
-# A1UEBwwHU2FsZm9yZDEaMBgGA1UECgwRQ29tb2RvIENBIExpbWl0ZWQxITAfBgNV
-# BAMMGEFBQSBDZXJ0aWZpY2F0ZSBTZXJ2aWNlczAeFw0xOTAzMTIwMDAwMDBaFw0y
-# ODEyMzEyMzU5NTlaMIGIMQswCQYDVQQGEwJVUzETMBEGA1UECBMKTmV3IEplcnNl
-# eTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoTFVRoZSBVU0VSVFJVU1Qg
-# TmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0aW9uIEF1
-# dGhvcml0eTCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAIASZRc2DsPb
-# CLPQrFcNdu3NJ9NMrVCDYeKqIE0JLWQJ3M6Jn8w9qez2z8Hc8dOx1ns3KBErR9o5
-# xrw6GbRfpr19naNjQrZ28qk7K5H44m/Q7BYgkAk+4uh0yRi0kdRiZNt/owbxiBhq
-# kCI8vP4T8IcUe/bkH47U5FHGEWdGCFHLhhRUP7wz/n5snP8WnRi9UY41pqdmyHJn
-# 2yFmsdSbeAPAUDrozPDcvJ5M/q8FljUfV1q3/875PbcstvZU3cjnEjpNrkyKt1ya
-# tLcgPcp/IjSufjtoZgFE5wFORlObM2D3lL5TN5BzQ/Myw1Pv26r+dE5px2uMYJPe
-# xMcM3+EyrsyTO1F4lWeL7j1W/gzQaQ8bD/MlJmszbfduR/pzQ+V+DqVmsSl8MoRj
-# VYnEDcGTVDAZE6zTfTen6106bDVc20HXEtqpSQvf2ICKCZNijrVmzyWIzYS4sT+k
-# OQ/ZAp7rEkyVfPNrBaleFoPMuGfi6BOdzFuC00yz7Vv/3uVzrCM7LQC/NVV0CUnY
-# SVgaf5I25lGSDvMmfRxNF7zJ7EMm0L9BX0CpRET0medXh55QH1dUqD79dGMvsVBl
-# CeZYQi5DGky08CVHWfoEHpPUJkZKUIGy3r54t/xnFeHJV4QeD2PW6WK61l9VLupc
-# xigIBCU5uA4rqfJMlxwHPw1S9e3vL4IPAgMBAAGjgfIwge8wHwYDVR0jBBgwFoAU
-# oBEKIz6W8Qfs4q8p74Klf9AwpLQwHQYDVR0OBBYEFFN5v1qqK0rPVIDh2JvAnfKy
-# A2bLMA4GA1UdDwEB/wQEAwIBhjAPBgNVHRMBAf8EBTADAQH/MBEGA1UdIAQKMAgw
-# BgYEVR0gADBDBgNVHR8EPDA6MDigNqA0hjJodHRwOi8vY3JsLmNvbW9kb2NhLmNv
-# bS9BQUFDZXJ0aWZpY2F0ZVNlcnZpY2VzLmNybDA0BggrBgEFBQcBAQQoMCYwJAYI
-# KwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmNvbW9kb2NhLmNvbTANBgkqhkiG9w0BAQwF
-# AAOCAQEAGIdR3HQhPZyK4Ce3M9AuzOzw5steEd4ib5t1jp5y/uTW/qofnJYt7wNK
-# fq70jW9yPEM7wD/ruN9cqqnGrvL82O6je0P2hjZ8FODN9Pc//t64tIrwkZb+/UNk
-# fv3M0gGhfX34GRnJQisTv1iLuqSiZgR2iJFODIkUzqJNyTKzuugUGrxx8VvwQQuY
-# AAoiAxDlDLH5zZI3Ge078eQ6tvlFEyZ1r7uq7z97dzvSxAKRPRkA0xdcOds/exgN
-# Rc2ThZYvXd9ZFk8/Ub3VRRg/7UqO6AZhdCMWtQ1QcydER38QXYkqa4UxFMToqWpM
-# gLxqeM+4f452cpkMnf7XkQgWoaNflTCCBfUwggPdoAMCAQICEB2iSDBvmyYY0ILg
-# ln0z02owDQYJKoZIhvcNAQEMBQAwgYgxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpO
-# ZXcgSmVyc2V5MRQwEgYDVQQHEwtKZXJzZXkgQ2l0eTEeMBwGA1UEChMVVGhlIFVT
-# RVJUUlVTVCBOZXR3b3JrMS4wLAYDVQQDEyVVU0VSVHJ1c3QgUlNBIENlcnRpZmlj
-# YXRpb24gQXV0aG9yaXR5MB4XDTE4MTEwMjAwMDAwMFoXDTMwMTIzMTIzNTk1OVow
-# fDELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4G
-# A1UEBxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVkMSQwIgYDVQQD
-# ExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0EwggEiMA0GCSqGSIb3DQEBAQUA
-# A4IBDwAwggEKAoIBAQCGIo0yhXoYn0nwli9jCB4t3HyfFM/jJrYlZilAhlRGdDFi
-# xRDtsocnppnLlTDAVvWkdcapDlBipVGREGrgS2Ku/fD4GKyn/+4uMyD6DBmJqGx7
-# rQDDYaHcaWVtH24nlteXUYam9CflfGqLlR5bYNV+1xaSnAAvaPeX7Wpyvjg7Y96P
-# v25MQV0SIAhZ6DnNj9LWzwa0VwW2TqE+V2sfmLzEYtYbC43HZhtKn52BxHJAteJf
-# 7wtF/6POF6YtVbC3sLxUap28jVZTxvC6eVBJLPcDuf4vZTXyIuosB69G2flGHNyM
-# fHEo8/6nxhTdVZFuihEN3wYklX0Pp6F8OtqGNWHTAgMBAAGjggFkMIIBYDAfBgNV
-# HSMEGDAWgBRTeb9aqitKz1SA4dibwJ3ysgNmyzAdBgNVHQ4EFgQUDuE6qFM6MdWK
-# vsG7rWcaA4WtNA4wDgYDVR0PAQH/BAQDAgGGMBIGA1UdEwEB/wQIMAYBAf8CAQAw
-# HQYDVR0lBBYwFAYIKwYBBQUHAwMGCCsGAQUFBwMIMBEGA1UdIAQKMAgwBgYEVR0g
-# ADBQBgNVHR8ESTBHMEWgQ6BBhj9odHRwOi8vY3JsLnVzZXJ0cnVzdC5jb20vVVNF
-# UlRydXN0UlNBQ2VydGlmaWNhdGlvbkF1dGhvcml0eS5jcmwwdgYIKwYBBQUHAQEE
-# ajBoMD8GCCsGAQUFBzAChjNodHRwOi8vY3J0LnVzZXJ0cnVzdC5jb20vVVNFUlRy
-# dXN0UlNBQWRkVHJ1c3RDQS5jcnQwJQYIKwYBBQUHMAGGGWh0dHA6Ly9vY3NwLnVz
-# ZXJ0cnVzdC5jb20wDQYJKoZIhvcNAQEMBQADggIBAE1jUO1HNEphpNveaiqMm/EA
-# AB4dYns61zLC9rPgY7P7YQCImhttEAcET7646ol4IusPRuzzRl5ARokS9At3Wpwq
-# QTr81vTr5/cVlTPDoYMot94v5JT3hTODLUpASL+awk9KsY8k9LOBN9O3ZLCmI2pZ
-# aFJCX/8E6+F0ZXkI9amT3mtxQJmWunjxucjiwwgWsatjWsgVgG10Xkp1fqW4w2y1
-# z99KeYdcx0BNYzX2MNPPtQoOCwR/oEuuu6Ol0IQAkz5TXTSlADVpbL6fICUQDRn7
-# UJBhvjmPeo5N9p8OHv4HURJmgyYZSJXOSsnBf/M6BZv5b9+If8AjntIeQ3pFMcGc
-# TanwWbJZGehqjSkEAnd8S0vNcL46slVaeD68u28DECV3FTSK+TbMQ5Lkuk/xYpMo
-# JVcp+1EZx6ElQGqEV8aynbG8HArafGd+fS7pKEwYfsR7MUFxmksp7As9V1DSyt39
-# ngVR5UR43QHesXWYDVQk/fBO4+L4g71yuss9Ou7wXheSaG3IYfmm8SoKC6W59J7u
-# mDIFhZ7r+YMp08Ysfb06dy6LN0KgaoLtO0qqlBCk4Q34F8W2WnkzGJLjtXX4oemO
-# CiUe5B7xn1qHI/+fpFGe+zmAEc3btcSnqIBv5VPU4OOiwtJbGvoyJi1qV3AcPKRY
-# LqPzW0sH3DJZ84enGm1YMIIG7DCCBNSgAwIBAgIQMA9vrN1mmHR8qUY2p3gtuTAN
-# BgkqhkiG9w0BAQwFADCBiDELMAkGA1UEBhMCVVMxEzARBgNVBAgTCk5ldyBKZXJz
-# ZXkxFDASBgNVBAcTC0plcnNleSBDaXR5MR4wHAYDVQQKExVUaGUgVVNFUlRSVVNU
-# IE5ldHdvcmsxLjAsBgNVBAMTJVVTRVJUcnVzdCBSU0EgQ2VydGlmaWNhdGlvbiBB
-# dXRob3JpdHkwHhcNMTkwNTAyMDAwMDAwWhcNMzgwMTE4MjM1OTU5WjB9MQswCQYD
-# VQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdT
-# YWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3Rp
-# Z28gUlNBIFRpbWUgU3RhbXBpbmcgQ0EwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAw
-# ggIKAoICAQDIGwGv2Sx+iJl9AZg/IJC9nIAhVJO5z6A+U++zWsB21hoEpc5Hg7Xr
-# xMxJNMvzRWW5+adkFiYJ+9UyUnkuyWPCE5u2hj8BBZJmbyGr1XEQeYf0RirNxFrJ
-# 29ddSU1yVg/cyeNTmDoqHvzOWEnTv/M5u7mkI0Ks0BXDf56iXNc48RaycNOjxN+z
-# xXKsLgp3/A2UUrf8H5VzJD0BKLwPDU+zkQGObp0ndVXRFzs0IXuXAZSvf4DP0REK
-# V4TJf1bgvUacgr6Unb+0ILBgfrhN9Q0/29DqhYyKVnHRLZRMyIw80xSinL0m/9NT
-# IMdgaZtYClT0Bef9Maz5yIUXx7gpGaQpL0bj3duRX58/Nj4OMGcrRrc1r5a+2kxg
-# zKi7nw0U1BjEMJh0giHPYla1IXMSHv2qyghYh3ekFesZVf/QOVQtJu5FGjpvzdeE
-# 8NfwKMVPZIMC1Pvi3vG8Aij0bdonigbSlofe6GsO8Ft96XZpkyAcSpcsdxkrk5WY
-# nJee647BeFbGRCXfBhKaBi2fA179g6JTZ8qx+o2hZMmIklnLqEbAyfKm/31X2xJ2
-# +opBJNQb/HKlFKLUrUMcpEmLQTkUAx4p+hulIq6lw02C0I3aa7fb9xhAV3PwcaP7
-# Sn1FNsH3jYL6uckNU4B9+rY5WDLvbxhQiddPnTO9GrWdod6VQXqngwIDAQABo4IB
-# WjCCAVYwHwYDVR0jBBgwFoAUU3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYE
-# FBqh+GEZIA/DQXdFKI7RNV8GEgRVMA4GA1UdDwEB/wQEAwIBhjASBgNVHRMBAf8E
-# CDAGAQH/AgEAMBMGA1UdJQQMMAoGCCsGAQUFBwMIMBEGA1UdIAQKMAgwBgYEVR0g
-# ADBQBgNVHR8ESTBHMEWgQ6BBhj9odHRwOi8vY3JsLnVzZXJ0cnVzdC5jb20vVVNF
-# UlRydXN0UlNBQ2VydGlmaWNhdGlvbkF1dGhvcml0eS5jcmwwdgYIKwYBBQUHAQEE
-# ajBoMD8GCCsGAQUFBzAChjNodHRwOi8vY3J0LnVzZXJ0cnVzdC5jb20vVVNFUlRy
-# dXN0UlNBQWRkVHJ1c3RDQS5jcnQwJQYIKwYBBQUHMAGGGWh0dHA6Ly9vY3NwLnVz
-# ZXJ0cnVzdC5jb20wDQYJKoZIhvcNAQEMBQADggIBAG1UgaUzXRbhtVOBkXXfA3oy
-# Cy0lhBGysNsqfSoF9bw7J/RaoLlJWZApbGHLtVDb4n35nwDvQMOt0+LkVvlYQc/x
-# QuUQff+wdB+PxlwJ+TNe6qAcJlhc87QRD9XVw+K81Vh4v0h24URnbY+wQxAPjeT5
-# OGK/EwHFhaNMxcyyUzCVpNb0llYIuM1cfwGWvnJSajtCN3wWeDmTk5SbsdyybUFt
-# Z83Jb5A9f0VywRsj1sJVhGbks8VmBvbz1kteraMrQoohkv6ob1olcGKBc2NeoLvY
-# 3NdK0z2vgwY4Eh0khy3k/ALWPncEvAQ2ted3y5wujSMYuaPCRx3wXdahc1cFaJqn
-# yTdlHb7qvNhCg0MFpYumCf/RoZSmTqo9CfUFbLfSZFrYKiLCS53xOV5M3kg9mzSW
-# mglfjv33sVKRzj+J9hyhtal1H3G/W0NdZT1QgW6r8NDT/LKzH7aZlib0PHmLXGTM
-# ze4nmuWgwAxyh8FuTVrTHurwROYybxzrF06Uw3hlIDsPQaof6aFBnf6xuKBlKjTg
-# 3qj5PObBMLvAoGMs/FwWAKjQxH/qEZ0eBsambTJdtDgJK0kHqv3sMNrxpy/Pt/36
-# 0KOE2See+wFmd7lWEOEgbsausfm2usg1XTN2jvF8IAwqd661ogKGuinutFoAsYyr
-# 4/kKyVRd1LlqdJ69SK6YMIIHBzCCBO+gAwIBAgIRAIx3oACP9NGwxj2fOkiDjWsw
-# DQYJKoZIhvcNAQEMBQAwfTELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIg
-# TWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBM
-# aW1pdGVkMSUwIwYDVQQDExxTZWN0aWdvIFJTQSBUaW1lIFN0YW1waW5nIENBMB4X
-# DTIwMTAyMzAwMDAwMFoXDTMyMDEyMjIzNTk1OVowgYQxCzAJBgNVBAYTAkdCMRsw
-# GQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGDAW
-# BgNVBAoTD1NlY3RpZ28gTGltaXRlZDEsMCoGA1UEAwwjU2VjdGlnbyBSU0EgVGlt
-# ZSBTdGFtcGluZyBTaWduZXIgIzIwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIK
-# AoICAQCRh0ssi8HxHqCe0wfGAcpSsL55eV0JZgYtLzV9u8D7J9pCalkbJUzq70DW
-# mn4yyGqBfbRcPlYQgTU6IjaM+/ggKYesdNAbYrw/ZIcCX+/FgO8GHNxeTpOHuJre
-# TAdOhcxwxQ177MPZ45fpyxnbVkVs7ksgbMk+bP3wm/Eo+JGZqvxawZqCIDq37+fW
-# uCVJwjkbh4E5y8O3Os2fUAQfGpmkgAJNHQWoVdNtUoCD5m5IpV/BiVhgiu/xrM2H
-# YxiOdMuEh0FpY4G89h+qfNfBQc6tq3aLIIDULZUHjcf1CxcemuXWmWlRx06mnSlv
-# 53mTDTJjU67MximKIMFgxvICLMT5yCLf+SeCoYNRwrzJghohhLKXvNSvRByWgiKV
-# KoVUrvH9Pkl0dPyOrj+lcvTDWgGqUKWLdpUbZuvv2t+ULtka60wnfUwF9/gjXcRX
-# yCYFevyBI19UCTgqYtWqyt/tz1OrH/ZEnNWZWcVWZFv3jlIPZvyYP0QGE2Ru6eEV
-# YFClsezPuOjJC77FhPfdCp3avClsPVbtv3hntlvIXhQcua+ELXei9zmVN29OfxzG
-# PATWMcV+7z3oUX5xrSR0Gyzc+Xyq78J2SWhi1Yv1A9++fY4PNnVGW5N2xIPugr4s
-# rjcS8bxWw+StQ8O3ZpZelDL6oPariVD6zqDzCIEa0USnzPe4MQIDAQABo4IBeDCC
-# AXQwHwYDVR0jBBgwFoAUGqH4YRkgD8NBd0UojtE1XwYSBFUwHQYDVR0OBBYEFGl1
-# N3u7nTVCTr9X05rbnwHRrt7QMA4GA1UdDwEB/wQEAwIGwDAMBgNVHRMBAf8EAjAA
-# MBYGA1UdJQEB/wQMMAoGCCsGAQUFBwMIMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQEC
-# AQMIMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMEQGA1Ud
-# HwQ9MDswOaA3oDWGM2h0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQVRp
-# bWVTdGFtcGluZ0NBLmNybDB0BggrBgEFBQcBAQRoMGYwPwYIKwYBBQUHMAKGM2h0
-# dHA6Ly9jcnQuc2VjdGlnby5jb20vU2VjdGlnb1JTQVRpbWVTdGFtcGluZ0NBLmNy
-# dDAjBggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wDQYJKoZIhvcN
-# AQEMBQADggIBAEoDeJBCM+x7GoMJNjOYVbudQAYwa0Vq8ZQOGVD/WyVeO+E5xFu6
-# 6ZWQNze93/tk7OWCt5XMV1VwS070qIfdIoWmV7u4ISfUoCoxlIoHIZ6Kvaca9QIV
-# y0RQmYzsProDd6aCApDCLpOpviE0dWO54C0PzwE3y42i+rhamq6hep4TkxlVjwmQ
-# Lt/qiBcW62nW4SW9RQiXgNdUIChPynuzs6XSALBgNGXE48XDpeS6hap6adt1pD55
-# aJo2i0OuNtRhcjwOhWINoF5w22QvAcfBoccklKOyPG6yXqLQ+qjRuCUcFubA1X9o
-# GsRlKTUqLYi86q501oLnwIi44U948FzKwEBcwp/VMhws2jysNvcGUpqjQDAXsCkW
-# mcmqt4hJ9+gLJTO1P22vn18KVt8SscPuzpF36CAT6Vwkx+pEC0rmE4QcTesNtbiG
-# oDCni6GftCzMwBYjyZHlQgNLgM7kTeYqAT7AXoWgJKEXQNXb2+eYEKTx6hkbgFT6
-# R4nomIGpdcAO39BolHmhoJ6OtrdCZsvZ2WsvTdjePjIeIOTsnE1CjZ3HM5mCN0TU
-# JikmQI54L7nu+i/x8Y/+ULh43RSW3hwOcLAqhWqxbGjpKuQQK24h/dN8nTfkKgbW
-# w/HXaONPB3mBCBP+smRe6bE85tB4I7IJLOImYr87qZdRzMdEMoGyr8/fMYIFkzCC
-# BY8CAQEwgZAwfDELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hl
-# c3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVk
-# MSQwIgYDVQQDExtTZWN0aWdvIFJTQSBDb2RlIFNpZ25pbmcgQ0ECECwnTfNkELSL
-# /bju5S9Y3lMwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGCNwIBDDEKMAigAoAA
-# oQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgorBgEEAYI3AgELMQ4w
-# DAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgrNKiW5r7miQfKZVVcF2uAJdc
-# RqNvYiu2Ydo0ZzgeItwwDQYJKoZIhvcNAQEBBQAEggEAKfuJllJhNJI7gr5MLISj
-# 7ftocILOdKcK2mi2AuRFod5qr9gMeah8cDoWVHcV1yuRmFfJtZCpIT6ajZZgjaEW
-# o1NHI+gx/mhpBcpV53XjgfT1Rl1IvQkkdVPr/4KsLT7CUx/Y/IS0qOatHoM5K0uv
-# HxVaVi4M1nzuNpILFfgi0vfIxnRsISckhPCatHlSTtu8cEthdte6jpskWFCFlta7
-# 8eUlw8NWE03mge81BrLBWUd+1IRNi8tEHhIfQObtj0i05IB+vHwLq6kfA9BcBRMJ
-# 7SBSqoKT2ZdMpGmvd+AkZ8qK1f8llsfRbN/F2cfjyIplg3mWklUeaZYIGVBcrbNv
-# M6GCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9MQswCQYDVQQGEwJH
-# QjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3Jk
-# MRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMTHFNlY3RpZ28gUlNB
-# IFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41rMA0GCWCGSAFlAwQC
-# AgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-# MjIwNDAzMTkwNjExWjA/BgkqhkiG9w0BCQQxMgQwPVO+j22SFDaFudEWOlGEttmc
-# iz9PhA4VLeqMkzZu4ebF8H7+leY9MS6KGS+PdYGRMA0GCSqGSIb3DQEBAQUABIIC
-# AHMKhrzKaiv8wfn9pP6D0bqMwG75P3m451KBWO3egLa3nspcseAbQyWSsf9XVr/0
-# 0hve05yJfCKEKt1bPDeZKRaz0HADKqavdG/NEfhrhUSAxLMeHApQXnHypd98ch5R
-# ou2biXXE7A9mvyXgGlFd3lFVuZGwVhZ5Jd35YS2tkE1uMlXiUC8KFCMyvIzTMlzE
-# 6Rc4+THAQZ1d5woaA5PalkjtjZwx8dJjXg46h24gNeVwAwOYLolJuYaKywSSTVu9
-# zbqhrKT2msOz1mLArUFYm8vAqVqDsWjCLSuRORTTo0vEs0oFzYaZV2zyeLVMZsXU
-# zb8qcpKffRHjb3Bp5gX5FnXftvSFNnwhYkPJ5JKt+jKuQ0LQ7OVkeuhnuWkNygYX
-# k22rzKOTX/TZjbSnLVvK0hql52x41TSfBXmjwouMFhljICB6h8s5UQYcuSZTICeM
-# VEHeRziXxPUNBLAQsEUXVE+/CY1HmQK3W/r3M/E+FmLWagKTGgSfgR+vOBAFe2Zf
-# fCb8el7s8dGOLQycvGXlOeyIvKlS13Z3EUj0j3kvIDBxP7U+h4Hsdp1A/edoTkgP
-# SJMHOOR0hp68Nph9eC8vPP7u1Xw+Z/SLAVQFjQUf/1kC/zjC7HLfNiwgJRl2jk5R
-# qSnS93HaG26eCK14ABjXJGtwBRLB4avbzKOVCzgJVoAy
-# SIG # End signature block
+
