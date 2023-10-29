@@ -6,9 +6,12 @@
 param ()
 Write-Host ""
 Write-Host "Script..........:$($myInvocation.myCommand.name)"
-Write-Host "============="
-Write-Host "$(Get-ChildItem -Path env: | Sort-Object -Property Name | Out-String)"
-Write-Host "============="
+Write-Host "==============================="
+Write-Host "Environment.....:$environment"
+Write-Host "Project root....:$ProjectRoot"
+Write-Host "Modules found...:$($modules -join ","))"
+Write-Host "Module data.....:$($moduleData | Format-List |Out-String)"
+Write-Host "==============================="
 
 # Line break for readability in AppVeyor console
 Write-Host ""

@@ -6,10 +6,12 @@
 param ()
 Write-Host ""
 Write-Host "Script..........:$($myInvocation.myCommand.name)"
-Write-Host "============="
-Write-Host "$(Get-ChildItem -Path env: | Sort-Object -Property Name | Out-String)"
-Write-Host "============="
-Write-Host ""
+Write-Host "==============================="
+Write-Host "Environment.....:$environment"
+Write-Host "Project root....:$ProjectRoot"
+Write-Host "Modules found...:$($modules -join ","))"
+Write-Host "Module data.....:$($moduleData | Format-List |Out-String)"
+Write-Host "==============================="
 
 # Set variables
 if (Test-Path -Path 'env:APPVEYOR_BUILD_FOLDER') {
@@ -24,7 +26,7 @@ if (Test-Path -Path 'env:APPVEYOR_BUILD_FOLDER') {
 } else {
     # Local Testing 
     $environment = "LOCAL"
-    $ProjectRoot = ( Resolve-Path -Path ( Split-Path -Parent -Path $PSScriptRoot ) ).Path
+    $projectRoot = ( Resolve-Path -Path ( Split-Path -Parent -Path $PSScriptRoot ) ).Path
 }
 Write-Host "Environment.....:$environment"
 Write-Host "Project root....:$ProjectRoot"
@@ -43,6 +45,7 @@ ForEach ($moduleName in $modules) {
     $newModule.ModuleRoot = $moduleRoot
     $newModule.ManifestFilepath = Join-Path -Path $moduleRoot -ChildPath "$moduleName.psd1"
     $newModule.ModuleFilepath = Join-Path -Path $moduleRoot -ChildPath "$moduleName.psm1"
+    Write-Host "Module path.....:$($newModule.ModuleFilepath)"
     Write-Host "Module detected.:$(Test-Path -Path $newModule.ModuleFilepath)"
     $moduleData += [PSCustomObject]$newModule
 }
@@ -52,10 +55,10 @@ $WarningPreference = [System.Management.Automation.ActionPreference]::SilentlyCo
 
 if (Get-Variable -Name projectRoot -ErrorAction "SilentlyContinue") {
     # Configure the test environment
-    $testsPath = Join-Path -Path $projectRoot -ChildPath "tests"
-    Write-Host "Tests path......:$testsPath."
+    $testsPath = Join-Path -Path $projectRoot -ChildPath "Tests"
+    Write-Host "Tests path......:$testsPath"
     $testOutput = Join-Path -Path $projectRoot -ChildPath "TestsResults.xml"
-    Write-Host "Output path.....:$testOutput."
+    Write-Host "Output path.....:$testOutput"
     $testConfig = New-PesterConfiguration -Hashtable @{
         Run        = @{
             Path     = $testsPath
