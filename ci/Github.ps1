@@ -10,7 +10,7 @@ Write-Host "Script..........:$($myInvocation.myCommand.name)"
 Write-Host "==============================="
 Write-Host "Environment.....:$environment"
 Write-Host "Project root....:$ProjectRoot"
-Write-Host "Modules found...:$($modules -join ","))"
+Write-Host "Modules found...:$($modules -join ",")"
 Write-Host "Module data.....:$($moduleData | Format-List |Out-String)"
 Write-Host "==============================="
 
