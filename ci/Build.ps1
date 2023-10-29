@@ -4,6 +4,12 @@
 #>
 [OutputType()]
 param ()
+Write-Host ""
+Write-Host "Script..........:$($myInvocation.myCommand.name)"
+Write-Host "============="
+Write-Host "$(Get-ChildItem -Path env: | Sort-Object -Property Name | Out-String)"
+Write-Host "============="
+Write-Host ""
 
 If (Get-Variable -Name projectRoot -ErrorAction "SilentlyContinue") {
     # Do something

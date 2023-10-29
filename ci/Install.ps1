@@ -4,52 +4,16 @@
 #>
 [OutputType()]
 param ()
-
-# Set variables
-if (Test-Path -Path 'env:APPVEYOR_BUILD_FOLDER') {
-    # AppVeyor Testing
-    $environment = "APPVEYOR"
-    $projectRoot = Resolve-Path -Path $env:APPVEYOR_BUILD_FOLDER
-    $module = $env:Module
-    $source = $env:Source
-} elseif (Test-Path -Path 'env:GITHUB_WORKSPACE') {
-    # Github Testing
-    $environment = "GITHUB"
-    $projectRoot = Resolve-Path -Path $env:GITHUB_WORKSPACE
-    $module = Split-Path -Path $projectRoot -Leaf
-    $source = $module
-}else {
-    # Local Testing 
-    $environment = "LOCAL"
-    $projectRoot = $ProjectRoot = ( Resolve-Path -Path ( Split-Path -Parent -Path $PSScriptRoot ) ).Path
-    $module = Split-Path -Path $projectRoot -Leaf
-    $source = $module
-}
-$moduleParent = Join-Path -Path $projectRoot -ChildPath $source
-$manifestPath = Join-Path -Path $moduleParent -ChildPath "$module.psd1"
-$modulePath = Join-Path -Path $moduleParent -ChildPath "$module.psm1"
-
-# Echo variables
 Write-Host ""
-Write-Host "Environment.....: $environment."
-Write-Host "ProjectRoot.....: $projectRoot."
-Write-Host "Module name.....: $module."
-Write-Host "Module parent...: $moduleParent."
-Write-Host "Module manifest.: $manifestPath."
-Write-Host "Module path.....: $modulePath."
-
-# Line break for readability in AppVeyor console
+Write-Host "Script..........:$($myInvocation.myCommand.name)"
+Write-Host "============="
+Write-Host "$(Get-ChildItem -Path env: | Sort-Object -Property Name | Out-String)"
+Write-Host "============="
 Write-Host ""
-Write-Host "PowerShell Version:" $PSVersionTable.PSVersion.ToString()
-
-# Import module
-Write-Host ""
-Write-Host "Importing module." -ForegroundColor "Cyan"
-Import-Module $manifestPath -Force
 
 # Install packages
 
-if (-Not ($packageProvider = Get-PackageProvider -ListAvailable | Where-Object {$_.Name -like "Nuget" -and $_.Version -ge $([System.Version]"2.8.5.208")})) {
+if (-Not ($packageProvider = Get-PackageProvider -ListAvailable | Where-Object { $_.Name -like "Nuget" -and $_.Version -ge $([System.Version]"2.8.5.208") })) {
     Install-PackageProvider -Name NuGet -MinimumVersion "2.8.5.208"
 }
 
