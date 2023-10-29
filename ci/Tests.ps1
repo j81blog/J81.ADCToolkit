@@ -35,6 +35,12 @@ $moduleProjectName = Split-Path -Path $projectRoot -Leaf
 $modules = Get-ChildItem -Path $projectRoot -Include "$moduleProjectName*" | Select-Object -ExpandProperty Name
 Write-Host "Modules found...:$($modules -join ","))"
 
+if (-Not (Get-Module -ListAvailable -Name J81.ADCToolkit)) {
+    Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+    Install-Module -Name J81.ADCToolkit
+    Write-Host "J81.ADCToolkit Module installed"
+}
+
 $moduleData = @()
 ForEach ($moduleName in $modules) {
     Write-Host "Module Name.....:$moduleName"
