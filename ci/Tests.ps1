@@ -5,17 +5,17 @@
 [OutputType()]
 param ()
 Write-Host ""
-Write-Host "Script............:$($myInvocation.myCommand.name)"
+Write-Host "Script............: $($myInvocation.myCommand.name)"
 
 # Set variables
 if (Test-Path -Path 'env:APPVEYOR_BUILD_FOLDER') {
     # AppVeyor Testing
     $environment = "APPVEYOR"
-    Write-Host "APPVEYOR_JOB_ID...:${env:APPVEYOR_JOB_ID}"
+    Write-Host "APPVEYOR_JOB_ID...: ${env:APPVEYOR_JOB_ID}"
 } elseif (Test-Path -Path 'env:GITHUB_WORKSPACE') {
     # Github Testing
     $environment = "GITHUB"
-    Write-Host "GITHUB_RUN_NUMBER.:${env:GITHUB_RUN_NUMBER}"
+    Write-Host "GITHUB_RUN_NUMBER.: ${env:GITHUB_RUN_NUMBER}"
 } else {
     # Local Testing 
     $environment = "LOCAL"
@@ -37,12 +37,6 @@ $moduleProjectName = $ModuleInfo.ProjectName
 $moduleData = $ModuleInfo.ModuleData
 
 Write-Host "==============================="
-
-if (-Not (Get-Module -ListAvailable -Name J81.ADCToolkit)) {
-    Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-    Install-Module -Name J81.ADCToolkit
-    Write-Host "J81.ADCToolkit Module installed"
-}
 
 # Line break for readability in AppVeyor console
 Write-Host ""
