@@ -8,10 +8,22 @@ param ()
 Write-Host ""
 Write-Host "Script..........:$($myInvocation.myCommand.name)"
 Write-Host "==============================="
+$ProjectRoot = $env:PROJECTROOT
+$moduleProjectName = $env:MODULEPROJECTNAME
+$environment = $env:ENVIRONMENT
 Write-Host "Environment.....:$environment"
+Write-Host "Project name....:$moduleProjectName"
 Write-Host "Project root....:$ProjectRoot"
-Write-Host "Modules found...:$($modules -join ",")"
 Write-Host "Module data.....:$($moduleData | Format-List |Out-String)"
+Write-Host "Module data json:$($null -eq $env:MODULE_DATA_JSON)"
+
+if ( $null -eq $env:MODULE_DATA_JSON) {
+    $moduleData = $env:MODULE_DATA_JSON | ConvertFrom-Json
+} else {
+    Write-Host "No ModuleData found"
+    exit 1
+}
+Write-Host "Modules found...:$($modules -join ",")"
 Write-Host "==============================="
 
 try {
@@ -27,8 +39,7 @@ try {
         Uri                = "https://api.github.com/rate_limit"
     }
     $GitHubRate = Invoke-RestMethod @params
-}
-catch {
+} catch {
 }
 Write-Host ""
 Write-Host "We have $($GitHubRate.rate.remaining) requests left to the GitHub API in this window."

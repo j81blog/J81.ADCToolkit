@@ -7,54 +7,23 @@ param ()
 Write-Host ""
 Write-Host "Script..........:$($myInvocation.myCommand.name)"
 Write-Host "==============================="
+$ProjectRoot = $env:PROJECTROOT
+$moduleProjectName = $env:MODULEPROJECTNAME
+$environment = $env:ENVIRONMENT
 Write-Host "Environment.....:$environment"
+Write-Host "Project name....:$moduleProjectName"
 Write-Host "Project root....:$ProjectRoot"
-Write-Host "Modules found...:$($modules -join ",")"
 Write-Host "Module data.....:$($moduleData | Format-List |Out-String)"
-Write-Host "==============================="
+Write-Host "Module data json:$($null -eq $env:MODULE_DATA_JSON)"
 
-# Set variables
-if (Test-Path -Path 'env:APPVEYOR_BUILD_FOLDER') {
-    # AppVeyor Testing
-    $environment = "APPVEYOR"
-    $projectRoot = Resolve-Path -Path $env:APPVEYOR_BUILD_FOLDER
-    Write-Host "APPVEYOR_JOB_ID.:${env:APPVEYOR_JOB_ID}"
-} elseif (Test-Path -Path 'env:GITHUB_WORKSPACE') {
-    # Github Testing
-    $environment = "GITHUB"
-    $projectRoot = Resolve-Path -Path $env:GITHUB_WORKSPACE
+if ( $null -eq $env:MODULE_DATA_JSON) {
+    $moduleData = $env:MODULE_DATA_JSON | ConvertFrom-Json
 } else {
-    # Local Testing 
-    $environment = "LOCAL"
-    $projectRoot = ( Resolve-Path -Path ( Split-Path -Parent -Path $PSScriptRoot ) ).Path
+    Write-Host "No ModuleData found"
+    exit 1
 }
-Write-Host "Environment.....:$environment"
-Write-Host "Project root....:$ProjectRoot"
-
-$moduleProjectName = Split-Path -Path $projectRoot -Leaf
-$modules = Get-ChildItem -Path $projectRoot -Include "$moduleProjectName*" | Select-Object -ExpandProperty Name
-Write-Host "Modules found...:$($modules -join ","))"
-
-if (-Not (Get-Module -ListAvailable -Name J81.ADCToolkit)) {
-    Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-    Install-Module -Name J81.ADCToolkit
-    Write-Host "J81.ADCToolkit Module installed"
-}
-
-$moduleData = @()
-ForEach ($moduleName in $modules) {
-    Write-Host "Module Name.....:$moduleName"
-    $newModule = @{}
-    $newModule.ModuleName = $moduleName
-    $moduleRoot = Join-Path -Path $projectRoot -ChildPath $moduleName
-    $newModule.ModuleName = $moduleName
-    $newModule.ModuleRoot = $moduleRoot
-    $newModule.ManifestFilepath = Join-Path -Path $moduleRoot -ChildPath "$moduleName.psd1"
-    $newModule.ModuleFilepath = Join-Path -Path $moduleRoot -ChildPath "$moduleName.psm1"
-    Write-Host "Module path.....:$($newModule.ModuleFilepath)"
-    Write-Host "Module detected.:$(Test-Path -Path $newModule.ModuleFilepath)"
-    $moduleData += [PSCustomObject]$newModule
-}
+Write-Host "Modules found...:$($modules -join ",")"
+Write-Host "==============================="
 
 $ProgressPreference = [System.Management.Automation.ActionPreference]::SilentlyContinue
 $WarningPreference = [System.Management.Automation.ActionPreference]::SilentlyContinue

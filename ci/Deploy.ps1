@@ -7,11 +7,24 @@ param ()
 Write-Host ""
 Write-Host "Script..........:$($myInvocation.myCommand.name)"
 Write-Host "==============================="
+$ProjectRoot = $env:PROJECTROOT
+$moduleProjectName = $env:MODULEPROJECTNAME
+$environment = $env:ENVIRONMENT
 Write-Host "Environment.....:$environment"
+Write-Host "Project name....:$moduleProjectName"
 Write-Host "Project root....:$ProjectRoot"
-Write-Host "Modules found...:$($modules -join ",")"
 Write-Host "Module data.....:$($moduleData | Format-List |Out-String)"
+Write-Host "Module data json:$($null -eq $env:MODULE_DATA_JSON)"
+
+if ( $null -eq $env:MODULE_DATA_JSON) {
+    $moduleData = $env:MODULE_DATA_JSON | ConvertFrom-Json
+} else {
+    Write-Host "No ModuleData found"
+    exit 1
+}
+Write-Host "Modules found...:$($modules -join ",")"
 Write-Host "==============================="
+
 
 # Line break for readability in AppVeyor console
 Write-Host ""
@@ -27,7 +40,7 @@ If ($env:APPVEYOR_REPO_BRANCH -ne 'main') {
     If (Test-Path 'env:APPVEYOR_BUILD_FOLDER') {
         # AppVeyor Testing
         $projectRoot = Resolve-Path -Path $env:APPVEYOR_BUILD_FOLDER
-        $module = $env:Module
+        $module = Split-Path -Path $projectRoot -Leaf
     } Else {
         # Local Testing 
         $projectRoot = Resolve-Path -Path (((Get-Item (Split-Path -Parent -Path $MyInvocation.MyCommand.Definition)).Parent).FullName)
@@ -37,6 +50,13 @@ If ($env:APPVEYOR_REPO_BRANCH -ne 'main') {
     $moduleParent = Join-Path -Path $projectRoot -ChildPath $source
     $manifestPath = Join-Path -Path $moduleParent -ChildPath "$module.psd1"
     #$modulePath = Join-Path -Path $moduleParent -ChildPath "$module.psm1"
+
+    Write-Host "==============================="
+    Write-Host "Environment.....:$environment"
+    Write-Host "Project root....:$ProjectRoot"
+    Write-Host "Modules found...:$($modules -join ",")"
+    Write-Host "Module data.....:$($moduleData | Format-List |Out-String)"
+    Write-Host "==============================="
 
     # Tests success, push to GitHub
     If ($res.FailedCount -eq 0) {
