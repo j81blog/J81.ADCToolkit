@@ -6,13 +6,42 @@
 [OutputType()]
 param ()
 Write-Host ""
-Write-Host "Script..........:$($myInvocation.myCommand.name)"
+Write-Host "Script............: $($myInvocation.myCommand.name)"
+
+# Set variables
+if (Test-Path -Path 'env:APPVEYOR_BUILD_FOLDER') {
+    # AppVeyor Testing
+    $environment = "APPVEYOR"
+    Write-Host "APPVEYOR_JOB_ID...: ${env:APPVEYOR_JOB_ID}"
+} elseif (Test-Path -Path 'env:GITHUB_WORKSPACE') {
+    # Github Testing
+    $environment = "GITHUB"
+    Write-Host "GITHUB_RUN_NUMBER.: ${env:GITHUB_RUN_NUMBER}"
+} else {
+    # Local Testing 
+    $environment = "LOCAL"
+    
+}
+$projectRoot = ( Resolve-Path -Path ( Split-Path -Parent -Path $PSScriptRoot ) ).Path
+Write-Host "Environment.......: $environment"
+Write-Host "Project root......: $ProjectRoot"
+$moduleInfoJson = Join-Path -Path $PSScriptRoot -ChildPath "ModuleInfo.json"
+Write-Host "Module info file..: $moduleInfoJson"
+if (Test-Path -Path $moduleInfoJson) {
+    $ModuleInfo = Get-Content -Path $moduleInfoJson | ConvertFrom-Json
+} else {
+    Write-Host "$moduleInfoJson not found!"
+    Exit 1
+}
+
+$moduleProjectName = $ModuleInfo.ProjectName
+$moduleData = $ModuleInfo.ModuleData
+
 Write-Host "==============================="
-Write-Host "Environment.....:$environment"
-Write-Host "Project root....:$ProjectRoot"
-Write-Host "Modules found...:$($modules -join ",")"
-Write-Host "Module data.....:$($moduleData | Format-List |Out-String)"
-Write-Host "==============================="
+
+# Line break for readability in AppVeyor console
+Write-Host ""
+
 
 try {
     $SslProtocol = "Tls12"
@@ -27,8 +56,7 @@ try {
         Uri                = "https://api.github.com/rate_limit"
     }
     $GitHubRate = Invoke-RestMethod @params
-}
-catch {
+} catch {
 }
 Write-Host ""
 Write-Host "We have $($GitHubRate.rate.remaining) requests left to the GitHub API in this window."

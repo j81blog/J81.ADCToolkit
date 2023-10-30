@@ -5,56 +5,41 @@
 [OutputType()]
 param ()
 Write-Host ""
-Write-Host "Script..........:$($myInvocation.myCommand.name)"
-Write-Host "==============================="
-Write-Host "Environment.....:$environment"
-Write-Host "Project root....:$ProjectRoot"
-Write-Host "Modules found...:$($modules -join ",")"
-Write-Host "Module data.....:$($moduleData | Format-List |Out-String)"
-Write-Host "==============================="
+Write-Host "Script............: $($myInvocation.myCommand.name)"
 
 # Set variables
 if (Test-Path -Path 'env:APPVEYOR_BUILD_FOLDER') {
     # AppVeyor Testing
     $environment = "APPVEYOR"
-    $projectRoot = Resolve-Path -Path $env:APPVEYOR_BUILD_FOLDER
-    Write-Host "APPVEYOR_JOB_ID.:${env:APPVEYOR_JOB_ID}"
+    Write-Host "APPVEYOR_JOB_ID...: ${env:APPVEYOR_JOB_ID}"
 } elseif (Test-Path -Path 'env:GITHUB_WORKSPACE') {
     # Github Testing
     $environment = "GITHUB"
-    $projectRoot = Resolve-Path -Path $env:GITHUB_WORKSPACE
+    Write-Host "GITHUB_RUN_NUMBER.: ${env:GITHUB_RUN_NUMBER}"
 } else {
     # Local Testing 
     $environment = "LOCAL"
-    $projectRoot = ( Resolve-Path -Path ( Split-Path -Parent -Path $PSScriptRoot ) ).Path
+    
 }
-Write-Host "Environment.....:$environment"
-Write-Host "Project root....:$ProjectRoot"
-
-$moduleProjectName = Split-Path -Path $projectRoot -Leaf
-$modules = Get-ChildItem -Path $projectRoot -Include "$moduleProjectName*" | Select-Object -ExpandProperty Name
-Write-Host "Modules found...:$($modules -join ","))"
-
-if (-Not (Get-Module -ListAvailable -Name J81.ADCToolkit)) {
-    Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-    Install-Module -Name J81.ADCToolkit
-    Write-Host "J81.ADCToolkit Module installed"
+$projectRoot = ( Resolve-Path -Path ( Split-Path -Parent -Path $PSScriptRoot ) ).Path
+Write-Host "Environment.......: $environment"
+Write-Host "Project root......: $ProjectRoot"
+$moduleInfoJson = Join-Path -Path $PSScriptRoot -ChildPath "ModuleInfo.json"
+Write-Host "Module info file..: $moduleInfoJson"
+if (Test-Path -Path $moduleInfoJson) {
+    $ModuleInfo = Get-Content -Path $moduleInfoJson | ConvertFrom-Json
+} else {
+    Write-Host "$moduleInfoJson not found!"
+    Exit 1
 }
 
-$moduleData = @()
-ForEach ($moduleName in $modules) {
-    Write-Host "Module Name.....:$moduleName"
-    $newModule = @{}
-    $newModule.ModuleName = $moduleName
-    $moduleRoot = Join-Path -Path $projectRoot -ChildPath $moduleName
-    $newModule.ModuleName = $moduleName
-    $newModule.ModuleRoot = $moduleRoot
-    $newModule.ManifestFilepath = Join-Path -Path $moduleRoot -ChildPath "$moduleName.psd1"
-    $newModule.ModuleFilepath = Join-Path -Path $moduleRoot -ChildPath "$moduleName.psm1"
-    Write-Host "Module path.....:$($newModule.ModuleFilepath)"
-    Write-Host "Module detected.:$(Test-Path -Path $newModule.ModuleFilepath)"
-    $moduleData += [PSCustomObject]$newModule
-}
+$moduleProjectName = $ModuleInfo.ProjectName
+$moduleData = $ModuleInfo.ModuleData
+
+Write-Host "==============================="
+
+# Line break for readability in AppVeyor console
+Write-Host ""
 
 $ProgressPreference = [System.Management.Automation.ActionPreference]::SilentlyContinue
 $WarningPreference = [System.Management.Automation.ActionPreference]::SilentlyContinue
@@ -62,9 +47,9 @@ $WarningPreference = [System.Management.Automation.ActionPreference]::SilentlyCo
 if (Get-Variable -Name projectRoot -ErrorAction "SilentlyContinue") {
     # Configure the test environment
     $testsPath = Join-Path -Path $projectRoot -ChildPath "Tests"
-    Write-Host "Tests path......:$testsPath"
+    Write-Host "Tests path........:$testsPath"
     $testOutput = Join-Path -Path $projectRoot -ChildPath "TestsResults.xml"
-    Write-Host "Output path.....:$testOutput"
+    Write-Host "Output path.......:$testOutput"
     $testConfig = New-PesterConfiguration -Hashtable @{
         Run        = @{
             Path     = $testsPath

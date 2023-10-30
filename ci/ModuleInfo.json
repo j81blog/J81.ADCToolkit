@@ -1,0 +1,23 @@
+{
+    "ProjectName": "J81.ADCToolkit",
+    "ModuleData": [
+        {
+            "ModuleName": "J81.ADCToolkit",
+            "ModuleRoot": "J81.ADCToolkit",
+            "ModuleFilepath": "J81.ADCToolkit\\J81.ADCToolkit.psm1",
+            "ManifestFilepath": "J81.ADCToolkit\\J81.ADCToolkit.psd1"
+        },
+        {
+            "ModuleName": "J81.ADCToolkit.Conf",
+            "ModuleRoot": "J81.ADCToolkit.Conf",
+            "ModuleFilepath": "J81.ADCToolkit.Conf\\J81.ADCToolkit.Conf.psm1",
+            "ManifestFilepath": "J81.ADCToolkit.Conf\\J81.ADCToolkit.Conf.psd1"
+        },
+        {
+            "ModuleName": "J81.ADCToolkit.Stat",
+            "ModuleRoot": "J81.ADCToolkit.Stat",
+            "ModuleFilepath": "J81.ADCToolkit.Stat\\J81.ADCToolkit.Stat.psm1",
+            "ManifestFilepath": "J81.ADCToolkit.Stat\\J81.ADCToolkit.Stat.psd1"
+        }
+    ]
+}
