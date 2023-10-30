@@ -8,6 +8,8 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+        with:
+          clean: true
       - name: Install requirements
         shell: pwsh
         run: |
