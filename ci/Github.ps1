@@ -7,26 +7,40 @@
 param ()
 Write-Host ""
 Write-Host "Script..........:$($myInvocation.myCommand.name)"
-Write-Host "==============================="
-Write-Host $(Get-ChildItem -Path env: | Sort-Object -Property Name | Out-String)
-Write-Host "==============================="
-$ProjectRoot = $env:PROJECTROOT
-$moduleProjectName = $env:MODULEPROJECTNAME
-$environment = $env:ENVIRONMENT
-Write-Host "Environment.....:$environment"
-Write-Host "Project name....:$moduleProjectName"
-Write-Host "Project root....:$ProjectRoot"
-Write-Host "Module data.....:$($moduleData | Format-List |Out-String)"
-Write-Host "Module data json:$($null -eq $env:MODULE_DATA_JSON)"
 
-if ( $null -eq $env:MODULE_DATA_JSON) {
-    $moduleData = $env:MODULE_DATA_JSON | ConvertFrom-Json
+# Set variables
+if (Test-Path -Path 'env:APPVEYOR_BUILD_FOLDER') {
+    # AppVeyor Testing
+    $environment = "APPVEYOR"
+    Write-Host "APPVEYOR_JOB_ID.:${env:APPVEYOR_JOB_ID}"
+} elseif (Test-Path -Path 'env:GITHUB_WORKSPACE') {
+    # Github Testing
+    $environment = "GITHUB"
 } else {
-    Write-Host "No ModuleData found"
-    exit 1
+    # Local Testing 
+    $environment = "LOCAL"
+    
 }
-Write-Host "Modules found...:$($modules -join ",")"
+$projectRoot = ( Resolve-Path -Path ( Split-Path -Parent -Path $PSScriptRoot ) ).Path
+Write-Host "Environment.....: $environment"
+Write-Host "Project root....: $ProjectRoot"
+$moduleInfoJson = Join-Path -Path $PSScriptRoot -ChildPath "ModuleData.json"
+Write-Host "Module info file: $moduleInfoJson"
+if (Test-Path -Path $moduleInfoJson) {
+    $ModuleInfo = Get-Content -Path $moduleInfoJson | ConvertFrom-Json
+} else {
+    Write-Host "$moduleInfoJson not found!"
+    Exit 1
+}
+
+$moduleProjectName = $ModuleInfo.ProjectName
+$moduleData = $ModuleInfo.ModuleData
+
 Write-Host "==============================="
+
+# Line break for readability in AppVeyor console
+Write-Host ""
+
 
 try {
     $SslProtocol = "Tls12"

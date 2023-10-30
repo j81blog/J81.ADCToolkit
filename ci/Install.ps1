@@ -11,54 +11,34 @@ Write-Host "Script..........:$($myInvocation.myCommand.name)"
 if (Test-Path -Path 'env:APPVEYOR_BUILD_FOLDER') {
     # AppVeyor Testing
     $environment = "APPVEYOR"
-    #$projectRoot = Resolve-Path -Path $env:APPVEYOR_BUILD_FOLDER
     Write-Host "APPVEYOR_JOB_ID.:${env:APPVEYOR_JOB_ID}"
 } elseif (Test-Path -Path 'env:GITHUB_WORKSPACE') {
     # Github Testing
     $environment = "GITHUB"
-    #$projectRoot = Resolve-Path -Path $env:GITHUB_WORKSPACE
 } else {
     # Local Testing 
     $environment = "LOCAL"
     
 }
 $projectRoot = ( Resolve-Path -Path ( Split-Path -Parent -Path $PSScriptRoot ) ).Path
-Write-Host "Environment.....:$environment"
-Write-Host "Project root....:$ProjectRoot"
-
-$moduleProjectName = Split-Path -Path $projectRoot -Leaf
-$modules = Get-ChildItem -Path $projectRoot -Include "$moduleProjectName*" | Select-Object -ExpandProperty Name
-Write-Host "Modules found...:$($modules -join ", ")"
-
-if (-Not (Get-Module -ListAvailable -Name J81.ADCToolkit)) {
-    Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-    Install-Module -Name J81.ADCToolkit
-    Write-Host "J81.ADCToolkit Module installed"
+Write-Host "Environment.....: $environment"
+Write-Host "Project root....: $ProjectRoot"
+$moduleInfoJson = Join-Path -Path $PSScriptRoot -ChildPath "ModuleData.json"
+Write-Host "Module info file: $moduleInfoJson"
+if (Test-Path -Path $moduleInfoJson) {
+    $ModuleInfo = Get-Content -Path $moduleInfoJson | ConvertFrom-Json
+} else {
+    Write-Host "$moduleInfoJson not found!"
+    Exit 1
 }
 
-$moduleData = @()
-ForEach ($moduleName in $modules) {
-    Write-Host "Module Name.....:$moduleName"
-    $newModule = @{}
-    $newModule.ModuleName = $moduleName
-    $moduleRoot = Join-Path -Path $projectRoot -ChildPath $moduleName
-    $newModule.ModuleName = $moduleName
-    $newModule.ModuleRoot = $moduleRoot
-    $newModule.ManifestFilepath = Join-Path -Path $moduleRoot -ChildPath "$moduleName.psd1"
-    $newModule.ModuleFilepath = Join-Path -Path $moduleRoot -ChildPath "$moduleName.psm1"
-    Write-Host "Module path.....:$($newModule.ModuleFilepath)"
-    Write-Host "Module detected.:$(Test-Path -Path $newModule.ModuleFilepath)"
-    $moduleData += [PSCustomObject]$newModule
-}
-
-$env:PROJECTROOT = $ProjectRoot
-$env:MODULEPROJECTNAME = $moduleProjectName
-$env:ENVIRONMENT = $environment
-$env:MODULE_DATA_JSON = $($moduleData | ConvertTo-Json -Compress)
+$moduleProjectName = $ModuleInfo.ProjectName
+$moduleData = $ModuleInfo.ModuleData
 
 Write-Host "==============================="
-Write-Host $(Get-ChildItem -Path env: | Sort-Object -Property Name | Out-String)
-Write-Host "==============================="
+
+# Line break for readability in AppVeyor console
+Write-Host ""
 
 # Install packages
 
