@@ -21,7 +21,11 @@ BeforeDiscovery {
 Describe "Module Metadata validation" {
     It "Import module should be OK" -TestCases $moduleDataTestCase {
         param ($Data)
-        { Import-Module $Data.ModuleRoot -Force -ErrorAction Stop } | Should -Not -Throw
+        { 
+            $modulePath = $(Join-Path -Path $ProjectRoot -ChildPath $Data.ModuleRoot)
+            Write-Verbose -Verbose "Module: $modulePath"
+            Import-Module "$modulePath" -Force -ErrorAction Stop
+        } | Should -Not -Throw
     }
 
     <#It "Script fileinfo should be OK" -TestCases $moduleDataTestCase {
