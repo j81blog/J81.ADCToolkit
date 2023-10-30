@@ -24,7 +24,7 @@ if (Test-Path -Path 'env:APPVEYOR_BUILD_FOLDER') {
 $projectRoot = ( Resolve-Path -Path ( Split-Path -Parent -Path $PSScriptRoot ) ).Path
 Write-Host "Environment.....: $environment"
 Write-Host "Project root....: $ProjectRoot"
-$moduleInfoJson = Join-Path -Path $PSScriptRoot -ChildPath "ModuleData.json"
+$moduleInfoJson = Join-Path -Path $PSScriptRoot -ChildPath "ModuleInfo.json"
 Write-Host "Module info file: $moduleInfoJson"
 if (Test-Path -Path $moduleInfoJson) {
     $ModuleInfo = Get-Content -Path $moduleInfoJson | ConvertFrom-Json
