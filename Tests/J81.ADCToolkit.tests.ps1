@@ -8,10 +8,6 @@ param ()
 
 
 BeforeDiscovery {
-    # TestCases are splatted to the script so we need hashtables
-    #$scripts = Get-ChildItem -Path $(Join-Path -Path $ModuleParent -ChildPath "*") -Recurse -Include *.ps1, *.psm1
-    #$testCase = $scripts | ForEach-Object { @{file = $_ } }
-
     # Get the ScriptAnalyzer rules
     $scriptAnalyzerRules = Get-ScriptAnalyzerRule
 
