@@ -72,10 +72,13 @@ If ($env:APPVEYOR_REPO_BRANCH -ne 'main') {
 
     # Tests success, push to GitHub
     If ($res.FailedCount -eq 0) {
-
-        $manifest = Test-ModuleManifest -Path $manifestPath
-        [System.Version]$version = $manifest.Version
-        <#
+        ForEach ($moduleItem in $moduleData) {
+            $module = $moduleItem.ModuleName
+            $manifestPath = Join-Path -Path $projectRoot -ChildPath $moduleItem.ManifestFilepath
+            $moduleParent = Join-Path -Path $projectRoot -ChildPath $moduleItem.ModuleRoot
+            $manifest = Test-ModuleManifest -Path $manifestPath
+            [System.Version]$version = $manifest.Version
+            <#
         # We're going to add 1 to the revision value since a new commit has been merged to main
         # This means that the major / minor / build values will be consistent across GitHub and the Gallery
         Try {
@@ -151,23 +154,24 @@ If ($env:APPVEYOR_REPO_BRANCH -ne 'main') {
         }
         #>
 
-        Write-Host "Exit due to testing"
-        exit
-        # Publish the new version to the PowerShell Gallery
-        Try {
-            # Build a splat containing the required details and make sure to Stop for errors which will trigger the catch
-            $Params = @{
-                Path        = $moduleParent
-                NuGetApiKey = $env:NuGetApiKey
-                ErrorAction = "Stop"
+            Write-Host "Exit due to testing"
+            exit
+            # Publish the new version to the PowerShell Gallery
+            Try {
+                # Build a splat containing the required details and make sure to Stop for errors which will trigger the catch
+                $Params = @{
+                    Path        = $moduleParent
+                    NuGetApiKey = $env:NuGetApiKey
+                    ErrorAction = "Stop"
+                }
+                Publish-Module @Params
+                #Write-Host "$module $newVersion published to the PowerShell Gallery." -ForegroundColor "Cyan"
+                Write-Host "$module $version published to the PowerShell Gallery." -ForegroundColor "Cyan"
+            } Catch {
+                # Sad panda; it broke
+                Write-Warning -Message "Publishing $module $version to the PowerShell Gallery failed."
+                Throw $_
             }
-            Publish-Module @Params
-            #Write-Host "$module $newVersion published to the PowerShell Gallery." -ForegroundColor "Cyan"
-            Write-Host "$module $version published to the PowerShell Gallery." -ForegroundColor "Cyan"
-        } Catch {
-            # Sad panda; it broke
-            Write-Warning -Message "Publishing $module $version to the PowerShell Gallery failed."
-            Throw $_
         }
     }
 }
