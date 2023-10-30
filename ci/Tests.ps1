@@ -5,13 +5,13 @@
 [OutputType()]
 param ()
 Write-Host ""
-Write-Host "Script..........:$($myInvocation.myCommand.name)"
+Write-Host "Script............:$($myInvocation.myCommand.name)"
 
 # Set variables
 if (Test-Path -Path 'env:APPVEYOR_BUILD_FOLDER') {
     # AppVeyor Testing
     $environment = "APPVEYOR"
-    Write-Host "APPVEYOR_JOB_ID.:${env:APPVEYOR_JOB_ID}"
+    Write-Host "APPVEYOR_JOB_ID...:${env:APPVEYOR_JOB_ID}"
 } elseif (Test-Path -Path 'env:GITHUB_WORKSPACE') {
     # Github Testing
     $environment = "GITHUB"
@@ -22,10 +22,10 @@ if (Test-Path -Path 'env:APPVEYOR_BUILD_FOLDER') {
     
 }
 $projectRoot = ( Resolve-Path -Path ( Split-Path -Parent -Path $PSScriptRoot ) ).Path
-Write-Host "Environment.....: $environment"
-Write-Host "Project root....: $ProjectRoot"
+Write-Host "Environment.......: $environment"
+Write-Host "Project root......: $ProjectRoot"
 $moduleInfoJson = Join-Path -Path $PSScriptRoot -ChildPath "ModuleInfo.json"
-Write-Host "Module info file: $moduleInfoJson"
+Write-Host "Module info file..: $moduleInfoJson"
 if (Test-Path -Path $moduleInfoJson) {
     $ModuleInfo = Get-Content -Path $moduleInfoJson | ConvertFrom-Json
 } else {
@@ -41,7 +41,7 @@ Write-Host "==============================="
 if (-Not (Get-Module -ListAvailable -Name J81.ADCToolkit)) {
     Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
     Install-Module -Name J81.ADCToolkit
-    Write-Host "J81.ADCToolkit Module installed, required for testing"
+    Write-Host "J81.ADCToolkit Module installed"
 }
 
 # Line break for readability in AppVeyor console
@@ -53,9 +53,9 @@ $WarningPreference = [System.Management.Automation.ActionPreference]::SilentlyCo
 if (Get-Variable -Name projectRoot -ErrorAction "SilentlyContinue") {
     # Configure the test environment
     $testsPath = Join-Path -Path $projectRoot -ChildPath "Tests"
-    Write-Host "Tests path......:$testsPath"
+    Write-Host "Tests path........:$testsPath"
     $testOutput = Join-Path -Path $projectRoot -ChildPath "TestsResults.xml"
-    Write-Host "Output path.....:$testOutput"
+    Write-Host "Output path.......:$testOutput"
     $testConfig = New-PesterConfiguration -Hashtable @{
         Run        = @{
             Path     = $testsPath

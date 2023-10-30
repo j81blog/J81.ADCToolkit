@@ -51,7 +51,7 @@ PowerShellVersion = '5.0'
 # ProcessorArchitecture = ''
 
 # Modules that must be imported into the global environment prior to importing this module
-RequiredModules   = @("J81.ADCToolkit", @{ModuleName = "J81.ADCToolkit"; RequiredVersion = "2210.2317"; GUID = "548c9f18-6ad5-4aff-8760-39e1fc720d57" })
+RequiredModules   = @("J81.ADCToolkit", @{ModuleName = "J81.ADCToolkit"; ModuleVersion = "2210.2317"; GUID = "548c9f18-6ad5-4aff-8760-39e1fc720d57" })
 
 # Assemblies that must be loaded prior to importing this module
 # RequiredAssemblies = @()
