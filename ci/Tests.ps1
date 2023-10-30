@@ -38,6 +38,12 @@ $moduleData = $ModuleInfo.ModuleData
 
 Write-Host "==============================="
 
+if (-Not (Get-Module -ListAvailable -Name J81.ADCToolkit)) {
+    Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+    Install-Module -Name J81.ADCToolkit
+    Write-Host "J81.ADCToolkit Module installed, required for testing"
+}
+
 # Line break for readability in AppVeyor console
 Write-Host ""
 
