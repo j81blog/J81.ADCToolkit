@@ -2,14 +2,15 @@ version: '{build}'
 pull_requests:
   do_not_increment_build_number: true
 skip_tags: true
-image: Visual Studio 2019
+image: Visual Studio 2022
 environment:
   Module: J81.ADCToolkit
+  Modules: J81.ADCToolkit,J81.ADCToolkit.Conf,J81.ADCToolkit.Stat
   Source: J81.ADCToolkit
   GitHubKey:
-    secure: 6Dtz28d/0iiiZMdamhTBoN+wtOQoF2t8BIbLx0jwduyOW1bEe8NNFaDwe9bM89Y3
+    secure: ${{ secrets.GitHubKey }}
   NuGetApiKey:
-    secure: 6DgZM3F2BuyfG68fhIJW/Glym1Ul6SVYB0RhaxiQ6WXB2wN9g7lhlANMDDcKR75c
+    secure: ${{ secrets.NuGetApiKey }}
 install:
 - ps: . .\ci\Install.ps1
 build_script:
