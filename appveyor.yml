@@ -2,7 +2,7 @@ version: '{build}'
 pull_requests:
   do_not_increment_build_number: true
 skip_tags: true
-image: Visual Studio 2019
+image: Visual Studio 2022
 environment:
   Module: J81.ADCToolkit
   Modules: J81.ADCToolkit,J81.ADCToolkit.Conf,J81.ADCToolkit.Stat
