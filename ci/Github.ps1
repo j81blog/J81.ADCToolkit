@@ -8,6 +8,8 @@ param ()
 Write-Host ""
 Write-Host "Script..........:$($myInvocation.myCommand.name)"
 Write-Host "==============================="
+Write-Host $(Get-ChildItem -Path env: | Sort-Object -Property Name | Out-String)
+Write-Host "==============================="
 $ProjectRoot = $env:PROJECTROOT
 $moduleProjectName = $env:MODULEPROJECTNAME
 $environment = $env:ENVIRONMENT

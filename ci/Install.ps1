@@ -56,6 +56,10 @@ $env:MODULEPROJECTNAME = $moduleProjectName
 $env:ENVIRONMENT = $environment
 $env:MODULE_DATA_JSON = $($moduleData | ConvertTo-Json -Compress)
 
+Write-Host "==============================="
+Write-Host $(Get-ChildItem -Path env: | Sort-Object -Property Name | Out-String)
+Write-Host "==============================="
+
 # Install packages
 
 if (-Not ($packageProvider = Get-PackageProvider -ListAvailable | Where-Object { $_.Name -like "Nuget" -and $_.Version -ge $([System.Version]"2.8.5.208") })) {
