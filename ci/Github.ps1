@@ -16,6 +16,7 @@ if (Test-Path -Path 'env:APPVEYOR_BUILD_FOLDER') {
 } elseif (Test-Path -Path 'env:GITHUB_WORKSPACE') {
     # Github Testing
     $environment = "GITHUB"
+    Write-Host "GITHUB_RUN_NUMBER.:${env:GITHUB_RUN_NUMBER}"
 } else {
     # Local Testing 
     $environment = "LOCAL"
