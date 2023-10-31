@@ -23,10 +23,59 @@ Describe "Module Metadata validation" {
         param ($Data)
         { 
             $modulePath = $(Join-Path -Path $ProjectRoot -ChildPath $Data.ModuleRoot)
-            Write-Verbose -Verbose "Module: $modulePath"
             Import-Module "$modulePath" -Force -ErrorAction Stop
         } | Should -Not -Throw
     }
+
+    It "Module FunctionsToExport should have multiple functions" -TestCases $moduleDataTestCase {
+        param ($Data)
+        { 
+            $modulePath = $(Join-Path -Path $ProjectRoot -ChildPath $Data.ModuleRoot)
+            $dataFile = Import-PowerShellDataFile -Path $modulePath | Should -Not Throw -ErrorAction Stop
+            [Int]($dataFile.FunctionsToExport.Count) | Should -BeGreaterThan 0 -ErrorAction Stop
+        }
+    }
+    It "Module version not be Null" -TestCases $moduleDataTestCase {
+        param ($Data)
+        { 
+            $modulePath = $(Join-Path -Path $ProjectRoot -ChildPath $Data.ModuleRoot)
+            $dataFile = Import-PowerShellDataFile -Path $modulePath | Should -Not Throw -ErrorAction Stop
+            $dataFile.ModuleVersion | Should -Not -BeNullOrEmpty -ErrorAction Stop
+        }
+    }
+    It "Module CompanyName should not be Null" -TestCases $moduleDataTestCase {
+        param ($Data)
+        { 
+            $modulePath = $(Join-Path -Path $ProjectRoot -ChildPath $Data.ModuleRoot)
+            $dataFile = Import-PowerShellDataFile -Path $modulePath | Should -Not Throw -ErrorAction Stop
+            $dataFile.CompanyName | Should -Not -BeNullOrEmpty -ErrorAction Stop
+        }
+    }
+    It "Module Copyright should not be Null" -TestCases $moduleDataTestCase {
+        param ($Data)
+        { 
+            $modulePath = $(Join-Path -Path $ProjectRoot -ChildPath $Data.ModuleRoot)
+            $dataFile = Import-PowerShellDataFile -Path $modulePath | Should -Not Throw -ErrorAction Stop
+            $dataFile.Copyright  | Should -Not -BeNullOrEmpty -ErrorAction Stop
+        }
+    }
+    It "Module Author should not be Null" -TestCases $moduleDataTestCase {
+        param ($Data)
+        { 
+            $modulePath = $(Join-Path -Path $ProjectRoot -ChildPath $Data.ModuleRoot)
+            $dataFile = Import-PowerShellDataFile -Path $modulePath | Should -Not Throw -ErrorAction Stop
+            $dataFile.Author | Should -Not -BeNullOrEmpty -ErrorAction Stop
+        }
+    }
+    It "Module GUID should not be Null" -TestCases $moduleDataTestCase {
+        param ($Data)
+        { 
+            $modulePath = $(Join-Path -Path $ProjectRoot -ChildPath $Data.ModuleRoot)
+            $dataFile = Import-PowerShellDataFile -Path $modulePath | Should -Not Throw -ErrorAction Stop
+            $dataFile.GUID | Should -Not -BeNullOrEmpty -ErrorAction Stop
+        }
+    }
+
 
     <#It "Script fileinfo should be OK" -TestCases $moduleDataTestCase {
         param ($Data) { 
